@@ -56,4 +56,8 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - `projects/_demo/` 完整往返範例 + `projects/README.md` 格式文件
 - ✅ 端到端驗證：載入 _demo 套 #E5484D/16px/4 元件、匯出寫出 3 檔內容正確、0 error（僅 favicon 404）
 
+### C 微調（2026-07-17）— 出口收斂 + topbar
+- 方案 A：「匯出到專案」為唯一正式出口；頁面兩顆降級為「複製此頁 CSS / 複製此頁 JSON」（剪貼簿輔助）
+- 深淺色 toggle 移到 topbar 左側（Design System Library 右邊），匯出 badge 改靠右
+
 Phase C 完成 🎉（logo · Design Guideline · token 編輯 · 資料管線）。下一步 Phase D：ds-studio-flow skill 串接七步。
