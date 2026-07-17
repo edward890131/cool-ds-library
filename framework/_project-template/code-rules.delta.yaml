@@ -1,0 +1,54 @@
+# code-rules.delta.yaml — 本專案技術抽選 / override（FE 維護、設計師不改）
+#
+# 規則：
+#   - 選一個 preset（或 custom）→ 鎖定本專案 stack
+#   - 只填跟 framework base 不同的欄位（base 在 framework/production/code-rules.yaml）
+#   - 設計師永遠不該改本檔；skill Phase 0 Q2 若選 custom 會標 pending-fe，提示找 FE 補
+
+meta:
+  project-id: ""                # 例：acme-cafe
+  filled-by-fe: ""              # FE 工程師名稱 / 對接窗口
+  filled-date: ""               # YYYY-MM-DD
+
+# Preset 選擇（HARD，必填一個）
+preset-id: "react-tailwind-vite"  # react-tailwind-vite | vue-tailwind-vite | svelte-tailwind-vite | custom
+
+# 以下都是 optional，只填跟 base 不同的部分
+# base 在 framework/production/code-rules.yaml
+
+framework:
+  # primary, multi-framework, styling-approach, token-format 等
+  # 若 preset 已涵蓋就不用填；client 指定特殊版本（如 React 19 vs 18）才寫
+  {}
+
+file-structure:
+  # 本專案的根資料夾不一樣時填
+  # 例：root-folder: "apps/web/src/design-system"
+  {}
+
+naming:
+  # 本專案 brand prefix override
+  # 例：css-variables: "--fami-{category}-{name}"  # 全網用 --fami- 取代 --ds-
+  {}
+
+token-export:
+  # 本專案輸出位置 override
+  # 例：output-paths.primitive: "apps/web/src/design-system/tokens/primitives.json"
+  {}
+
+component-api:
+  # 本專案有特殊 prop convention 時填
+  {}
+
+testing:
+  # 本專案是否關掉 chromatic / 換 unit 工具等
+  # 例：visual-regression: "none"  # 小專案不做
+  {}
+
+# Custom preset 才填這段（preset-id: custom 時用）
+custom-stack:
+  framework: ""                 # 例：solid | qwik | astro
+  styling-approach: ""
+  bundler: ""
+  token-format-primary: ""
+  reason: ""                    # 為什麼這專案要 custom

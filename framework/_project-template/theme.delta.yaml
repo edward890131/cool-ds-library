@@ -1,0 +1,20 @@
+# theme.delta.yaml — 這個客戶跟 base theme 不同的部分（只寫 5%）
+#
+# 規則：只能 override「值」，不能改 semantic 名稱、不能加新 token（加新 token 走 extensions/）。
+
+meta:
+  extends: "base@0.1.0"
+  name: ""                      # 例：Acme Cafe
+
+# 通常客戶差異就這幾項：品牌色、字體、圓角風格
+primitives:
+  color:
+    brand: {}                   # 例：{ primary: "#C4724B" }  ← 赤陶色
+  radius: {}                    # 例：{ md: "16px" }  ← 想要更圓
+  typography:
+    font-family: {}             # 例：{ sans: "Noto Serif TC" }
+
+# 若品牌色要灌進語意角色，在這裡接線（指回上面 override 的 primitive）
+semantic:
+  action:
+    primary: {}                 # 例：{ light: "{color.brand.primary}" }

@@ -1,0 +1,2992 @@
+# ─────────────────────────────────────────────────────────
+# L0 Scope Manifest (schema v0)
+# ─────────────────────────────────────────────────────────
+# 用途：DS 要交付什麼的清單；驅動完整性檢核與測試自動化。
+# 形態：YAML 結構化 spec，人讀 + 機器讀雙用途。
+# 規則：本檔只記錄「要做什麼」，不記錄「怎麼做」。
+#       怎麼做 → 見 L1–L3（內容）與 Production Manifest（製作規範）。
+# ─────────────────────────────────────────────────────────
+
+meta:
+  project: ""                       # 套用此 DS 的專案名；若為通用範本則留空
+  version: 0.1.0
+  updated: 2026-05-15
+
+  # 全站 a11y 基準（一次定義，所有 component 引用）
+  a11y-baseline:
+    standards: [WCAG_2_0_AA]        # 對比 4.5:1
+    extra: [color-blind-simulation]
+
+  # Canonical 詞彙來源（避免 Figma / Code / WF 各說各話）
+  canonical-naming:
+    states: ""                      # 指向 L3 的 canonical state taxonomy（待建）
+    components: ""                  # 指向 L3 的 canonical component name list（待建）
+
+  notes: ""
+
+
+# ─────────────────────────────────────────
+# Foundations：L1 / L2 token 集合
+# ─────────────────────────────────────────
+# 一個 foundation = 一組同類的 token（color / typography / spacing 等）
+# 新增條目請透過 AI 寫入，勿手改 YAML（避免縮排坑與 schema 破壞）
+foundations:
+
+  # ─── 來自 Build Plan「全站 Guideline」的 4 項 ─────────
+
+  - id: color
+    layers-affected: [L1, L2]
+    modes: [light, dark]            # Build Plan 明文：Light & Dark Mode
+    demo:
+      required: true
+      location: ""                  # 待 Figma 檔建立後填入
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "全站 Guideline / Color System"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      a11y 對比 4.5:1 + 色盲模擬，見 meta.a11y-baseline。
+      Light/Dark 切換透過 L2 semantic token 解析，L1 primitive 為純色票。
+
+  - id: typography
+    layers-affected: [L1, L2]
+    modes: []
+    demo:
+      required: true
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "全站 Guideline / Typography"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      含 font-family / size scale / weight / line-height / letter-spacing。
+      L2 semantic 提供 heading / body / caption 等角色化字級。
+      可擴充情境（L1/L2 階段決定）：
+        • 同裝置 S/M/L 字級 → L1 primitive size scale
+        • RWD 跨裝置字級 → L2 semantic 加 breakpoint-aware values
+
+  - id: spacing
+    layers-affected: [L1, L2]
+    modes: []
+    demo:
+      required: true
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "全站 Guideline / Spacing"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      含 Vertical & Horizontal 兩向 scale。
+      L2 semantic 區分 inset（元件內距）與 gap（元件間距）兩類別名。
+      待 L1 階段決定的事：scale 命名走 t-shirt（xs/sm/md/lg/xl）或數字（4/8/12/16）。
+      兩種命名都不影響 L0 schema，但會影響後續 component 引用語法。
+
+  - id: grid-layout
+    layers-affected: [L1]
+    modes: []
+    demo:
+      required: true
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "全站 Guideline / Grid, Layout"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      含 grid columns / gutter / container max-width / 側邊欄寬等 layout 數值。
+      未來若 RWD 斷點需獨立管理，可拆出 breakpoints foundation。
+
+  # ─── 補：現代 DS 必要但 Build Plan 未列 ──────────────
+
+  - id: radius
+    layers-affected: [L1, L2]
+    modes: []
+    demo:
+      required: true
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: ""
+        section: ""
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      圓角 scale（如 sm / md / lg / full）。
+      Build Plan 未列，依現代 DS 慣例補充。
+      Figma Plugin 注意：cornerRadius 須分四角綁定（topLeft/topRight/bottomLeft/bottomRight）。
+
+  - id: elevation
+    layers-affected: [L1, L2]
+    modes: [light, dark]            # dark mode shadow 通常較淺或改用 glow
+    demo:
+      required: true
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: ""
+        section: ""
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Shadow scale，用於 popup / modal / card / dropdown 等層次表達。
+      Build Plan 未列，依現代 DS 慣例補充。
+
+  - id: motion
+    layers-affected: [L1, L2]
+    modes: []
+    demo:
+      required: true
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: ""
+        section: ""
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Duration（時長）+ easing（緩動）scale，用於 hover / 彈窗 / 頁面轉場等動效。
+      Build Plan 未列，依現代 DS 慣例補充。
+      未來需與 a11y 的 prefers-reduced-motion 對接（用戶偏好降低動效時的 fallback）。
+
+  - id: breakpoints
+    layers-affected: [L1]
+    modes: []
+    demo:
+      required: false                 # breakpoints 通常不需獨立視覺 demo（在 responsive 元件 demo 內呈現）
+      location: ""
+      status: planned
+    status: planned
+    refs:
+      source-doc:
+        doc: ""
+        section: ""
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      RWD 斷點數值 scale。例：{ sm: 360, md: 768, lg: 1024, xl: 1280 }
+      值來源依 Phase 0 Q9a：先 grep 規格/PRD，沒寫就用 default 或請設計師指定。
+      被 L0 components.responsive-behavior + L4 archetypes.responsive-layout 引用。
+      App-only 專案如不需 RWD，可在專案 scope 中忽略此 foundation。
+
+
+# ─────────────────────────────────────────
+# Components：L3 元件清單
+# ─────────────────────────────────────────
+# 新增條目請透過 AI 寫入，勿手改 YAML
+# token-policy 內引用的 namespace（如 semantic.action.*）為 L2 預期命名，待 L2 階段正式定案
+#
+# 變體欄位兩軸（two-axis variant convention）：
+#   • variants  = 結構 / 風格軸（solid / outline / text / pill / contained / line ...）
+#   • intents   = 語意 / 意圖軸（primary / secondary / danger / error / success / warning / info / neutral ...）
+#   兩欄位都是 flat array，可只填一個。預設兩軸 cross product 都合法；
+#   不合法或團隊不做的組合寫進 notes。
+#
+# intents 命名規約（danger vs error）：
+#   • danger = 行為導向（「這個動作會破壞」）→ 用於 button / action-menu 等動作元件
+#   • error  = 狀態導向（「這個東西處於錯誤狀態」）→ 用於 status / tag / alert / feedback 等狀態元件
+#
+# responsive-behavior 欄位（optional，per component）：
+#   元件「固有 reflow 行為」(intrinsic property)，跨頁面通用。
+#   結構：responsive-behavior:
+#           breakpoints:
+#             desktop: <render-mode>      # 例：modal / sidebar / inline / etc
+#             tablet:  <render-mode>
+#             mobile:  <render-mode>
+#   例：modal { breakpoints: { desktop: "modal", mobile: "route" } }
+#       drawer { breakpoints: { desktop: "sidebar", mobile: "bottom-sheet" } }
+#   不填 = 不隨斷點變化（簡單元件如 button / icon / tag 一般不填）。
+#   FE codegen 從這欄抓 per-component reflow 規則。
+#   頁面層編排規則(多元件之間如何 stack/hide/reorder)在 L4 archetype.responsive-layout。
+#   兩者通常映射到同一個紅色 token，但語意不同、不互換。
+#
+# 待團隊統一決定（marked, awaiting team alignment）：
+#   • 風格軸命名：solid vs filled — 目前暫採 solid（Tailwind UI / shadcn / Chakra 風格），
+#     待團隊對齊後再決定是否改為 filled（Material Design 風格）。
+#   • alert pattern（橫式緊湊 inline-compact vs 直式堆疊 stacked-vertical）— 全站
+#     視覺一致性決定、非 per-instance variant。對齊後寫進 alert.notes 當 canonical。
+#     目前 alert.variants 只列風格變化（solid/outline/soft），不列 pattern。
+#   • notification pattern — 同 alert，但複雜度更高：error toast 通常需直式多行、
+#     success toast 通常單行夠；可能採「per-intent 預設 pattern」而非全站單一 pattern。
+#     對齊後寫進 notification.notes 當 canonical。
+components:
+
+  # ════════════════════════════════════════
+  # 類別 1：基本元件（Build Plan 第 1 大類）
+  # ════════════════════════════════════════
+
+  - id: menu
+    category: basic
+    variants: [horizontal, vertical]
+    states: [default, hover, active, disabled, focus]
+    sizes: [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: menubar
+      extra:
+        - "menu item 用 role=menuitem"
+        - "horizontal 用左右鍵 navigation、vertical 用上下鍵"
+        - "active 表示目前所在頁面，用 aria-current=page"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Menu"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      常駐式導航選單（navbar / sidebar）。觸發浮出的動作選單請看 action-menu。
+
+  - id: action-menu
+    category: basic
+    variants: [default, with-icon, with-divider]
+    states: [closed, open, hover, focused, disabled]
+    sizes: [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: menu
+      extra:
+        - "trigger 元素須有 aria-haspopup=menu 與 aria-expanded"
+        - "menu item 用 role=menuitem"
+        - "上下鍵 navigation、Esc 關閉、Enter/Space 觸發"
+        - "open 時 focus 移入第一項、close 時 focus 回 trigger"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.elevation.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Menu (action menu 部分)"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      觸發浮出的動作選單（右鍵選單、按鈕觸發的下拉動作列表）。
+      跟 dropdown (form combobox) 不同：dropdown 是表單選值用，action-menu 是選動作執行。
+      跟 menu 不同：menu 是常駐導航。
+
+  - id: tab
+    category: basic
+    variants: [line, contained, pill]
+    states: [default, hover, active, focus]
+    sizes: [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: tab
+      extra:
+        - "tab 容器用 role=tablist"
+        - "對應內容區用 role=tabpanel"
+        - "Active tab 用 aria-selected=true"
+        - "tab 內左右鍵 navigation、Home/End 跳首尾"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Tab"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      rules.md 命名前綴：tab/
+      variants 視覺差異：
+        - line: 純 underline indicator，整列底部有 divider
+        - contained: 所有 tab 都有獨立容器（selected 換填色）
+        - pill: 只有 selected 有 filled 藥丸容器、unselected 是裸文字
+      disabled state 預設不做（多數情境直接隱藏 tab）。
+      若需要（如 premium-gated / progressive unlock），由專案層補。
+
+      2026-06-16 SME harvest:tab 為 container/list 概念,單一 tab 觸發按鈕拆為 tab-item sub-component。
+      tab 的 composition 含多個 tab-item INSTANCE_SWAP。
+    default-expansion:
+      axes: [variant]
+      formula: "3 variants(line / contained / pill)"
+      figma-display: "展三 variant、每 variant 配 3 個 tab-item demo"
+    composition:
+      tab-item: { uses-component: tab-item, required: yes, count: 3 }    # 預設 3 個 tab 示範
+      indicator-line: { type: visual, slot: optional }                    # line variant 的底部 underline
+      panel: { type: container, slot: implicit }                          # tab content panel(實作層、Figma 通常不展)
+
+  - id: tab-item                                              # 2026-06-16 SME harvest 新增:單一 tab trigger
+    category: basic
+    variants: [line, contained, pill]                         # 同 tab 父
+    states:   [default, hover, active, disabled]              # 無 focus(同其他互動元件)
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: tab
+      extra:
+        - "active 用 aria-selected=true"
+        - "disabled 用 aria-disabled=true"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "2026-06-16 SME harvest"
+        section: "tab 巢狀結構"
+        url: ""
+      figma: ""
+      code: ""
+    default-expansion:
+      axes: [variant, state]
+      formula: "3 × 4 = 12"
+      figma-display: "全展(documentation 用)"
+    composition:
+      label: { type: text, style: zh.h8 }
+      leading-icon: { uses-component: icon, slot: optional, default-style: line }
+      badge: { uses-component: badge, slot: optional }    # 通知數量等
+    notes: |
+      ⚠ 2026-06-16 SME harvest 新增:tab 元件的單一 trigger 按鈕。
+        過去 tab 元件直接展開 N 個 inline frame、改 inline state 樣式 → 拆 sub 元件後一致管理。
+      rules.md 命名前綴：tab-item/
+
+  - id: button
+    category: basic
+    variants: [solid, outline, text]                           # 2026-06-16 SME harvest:固定 3 個風格軸(業界主流)
+    intents:  [primary, secondary, danger]                     # 2026-06-16 SME harvest:縮窄為業界標準 3 個(success/warning/info 為 feedback 元件專屬,button 不需要)
+    states:   [default, hover, pressed, disabled]              # 2026-06-16 SME harvest:拿掉 focus(a11y ring 由 code 處理、不入 variant 矩陣)
+    sizes:    [s, m, l]                                        # 業界主流 3 size、cover hero CTA / 標準 / 表格內三情境
+    default-expansion:
+      axes: [variant, intent, size, state]                     # button 為 DS documentation 重點元件、全展
+      formula: "3 × 3 × 3 × 4 = 108 variants"
+      figma-display: "全展、設計師需在 Figma 看完整矩陣"
+      layout: table                                            # 2026-06-17 v0.7.1:多軸元件用表格排版(row=state,col=variant×intent)
+    boolean-properties:                                        # 2026-06-17 v0.7.1 新增:內容差異走 boolean
+      show-leading-icon: { default: false, replaces: "icon-button leading slot" }
+      show-trailing-icon: { default: false, replaces: "icon-button trailing slot" }
+      show-label: { default: true, off-mode: "icon-only(replaces icon-button)" }
+    composition:
+      label: { type: text, style: zh.h8, controlled-by-boolean: show-label }
+      leading-icon: { uses-component: icon, controlled-by-boolean: show-leading-icon, default-style: line }
+      trailing-icon: { uses-component: icon, controlled-by-boolean: show-trailing-icon, default-style: line }
+    merge-replaces: [icon-button]                              # 2026-06-17 v0.7.1:button 用 show-label=false 取代 icon-button、設計師選擇
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: button
+      extra:
+        - "loading 狀態應 aria-busy=true 並 disabled"
+    token-policy:
+      allowed: [semantic.action.*, semantic.text.action.*, semantic.border.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Button"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Build Plan: Button size, Style (主要、次要), Status。
+      rules.md 命名前綴：btn/
+      Phase B 的 vertical slice dogfood 對象。
+
+      變體兩軸（variants × intents）慣用對應（設計指引，非 schema 強制）：
+        - solid   通常配 primary（最高層級的 CTA）
+        - outline 通常配 secondary（次層級動作）
+        - text    低於 secondary（最弱、行內動作）
+        - danger / success / warning / info 跨 3 個 style 都可用（套色變調）
+
+      風格軸命名待團隊統一：目前採 solid，待對齊後決定是否改 filled。
+
+  - id: icon-button                                            # 2026-06-16 SME harvest 新增、2026-06-17 v0.7.1 標 deprecated-merge
+    category: basic
+    status: deprecated-merge                                   # 2026-06-17 v0.7.1:併入 button(show-label=false 即可)
+    deprecation-note: "v0.7.1:用 button 的 show-label=false 取代;此元件保留 schema 但不再建獨立 master"
+    variants: [solid, outline, ghost]                          # ghost = 無底色透明、最弱
+    intents:  [primary, secondary, danger]
+    states:   [default, hover, pressed, disabled]              # 無 focus(同 button、a11y ring 由 code 處理)
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: button
+      extra:
+        - "icon-only button 必有 aria-label(描述動作、不是 icon 名)"
+        - "tooltip 推薦(同 aria-label 文字)"
+    token-policy:
+      allowed: [semantic.action.*, semantic.icon.*, semantic.surface.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "2026-06-16 SME harvest"
+        section: "alert dismiss / notification close / modal close / header user 等"
+        url: ""
+      figma: ""
+      code: ""
+    default-expansion:
+      axes: [variant, intent, size, state]
+      formula: "3 × 3 × 3 × 4 = 108"
+      figma-display: "全展、與 button 一致"
+    composition:
+      icon: { uses-component: icon, required: yes, default-style: line }
+    notes: |
+      ⚠ 2026-06-16 SME harvest 新增:用於 dismiss / close / user / 純圖示行為按鈕等場景。
+        過去用 button 帶 icon-only mode 模擬,但 button 有 label slot、icon-only 不該套同元件。
+        拆獨立元件後語意更清楚:button 必有文字、icon-button 必只有 icon。
+      rules.md 命名前綴：icon-btn/
+
+  - id: breadcrumb
+    category: basic
+    variants: []
+    states: [default, hover, current]
+    sizes: []
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: navigation
+      extra:
+        - "用 aria-label='breadcrumb' 標明 nav 區塊"
+        - "當前頁面項目用 aria-current=page"
+    token-policy:
+      allowed: [semantic.text.*, semantic.surface.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Breadcrumb"
+        url: ""
+      figma: ""
+      code: ""
+    notes: "rules.md 命名前綴：breadcrumbs/"
+
+  - id: input
+    category: basic
+    variants: [outline, filled]                                                       # 2026-06-17 v0.7.1:回歸純視覺軸、內容差異改 boolean
+    states:   [default, hover, focus, filled-value, disabled, error, success]         # 2026-06-17 v0.7.1:拿掉 masked(移至 password-input 的 Reveal 軸)
+    sizes:    []                                                                       # 2026-06-16 SME harvest:input 家族單一字級
+    boolean-properties:                                                                # 2026-06-17 v0.7.1 新增:內容差異走 boolean、不入 variant 矩陣
+      with-label:         { default: false }
+      with-hint:          { default: false }                                          # hint text 下方提示
+      with-leading-icon:  { default: false }
+      with-trailing-icon: { default: false }
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: textbox
+      extra:
+        - "必須有可關聯的 label"
+        - "錯誤訊息用 aria-describedby 串接"
+        - "error 狀態用 aria-invalid=true"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [auth-flow, form-page, detail-page]
+    notes-2026-05-22: |
+      with-label / with-label-hint variants (Path B Auth trial 補):
+        - with-label: 上方 label text + input field
+        - with-label-hint: 上方 label + input + 下方 hint/error message (form-field pattern)
+      Path B auth trial 出現 field-row-DSGAP 共 15 個，正是這個 pattern。
+      Figma build 需更新 input component set 加這 2 個變體。
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Build Plan「Input/Dropdown」拆為兩個獨立 component（行為與 ARIA role 差異大）。
+      rules.md 命名前綴：input/
+
+      涵蓋範圍：純文字 inputs（text / email / url / tel / number），HTML type 透過 prop 傳遞、不寫成 variants。
+      特殊 chrome 輸入已拆為獨立 component：password-input / textarea / file-input。
+
+      待團隊統一決定（marked, awaiting team alignment）：
+        - label-pattern: TBD（全站採 top-label / floating-label / inline-label 哪一種）
+        - search-input：暫不拆獨立 component，待對齊「拆獨立 vs 併 input 做 `with-leading-icon` 之類的 variant」哪種
+
+      備註：states 的 `filled-value` 指「已輸入值」狀態（從原本歧義的 `filled` 改名，避免與 variant `filled` 撞詞）。
+
+  - id: password-input
+    category: basic
+    variants: [outline, filled]
+    reveal-axis: [Masked, Visible]                                     # 2026-06-17 v0.7.1 新增:Reveal 為獨立軸、與 eye icon 點擊 prototype 連動
+    states:   [default, hover, focus, filled-value, disabled, error, success]
+    sizes:    []                                                       # 2026-06-16 SME harvest:input 家族單一字級
+    boolean-properties:                                                # 同 input
+      with-label:         { default: false }
+      with-hint:          { default: false }
+      with-leading-icon:  { default: false }
+    composition:                                                       # 2026-06-17 v0.7.1:Reveal 連動 eye icon
+      reveal-toggle: { uses-component: icon, default-icon: "eye-off-01 → eye-01", required: yes, prototype: "Masked ↔ Visible" }
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: textbox
+      extra:
+        - "必須有可關聯的 label"
+        - "show/hide toggle button 須有 aria-label（例：'顯示密碼' / '隱藏密碼'）"
+        - "切換 type=password ↔ text，不要把實際值複製到 DOM 其他地方"
+        - "錯誤訊息用 aria-describedby、aria-invalid=true 一致"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown（password 部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      含 show/hide 切換按鈕，獨立 chrome 與 input 不同。
+      label-pattern 跟 input 對齊（待團隊統一）。
+
+  - id: textarea
+    category: basic
+    variants: [outline, filled]
+    states:   [default, hover, focus, filled-value, disabled, error, success]
+    sizes:    []                                                       # 2026-06-16 SME harvest:input 家族單一字級
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: textbox
+      extra:
+        - "multiline=true，HTML 直接用 <textarea>"
+        - "必須有可關聯的 label"
+        - "錯誤訊息用 aria-describedby、aria-invalid=true 一致"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown（多行文字部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      多行文字輸入。resize 行為（none / vertical / both）與 min/max-rows 屬 L3 spec 決定。
+      label-pattern 跟 input 對齊（待團隊統一）。
+
+  - id: file-input
+    category: basic
+    variants: [button, drag-drop]                              # button = 點按開檔案視窗；drag-drop = 拖放區
+    states:   [default, hover, focus, has-file, uploading, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: button                                        # trigger 端是 button；底層 <input type=file>
+      extra:
+        - "trigger 須可鍵盤觸發（Enter / Space）"
+        - "drag-drop 區須有 aria-label 說明可拖放"
+        - "uploading 狀態應 aria-busy=true"
+        - "錯誤訊息用 aria-describedby、aria-invalid=true"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown（檔案上傳部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      檔案上傳。chrome 與 input 差異大（觸發按鈕、拖放區、已選檔案列表）。
+      多檔 / 單檔、檔案類型限制、檔案列表顯示樣式屬 L3 spec 決定。
+
+  - id: dropdown
+    category: basic
+    variants: [outline, filled]                            # 結構 / 風格，跟 input 對齊
+    states:   [default, hover, focus, open, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: combobox
+      extra:
+        - "需有 aria-expanded / aria-controls"
+        - "支援鍵盤上下鍵選擇 + Enter 確認、Esc 關閉"
+        - "選項列表用 role=listbox / option"
+        - "searchable 開啟時 trigger 是 input，需配合 aria-autocomplete"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      單選、扁平列表的選單。Build Plan「Input/Dropdown」拆為獨立 component。
+      多選請看 multi-select；巢狀層級請看 cascader。
+
+      可選功能（feature flags，透過 prop 控制、不寫入 variants 軸）：
+        - searchable: 支援打字過濾選項（開啟時 ARIA 行為更接近 combobox + autocomplete pattern）
+
+  - id: multi-select
+    category: basic
+    variants: [outline, filled]
+    states:   [default, hover, focus, open, has-selection, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: combobox                                 # 或 listbox + aria-multiselectable=true，依實作
+      extra:
+        - "已選項目用 chips/tags 顯示在 trigger 內"
+        - "選項列表用 role=listbox + aria-multiselectable=true"
+        - "支援鍵盤上下鍵 + Space 切換選擇"
+        - "若有「全選」功能，全選按鈕須有 aria-label"
+        - "chip 上的「移除」按鈕須可鍵盤觸發"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown（多選部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      多選下拉。chrome 與 dropdown 不同：已選項目以 chips 顯示在 trigger 內、可有「全選/清空」按鈕。
+
+      可選功能（feature flags）：
+        - searchable: 支援打字過濾
+        - select-all: 提供全選按鈕
+        - max-selected: 限制最大選擇數
+
+  - id: cascader
+    category: basic
+    variants: [outline, filled]
+    states:   [default, hover, focus, open, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: combobox                                 # trigger 是 combobox；展開的層級用 tree pattern
+      extra:
+        - "展開的層級選單用 role=tree 或巢狀 role=menu，依互動模型擇一"
+        - "支援鍵盤左右鍵切換層級、上下鍵移動同層、Enter 確認"
+        - "已選路徑需有可讀的描述（aria-label 完整路徑）"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Input/Dropdown（巢狀層級部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      巢狀層級選單（例：地區 → 縣市 → 行政區）。
+      chrome 與 dropdown 完全不同：展開後是多欄並列或階梯式 panel。
+
+      可選功能（feature flags）：
+        - searchable: 跨層級搜尋
+        - change-on-select: 只在最深層選擇才觸發 change
+        - multiple: 支援多選（罕見，視專案需要）
+
+      L3 spec 階段要決定的事：
+        - 展開樣式（多欄並列 vs 階梯式 vs popover）
+        - 是否允許選中間層（不一定要選到最深）
+      rules.md 命名前綴：dropdown/
+
+  - id: icon
+    category: basic
+    variants: [line, solid, duocolor, duotone]      # 2026-06-16 v0.6:對齊 Untitled UI icon library 的四種 style
+    states: []
+    sizes: [s, m, l, xl]                            # 16/20/24/32 — 對應 library size scale
+    a11y:
+      contrast: n/a                                 # 視角色而定，裝飾性 icon 無對比需求
+      keyboard: n/a                                 # icon 本身不互動
+      aria-role: img
+      extra:
+        - "純裝飾性 icon 必須 aria-hidden=true"
+        - "互動性 icon 需配 button 或 link wrapper（非 icon 本身可互動）"
+        - "語意性 icon 需 aria-label"
+    token-policy:
+      allowed: [semantic.icon.*, semantic.text.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: optional
+      states-coverage: n/a
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "2026-06-16 SME harvest + icon library integration"
+        section: "production/icon-library.yaml"
+        url: "https://www.figma.com/design/hnySloSFGa5ju356tbr5C4"
+      figma: ""
+      code: ""
+    source:                                                       # 2026-06-16 v0.6 新增:icon 來源
+      type: external-figma-library
+      ref: production/icon-library.yaml                            # framework 端的 library 設定檔
+      figma-file-key: hnySloSFGa5ju356tbr5C4                       # Untitled UI icons(已 published)
+      default-style: line                                          # 同 library default
+    notes: |
+      2026-06-16 v0.6 大改:icon 不再由框架自建、改 reference 已 published 的 Figma library。
+
+      Library: Untitled UI icons(file-key: hnySloSFGa5ju356tbr5C4)
+        - 約 1000+ icons、分 19 大 category
+        - 4 style page:Line / Solid / Duocolor / Duotone
+        - Master icons(分層、可改色)為 premium
+
+      Skill Step 4 build 時的處理:
+        - icon 元件不在 project DS 內建 master、改 INSTANCE_SWAP 到 library
+        - reference-pattern: `{base-name}-01`(default 取第一個變體)
+        - 失敗 fallback:標 `pending-icon-resolution`、**禁止用 unicode 字元(✕ ← ✓)模擬**
+
+      設計師可在 project `theme.delta.yaml` 加 `icon-map.<name>: <other-variant>` override。
+
+      rules.md 命名前綴：icon/
+
+  - id: search
+    category: basic                                  # 2026-06-16 SME harvest 新增
+    variants: [default]                              # 2026-06-17 v0.7.1:純結構;with-button 改 boolean
+    states:   [default, hover, focus, filled-value, disabled, has-suggestion]
+    sizes:    []                                     # input 家族統一無 size 軸
+    boolean-properties:                              # 2026-06-17 v0.7.1 新增
+      with-submit-button: { default: false }         # 「搜尋」實心按鈕、boolean 開關
+      with-clear-button:  { default: true }          # × 清空
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: search                              # 容器級 role
+      extra:
+        - "input field 自身 role=searchbox 或 type=search"
+        - "搜尋按鈕需 aria-label='搜尋'"
+        - "suggestion list 用 aria-autocomplete + aria-controls"
+        - "Enter 觸發、Escape 清空"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*, semantic.action.primary]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page, header]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "2026-06-16 SME 試跑 harvest"
+        section: "Q&A、商品搜尋、文章搜尋等普遍需求"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      2026-06-16 SME 試跑 harvest 新增:input 家族原本沒有 search 元件,但實際專案普遍需要。
+      與 input 不同點:
+        - 容器有 role=search 語意
+        - 預設有放大鏡 icon(用 icon 元件 INSTANCE_SWAP,**不用文字代**)
+        - has-suggestion state 處理輸入時的下拉提示
+        - Enter 觸發、Escape 清空為標準行為
+      rules.md 命名前綴：search/
+
+  - id: radio
+    category: basic
+    variants: []
+    states: [default, hover, checked, disabled, focus]
+    sizes: [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: radio
+      extra:
+        - "群組必須包在 role=radiogroup"
+        - "群組內單選"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.border.input.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Checkbox (單選)"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Build Plan「Checkbox / Style (單選、多選)」中的「單選」拆出獨立 component。
+      rules.md 命名：radio（btn 子類）
+
+  - id: checkbox
+    category: basic
+    variants: []
+    states: [default, hover, checked, indeterminate, disabled, focus]
+    sizes: [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: checkbox
+      extra:
+        - "indeterminate 狀態用 aria-checked=mixed"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.border.input.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Checkbox (多選)"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Build Plan「Checkbox / Style (單選、多選)」中的「多選」拆出獨立 component。
+      rules.md 命名：checkBox（btn 子類，注意 rules.md 此處用 camelCase 與其他規約不一致）
+
+  - id: pagination
+    category: basic
+    variants: [numbered, prev-next]                          # numbered = 數字按鈕 + 雙邊箭頭;prev-next = 純前後翻頁
+    states:   [default, hover, active, disabled]             # 2026-06-16 拿掉 focus(同 button)
+    sizes:    [s, m, l]
+    default-expansion:
+      axes: [variant]
+      formula: "2 variants(numbered + prev-next)"
+      figma-display: "顯示兩種樣式、state 留 code"
+    composition:
+      prev-button: { uses-component: icon-button, required: yes, icon: chevron-left }    # 2026-06-16 SME harvest:確保雙邊箭頭
+      next-button: { uses-component: icon-button, required: yes, icon: chevron-right }
+      page-button: { uses-component: button,      variant: text, instances: many }       # numbered variant 時、N 個 instance
+      ellipsis:    { type: text,                  style: zh.h9, slot: optional }         # "..."
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: navigation
+      extra:
+        - "用 aria-label='pagination' 標明"
+        - "當前頁用 aria-current=page"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Pagination"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      rules.md 命名前綴：pagination/
+      load-more 模式：結構上是 button，行為上屬列表頁的內容載入策略；
+      不在 pagination 元件範疇，是 L4 content-list-page archetype 的選用模式之一。
+
+      可選功能（feature flags）：
+        - show-size-changer: 每頁筆數切換
+        - show-quick-jumper: 直接跳到第 N 頁的輸入框
+        - show-total: 顯示「共 N 筆」
+
+  - id: steps
+    category: basic
+    variants: [dot, numbered]                       # indicator style 宣告（runtime 可切換）
+    states:   [pending, active, completed, error, disabled, focus]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional                            # 視是否可點選步驟
+      aria-role: ""                                 # 視 variant 而定
+      extra:
+        - "當前步驟用 aria-current=step"
+        - "整體進度資訊以 aria-label 補充"
+        - "indicator-style 切換時須維持 focus 在當前步驟、不可重置"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Steps (進度條)"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      rules.md 命名前綴：steps/
+
+      variants 軸宣告可用 indicator style：dot / numbered。
+      但此元件 indicator-style 與 orientation 都支援 **runtime 切換**（非靜態 variant），
+      由父層透過 prop reactively 設定，component 內部處理 transition 動畫與 ARIA focus 維持。
+
+      支援的 prop-driven 切換情境：
+        - responsive：viewport < 某斷點時 numbered → dot（自動 collapse）
+        - scroll-state：sticky 後 collapse 成 dot
+        - 不同流程：onboarding 用 dot、purchase 用 numbered（同產品多種共存）
+
+      orientation (horizontal / vertical) 一律是 runtime prop、不寫入 variants 軸
+      （與 menu 不同；menu orientation 為全站固定，steps 為 per-usage 決定）。
+
+      L3 spec 階段要決定的事：
+        - indicator-style 切換動畫（淡入淡出 / 形變 / 即時切換）
+        - 收合策略（保留首末 + 當前、保留當前 ± N、僅顯示當前 + 總數）
+        - 是否可點選步驟回跳（影響 keyboard required vs optional）
+
+      2026-06-16 SME harvest:steps 為 container/list 概念,單一 step indicator 拆 step-item sub-component。
+    default-expansion:
+      axes: [variant]
+      formula: "2 variants(dot / numbered)"
+      figma-display: "展兩 variant、每 variant 配 3-4 個 step-item demo(覆蓋各 state)"
+    composition:
+      step-item: { uses-component: step-item, required: yes, count: 3 }    # 預設 3 個 steps 示範
+      connector: { type: visual, slot: implicit }                          # step-item 之間的連接線
+
+  - id: step-item                                              # 2026-06-16 SME harvest 新增:單一 step indicator
+    category: basic
+    variants: [dot, numbered]                                  # 同 steps 父
+    states:   [pending, active, completed, error, disabled]    # 無 focus
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional
+      aria-role: ""                                            # 視整體 steps 容器決定
+      extra:
+        - "active step 用 aria-current=step"
+        - "completed step 用 aria-label='已完成: {label}'"
+        - "error step 用 aria-label + aria-invalid=true"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.feedback.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "2026-06-16 SME harvest"
+        section: "steps 巢狀結構"
+        url: ""
+      figma: ""
+      code: ""
+    default-expansion:
+      axes: [variant, state]
+      formula: "2 × 5 = 10"
+      figma-display: "全展(documentation 用)"
+    composition:
+      indicator: { type: visual }                              # dot 或 numbered 數字
+      label:     { type: text, style: zh.h8, slot: optional }
+      description: { type: text, style: zh.h9, slot: optional }
+    notes: |
+      ⚠ 2026-06-16 SME harvest 新增:steps 元件的單一 indicator。
+        過去 steps 元件直接展開 N 個 inline frame、改 inline state 樣式 → 拆 sub 元件後一致管理。
+      rules.md 命名前綴：step-item/
+
+  - id: tag
+    category: basic
+    variants: [solid, outline, soft]                                # 結構 / 風格
+    intents:  [brand, neutral]                                      # 2026-06-16 SME harvest:縮窄為業界主流(feedback 4 色由 alert/notification 元件負責、不在 tag/badge 重複)
+    states:   [default, hover, selected, disabled]                  # 拿掉 focus(同 button、a11y ring 由 code 處理)
+    sizes:    []                                                    # tag 業界通常不展 size 軸(尺寸由父容器決定)
+    default-expansion:
+      axes: [variant, intent]
+      formula: "3 × 2 = 6 variants"
+      figma-display: "視覺軸全展、states 留 code"
+    composition:
+      label:        { type: text, style: zh.h9 }
+      leading-icon: { uses-component: icon, slot: optional, default-style: line }
+      avatar-slot:  { type: image, slot: optional }                 # avatar feature
+      close-button: { uses-component: icon-button, slot: optional } # removable feature
+    a11y:
+      contrast: required
+      keyboard: required                            # removable / selectable feature 開啟時需可鍵盤操作
+      aria-role: ""                                 # 視 features：純展示→listitem、removable/selectable→button
+      extra:
+        - "removable feature 開啟時內含可聚焦的 close button、有 aria-label"
+        - "selectable feature 開啟時用 aria-pressed 表示選取狀態"
+    token-policy:
+      allowed: [semantic.surface.tag.*, semantic.text.tag.*, semantic.border.tag.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Tag & Chips"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Build Plan「Tag & Chips」合併為 tag。Chips 的互動以 feature flag 表達（避免 component 分叉）。
+      rules.md 命名前綴：tag/
+
+      可選功能（feature flags，可獨立開關、可並用）：
+        - removable: 含 × 可移除（chip 互動，典型：已選 filter chips、email 收件人）
+        - selectable: 可點擊切換選取（典型：filter chip 多選分類）
+        - with-icon: 文字前可加 icon（typical 用法：狀態 icon、類別 icon）
+        - with-avatar: 文字前可加 avatar（典型：人員標籤、組織標籤）
+
+  - id: status
+    category: basic
+    variants: [dot, badge, text]                              # 結構 / 視覺呈現
+    intents:  [success, warning, error, info, neutral]        # 語意
+    states:   [default]                                       # 純展示、無互動狀態
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: n/a                                           # 純展示，不互動
+      aria-role: status
+      extra:
+        - "若狀態變動需通知 screen reader，外層用 aria-live=polite"
+        - "純色塊呈現（dot）必須配文字 label，避免色盲不可辨"
+        - "badge 中的數字若代表「未讀」「待處理」等，須在外層用 aria-label 補充語境"
+    token-policy:
+      allowed: [semantic.feedback.*, semantic.surface.feedback.*, semantic.text.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "基本元件 / Status"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Build Plan 將 Status 列為獨立元件（非 Button 的屬性），代表狀態指示元素。
+      variants 區分視覺型態（dot / badge / text），intents 區分語意（success / warning / error / info / neutral）。
+      兩軸正交：例如 dot + warning、badge + info、text + error 都合法。
+
+      typical 用法：
+        - dot: 系統狀態指示燈（線上 / 離線 / 忙碌）
+        - badge: 數字徽章（未讀 12、NEW、Beta）或短文字標籤
+        - text: 表格 / 列表內的純文字狀態（「啟用中」/「停用」/「已過期」）
+
+
+  # ════════════════════════════════════════
+  # 類別 2：站內回饋（Build Plan 第 2 大類）
+  # 邊界釐清:
+  #   - alert        = 頁面內固定位置的訊息（inline / banner），手動 dismiss 或常駐
+  #   - tooltip      = 浮在元素旁的小提示，純文字，hover/focus 觸發、移開即消失
+  #   - notification = 自動浮現的暫現訊息（toast），有 timer 自動消失（有些 DS 叫 Toast / Snackbar）
+  # ════════════════════════════════════════
+
+  - id: alert
+    category: feedback
+    layout-variants: [banner, stacked, compact]               # 2026-06-16:banner=横式、stacked=直式、compact=一行
+    variants: [inline-card]                                   # 2026-06-17 v0.8:重做、白底 + intent icon + brand CTA(像 modal inline 版),舊 soft/outline/solid 拿掉
+    default-variant: inline-card
+    intents:  [success, warning, error, info]                 # 表達方式改:只在 icon + accent line 體現、不再整片底色染
+    states:   [default]                                       # 純展示;close/cta 由 composition 內 sub-component 處理
+    sizes:    []                                              # 寬度由父容器決定
+    a11y:
+      contrast: required
+      keyboard: required                                       # dismissible / with-action 開啟時
+      aria-role: alert                                         # error/warning 用 alert (assertive)；info/success 用 status (polite)
+      extra:
+        - "intent 為 error / warning 時用 role=alert（aria-live=assertive，立即讀出）"
+        - "intent 為 success / info 時用 role=status（aria-live=polite，等空檔讀出）"
+        - "dismissible 開啟時 close button 必須可鍵盤觸發、有 aria-label"
+        - "with-icon 的 icon 須 aria-hidden=true（icon 是裝飾、語意已在文字）"
+    token-policy:
+      allowed: [semantic.surface.feedback.*, semantic.text.feedback.*, semantic.border.feedback.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "站內回饋 / Alert"
+        url: ""
+      figma: ""
+      code: ""
+    default-expansion:
+      axes: [layout-variant, intent]                          # 2026-06-17 v0.8:variant 軸縮到 1 個、不入展度
+      formula: "3 × 4 = 12 variants"                          # 從 36 降到 12
+      figma-display: "全展 layout × intent"
+    composition:
+      surface:     { type: visual, color: surface.primary }   # 2026-06-17 v0.8:白底(neutral)、不染 intent
+      icon:        { uses-component: icon, required: yes, intent-derived: yes, default-style: line, color: feedback.<intent> }   # icon 顏色 = intent 唯一表達
+      accent-line: { type: visual, slot: optional, intent-derived: yes }   # 細條 accent(左 / 頂部、intent 色)
+      title:       { type: text, style: zh.h6, color: text.default, slot: optional }   # 中性深色、不染 intent
+      body:        { type: text, style: zh.h8, color: text.default }                   # 中性深色
+      cta:         { uses-component: button, slot: optional, default-intent: primary } # 2026-06-17 v0.8:brand primary、不繼承 alert intent(解 J1 配色問題)
+      dismiss:     { uses-component: icon-button, slot: optional, intent: secondary }  # 中性 close、不染 intent
+    notes: |
+      頁面內固定位置的訊息，不會自動消失。
+      典型用法：表單錯誤摘要、頁面警示橫幅、操作前置條件提示。
+
+      2026-06-16 SME harvest 重新定義:
+        - layout-variants 拆出三種獨立結構(banner / stacked / compact)
+        - intent 拿掉 neutral(info 已涵蓋中性訊息、業界主流)
+        - 結構由 composition 明訂(不再 marked TBD)、CC build 時嚴格 INSTANCE_SWAP nested 元件
+
+
+      可選功能（feature flags）：
+        - dismissible: 含 × 可手動關閉
+        - with-icon: 文字前加 intent 對應的 icon
+        - with-title: 上方有粗體標題、下方說明文字（兩段式佈局）
+        - with-action: 含內嵌動作按鈕（例：「重試」「了解更多」）
+
+      L3 待決:
+        - dismissible 後是否記住關閉狀態（local storage / session）
+        - with-action 按鈕的 button variant 對應規則
+
+  - id: tooltip
+    category: feedback
+    variants: [solid]                                          # 預設深底白字；如未來要 light variant 再加 outline
+    states:   [default]                                        # 純展示，不互動
+    sizes:    [s, m]                                           # 通常只兩種大小
+    a11y:
+      contrast: required
+      keyboard: required                                       # focus 也要能觸發顯示，不只 hover
+      aria-role: tooltip
+      extra:
+        - "trigger 元素須 aria-describedby 指向 tooltip id"
+        - "hover 與 focus 都要能觸發（鍵盤可用）"
+        - "顯示後 Esc 須可關閉（特別是 click-trigger 模式）"
+        - "tooltip 內不可放互動元素（要互動請改用 popover）"
+    token-policy:
+      allowed: [semantic.surface.tooltip.*, semantic.text.tooltip.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "站內回饋 / Tooltips"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      浮在元素旁的小提示，純文字、不可互動。
+      與 popover 的邊界：popover 可放互動內容（按鈕、表單），tooltip 只放純文字資訊。
+
+      可選功能（feature flags）：
+        - with-arrow: 指向 trigger 的三角箭頭
+        - placement-auto: 自動依視窗邊界調整位置（避免溢出）
+
+      L3 待決:
+        - 預設觸發方式（hover / focus / click 三選或多選）
+        - 預設 placement（top / bottom / 自動）
+        - 顯示延遲時間（避免滑鼠經過誤觸）
+
+  - id: notification
+    category: feedback
+    position-variants: [toast-top-right, toast-bottom-right, snackbar-bottom-center]   # 2026-06-16 SME harvest:重新以 position 區分(toast 在角、snackbar 在底中)
+    variants: [solid, outline, soft]                          # 視覺風格
+    intents:  [success, warning, error, info]                 # 2026-06-16:拿掉 neutral(info 涵蓋中性、跟 alert 一致)
+    states:   [default]                                       # 純展示;close 由 composition 內 sub-component 處理
+    sizes:    []                                              # toast 寬度固定 by position-variant、無 size 軸
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: status                                       # 多數情境；error 可改 alert
+      extra:
+        - "intent 為 error 時用 role=alert（aria-live=assertive）"
+        - "其他 intent 用 role=status（aria-live=polite）"
+        - "auto-dismiss timer 在 hover / focus 時必須暫停（WCAG 2.2.1）"
+        - "close button 必須可鍵盤觸發"
+        - "新 notification 出現時不可搶走當前 focus"
+    token-policy:
+      allowed: [semantic.surface.feedback.*, semantic.text.feedback.*, semantic.border.feedback.*, semantic.elevation.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "站內回饋 / Notification"
+        url: ""
+      figma: ""
+      code: ""
+    default-expansion:
+      axes: [position-variant, variant, intent]
+      formula: "3 × 3 × 4 = 36 variants"
+      figma-display: "全展三軸"
+    composition:
+      icon:  { uses-component: icon,        required: yes, intent-derived: yes, default-style: line }
+      body:  { type: text,                  style: zh.h8 }                # 必有(1-2 行短訊息)
+      close: { uses-component: icon-button, slot: optional }              # 純展示 close、不必有 CTA
+      progress-bar: { type: visual,         slot: optional }              # with-progress feature
+    auto-dismiss-ms: 4000                                                  # 預設 4 秒(error 可在 project delta override 為 8000 或 no-dismiss)
+    notes: |
+      自動浮現的暫現訊息（業界別名：toast / snackbar）。預設有 timer 自動消失。
+      典型用法：儲存成功確認、背景任務完成、輕量錯誤提示。
+
+      邊界：本元件僅指 toast / snackbar（暫現訊息），**不含通知中心 (notification-center)**。
+      通知中心是 composite component（bell icon + badge + dropdown panel + 訊息列表 + 已讀狀態），
+      屬類別 4「複雜元件」，且非每個專案都做、由專案層按需新增、不在 cross-project starter。
+
+      2026-06-16 SME harvest 重新定義:
+        - position-variants 拆出三種位置(toast 在右上/右下、snackbar 在底中)、不再 marked TBD
+        - intent 拿掉 neutral(跟 alert 一致)
+        - 結構刻意比 alert 簡:notification 是暫態、不該有 CTA + title(用戶來不及讀完就消失)
+        - 改設計師可在 project delta override auto-dismiss-ms
+
+      可選功能（feature flags）：
+        - dismissible: 含 × 可提前關閉(本元件預設 yes)
+        - auto-dismiss: timer 自動消失（預設 4000ms,error 可 override）
+        - with-icon: 文字前加 intent 對應的 icon(本元件 composition 預設 required)
+        - with-progress: 顯示倒數進度條（剩餘時間視覺化、optional）
+
+      L3 待決:
+        - 同時多個 notification 的堆疊規則（stack vs queue vs replace）
+        - 出場 / 進場動畫
+
+
+  # ════════════════════════════════════════
+  # 類別 3：表格規範（Build Plan 第 3 大類）
+  # Composite 結構：table 是 composite component、本類別列出所有 sub-element。
+  # 行為（sort/filter/select/sticky/resize 等）以 feature flags 表達於 table.notes。
+  # 空值 / loading / error 為 table 內建 state（不外掛 alert/skeleton/empty 元件）。
+  # ════════════════════════════════════════
+
+  - id: table
+    category: table
+    variants: [bordered, borderless, striped]              # 邊框 / 條紋風格
+    states:   [default, loading, empty, error]             # error/loading/empty 內建、不外掛
+    sizes:    [s, m, l]                                    # 對應 density: compact / comfortable / spacious
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: table
+      extra:
+        - "外層用 <table> 或 role=table；表頭區 thead / role=rowgroup；資料區 tbody"
+        - "loading 狀態整個 table 用 aria-busy=true"
+        - "empty / error 狀態的訊息區用 role=status 或 alert（視嚴重程度）"
+        - "可排序 column 的 header 須 aria-sort=ascending|descending|none"
+        - "可選列的 row 須 aria-selected=true|false"
+        - "sticky header / column 不影響 a11y，但 focus 順序須維持邏輯"
+    token-policy:
+      allowed: [semantic.surface.table.*, semantic.text.table.*, semantic.border.table.*, semantic.surface.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Composite component — 由 table-header / table-row / table-cell / table-footer 組成。
+      Build Plan「表格規範」對應 L0 此族群。
+
+      可選功能（feature flags，依專案需求啟用）：
+        互動類：
+          - sortable: column-level 排序（單欄或多欄）
+          - filterable: column-level 篩選 UI（內嵌 header）
+          - searchable: 全域搜尋（通常在 table 上方獨立 input）
+          - row-selection: checkbox 列選取（single / multi 兩種模式）
+          - expandable-rows: 列可展開顯示子內容（巢狀資料 / 詳情）
+          - column-resize: 拖拉欄寬
+          - column-reorder: 拖拉重排欄位順序
+        版面類：
+          - sticky-header: header 滾動黏附
+          - sticky-first-column: 第一欄滾動黏附（橫向捲動時保留識別欄）
+          - sticky-footer: footer 滾動黏附
+          - pagination: 內建分頁整合（與獨立 pagination 元件對接）
+          - virtual-scroll: 大量資料虛擬捲動
+
+      內建 state 規範（不外掛 alert/skeleton/empty 元件）：
+        - loading: 預設 skeleton rows（n 列；rows 數可配置）
+        - empty:   置中 icon + 文字 + 可選 CTA（「新增第一筆資料」）
+        - error:   置中 error icon + 訊息 + retry button（接 button 元件）
+
+      L3 待決:
+        - row-selection 的 single / multi 是 boolean 還是兩個獨立 feature flag
+        - sortable 是否支援多欄同時排序（multi-sort）
+        - virtual-scroll 觸發閾值（多少 row 以上自動啟用 / 永遠啟用 / 永不啟用）
+        - skeleton loading 的 row 數預設值
+        - empty / error 內建文案是否走 i18n 系統（多語）
+
+  - id: table-header
+    category: table
+    variants: [default]                                    # 暫無視覺 variant；如未來需 sticky-only / standard 區分可加
+    states:   [default, hover, sort-asc, sort-desc, resizing]
+    sizes:    [s, m, l]                                    # 通常繼承自 parent table
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: columnheader
+      extra:
+        - "可排序時須 aria-sort、且整個 header 可鍵盤觸發排序切換"
+        - "可 resize 時 resize handle 須有 aria-label、支援鍵盤左右鍵調寬"
+        - "排序 indicator (▲▼) 須 aria-hidden=true（語意已由 aria-sort 提供）"
+    token-policy:
+      allowed: [semantic.surface.table.*, semantic.text.table.*, semantic.border.table.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範 / 表頭"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      欄位 header cell。包含 sort indicator、resize handle、optional filter trigger。
+      sticky-header feature 啟用時，本元件套用 sticky positioning 與 elevation token。
+
+      可選功能（feature flags，由 parent table.features 決定是否啟用）：
+        - with-sort-indicator: 顯示 ▲▼ 排序指示
+        - with-resize-handle: 右側拖拉調寬把手
+        - with-filter-trigger: 內嵌 filter 觸發 icon（展開 filter popover）
+
+  - id: table-row
+    category: table
+    variants: [default]
+    intents:  [success, warning, error, info, neutral]    # row-level 強調語意（例：錯誤資料列、新增提示列）
+    states:   [default, hover, selected, expanded, disabled]
+    sizes:    [s, m, l]                                    # 通常繼承自 parent table
+    a11y:
+      contrast: required
+      keyboard: optional                                   # 可選列 / 可展開列才需 keyboard
+      aria-role: row
+      extra:
+        - "可選列須 aria-selected；row checkbox 用 aria-label 描述列識別"
+        - "可展開列須 aria-expanded；展開內容用 aria-controls 關聯"
+        - "intent 套色須配文字 / icon，避免色盲不可辨"
+    token-policy:
+      allowed: [semantic.surface.table.*, semantic.text.table.*, semantic.border.table.*, semantic.surface.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範 / 資料列"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      資料列。可選 (selected) / 可展開 (expanded) / 強調 (intent) 等狀態。
+      hover state 預設啟用以協助列追蹤（striped table 例外可考慮關閉）。
+
+      可選功能（feature flags，由 parent table.features 決定）：
+        - with-checkbox: 開啟 row-selection 時，列首加 checkbox
+        - with-expand-toggle: 開啟 expandable-rows 時，列首加 ▶ 展開鈕
+        - with-actions: 列尾固定動作區（編輯 / 刪除 / 更多）
+
+  - id: table-cell
+    category: table
+    variants: [text-left, text-center, text-right, numeric]    # alignment + numeric（右對齊 + tabular-nums）
+    states:   [default, hover, editing]                        # editing 給內嵌編輯使用
+    sizes:    [s, m, l]                                        # 通常繼承自 parent table
+    a11y:
+      contrast: required
+      keyboard: optional                                       # editing feature 開啟時 required
+      aria-role: cell
+      extra:
+        - "editing 狀態須包合法的 input / textarea 元件，繼承其 a11y 規則"
+        - "numeric cell 用 tabular-nums 確保數字位數對齊"
+        - "truncated 文字須提供完整內容（tooltip 或 aria-label）"
+    token-policy:
+      allowed: [semantic.surface.table.*, semantic.text.table.*, semantic.border.table.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範 / 儲存格"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      資料儲存格。variants 為內容對齊軸（text-left / center / right / numeric）。
+      numeric variant 預設右對齊 + tabular-nums font-feature。
+
+      可選功能（feature flags）：
+        - with-icon: cell 內含 leading icon（例：狀態圖示）
+        - truncate: 超出寬度時 ellipsis（配合 tooltip 顯示完整內容）
+        - editable: 點擊進入內嵌編輯（套用 input / dropdown 元件）
+
+  - id: table-footer
+    category: table
+    variants: [default, totals, pagination]               # 用途軸：純樣式 / 含合計 / 含分頁
+    states:   [default]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required                                  # pagination variant 時 required
+      aria-role: rowgroup                                 # 或 row 視內容
+      extra:
+        - "pagination variant 須包含合法 pagination 元件（繼承其 a11y）"
+        - "totals variant 的合計列須 aria-label 標明（例：'合計列'）"
+    token-policy:
+      allowed: [semantic.surface.table.*, semantic.text.table.*, semantic.border.table.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範 / 表尾"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      表格底部區域。三種 variant：
+        - default: 純底邊樣式（無內容）
+        - totals: 合計列（資料統計 / 加總顯示）
+        - pagination: 整合 pagination 元件（呼應 table.features.pagination）
+
+      sticky-footer feature 啟用時套用 sticky positioning。
+
+
+  # ════════════════════════════════════════
+  # 類別 4：複雜元件（Build Plan 第 4 大類）
+  # Build Plan 原列 6 項：Time & DatePicker / Calendar / Collapse / List / Card / Modal/Drawer
+  # 本實作拆分：date-picker / time-picker / date-range-picker / calendar / collapse / list / card / modal / drawer (9 個)
+  # ════════════════════════════════════════
+
+  - id: date-picker
+    category: complex
+    variants: [outline, filled]                              # 與 input 家族對齊
+    states:   [default, hover, focus, open, filled-value, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: combobox
+      extra:
+        - "trigger 須 aria-haspopup=dialog 與 aria-expanded"
+        - "彈出的日曆 panel 用 role=dialog + aria-label"
+        - "日期格子用 grid pattern：role=grid / gridcell"
+        - "可選日期須鍵盤操作（上下左右切換、PageUp/Down 切月份）"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*, semantic.surface.calendar.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Time & DatePicker"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      日期選擇器（input + 彈出日曆 panel）。Build Plan「Time & DatePicker」拆三個獨立元件。
+
+      可選功能（feature flags）：
+        - min-max-date: 限制可選範圍
+        - disabled-dates: 特定日期不可選（假日 / 已預訂）
+        - with-shortcuts: 預設快捷（今天 / 本週 / 本月）
+        - with-time: 同時選日期 + 時間（合併 date-time-picker 模式）
+
+  - id: time-picker
+    category: complex
+    variants: [outline, filled]
+    states:   [default, hover, focus, open, filled-value, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: combobox
+      extra:
+        - "彈出 panel 用 role=dialog"
+        - "時 / 分 / 秒列若用滾輪 picker，須支援鍵盤上下鍵切值"
+        - "若用兩個下拉（時/分），各自為 listbox"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Time & DatePicker（時間部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      時間選擇器。
+
+      L3 待決:
+        - 顯示樣式（scroll-wheel / 兩個 dropdown / 直接 input）
+        - 12 小時制 vs 24 小時制（i18n 對接）
+        - 是否包含秒
+
+      可選功能（feature flags）：
+        - step: 分鐘 / 秒鐘步長（如每 15 分鐘）
+        - min-max-time: 限制可選範圍
+
+  - id: date-range-picker
+    category: complex
+    variants: [outline, filled]
+    states:   [default, hover, focus, open, filled-value, partial-selected, disabled, error, success]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: combobox
+      extra:
+        - "trigger 須 aria-haspopup=dialog；panel 用 role=dialog"
+        - "範圍選擇期間用 aria-live=polite 提示「已選起始日，請選結束日」"
+        - "已選範圍的格子用 aria-selected；範圍中間的格子用 aria-describedby"
+    token-policy:
+      allowed: [semantic.surface.input.*, semantic.text.input.*, semantic.border.input.*, semantic.surface.calendar.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Time & DatePicker（範圍部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      日期範圍選擇（起始日 + 結束日）。
+
+      可選功能（feature flags）：
+        - with-shortcuts: 預設範圍（過去 7 天 / 本月 / 上月 / 本季）
+        - min-max-date / max-range: 限制範圍長度
+        - dual-panel: 並排兩個月份方便跨月選擇
+
+  - id: calendar
+    category: complex
+    view-variants: [month, week, day, year]                  # 2026-06-16 SME harvest:改名 view-variants(更清楚是 view mode、不是視覺風格)
+    variants: []
+    states:   [default, loading, empty]
+    sizes:    [s, m, l]
+    default-expansion:
+      axes: [view-variant]
+      formula: "4 view modes"
+      figma-display: "全展四種視圖"
+    composition:
+      prev-button:  { uses-component: icon-button, required: yes, icon: chevron-left, variant: ghost }
+      next-button:  { uses-component: icon-button, required: yes, icon: chevron-right, variant: ghost }
+      month-label:  { type: text, style: zh.h6 }
+      weekday-row:  { type: text-array, style: zh.h9, count: 7 }    # 七個 weekday 標籤
+      day-cell:     { uses-component: calendar-day, required: yes, count: 42 }    # 7×6 = 42 個 day cells
+      today-jump:   { uses-component: button, variant: text, slot: optional }     # "今天" 快速跳轉
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: grid
+      extra:
+        - "日期格子用 role=gridcell；當前選中 aria-selected=true"
+        - "今日格子用 aria-current=date"
+        - "前後月導航按鈕須 aria-label（例：'上個月'）"
+        - "鍵盤：上下左右切日、PageUp/Down 切月、Home/End 切月首末"
+    token-policy:
+      allowed: [semantic.surface.calendar.*, semantic.text.calendar.*, semantic.border.calendar.*, semantic.surface.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Calendar"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      完整月 / 週 / 日視圖的日曆元件（與 date-picker 的彈出小日曆不同；本元件是「整頁」級）。
+      典型用法：行程顯示、活動排程、預約日曆。
+
+      可選功能（feature flags）：
+        - with-events: 在日期格內顯示事件條
+        - clickable-cells: 點擊格子觸發事件（新增 / 檢視）
+        - drag-to-create: 拖拉建立事件
+        - drag-to-move: 拖拉移動事件
+        - holidays-marked: 標記國定假日
+
+  - id: calendar-day                                           # 2026-06-16 SME harvest 新增:calendar 內部 day cell sub-component
+    category: complex
+    variants: []
+    states:   [default, hover, today, selected, range-start, range-end, in-range, disabled, other-month]
+    sizes:    []                                                # 同 calendar 父
+    a11y:
+      contrast: required
+      keyboard: optional                                        # focus 在 calendar 父層處理
+      aria-role: gridcell
+      extra:
+        - "today 用 aria-current=date"
+        - "selected 用 aria-selected=true"
+        - "in-range / range-start / range-end 用 aria-describedby 指向範圍標籤"
+        - "disabled 用 aria-disabled=true(灰階+不可選)"
+    token-policy:
+      allowed: [semantic.surface.calendar.*, semantic.text.calendar.*, semantic.border.calendar.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "2026-06-16 SME harvest"
+        section: "calendar 內部巢狀結構、states 缺漏 today/hover/range"
+        url: ""
+      figma: ""
+      code: ""
+    default-expansion:
+      axes: [state]
+      formula: "9 states"
+      figma-display: "全展所有 state(documentation 重點)"
+    composition:
+      day-number: { type: text, style: zh.h8 }                  # 日期數字
+      indicator:  { uses-component: icon, slot: optional, default-style: line }   # 事件圓點 / dot 指示
+    notes: |
+      ⚠ 2026-06-16 SME harvest 新增:過去 calendar 元件內部 day cell 用 inline frame 自由發揮,
+        導致今日(today)、hover、起迄日(range)等狀態缺漏。拆獨立 sub-component 後:
+        - 狀態完整可審
+        - calendar 透過 INSTANCE_SWAP 引用、改 calendar-day 樣式自動同步
+      rules.md 命名前綴：calendar-day/
+
+  - id: collapse
+    category: complex
+    variants: [bordered, separated, connected]              # 視覺結構
+    states:   [collapsed, expanded, hover, disabled, focus]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: button                                      # trigger 端；展開的內容 region 用 role=region
+      extra:
+        - "trigger 用 button role + aria-expanded + aria-controls 指向 region"
+        - "展開內容用 role=region + aria-labelledby 指回 trigger"
+        - "支援 Enter / Space 切換、上下鍵切換不同 collapse 項"
+        - "動畫切換期間不影響 focus 與閱讀順序"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Collapse"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      可展開 / 收合的內容區塊（業界別名：accordion）。
+      variants 視覺結構：
+        - bordered: 整組外框 + 內部 divider
+        - separated: 每項獨立卡片、項目間有 gap
+        - connected: 項目連在一起、無 gap 無外框
+
+      可選功能（feature flags）：
+        - single-open: 同時只能展開一個（accordion 模式）
+        - multi-open: 可同時展開多個（default）
+        - with-icon: trigger 含展開 indicator (▼)
+        - controlled / uncontrolled: 展開狀態由外部控制 vs 內部管理
+
+  - id: list
+    category: complex
+    variants: [divided, borderless, card]                   # 視覺結構
+    states:   [default, hover, selected, disabled, focus]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional                                    # 可互動 list (selectable / clickable) 時 required
+      aria-role: list
+      extra:
+        - "item 用 role=listitem；可選 list 用 role=listbox + option"
+        - "可選列須 aria-selected；可展開列須 aria-expanded"
+        - "with-checkbox feature 開啟時走 role=listbox + aria-multiselectable"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / List"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      垂直列表（不限資料形態，可放純文字、含 icon、含 avatar、含動作等）。
+      與 table 區隔：list 為單欄、無欄位概念；table 為多欄結構化資料。
+
+      可選功能（feature flags）：
+        - with-icon: item 含 leading icon
+        - with-avatar: item 含 leading avatar
+        - with-action: item 尾部含動作（按鈕 / icon-button）
+        - with-checkbox: item 含 checkbox 多選
+        - selectable: item 可點擊切換選取（single / multi）
+        - clickable: item 整列可點擊觸發動作（連結列表）
+        - nested: 支援巢狀子項目
+        - draggable: 支援拖拉重排
+
+  - id: card
+    category: complex
+    variants: [elevated, outlined, flat]                    # 視覺結構
+    states:   [default, hover, pressed, selected, disabled, focus]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional                                    # clickable card 時 required
+      aria-role: ""                                         # 預設無 role；clickable 時用 button / link
+      extra:
+        - "clickable card 整體須鍵盤觸發、含 focus ring"
+        - "with-actions feature 的按鈕區須獨立可 tab、不被外層 click 蓋掉"
+        - "with-cover-image 的 image 須有 alt（或 aria-hidden=true 若純裝飾）"
+    token-policy:
+      allowed: [semantic.surface.card.*, semantic.text.*, semantic.border.*, semantic.elevation.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Card"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      內容容器。三種 variant 視覺強度遞減：elevated（陰影）> outlined（邊框）> flat（純底色）。
+
+      可選功能（feature flags）：
+        - with-header: 上方標題區
+        - with-footer: 下方資訊 / 動作區
+        - with-cover-image: 頂部封面圖
+        - with-actions: 含動作按鈕（編輯 / 刪除 / 更多）
+        - clickable: 整張卡片可點擊
+        - with-media-aspect-ratio: 封面圖固定比例（呼應 image 元件）
+
+  - id: modal
+    category: complex
+    variants: [centered, sheet]                             # centered: 置中對話框；sheet: 底部彈出（mobile）
+    sizes:    [s, m, l, full]                               # full = 全螢幕
+    states:   [closed, opening, open, closing]
+    responsive-behavior:
+      breakpoints:
+        desktop: modal                                      # 桌機:置中對話框
+        tablet:  modal
+        mobile:  route                                      # 手機:轉成獨立路由頁(FE 參考 ExtraOtpModal 案例)
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: dialog
+      extra:
+        - "用 aria-modal=true + aria-labelledby 指向 title"
+        - "開啟時 focus 移入 modal（通常第一個可 focus 元素）、focus trap 在內"
+        - "關閉時 focus 回到觸發元素"
+        - "Esc 須關閉（除非明確設定不可）"
+        - "背景頁面用 aria-hidden=true 避免 screen reader 讀到"
+        - "overlay click 是否關閉視 dismissible feature 決定"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.elevation.*, semantic.surface.overlay.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Modal/Drawer（Modal 部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      置中浮層對話框，阻斷頁面互動。Build Plan「Modal/Drawer」拆獨立元件。
+
+      可選功能（feature flags）：
+        - dismissible: 含 × 可關閉（default-on）
+        - with-overlay: 背景遮罩（default-on）
+        - overlay-click-close: 點背景關閉（default-on，destructive 操作建議 off）
+        - with-header / with-footer: 上下固定區（中間 scrollable）
+        - with-actions: 底部 CTA 按鈕區（通常 1-2 個按鈕）
+        - focus-trap: 鍵盤 focus 限制在 modal 內（default-on）
+
+      L3 待決:
+        - sheet variant 預設在哪些斷點下啟用（mobile-only?）
+        - 多層 modal 疊加策略（不允許 / z-index 累進 / replace）
+        - 動畫進場 / 出場樣式
+
+  - id: drawer
+    category: complex
+    variants: [left, right, top, bottom]                    # 滑入方向
+    sizes:    [s, m, l, full]
+    states:   [closed, opening, open, closing]
+    responsive-behavior:
+      breakpoints:
+        desktop: sidebar                                    # 桌機:側邊滑入 panel
+        tablet:  sidebar                                    # 平板:同桌機
+        mobile:  bottom-sheet                               # 手機:轉成底部彈起 sheet
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: dialog
+      extra:
+        - "同 modal：aria-modal / aria-labelledby / focus trap / Esc 關閉"
+        - "通常用於非阻斷性 panel（如側邊設定、購物車），但 a11y 視同 modal 處理"
+        - "若為非阻斷性 drawer（permanent variant），可不用 modal 規則"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.elevation.*, semantic.surface.overlay.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "複雜元件 / Modal/Drawer（Drawer 部分）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      側邊滑入 panel。variants 為滑入方向。
+
+      可選功能（feature flags）：
+        - dismissible / with-overlay / overlay-click-close: 同 modal
+        - with-header / with-footer / with-actions: 同 modal
+        - permanent: 不可關閉、整合在 layout 中（如左側 nav drawer）
+        - swipe-to-close: mobile 拖拉手勢關閉
+
+      L3 待決:
+        - 預設寬度（依方向不同：left/right 用寬度、top/bottom 用高度）
+        - permanent variant 與 layout 的整合方式
+        - 動畫滑入速度與 easing
+
+
+  # ════════════════════════════════════════
+  # 類別 5：統計數據、圖表（Build Plan 第 5 大類）
+  # Build Plan 原列 4 項：Number / 環形圖 / 長條圖 / 折線圖
+  # 圖表本體通常依賴第三方 library（D3 / Recharts / Chart.js / ECharts）；
+  # DS 規範範圍：color palette / typography / tooltip / legend / axis 樣式。
+  # ════════════════════════════════════════
+
+  - id: stat-number
+    category: chart
+    variants: [default, with-trend, with-comparison]
+    intents:  [success, warning, error, info, neutral]
+    states:   [default, loading, empty]
+    sizes:    [s, m, l, xl]                                 # 加 xl（dashboard KPI 用大字）
+    a11y:
+      contrast: required
+      keyboard: n/a
+      aria-role: ""
+      extra:
+        - "數字本身用 tabular-nums 字體特徵確保位數對齊"
+        - "趨勢箭頭須配文字 / aria-label（如「上升 12%」）"
+        - "顏色語意須配 icon / 文字（色盲）"
+    token-policy:
+      allowed: [semantic.text.*, semantic.surface.chart.*, semantic.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "統計數據、圖表 / Number"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      KPI / 統計數據呈現元件（dashboard 用）。Build Plan「Number」對應此元件。
+
+      可選功能（feature flags）：
+        - with-label: 上方有標籤（例：「本月營收」）
+        - with-sub-text: 下方有補充說明
+        - with-prefix / with-suffix: 前後綴（$ / %）
+        - with-icon: 標籤旁含 icon
+
+  - id: donut-chart
+    category: chart
+    variants: [donut, pie]                                  # 中空 vs 實心
+    states:   [default, loading, empty, error]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional
+      aria-role: img                                        # 視為 image，配 aria-label 描述資料
+      extra:
+        - "整體用 role=img + aria-label 描述（如「2026 第一季營收分布圖」）"
+        - "詳細資料須提供文字替代（screen reader 友善 table 版本）"
+        - "色盲考量：不只靠顏色區分，配合 pattern / label"
+    token-policy:
+      allowed: [semantic.surface.chart.*, semantic.text.chart.*, semantic.color.chart-palette.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "統計數據、圖表 / 環形圖"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      環形圖 / 圓餅圖。實作通常依賴 charting library（Recharts / Chart.js / ECharts）。
+      DS 規範範圍：色票對應、tooltip 樣式、legend 樣式、字體。
+
+      可選功能（feature flags）：
+        - with-legend: 旁邊 / 下方 legend
+        - with-labels: 扇形內 / 外標籤
+        - with-percentage: 顯示百分比
+        - with-tooltip: hover 顯示詳細數值
+        - interactive: hover highlight + 點擊事件
+
+  - id: bar-chart
+    category: chart
+    variants: [vertical, horizontal, stacked, grouped]      # 排向 + 結構
+    states:   [default, loading, empty, error]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional
+      aria-role: img
+      extra:
+        - "整體用 role=img + aria-label 描述"
+        - "x / y 軸標籤須完整可讀"
+        - "資料須有文字替代（table 版本）"
+        - "色盲考量：用 pattern 補 color"
+    token-policy:
+      allowed: [semantic.surface.chart.*, semantic.text.chart.*, semantic.color.chart-palette.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "統計數據、圖表 / 長條圖（直式/橫式）"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      長條圖。variants 涵蓋：
+        - vertical: 直式（時間軸 / 類別在 x 軸）
+        - horizontal: 橫式（類別在 y 軸，較適合長類別名稱）
+        - stacked: 堆疊（總量 + 分組）
+        - grouped: 並排（同類別多組對比）
+
+      可選功能（feature flags）：
+        - with-legend / with-axis-labels / with-grid: 標準輔助元素
+        - with-data-labels: 條上 / 條尾顯示數值
+        - with-tooltip / interactive: hover 互動
+        - with-threshold-line: 顯示閾值參考線
+
+  - id: line-chart
+    category: chart
+    variants: [single-line, multi-line, area-fill, smooth]   # 線型結構
+    states:   [default, loading, empty, error]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: optional
+      aria-role: img
+      extra:
+        - "同 bar-chart：role=img + 完整 aria-label + 資料表替代"
+    token-policy:
+      allowed: [semantic.surface.chart.*, semantic.text.chart.*, semantic.color.chart-palette.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "統計數據、圖表 / 折線圖"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      折線圖。variants：
+        - single-line: 單條折線
+        - multi-line: 多條折線並列
+        - area-fill: 折線下方填色（面積圖）
+        - smooth: 曲線版本（cardinal / bezier 平滑）
+
+      可選功能（feature flags）：
+        - with-markers: 資料點圓點標記
+        - with-grid / with-axis-labels / with-legend: 標準
+        - with-tooltip / interactive: hover 顯示十字游標 + 資料
+        - with-trend-line: 趨勢線 / 平均線
+
+
+  # ════════════════════════════════════════
+  # 類別 6：Loading（Build Plan 第 6 大類）
+  # Build Plan 原列 2 項：Skeleton / Loader
+  # 注意：table 的 loading state 已內建 skeleton rows，不依賴本類別元件外掛
+  # ════════════════════════════════════════
+
+  - id: skeleton
+    category: loading
+    variants: [text, rectangle, circle]                      # 基本形狀
+    states:   [default]                                       # 純展示，動畫由 feature 控制
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: n/a
+      aria-role: status
+      extra:
+        - "整個 skeleton 群組用 aria-busy=true"
+        - "提供 aria-label（如「載入內容中」）"
+        - "個別 skeleton 元素 aria-hidden=true（避免重複讀出）"
+    token-policy:
+      allowed: [semantic.surface.skeleton.*, semantic.color.skeleton-shimmer.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "Loading 狀態 / Skeleton"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      載入中佔位元素。variants 為基本形狀，組合使用以模擬實際內容結構。
+
+      可選功能（feature flags）：
+        - shimmer-animation: 光澤掃過動畫（default-on）
+        - pulse-animation: 脈衝閃動（替代 shimmer 的低能耗版）
+        - no-animation: 靜態顯示（用於 prefers-reduced-motion）
+
+      L3 待決:
+        - 動畫速度與 easing
+        - shimmer 顏色深淺對比（避免太強搶 focus）
+
+  - id: loader
+    category: loading
+    variants: [circular, dots, bar]                          # 動畫樣式
+    intents:  [neutral, primary]                             # 通常 neutral；強調情境用 primary
+    states:   [default]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: n/a
+      aria-role: status
+      extra:
+        - "用 aria-live=polite + aria-label（如「載入中」）"
+        - "若 loading 預期 < 1 秒可考慮 aria-hidden 避免無謂讀出"
+        - "prefers-reduced-motion 時動畫降低強度"
+    token-policy:
+      allowed: [semantic.color.action.*, semantic.surface.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "Loading 狀態 / Loader"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      動態載入指示器（業界別名：spinner）。variants：
+        - circular: 旋轉圈（最常見）
+        - dots: 跳動點（活潑感）
+        - bar: 進度條樣式（不確定進度時）
+
+      可選功能（feature flags）：
+        - with-label: 旁邊配文字（「載入中...」）
+        - inline: 文字內嵌使用（小尺寸）
+        - full-screen: 全螢幕遮罩 + 置中 loader
+        - with-progress: 顯示百分比進度（已知進度時）
+
+      L3 待決:
+        - 不同 size 對應的動畫速度
+        - 預設顏色（neutral vs intent.primary）
+        - Build Plan 提到「顯示秒數」— 是 minimum-show-time 避免閃爍，或 max-show-time 超時改顯錯誤？需釐清
+
+
+  # ════════════════════════════════════════
+  # 類別 7：特殊元件（Build Plan 第 7 大類）
+  # Build Plan 原列 2 項：樹狀圖 / 排程圖
+  # 這類元件高度依專案需求變動、通常依賴第三方 library 或 custom 實作
+  # ════════════════════════════════════════
+
+  - id: tree-view
+    category: special
+    variants: [indent, connecting-line]                     # 視覺結構：純縮排 vs 含連線
+    states:   [default, hover, selected, expanded, collapsed, disabled, focus]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: tree
+      extra:
+        - "節點用 role=treeitem + aria-level（層級）+ aria-setsize / aria-posinset"
+        - "可展開節點用 aria-expanded"
+        - "可選節點用 aria-selected；checkbox 模式用 aria-checked"
+        - "鍵盤：上下移動、左右展收、Home/End 跳首末、Enter/Space 選取"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "特殊元件 / 樹狀圖"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      樹狀層級顯示（檔案總管、組織架構、分類目錄）。
+      與 cascader 區隔：tree-view 是「整面 panel」顯示完整層級；cascader 是「下拉選單」式逐層展開。
+
+      可選功能（feature flags）：
+        - with-checkbox: 多選樹（含父子節點連動勾選邏輯）
+        - with-icon: 節點含 icon（資料夾 / 檔案 / 自訂）
+        - lazy-load: 點展開才載入子節點
+        - draggable: 拖拉重排
+        - searchable: 樹內搜尋（含路徑高亮）
+
+      L3 待決:
+        - 父子節點勾選連動（嚴格 vs 寬鬆 vs 自訂）
+        - 預設展開層級
+
+  - id: schedule-chart
+    category: special
+    variants: [gantt, timeline, calendar-grid]              # 三種主要呈現形態
+    states:   [default, loading, empty, error]
+    sizes:    [s, m, l]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: ""                                          # 視 variant；gantt 用 grid、timeline 用 list
+      extra:
+        - "事件條須有完整 aria-label（任務名 + 起迄時間）"
+        - "時間軸 header 須可導航（前後切換時間範圍）"
+        - "拖拉操作須有鍵盤替代（如方向鍵調整時間）"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.feedback.*, semantic.color.chart-palette.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "特殊元件 / 排程圖"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      排程 / 時程顯示元件。variants：
+        - gantt: 任務條 + 時間軸（專案排程）
+        - timeline: 純時間軸 + 里程碑點（事件年表）
+        - calendar-grid: 日曆網格顯示排程（同 calendar 但聚焦於排程）
+
+      此元件高度依專案需求變動、通常依賴第三方 library（dhtmlx / FullCalendar / Bryntum）或 custom 實作。
+      DS 規範範圍：色票、字體、tooltip 樣式、互動 cursor，不規範完整實作。
+
+      可選功能（feature flags）：
+        - draggable-items: 拖拉移動 / 調整事件
+        - zoom-levels: 切換時間粒度（時 / 日 / 週 / 月 / 年）
+        - with-dependencies: 顯示任務依賴連線（gantt 專用）
+        - with-milestones: 標記里程碑
+        - with-grouping: 任務分組（按負責人 / 專案）
+
+      L3 待決:
+        - 第三方 library 選用（影響大量規範細節）
+        - 是否覆蓋全部三種 variant 或只實作一種
+
+
+  # ════════════════════════════════════════
+  # 類別 8：圖片（Build Plan 第 8 大類）
+  # Build Plan 原列 1 項：圖片（大中小比例、裁切規則定義）
+  # ════════════════════════════════════════
+
+  - id: image
+    category: media
+    variants: [rectangular, rounded, circular]                                 # 形狀軸
+    states:   [default, loading, error]                                        # error = broken image fallback
+    sizes:    [s, m, l, xl]                                                    # 顯示大小
+    a11y:
+      contrast: n/a
+      keyboard: optional                                                       # clickable image 時 required
+      aria-role: img
+      extra:
+        - "必填 alt 屬性；裝飾性圖片用 alt='' 或 aria-hidden=true"
+        - "可點擊圖片須有清楚的 focus indicator"
+        - "loading 狀態用 skeleton 元件代替"
+    token-policy:
+      allowed: [semantic.surface.image.*, semantic.border.image.*, semantic.radius.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: []
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "圖片"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      圖片顯示元件。Build Plan「大中小比例、裁切規則定義」對應此元件。
+      variants 為形狀（rectangular / rounded / circular），aspect-ratio 與 fit-mode 為 feature flags。
+
+      可選功能（feature flags）：
+        - aspect-ratio: 鎖定比例（1:1 / 4:3 / 16:9 / 3:4 / 自訂）
+        - fit-mode: 裁切策略
+            * cover: 填滿容器、可能裁切
+            * contain: 完整顯示、可能留白
+            * fill: 拉伸填滿（變形）
+        - with-placeholder: loading 期間顯示佔位（skeleton 或純色塊）
+        - with-fallback: 載入失敗時顯示 fallback icon / 預設圖
+        - lazy-load: 滾動到視窗附近才載入
+        - with-caption: 下方說明文字
+        - zoom-on-hover: hover 放大效果
+        - clickable: 點擊放大檢視（lightbox）
+
+      L3 待決:
+        - 預設 aspect-ratio 清單（限制可選範圍 vs 自訂）
+        - 預設 fit-mode（cover vs contain）
+        - lazy-load 觸發距離（rootMargin）
+
+
+# ─────────────────────────────────────────
+# Path B trial 2 backfill — 10 components (2026-05-21)
+# ─────────────────────────────────────────
+# 來源：JoiiNi F-flow trial 2 / Path B (2026-05-20)，跨 trial 通用度確認 A 級
+# 詳見 /AI projects/F-flow-trial-1/findings/round7-trial-synthesis.md
+
+  - id: badge
+    category: basic                                                  # 2026-06-16 SME harvest:badge 是純展示元件、不是 feedback;改 category
+    variants: [subtle, solid]                                        # 2026-06-16:拿掉 dark(per-intent dark 變體無意義、過去 SME 撞)
+    intents:  [brand, neutral]                                       # 2026-06-16 SME harvest:縮窄為業界主流
+    states:   []
+    sizes:    []                                                     # badge 大小由父容器決定
+    default-expansion:
+      axes: [variant, intent]
+      formula: "2 × 2 = 4 variants"
+      figma-display: "視覺軸全展"
+    composition:
+      label: { type: text, style: zh.h10 }                           # badge 通常用 H10(更小)
+    a11y:
+      contrast: required
+      keyboard: not-applicable
+      aria-role: status
+      extra:
+        - "純展示元件、不需 keyboard interaction"
+    token-policy:
+      allowed: [semantic.feedback.*, semantic.badge.*, semantic.text.*, semantic.surface.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [content-list-page, detail-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: not-applicable
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home rebuild — 61 inline uses collapsed to 1 schema"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證 (2026-05-20)：JoiiNi home 內 61 inline uses → 單一 schema。
+      跟 alert 共享 intent 軸 (info/success/warning/error/neutral/brand)。
+      文字內容 (discount / 售罄 / 熱賣 / 票券) 為 label，不入 schema。
+      跟 tag 的區隔：tag 是 selectable filter chip (有 hover/selected state)，
+      badge 是純展示 (無 interaction state)。
+
+  - id: price
+    category: basic
+    variants: [normal, discount, sale, free]
+    intents:  []
+    states:   []
+    sizes:    [sm, md, lg]
+    a11y:
+      contrast: required
+      keyboard: not-applicable
+      aria-role: text
+      extra:
+        - "free variant aria-label='免費' or i18n equivalent"
+        - "discount variant 應用 <s> 包裝原價，screen reader 讀「原價 X、優惠價 Y」"
+    token-policy:
+      allowed: [semantic.text.*, semantic.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [content-list-page, detail-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: not-applicable
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi product-card + detail page"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：用於 product-card 內價格顯示（14 instances）。
+      variants 對應顯示形態：
+        - normal: 純價 (NT$ X 起)
+        - discount: 原價 strikethrough + 新價 + 折扣 pill
+        - sale: 原價 strikethrough + 新價（無折扣 pill）
+        - free: 「免費入場」字樣，joi-700
+      sizes: card 內用 sm/md；detail page hero 用 lg。
+
+  - id: section-head
+    category: basic
+    variants: [compact, full]
+    intents:  [coral-accent, joi-accent, sun-accent]
+    states:   []
+    sizes:    []
+    a11y:
+      contrast: required
+      keyboard: not-applicable
+      aria-role: heading
+      extra:
+        - "h2 element semantic preserved across variants"
+    token-policy:
+      allowed: [semantic.text.*, semantic.border.*, semantic.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [content-list-page, detail-page, home-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: not-applicable
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home sections"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：home 各 section 標題。
+      full variant: eyebrow + accent bar + h2 + sub + rightText（5 元素）。
+      compact variant: h2 + rightText 輕量版（HomeRanking 內用）。
+      intents 為 accent color 軸（決定 eyebrow 跟 accent bar 顏色）。
+
+  - id: header
+    category: complex
+    variants: [default]
+    intents:  []
+    states:   [default, search-focused, sticky]
+    sizes:    []
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: banner
+      extra:
+        - "logo 跟主導覽 tab order"
+        - "search input aria-label"
+        - "user / cart icon buttons 需可鍵盤聚焦"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.action.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page, detail-page, form-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi sticky header"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：跨頁 sticky header (logo / nav / search / user / cart 5 區)。
+      Singleton component (no variant matrix)。
+      search-focused state: 浮出 recent + hot keyword panel。
+      sticky state: scroll 時 backdrop-filter + 半透明背景。
+
+  - id: footer
+    category: complex
+    variants: [default]
+    intents:  []
+    states:   []
+    sizes:    []
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: contentinfo
+      extra:
+        - "social link target='_blank' rel='noopener'"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page, detail-page, form-page, auth-flow]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: not-applicable
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi multi-col footer"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：multi-col footer (brand col + 3 link groups)。
+      Singleton component。
+      Layout: HORIZONTAL with grid-like ratios (1.4fr / 1fr / 1fr / 1.2fr typical)。
+      Bottom row: copyright text centered。
+      marginTop: 80px from preceding content (per CD spec)。
+
+  - id: floating-line
+    category: complex
+    variants: [default]
+    intents:  []
+    states:   [collapsed, expanded]
+    sizes:    []
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: button
+      extra:
+        - "fixed position 右下，z-index ≥ 40"
+        - "expanded state 顯示 tooltip 應有 aria-describedby"
+    token-policy:
+      allowed: [semantic.action.*, semantic.text.on-action]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page, detail-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi LINE 客服 floating CTA"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：右下角浮動 CTA (LINE 客服)。Singleton。
+      使用 LINE brand green (#06C755) — 第三方品牌色，token-policy 例外。
+      collapsed state: 圓鈕；expanded state (on hover): 加 tooltip。
+
+  - id: product-card
+    category: complex
+    variants: [default, hot-zone, sold-out-overlay]
+    intents:  []
+    states:   [default, hover]
+    sizes:    []
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: link
+      extra:
+        - "整卡可點 → wrap in <a> with descriptive aria-label"
+        - "sold-out overlay 應通報 aria-disabled"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.elevation.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page, detail-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home 14+ instances"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：跨 home 區域 17 次出現（推薦 / 文化幣 / 所有商品 / showcase）。
+      Composite (image + badges + type-badge + title + sub + price)。
+      不 build on top of card primitive（CD 內為 standalone styled div）。
+      hot-zone variant: 隱藏 hot-mark badge (避免熱銷區內重複標熱)。
+      sold-out-overlay variant: 全屏 dim mask + 售罄 pill 中央。
+
+  - id: category-tile
+    category: complex
+    variants: [icon-circle, image-tile]
+    intents:  []
+    states:   [default, hover]
+    sizes:    [sm, md]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: link
+      extra:
+        - "icon-circle variant 為 link，label 在下方 text"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home 8 主題 quick-link"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：home hero 8 主題快速 link。Path B Stage 5 A 級 backfill 候選。
+      電商 / 內容平台 / 品牌頁 hero 區共通 pattern。
+      icon-circle variant: 圓底 + icon + 下方 text label。
+      image-tile variant: 矩形 + image + overlay text。
+
+  - id: announcement-item
+    category: basic
+    variants: [list-row, marquee-item]
+    intents:  []
+    states:   []
+    sizes:    [sm, md]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: listitem
+      extra:
+        - "list-row variant 應包在 <ul role='list'> 內"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.feedback.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: not-applicable
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home 公告 panel"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：home 公告 panel 5 items + marquee 跑馬燈 items。
+      Structure: kind-badge (重要/最新) + label (optional) + text + time。
+      跟 marquee 元件搭配：marquee 是 container（含跑馬燈動畫）、announcement-item 是 row。
+
+  - id: article-card
+    category: complex
+    variants: [image-left, image-top, feature-overlay]
+    intents:  []
+    states:   [default, hover]
+    sizes:    [sm, md, lg]
+    a11y:
+      contrast: required
+      keyboard: required
+      aria-role: link
+      extra:
+        - "整卡可點 → wrap in <a> with descriptive aria-label"
+    token-policy:
+      allowed: [semantic.surface.*, semantic.text.*, semantic.border.*, semantic.elevation.*]
+      forbidden: [primitive.*]
+    archetypes-used-in: [home-page, content-list-page, detail-page]
+    test-hooks:
+      visual-regression: required
+      a11y-scan: required
+      states-coverage: required
+      extra: []
+    status: planned
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home 資訊站 + feature article"
+        url: ""
+      figma: ""
+      code: ""
+    notes: |
+      Path B 驗證：home 資訊站 article cards 4 instances + 2 feature articles。
+      image-left variant: 96×72 image + cat + title + date (info station list)。
+      image-top variant: 上方 image + 下方 body (典型 blog card)。
+      feature-overlay variant: 大背景圖 + 底部 overlay text (hero feature article)。
+
+
+# ─────────────────────────────────────────
+# Archetypes：L4 介面型態索引
+# ─────────────────────────────────────────
+# 此處只索引；schema 在 L4-archetype-spec.yaml、內容在 L4-archetype-library.yaml
+# 新增 archetype 請透過 AI 寫入、勿手改 YAML
+archetypes:
+
+  - id: data-table-page
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#data-table-page"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範"
+        url: ""
+    notes: "結構化欄列資料、強調排序篩選；與 content-list-page 區隔"
+
+  - id: content-list-page
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#content-list-page"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+    notes: "卡片 / 項目瀏覽閱讀；最新消息、部落格、產品 listing"
+
+  - id: detail-page
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#detail-page"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+    notes: "單一資料完整內容；新聞內頁、產品詳情、使用者頁、訂單詳情"
+
+  - id: form-page
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#form-page"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+    notes: "蒐集使用者輸入；註冊 / 設定頁 / 申請表 / 結帳"
+
+  - id: dashboard
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#dashboard"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+    notes: "多 widget 總覽；KPI / 圖表 / mini table 組合"
+
+  - id: auth-flow
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#auth-flow"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+    notes: "登入 / 註冊 / 忘記密碼 / 2FA / OAuth callback 跨多頁流程"
+
+  - id: error-page
+    status: planned
+    refs:
+      l4-spec: "L4-archetype-library.yaml#error-page"
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+    notes: "整站級錯誤頁（404/500/403/maintenance）；僅網頁型專案適用"
+
+  - id: home-page
+    status: proposed                                # F-flow trial Path B 提案，待跨 trial 二次驗證
+    refs:
+      l4-spec: "L4-archetype-library.yaml#home-page"
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home rebuild (2026-05-20)"
+        url: ""
+    notes: |
+      網站首頁 — editorial / CMS-driven 雜誌型門面，跟 content-list-page 區隔（row 級結構性更高）。
+      CD components-cathay.jsx self-flag 提案；Path B 驗證有效。
+      典型結構：hero + brand-tagline + ranking + showcase + info-station + footer。

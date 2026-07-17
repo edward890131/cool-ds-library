@@ -1,0 +1,36 @@
+# project.yaml — 專案宣告（複製出去後再填）
+
+meta:
+  project-id: ""                # 例：acme-cafe
+  name: ""                      # 例：Acme Cafe 官網
+  created: ""                   # YYYY-MM-DD
+
+# 依賴的框架版本（釘住，避免框架更新時意外變動）
+framework: "0.1.0"
+
+# DS 建立路徑（專案級決定、來自 Phase 0 Q7）
+# - path-1-figma-direct  : CC 依框架直接建 DS、寫 Figma（多數情境）
+# - path-2-cd-3rd-party  : 打包給 CD 建 DS+設計、CC 收回（cd-handoff-rebuild 接回）
+path: ""
+
+# 繼承的 theme + 本專案差異檔
+theme:
+  extends: "base@0.1.0"
+  delta: "./theme.delta.yaml"
+
+# 這個專案實際會用到的元件子集（不用全部 45 個）
+scope:
+  components: []                # 例：[button, card, input, image, alert, ...]
+  archetypes: []                # 例：[content-list-page, form-page, error-page]
+  sections: []                  # 例：[hero, feature-grid, contact-form]（待 section 層建好）
+
+# 輸入文件位置（這個專案的，非框架）
+inputs:
+  spec: "./inputs/spec.md"      # 規格 OR PRD 二擇一（Phase 0 Q3）
+  prd: "./inputs/PRD.md"
+  ci: "./inputs/CI/"            # CI 文件，Phase 0 Q6，缺可標 pending
+  wireframe: "./inputs/wireframe/"  # WF/mockup，Phase 0 Q8，缺可標 pending
+
+# Mock data（vibe coding 產出，給 FE 接）— 見 seed/README.md
+# 不混進 content/（content 是真實內容、seed 是 mock 結構）
+seed: "./seed/"

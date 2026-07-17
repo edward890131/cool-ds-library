@@ -1,0 +1,219 @@
+# _base.theme.yaml — goonsdesign 預設主題(那 95% 共用的基底)
+#
+# Theme Pack = L1 primitive 的「值」 + L2 semantic→L1 的對應。
+# ★ L1 / L2 的「值」住在這裡,不在 L0-scope-manifest.yaml
+#   (L0 只「宣告」有哪些 foundation / component;實際數值在 theme pack)。
+#
+# 每個客戶 = 這個 base + 專案的 theme.delta.yaml(只寫不同的 5%)。
+# 切換產業氛圍 = 換一個 delta,L3 元件透過 L2 自動繼承,不用重畫。
+
+meta:
+  theme-id: base
+  name: "goonsdesign 預設"
+  extends: null               # base 不繼承任何 theme
+  version: 0.2.0
+  status: ready               # 0.2.0(2026-06-16)從 scaffold 升為 ready,SME 試跑 harvest 累積值填入
+
+# ── L1 Primitive(純值,無語意)──────────────────
+primitives:
+
+  # ── Color ──────────────────────────────
+  color:
+    # Gray 9 階(0=純白、900=純黑)
+    gray:
+      "0":   "#FFFFFF"
+      "50":  "#F9FAFB"
+      "100": "#F3F4F6"
+      "200": "#E5E7EB"
+      "300": "#D1D5DB"
+      "400": "#9CA3AF"
+      "500": "#6B7280"
+      "600": "#4B5563"
+      "700": "#374151"
+      "800": "#1F2937"
+      "900": "#111827"
+
+    # Brand 主副色(tint 9 階結構;具體值由 project delta 填)
+    # 結構鎖定、值由 project 覆寫:delta 寫 brand.primary."500" = "#XXXXXX" 即可
+    brand:
+      primary:
+        "100": ""
+        "200": ""
+        "300": ""
+        "400": ""
+        "500": ""    # 主錨點
+        "600": ""
+        "700": ""
+        "800": ""
+        "900": ""
+      secondary:
+        "100": ""
+        "200": ""
+        "300": ""
+        "400": ""
+        "500": ""
+        "600": ""
+        "700": ""
+        "800": ""
+        "900": ""
+
+    # Feedback 狀態色(每色 9 階 tint,有 soft/subtle/dark 可用)
+    # 預設值通用、可在 delta 微調
+    base:
+      success:
+        "100": "#D1FAE5"
+        "200": "#A7F3D0"
+        "300": "#6EE7B7"
+        "400": "#34D399"
+        "500": "#10B981"
+        "600": "#059669"
+        "700": "#047857"
+        "800": "#065F46"
+        "900": "#064E3B"
+      warning:
+        "100": "#FEF3C7"
+        "200": "#FDE68A"
+        "300": "#FCD34D"
+        "400": "#FBBF24"
+        "500": "#F59E0B"
+        "600": "#D97706"
+        "700": "#B45309"
+        "800": "#92400E"
+        "900": "#78350F"
+      error:
+        "100": "#FEE2E2"
+        "200": "#FECACA"
+        "300": "#FCA5A5"
+        "400": "#F87171"
+        "500": "#EF4444"
+        "600": "#DC2626"
+        "700": "#B91C1C"
+        "800": "#991B1B"
+        "900": "#7F1D1D"
+      info:
+        "100": "#DBEAFE"
+        "200": "#BFDBFE"
+        "300": "#93C5FD"
+        "400": "#60A5FA"
+        "500": "#3B82F6"
+        "600": "#2563EB"
+        "700": "#1D4ED8"
+        "800": "#1E40AF"
+        "900": "#1E3A8A"
+
+  # ── Radius 9 階 ──────────────────────────
+  radius:
+    none: "0"
+    xs:   "2px"
+    sm:   "4px"
+    md:   "8px"
+    lg:   "12px"
+    xl:   "16px"
+    "2xl": "24px"
+    "3xl": "32px"
+    full: "9999px"
+
+  # ── Spacing 9 階(4-base scale)──────────
+  spacing:
+    "0": "0px"
+    "1": "4px"
+    "2": "8px"
+    "3": "12px"
+    "4": "16px"
+    "5": "24px"
+    "6": "32px"
+    "7": "48px"
+    "8": "64px"
+
+  # ── Typography(中英分開 × H1-H10)─────────
+  typography:
+    font-family:
+      sans-zh: ""             # 例:"Noto Sans TC, system-ui, sans-serif"(project delta 填)
+      sans-en: ""             # 例:"Inter, system-ui, sans-serif"
+      mono:    ""             # 例:"JetBrains Mono, monospace"
+
+    # H1-H10 中英各自 10 階,角色分配:
+    # H1 重點應用 / H2 頁面主標 / H3-5 區塊主標 / H6-7 區塊次標 / H8-9 內文按鈕 / H10 輔助
+    # 中文 line-height 預設比英文略大(中文視覺體量大、需更多 leading)
+    zh:
+      h1:  { size: "48px", weight: 700, line-height: 1.4, role: "重點應用" }
+      h2:  { size: "36px", weight: 700, line-height: 1.4, role: "頁面主標題" }
+      h3:  { size: "28px", weight: 600, line-height: 1.5, role: "區塊主標題" }
+      h4:  { size: "24px", weight: 600, line-height: 1.5, role: "區塊主標題" }
+      h5:  { size: "20px", weight: 600, line-height: 1.5, role: "區塊主標題" }
+      h6:  { size: "18px", weight: 500, line-height: 1.6, role: "區塊次標題" }
+      h7:  { size: "16px", weight: 500, line-height: 1.6, role: "區塊次標題" }
+      h8:  { size: "14px", weight: 400, line-height: 1.6, role: "內文資訊 / 按鈕" }
+      h9:  { size: "12px", weight: 400, line-height: 1.6, role: "內文資訊 / 按鈕" }
+      h10: { size: "10px", weight: 400, line-height: 1.5, role: "輔助資訊" }
+    en:
+      h1:  { size: "48px", weight: 700, line-height: 1.15, role: "重點應用" }
+      h2:  { size: "36px", weight: 700, line-height: 1.2,  role: "頁面主標題" }
+      h3:  { size: "28px", weight: 600, line-height: 1.25, role: "區塊主標題" }
+      h4:  { size: "24px", weight: 600, line-height: 1.3,  role: "區塊主標題" }
+      h5:  { size: "20px", weight: 600, line-height: 1.4,  role: "區塊主標題" }
+      h6:  { size: "18px", weight: 500, line-height: 1.4,  role: "區塊次標題" }
+      h7:  { size: "16px", weight: 500, line-height: 1.5,  role: "區塊次標題" }
+      h8:  { size: "14px", weight: 400, line-height: 1.5,  role: "內文資訊 / 按鈕" }
+      h9:  { size: "12px", weight: 400, line-height: 1.5,  role: "內文資訊 / 按鈕" }
+      h10: { size: "10px", weight: 400, line-height: 1.4,  role: "輔助資訊" }
+
+  # ── Elevation(shadow scale)─────────────
+  elevation:
+    none: "none"
+    sm:   "0 1px 2px 0 rgba(0,0,0,0.05)"
+    md:   "0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.10)"
+    lg:   "0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.10)"
+    xl:   "0 20px 25px -5px rgba(0,0,0,0.10), 0 8px 10px -6px rgba(0,0,0,0.10)"
+    "2xl": "0 25px 50px -12px rgba(0,0,0,0.25)"
+
+  # ── Motion ─────────────────────────────
+  motion:
+    duration:
+      fast:    "150ms"
+      default: "300ms"
+      slow:    "500ms"
+    easing:
+      default: "cubic-bezier(0.4, 0, 0.2, 1)"   # standard
+      in:      "cubic-bezier(0.4, 0, 1, 1)"     # accelerate
+      out:     "cubic-bezier(0, 0, 0.2, 1)"     # decelerate
+      spring:  "cubic-bezier(0.34, 1.56, 0.64, 1)"
+
+  # ── Breakpoints(number values for Figma + code)─
+  breakpoints:
+    mobile:  360
+    tablet:  768
+    desktop: 1024
+    wide:    1280
+
+  # ── Grid(per-breakpoint columns + gutter + margin)─
+  grid:
+    mobile:  { columns: 4,  gutter: 16, margin: 16 }
+    tablet:  { columns: 8,  gutter: 24, margin: 24 }
+    desktop: { columns: 12, gutter: 32, margin: 64 }
+    wide:    { columns: 12, gutter: 32, margin: 96 }
+
+# ── L2 Semantic(角色命名 → 指向 L1,可含 light/dark mode)──
+# 值用 token reference 語法,如 "{color.gray.900}",由 build 階段解析。
+# 命名是「框架鎖定」的,不可在 delta 改名;delta 只能改它指向的值。
+semantic:
+  surface:
+    primary:    { light: "{color.gray.0}",   dark: "{color.gray.900}" }
+    secondary:  { light: "{color.gray.50}",  dark: "{color.gray.800}" }
+    overlay:    { light: "rgba(0,0,0,0.5)",  dark: "rgba(0,0,0,0.7)" }
+  text:
+    default:    { light: "{color.gray.900}", dark: "{color.gray.50}" }
+    muted:      { light: "{color.gray.500}", dark: "{color.gray.400}" }
+    inverse:    { light: "{color.gray.0}",   dark: "{color.gray.900}" }
+  border:
+    default:    { light: "{color.gray.200}", dark: "{color.gray.700}" }
+    focus:      { light: "{color.brand.primary.500}", dark: "{color.brand.primary.400}" }
+  action:
+    primary:    { light: "{color.brand.primary.500}",   dark: "{color.brand.primary.400}" }
+    secondary:  { light: "{color.brand.secondary.500}", dark: "{color.brand.secondary.400}" }
+    danger:     { light: "{color.base.error.500}",      dark: "{color.base.error.400}" }
+  feedback:
+    success:    { light: "{color.base.success.500}", dark: "{color.base.success.400}" }
+    warning:    { light: "{color.base.warning.500}", dark: "{color.base.warning.400}" }
+    error:      { light: "{color.base.error.500}",   dark: "{color.base.error.400}" }
+    info:       { light: "{color.base.info.500}",    dark: "{color.base.info.400}" }

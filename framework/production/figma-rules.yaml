@@ -1,0 +1,219 @@
+# ─────────────────────────────────────────────────────────
+# Production Manifest — Figma Rules (schema v0)
+# ─────────────────────────────────────────────────────────
+# 用途：DS 在 Figma 中如何被製作 / 維護 / 命名。
+# 受眾：(1) AI 在生成 Figma DS 時的製作手冊
+#       (2) 後續維護的設計師
+# 規則：本檔規範「製作方式」，不規範「該做什麼」（該做什麼見 L0）。
+# 起始預設值：以 goonsdesign 既有 Figma File rules.md 為基底；專案可 override。
+# ─────────────────────────────────────────────────────────
+
+meta:
+  version: 0.2.0
+  updated: 2026-06-17
+  derived-from: "Figma File rules.md (2025/05 修訂),v0.2 為 v0.8 對齊 L0 schema 升版"
+  notes: |
+    v0.2 (2026-06-17, SME Level 2 自驗 harvest)修正:
+    - naming 三層拆開:schema-id(L0 真理) / figma-master / variant-property / internal-layer
+    - L0 id 為真理之源:master name 直接用 L0 id(button、icon-button、tab-item、calendar-day...)
+    - 拿掉 2025 縮寫策略(btn / img / ill 等)為強制、改 deprecated 對照
+    - hyphen 不再 forbidden(L0 id 普遍用、Material/Ant/Chakra 業界共識)
+    - variant property 走 Figma 原生慣例(PascalCase=lowercase、option A 裁決後追認)
+
+
+# ─── 檔案結構 ─────────────────────────────────────────
+file-structure:
+  organization: single-file       # single-file | per-foundation-file | per-component-file
+  expected-pages: []              # 預期 page 清單，如 [Cover, Foundations, Components, Patterns, Changelog]
+  page-conventions: []            # 各 page 的用途說明
+
+
+# ─── Main Components ─────────────────────────────────
+main-components:
+  location-policy: same-page      # same-page（rules.md 規定）| distributed | by-category-page
+  category-grouping: by-style     # by-style（rules.md：根據樣式分類）| by-domain | by-archetype
+  must-be-component:              # 哪些必須建成 Main Component（rules.md 條列）
+    - rule: "給開發切圖的元件（且不包成 Variants）"
+    - rule: "重複出現兩次以上的元件"
+    - rule: "標題副標題文字組"
+    - rule: "大量出現在 Mask 下的頁面"
+
+
+# ─── Auto Layout ─────────────────────────────────────
+auto-layout:
+  policy: default-on                # 所有元件預設使用 Auto Layout（現代 Figma 實務）
+  exceptions:                       # 不用 AL 的例外情境
+    - "純裝飾性元素（背景 bg/、插圖 ill/、純圖片 img/）"
+    - "需要 absolute positioning 的情境"
+    - "其他經設計師判斷不適合 AL 的情況"
+  text-frame-rule: |
+    文字框一定要 fill container，讓開發知道文字長度變化下與其他元件的對齊行為與最大寬度。
+
+  legacy:                           # rules.md 原規則（保留作對照，目前已被 default-on 取代）
+    trigger-rule: |
+      同元件在同頁面重複出現、或同組內容於不同頁面重複出現 → 使用 Auto Layout。
+    small-components: [btn, input, dropdown, tag, toast]
+    large-components: [card, list, alert, popup, navbar, tabbar, header, footer]
+
+
+# ─── Variants 政策 ───────────────────────────────────
+variants-policy:
+  default-stance: structural-only           # Variants 只用於結構性差異，內容性差異走 Instance Override
+  use-for:                                  # 適用情境
+    - "結構 / 版型差異（如 image-top vs image-bottom）"
+    - "互動狀態（default / hover / pressed / disabled / focus）"
+    - "尺寸（s / m / l）"
+    - "功能類型（with-CTA vs without-CTA）"
+  do-not-use-for:                           # 不適用情境
+    - "內容差異（文字、圖片、資料）→ 改用 Instance Override + Component Properties"
+    - "Dev 切圖交付（rules.md 明文：不包成 Variants）"
+  decision-test: |
+    自問：「這個差異是結構性的還是內容性的？」
+    結構性 → Variant
+    內容性 → Instance Override
+
+
+# ─── 命名 Convention(v0.2 重構、跟 L0 對齊) ──────────────
+# 拆成 4 層命名空間、各層各自規約、不混用:
+#   1. schema-id        — L0 真理之源(機器讀)
+#   2. figma-master     — Figma master component 命名(設計師讀,直接對應 L0)
+#   3. variant-property — Figma variant set property 命名(走 Figma 原生慣例)
+#   4. internal-layer   — master 內子 layer 命名(原 rules.md 規約)
+
+naming:
+
+  # ── 1. Schema id(L0 真理) ──────────────────────
+  schema-id:
+    source: L0-scope-manifest.yaml
+    allow-hyphen: true             # tab-item / icon-button / calendar-day 等 sub-component 必用
+    format: lowercase-with-hyphen
+    note: "Schema id 不受 layer naming 規約;機器讀的識別碼"
+
+  # ── 2. Figma master component 命名 ────────────
+  figma-master:
+    pattern: "<L0-id>"             # 直接用 L0 id、不再用 2025 縮寫(btn / img / ill 等)
+    format: lowercase-with-hyphen
+    examples:
+      - "button"                   # 不是 btn
+      - "icon-button"              # 不是 icon-btn
+      - "tab-item"                 # 不是 tab/item
+      - "calendar-day"             # 不是 calendar/day
+      - "section-head"             # 不是 section/head
+    note: |
+      v0.2(2026-06-17 v0.8)裁決:L0 id 為真理之源、Figma master 直接對應、
+      無 mapping 維護成本、跟 code / spec 完全對應。
+      Material / Ant / Chakra 業界共識(component-id with hyphen)。
+
+  # ── 3. Variant set property 命名(Figma 原生慣例) ─
+  variant-property:
+    format: "PascalCase=lowercase-with-hyphen"
+    examples:
+      - "Style=Solid"
+      - "Intent=Primary"
+      - "Size=M"
+      - "Layout-Variant=Inline-Card"
+      - "Show-Leading-Icon=True"   # boolean property
+    note: |
+      Property name 用 PascalCase(Figma 慣例)、Value 用 lowercase
+      跟 internal-layer naming(全小寫)分開、為 option A 裁決後追認
+
+  # ── 4. Master 內部 layer 命名 ──────────────────
+  internal-layer:
+    format: lowercase
+    word-separator: "_"            # title_text、specimen_frame 等用 underscore
+    level-separator: "/"           # section/<id> 等
+    forbidden:
+      - "空格"
+      - "大寫"
+    max-depth: 3
+    pattern: "category/name_state"
+    naming-philosophy: "依樣式命名、不依情境命名(btn primary 不是 btn add-to-cart)"
+
+  # ── 5. Legacy 縮寫對照(2025 rules.md、deprecated)─
+  legacy-prefixes-deprecated:      # 不再強制、僅作對照、舊檔閱讀時參考
+    btn:    button
+    img:    image
+    ill:    illustration
+    bg:     background
+    note: "v0.2 起這些縮寫 deprecated;新 master 直接用 L0 id"
+
+
+# ─── Foundations Demo 配對規範 ────────────────────────
+foundations-demo:
+  required: true                  # token / style 必配 Foundations 視覺 demo（不可拆，goonsdesign 既有規矩）
+  page-location: Foundations
+  template-style: ds-template     # 沿用 DS template 樣式
+  policy: |
+    建立任何 token / style（color / typography / spacing / radius / elevation / motion 等）時
+    必須同時於 Foundations 頁產出對應視覺 demo。
+    這是流程約束，不是可選步驟，也不能拆成兩個 todo。
+
+
+# ─── Token / Style 應用規則 ──────────────────────────
+token-application:
+  primitive-source: ""            # local-style | variable | external-library
+  semantic-source: ""             # variable（建議，可隨 mode 切換）
+  application-rules: []           # 應用層的硬性規則，如「Component 不可使用 hex 直接填色」
+
+
+# ─── CD vs Spec 衝突優先序 ────────────────────────────
+# 來自 FE 對接會議共識 + 框架 SSOT 原則：
+#   • Figma 是視覺 SSOT（不是 CD；CD 只是生成工具）
+#   • spec yaml 是結構紀錄 SSOT
+conflict-resolution:
+  visual: figma-wins              # 視覺衝突 → Figma 為主
+  structure-and-behavior: spec-wins   # 結構與行為衝突 → spec 為主（token 名 / prop / archetype required-states 等）
+  unresolvable: escalate-to-designer  # 無法判斷 → 回報設計師仲裁
+  rationale: |
+    CD 生成的視覺進 Figma 後，Figma 即成為視覺 canonical 來源；
+    spec 永遠是結構/行為的 canonical 紀錄。
+    CD 跟 spec 衝突 ≠ CD 跟 Figma 衝突 —— CD 只是生成端、不是仲裁端。
+
+
+# ─── Figma DS 頁面呈現規範（style-guide-presentation） ──
+# 所有 Figma DS 頁面（不分 token / component 類別）共用同一個骨架，
+# 槽位明確 → 設計師看到空槽即知道要補。
+# 來源：goonsdesign 既有 DS 視覺手冊（Web/App 兩版抽象出的共通骨架）
+style-guide-presentation:
+
+  universal-skeleton:               # 所有 DS 頁面共用、不分內容類型
+    page-header:                    # 頁首
+      format: "User Interface Style Guideline | <PageName>"
+      client-logo-position: top-right
+    page-title:                     # 大標
+      placement: top-left
+      level: h1
+    section:                        # 每個 section（依「用途」分組）
+      structure:
+        - title                     # section 標題（中粗）
+        - usage-caption             # 1-line 灰色用途描述（例：「品牌色，主要的視覺形象代表」）
+        - specimens                 # specimen grid（內容隨類別自然鋪）
+        - spec-callout              # 紅色 callout 註記規格（padding/max-width/字級 etc）
+      page-level-caveat: optional   # 頁首可加全頁原則 / caveat（如 Buttons: 「行動裝置移除 Hover」）
+
+  specimen-rendering:               # specimen 形態跟著內容類型自然走、框架不規定 layout
+    note: |
+      框架不為每種 token / component 類型規定 layout 模板。
+      specimen 形態跟著資料類型決定：
+        - color → 色塊 grid + name + hex（+ 可選透明度 %）
+        - typography → 字級 + line-height + letter-space + 應用方式 表格
+        - icon → icon grid + name 字下標
+        - illustration → 角色 + 變體 + name 字下標
+        - component → variants × states × sizes 三軸 grid
+
+  reserved-slots:                   # v1 預留、後階段填
+    breakpoint-section:             # 斷點視覺(web)或 device mockup 並列(app)
+      when-filled: "RWD phase（v1 不填、保留位置）"
+      double-use: |
+        斷點 slot 同時是 L0 component responsive-behavior /
+        L4 archetype responsive-layout 的「視覺呈現面」。
+        設計師在 Figma 標斷點行為 → ds-sync-from-figma 回寫 yaml。
+    fe-spec-section:                # FE 規格(responsive-behavior 等)
+      when-filled: "RWD phase 同上"
+
+  not-in-framework:                 # 框架不預設、設計師自行下指令時加
+    - 動態 / 動效標注（只在最後階段、特定元件情境;非框架預設）
+
+  applied-when: |
+    跑 ds-architecture-flow skill 建 Figma DS 時依此 layout 鋪頁。
+    每個 DS token / component 建出來時自動套用 universal-skeleton。

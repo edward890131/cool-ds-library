@@ -1,0 +1,83 @@
+# ─────────────────────────────────────────────────────────
+# L4 Archetype Spec (schema v0)
+# ─────────────────────────────────────────────────────────
+# 用途：每個常見「介面型態」，該想到哪些狀態與典型組成。
+# 形態：lightweight checklist，不規範 layout。
+# 規則：
+#   • required-* 為硬性條件，缺失即為 bug
+#   • typical-* 為建議基線，專案可增刪
+#   • 每個 required-state 直接綁定測試 case，賦予 L4 牙齒
+# ─────────────────────────────────────────────────────────
+
+meta:
+  version: 0.1.0
+  updated: 2026-05-15
+  philosophy: |
+    L4 是「該想到什麼」的清單，不是「該長什麼樣」的 layout 規範。
+    狀態詞彙引用 L3 canonical state taxonomy；元件引用 L0 components.id。
+    本層保持輕量為核心原則：archetype 數量 < 10、每筆 < 30 行為目標。
+  notes: ""
+
+
+archetypes:
+
+  # ─── 範本：複製此區塊新增 archetype ────────────────────
+  - id: <archetype-id>              # 全域唯一，如 list-page | detail-page | form-page | dashboard
+    name: ""                        # 顯示名稱，如「列表頁」
+    description: ""                 # 一句話定義適用情境
+
+    # ─── 狀態盤點（核心） ───
+    required-states: []             # 硬性必須處理的狀態，如 [empty, error, loading]
+                                    # 詞彙引用 L3 canonical state taxonomy
+    typical-states: []              # 建議考慮的狀態，如 [filter-applied, filter-empty-result, sort-applied]
+                                    # 專案可增刪
+
+    # ─── 元件組成（軟性） ───
+    typical-components: []          # 常見組成，如 [header, filter, data-table, pagination]
+                                    # 引用 L0 components.id
+
+    # ─── 跨斷點頁面 reflow 編排（optional，依 Phase 0 Q9b 決定） ───
+    # 這層放「多元件之間怎麼一起 reflow 的編排規則」（頁面層）
+    # 元件「固有」reflow 行為（如 modal → route）住 L0 components.responsive-behavior
+    # 結構參考：
+    #   responsive-layout:
+    #     desktop:
+    #       sidebar: visible
+    #       filters: top-bar
+    #       fields-per-row: 2
+    #     mobile:
+    #       sidebar: collapse-to-drawer
+    #       filters: top
+    #       fields-per-row: 1
+    #       hide: [secondary-content]
+    # 沒填 = 不規範頁面層 reflow（純元件級 reflow 自行收斂）
+    responsive-layout: {}
+
+    # ─── 治理 ───
+    override-policy: |
+      required-states 必須全部覆蓋。
+      typical-* 為基線，專案可增刪，但須在專案文件記錄差異。
+
+    # ─── 測試掛鉤 ───
+    test-hook:
+      required-state-coverage: |
+        每個 required-state 必須有對應 visual regression case。
+      typical-state-coverage: |
+        專案啟用的 typical-state 亦須測試覆蓋。
+      extra: []
+
+    refs:
+      source-doc:                   # 來源文件定位（可指向 Build Plan / 任何規範文件）
+        doc: ""                     # 文件名，如 "Design System Build Plan.pdf"
+        section: ""                 # 章節定位，如 "P.1 §基本元件 / Table"
+        url: ""                     # 若文件有 URL（Notion / Google Doc）
+      example-figma: ""             # 範例 Figma frame / page（含 node-id 的 URL）
+      example-wireframe-codes: []   # 對應的 wireframe coding，如 [F0.1, B2.3]
+      external: []                  # 外部設計參照
+                                    # 格式：[{url: "...", note: "..."}]
+                                    # 例：
+                                    #   - url: "https://lovable.dev/templates/list-page"
+                                    #     note: "Lovable 列表頁模板"
+                                    #   - url: "https://m3.material.io/components/lists"
+                                    #     note: "Material Design List 規範"
+    notes: ""

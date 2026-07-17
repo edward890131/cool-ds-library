@@ -1,0 +1,19 @@
+# 範例頁 — 招牌特色頁（detail-page archetype，含高 fi 客製需求）
+#
+# 註：path（DS 建立路徑）是專案級決定，記在 project.yaml；不在 page 層級。
+# 這頁的「客製需求」不靠 path 表達，靠 wf-source.type 跟 notes 標明。
+
+page-id: signature
+name: "招牌特色頁"
+
+archetype: detail-page
+
+wf-source:
+  type: "external-file"
+  ref: "./inputs/wireframe/signature-ref.png"   # 客戶提供的 high-fi 參考
+
+sections: []                    # 無重用 section、整頁客製結構
+
+notes: |
+  招牌頁要客製視覺、沒對應 wf-template。
+  做出來的新 section / 版型，跑 Gate 4 反向 audit 後可 harvest 回框架（sections/ 或 wf-templates/），下個專案就變成可重用資產。

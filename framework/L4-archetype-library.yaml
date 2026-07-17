@@ -1,0 +1,576 @@
+# ─────────────────────────────────────────────────────────
+# L4 Archetype Library (cross-project starter content)
+# ─────────────────────────────────────────────────────────
+# Schema 定義在 L4-archetype-spec.yaml。本檔為 starter 內容、可被專案繼承並增刪。
+# 7 個 starter archetype 涵蓋大部分網頁 / 後台場景。
+#
+# 命名規則：
+#   • required-states / typical-states 中的詞彙暫為 ad-hoc，
+#     待 L3 canonical state taxonomy 建立後一致化。
+#   • typical-components 引用 L0 components.id；若引用了 L0 未列的元件，
+#     會在 notes 中標明（如 link — 多數 DS 用 styled <a>、無需獨立 component）。
+# ─────────────────────────────────────────────────────────
+
+meta:
+  version: 0.1.0
+  updated: 2026-05-19
+  philosophy: |
+    L4 是「該想到什麼」的清單，不是「該長什麼樣」的 layout 規範。
+    狀態詞彙引用 L3 canonical state taxonomy；元件引用 L0 components.id。
+    本層保持輕量為核心原則：archetype 數量 < 10、每筆 < 60 行為目標。
+  notes: |
+    本檔為 cross-project starter（goonsdesign 內部基線）。
+    專案層使用時：
+      • 複製需要的 archetype 條目到專案專屬的 L4 instance
+      • 移除 typical-components / typical-states 中不適用的項目
+      • required-* 不可移除（如真不需要某狀態，明確標 marked-not-applicable + 理由）
+
+
+archetypes:
+
+  # ─────────────────────────────────────────
+  # 1. data-table-page — 表格列表頁
+  # ─────────────────────────────────────────
+  - id: data-table-page
+    name: "表格列表頁"
+    description: |
+      以表格形式展示一組結構化資料的頁面。
+      典型用例：後台會員列表、訂單列表、CRM 客戶列表、商品管理。
+
+    required-states:
+      - empty                  # 沒有任何資料（首次使用 / 篩選後無結果不算這個）
+      - error                  # 資料載入失敗
+      - loading                # 資料載入中
+
+    typical-states:
+      - filter-applied         # 套用了篩選條件
+      - filter-empty-result    # 篩選後無結果（與 empty 區隔）
+      - sort-applied           # 套用了排序
+      - bulk-selected          # 多列已勾選、批次動作可用
+      - column-resized         # 欄寬被調整
+      - search-active          # 搜尋框非空
+
+    typical-components:
+      - breadcrumb
+      - button                 # 主要 CTA（新增 / 匯出）
+      - input                  # 搜尋
+      - dropdown               # 篩選 / 排序
+      - multi-select           # 多重篩選
+      - tag                    # 已選 filter chips
+      - table
+      - table-header
+      - table-row
+      - table-cell
+      - table-footer
+      - pagination
+      - notification           # 操作成功 / 失敗回饋
+      - modal                  # 刪除確認
+
+    # 範例（web 專案啟用 responsive-layout 時填）
+    responsive-layout:
+      desktop:
+        filters: top-bar
+        table-columns: full
+        actions-bar: right-aligned
+      tablet:
+        filters: top-bar
+        table-columns: full
+        actions-bar: right-aligned
+      mobile:
+        filters: collapse-to-drawer
+        table-columns: priority-only      # 只顯示優先欄、其他隱藏 / 進詳情看
+        table-row: stack-as-card          # row 整列 stack 成 card
+        actions-bar: bottom-fixed
+        hide: [bulk-selected-toolbar]     # mobile 不做 bulk
+
+    override-policy: |
+      required-states 必須全部覆蓋（empty / error / loading）。
+      若專案無批次動作需求，可移除 bulk-selected typical-state。
+      若資料量小、無分頁需求，可移除 pagination component 並在專案文件記錄。
+
+    test-hook:
+      required-state-coverage: |
+        empty / error / loading 三組截圖必備。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試（如啟用 filter，則 filter-applied + filter-empty-result 都要測）。
+      extra:
+        - "a11y scan 須涵蓋 loading 與 empty 狀態的 announcement"
+        - "鍵盤 tab order 必須涵蓋所有可互動列"
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: "表格規範"
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external:
+        - url: "https://tailwindui.com/components/application-ui/data-display/tables"
+          note: "Tailwind UI Data Tables 範例"
+    notes: |
+      與 content-list-page 區隔：本 archetype 強調「結構化欄列資料」、強調可排序篩選；
+      content-list-page 強調「內容卡片瀏覽閱讀」。兩者 typical-states 與 typical-components 差異大、不合併。
+
+
+  # ─────────────────────────────────────────
+  # 2. content-list-page — 內容列表頁
+  # ─────────────────────────────────────────
+  - id: content-list-page
+    name: "內容列表頁"
+    description: |
+      以卡片或項目形式展示內容集合的頁面。
+      典型用例：最新消息、部落格首頁、產品 listing、活動列表、知識庫。
+
+    required-states:
+      - empty
+      - error
+      - loading
+
+    typical-states:
+      - category-filter            # 套用分類篩選
+      - tag-filter                 # 套用標籤篩選
+      - search-active              # 搜尋
+      - paginated                  # 有翻頁
+      - infinite-scroll-loading    # 無限滾動載入中
+      - featured-item              # 特色 / 置頂項目
+      - sort-applied               # 排序（最新 / 熱門 / 字母）
+
+    typical-components:
+      - breadcrumb
+      - input                      # 搜尋
+      - dropdown                   # 篩選 / 排序
+      - tag                        # 分類標籤
+      - card                       # 內容卡片（主要呈現）
+      - list                       # 簡化版列表（替代 card）
+      - image                      # 縮圖
+      - pagination                 # 或 load-more pattern (用 button)
+      - skeleton                   # 載入中佔位
+
+    override-policy: |
+      required-states 必須全部覆蓋。
+      分頁策略（pagination / load-more / infinite-scroll）擇一即可，三者不必並存。
+
+    test-hook:
+      required-state-coverage: |
+        empty / error / loading 三組截圖。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試。
+      extra:
+        - "若用 infinite-scroll，須測試載入過程中的 a11y announcement"
+        - "若用 load-more pattern，button loading state 必須覆蓋"
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external:
+        - url: "https://tailwindui.com/components/application-ui/lists"
+          note: "Tailwind UI Lists"
+    notes: |
+      分頁策略相關決策（pagination / load-more / infinite-scroll）見元件 notes。
+      load-more 模式是 button + 載入更多資料邏輯，不在 pagination 元件範疇。
+
+
+  # ─────────────────────────────────────────
+  # 3. detail-page — 詳情頁
+  # ─────────────────────────────────────────
+  - id: detail-page
+    name: "詳情頁"
+    description: |
+      顯示單一資料項目完整內容的頁面。
+      典型用例：新聞內頁、產品詳情頁、使用者個人頁、訂單詳情、Issue 詳情。
+
+    required-states:
+      - loading
+      - error
+      - not-found              # 該項目不存在（區隔於頁面級的 error-page）
+
+    typical-states:
+      - unauthorized           # 無權限檢視
+      - archived               # 已歸檔（資料存在但隱藏）
+      - draft                  # 草稿狀態
+      - editing                # 進入編輯模式（inline edit）
+      - saving                 # 儲存中
+
+    typical-components:
+      - breadcrumb
+      - card                   # 內容區塊
+      - image
+      - tag                    # 狀態 / 分類標籤
+      - status
+      - button                 # 主要動作（編輯 / 刪除 / 分享）
+      - action-menu            # 更多動作下拉
+      - modal                  # 確認對話框
+      - alert                  # 重要提示（已歸檔 / 草稿）
+      - collapse               # 可摺疊區塊（詳情 / 規格 / 評論）
+
+    override-policy: |
+      required-states 必須全部覆蓋。
+      not-found 為硬性（防止「資料消失」白頁；與頁面級的 error-page 不同 — 後者是整站級錯誤）。
+
+    test-hook:
+      required-state-coverage: |
+        loading / error / not-found 三組截圖。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試。
+      extra: []
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external: []
+    notes: |
+      涵蓋範圍包含新聞內頁、產品詳情、使用者個人頁、訂單詳情、Issue 詳情等。
+      not-found 與 error-page archetype 區隔：
+        • not-found 是「在這個型態的頁面內、該項目不存在」（保留頁框、breadcrumb 等）
+        • error-page 是「整站級錯誤頁、無頁框」
+
+
+  # ─────────────────────────────────────────
+  # 4. form-page — 表單頁
+  # ─────────────────────────────────────────
+  - id: form-page
+    name: "表單頁"
+    description: |
+      蒐集使用者輸入的頁面（單頁或多步驟）。
+      典型用例：註冊 / 設定頁 / 申請表 / 結帳流程 / 編輯資料。
+
+    required-states:
+      - idle                   # 初始狀態（未動）
+      - validating             # 驗證中（即時或 submit 時）
+      - validation-error       # 欄位驗證失敗
+      - submitting             # 提交送出中
+      - submit-success         # 提交成功（可能跳轉或顯示成功 toast）
+      - submit-error           # 提交失敗（系統錯誤）
+
+    typical-states:
+      - dirty-confirm-on-leave # 已修改未存、離頁確認
+      - autosave-saving        # 自動儲存中
+      - autosave-saved         # 自動儲存完成
+      - field-disabled         # 部分欄位被條件式禁用
+      - step-changed           # 多步驟表單切換 step
+
+    typical-components:
+      - breadcrumb
+      - alert                  # 表單級錯誤摘要
+      - input
+      - password-input
+      - textarea
+      - file-input
+      - dropdown
+      - multi-select
+      - cascader
+      - radio
+      - checkbox
+      - date-picker
+      - time-picker
+      - date-range-picker
+      - button                 # 提交 / 取消 / 上一步 / 下一步
+      - notification           # 成功 / 失敗 toast
+      - modal                  # 取消確認
+      - steps                  # 多步驟流程指示
+
+    override-policy: |
+      required-states 必須全部覆蓋。
+      validation-error 為硬性（不可只在 submit 後才驗證、須支援即時或 blur 驗證）。
+
+    test-hook:
+      required-state-coverage: |
+        6 個 required-state 都要有 case。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試。
+      extra:
+        - "a11y: validation-error 的 announcement 必須測（aria-live + aria-invalid）"
+        - "鍵盤：tab order、Enter 提交、Esc 取消"
+        - "form-page 為 System Pattern 'Form Validation' 的主要承載 archetype"
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external:
+        - url: "https://www.smashingmagazine.com/2018/08/best-practices-form-design/"
+          note: "Form design best practices"
+    notes: |
+      驗證策略（即時 / blur / submit）與表單行為（Controlled / Uncontrolled）
+      為 L4 之外的 System Pattern 決定範圍（待團隊累積後建檔）。
+      多步驟表單 (with steps component) 視為 form-page 的擴展、不獨立 archetype。
+
+
+  # ─────────────────────────────────────────
+  # 5. dashboard — 儀表板
+  # ─────────────────────────────────────────
+  - id: dashboard
+    name: "儀表板"
+    description: |
+      多個指標 / 圖表組成的總覽頁面。
+      典型用例：營運總覽、分析報表首頁、admin 概況、KPI dashboard。
+
+    required-states:
+      - loading                # 整體載入中
+      - empty                  # 無資料（首次使用 / 無權限 / 時間範圍內無資料）
+      - error                  # 整體載入失敗
+
+    typical-states:
+      - refreshing             # 重新整理中（保留舊資料、不全屏 loading）
+      - time-range-changed     # 時間範圍切換中
+      - drilldown              # 鑽取詳情（彈出 modal 或跳轉 detail-page）
+      - widget-loading         # 個別 widget 載入中（不影響其他 widget）
+      - widget-error           # 個別 widget 載入失敗（不影響其他 widget）
+      - filter-applied         # 全域篩選套用
+
+    typical-components:
+      - breadcrumb
+      - dropdown               # 時間範圍 / 篩選
+      - date-range-picker
+      - stat-number            # KPI 數據
+      - donut-chart
+      - bar-chart
+      - line-chart
+      - table                  # 部分 dashboard 含 mini table
+      - card                   # widget 容器
+      - skeleton               # 個別 widget 載入
+      - tag                    # 篩選 chips
+
+    override-policy: |
+      required-states 必須全部覆蓋。
+      widget-level loading / error 為強烈建議（避免一個 widget 失敗整頁白屏）。
+
+    test-hook:
+      required-state-coverage: |
+        loading / empty / error 三組截圖。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試（特別是 widget-loading / widget-error 的隔離性）。
+      extra:
+        - "個別 chart widget 須能獨立 fail、不影響其他 widget"
+        - "時間範圍切換時須保留舊資料直到新資料就位、避免閃爍"
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external: []
+    notes: |
+      Dashboard 通常包含 4-12 個 widget、每個 widget 是獨立的資料載入單位。
+      widget 之間的 loading / error 隔離為設計重點 — 不可一個失敗整頁壞。
+      Dashboard 內若需「點 widget 進詳情」、走 drilldown typical-state、可連到 detail-page 或開 modal。
+
+
+  # ─────────────────────────────────────────
+  # 6. auth-flow — 登入註冊流程
+  # ─────────────────────────────────────────
+  - id: auth-flow
+    name: "登入註冊流程"
+    description: |
+      使用者身份相關的流程系列頁。
+      典型用例：登入 / 註冊 / 忘記密碼 / 重設密碼 / 兩階段驗證 / OAuth callback。
+      本 archetype 涵蓋的是「流程」、非單一頁面 — 包含多個畫面、共用設計規範。
+
+    required-states:
+      - idle                       # 初始
+      - submitting                 # 送出中
+      - submit-success             # 成功（可能跳轉）
+      - submit-error               # 失敗（系統錯誤）
+      - validation-error           # 欄位驗證錯誤
+
+    typical-states:
+      - 2fa-required               # 需要二階段驗證
+      - rate-limited               # 嘗試次數過多、暫時鎖定
+      - oauth-redirecting          # OAuth 跳轉中
+      - email-verification-sent    # 驗證信已發送、等使用者點連結
+      - password-strength-check    # 密碼強度即時檢查
+      - account-locked             # 帳號已鎖（多次失敗或管理員鎖定）
+
+    typical-components:
+      - input
+      - password-input
+      - button
+      - checkbox                   # 記住我 / 同意條款
+      - alert                      # 流程提示 / 錯誤摘要
+      - notification
+      - image                      # logo / 插圖
+      # 2026-05-22 補（Auth Path B 實證需要 — JoiiNi auth-page.jsx Gate 1 audit）:
+      - otp-input                  # 註冊 / 忘記密碼 / 2FA OTP 驗證
+      - social-button              # 第三方登入（line / google / famiport 等 providers）
+      - steps                      # multi-step register / reset 流程 indicator
+      - countdown-timer            # OTP 重新發送倒數 / 鎖定倒數
+      - modal                      # TermsModal + ExtraOtpModal (2FA overlay)
+
+    override-policy: |
+      required-states 必須全部覆蓋。
+      rate-limited 為強烈建議（防暴力破解 / brute-force）。
+
+    test-hook:
+      required-state-coverage: |
+        5 個 required-state 都要有 case。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試（特別是 2fa-required / rate-limited 等安全相關狀態）。
+      extra:
+        - "a11y: error 訊息明確但不洩漏敏感資訊（避免「此 email 未註冊」這種帳號列舉攻擊路徑）"
+        - "鍵盤：Enter 提交、password-input 的 show/hide 切換可鍵盤觸發"
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external:
+        - url: "https://owasp.org/www-project-authentication-cheat-sheet/"
+          note: "OWASP Authentication Cheat Sheet（安全考量參照）"
+    notes: |
+      本 archetype 為「流程」、跨多個畫面（登入頁 / 註冊頁 / 忘記密碼頁 / 重設密碼頁 / 2FA 驗證頁 / OAuth callback 頁）。
+      共用設計規範但個別畫面結構不一定相同。
+
+      typical-components 缺項：「link」元件用於切換登入註冊、忘記密碼等連結。
+      多數 DS 用 styled <a> 不獨立 component；audit 階段決定是否補 L0 link 元件。
+
+
+  # ─────────────────────────────────────────
+  # 7. error-page — 全頁錯誤頁
+  # ─────────────────────────────────────────
+  - id: error-page
+    name: "全頁錯誤頁"
+    description: |
+      訪問不存在或無法存取的 URL 時顯示的整頁錯誤畫面。
+      典型用例：404 not-found / 500 server-error / 403 forbidden / 503 maintenance。
+
+      適用範圍：僅網頁型專案。系統型專案（後台 / SaaS dashboard）通常用
+      模組級嵌入式錯誤（在 archetype 內部用 required-states.error 處理），
+      不單獨做整頁 error-page。
+
+    required-states:
+      - default                # 本身就是錯誤狀態的呈現、無內部狀態變化
+
+    typical-states: []          # 通常無
+
+    typical-components:
+      - image                  # 插畫 / 錯誤碼大字
+      - button                 # 返回首頁 / 重試
+      # link                   # 替代連結（多數 DS 用 styled <a>）
+
+    override-policy: |
+      required-states 即「顯示」本身。
+      通常按錯誤類型分頁（/404、/500、/403、/maintenance），各自一個獨立頁面實作。
+      若專案為純後台 SaaS（無 SPA url routing），可不採用此 archetype、改用模組級錯誤即可。
+
+    test-hook:
+      required-state-coverage: |
+        不同錯誤碼對應的頁面各一個 case（404 / 500 / 403 等）。
+      typical-state-coverage: |
+        n/a
+      extra:
+        - "a11y: 錯誤訊息明確、含可返回的動作"
+        - "SEO: 404 須回應正確 HTTP status code、不只是視覺顯示"
+
+    refs:
+      source-doc:
+        doc: "Design System Build Plan.pdf"
+        section: ""
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external: []
+    notes: |
+      使用情境判斷：
+        • 網頁型專案（公司網站 / 內容平台 / 電商）→ 用本 archetype
+        • 系統型專案（後台 / SaaS） → 不用本 archetype，
+          在其他 archetype 的 required-states.error 中處理
+
+      區隔於 detail-page.not-found：
+        • detail-page.not-found：「在這個頁面型態內、該項目不存在」（保留頁框、breadcrumb）
+        • error-page：「整站級錯誤、無頁框、整頁呈現」
+
+
+  # ─────────────────────────────────────────
+  # 8. home-page — 首頁（Path B 2026-05-20 提案）
+  # ─────────────────────────────────────────
+  - id: home-page
+    name: "首頁 / Editorial 雜誌型門面"
+    description: |
+      網站 / app 主入口，editorial / CMS-driven 雜誌型結構。
+      跟 content-list-page 區隔：home-page 是 row 級 section 組合（hero / ranking / showcase / info），
+      內容跨多種類型；content-list-page 是單一資料類型的列表呈現。
+      典型用例：電商首頁、品牌首頁、內容平台首頁、活動入口頁。
+
+    required-states:
+      - announcement-active       # 公告 / 跑馬燈有資料
+      - announcement-empty        # 無公告 → 該列隱藏（不顯示空白佔位）
+      - hero-loading              # 首屏 banner / carousel 載入中
+      - hero-empty                # 素材未上架 → 隱藏該版位
+      - hot-sales-empty           # 排行榜無資料 → 空狀態
+      - product-grid-empty        # 商品 grid 無資料 → 「目前沒有可購買的活動，去逛逛分類」
+      - logged-in                 # 已登入（header CTA 切換 / personalized blocks）
+      - logged-out                # 未登入
+
+    typical-states:
+      - culture-coin-on           # 文化幣 / 票券 / 特殊優惠專區顯示
+      - season-campaign           # 季節 / 主題活動專區
+      - personalized-recommend    # 已登入時的個人化推薦
+      - editorial-feature         # 編輯精選 / 特輯
+      - sticky-floating-cta       # 浮動 LINE / 客服 / 行銷 CTA
+
+    typical-components:
+      - header                    # sticky 頂部導覽
+      - footer                    # multi-col footer
+      - floating-line             # 浮動客服 CTA
+      - marquee                   # 公告跑馬燈
+      - announcement-item         # 公告 panel list item
+      - section-head              # section 標題（compact / full + accent）
+      - category-tile             # 主題 quick-link
+      - product-card              # 商品卡（推薦 / 熱銷 / 文化幣 / 所有商品共用）
+      - article-card              # 資訊站 / 部落格 article（image-left / image-top / feature-overlay）
+      - badge                     # 各種 status / type / discount 標記
+      - price                     # 價格顯示分子
+      - button                    # 看更多 / 立即購買 CTAs
+      - tag                       # filter chip (search recent / hot keyword)
+      - icon                      # 主題 icon / nav icon / action icon
+
+    override-policy: |
+      required-states 全部覆蓋（announcement / hero / empty / login states）。
+      typical-components 為「常用合集」，依產品 domain 取捨（例：博物館 home 不用 product-card）。
+      hero 區的具體呈現（carousel / static banner / video）為 product-level 決策。
+
+    test-hook:
+      required-state-coverage: |
+        announcement-active / -empty / hero-loading / -empty / hot-sales-empty / product-grid-empty / logged-in / logged-out 各組截圖。
+      typical-state-coverage: |
+        啟用的 typical-state 須測試（特別是 personalized-recommend 跨身份呈現一致性）。
+      extra:
+        - "carousel 自動輪播需 a11y prefers-reduced-motion 處理"
+        - "sticky header 在 mobile scroll 行為需獨立測試"
+        - "floating-line 在不同視窗高度的 z-index 不衝突"
+
+    refs:
+      source-doc:
+        doc: "F-flow trial Path B"
+        section: "JoiiNi home rebuild (2026-05-20)"
+        url: ""
+      example-figma: ""
+      example-wireframe-codes: []
+      external:
+        - url: "https://shopify.com / amazon.com / momoshop.com.tw"
+          note: "電商首頁典型結構參考"
+    notes: |
+      跟 content-list-page 的本質差異：
+        • home-page：多 section 組合、多內容類型併陳、編輯導向
+        • content-list-page：單一資料類型 listing、瀏覽閱讀導向
+
+      Path B 驗證 (JoiiNi 2026-05-20)：14 components 跨 7 sections 組合。
+      跨產品適用度：高（電商 / 內容平台 / 品牌站 / 政府網站皆有）。
+
+      status: proposed — 需 cross-trial 驗證（另一個非電商 home 走過 Path B 後 graduate to planned）。

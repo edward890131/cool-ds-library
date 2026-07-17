@@ -1,0 +1,110 @@
+# ─────────────────────────────────────────────────────────
+# Production Manifest — Mapping (schema v0)
+# ─────────────────────────────────────────────────────────
+# 用途：Figma 識別符與 Code 識別符之間的雙向命名映射。
+# 形態：規則化轉換 + 例外明示表，可被 lint / 自動化工具消費。
+# 規則：所有跨 Figma ↔ Code 的識別符（component / variant / state / token name）
+#       都必須能從本檔推導對應形式。缺漏即為 drift 風險點。
+# ─────────────────────────────────────────────────────────
+
+meta:
+  version: 0.1.0
+  updated: 2026-05-15
+  status: pending-canonical-direction
+  notes: |
+    本檔需等 figma-rules.yaml 與 code-rules.yaml 兩側命名都確定後才能完成。
+    Canonical 方向（誰為主）必須先決定，影響全檔所有轉換規則。
+
+
+# ─── Canonical 方向 ──────────────────────────────────
+canonical-direction:
+  source: ""                      # figma | code | neutral
+  reasoning: ""                   # 為何選此方向（影響後續所有轉換）
+  notes: |
+    neutral 表示走 DTCG JSON 等中介層，雙邊各自從中介層派生命名。
+    若選 figma 為主，code 需符合 Figma 命名規則的可推導變形。
+    若選 code 為主，Figma 需在 layer 命名上配合 code 規則。
+
+
+# ─── 識別符轉換規則 ─────────────────────────────────
+# 描述命名 pattern 與 transform；例：
+#   Figma 「btn/primary_hover」 ↔ Code 「<Button variant="primary" state="hover" />」
+identifier-conversion:
+
+  component:
+    figma-pattern: ""             # 例：{category-prefix}/{name}
+    code-pattern: ""              # 例：<{ComponentName} />
+    transform-rule: ""            # 例：btn → Button（去前綴 → PascalCase）
+
+  variant:
+    figma-pattern: ""             # 例：在 component 命名後段
+    code-pattern: ""              # 例：variant prop 值
+    transform-rule: ""
+
+  state:
+    figma-pattern: ""             # 例：以 _ 連接於 name 之後（rules.md 規定）
+    code-pattern: ""              # 例：data-state="..." 或 state prop
+    transform-rule: ""
+
+  size:
+    figma-pattern: ""             # 例：l | s | m
+    code-pattern: ""              # 例：size prop 值
+    transform-rule: ""
+
+
+# ─── Token 命名映射 ──────────────────────────────────
+token-naming:
+
+  primitive:
+    figma-name-pattern: ""        # 例：color/gray/500
+    code-name-pattern: ""         # 例：--color-gray-500
+    dtcg-json-path: ""            # 例：$.color.gray.500
+    transform-rule: ""
+
+  semantic:
+    figma-name-pattern: ""        # 例：semantic/surface/primary
+    code-name-pattern: ""         # 例：--surface-primary
+    dtcg-json-path: ""            # 例：$.semantic.surface.primary
+    transform-rule: ""
+
+
+# ─── Namespace Registry ──────────────────────────────
+# Figma category prefix → Code component name 的明示對照
+# 規則：本表內容必須與 figma-rules.yaml 的 category-prefixes 完全對齊
+namespace-registry: []
+# 範例：
+#   - figma-prefix: btn
+#     code-name: Button
+#   - figma-prefix: icon
+#     code-name: Icon
+#   - figma-prefix: navbar
+#     code-name: NavBar
+#   - figma-prefix: input
+#     code-name: Input
+
+
+# ─── 例外明示對應 ───────────────────────────────────
+# 無法用 transform-rule 純規則化轉換的元件，需要明示對應
+explicit-mappings: []
+# 範例：
+#   - figma: "btn/icon_only"
+#     code: "<IconButton />"
+#     reason: "純圖示版的 button 在 code 端是獨立元件"
+
+
+# ─── 同步驗證規則 ───────────────────────────────────
+sync-validation:
+  drift-check-rules:
+    - "Figma 有 N 個 Main Component → code 必須有 N 個對應實作"
+    - "Figma 的 variant 數 = code 該元件 variant prop 的列舉數"
+    - "Figma 的 state 詞彙必須屬於 L3 canonical state taxonomy"
+    - "Figma 的 token name 經 transform-rule 應能對應到 code token name"
+  tool: ""                        # figma-code-connect | custom-lint | none
+  run-on: []                      # 觸發時機，如 [pre-commit, ci, manual]
+
+
+# ─── Code Connect 設定 ───────────────────────────────
+code-connect:
+  enabled: false
+  mapping-file: ""                # Figma Code Connect 設定檔位置
+  notes: ""

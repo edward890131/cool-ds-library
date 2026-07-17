@@ -1,0 +1,181 @@
+# ─────────────────────────────────────────────────────────
+# Production Manifest — Code Rules (schema v1)
+# ─────────────────────────────────────────────────────────
+# 用途：DS 在 code 端如何被製作 / 組織 / 命名 / export。
+# 受眾：前端工程師、AI 生成 code 時的依據、設計師（read-only）。
+# 維護：FE 團隊（base + 各專案的 delta）。設計師不改本檔。
+# 對應：project/code-rules.delta.yaml 為各專案 override 處。
+# ─────────────────────────────────────────────────────────
+
+meta:
+  version: 1.0.0
+  updated: 2026-06-10
+  status: ready                     # 已對齊 FE wishlist 回覆，可使用
+  filled-by: "FE 對接會議 + FE wishlist 回覆"
+  notes: |
+    本檔為 framework base（goonsdesign 跨專案共用 + FE 偏好）。
+    每個專案在 project/code-rules.delta.yaml 中：
+      - 選一個 preset id（或 custom）→ 鎖定該專案的 stack
+      - override 任何 base 欄位（如 token prefix / output path / 是否啟用 chromatic 等）
+    skill Phase 0 Q2 走 layered resolution：base + delta + 不明時找 FE 補（不問設計師）。
+
+
+# ─── Stack Presets（FE 預先設定的可選組合） ────────────
+# skill Phase 0 Q2 把這串給設計師選；選 custom = 標記「待 FE 補 code-rules.delta」
+presets:
+  - id: react-tailwind-vite
+    name: "React + Tailwind + Vite（CC 預設、FE 最熟）"
+    framework: react
+    styling-approach: tailwind
+    bundler: vite
+    token-format-primary: css-vars
+    token-format-backup: ts-const
+    recommended: true               # skill 預設 highlight 這個
+
+  - id: vue-tailwind-vite
+    name: "Vue 3 + Tailwind + Vite（FE 可轉）"
+    framework: vue
+    styling-approach: tailwind
+    bundler: vite
+    token-format-primary: css-vars
+    token-format-backup: ts-const
+
+  - id: svelte-tailwind-vite
+    name: "Svelte + Tailwind + Vite（FE 可轉）"
+    framework: svelte
+    styling-approach: tailwind
+    bundler: vite
+    token-format-primary: css-vars
+    token-format-backup: ts-const
+
+  - id: custom
+    name: "其他（自訂）"
+    framework: <待 FE 跟設計師討論後寫進 project delta>
+    styling-approach: <同上>
+    bundler: <同上>
+    token-format-primary: <同上>
+    triggers: "skill 收到 custom → 標記專案 status: pending-fe-code-rules-delta，提示找 FE 補"
+
+
+# ─── FE 支援範圍（不是預設、是「FE 願意接的清單」） ──
+# 來源：FE wishlist Q1
+support-matrix:
+  frameworks: [react, vue, svelte, native, static-html]
+  styling-approaches: [tailwind, css-in-js, vanilla-css, css-modules, dtcg-var]
+  bundler: vite                                       # FE 一致選 Vite
+  notes: |
+    上面這串是 FE 支援的範圍（願意做、不是默認）。
+    實務上 ~80% 案會是 React（CC 預設、FE 最熟）；
+    指定其他 stack 時 FE 會協助轉換，工作量視專案規模。
+
+
+# ─── 框架與輸出（base defaults，會被 project delta 覆蓋） ──
+framework:
+  primary: react                    # base 預設；project delta 可改成 vue / svelte / 其他
+  multi-framework: false            # 多 stack 支援預設關閉；要開的話 FE 跑 DTCG JSON 中介層
+  styling-approach: tailwind        # base 預設
+  token-format: css-vars            # base 主要載體
+  token-format-backup: ts-const     # base 備援
+  bundler: vite                     # 統一 Vite
+
+
+# ─── 檔案結構 ────────────────────────────────────────
+file-structure:
+  root-folder: "src/design-system"  # 預設；project delta 可改
+  layout-pattern: by-category       # by-category（對應 L0 8 大類）
+  folders:
+    - "tokens/{primitives,semantics}.json"
+    - "components/basic/"
+    - "components/feedback/"
+    - "components/table/"
+    - "components/complex/"
+    - "components/chart/"
+    - "components/loading/"
+    - "components/special/"
+    - "components/media/"
+    - "patterns/"                  # archetype-level
+    - "seed/"                      # mock data，對應專案的 seed/
+
+
+# ─── 命名 Convention ─────────────────────────────────
+naming:
+  component-files: "PascalCase.tsx"     # React 慣例；Vue/Svelte preset 自動轉 PascalCase.vue / .svelte
+  component-names: PascalCase
+  props: camelCase
+  css-classes: "css-modules"            # FE 偏好；改 tailwind 時 N/A
+  css-variables: "--ds-{category}-{name}"  # base prefix --ds-；project delta 可改成 --{brand}-{...}
+  tokens-json-keys: dot.notation
+  canonical-direction: code-wins        # FE 跟設計討論共識：code 命名為主、Figma 跟著走（mapping.yaml 處理轉換）
+
+
+# ─── Token Export ────────────────────────────────────
+token-export:
+  format: dtcg-json                     # 中介層用 DTCG（讓多 stack 可派生）
+  output-paths:
+    primitive: "src/design-system/tokens/primitives.json"
+    semantic: "src/design-system/tokens/semantics.json"
+    breakpoints: "src/design-system/tokens/breakpoints.json"   # 對齊 L1 breakpoints
+  build-tool: style-dictionary
+  derived-outputs:                      # build-tool 產的衍生檔
+    - "src/design-system/tokens/tokens.css"        # CSS var
+    - "src/design-system/tokens/tokens.ts"         # TS const
+    - "tailwind.config.js"                         # Tailwind 視專案用
+
+
+# ─── 元件 API 約束 ───────────────────────────────────
+component-api:
+  prop-conventions: [variant, intent, size, state, disabled]   # 對齊 L0 四軸 + a11y
+  state-handling: controlled                                    # 對齊 FE 用 reducer + react-hook-form
+  composition: children                                         # React 預設
+  shape-source: "schema-auto-generated"                         # FE wishlist Q3：從 components/index.json 自動產 TS interface
+  state-prop-shape: "individual-props"                          # FE wishlist Q4：state 用獨立 props（isHovered, isDisabled）
+                                                                # 而非 data-state="hover" 字串
+  responsive-behavior-source: "L0.responsive-behavior"          # 對齊 v0.2 加的欄位
+  responsive-layout-source: "L4.responsive-layout"              # 對齊 v0.2 加的欄位
+
+
+# ─── 測試工具 ────────────────────────────────────────
+testing:
+  visual-regression: chromatic
+  a11y: axe-core
+  unit: vitest                          # 配 Vite
+  story-source: storybook
+  notes: |
+    chromatic 為偏好，per project 可在 delta 標 disabled（小專案 / POC 不必）。
+
+
+# ─── State Machine（FE wishlist Q4 答案） ────────────
+state-machine:
+  default: custom-reducer               # FE 偏好自己 reducer
+  form-validation: react-hook-form
+  oauth: dev-mock                       # 開發環境用 mock、production 接真 API
+  errors:
+    convention: "custom-error-code"     # 例：{ error: "ACCOUNT_LOCKED", retry_after: 1800 }
+
+
+# ─── 跨斷點規範（FE wishlist Q6 缺口要求） ────────────
+responsive:
+  breakpoint-source: "L1.breakpoints"   # 對齊 v0.2 加的 foundation
+  reflow-rules-source:
+    component-level: "L0.components[*].responsive-behavior"
+    page-level: "L4.archetypes[*].responsive-layout"
+  default-breakpoints: [360, 768, 1024, 1280]
+
+
+# ─── 不在本框架管轄的（標 informational-only） ────────
+# 來源：FE wishlist Q7「不會 reference 的欄位」
+informational-only:
+  - "refs.source-doc PDF 章節"
+  - "refs.external 設計參照"
+  - "L0/L4 的 override-policy（FE codegen 不讀）"
+  - "L0 meta.canonical-naming（目前空、FE 不依賴）"
+
+
+# ─── FE wishlist 待 ship 的 schema 補洞（status: backlog） ──
+# 來源：FE wishlist Q7「希望補」
+schema-additions-pending:
+  - "components[].props（行為層 props，type / required / default）"
+  - "components[].slots（複合元件子節點規則）"
+  - "components[].tokens（該元件用到的 semantic token 清單，audit + dead-token detection）"
+  - "components[].interactions（keyboard / pointer 行為清單）"
+  - "meta.schema-version + JSON Schema 檔（FE 端可機械驗）"

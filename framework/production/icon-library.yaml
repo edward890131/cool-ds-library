@@ -1,0 +1,63 @@
+# production/icon-library.yaml
+# Icon library 整合設定 — 2026-06-16 v0.6 加入
+#
+# 框架不自建 icon set,改 reference 已 published 的 Figma library。
+# Skill Step 4 build 元件時遇到 icon 需求 → INSTANCE_SWAP 到此 library 對應元件。
+# 設計師絕對不可在 component 內用 unicode 字元(✕ ← ✓ 等)模擬 icon、
+# 也不可用文字 + 字級綁 size、否則 Step 4.5 audit FAIL。
+
+meta:
+  library-id: untitled-ui-icons
+  display-name: "Untitled UI icons (新)"
+  source-url: "https://www.untitledui.com"
+  license: free + premium tiers
+
+# Figma library key — 跨檔案 INSTANCE_SWAP 用 libraryKey(team 等級)
+# 2026-06-17 v0.7.1 改:從 file-key(Untitled UI、本帳號無權限)改成 team library 的 libraryKey
+figma:
+  library-key: "lk-793e268abc2b7a64b8edfa4c36f115b3de47df9a49c8224a16cc4dfcb871fb8cfc03271d7c60b1c6937dd5353d707fce974e0133fac214634980"
+  library-name: "icon 庫（新）"
+  source: team
+  notes: |
+    libraryKey 是 Figma team library 的識別、跨檔案 INSTANCE_SWAP 用這個。
+    file-key 已 deprecated(原 Untitled UI hnySloSFGa5ju356tbr5C4 對本帳號無權限)。
+    若公司換 library、更新此 library-key 即可、framework 自動同步。
+  published: yes
+  pages-of-interest:
+    - "Line icons"               # 預設用這頁
+    - "🔒 Solid icons ✨ NEW ✨"   # premium、selective 用
+    - "🔒 Duocolor icons"         # premium
+    - "🔒 Duotone icons"          # premium
+    - "🔒 Master icons (separate layers)"   # premium、可改色
+
+# 預設 icon style — 框架預設用 line、業界主流、最 versatile
+default-style: line
+
+# 命名規約 — Untitled UI 命名 pattern:`<base-name>-<NN>`(例:chevron-left-01 / chevron-left-02)
+# 同一 family 有多個變體,預設取第一個(`-01`)
+reference-pattern: "{base-name}-01"
+
+# 專案 delta(theme.delta.yaml)可以 override 特定 icon 對應:
+# icon-map:
+#   chevron-left: chevron-left-03   ← 改用第三個變體
+# 此處只記空殼、框架不預先指定
+override-map: {}
+
+# 跨 19 大類 category(library 內現有分類):
+# 框架不重複維護分類、由 library 端統一
+# General / Arrows / Charts / Users / Communication / Layout / Media & devices
+# Shapes / Files / Security / Editor / Finance & eCommerce / Images / Time
+# Weather / Maps & travel / Education / Development / Alerts & feedback
+
+# Skill INSTANCE_SWAP 流程:
+# 1. CC build component 遇到 `composition: { icon: { uses-component: icon } }`
+# 2. CC 從 component spec 抓 icon name(例:"chevron-left")
+# 3. CC 依 reference-pattern 解析為 library 內 component name(例:"chevron-left-01")
+# 4. CC 用 Figma API 找 library asset(透過 file-key + asset name)
+# 5. INSTANCE_SWAP 連結到該 library asset
+# 6. 失敗 fallback:標 `pending-icon-resolution`、不可用 unicode 模擬
+
+# 維護策略:
+# - library 有迭代 → 更新本檔 figma.file-key + bump 框架 VERSION
+# - library 加新 icon family → 不用改本檔(reference-pattern 自動 work)
+# - 框架元件需要新 icon → 確認 library 內有對應、否則請 library 維護者新增

@@ -1,0 +1,21 @@
+# 機密
+.env
+
+# 系統
+.DS_Store
+*.log
+
+# 個人 session 紀錄（不進框架 repo）
+.session-transcripts/
+
+# 依賴
+node_modules/
+
+# 內部討論與待辦,不進公開 repo
+_backlog/
+
+# 個人 auto-memory / 內部把關原則,永不進框架 repo
+# (本體住 ~/.claude/.../memory/,本已在 repo 外;這裡是複製進來的防呆)
+MEMORY.md
+feedback_framework_optimization_guardrails.md
+**/memory/

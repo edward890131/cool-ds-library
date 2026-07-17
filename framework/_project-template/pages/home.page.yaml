@@ -1,0 +1,24 @@
+# 範例頁 — 首頁（content-list-page archetype）
+#
+# 註：path（DS 建立路徑）是專案級決定，記在 project.yaml；不在 page 層級。
+# 各頁的 yaml 只記頁面本身的 archetype / wf 參照 / sections / 補充 notes。
+
+page-id: home
+name: "首頁"
+
+# 對應 L4 archetype（拿 required-states 當防呆 checklist）
+archetype: content-list-page
+
+# WF 參照（可選，引用 wf-template 或專案輸入的 WF 檔）
+wf-source:
+  type: "wf-template"           # wf-template | external-file | mockup-to-ia | pending
+  ref: "landing-standard"       # 對應內容（template id / 檔案路徑 / 反推 IA output）
+
+# 這頁用哪些 section（待 section 層建好；現可空）
+sections:
+  - hero
+  - feature-grid
+  - testimonial
+  - contact-form
+
+notes: ""
