@@ -2690,6 +2690,7 @@
   .dgt-tabs{display:inline-flex;gap:2px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-md);padding:2px;}
   .dgt-tab{padding:5px 12px;border:0;background:transparent;border-radius:var(--r-sm);font-size:var(--fs-h9);color:var(--muted);cursor:pointer;white-space:nowrap;}
   .dgt-tab.on{background:var(--panel);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06);}
+  .nav-item.nav-mono{font-family:var(--font-mono);letter-spacing:-0.02em;}
   .dgt-scale{display:flex;flex-direction:column;}
   .dgt-row{display:grid;grid-template-columns:36px minmax(180px,1.4fr) 200px 1fr;gap:var(--sp-4);align-items:center;padding:var(--sp-4) 0;border-bottom:1px solid var(--line);}
   .dgt-row.dgt-head{color:var(--muted);font-size:var(--fs-h9);font-weight:600;padding:var(--sp-3) 0;}
@@ -8221,15 +8222,16 @@ function buildScheduleChart(view){
       const USE={h1:'主視覺大標',h2:'頁面主標題',h3:'區塊標題',h4:'次區塊標題',h5:'小標題',h6:'強調內文',h7:'內文標準',h8:'內文／表單',h9:'次要資訊',h10:'註解／說明'};
       const SAMPLE={zh:'設計系統 標題範例 Aa',en:'Design System Title Aa'};
       const DEVLB={desktop:'電腦',tablet:'平板',mobile:'手機'};
-      if(!window.__dgTypoDev)window.__dgTypoDev='desktop'; if(!window.__dgTypoLang)window.__dgTypoLang='zh';
+      if(!window.__dgTypoDev)window.__dgTypoDev='desktop'; if(!window.__dgTypoLang)window.__dgTypoLang='zh'; if(!window.__dgTypoFont)window.__dgTypoFont='sans';
+      const FF={sans:'var(--font-sans)',mono:'var(--font-mono)'};
       // 控制列
       const ctl=ce('div','dgt-ctl');
-      const devTabs=ce('div','dgt-tabs'), langTabs=ce('div','dgt-tabs');
+      const devTabs=ce('div','dgt-tabs'), langTabs=ce('div','dgt-tabs'), fontTabs=ce('div','dgt-tabs');
       const scaleHost=ce('div','dgt-scale');
       function paintScale(){
         const dev=window.__dgTypoDev, lang=window.__dgTypoLang;
         scaleHost.innerHTML='';
-        const head=ce('div','dgt-row dgt-head');head.innerHTML='<span class="dgt-cn">N</span><span class="dgt-cp">預覽</span><span class="dgt-cs">Size · Line · Letter（'+DEVLB[dev]+'·'+(lang==='zh'?'中':'En')+'）</span><span class="dgt-cu">應用方式</span>';scaleHost.appendChild(head);
+        const head=ce('div','dgt-row dgt-head');head.innerHTML='<span class="dgt-cn">N</span><span class="dgt-cp">預覽</span><span class="dgt-cs">Size · Line · Letter（'+DEVLB[dev]+'·'+(lang==='zh'?'中':'En')+'·'+(window.__dgTypoFont==='mono'?'Mono':'Sans')+'）</span><span class="dgt-cu">應用方式</span>';scaleHost.appendChild(head);
         ['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10'].forEach((lv,i)=>{
           const size=(OV[dev]&&OV[dev]['--fs-'+lv])||(typo.sz[lv]&&typo.sz[lv][DI[dev]])||val('--fs-'+lv);
           if(!size)return;
@@ -8238,7 +8240,7 @@ function buildScheduleChart(view){
           const lsp=lang==='zh'?(OVr['--ls-'+lv]||(ls2.def[lv]&&ls2.def[lv][0])):(OVr['--ls-en-'+lv]||(ls2.def[lv]&&ls2.def[lv][1]));
           const row=ce('div','dgt-row');
           const n=ce('span','dgt-cn');n.textContent=String(i+1).padStart(2,'0');
-          const p=ce('span','dgt-cp');p.style.fontSize=size;p.style.fontWeight=weight;p.style.fontFamily='var(--font-sans)';p.style.lineHeight=lh||'1.2';p.style.letterSpacing=lsp||'0';p.textContent=SAMPLE[lang];
+          const p=ce('span','dgt-cp');p.style.fontSize=size;p.style.fontWeight=weight;p.style.fontFamily=FF[window.__dgTypoFont];p.style.lineHeight=lh||'1.2';p.style.letterSpacing=lsp||'0';p.textContent=SAMPLE[lang];
           const sp=ce('span','dgt-cs');sp.innerHTML='Size '+size+'<br>Line '+(lh||'—')+'<br>Letter '+(lsp||'0');
           const u=ce('span','dgt-cu');u.textContent=USE[lv]||'';
           row.append(n,p,sp,u);scaleHost.appendChild(row);});
@@ -8247,7 +8249,9 @@ function buildScheduleChart(view){
         b.onclick=()=>{window.__dgTypoDev=k;devTabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintScale();};devTabs.appendChild(b);});
       [['zh','中'],['en','En']].forEach(([k,t])=>{const b=document.createElement('button');b.className='dgt-tab'+(k===window.__dgTypoLang?' on':'');b.textContent=t;
         b.onclick=()=>{window.__dgTypoLang=k;langTabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintScale();};langTabs.appendChild(b);});
-      ctl.append(devTabs,langTabs);
+      [['sans','一般字體'],['mono','特殊字體 Mono']].forEach(([k,t])=>{const b=document.createElement('button');b.className='dgt-tab'+(k===window.__dgTypoFont?' on':'');b.textContent=t;
+        b.onclick=()=>{window.__dgTypoFont=k;fontTabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintScale();};fontTabs.appendChild(b);});
+      ctl.append(devTabs,langTabs,fontTabs);
       s.append(ctl,scaleHost);
       paintScale();
       // 3c 文字色表
@@ -8634,11 +8638,12 @@ function buildScheduleChart(view){
     buildTOC(); // 換頁後重建右緣本頁目錄
   }
   function renderNav(){const host=document.getElementById('sidebar');host.innerHTML='';
-    const tpin=document.createElement('button');tpin.className='nav-item nav-pin';tpin.dataset.id='tokens';tpin.setAttribute('aria-current',current==='tokens');
+    const tpin=document.createElement('button');tpin.className='nav-item nav-pin nav-mono';tpin.dataset.id='tokens';tpin.setAttribute('aria-current',current==='tokens');
     tpin.innerHTML=`<span>🎨 Design Token</span>`;tpin.onclick=()=>renderView('tokens');host.appendChild(tpin);
-    const gpin=document.createElement('button');gpin.className='nav-item nav-pin';gpin.dataset.id='guideline';gpin.setAttribute('aria-current',current==='guideline');
+    host.appendChild(ce('div','nav-sep')); // Design Token ↔ Design Guideline 分隔線
+    const gpin=document.createElement('button');gpin.className='nav-item nav-pin nav-mono';gpin.dataset.id='guideline';gpin.setAttribute('aria-current',current==='guideline');
     gpin.innerHTML=`<span>📐 Design Guideline</span>`;gpin.onclick=()=>renderView('guideline');host.appendChild(gpin); // 出貨前確認頁
-    host.appendChild(ce('div','nav-sep')); // Design Token ↔ 需求匯總 分隔線
+    host.appendChild(ce('div','nav-sep')); // Design Guideline ↔ 需求匯總 分隔線
     const pin=document.createElement('button');pin.className='nav-item nav-pin';pin.dataset.id='summary';pin.setAttribute('aria-current',current==='summary');
     pin.innerHTML=`<span>📋 需求匯總</span>`;pin.onclick=()=>renderView('summary');host.appendChild(pin); // 需求匯總移到 Design Token 下方
     NAV.forEach((g,gi)=>{const hasCur=g.items.some(it=>it.id===current); // 只展開「當前檢視所在」的群組，其餘（含 Basic）預設收合
