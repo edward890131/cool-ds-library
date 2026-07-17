@@ -39,4 +39,11 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - 7 區塊：品牌（logo 淺/深＋主副色）／色彩（7 色階＋語意角色）／字體 h1–h10／間距／圓角／陰影／元件（依 `SUMSEL` 選定，LIVE 有的掛實例、Complex/Card/Chart 列名）
 - ✅ 驗證：nav 順序、7 區塊、17 LIVE 實例掛載、0 console error
 
+### C1.5 調整（2026-07-17）— 依 JoiiNi Web Guideline 寫法
+- **移除元件段落**（改為只留 foundation：品牌/色彩/字體/間距/圓角/陰影）
+- **色彩改 JoiiNi 寫法**：類別區段（英文粗體大標＋中文說明＋分隔線）＋ Base(棋盤)+Color 圓角色塊、name＋hex 於下；分 Primary/Secondary/Neutral/Notification/Semantic 5 類 39 色
+- **字體改 JoiiNi 寫法**：字體家族區（Sans/Mono 大字＋字重晶片＋fallback pill）＋字級表（N｜預覽｜Size/Line/Letter｜應用方式 h1–h10）＋文字色表（色塊｜名稱｜應用）
+- 值仍讀本專案當前 token（getComputedStyle），非套 JoiiNi 色
+- ✅ 驗證：色彩 5 類 39 色、字體 Geist/Geist Mono、字級 10 列、文字色 6 列、0 console error
+
 待辦：C1 proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server

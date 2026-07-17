@@ -2647,31 +2647,11 @@
   /* ===== Design Guideline 頁 ===== */
   .dg-body{display:flex;flex-direction:column;gap:var(--sp-8);}
   .dg-sec{display:flex;flex-direction:column;gap:var(--sp-5);}
-  .dg-sechead{display:flex;align-items:baseline;gap:var(--sp-4);border-bottom:1px solid var(--line);padding-bottom:var(--sp-3);}
-  .dg-sechead h2{margin:0;font-size:var(--fs-h5);font-weight:600;}
-  .dg-subnote{color:var(--muted);font-size:var(--fs-h9);}
-  .dg-scalewrap{display:flex;flex-direction:column;gap:var(--sp-3);}
-  .dg-scale{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap;}
-  .dg-scale-lb{width:88px;flex:0 0 auto;font-size:var(--fs-h9);color:var(--muted);font-weight:600;}
-  .dg-strip{display:flex;gap:2px;flex-wrap:wrap;}
-  .dg-sw{width:60px;height:44px;border-radius:var(--r-sm);border:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;}
-  .dg-sw-cap{font-size:9px;color:#333;background:rgba(255,255,255,.78);border-radius:2px;padding:0 3px;line-height:1.5;font-variant-numeric:tabular-nums;}
-  .dg-roles{display:flex;gap:var(--sp-4);flex-wrap:wrap;}
-  .dg-role{display:flex;flex-direction:column;gap:4px;align-items:center;}
-  .dg-role-sw{width:56px;height:40px;border-radius:var(--r-sm);border:1px solid var(--line);}
-  .dg-role-nm{font-size:var(--fs-h10);color:var(--muted);text-align:center;}
-  .dg-type{display:flex;flex-direction:column;gap:var(--sp-3);}
-  .dg-type-row{display:flex;align-items:baseline;gap:var(--sp-5);}
-  .dg-type-meta{width:120px;flex:0 0 auto;font-size:var(--fs-h9);color:var(--muted);font-variant-numeric:tabular-nums;}
-  .dg-type-sample{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;}
-  .dg-spacing{display:flex;flex-direction:column;gap:var(--sp-2);}
-  .dg-sp-row{display:flex;align-items:center;gap:var(--sp-4);}
-  .dg-sp-lb{width:120px;flex:0 0 auto;font-size:var(--fs-h9);color:var(--muted);font-variant-numeric:tabular-nums;}
-  .dg-sp-bar{height:16px;background:var(--accent);border-radius:2px;}
-  .dg-radii,.dg-elevs{display:flex;gap:var(--sp-6);flex-wrap:wrap;}
-  .dg-radius,.dg-elev{display:flex;flex-direction:column;gap:6px;align-items:center;}
-  .dg-radius-box{width:64px;height:48px;background:var(--panel-2);border:1px solid var(--line-strong);}
-  .dg-elev-box{width:80px;height:56px;background:var(--panel);border-radius:var(--r-md);}
+  .dg-sechead{display:flex;flex-direction:column;gap:6px;}
+  .dg-sectitle{margin:0;font-size:var(--fs-h4);font-weight:700;color:var(--ink);}
+  .dg-secdesc{margin:0;font-size:var(--fs-h6);color:var(--muted);}
+  .dg-secline{height:1px;background:var(--line);margin-top:4px;}
+  /* 品牌 */
   .dg-brand{display:flex;gap:var(--sp-7);flex-wrap:wrap;align-items:flex-start;}
   .dg-brand-logos{display:flex;gap:var(--sp-4);flex-wrap:wrap;}
   .dg-logo-chip{padding:var(--sp-5);border-radius:var(--r-md);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;min-width:132px;}
@@ -2680,14 +2660,56 @@
   .dg-logo-chip svg,.dg-logo-chip img{width:80px;height:auto;display:block;}
   .dg-logo-chip.on-light svg{color:#1C1C20;}
   .dg-logo-chip.on-dark svg{color:#fff;}
-  .dg-compgroup{display:flex;flex-direction:column;gap:var(--sp-4);margin-top:var(--sp-3);}
-  .dg-compgroup-h{font-size:var(--fs-h8);font-weight:600;color:var(--muted);}
-  .dg-compgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--sp-4);}
-  .dg-comp{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-3);background:var(--panel);min-width:0;}
-  .dg-comp-h{font-size:var(--fs-h9);font-weight:600;color:var(--ink);}
-  .dg-comp-stage{min-height:40px;}
+  .dg-roles{display:flex;gap:var(--sp-4);flex-wrap:wrap;}
+  .dg-role{display:flex;flex-direction:column;gap:4px;align-items:center;}
+  .dg-role-sw{width:56px;height:40px;border-radius:var(--r-sm);border:1px solid var(--line);}
+  .dg-role-nm{font-size:var(--fs-h10);color:var(--muted);text-align:center;}
+  /* 色彩（JoiiNi 寫法）*/
+  .dgc-wrap{display:flex;flex-direction:column;gap:var(--sp-7);}
+  .dgc-cat{display:flex;flex-direction:column;gap:var(--sp-4);}
+  .dgc-cathead{display:flex;flex-direction:column;gap:2px;}
+  .dgc-cat-t{font-size:var(--fs-h6);font-weight:600;color:var(--ink);}
+  .dgc-cat-d{font-size:var(--fs-h9);color:var(--muted);}
+  .dgc-row{display:flex;gap:var(--sp-5);flex-wrap:wrap;}
+  .dgc-item{display:flex;flex-direction:column;gap:8px;width:88px;}
+  .dgc-chip{position:relative;width:88px;height:88px;border-radius:12px;background-image:linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%),linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%);background-size:16px 16px;background-position:0 0,8px 8px;}
+  .dgc-color{position:absolute;inset:0;border-radius:12px;border:1px solid var(--line);}
+  .dgc-name{font-size:var(--fs-h8);font-weight:600;color:var(--ink);line-height:1.4;}
+  .dgc-hex{font-size:var(--fs-h9);color:var(--muted);line-height:1.4;}
+  /* 字體（JoiiNi 寫法）*/
+  .dgt-fams{display:flex;gap:var(--sp-8);flex-wrap:wrap;}
+  .dgt-fam{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .dgt-fam-lb{font-size:var(--fs-h9);color:var(--muted);}
+  .dgt-fam-name{font-size:var(--fs-h3);color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:6px;width:max-content;}
+  .dgt-weights{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
+  .dgt-wchip{display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .dgt-wg{width:44px;height:44px;border-radius:var(--r-sm);background:var(--ink);color:var(--panel);display:flex;align-items:center;justify-content:center;font-size:var(--fs-h6);}
+  .dgt-wn{font-size:10px;color:var(--muted);white-space:nowrap;}
+  .dgt-note{display:inline-block;width:max-content;padding:6px 12px;border-radius:var(--r-sm);background:var(--i-primary-tint);color:var(--accent);font-size:var(--fs-h9);font-weight:600;}
+  .dgt-scale{display:flex;flex-direction:column;}
+  .dgt-row{display:grid;grid-template-columns:36px minmax(180px,1.4fr) 200px 1fr;gap:var(--sp-4);align-items:center;padding:var(--sp-4) 0;border-bottom:1px solid var(--line);}
+  .dgt-row.dgt-head{color:var(--muted);font-size:var(--fs-h9);font-weight:600;padding:var(--sp-3) 0;}
+  .dgt-cn{color:var(--muted);font-size:var(--fs-h9);font-variant-numeric:tabular-nums;}
+  .dgt-cp{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dgt-cs{font-size:var(--fs-h9);color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.6;}
+  .dgt-cu{font-size:var(--fs-h9);color:var(--ink);}
+  .dgt-fc{display:flex;flex-direction:column;margin-top:var(--sp-5);}
+  .dgt-fcrow{display:grid;grid-template-columns:minmax(200px,1fr) 1fr;gap:var(--sp-4);align-items:center;padding:var(--sp-3) 0;border-bottom:1px solid var(--line);}
+  .dgt-fcrow.dgt-head{color:var(--muted);font-size:var(--fs-h9);font-weight:600;}
+  .dgt-fcs{display:flex;align-items:center;gap:var(--sp-3);}
+  .dgt-fcsw{width:28px;height:28px;border-radius:var(--r-sm);border:1px solid var(--line);flex:0 0 auto;}
+  .dgt-fcnm{font-size:var(--fs-h9);color:var(--ink);}
+  .dgt-fcu{font-size:var(--fs-h9);color:var(--muted);}
+  /* 間距/圓角/陰影 */
+  .dg-spacing{display:flex;flex-direction:column;gap:var(--sp-2);}
+  .dg-sp-row{display:flex;align-items:center;gap:var(--sp-4);}
+  .dg-sp-lb{width:120px;flex:0 0 auto;font-size:var(--fs-h9);color:var(--muted);font-variant-numeric:tabular-nums;}
+  .dg-sp-bar{height:16px;background:var(--accent);border-radius:2px;}
+  .dg-radii,.dg-elevs{display:flex;gap:var(--sp-6);flex-wrap:wrap;}
+  .dg-radius,.dg-elev{display:flex;flex-direction:column;gap:6px;align-items:center;}
+  .dg-radius-box{width:64px;height:48px;background:var(--panel-2);border:1px solid var(--line-strong);}
+  .dg-elev-box{width:80px;height:56px;background:var(--panel);border-radius:var(--r-md);}
   .dg-muted{color:var(--faint);font-size:var(--fs-h9);}
-  .dg-more{color:var(--muted);font-size:var(--fs-h9);}
 </style>
 
 <div class="shell" id="shell">
@@ -8144,7 +8166,7 @@ function buildScheduleChart(view){
       <div class="head-rule"></div>
       <div id="dgBody" class="dg-body"></div>`;
     const body=view.querySelector('#dgBody');
-    const sec=(title,sub)=>{const s=ce('div','dg-sec');const h=ce('div','dg-sechead');h.innerHTML=`<h2>${title}</h2>`+(sub?`<span class="dg-subnote">${sub}</span>`:'');s.appendChild(h);body.appendChild(s);return s;};
+    const sec=(title,sub)=>{const s=ce('div','dg-sec');const h=ce('div','dg-sechead');h.innerHTML=`<h2 class="dg-sectitle">${title}</h2>`+(sub?`<p class="dg-secdesc">${sub}</p>`:'')+`<div class="dg-secline"></div>`;s.appendChild(h);body.appendChild(s);return s;};
 
     /* 1. 品牌 */
     (function(){const s=sec('品牌 Brand','logo 與主色');
@@ -8159,32 +8181,55 @@ function buildScheduleChart(view){
         const nm=ce('div','dg-role-nm');nm.textContent=lb;r.append(sw,nm);roles.appendChild(r);});
       wrap.appendChild(roles);s.appendChild(wrap);})();
 
-    /* 2. 色彩 */
-    (function(){const s=sec('色彩 Color','L1 色階 + L2 語意角色');
-      const scales=ce('div','dg-scalewrap');
-      const mkScale=(label,names)=>{const row=ce('div','dg-scale');const lb=ce('span','dg-scale-lb');lb.textContent=label;row.appendChild(lb);
-        const strip=ce('div','dg-strip');names.forEach(n=>{const v=val(n);if(!v)return;const sw=ce('div','dg-sw');sw.style.background=v;sw.title=n+' '+v;
-          const cap=ce('span','dg-sw-cap');cap.textContent=n.split('-').pop();sw.appendChild(cap);strip.appendChild(sw);});row.appendChild(strip);scales.appendChild(row);};
-      const steps9=['100','200','300','400','500','600','700','800','900'];
-      mkScale('Neutral',['0','50','100','200','300','400','500','600','700','800','900'].map(x=>'--c-neutral-'+x));
-      mkScale('Brand 主',steps9.map(x=>'--c-brand-'+x));
-      mkScale('Brand2 副',steps9.map(x=>'--c-brand2-'+x));
-      ['success','warning','error','info'].forEach(f=>mkScale(f,steps9.map(x=>'--c-'+f+'-'+x)));
-      s.appendChild(scales);
-      const roles=ce('div','dg-roles');
-      ['--accent','--ink','--muted','--faint','--panel','--panel-2','--panel-3','--line','--line-strong','--canvas'].forEach(n=>{
-        const v=val(n);if(!v)return;const r=ce('div','dg-role');const sw=ce('div','dg-role-sw');sw.style.background=v;sw.title=n+' '+v;
-        const nm=ce('div','dg-role-nm');nm.textContent=n.replace('--','');r.append(sw,nm);roles.appendChild(r);});
-      s.appendChild(roles);})();
+    /* 2. 色彩（JoiiNi guideline 寫法：類別大標＋說明＋分隔線；Base+Color 圓角色塊＋name＋hex 於下）*/
+    (function(){const s=sec('色彩 Color','品牌主色、副色、中性與狀態色');
+      const wrap=ce('div','dgc-wrap');
+      const cat=(t,d,sws)=>{const c=ce('div','dgc-cat');const ch=ce('div','dgc-cathead');ch.innerHTML=`<span class="dgc-cat-t">${t}</span>`+(d?`<span class="dgc-cat-d">${d}</span>`:'');c.appendChild(ch);
+        const row=ce('div','dgc-row');sws.forEach(o=>{const v=val(o.token);if(!v)return;const it=ce('div','dgc-item');
+          const chip=ce('div','dgc-chip');const col=ce('div','dgc-color');col.style.background=v;col.title=o.token+' '+v;chip.appendChild(col);
+          const nm=ce('div','dgc-name');nm.textContent=o.name;const hx=ce('div','dgc-hex');hx.textContent=v.toUpperCase();
+          it.append(chip,nm,hx);row.appendChild(it);});c.appendChild(row);wrap.appendChild(c);};
+      const st9=['100','200','300','400','500','600','700','800','900'];
+      cat('Primary 主色','品牌主色，主要視覺代表',st9.map(x=>({name:'Brand '+x,token:'--c-brand-'+x})));
+      cat('Secondary 副色','視覺點綴、次要強調',st9.map(x=>({name:'Brand2 '+x,token:'--c-brand2-'+x})));
+      cat('Neutral 中性','文字、背景、線段',['0','50','100','200','300','400','500','600','700','800','900'].map(x=>({name:'Neutral '+x,token:'--c-neutral-'+x})));
+      cat('Notification 狀態色','狀態、提示之應用色',[{name:'Success',token:'--c-success-500'},{name:'Warning',token:'--c-warning-500'},{name:'Error',token:'--c-error-500'},{name:'Info',token:'--c-info-500'}]);
+      cat('Semantic 語意角色','L2 常用語意 token',[{name:'Accent',token:'--accent'},{name:'Ink',token:'--ink'},{name:'Muted',token:'--muted'},{name:'Panel',token:'--panel'},{name:'Line',token:'--line'},{name:'Canvas',token:'--canvas'}]);
+      s.appendChild(wrap);})();
 
-    /* 3. 字體 */
-    (function(){const s=sec('字體 Typography','Geist Sans · 字級 h1–h10');
-      const list=ce('div','dg-type');
-      ['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10'].forEach(lv=>{const fs=val('--fs-'+lv);if(!fs)return;
-        const row=ce('div','dg-type-row');const meta=ce('div','dg-type-meta');meta.textContent=lv.toUpperCase()+' · '+fs;
-        const sm=ce('div','dg-type-sample');sm.style.fontSize=fs;sm.style.fontFamily='var(--font-sans)';sm.textContent='設計系統 Design System Aa 123';
-        row.append(meta,sm);list.appendChild(row);});
-      s.appendChild(list);})();
+    /* 3. 字體（JoiiNi 寫法：字體家族＋字級表＋文字色表）*/
+    (function(){const s=sec('字體 Typography','字體家族 · 字級 h1–h10 · 文字色');
+      const stack=n=>val(n).split(',').map(x=>x.trim().replace(/^['"]|['"]$/g,'')).filter(Boolean);
+      // 3a 字體家族
+      const fams=ce('div','dgt-fams');
+      const mkFam=(lb,tok)=>{const st=stack(tok);const fv='var('+tok+')';const c=ce('div','dgt-fam');
+        c.innerHTML=`<div class="dgt-fam-lb">${lb}</div><div class="dgt-fam-name" style="font-family:${fv}">${st[0]||'—'}</div>`;
+        const w=ce('div','dgt-weights');[['400','Regular'],['500','Medium'],['600','Semibold'],['700','Bold']].forEach(([wt,wn])=>{
+          const ch=ce('div','dgt-wchip');ch.innerHTML=`<span class="dgt-wg" style="font-family:${fv};font-weight:${wt}">Aa</span><span class="dgt-wn">${wn} ${wt}</span>`;w.appendChild(ch);});
+        c.appendChild(w);return c;};
+      fams.append(mkFam('Sans（中英數）','--font-sans'),mkFam('Mono（等寬）','--font-mono'));
+      s.appendChild(fams);
+      const note=ce('div','dgt-note');note.textContent='字體代替排序：'+stack('--font-sans').slice(0,4).join(' → ');s.appendChild(note);
+      // 3b 字級表
+      const scale=ce('div','dgt-scale');
+      const head=ce('div','dgt-row dgt-head');head.innerHTML='<span class="dgt-cn">N</span><span class="dgt-cp">預覽</span><span class="dgt-cs">Size · Line · Letter</span><span class="dgt-cu">應用方式</span>';scale.appendChild(head);
+      const USE={h1:'主視覺大標',h2:'頁面主標題',h3:'區塊標題',h4:'次區塊標題',h5:'小標題',h6:'強調內文',h7:'內文標準',h8:'內文／表單',h9:'次要資訊',h10:'註解／說明'};
+      ['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10'].forEach((lv,i)=>{const fs=val('--fs-'+lv);if(!fs)return;
+        const row=ce('div','dgt-row');
+        const n=ce('span','dgt-cn');n.textContent=String(i+1).padStart(2,'0');
+        const p=ce('span','dgt-cp');p.style.fontSize=fs;p.style.fontWeight=val('--fw-'+lv)||'600';p.style.fontFamily='var(--font-sans)';p.style.lineHeight='1.2';p.textContent='標題 Title Aa';
+        const sp=ce('span','dgt-cs');sp.innerHTML='Size '+fs+'<br>Line '+(val('--lh-'+lv)||'—')+'<br>Letter '+(val('--ls-'+lv)||'0');
+        const u=ce('span','dgt-cu');u.textContent=USE[lv]||'';
+        row.append(n,p,sp,u);scale.appendChild(row);});
+      s.appendChild(scale);
+      // 3c 文字色表
+      const fc=ce('div','dgt-fc');
+      const fch=ce('div','dgt-fcrow dgt-head');fch.innerHTML='<span class="dgt-fcs">顏色</span><span class="dgt-fcu">應用方式</span>';fc.appendChild(fch);
+      [['--ink','主要文字','標題／主文'],['--muted','次要文字','輔助資訊'],['--faint','更淡文字','註解／placeholder'],['--accent','品牌色','重點提示文字'],['--c-error-500','錯誤','錯誤提示'],['--c-success-500','成功','成功提示']].forEach(([tok,nm,use])=>{
+        const v=val(tok);if(!v)return;const row=ce('div','dgt-fcrow');
+        const sw=ce('span','dgt-fcs');const b=ce('span','dgt-fcsw');b.style.background=v;const t=ce('span','dgt-fcnm');t.textContent=nm+' · '+v.toUpperCase();sw.append(b,t);
+        const u=ce('span','dgt-fcu');u.textContent=use;row.append(sw,u);fc.appendChild(row);});
+      s.appendChild(fc);})();
 
     /* 4. 間距 */
     (function(){const s=sec('間距 Spacing','--sp-0 … --sp-9');
@@ -8210,24 +8255,6 @@ function buildScheduleChart(view){
         const nm=ce('div','dg-role-nm');nm.textContent=lb;it.append(box,nm);wrap.appendChild(it);});
       s.appendChild(wrap);})();
 
-    /* 7. 元件（依 SUMSEL 選定）*/
-    (function(){
-      const isSel=navId=>{const dial=Object.keys(DIAL_PAGE).filter(d=>DIAL_PAGE[d]===navId);return dial.length?dial.some(d=>SUMSEL.has(d)):SUMSEL.has(navId);};
-      const groups=NAV.map(g=>({group:g.group,emoji:g.emoji,items:g.items.filter(it=>it.id!=='logo'&&isSel(it.id))})).filter(g=>g.items.length);
-      const total=groups.reduce((a,g)=>a+g.items.length,0);
-      const s=sec('元件 Components','已選 '+total+' 顆 · 套用當前 token');
-      groups.forEach(g=>{const gp=ce('div','dg-compgroup');const gh=ce('div','dg-compgroup-h');gh.textContent=(g.emoji?g.emoji+' ':'')+g.group;gp.appendChild(gh);
-        const grid=ce('div','dg-compgrid');const more=[];
-        g.items.forEach(it=>{const live=LIVE[it.id]||(it.id==='selector'?LIVE.checkbox:null);
-          if(!live){more.push(it.name);return;}
-          const card=ce('div','dg-comp');const h=ce('div','dg-comp-h');h.textContent=it.name;card.appendChild(h);
-          const stage=ce('div','dg-comp-stage');try{live(stage);}catch(e){stage.innerHTML='<span class="dg-muted">預覽失敗</span>';}
-          card.appendChild(stage);grid.appendChild(card);});
-        if(grid.children.length)gp.appendChild(grid);
-        if(more.length){const m=ce('div','dg-more');m.textContent='更多（見各元件頁）：'+more.join('、');gp.appendChild(m);}
-        s.appendChild(gp);});
-      if(!groups.length){const p=ce('p','dg-muted');p.textContent='目前未選任何元件，到「需求匯總」勾選。';s.appendChild(p);}
-    })();
   }
 
   function renderTokens(view){
