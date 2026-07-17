@@ -8842,8 +8842,8 @@ function buildScheduleChart(view){
   function showStudioBadge(proj){
     const tb=document.querySelector('.topbar'); if(!tb||document.getElementById('dsBadge'))return;
     const wrap=document.createElement('div');wrap.id='dsBadge';wrap.className='ds-badge';
-    wrap.innerHTML='<span class="ds-badge-proj" id="dsBadgeProj">'+(proj||'未綁專案 · 匯出走下載')+'</span>';
-    const btn=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.onclick=dsSave;
+    wrap.innerHTML='<span class="ds-badge-proj" id="dsBadgeProj">'+(proj||'此為母元件庫，若需更新請調整原始檔')+'</span>';
+    const btn=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.onclick=dsSave; // 兩模式都 s
     wrap.appendChild(btn);
     tb.appendChild(wrap); // 匯出 badge 靠右（spacer 後）
     updateBadgeVersion();
