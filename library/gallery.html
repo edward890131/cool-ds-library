@@ -2697,6 +2697,19 @@
   .ds-badge-proj{font-weight:600;font-size:var(--fs-h9);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   @media(max-width:900px){.ds-badge-proj,.ds-badge-lbl{display:none;}}
   .theme-toggle-left{margin-left:var(--sp-4);}
+  /* Studio 版本彈窗（Phase F：專案元件庫版本化）*/
+  .ds-ovl{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 45%,transparent);display:flex;align-items:center;justify-content:center;z-index:9999;padding:var(--sp-5);}
+  .ds-dlg{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--e-2xl);max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;}
+  .ds-dlg-hd{padding:var(--sp-5) var(--sp-5) var(--sp-3);border-bottom:1px solid var(--line);}
+  .ds-dlg-ttl{font-size:var(--fs-h6);font-weight:600;color:var(--ink);}
+  .ds-dlg-sub{font-size:var(--fs-h9);color:var(--muted);margin-top:2px;font-family:var(--font-mono);}
+  .ds-dlg-bd{padding:var(--sp-4) var(--sp-5);overflow:auto;}
+  .ds-dlg-ft{padding:var(--sp-3) var(--sp-5) var(--sp-5);display:flex;gap:var(--sp-3);justify-content:flex-end;}
+  .ds-chg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .ds-chg li{font-size:var(--fs-h9);color:var(--ink);font-family:var(--font-mono);padding:6px 10px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);word-break:break-all;}
+  .ds-chg li.add{border-left:3px solid var(--s-feedback-success);}
+  .ds-chg li.rm{border-left:3px solid var(--s-action-danger);}
+  .ds-chg li.chg{border-left:3px solid var(--s-feedback-info);}
   .dgt-scale{display:flex;flex-direction:column;}
   .dgt-row{display:grid;grid-template-columns:36px minmax(180px,1.4fr) 200px 1fr;gap:var(--sp-4);align-items:center;padding:var(--sp-4) 0;border-bottom:1px solid var(--line);}
   .dgt-row.dgt-head{color:var(--muted);font-size:var(--fs-h9);font-weight:600;padding:var(--sp-3) 0;}
@@ -8735,20 +8748,99 @@ function buildScheduleChart(view){
     return {tokens:{overrides:window.__tokOverrides||{},logo},components:comp,state};
   }
   function dsDownload(name,obj){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
-  function dsExport(){
+  /* ── 專案元件庫版本化（Phase F）：CTA＝儲存並更新 vN、防呆彈窗、進站版本比對；只動專案層、不碰共用引擎 ── */
+  function dsVerKey(){return 'dsv:'+(window.__dsProject||'');}
+  function dsToast(msg){const b=document.getElementById('dsExportBtn');if(!b)return;const s=b.querySelector('span');const o=s.dataset.o||s.textContent;s.textContent=msg;setTimeout(()=>{s.textContent=o;},1800);}
+  function updateBadgeVersion(){const b=document.getElementById('dsExportBtn');if(!b)return;const s=b.querySelector('span');s.textContent=window.__dsProject?('儲存並更新 · v'+(window.__dsVersion||0)):'匯出（下載）';s.dataset.o=s.textContent;}
+  // 目前狀態的可比較快照（token override + logo + 選用元件 + 各軸）
+  function dsSnap(){
+    const rep=(typeof choiceReport==='function')?choiceReport():{}; const axes={};
+    [...SUMSEL].forEach(id=>{const spec=DIAL_SPECS[id];if(spec&&rep[id]){axes[id]={};spec.order.forEach(k=>axes[id][k]=(rep[id][k]||[]));}});
+    return {ov:JSON.parse(JSON.stringify(window.__tokOverrides||{})),logo:{light:PROJECT_LOGOS.light||null,dark:PROJECT_LOGOS.dark||null},sel:[...SUMSEL].sort(),axes};
+  }
+  // baseline → current 差異 → [{t:'add'|'rm'|'chg', s}]
+  function dsDiff(a,b){
+    const out=[];
+    ['root','dark','desktop','tablet','mobile'].forEach(m=>{
+      const oa=(a.ov&&a.ov[m])||{}, ob=(b.ov&&b.ov[m])||{};
+      new Set([...Object.keys(oa),...Object.keys(ob)]).forEach(k=>{
+        const va=oa[k], vb=ob[k]; if(va===vb)return;
+        const tag=m==='root'?'':' ('+m+')';
+        if(va===undefined)out.push({t:'add',s:'token '+k+tag+' → '+vb});
+        else if(vb===undefined)out.push({t:'rm',s:'token '+k+tag+' 移除'});
+        else out.push({t:'chg',s:'token '+k+tag+'：'+va+' → '+vb});
+      });
+    });
+    ['light','dark'].forEach(k=>{ if((a.logo[k]||null)!==(b.logo[k]||null)) out.push({t:'chg',s:'logo（'+k+'）更新'}); });
+    const sa=new Set(a.sel), sb=new Set(b.sel);
+    b.sel.filter(x=>!sa.has(x)).forEach(id=>out.push({t:'add',s:'元件 '+id}));
+    a.sel.filter(x=>!sb.has(x)).forEach(id=>out.push({t:'rm',s:'元件 '+id+' 移除'}));
+    b.sel.filter(x=>sa.has(x)).forEach(id=>{
+      const axa=a.axes[id]||{}, axb=b.axes[id]||{};
+      new Set([...Object.keys(axa),...Object.keys(axb)]).forEach(k=>{
+        const la=(axa[k]||[]).join(','), lb=(axb[k]||[]).join(',');
+        if(la!==lb)out.push({t:'chg',s:id+' · '+k+'：['+la+'] → ['+lb+']'});
+      });
+    });
+    return out;
+  }
+  function dsDialog(o){
+    const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    const ovl=document.createElement('div');ovl.className='ds-ovl';
+    const dlg=document.createElement('div');dlg.className='ds-dlg';
+    let bd;
+    if(o.changes&&o.changes.length)bd='<ul class="ds-chg">'+o.changes.map(c=>'<li class="'+c.t+'">'+esc(c.s)+'</li>').join('')+'</ul>';
+    else if(o.changes)bd='<div style="color:var(--muted);font-size:var(--fs-h9)">沒有變更。</div>';
+    else bd=o.bodyHTML||'';
+    dlg.innerHTML='<div class="ds-dlg-hd"><div class="ds-dlg-ttl">'+esc(o.title)+'</div>'+(o.sub?'<div class="ds-dlg-sub">'+esc(o.sub)+'</div>':'')+'</div><div class="ds-dlg-bd">'+bd+'</div>';
+    const ft=document.createElement('div');ft.className='ds-dlg-ft';
+    const close=()=>ovl.remove();
+    if(o.cancelText){const c=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});c.type='button';c.querySelector('span').textContent=o.cancelText;c.onclick=close;ft.appendChild(c);}
+    if(o.okText){const k=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});k.type='button';k.querySelector('span').textContent=o.okText;k.onclick=()=>{close();o.onOk&&o.onOk();};ft.appendChild(k);}
+    dlg.appendChild(ft);ovl.appendChild(dlg);document.body.appendChild(ovl);
+    ovl.addEventListener('click',e=>{if(e.target===ovl)close();});
+  }
+  // CTA：先算 diff，確認再寫；無 proj（公開/無 server）仍給 diff 確認後下載
+  function dsSave(){
+    const proj=window.__dsProject;
+    const changes=dsDiff(window.__dsBaseline||dsSnap(), dsSnap());
+    if(!proj){ dsDialog({title:'匯出（下載）',sub:changes.length+' 項變更',changes,okText:'下載',cancelText:'取消',onOk:dsExport}); return; }
+    if(!changes.length){ dsToast('無變更'); return; }
+    const v=window.__dsVersion||0;
+    dsDialog({title:'儲存並更新此元件庫',sub:'v'+v+' → v'+(v+1)+'　·　'+changes.length+' 項變更',changes,okText:'確定更新',cancelText:'取消',onOk:()=>dsCommit(changes)});
+  }
+  function dsCommit(changes){
     const proj=window.__dsProject; const payload=dsBuildExport();
-    const done=msg=>{const b=document.getElementById('dsExportBtn');if(b){const s=b.querySelector('span');const o=s.dataset.o||s.textContent;s.dataset.o=o;s.textContent=msg;setTimeout(()=>s.textContent=o,1800);}};
-    if(!proj){ dsDownload('tokens.export.json',payload.tokens);dsDownload('components.export.json',payload.components);done('已下載 ✓');return; }
+    payload.version={historyEntry:{at:new Date().toISOString(),source:'website',changes:changes.map(c=>c.s)}};
     fetch('/api/project/'+encodeURIComponent(proj)+'/export',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-      .then(r=>r.json()).then(()=>done('已寫入 ✓')).catch(()=>{ dsDownload('tokens.export.json',payload.tokens);dsDownload('components.export.json',payload.components);done('改用下載 ✓'); });
+      .then(r=>r.json()).then(()=>{ window.__dsVersion=(window.__dsVersion||0)+1; window.__dsBaseline=dsSnap(); localStorage.setItem(dsVerKey(),String(window.__dsVersion)); updateBadgeVersion(); dsToast('已更新 → v'+window.__dsVersion+' ✓'); })
+      .catch(()=>{ const p=dsBuildExport(); dsDownload('tokens.export.json',p.tokens);dsDownload('components.export.json',p.components); dsToast('無 server · 改用下載'); });
+  }
+  // 純下載（公開模式或 server fallback）
+  function dsExport(){ const p=dsBuildExport(); dsDownload('tokens.export.json',p.tokens);dsDownload('components.export.json',p.components); dsToast('已下載 ✓'); }
+  // 進站版本比對：專案層版本被（Figma 同步等）推進過 → 跳「版本已更新」說明
+  function dsVersionPopup(){
+    const proj=window.__dsProject; if(!proj)return;
+    const vinfo=window.__dsProjectData&&window.__dsProjectData.version; if(!vinfo)return;
+    const cur=vinfo.version||0;
+    const seenRaw=localStorage.getItem(dsVerKey());
+    const seen=seenRaw==null?null:parseInt(seenRaw,10);
+    if(seen==null){ localStorage.setItem(dsVerKey(),String(cur)); return; } // 首訪靜默記住
+    if(cur>seen){
+      const changes=[];
+      (vinfo.history||[]).filter(h=>h.v>seen).forEach(h=>{(h.changes||[]).forEach(s=>changes.push({t:'chg',s:'v'+h.v+(h.source==='figma'?'（Figma）':'')+'：'+s}));});
+      dsDialog({title:'版本已更新',sub:'v'+seen+' → v'+cur,changes:changes.length?changes:null,okText:'知道了'});
+      localStorage.setItem(dsVerKey(),String(cur));
+    }
   }
   function showStudioBadge(proj){
     const tb=document.querySelector('.topbar'); if(!tb||document.getElementById('dsBadge'))return;
     const wrap=document.createElement('div');wrap.id='dsBadge';wrap.className='ds-badge';
     wrap.innerHTML='<span class="ds-badge-lbl">STUDIO</span><span class="ds-badge-proj">'+(proj||'未綁專案 · 匯出走下載')+'</span>';
-    const btn=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.querySelector('span').textContent='匯出到專案';btn.onclick=dsExport;
+    const btn=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.onclick=dsSave;
     wrap.appendChild(btn);
     tb.appendChild(wrap); // 匯出 badge 靠右（spacer 後）
+    updateBadgeVersion();
   }
   function applyProposal(p){
     if(!p)return;
@@ -8764,11 +8856,12 @@ function buildScheduleChart(view){
     const proj=new URLSearchParams(location.search).get('project');
     window.__dsProject=proj||null;
     const boot=()=>{ current=hashId()||'summary'; renderNav(); renderView(current); if(typeof refreshLogo==='function')refreshLogo(); showStudioBadge(proj); };
-    if(!proj){ boot(); return; }
+    if(!proj){ boot(); window.__dsBaseline=dsSnap(); return; }
     fetch('/api/project/'+encodeURIComponent(proj)).then(r=>r.ok?r.json():null).then(d=>{
       window.__dsProjectData=d||null;
       applyProposal(d&&(d.state||d.proposal)); // 有 state（續編）優先，否則 proposal（初始）
-    }).catch(()=>{}).finally(boot);
+      window.__dsVersion=(d&&d.version&&d.version.version)||0;
+    }).catch(()=>{}).finally(()=>{ boot(); window.__dsBaseline=dsSnap(); dsVersionPopup(); });
   })();
   window.addEventListener('hashchange',()=>{const id=hashId()||'summary';if(id!==current){current=id;renderNav();renderView(id);}});
 

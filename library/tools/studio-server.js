@@ -31,12 +31,13 @@ const server = http.createServer((req, res) => {
     if (!name) return send(res, 400, 'text/plain', 'missing project name');
     const dir = path.join(PROJECTS, name);
 
-    // GET：回傳 proposal + 已存 state
+    // GET：回傳 proposal + 已存 state + 版本資訊
     if (req.method === 'GET' && !action) {
       return send(res, 200, MIME['.json'], JSON.stringify({
         name,
         proposal: readJSON(path.join(dir, 'proposal.json')),
         state: readJSON(path.join(dir, 'selection.state.json')),
+        version: readJSON(path.join(dir, 'library.version.json')), // {version,history} 或 null
       }));
     }
     // POST export / state：寫檔到 projects/<name>/
@@ -51,6 +52,14 @@ const server = http.createServer((req, res) => {
           if (data.tokens) { fs.writeFileSync(path.join(dir, 'tokens.export.json'), JSON.stringify(data.tokens, null, 2)); written.push('tokens.export.json'); }
           if (data.components) { fs.writeFileSync(path.join(dir, 'components.export.json'), JSON.stringify(data.components, null, 2)); written.push('components.export.json'); }
           if (data.state) { fs.writeFileSync(path.join(dir, 'selection.state.json'), JSON.stringify(data.state, null, 2)); written.push('selection.state.json'); }
+          // 版本升級：data.version = {version, historyEntry}；append 到 library.version.json，只更新專案元件庫、不動共用引擎
+          if (data.version && data.version.historyEntry) {
+            const vfp = path.join(dir, 'library.version.json');
+            const cur = readJSON(vfp) || { version: 0, history: [] };
+            const entry = Object.assign({ v: (cur.version || 0) + 1 }, data.version.historyEntry);
+            cur.version = entry.v; cur.history = (cur.history || []).concat(entry);
+            fs.writeFileSync(vfp, JSON.stringify(cur, null, 2)); written.push('library.version.json');
+          }
         } else {
           fs.writeFileSync(path.join(dir, 'selection.state.json'), JSON.stringify(data, null, 2)); written.push('selection.state.json');
         }

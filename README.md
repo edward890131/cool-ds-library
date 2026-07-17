@@ -57,7 +57,7 @@ node library/tools/studio-server.js                        # 啟動本地 server
 # 開 http://localhost:8899/gallery.html?project=<專案名>
 ```
 
-帶 `?project=` 會載入 `projects/<專案名>/proposal.json` 預填 token / 勾選 / logo；topbar 右上「匯出到專案」把結果寫回 `projects/<專案名>/`。細節與檔案格式見 `projects/README.md`。
+帶 `?project=` 會載入 `projects/<專案名>/proposal.json` 預填 token / 勾選 / logo。topbar 右上 CTA ＝「**儲存並更新 · v<N>**」：調完按下先跳防呆彈窗列出改了哪些、確認才寫回 `projects/<專案名>/` 並把該專案元件庫版本 +1（只動專案層、不碰共用引擎）。若版本被 Figma 同步推進過，下次進站會跳「版本已更新」說明。細節與檔案格式見 `projects/README.md`。
 
 ## 跑雙向同步（第七步）
 

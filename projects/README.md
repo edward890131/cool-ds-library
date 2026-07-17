@@ -11,7 +11,15 @@
 | `tokens.export.json` | 網站匯出時 | 最終 token overrides（root/dark/響應式）+ logo（data URI） |
 | `components.export.json` | 網站匯出時 | `selected`（元件 id）+ `axes`（每顆選用軸）+ `counts`（變體數） |
 | `assets/logo.*` | 你上傳 | 專案 logo（也會內嵌進 export 的 data URI） |
+| `library.version.json` | 網站「儲存並更新」／`sync/bump-version.mjs` | 專案元件庫版本＋changelog（`{version, history:[{v,at,source,changes}]}`） |
+| `sync/` | sync 腳本 | drift snapshot＋報告（見 `sync/README.md`） |
 | `preview.html` | bake | 定案後自包含預覽（可寄客戶） |
+
+## 版本化（Phase F）
+
+`?project=` 模式下，topbar 的 CTA ＝「**儲存並更新 · v<N>**」。點了先跳防呆彈窗列出「改了哪些」＋「v1→v2」，確認才寫檔並把版本 +1、append 一筆 `library.version.json` history（`source: website`）。
+
+版本只屬**這個專案元件庫**，不動共用引擎（`library/`）。Figma 端改動經 `sync` 吃回來後，由 `node sync/bump-version.mjs <name> --source=figma --change="..."` 記一筆（`source: figma`）；下次進網站會跳「版本已更新」說明彈窗（比對瀏覽器記住的上次版本）。
 
 ## proposal.json 結構
 

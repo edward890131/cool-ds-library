@@ -20,6 +20,7 @@
 | `check-token-drift.mjs` | Token 軌主腳本。讀 base＋`tokens.export.json`＋`figma-snapshot.json` → 出 drift 報告。 |
 | `build-component-spec.mjs` | 🆕 從 `component-registry.json` **自動生** code 端元件指紋（不用手填，永遠跟 library 同步）。 |
 | `check-component-drift.mjs` | Component 軌主腳本。逐軸比對 spec 與 `figma-component-snapshot.json`。 |
+| `bump-version.mjs` | Figma 改動吃回專案後，記一筆專案元件庫版本（`source: figma`）→ 網站進站會跳「版本已更新」。 |
 | `SYNC_PROMPTS.md` | 給 Claude 拉 snapshot 的 prompt 手冊。 |
 
 **共用引擎**：`sync/*.mjs` 一份，讀寫各專案的 `projects/<name>/sync/`（snapshot＋報告都寫那）。
@@ -47,6 +48,12 @@ node sync/check-component-drift.mjs <name>
 ```
 
 `projects/_demo/sync/` 是一份**乾淨往返範例**（202 token 對齊、4 元件結構乾淨、1 個 hygiene advisory 示範）。
+
+吃回 Figma 改動、確認套進 `projects/<name>/` 後，記一筆專案元件庫版本（網站進站會跳「版本已更新」）：
+
+```bash
+node sync/bump-version.mjs <name> --source=figma --change="token --c-brand-500 #A→#B" --change="+variant tag/personal"
+```
 
 ---
 
