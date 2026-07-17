@@ -32,4 +32,11 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - ✅ 驗證：hover 背景 #1C1C20→#141417（=`--fill-h`），與 library 一致
 - 教訓入庫：重用 library 元件一律走其建構器（`mkBtn`/`build*`）＋驗互動態，不只驗靜態
 
-待辦：C1 studio 啟動＋proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server
+### C1.5 — Design Guideline 頁（2026-07-17）
+- 側邊欄新增置頂項，順序 `🎨 Design Token → 📐 Design Guideline → 📋 需求匯總`
+- 工作流定位：第 3 步（網站選取）尾端、匯出前的**最後確認關**（＝框架 Step 3.5「先看效果」）
+- `renderGuideline` 讀 `getComputedStyle(:root)` 當前值（自動含 token 編輯結果）+ 重用 `LIVE[id]` 掛元件實例，不重畫
+- 7 區塊：品牌（logo 淺/深＋主副色）／色彩（7 色階＋語意角色）／字體 h1–h10／間距／圓角／陰影／元件（依 `SUMSEL` 選定，LIVE 有的掛實例、Complex/Card/Chart 列名）
+- ✅ 驗證：nav 順序、7 區塊、17 LIVE 實例掛載、0 console error
+
+待辦：C1 proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server
