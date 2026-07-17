@@ -7916,16 +7916,20 @@ function buildScheduleChart(view){
     const slots=ce('div','logo-slots');
     function slot(theme,label,hint){
       const cell=ce('div','logo-slot lp-'+theme);
-      cell.innerHTML='<div class="ls-top"><span class="ls-title">'+label+'</span>'
-        +'<label class="btn v-solid i-primary sz-s st-default ls-upload">上傳<input type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" hidden></label>'
-        +'<button class="btn v-outline i-secondary sz-s st-default ls-clear">清除</button></div>'
+      cell.innerHTML='<div class="ls-top"><span class="ls-title">'+label+'</span></div>'
         +'<div class="ls-prev"><span class="lp-logo lp-lg"></span></div>'
         +'<span class="ls-hint">'+hint+'</span>';
-      const prevLogo=cell.querySelector('.lp-logo');
+      const top=cell.querySelector('.ls-top'), prevLogo=cell.querySelector('.lp-logo');
       function paint(){const src=PROJECT_LOGOS[theme];prevLogo.innerHTML=src?('<img src="'+src+'" alt="Logo">'):HDR_LOGO;cell.classList.toggle('is-empty',!src);}
+      /* 用 library mkBtn 原子（isLive→真 :hover/:active），僅換文字＝比照 library 完整互動契約，不手拼 class */
+      const upBtn=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});upBtn.type='button';upBtn.querySelector('span').textContent='上傳';
+      const file=document.createElement('input');file.type='file';file.accept='image/svg+xml,image/png,image/jpeg,image/webp';file.hidden=true;
+      upBtn.onclick=()=>file.click();
+      file.onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{applyLogo(theme,r.result);paint();};r.readAsDataURL(f);};
+      const clrBtn=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});clrBtn.type='button';clrBtn.querySelector('span').textContent='清除';
+      clrBtn.onclick=()=>{applyLogo(theme,null);paint();};
+      top.append(upBtn,clrBtn,file);
       paint();
-      cell.querySelector('input').onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{applyLogo(theme,r.result);paint();};r.readAsDataURL(f);};
-      cell.querySelector('.ls-clear').onclick=()=>{applyLogo(theme,null);paint();};
       return cell;
     }
     slots.appendChild(slot('light','淺色主題 Logo','用於淺色背景。'));

@@ -26,4 +26,10 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - registry 生成腳本改指 studio gallery、logo 改 enrich NAV 既有項（非重複 append）
 - 註：Playwright 深色主題背景量測受 Chrome Auto Dark Mode 污染，屬測試假象非 CSS bug（無 `!important` 背景、custom property 值皆正確）
 
+### C3 再修正（2026-07-17）— hover 契約
+- 上一版只套 `.btn` class 但**漏了 `.live`**，導致無 `:hover`/`:active`（library 互動按鈕靠 `.live` 走真實 hover）
+- 改為**用 `mkBtn` 建構器**（`isLive:true`）建上傳/清除鈕、僅換文字＝完整複製 library 互動契約，不再手拼 class
+- ✅ 驗證：hover 背景 #1C1C20→#141417（=`--fill-h`），與 library 一致
+- 教訓入庫：重用 library 元件一律走其建構器（`mkBtn`/`build*`）＋驗互動態，不只驗靜態
+
 待辦：C1 studio 啟動＋proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server
