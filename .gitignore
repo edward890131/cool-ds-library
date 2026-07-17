@@ -7,3 +7,5 @@ node_modules/
 # 專案暫存（保留結構檔，忽略暫存輸出）
 projects/**/.tmp/
 *.log
+.vercel
+.env*
