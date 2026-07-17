@@ -18,3 +18,7 @@
 
 其餘檔案（L0/L4、`production/*`、`themes/*`、`skills/*`、`CLAUDE.md`）維持上游快照原貌。
 `framework/CLAUDE.md` 仍是上游原文；**根目錄 `CLAUDE.md` 的 studio 規則優先於它**（尤其「專案產出寫 repo 內 `projects/`」覆蓋舊版「寫 repo 外」）。
+
+## sync/ 來源（另一上游）
+
+`sync/` 改寫自 `figma-sync-setup`（edward890131，https://github.com/edward890131/figma-sync-setup）。**適配非快照**：token-adapter 已重寫吃 gallery CSS 變數（非原版三 DTCG）、新增 `build-component-spec.mjs` 從 registry 自動生指紋、component drift 改逐軸比對。上游更新時參考其 `check-*.mjs` 的 diff 邏輯，但輸入層我方自持，不直接覆蓋。

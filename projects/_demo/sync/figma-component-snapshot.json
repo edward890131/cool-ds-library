@@ -1,0 +1,100 @@
+{
+  "$metadata": {
+    "fileName": "_demo DS（範例·鏡像）",
+    "fileKey": "DEMOKEY",
+    "snapshotAt": "2026-07-17"
+  },
+  "components": {
+    "button": {
+      "figmaNode": "10:1",
+      "axes": {
+        "variant": [
+          "solid",
+          "soft",
+          "outline",
+          "text"
+        ],
+        "intent": [
+          "primary",
+          "secondary",
+          "danger"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "pressed",
+          "disabled"
+        ],
+        "size": [
+          "s",
+          "m",
+          "l"
+        ]
+      }
+    },
+    "input": {
+      "figmaNode": "10:2",
+      "axes": {
+        "variant": [
+          "outline",
+          "filled"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "focus",
+          "filled-value",
+          "disabled",
+          "error"
+        ]
+      },
+      "colorCssVarNamed": [
+        "var(--muted)"
+      ]
+    },
+    "tag": {
+      "figmaNode": "10:3",
+      "axes": {
+        "variant": [
+          "solid",
+          "outline",
+          "soft"
+        ],
+        "corner": [
+          "round",
+          "rect"
+        ],
+        "intent": [
+          "brand",
+          "neutral",
+          "danger"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "disabled"
+        ]
+      }
+    },
+    "card": {
+      "figmaNode": "10:4",
+      "axes": {
+        "variant": [
+          "elevated",
+          "outlined",
+          "filled"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "selected",
+          "disabled"
+        ],
+        "size": [
+          "m",
+          "s"
+        ]
+      }
+    }
+  }
+}

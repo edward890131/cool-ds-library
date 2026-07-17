@@ -1,0 +1,107 @@
+{
+  "$meta": {
+    "title": "Component Spec（code 端指紋，自動生自 registry）— _demo",
+    "source": "library/component-registry.json",
+    "generated": "run: node sync/build-component-spec.mjs _demo",
+    "note": "軸（variant/intent/state/size）＝ registry canonical 真相，對應 Figma variant/boolean property（鐵則 3）。figmaNode 建好 Figma 後回填。radius/color/hardcoded 指紋屬 code 側樣式細節，gallery 單檔未拆出 → 本階段只比結構（軸）；樣式指紋列為未來延伸。",
+    "scope": "components.export.json selected"
+  },
+  "components": {
+    "button": {
+      "figmaNode": "",
+      "l0Ref": "button",
+      "status": "ready",
+      "axes": {
+        "variant": [
+          "solid",
+          "soft",
+          "outline",
+          "text"
+        ],
+        "intent": [
+          "primary",
+          "secondary",
+          "danger"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "pressed",
+          "disabled"
+        ],
+        "size": [
+          "s",
+          "m",
+          "l"
+        ]
+      }
+    },
+    "input": {
+      "figmaNode": "",
+      "l0Ref": "input",
+      "status": "ready",
+      "axes": {
+        "variant": [
+          "outline",
+          "filled"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "focus",
+          "filled-value",
+          "disabled",
+          "error"
+        ]
+      }
+    },
+    "tag": {
+      "figmaNode": "",
+      "l0Ref": "tag",
+      "status": "ready",
+      "axes": {
+        "variant": [
+          "solid",
+          "outline",
+          "soft"
+        ],
+        "corner": [
+          "round",
+          "rect"
+        ],
+        "intent": [
+          "brand",
+          "neutral",
+          "danger"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "disabled"
+        ]
+      }
+    },
+    "card": {
+      "figmaNode": "",
+      "l0Ref": "card",
+      "status": "ready",
+      "axes": {
+        "variant": [
+          "elevated",
+          "outlined",
+          "filled"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "selected",
+          "disabled"
+        ],
+        "size": [
+          "m",
+          "s"
+        ]
+      }
+    }
+  }
+}

@@ -211,7 +211,19 @@ node library/tools/studio-server.js          # 啟本地 server（:8899）
 
 **目標**：之後 codebase 或 Figma 任一邊改動，跑 `sync/` 偵測差異，分四類歸位。
 
-> **現況**：`sync/` 為 stub（Phase E 才接 figma-sync-setup 的三支 drift 腳本，本機沙箱擋 git clone）。這步先講規則，腳本待接。
+**做法**（兩軌，細節見 `sync/README.md` ＋ `sync/SYNC_PROMPTS.md`）：
+
+```bash
+node sync/extract-base-tokens.mjs          # 一次性：抽 gallery base token（:root 改了才重跑）
+node sync/build-component-spec.mjs <name>  # 從 registry 自動生 code 端元件指紋
+# 請 Claude 用 Figma MCP 拉兩份 snapshot 到 projects/<name>/sync/（prompt 見 SYNC_PROMPTS.md）
+node sync/check-token-drift.mjs <name>     # → drift 報告（token 軌，code 為正本）
+node sync/check-component-drift.mjs <name> # → drift 報告（component 軌，Figma 為正本）
+```
+
+- Token 軌 = base（`library/tokens.base.json`）＋專案 `tokens.export.json` 疊加，比對 Figma Variables snapshot，三 collection（Primitives／Theme／Device）。
+- Component 軌 = registry 自動生的軸指紋，逐軸比對 Figma variant／boolean。
+- Node 腳本只做 diff；**拉 Figma snapshot 靠 Claude 用 MCP**（半自動，改不改由設計師決定）。
 
 **鐵則 6 — 差異四分類**（沿用框架鐵則 3）：
 
@@ -241,7 +253,7 @@ node library/tools/studio-server.js          # 啟本地 server（:8899）
 | 寫 Figma 前置 | `/figma-use`（強制前置） |
 | 已有 Figma DS、單純重建一頁 | `framework/skills/visual-to-figma-ds` |
 | Path 2（CD 介入）接回 | `framework/skills/cd-handoff-rebuild` |
-| 從 Figma 反向 sync | `framework/skills/ds-sync-from-figma`（＋ Phase E `sync/`） |
+| 從 Figma 反向 sync | `sync/`（drift 兩軌）＋ `framework/skills/ds-sync-from-figma` |
 
 ## 收尾報告
 

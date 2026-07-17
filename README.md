@@ -59,6 +59,18 @@ node library/tools/studio-server.js                        # 啟動本地 server
 
 帶 `?project=` 會載入 `projects/<專案名>/proposal.json` 預填 token / 勾選 / logo；topbar 右上「匯出到專案」把結果寫回 `projects/<專案名>/`。細節與檔案格式見 `projects/README.md`。
 
+## 跑雙向同步（第七步）
+
+```
+node sync/extract-base-tokens.mjs           # 一次性：抽 gallery base token
+node sync/build-component-spec.mjs <專案名>  # 從 registry 自動生元件指紋
+# 請 Claude 用 Figma MCP 拉 snapshot（prompt 見 sync/SYNC_PROMPTS.md）
+node sync/check-token-drift.mjs <專案名>      # token 漂移報告（code 為正本）
+node sync/check-component-drift.mjs <專案名>  # component 漂移報告（Figma 為正本）
+```
+
+報告出在 `projects/<專案名>/sync/reports/`，差異依鐵則 6 分四類歸位。`projects/_demo/sync/` 是乾淨往返範例。細節見 `sync/README.md`。
+
 ## 最少要會的 git
 
 ```
