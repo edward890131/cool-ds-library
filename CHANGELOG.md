@@ -90,3 +90,8 @@ Phase E 完成 🎉。**整個 Goons DS Studio 七步工作流全部就緒**（A
 - ✅ **Playwright 端到端驗證**（臨時專案）：首訪 v1 不跳彈窗→改 token+加元件按存→confirm 列 2 項 diff（v1→v2）→寫檔（version.json append website、tokens/components 同步）→`bump-version` 外部推到 v3→重載跳「版本已更新」v2→v3 標 Figma→再重載不重跳。全綠。
 
 Phase F 完成 🎉。「編輯→確認→儲存更新→版本說明」閉環齊備，且共用引擎受保護。（未來可選：母庫再往下產 npm 元件包——另一層工程產物，暫緩。）
+
+## Batch A/B — topbar 微調 + 上手指南教學頁（2026-07-17）
+- **topbar**：移除「STUDIO」tag；版本號改跟在專案名後（`_demo · v1`）；漢堡改用 library icon-only s 按鈕；「複製此頁 CSS/JSON」改 library soft 樣式；匯出/儲存按鈕統一 s；公開母庫（無 `?project=`）文案改「此為母元件庫，若需更新請調整原始檔」。
+- **上手指南教學頁**：topbar 加「📖 上手指南」入口 → `#guide` → `renderGuide`。8 段圖文（畫面地圖／三核心頁／看懂元件／調 token／選元件·logo·深淺色／存檔與版本／七步流程 highlight 第3步／FAQ）。schematic inline 插圖 token-bound、深淺色自動跟隨、無外部圖檔；存檔彈窗示意用真 library 原子。
+- ✅ Playwright：按鈕尺寸/類別對齊 mkBtn 參考、教學頁 8 段齊、深色主題翻轉全綠。
