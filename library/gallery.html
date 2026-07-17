@@ -455,7 +455,7 @@
 
   /* ---------- 複雜度確認總覽 ---------- */
   .sum-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-  .sum-top .sum-head{min-width:0;} .sum-top .copybtn{flex:0 0 auto;}
+  .sum-top .sum-head{min-width:0;} .sum-top .copybtn,.sum-top .btn{flex:0 0 auto;}
   .sum-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 20px;}
   .sum-actions .spacer{flex:1;}
   .sumtotal{font-family:var(--font-mono);font-size:var(--fs-h8);color:var(--muted);font-variant-numeric:tabular-nums;}
@@ -8323,7 +8323,7 @@ function buildScheduleChart(view){
       if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
       ovr.textContent=css;}
     apply();
-    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="copybtn" id="tokCopy">複製此頁 CSS</button></div>
+    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="btn v-soft i-secondary sz-s st-default live" id="tokCopy"><span>複製此頁 CSS</span></button></div>
       <p class="lede">依 <b>DS Framework L1 Primitive → L2 Semantic</b> 架構、以 <b>v0 視覺</b> 為種子的預設 token。<b>L1</b> 純值來源、<b>L2</b> 角色組合（含 light/dark）、<b>框架索引</b> 是唯讀的框架完整定義對照。L1/L2 每列可即時手調、層層往下傳全站。</p>
       <div class="head-rule"></div>
       <div class="tok-lead">
@@ -8518,14 +8518,14 @@ function buildScheduleChart(view){
       return '/* Design Token（v0 種子；含 light/dark 與響應式 device mode）*/\n:root{\n'+base+l+'}\n'+
         ':root[data-theme="dark"]{\n'+d+'}\n@media(max-width:1023px){:root{\n'+tab+'}}\n@media(max-width:767px){:root{\n'+mob+'}}\n';
     }
-    document.getElementById('tokCopy').onclick=()=>{navigator.clipboard.writeText(buildCSS()).then(()=>{const b=document.getElementById('tokCopy');b.textContent='已複製 ✓';setTimeout(()=>b.textContent='複製此頁 CSS',1500);});};
+    document.getElementById('tokCopy').onclick=()=>{navigator.clipboard.writeText(buildCSS()).then(()=>{const s=document.getElementById('tokCopy').querySelector('span');s.textContent='已複製 ✓';setTimeout(()=>s.textContent='複製此頁 CSS',1500);});};
     document.getElementById('tokReset').onclick=()=>{window.__tokOverrides={root:{},dark:{},desktop:{},tablet:{},mobile:{}};renderTokens(view);};
   }
 
   function renderSummary(view){
     const rep=choiceReport();
     view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Overview · 需求匯總</p><h1>需求匯總</h1></div>
-        <button class="copybtn" id="copyBtn">複製此頁 JSON</button></div>
+        <button class="btn v-soft i-secondary sz-s st-default live" id="copyBtn"><span>複製此頁 JSON</span></button></div>
       <p class="lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡看該元件的<b>實際操作</b>，牌卡前的勾選框決定<b>要不要產出</b>。回各元件用「變數篩選器」調整組合，這頁即時彙整。</p>
       <div class="head-rule"></div>
       <div class="sum-actions">
@@ -8631,7 +8631,7 @@ function buildScheduleChart(view){
     document.getElementById('copyBtn').onclick=()=>{
       const json={};allKeys.forEach(id=>{if(!SUMSEL.has(id))return;json[id]={};DIAL_SPECS[id].order.forEach(k=>json[id][k]=rep[id][k]);json[id].count=rep[id].count;});
       json._selected=[...SUMSEL];json._total=[...SUMSEL].reduce((a,id)=>a+rep[id].count,0);
-      navigator.clipboard.writeText(JSON.stringify(json,null,2)).then(()=>{const b=document.getElementById('copyBtn');b.textContent='已複製 ✓';setTimeout(()=>b.textContent='複製此頁 JSON',1600);});
+      navigator.clipboard.writeText(JSON.stringify(json,null,2)).then(()=>{const s=document.getElementById('copyBtn').querySelector('span');s.textContent='已複製 ✓';setTimeout(()=>s.textContent='複製此頁 JSON',1600);});
     };
   }
 
@@ -8677,6 +8677,9 @@ function buildScheduleChart(view){
 
   /* ===== topbar 行為 =====（桌機側欄常駐；窄螢幕漢堡控制抽屜）*/
   const shell=document.getElementById('shell');
+  (function(){ // 漢堡改用 library icon-only s 按鈕（保留原 svg 與行為）
+    const hb=document.getElementById('hambBtn'); if(hb){ const svg=hb.querySelector('svg'); hb.className='btn v-outline i-secondary sz-s st-default live icon-only'; hb.innerHTML=''; if(svg)hb.appendChild(svg); }
+  })();
   document.getElementById('hambBtn').onclick=()=>{ if(window.innerWidth>900) shell.classList.toggle('nav-collapsed'); else shell.classList.toggle('nav-open'); };
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
   document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
@@ -8751,7 +8754,10 @@ function buildScheduleChart(view){
   /* ── 專案元件庫版本化（Phase F）：CTA＝儲存並更新 vN、防呆彈窗、進站版本比對；只動專案層、不碰共用引擎 ── */
   function dsVerKey(){return 'dsv:'+(window.__dsProject||'');}
   function dsToast(msg){const b=document.getElementById('dsExportBtn');if(!b)return;const s=b.querySelector('span');const o=s.dataset.o||s.textContent;s.textContent=msg;setTimeout(()=>{s.textContent=o;},1800);}
-  function updateBadgeVersion(){const b=document.getElementById('dsExportBtn');if(!b)return;const s=b.querySelector('span');s.textContent=window.__dsProject?('儲存並更新 · v'+(window.__dsVersion||0)):'匯出（下載）';s.dataset.o=s.textContent;}
+  function updateBadgeVersion(){
+    const b=document.getElementById('dsExportBtn');if(b){const s=b.querySelector('span');s.textContent=window.__dsProject?'儲存並更新':'匯出（下載）';s.dataset.o=s.textContent;}
+    const pj=document.getElementById('dsBadgeProj');if(pj&&window.__dsProject){pj.textContent=window.__dsProject+' · v'+(window.__dsVersion||0);} // 版本號跟著專案名走
+  }
   // 目前狀態的可比較快照（token override + logo + 選用元件 + 各軸）
   function dsSnap(){
     const rep=(typeof choiceReport==='function')?choiceReport():{}; const axes={};
@@ -8836,8 +8842,8 @@ function buildScheduleChart(view){
   function showStudioBadge(proj){
     const tb=document.querySelector('.topbar'); if(!tb||document.getElementById('dsBadge'))return;
     const wrap=document.createElement('div');wrap.id='dsBadge';wrap.className='ds-badge';
-    wrap.innerHTML='<span class="ds-badge-lbl">STUDIO</span><span class="ds-badge-proj">'+(proj||'未綁專案 · 匯出走下載')+'</span>';
-    const btn=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.onclick=dsSave;
+    wrap.innerHTML='<span class="ds-badge-proj" id="dsBadgeProj">'+(proj||'未綁專案 · 匯出走下載')+'</span>';
+    const btn=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.onclick=dsSave;
     wrap.appendChild(btn);
     tb.appendChild(wrap); // 匯出 badge 靠右（spacer 後）
     updateBadgeVersion();
