@@ -486,6 +486,9 @@
   .sc-body{padding:4px 20px 20px;border-top:1px solid var(--line);}
   .sumcard.collapsed .sc-body{display:none;}
   .sc-sub{font-family:var(--font-mono);font-size:var(--fs-h10);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:18px 0 10px;}
+  .sc-live-na{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);color:var(--muted);font-size:var(--fs-h9);}
+  .sc-live-open{border:1px solid var(--line-strong);background:transparent;color:var(--ink);border-radius:var(--r-sm);padding:5px 10px;font-size:var(--fs-h9);cursor:pointer;font-family:var(--font-sans);}
+  .sc-live-open:hover{border-color:var(--accent);color:var(--accent);}
   .sc-foot{display:flex;justify-content:flex-end;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);}
   .adjustbtn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:var(--r-sm);border:1px solid var(--line-strong);
     background:transparent;color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h9);font-weight:600;cursor:pointer;transition:.13s;}
@@ -8773,6 +8776,24 @@ function buildScheduleChart(view){
     function updateCatCounts(){body.querySelectorAll('.sumcat').forEach((sec,i)=>{const g=GROUPS[i];if(!g)return;
       const selN=g.ids.filter(id=>SUMSEL.has(id)).length;const n=sec.querySelector('.sumcat-n');if(n)n.textContent=selN+' / '+g.ids.length;});}
 
+    /* Live 掛載：Basic 走 LIVE[id] 共用 registry；Complex 以後的 live demo 藏在各自 buildX 的
+       「實際互動 Live」段 → 離屏跑一次 build、抽出該段搬進卡片（DOM 純 closure、可安全搬移）。 */
+    function mountSummaryLive(id,host){
+      if(LIVE[id]){LIVE[id](host);return;}
+      if(BUILD[id]){
+        const tmp=ce('div');tmp.setAttribute('aria-hidden','true');
+        tmp.style.cssText='position:absolute;left:-99999px;top:0;width:820px;pointer-events:none;';
+        document.body.appendChild(tmp);let moved=false;
+        try{ BUILD[id](tmp);
+          const live=[...tmp.querySelectorAll('section.block')].find(s=>{const h=s.querySelector(':scope>h2');return h&&/實際[互操][動作] Live/.test(h.textContent);});
+          if(live){const h2=live.querySelector(':scope>h2');if(h2)h2.remove();const sub=live.querySelector(':scope>.sub');if(sub)sub.remove();live.classList.remove('block');host.appendChild(live);moved=true;}
+        }catch(e){console.warn('summary live extract fail:',id,e);}
+        finally{tmp.remove();}
+        if(moved)return;
+      }
+      host.innerHTML='<div class="sc-live-na">此元件的實際操作示範尚未提供。<button class="sc-live-open" type="button">開啟元件頁 →</button></div>';
+      const ob=host.querySelector('.sc-live-open');if(ob)ob.onclick=()=>renderView(pageOf(id));
+    }
     /* 單顆可展開牌卡（accordion 版型；沿用原本 sumcard＋lazy Live） */
     function makeCard(id){const spec=DIAL_SPECS[id],rec=rep[id];
       const card=ce('div','sumcard collapsed');card.dataset.id=id;
@@ -8794,7 +8815,7 @@ function buildScheduleChart(view){
       chk.onchange=()=>{setSel(id,chk.checked);card.classList.toggle('unpicked',!chk.checked);onManual();syncTotal();updateCatCounts();};
       const head=card.querySelector('.sc-head'),liveHost=card.querySelector('.sc-live');
       head.onclick=()=>{const willOpen=card.classList.contains('collapsed');card.classList.toggle('collapsed');
-        if(willOpen && !liveHost.dataset.mounted && LIVE[id]){LIVE[id](liveHost);liveHost.dataset.mounted='1';}};
+        if(willOpen && !liveHost.dataset.mounted){mountSummaryLive(id,liveHost);liveHost.dataset.mounted='1';}};
       card.querySelector('.adjustbtn').onclick=()=>renderView(pageOf(id));
       return card;}
 
@@ -8906,7 +8927,7 @@ function buildScheduleChart(view){
     const hb=document.getElementById('hambBtn'); if(hb){ const svg=hb.querySelector('svg'); hb.className='btn v-outline i-secondary sz-s st-default live icon-only'; hb.innerHTML=''; if(svg)hb.appendChild(svg); }
   })();
   document.getElementById('hambBtn').onclick=()=>{ if(window.innerWidth>900) shell.classList.toggle('nav-collapsed'); else shell.classList.toggle('nav-open'); };
-  { const gb=document.getElementById('guideBtn'); if(gb) gb.onclick=()=>{ location.hash='guide'; }; }
+  { const gb=document.getElementById('guideBtn'); if(gb){ const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true}); nb.id='guideBtn'; nb.type='button'; nb.querySelector('span').textContent='📖 上手指南'; nb.style.marginLeft='var(--sp-4)'; nb.onclick=()=>{location.hash='guide';}; gb.replaceWith(nb); } }
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
   document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
   (function(){const btn=document.getElementById('themeBtn'),knob=document.getElementById('themeKnob');
