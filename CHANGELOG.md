@@ -60,4 +60,14 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - 方案 A：「匯出到專案」為唯一正式出口；頁面兩顆降級為「複製此頁 CSS / 複製此頁 JSON」（剪貼簿輔助）
 - 深淺色 toggle 移到 topbar 左側（Design System Library 右邊），匯出 badge 改靠右
 
-Phase C 完成 🎉（logo · Design Guideline · token 編輯 · 資料管線）。下一步 Phase D：ds-studio-flow skill 串接七步。
+Phase C 完成 🎉（logo · Design Guideline · token 編輯 · 資料管線）。
+
+## Phase D — ds-studio-flow 主控 skill（2026-07-17）
+- `skills/ds-studio-flow/SKILL.md` 從 Phase A 佔位改寫成**完整七步主控**：觸發條件、動工前護欄（六鐵則摘要）、七步總覽表、每步 goal/做法/關卡/產出/回報。
+- **復用不重造**：Step 1 直接引框架 `ds-architecture-flow` Phase 0（Q0–Q9），只覆蓋三處 studio 差異（Q0 資料夾走 repo 內 `projects/<name>/`、Q6 開新檔問 workspace/檔名、spec-first + 品牌色錨點 HARD 擋）；Step 5 引 Gate 2 commit gate；Step 6 引 Gate 4.5 instance-required + `figma-rules.yaml`（file-structure / variants-policy.decision-test / universal-skeleton / naming 三層）。
+- **軸對映寫死鐵則 3**：結構差異→variant、內容開關→boolean，網站篩選項／樣式切換＝Figma variant／boolean，維持同組合邏輯。
+- **交棒點標記**：1→2、4→5、5→6 三處先回報等 confirm；Step 3/4 Claude 待命、設計師在網站操作。
+- Step 7 sync 標明為 Phase E stub（先給鐵則 6 四分類規則，腳本待接）。
+- ✅ 核對：引用的 Gate 2 / Gate 4.5 / figma-rules 四 key / 四個框架 skill 檔名皆存在對得上。
+
+下一步 Phase E：接 figma-sync-setup 三支 drift 腳本到 `sync/`（需 Yuu 用 `!git clone` 或抓 raw，本機沙箱擋 git clone）。
