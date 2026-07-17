@@ -19,4 +19,11 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - 三處 sizing 由「鎖高度」改「**鎖寬度**」（topbar 66px、header/footer 72px），高度等比
 - ✅ property 驗證：雙檔切換 7 情境全對、2:1→66×33、3:1→66×22、fallback、全清回預設
 
+### C3 修正（2026-07-17）
+- **上傳/清除鈕改用 library `.btn` 原子**（原本 inline 自畫、硬寫 `color:#fff`＝違反原子重用鐵則、深色下白字糊掉）：上傳=`v-solid i-primary`、清除=`v-outline i-secondary`，token 綁 `--on` 對比色自動正確（淺色對比 16.99）
+- 清掉 dead CSS（`.logo-btn`/`.logo-reset`/`.lp-box` 等舊版樣式）
+- 側邊欄 Basic 重排：通知／提示／骨架／載入器移到分頁器下方
+- registry 生成腳本改指 studio gallery、logo 改 enrich NAV 既有項（非重複 append）
+- 註：Playwright 深色主題背景量測受 Chrome Auto Dark Mode 污染，屬測試假象非 CSS bug（無 `!important` 背景、custom property 值皆正確）
+
 待辦：C1 studio 啟動＋proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server

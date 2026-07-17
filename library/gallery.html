@@ -2629,26 +2629,14 @@
 .cal-show{display:flex;flex-wrap:wrap;gap:var(--sp-6);align-items:flex-start;}
 .cal-live-stage{display:flex;justify-content:flex-start;}
   /* ===== Logo 品牌資產頁 ===== */
-  .logo-upl{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap;margin:var(--sp-5) 0;}
-  .logo-btn{display:inline-flex;align-items:center;padding:var(--sp-3) var(--sp-5);background:var(--accent);color:#fff;border-radius:var(--radius);font-size:var(--fs-h8);font-weight:600;cursor:pointer;}
-  .logo-reset{padding:var(--sp-3) var(--sp-5);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);font-size:var(--fs-h8);cursor:pointer;color:var(--ink);}
-  .logo-hint{color:var(--muted);font-size:var(--fs-h9);}
-  .logo-prev{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-5) 0;}
-  .lp-cell{display:flex;flex-direction:column;gap:var(--sp-2);}
-  .lp-tag{color:var(--muted);font-size:var(--fs-h9);}
-  .lp-box{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-5);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);min-height:56px;}
   .lp-logo{display:inline-flex;align-items:center;color:var(--ink);}
-  .lp-logo.lp-sm svg,.lp-logo.lp-sm img{width:66px;height:auto;display:block;}
   .lp-logo.lp-lg svg,.lp-logo.lp-lg img{width:72px;height:auto;display:block;}
-  .lp-div{width:1px;height:20px;background:var(--line);}
-  .lp-txt{font-size:var(--fs-h7);font-weight:600;color:var(--ink);}
   .logo-note{color:var(--c-warning-700);font-size:var(--fs-h9);margin-top:var(--sp-4);}
   /* Logo 雙檔上傳 slot */
   .logo-slots{display:flex;gap:var(--sp-6);flex-wrap:wrap;margin:var(--sp-5) 0;}
   .logo-slot{flex:1 1 280px;min-width:260px;display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-5);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);}
   .ls-top{display:flex;align-items:center;gap:var(--sp-3);}
   .ls-title{font-size:var(--fs-h7);font-weight:600;color:var(--ink);margin-right:auto;}
-  .logo-btn.sm,.logo-reset.sm{padding:var(--sp-2) var(--sp-4);font-size:var(--fs-h9);}
   .ls-prev{display:flex;align-items:center;justify-content:center;min-height:64px;border-radius:var(--r-sm);padding:var(--sp-4);}
   .logo-slot.lp-light .ls-prev{background:#FFFFFF;}
   .logo-slot.lp-dark .ls-prev{background:#1C1C20;}
@@ -2697,14 +2685,14 @@
       {id:'action-menu',name:'Action Menu 動作選單',st:'ready'},
       {id:'breadcrumb',name:'Breadcrumb 麵包屑',st:'ready'},
       {id:'pagination',name:'Pagination 分頁器',st:'ready'},
-      {id:'tag',name:'Tag 標籤',st:'ready'},
-      {id:'icon',name:'Icon 圖示',st:'ready'},
-      {id:'price',name:'Number 數值',st:'ready'},
-      {id:'image',name:'Image 圖片',st:'ready'},
       {id:'notification',name:'Notification 通知',st:'ready'},
       {id:'tooltip',name:'Tooltip 提示',st:'ready'},
       {id:'skeleton',name:'Skeleton 骨架',st:'ready'},
       {id:'loader',name:'Loader 載入器',st:'ready'},
+      {id:'tag',name:'Tag 標籤',st:'ready'},
+      {id:'icon',name:'Icon 圖示',st:'ready'},
+      {id:'price',name:'Number 數值',st:'ready'},
+      {id:'image',name:'Image 圖片',st:'ready'},
       {id:'logo',name:'Logo 品牌標誌',st:'ready'},
     ]},
     {group:'Complex 複雜',emoji:'🧩',items:[
@@ -7929,15 +7917,15 @@ function buildScheduleChart(view){
     function slot(theme,label,hint){
       const cell=ce('div','logo-slot lp-'+theme);
       cell.innerHTML='<div class="ls-top"><span class="ls-title">'+label+'</span>'
-        +'<label class="logo-btn sm">上傳<input type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" hidden></label>'
-        +'<button class="logo-reset sm">清除</button></div>'
+        +'<label class="btn v-solid i-primary sz-s st-default ls-upload">上傳<input type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" hidden></label>'
+        +'<button class="btn v-outline i-secondary sz-s st-default ls-clear">清除</button></div>'
         +'<div class="ls-prev"><span class="lp-logo lp-lg"></span></div>'
         +'<span class="ls-hint">'+hint+'</span>';
       const prevLogo=cell.querySelector('.lp-logo');
       function paint(){const src=PROJECT_LOGOS[theme];prevLogo.innerHTML=src?('<img src="'+src+'" alt="Logo">'):HDR_LOGO;cell.classList.toggle('is-empty',!src);}
       paint();
       cell.querySelector('input').onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{applyLogo(theme,r.result);paint();};r.readAsDataURL(f);};
-      cell.querySelector('.logo-reset').onclick=()=>{applyLogo(theme,null);paint();};
+      cell.querySelector('.ls-clear').onclick=()=>{applyLogo(theme,null);paint();};
       return cell;
     }
     slots.appendChild(slot('light','淺色主題 Logo','用於淺色背景。'));

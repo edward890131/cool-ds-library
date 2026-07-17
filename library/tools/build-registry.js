@@ -1,5 +1,5 @@
 const fs=require('fs');
-const SRC='/Users/goons/Downloads/yuu-agent/ds-component-lib/ds-component-gallery.html';
+const SRC='/Users/goons/Downloads/yuu-agent/goons-ds-studio/library/gallery.html';
 const OUT='/Users/goons/Downloads/yuu-agent/goons-ds-studio/library/component-registry.json';
 const L0='/Users/goons/Downloads/yuu-agent/goons-ds-studio/framework/L0-scope-manifest.yaml';
 const s=fs.readFileSync(SRC,'utf8');
@@ -54,18 +54,15 @@ const groups=NAV.map(g=>({
   })
 }));
 
-// --- 加入 logo 品牌資產（Basic 群）---
+// --- 補強 logo 品牌資產（NAV 已含 logo 項，此處 enrich 而非重複新增）---
 const basic=groups.find(g=>g.group.startsWith('Basic'));
-basic.items.push({
-  id:'logo',
-  name:'Logo 品牌標誌',
-  status:'ready',
-  kind:'brand-asset',
-  l0Ref:null,
-  note:'專案級可替換品牌資產。上傳後同步替換：網站 topbar / library header / library footer 三處。鎖寬度、高度等比。存於專案狀態、bake 時以 data URI inline。',
-  targets:['site-topbar(.brand-logo)','library-header(hdrLogo/HDR_LOGO)','library-footer(ftrLogo)'],
-  axes:null
-});
+const logoItem=basic.items.find(it=>it.id==='logo');
+if(logoItem){
+  logoItem.kind='brand-asset';
+  logoItem.note='專案級可替換品牌資產。淺／深主題各一顆，依當前主題自動切換、單邊 fallback。同步替換三處：網站 topbar / library header / library footer。鎖寬度、高度等比。存於專案狀態、bake 時以 data URI inline。';
+  logoItem.targets=['site-topbar(.brand-logo)','library-header(hdrLogo)','library-footer(ftrLogo)'];
+  logoItem.themes=['light','dark'];
+}
 
 // --- selector 補 composes（內部用 checkbox / radio）---
 function axesOf(id){

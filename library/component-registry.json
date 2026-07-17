@@ -556,6 +556,206 @@
           }
         },
         {
+          "id": "notification",
+          "name": "Notification 通知",
+          "status": "ready",
+          "l0Ref": "notification",
+          "axes": {
+            "order": [
+              "variant",
+              "intent"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 視覺風格",
+                "options": [
+                  {
+                    "value": "solid",
+                    "zh": "實心"
+                  },
+                  {
+                    "value": "outline",
+                    "zh": "外框"
+                  },
+                  {
+                    "value": "soft",
+                    "zh": "柔色"
+                  },
+                  {
+                    "value": "dark",
+                    "zh": "半透明黑"
+                  }
+                ]
+              },
+              "intent": {
+                "axisName": "Intent 意圖",
+                "options": [
+                  {
+                    "value": "success",
+                    "zh": "成功"
+                  },
+                  {
+                    "value": "warning",
+                    "zh": "警告"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  },
+                  {
+                    "value": "info",
+                    "zh": "資訊"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "tooltip",
+          "name": "Tooltip 提示",
+          "status": "ready",
+          "l0Ref": "tooltip",
+          "axes": {
+            "order": [
+              "placement",
+              "size"
+            ],
+            "by": {
+              "placement": {
+                "axisName": "Placement 方向",
+                "options": [
+                  {
+                    "value": "top",
+                    "zh": "上方"
+                  },
+                  {
+                    "value": "bottom",
+                    "zh": "下方"
+                  },
+                  {
+                    "value": "left",
+                    "zh": "左側"
+                  },
+                  {
+                    "value": "right",
+                    "zh": "右側"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "skeleton",
+          "name": "Skeleton 骨架",
+          "status": "ready",
+          "l0Ref": "skeleton",
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Shape 形狀",
+                "options": [
+                  {
+                    "value": "text",
+                    "zh": "文字列"
+                  },
+                  {
+                    "value": "rectangle",
+                    "zh": "矩形"
+                  },
+                  {
+                    "value": "circle",
+                    "zh": "圓形"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "中 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "loader",
+          "name": "Loader 載入器",
+          "status": "ready",
+          "l0Ref": "loader",
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 樣式",
+                "options": [
+                  {
+                    "value": "circular",
+                    "zh": "旋轉圈"
+                  },
+                  {
+                    "value": "dots",
+                    "zh": "跳動點"
+                  },
+                  {
+                    "value": "bar",
+                    "zh": "進度條"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
           "id": "tag",
           "name": "Tag 標籤",
           "status": "ready",
@@ -836,218 +1036,22 @@
           }
         },
         {
-          "id": "notification",
-          "name": "Notification 通知",
-          "status": "ready",
-          "l0Ref": "notification",
-          "axes": {
-            "order": [
-              "variant",
-              "intent"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 視覺風格",
-                "options": [
-                  {
-                    "value": "solid",
-                    "zh": "實心"
-                  },
-                  {
-                    "value": "outline",
-                    "zh": "外框"
-                  },
-                  {
-                    "value": "soft",
-                    "zh": "柔色"
-                  },
-                  {
-                    "value": "dark",
-                    "zh": "半透明黑"
-                  }
-                ]
-              },
-              "intent": {
-                "axisName": "Intent 意圖",
-                "options": [
-                  {
-                    "value": "success",
-                    "zh": "成功"
-                  },
-                  {
-                    "value": "warning",
-                    "zh": "警告"
-                  },
-                  {
-                    "value": "error",
-                    "zh": "錯誤"
-                  },
-                  {
-                    "value": "info",
-                    "zh": "資訊"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "tooltip",
-          "name": "Tooltip 提示",
-          "status": "ready",
-          "l0Ref": "tooltip",
-          "axes": {
-            "order": [
-              "placement",
-              "size"
-            ],
-            "by": {
-              "placement": {
-                "axisName": "Placement 方向",
-                "options": [
-                  {
-                    "value": "top",
-                    "zh": "上方"
-                  },
-                  {
-                    "value": "bottom",
-                    "zh": "下方"
-                  },
-                  {
-                    "value": "left",
-                    "zh": "左側"
-                  },
-                  {
-                    "value": "right",
-                    "zh": "右側"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "小 s"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "標準 m"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "skeleton",
-          "name": "Skeleton 骨架",
-          "status": "ready",
-          "l0Ref": "skeleton",
-          "axes": {
-            "order": [
-              "variant",
-              "size"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Shape 形狀",
-                "options": [
-                  {
-                    "value": "text",
-                    "zh": "文字列"
-                  },
-                  {
-                    "value": "rectangle",
-                    "zh": "矩形"
-                  },
-                  {
-                    "value": "circle",
-                    "zh": "圓形"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "小 s"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "中 m"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "大 l"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "loader",
-          "name": "Loader 載入器",
-          "status": "ready",
-          "l0Ref": "loader",
-          "axes": {
-            "order": [
-              "variant",
-              "size"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 樣式",
-                "options": [
-                  {
-                    "value": "circular",
-                    "zh": "旋轉圈"
-                  },
-                  {
-                    "value": "dots",
-                    "zh": "跳動點"
-                  },
-                  {
-                    "value": "bar",
-                    "zh": "進度條"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "小"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "標準"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "大"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
           "id": "logo",
           "name": "Logo 品牌標誌",
           "status": "ready",
-          "kind": "brand-asset",
           "l0Ref": null,
-          "note": "專案級可替換品牌資產。上傳後同步替換：網站 topbar / library header / library footer 三處。鎖寬度、高度等比。存於專案狀態、bake 時以 data URI inline。",
+          "axes": null,
+          "kind": "brand-asset",
+          "note": "專案級可替換品牌資產。淺／深主題各一顆，依當前主題自動切換、單邊 fallback。同步替換三處：網站 topbar / library header / library footer。鎖寬度、高度等比。存於專案狀態、bake 時以 data URI inline。",
           "targets": [
             "site-topbar(.brand-logo)",
-            "library-header(hdrLogo/HDR_LOGO)",
+            "library-header(hdrLogo)",
             "library-footer(ftrLogo)"
           ],
-          "axes": null
+          "themes": [
+            "light",
+            "dark"
+          ]
         }
       ]
     },
