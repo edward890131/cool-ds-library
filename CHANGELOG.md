@@ -13,9 +13,10 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 ## Phase C（進行中）
 ### C3 — Logo 品牌資產（2026-07-17）
 - Basic 群新增「Logo 品牌標誌」項（`buildLogo` view + 上傳控制）
-- `PROJECT_LOGO` 共用來源 + `applyLogo()`：上傳同步替換三處（topbar `.brand-logo`、header `hdrLogo`、footer `ftrLogo`）
+- **淺色／深色主題各一顆**：`PROJECT_LOGOS{light,dark}` + `activeLogo()` 依當前主題自動取用；未設定的主題 fallback 用另一顆，都無則回 Goons 字標
+- `applyLogo(theme,src)` + `refreshLogo()`：同步替換三處（topbar `.brand-logo`、header `hdrLogo`、footer `ftrLogo`），主題切換即時更新
+- slot 預覽墊淺／深底，直接看反白效果
 - 三處 sizing 由「鎖高度」改「**鎖寬度**」（topbar 66px、header/footer 72px），高度等比
-- 未上傳 fallback 回 Goons 字標；深色模式反白限制已於頁面標註
-- ✅ property 驗證：2:1→66×33、3:1→66×22、svg/img 切換、還原正常
+- ✅ property 驗證：雙檔切換 7 情境全對、2:1→66×33、3:1→66×22、fallback、全清回預設
 
 待辦：C1 studio 啟動＋proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server
