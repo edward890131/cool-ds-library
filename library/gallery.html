@@ -2686,6 +2686,10 @@
   .dgt-wg{width:44px;height:44px;border-radius:var(--r-sm);background:var(--ink);color:var(--panel);display:flex;align-items:center;justify-content:center;font-size:var(--fs-h6);}
   .dgt-wn{font-size:10px;color:var(--muted);white-space:nowrap;}
   .dgt-note{display:inline-block;width:max-content;padding:6px 12px;border-radius:var(--r-sm);background:var(--i-primary-tint);color:var(--accent);font-size:var(--fs-h9);font-weight:600;}
+  .dgt-ctl{display:flex;gap:var(--sp-4);flex-wrap:wrap;margin:var(--sp-2) 0 var(--sp-3);}
+  .dgt-tabs{display:inline-flex;gap:2px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-md);padding:2px;}
+  .dgt-tab{padding:5px 12px;border:0;background:transparent;border-radius:var(--r-sm);font-size:var(--fs-h9);color:var(--muted);cursor:pointer;white-space:nowrap;}
+  .dgt-tab.on{background:var(--panel);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06);}
   .dgt-scale{display:flex;flex-direction:column;}
   .dgt-row{display:grid;grid-template-columns:36px minmax(180px,1.4fr) 200px 1fr;gap:var(--sp-4);align-items:center;padding:var(--sp-4) 0;border-bottom:1px solid var(--line);}
   .dgt-row.dgt-head{color:var(--muted);font-size:var(--fs-h9);font-weight:600;padding:var(--sp-3) 0;}
@@ -8210,18 +8214,42 @@ function buildScheduleChart(view){
       fams.append(mkFam('Sans（中英數）','--font-sans'),mkFam('Mono（等寬）','--font-mono'));
       s.appendChild(fams);
       const note=ce('div','dgt-note');note.textContent='字體代替排序：'+stack('--font-sans').slice(0,4).join(' → ');s.appendChild(note);
-      // 3b 字級表
-      const scale=ce('div','dgt-scale');
-      const head=ce('div','dgt-row dgt-head');head.innerHTML='<span class="dgt-cn">N</span><span class="dgt-cp">預覽</span><span class="dgt-cs">Size · Line · Letter</span><span class="dgt-cu">應用方式</span>';scale.appendChild(head);
+      // 3b 字級表（device 切換 + 中英切換；優先讀 token 編輯 override、其次讀 TOK_L1 資料）
+      const typo=TOK_L1.find(g=>g.kind==='typo')||{sz:{},def:{}};
+      const ls2=TOK_L1.find(g=>g.kind==='ls2')||{def:{}};
+      const OV=window.__tokOverrides||{}; const OVr=OV.root||{}; const DI={desktop:0,tablet:1,mobile:2};
       const USE={h1:'主視覺大標',h2:'頁面主標題',h3:'區塊標題',h4:'次區塊標題',h5:'小標題',h6:'強調內文',h7:'內文標準',h8:'內文／表單',h9:'次要資訊',h10:'註解／說明'};
-      ['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10'].forEach((lv,i)=>{const fs=val('--fs-'+lv);if(!fs)return;
-        const row=ce('div','dgt-row');
-        const n=ce('span','dgt-cn');n.textContent=String(i+1).padStart(2,'0');
-        const p=ce('span','dgt-cp');p.style.fontSize=fs;p.style.fontWeight=val('--fw-'+lv)||'600';p.style.fontFamily='var(--font-sans)';p.style.lineHeight='1.2';p.textContent='標題 Title Aa';
-        const sp=ce('span','dgt-cs');sp.innerHTML='Size '+fs+'<br>Line '+(val('--lh-'+lv)||'—')+'<br>Letter '+(val('--ls-'+lv)||'0');
-        const u=ce('span','dgt-cu');u.textContent=USE[lv]||'';
-        row.append(n,p,sp,u);scale.appendChild(row);});
-      s.appendChild(scale);
+      const SAMPLE={zh:'設計系統 標題範例 Aa',en:'Design System Title Aa'};
+      const DEVLB={desktop:'電腦',tablet:'平板',mobile:'手機'};
+      if(!window.__dgTypoDev)window.__dgTypoDev='desktop'; if(!window.__dgTypoLang)window.__dgTypoLang='zh';
+      // 控制列
+      const ctl=ce('div','dgt-ctl');
+      const devTabs=ce('div','dgt-tabs'), langTabs=ce('div','dgt-tabs');
+      const scaleHost=ce('div','dgt-scale');
+      function paintScale(){
+        const dev=window.__dgTypoDev, lang=window.__dgTypoLang;
+        scaleHost.innerHTML='';
+        const head=ce('div','dgt-row dgt-head');head.innerHTML='<span class="dgt-cn">N</span><span class="dgt-cp">預覽</span><span class="dgt-cs">Size · Line · Letter（'+DEVLB[dev]+'·'+(lang==='zh'?'中':'En')+'）</span><span class="dgt-cu">應用方式</span>';scaleHost.appendChild(head);
+        ['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10'].forEach((lv,i)=>{
+          const size=(OV[dev]&&OV[dev]['--fs-'+lv])||(typo.sz[lv]&&typo.sz[lv][DI[dev]])||val('--fs-'+lv);
+          if(!size)return;
+          const weight=OVr['--fw-'+lv]||(typo.def[lv]&&typo.def[lv][0])||'400';
+          const lh=lang==='zh'?(OVr['--lh-'+lv]||(typo.def[lv]&&typo.def[lv][1])):(OVr['--lh-en-'+lv]||(typo.def[lv]&&typo.def[lv][2]));
+          const lsp=lang==='zh'?(OVr['--ls-'+lv]||(ls2.def[lv]&&ls2.def[lv][0])):(OVr['--ls-en-'+lv]||(ls2.def[lv]&&ls2.def[lv][1]));
+          const row=ce('div','dgt-row');
+          const n=ce('span','dgt-cn');n.textContent=String(i+1).padStart(2,'0');
+          const p=ce('span','dgt-cp');p.style.fontSize=size;p.style.fontWeight=weight;p.style.fontFamily='var(--font-sans)';p.style.lineHeight=lh||'1.2';p.style.letterSpacing=lsp||'0';p.textContent=SAMPLE[lang];
+          const sp=ce('span','dgt-cs');sp.innerHTML='Size '+size+'<br>Line '+(lh||'—')+'<br>Letter '+(lsp||'0');
+          const u=ce('span','dgt-cu');u.textContent=USE[lv]||'';
+          row.append(n,p,sp,u);scaleHost.appendChild(row);});
+      }
+      [['desktop','🖥 電腦'],['tablet','▭ 平板'],['mobile','▯ 手機']].forEach(([k,t])=>{const b=document.createElement('button');b.className='dgt-tab'+(k===window.__dgTypoDev?' on':'');b.textContent=t;
+        b.onclick=()=>{window.__dgTypoDev=k;devTabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintScale();};devTabs.appendChild(b);});
+      [['zh','中'],['en','En']].forEach(([k,t])=>{const b=document.createElement('button');b.className='dgt-tab'+(k===window.__dgTypoLang?' on':'');b.textContent=t;
+        b.onclick=()=>{window.__dgTypoLang=k;langTabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));paintScale();};langTabs.appendChild(b);});
+      ctl.append(devTabs,langTabs);
+      s.append(ctl,scaleHost);
+      paintScale();
       // 3c 文字色表
       const fc=ce('div','dgt-fc');
       const fch=ce('div','dgt-fcrow dgt-head');fch.innerHTML='<span class="dgt-fcs">顏色</span><span class="dgt-fcu">應用方式</span>';fc.appendChild(fch);
