@@ -16,7 +16,8 @@ const MIME = {
   '.json': 'application/json; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp',
 };
-const send = (res, code, type, body) => { res.writeHead(code, { 'Content-Type': type }); res.end(body); };
+// dev server：一律 no-cache，避免改完檔案瀏覽器還吃舊版（本機預覽快取坑）
+const send = (res, code, type, body) => { res.writeHead(code, { 'Content-Type': type, 'Cache-Control': 'no-cache, no-store, must-revalidate' }); res.end(body); };
 const readJSON = fp => { try { return JSON.parse(fs.readFileSync(fp, 'utf8')); } catch (e) { return null; } };
 
 const server = http.createServer((req, res) => {

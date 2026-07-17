@@ -2720,19 +2720,19 @@
   .gd-hero .gd-tag{display:inline-block;font-family:var(--font-mono);font-size:var(--fs-h10);letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 8px;margin-bottom:var(--sp-4);}
   .gd-sec{margin:var(--sp-8) 0;}
   .gd-sec-h{display:flex;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-5);flex-wrap:wrap;}
-  .gd-sec-n{font-family:var(--font-mono);font-size:var(--fs-h7);font-weight:600;color:var(--accent);}
+  .gd-sec-n{font-family:var(--font-mono);font-size:var(--fs-h2);font-weight:700;color:var(--accent);line-height:1;}
   .gd-sec-t{font-size:var(--fs-h4);font-weight:600;margin:0;}
   .gd-sec-d{font-size:var(--fs-h8);color:var(--muted);}
   .gd-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--sp-6);align-items:center;}
   @media(max-width:820px){.gd-grid{grid-template-columns:1fr;} .gd-grid.rev .gd-fig{order:0;}}
-  .gd-fig{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-6);min-height:172px;display:flex;flex-direction:column;justify-content:center;gap:var(--sp-4);}
+  .gd-fig{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--sp-6);min-height:172px;display:flex;flex-direction:column;justify-content:center;gap:var(--sp-4);}
   .gd-grid.rev .gd-fig{order:2;}
   .gd-txt{font-size:var(--fs-h7);line-height:1.7;color:var(--ink);}
   .gd-txt ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:9px;}
   .gd-txt .gd-note{margin-top:var(--sp-4);font-size:var(--fs-h9);color:var(--muted);border-left:2px solid var(--accent);padding-left:10px;}
   .gd-anno{display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--primary-on);background:var(--accent);border-radius:var(--r-pill);padding:1px 8px;}
   .gd-anno-blk{align-self:flex-start;}
-  .gd-shell{border:1px solid var(--line-strong);border-radius:var(--r-md);overflow:hidden;background:var(--panel);}
+  .gd-shell{border:1px solid var(--line-strong);border-radius:var(--r-sm);overflow:hidden;background:var(--panel);}
   .gd-shell-top{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:var(--fs-h9);font-weight:700;color:var(--ink);}
   .gd-shell-top .gd-anno{margin-left:auto;}
   .gd-shell-body{display:flex;min-height:112px;}
@@ -2742,7 +2742,7 @@
   .gd-shell-line{height:7px;border-radius:var(--r-pill);background:var(--line-strong);}
   .gd-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);}
   @media(max-width:820px){.gd-cards{grid-template-columns:1fr;}}
-  .gd-card{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-5);}
+  .gd-card{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--sp-5);}
   .gd-card-ic{font-family:var(--font-mono);font-size:var(--fs-h10);letter-spacing:.06em;color:var(--accent);font-weight:700;margin-bottom:8px;}
   .gd-card h3{font-size:var(--fs-h6);margin:0 0 6px;font-weight:600;}
   .gd-card p{font-size:var(--fs-h9);color:var(--muted);margin:0;line-height:1.6;}
@@ -2760,23 +2760,32 @@
   .gd-logobox{width:64px;height:34px;border:1px solid var(--line);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:10px;}
   .gd-logobox.lp-light{background:#fff;color:#333;}
   .gd-logobox.lp-dark{background:#1C1C20;color:#fff;}
-  .gd-dlgm{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel);box-shadow:var(--e-lg);overflow:hidden;width:100%;}
+  .gd-dlgm{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel);box-shadow:var(--e-lg);overflow:hidden;width:100%;}
   .gd-dlgm-h{padding:10px 12px;border-bottom:1px solid var(--line);font-weight:600;font-size:var(--fs-h7);color:var(--ink);}
   .gd-dlgm-h small{display:block;font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--muted);font-weight:400;margin-top:2px;}
   .gd-dlgm-b{padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
   .gd-dlgm-b .gd-chg{font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--ink);padding:5px 8px;border-radius:var(--r-sm);background:var(--panel-2);border-left:3px solid var(--s-feedback-info);}
   .gd-dlgm-f{padding:8px 12px;display:flex;justify-content:flex-end;gap:8px;}
   .gd-flow{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;}
-  .gd-step{flex:1 0 auto;min-width:98px;border:1px solid var(--line);border-radius:var(--r-md);padding:10px;background:var(--panel-2);}
+  .gd-step{flex:1 0 auto;min-width:98px;border:1px solid var(--line);border-radius:var(--r-sm);padding:10px;background:var(--panel-2);}
   .gd-step-n{font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--muted);}
   .gd-step-t{font-size:var(--fs-h9);margin-top:4px;color:var(--ink);}
   .gd-step.now{border-color:transparent;background:var(--accent);}
   .gd-step.now .gd-step-n,.gd-step.now .gd-step-t{color:var(--primary-on);}
   .gd-flow-note{margin-top:var(--sp-4);color:var(--muted);font-size:var(--fs-h8);line-height:1.6;}
-  .gd-faq{display:flex;flex-direction:column;gap:var(--sp-4);}
-  .gd-faq-item{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-4) var(--sp-5);background:var(--panel-2);}
-  .gd-faq-q{font-weight:600;font-size:var(--fs-h7);margin-bottom:6px;color:var(--ink);}
-  .gd-faq-a{font-size:var(--fs-h8);color:var(--muted);line-height:1.7;}
+  .gd-faq{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .gd-faq-item{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;}
+  .gd-faq-q{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-weight:600;font-size:var(--fs-h7);color:var(--ink);padding:var(--sp-4) var(--sp-5);font-family:var(--font-sans);}
+  .gd-faq-q:hover{color:var(--accent);}
+  .gd-faq-caret{flex:0 0 auto;display:inline-flex;color:var(--muted);transition:transform .2s;}
+  .gd-faq-caret svg{width:16px;height:16px;}
+  .gd-faq-item.collapsed .gd-faq-caret{transform:rotate(-90deg);}
+  .gd-faq-a{font-size:var(--fs-h8);color:var(--muted);line-height:1.7;padding:0 var(--sp-5) var(--sp-4);}
+  .gd-faq-item.collapsed .gd-faq-a{display:none;}
+  /* spec 矩陣示意（用真 library 按鈕原子）*/
+  .gd-specmx{display:flex;flex-direction:column;gap:8px;}
+  .gd-mxrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .gd-mxlb{font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--muted);width:34px;flex:0 0 auto;}
   .dgt-scale{display:flex;flex-direction:column;}
   .dgt-row{display:grid;grid-template-columns:36px minmax(180px,1.4fr) 200px 1fr;gap:var(--sp-4);align-items:center;padding:var(--sp-4) 0;border-bottom:1px solid var(--line);}
   .dgt-row.dgt-head{color:var(--muted);font-size:var(--fs-h9);font-weight:600;padding:var(--sp-3) 0;}
@@ -8379,11 +8388,9 @@ function buildScheduleChart(view){
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
   function renderGuide(view){
     view.innerHTML = `
-      <div class="gd-hero">
-        <span class="gd-tag">上手指南 · GETTING STARTED</span>
-        <h1>五分鐘看懂這個元件庫</h1>
-        <p class="gd-lede">這是 Goons 的設計系統元件庫。你在這裡<b>挑元件、調 token、預覽整體效果</b>，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
-      </div>
+      <div class="sum-top"><div class="sum-head"><p class="eyebrow">上手指南 · Getting Started</p><h1>五分鐘看懂這個元件庫</h1></div></div>
+      <p class="lede">這是 Goons 的設計系統元件庫。你在這裡<b>挑元件、調 token、預覽整體效果</b>，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
+      <div class="head-rule"></div>
 
       <section class="gd-sec">
         <div class="gd-sec-h"><span class="gd-sec-n">01</span><h2 class="gd-sec-t">畫面地圖</h2><span class="gd-sec-d">三塊區域各是什麼</span></div>
@@ -8418,12 +8425,9 @@ function buildScheduleChart(view){
         <div class="gd-sec-h"><span class="gd-sec-n">03</span><h2 class="gd-sec-t">看懂一顆元件</h2><span class="gd-sec-d">以 Button 為例</span></div>
         <div class="gd-grid rev">
           <div class="gd-fig">
-            <div class="gd-chiprow"><span class="gd-chip on">實心</span><span class="gd-chip">外框</span><span class="gd-chip on">主要</span><span class="gd-chip">危險</span><span class="gd-chip on">m</span></div>
-            <div class="gd-matrix">
-              <div class="gd-cell on"></div><div class="gd-cell"></div><div class="gd-cell on"></div><div class="gd-cell"></div>
-              <div class="gd-cell"></div><div class="gd-cell on"></div><div class="gd-cell"></div><div class="gd-cell on"></div>
-            </div>
-            <span class="gd-anno gd-anno-blk">↑ 篩選器：勾掉不要的軸，矩陣即時縮減</span>
+            <div class="gd-chiprow"><span class="gd-chip on">實心</span><span class="gd-chip on">外框</span><span class="gd-chip on">柔色</span><span class="gd-chip on">主要</span><span class="gd-chip on">次要</span><span class="gd-chip on">危險</span></div>
+            <div class="gd-specmx" id="gdSpecMx"></div>
+            <span class="gd-anno gd-anno-blk">↑ 篩選器控制下面矩陣要顯示哪些變化</span>
           </div>
           <div class="gd-txt">
             <ul>
@@ -8505,16 +8509,27 @@ function buildScheduleChart(view){
 
       <section class="gd-sec">
         <div class="gd-sec-h"><span class="gd-sec-n">08</span><h2 class="gd-sec-t">小抄 · 常見問題</h2></div>
-        <div class="gd-faq">
-          <div class="gd-faq-item"><div class="gd-faq-q">我在這裡改東西，會不會動到共用母庫？</div><div class="gd-faq-a">不會。你的調整只存進「這個專案」；共用母庫（給所有專案用的母盤）只有人工升級才會變。</div></div>
-          <div class="gd-faq-item"><div class="gd-faq-q">存的東西跑去哪了？</div><div class="gd-faq-a">寫進專案資料夾 projects/&lt;專案名&gt;/。Claude 之後會拿這些檔去建 code 和 Figma。</div></div>
-          <div class="gd-faq-item"><div class="gd-faq-q">操作小技巧</div><div class="gd-faq-a">側欄邊緣可拖曳調寬、雙擊還原；深淺色隨時切換檢查；改壞的 token 用 reset 一鍵還原。</div></div>
+        <div class="gd-faq" id="gdFaq">
+          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">我在這裡改東西，會不會動到共用母庫？<span class="gd-faq-caret"></span></button><div class="gd-faq-a">不會。你的調整只存進「這個專案」；共用母庫（給所有專案用的母盤）只有人工升級才會變。</div></div>
+          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">存的東西跑去哪了？<span class="gd-faq-caret"></span></button><div class="gd-faq-a">寫進專案資料夾 projects/&lt;專案名&gt;/。Claude 之後會拿這些檔去建 code 和 Figma。</div></div>
+          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">操作小技巧<span class="gd-faq-caret"></span></button><div class="gd-faq-a">側欄邊緣可拖曳調寬、雙擊還原；深淺色隨時切換檢查；改壞的 token 用 reset 一鍵還原。</div></div>
         </div>
       </section>
     `;
+    // spec 矩陣示意：用真 library 按鈕原子（風格 × 意圖），比空色塊具體
+    const mx=view.querySelector('#gdSpecMx');
+    if(mx){[['solid','實心'],['outline','外框'],['soft','柔色']].forEach(([v,zh])=>{
+      const row=ce('div','gd-mxrow');const lb=ce('span','gd-mxlb');lb.textContent=zh;row.appendChild(lb);
+      ['primary','secondary','danger'].forEach(intent=>row.appendChild(mkBtn({variant:v,intent,size:'s'})));
+      mx.appendChild(row);});}
     // 存檔彈窗示意的兩顆按鈕：用真 library 原子（示意、非互動）
     const foot=view.querySelector('#gdDlgFoot');
     if(foot){const c=mkBtn({variant:'outline',intent:'secondary',size:'s'});c.querySelector('span').textContent='取消';const k=mkBtn({variant:'solid',intent:'primary',size:'s'});k.querySelector('span').textContent='確定更新';foot.append(c,k);}
+    // FAQ 展開收合（chevron + 點擊 toggle）
+    view.querySelectorAll('#gdFaq .gd-faq-item').forEach(it=>{
+      const car=it.querySelector('.gd-faq-caret');if(car)car.innerHTML=ICON_CARET;
+      const q=it.querySelector('.gd-faq-q');if(q)q.onclick=()=>it.classList.toggle('collapsed');
+    });
   }
 
   function renderTokens(view){
@@ -8909,7 +8924,7 @@ function buildScheduleChart(view){
   function buildTOC(){
     const view=document.getElementById('view');
     tocItems=[];
-    view.querySelectorAll('.block > h2, .famhead').forEach(el=>{ // .block>h2＝主段落（lv1）、.famhead＝家族子元件小標（lv2）
+    view.querySelectorAll('.block > h2, .famhead, .dg-sectitle, .gd-sec-t').forEach(el=>{ // .block>h2＝元件頁主段落、.famhead＝家族子元件小標（lv2）、.dg-sectitle＝Guideline 段、.gd-sec-t＝上手指南段
       if(el.classList.contains('famhead')){const t=el.querySelector('.fz');if(t)tocItems.push({el,lv:2,txt:t.textContent.trim()});}
       else tocItems.push({el,lv:1,txt:el.textContent.trim()});
     });
