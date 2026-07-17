@@ -1,0 +1,13 @@
+{
+  "project": "_demo",
+  "tokens": {
+    "overrides": {
+      "root": { "--c-brand2-500": "#E5484D", "--r-md": "16px" },
+      "dark": {}
+    }
+  },
+  "components": {
+    "selected": ["button","input","tag","card"],
+    "axes": { "button": { "variant":["solid","outline"], "intent":["primary"], "state":["default","hover"], "size":["m"] } }
+  }
+}

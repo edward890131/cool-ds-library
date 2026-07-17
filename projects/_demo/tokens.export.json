@@ -1,0 +1,16 @@
+{
+  "overrides": {
+    "root": {
+      "--c-brand2-500": "#E5484D",
+      "--r-md": "16px"
+    },
+    "dark": {},
+    "desktop": {},
+    "tablet": {},
+    "mobile": {}
+  },
+  "logo": {
+    "light": null,
+    "dark": null
+  }
+}

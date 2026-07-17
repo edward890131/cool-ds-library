@@ -1,0 +1,100 @@
+{
+  "tokens": {
+    "root": {
+      "--c-brand2-500": "#E5484D",
+      "--r-md": "16px"
+    },
+    "dark": {},
+    "desktop": {},
+    "tablet": {},
+    "mobile": {}
+  },
+  "logo": {
+    "light": null,
+    "dark": null
+  },
+  "components": {
+    "selected": [
+      "button",
+      "input",
+      "tag",
+      "card"
+    ],
+    "axes": {
+      "button": {
+        "variant": [
+          "solid",
+          "outline"
+        ],
+        "intent": [
+          "primary"
+        ],
+        "state": [
+          "default",
+          "hover"
+        ],
+        "size": [
+          "m"
+        ]
+      },
+      "input": {
+        "variant": [
+          "outline",
+          "filled"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "focus",
+          "filled-value",
+          "disabled",
+          "error"
+        ]
+      },
+      "tag": {
+        "variant": [
+          "solid",
+          "outline",
+          "soft"
+        ],
+        "corner": [
+          "round",
+          "rect"
+        ],
+        "intent": [
+          "brand",
+          "neutral",
+          "danger"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "disabled"
+        ]
+      },
+      "card": {
+        "variant": [
+          "elevated",
+          "outlined",
+          "filled"
+        ],
+        "state": [
+          "default",
+          "hover",
+          "selected",
+          "disabled"
+        ],
+        "size": [
+          "m",
+          "s"
+        ]
+      }
+    },
+    "counts": {
+      "button": 4,
+      "input": 12,
+      "tag": 54,
+      "card": 24
+    }
+  }
+}

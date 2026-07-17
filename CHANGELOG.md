@@ -46,4 +46,14 @@ studio 層里程碑（gallery 元件本身的細部改動另見 `library/CHANGEL
 - 值仍讀本專案當前 token（getComputedStyle），非套 JoiiNi 色
 - ✅ 驗證：色彩 5 類 39 色、字體 Geist/Geist Mono、字級 10 列、文字色 6 列、0 console error
 
-待辦：C1 proposal 匯入 · C2 token 編輯 · C4 匯出寫檔 · C5 本地 server
+### C2 — Token 編輯（確認既有、無新增）
+- 查核 `renderTokens` 本就是完整編輯器：L1（206 欄/65 色票）、L2（42 色票）可編輯、即時套 `:root`（OV override）、有 reset；Guideline 已吃此 override。C2 核心無須重建。
+
+### C5＋C1＋C4 — 資料管線打通（2026-07-17）
+- **C5 本地 server**（`library/tools/studio-server.js`）：serve `library/` 靜態檔 + `GET /api/project/<name>`（回 proposal/state）+ `POST .../export`（寫 tokens/components/state 到 `projects/<name>/`）
+- **C1 proposal 匯入**：`?project=<name>` → 抓 proposal（或 state 續編）→ 套 token override（`applyTokOverrides`）+ SUMSEL 勾選 + CHOICE 軸 + logo；boot 包進 `studioInit`（先 fetch 再渲染）
+- **C4 匯出**：topbar「STUDIO · <name> · 匯出到專案」（用 mkBtn 原子），寫 `tokens.export.json`（overrides+logo）+ `components.export.json`（selected+axes+counts）+ `selection.state.json`；無 server/專案 fallback 下載
+- `projects/_demo/` 完整往返範例 + `projects/README.md` 格式文件
+- ✅ 端到端驗證：載入 _demo 套 #E5484D/16px/4 元件、匯出寫出 3 檔內容正確、0 error（僅 favicon 404）
+
+Phase C 完成 🎉（logo · Design Guideline · token 編輯 · 資料管線）。下一步 Phase D：ds-studio-flow skill 串接七步。

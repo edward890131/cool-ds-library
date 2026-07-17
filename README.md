@@ -50,6 +50,15 @@ projects/<品牌>-<日期>/
 
 ---
 
+## 本地跑起來（網站選取階段）
+
+```
+node library/tools/studio-server.js                        # 啟動本地 server（:8899）
+# 開 http://localhost:8899/gallery.html?project=<專案名>
+```
+
+帶 `?project=` 會載入 `projects/<專案名>/proposal.json` 預填 token / 勾選 / logo；topbar 右上「匯出到專案」把結果寫回 `projects/<專案名>/`。細節與檔案格式見 `projects/README.md`。
+
 ## 最少要會的 git
 
 ```
