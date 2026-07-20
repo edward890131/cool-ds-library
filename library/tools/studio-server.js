@@ -39,6 +39,7 @@ const server = http.createServer((req, res) => {
         proposal: readJSON(path.join(dir, 'proposal.json')),
         state: readJSON(path.join(dir, 'selection.state.json')),
         version: readJSON(path.join(dir, 'library.version.json')), // {version,history} 或 null
+        icons: readJSON(path.join(dir, 'icons.json')) || [],       // 專案自訂 icon [{name,svg}]（來源＝專案 Figma 經同步拉入）
       }));
     }
     // POST export / state：寫檔到 projects/<name>/

@@ -64,6 +64,28 @@ drift 腳本只負責「比對 + 出報告」，**碰不到 Figma**。真正去 
 
 ---
 
+## B2. 專案自訂 Icon → `projects/<name>/icons.json`（v1 只顯示）
+
+> 「用 Figma MCP 讀專案 Figma 裡放 icon 的 frame / page（先 `get_metadata` 找到 icon 節點清單），對每顆 icon 取 **name** 與 **原始 SVG**（`get_design_context` 拿 code / 或 `download_assets` 抓 SVG），輸出成一個暫存 JSON `projects/<name>/sync/raw-icons.json`：
+>
+> ```json
+> [
+>   { "name": "brand-heart", "svg": "<svg viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"…\"/></svg>" },
+>   { "name": "promo-bolt",  "svg": "<svg viewBox=\"0 0 256 256\" …>…</svg>" }
+> ]
+> ```
+>
+> 規則：
+> - `name` 用 Figma 元件名（去掉群組前綴，kebab-case）；同名視為更新同一顆。
+> - `svg` 給**完整單一 `<svg>…</svg>`**，去掉外層 wrapper / xml 宣告。
+> - 單色 icon：在 Figma 端盡量綁 `semantic.icon.*`；拉出來若是 currentColor / 無 fill 最佳（腳本會補 `fill=currentColor`）。
+> - stroke 描邊 icon：連 viewBox 一起給，腳本會提醒 stroke-width 需換算（線寬不隨縮放）。」
+
+拉完跑：`node sync/pull-project-icons.mjs <name> projects/<name>/sync/raw-icons.json`
+→ 正規化合併寫入 `projects/<name>/icons.json` → 網站 `?project=<name>#icon` 的「本專案自訂 Icon」區塊顯示。**只寫專案層，不進共用庫、不影響其他專案。**
+
+---
+
 ## C. 依報告對齊後回寫
 
 - **token 值變動** → 改 `projects/<name>/tokens.export.json`（或回填 gallery base 若是全域）→ 重跑 A 驗證歸零。
