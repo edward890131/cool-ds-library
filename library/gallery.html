@@ -652,6 +652,9 @@
   .tref-v{display:flex;align-items:center;gap:var(--sp-2);font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);min-width:0;}
   .tref-v .tref-sw{width:18px;height:18px;border-radius:var(--r-sm);border:1px solid var(--line-strong);flex:0 0 auto;}
   @media(max-width:720px){.tok-row,.tok-row.l2,.tok-row.resp,.tok-row.typo,.tok-row.ls2,.tok-modehead,.tok-modehead.resp,.tok-modehead.typo,.tok-modehead.ls2,.tref-row{grid-template-columns:1fr;}.tok-modehead{display:none;}.tok-cardgrid{grid-template-columns:1fr;}}
+  /* 窄版（≤720px）modehead 隱藏後，每個欄位改用內嵌小標題（寬版靠 modehead，故預設隱藏） */
+  .tok-flab{display:none;}
+  @media(max-width:720px){.tok-flab{display:block;flex:0 0 100px;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);letter-spacing:.02em;}}  /* 固定寬→輸入框左緣對齊 */
 
   /* ===== extra semantic tokens（→ 接 Batch1 feedback token，light/dark 自動跟隨）===== */
   :root{--ok:var(--s-feedback-success);--ok-tint:var(--s-feedback-success-tint);--warn:var(--s-feedback-warning);}
@@ -864,6 +867,7 @@
 
   footer{margin-top:var(--sp-8);padding-top:var(--sp-5);border-top:1px solid var(--line);color:var(--faint);font-size:var(--fs-h11);display:flex;justify-content:space-between;gap:var(--sp-4);flex-wrap:wrap;font-family:var(--font-mono);}
   .site-footer{justify-content:center;text-align:center;margin-top:var(--sp-7);padding:var(--sp-5) 0 6px;letter-spacing:.02em;}
+  .ftr-ver{font-family:var(--font-mono);opacity:.85;}  /* footer 尾端版本號（母檔＝最新版本紀錄版號、專案＝當前版號）*/
 
   .scrim{display:none;}
   /* 平板 / 手機：側邊欄改抽屜式覆蓋，漢堡控制收合 */
@@ -1999,7 +2003,7 @@
 .pcd-thumb .im-img{transition:transform .35s ease;}
 .pcd-card.is-hover .pcd-thumb .im-img,.pcd-card.live:hover:not(.is-soldout) .pcd-thumb .im-img{transform:scale(1.05);} /* hover 縮圖微放大 */
 .pcd-v-horizontal .pcd-thumb{width:120px;align-self:stretch;display:flex;}
-.pcd-v-horizontal .pcd-thumb .im-box{width:100%;height:100%;aspect-ratio:auto;}
+.pcd-v-horizontal .pcd-thumb .im-box{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;} /* 橫式：圖絕對定位，不讓真圖自然高度撐爆卡片（卡高由資訊決定，圖 cover 填滿） */
 
 /* 左上角角標：重用 .tg 原子，僅負責定位 */
 .pcd-badge{position:absolute;top:var(--sp-3);left:var(--sp-3);z-index:2;}
@@ -2152,7 +2156,7 @@
 .art-card .art-cover .im-img{transition:transform .35s ease;}
 /* 橫式：封面靠左固定欄寬、填滿卡片高度 */
 .art-card.v-horizontal .art-cover{width:38%;min-width:120px;}
-.art-card.v-horizontal .art-cover .im-box{height:100%;aspect-ratio:auto;}
+.art-card.v-horizontal .art-cover .im-box{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;} /* 橫式：封面絕對定位，不讓真圖自然高度撐爆卡片 */
 /* 疊字：封面鋪滿整張卡當底圖 */
 .art-card.v-overlay .art-cover{position:absolute;inset:0;}
 .art-card.v-overlay .art-cover .im-box{height:100%;aspect-ratio:auto;}
@@ -2743,7 +2747,7 @@
   .sb-foot{display:none;padding:var(--sp-4) var(--sp-2) var(--sp-2);border-top:1px solid var(--line);}
   @media(max-width:767px){.sidebar{display:flex;flex-direction:column;} .sb-foot{display:block;margin-top:auto;}}
   .sb-foot-name{display:block;font-size:var(--fs-h11);font-weight:600;color:var(--ink);word-break:break-all;}
-  .sb-foot-note{display:block;font-size:var(--fs-h12);color:var(--muted);line-height:1.6;}
+  .sb-foot-note{display:block;font-size:var(--fs-h11);color:var(--muted);line-height:1.6;}
   .sb-foot-ver{display:inline-block;margin-top:var(--sp-2);font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:1px 6px;}
   /* Studio badge（topbar 專案指示 + 匯出）*/
   .ds-badge{display:inline-flex;align-items:center;gap:8px;margin-right:12px;}
@@ -2773,6 +2777,26 @@
   .gd-hero h1{font-size:var(--fs-h3);font-weight:600;letter-spacing:-.01em;margin:0 0 var(--sp-3);}
   .gd-hero .gd-lede{font-size:var(--fs-h8);color:var(--muted);max-width:62ch;line-height:1.65;}
   .gd-hero .gd-tag{display:inline-block;font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 8px;margin-bottom:var(--sp-4);}
+  /* ===== 版本更新紀錄頁（Changelog 時間軸）===== */
+  .cl-tl{display:flex;flex-direction:column;}
+  .cl-entry{display:grid;grid-template-columns:132px 1fr;gap:var(--sp-7);padding:var(--sp-7) 0;border-top:1px solid var(--line);}
+  .cl-entry:first-child{border-top:0;padding-top:var(--sp-5);}
+  .cl-meta{display:flex;flex-direction:column;gap:var(--sp-2);position:sticky;top:var(--sp-4);align-self:start;}
+  .cl-ver{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:700;color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:2px 10px;letter-spacing:-.01em;}
+  .cl-date{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
+  .cl-title{font-size:var(--fs-h7);margin:0 0 var(--sp-4);}
+  .cl-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--sp-3);}
+  .cl-list li{display:flex;align-items:flex-start;gap:var(--sp-3);}
+  .cl-tag{flex:0 0 auto;width:34px;text-align:center;font-family:var(--font-mono);font-size:var(--fs-h12);font-weight:600;letter-spacing:.02em;padding:2px 0;border-radius:var(--r-pill);margin-top:3px;}
+  .cl-add{color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent);}
+  .cl-improve{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 13%,transparent);}
+  .cl-fix{color:var(--warn);background:color-mix(in srgb,var(--warn) 16%,transparent);}
+  .cl-txt{font-size:var(--fs-h10);color:var(--ink);line-height:1.55;}
+  .cl-dot{flex:0 0 auto;width:5px;height:5px;border-radius:var(--r-pill);background:var(--line-strong);margin-top:8px;}
+  .cl-src{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h12);padding:1px 7px;border-radius:var(--r-pill);}
+  .cl-src-manual{color:var(--muted);background:var(--panel-2);border:1px solid var(--line-strong);}
+  .cl-src-figma{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 12%,transparent);}
+  @media(max-width:767px){.cl-entry{grid-template-columns:1fr;gap:var(--sp-3);padding:var(--sp-6) 0;} .cl-meta{position:static;flex-direction:row;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}}
   .gd-sec{margin:var(--sp-8) 0;}
   .gd-sec-h{display:flex;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-5);flex-wrap:wrap;}
   .gd-sec-n{font-family:var(--font-mono);font-size:var(--fs-h5);font-weight:700;color:var(--accent);line-height:1;}
@@ -2886,7 +2910,7 @@
     <div class="sidebar-resize" id="sidebarResize" title="拖曳調整寬度 · 雙擊還原" aria-label="調整側邊欄寬度"></div>
     <div class="scrim" id="scrim"></div>
     <main class="main"><div class="container" id="view"></div>
-      <div class="container"><footer class="site-footer">© 2026 GOONS DESIGN, all rights reserved. Powered by 最厲害的 Yuu</footer></div>
+      <div class="container"><footer class="site-footer">© 2026 GOONS DESIGN, all rights reserved. Powered by 最厲害的 Yuu<span id="ftrVer" class="ftr-ver"></span></footer></div>
     </main>
     <!-- 右緣本頁目錄（滑到右緣浮出，點擊 scroll 到段落）-->
     <div class="toc-dock" id="tocDock"><span class="toc-handle" aria-hidden="true"></span><nav class="toc-panel" id="tocPanel" aria-label="本頁目錄"></nav></div>
@@ -8471,6 +8495,64 @@ function buildScheduleChart(view){
 
   }
 
+  /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
+  const CHANGELOG_DATA=[
+    {v:'v2', date:'2026-07-21', title:'UI 一致性 · PIN 家族 · 手機體驗', items:[
+      {tag:'add', t:'新增版本紀錄頁（母檔記錄每次版更、專案記錄自身 token／元件調整與 Figma 同步）'},
+      {tag:'add', t:'Input 家族新增 PIN／OTP 6 位數驗證碼（自動跳格、貼上自動拆分、只收數字）'},
+      {tag:'add', t:'手機選單底部顯示版本號與元件庫說明；「上手指南」收進選單頂端'},
+      {tag:'fix', t:'手機版 topbar 疊字修正——品牌只留 GOONS 字標、釋出空間'},
+      {tag:'fix', t:'手機版寬表格改為卡內橫向卷動、State×Variant 矩陣改桌機檢視'},
+      {tag:'fix', t:'商品卡與文章卡的橫式在手機的爆版修正'},
+      {tag:'improve', t:'Design Guideline／Design Token 的分段控制統一為同一套樣式'},
+      {tag:'improve', t:'需求匯總頁「AI 建議產出」與「全選」改為無底色的輕量控制'},
+    ]},
+    {v:'v1', date:'2026-07-17', title:'元件庫初版上線', items:[
+      {tag:'add', t:'39 個元件、三大分類（Basic／Complex／Table & Chart）'},
+      {tag:'add', t:'Design Token 編輯、Design Guideline 出貨前預覽、需求匯總選取'},
+      {tag:'add', t:'字級擴充為 12 階、Logo 品牌資產、專案自訂 Icon'},
+      {tag:'add', t:'停用部分 token 值、Design Token 頁分段'},
+      {tag:'add', t:'專案元件庫版本化、Figma 雙向同步腳本、上手指南教學頁'},
+    ]},
+  ];
+  /* 專案更新紀錄：讀該專案 library.version.json 的 history（每次網站手動調整 / Figma 同步的紀錄），非母檔版本紀錄 */
+  function projectChangelogData(){
+    const v=window.__dsProjectData&&window.__dsProjectData.version;
+    if(!v||!Array.isArray(v.history)||!v.history.length)return [];
+    return v.history.slice().reverse().map(h=>({
+      v:'v'+h.v, date:(h.at||'').slice(0,10),
+      src:h.source==='figma'?'figma':'manual',
+      title:h.source==='figma'?'從 Figma 同步':'網站手動調整',
+      items:(h.changes||[]).map(c=>({t:c})) // 無 tag → 純點列
+    }));
+  }
+  function renderChangelog(view){
+    const isProj=!!window.__dsProject;
+    const TAG={add:['新增','cl-add'],improve:['優化','cl-improve'],fix:['修正','cl-fix']};
+    const data=isProj?projectChangelogData():CHANGELOG_DATA;
+    const eyebrow=isProj?'Changelog · 更新紀錄':'Release Notes · 版本紀錄';
+    const h1=isProj?'更新紀錄':'版本紀錄';
+    const lede=isProj
+      ?'這個專案元件庫的每次調整——手動改 token／元件，或從 Figma 同步回來的內容，最新在最上面。'
+      :'這個元件庫的每次版本更新內容，最新在最上面，各筆標上<b>版本</b>與<b>發布日期</b>。';
+    let h='<div class="sum-top"><div class="sum-head"><p class="eyebrow">'+eyebrow+'</p><h1>'+h1+'</h1></div></div>'
+      +'<p class="lede">'+lede+'</p><div class="head-rule"></div>';
+    if(!data.length){ h+='<p class="sub" style="padding:var(--sp-6) 0;">目前還沒有任何調整紀錄。在 Design Token 調值或勾選元件、按右上「儲存並更新」，或從 Figma 同步後，就會記錄在這裡。</p>'; view.innerHTML=h; return; }
+    h+='<div class="cl-tl">';
+    data.forEach(r=>{
+      h+='<section class="cl-entry"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
+        +(r.src?'<span class="cl-src cl-src-'+r.src+'">'+(r.src==='figma'?'Figma':'手動')+'</span>':'')+'</div>'
+        +'<div class="cl-body"><h2 class="cl-title">'+r.title+'</h2><ul class="cl-list">';
+      r.items.forEach(it=>{
+        if(it.tag){const t=TAG[it.tag]||TAG.add;h+='<li><span class="cl-tag '+t[1]+'">'+t[0]+'</span><span class="cl-txt">'+it.t+'</span></li>';}
+        else{h+='<li><span class="cl-dot"></span><span class="cl-txt">'+it.t+'</span></li>';}
+      });
+      h+='</ul></div></section>';
+    });
+    h+='</div>';
+    view.innerHTML=h;
+  }
+
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
   function renderGuide(view){
     view.innerHTML = `
@@ -8682,7 +8764,7 @@ function buildScheduleChart(view){
       const renderL1Group=gr=>{
         const box=ce('div','tok-group');
         const gh=ce('div','tok-gh');
-        gh.innerHTML=`<span class="t">${gr.g}</span>${gr.note?`<span class="d">${gr.note}</span>`:''}`;
+        gh.innerHTML=`<span class="t">${gr.g}</span>`; // header 右側小說明（gr.note）已移除
         box.appendChild(gh);
         if(gr.kind==='typo'){ // 複合 text style：device 切換＋中英切換＋自訂預覽文案；全寬
           box.classList.add('span');
@@ -8721,10 +8803,10 @@ function buildScheduleChart(view){
               pv.style.lineHeight=lang==='zh'?(OV.root['--lh-'+lv]||d[1]):(OV.root['--lh-en-'+lv]||d[2]);
               pv.style.letterSpacing=getComputedStyle(document.documentElement).getPropertyValue(lang==='zh'?'--ls-'+lv:'--ls-en-'+lv).trim();};
             setPv();previews.push({pv,lv,setPv});
-            const szc=ce('div','tok-ctl');const szx=document.createElement('input');szx.type='text';szx.className='tok-hex';szx.value=curSz;
+            const szc=ce('div','tok-ctl');szc.innerHTML=`<span class="tok-flab">字級·${dev}</span>`;const szx=document.createElement('input');szx.type='text';szx.className='tok-hex';szx.value=curSz;
             szx.onchange=()=>{OV[dev]['--fs-'+lv]=szx.value.trim();apply();setPv();};szc.appendChild(szx);row.appendChild(szc);
-            [['--fw-'+lv,d[0]],['--lh-'+lv,d[1]],['--lh-en-'+lv,d[2]]].forEach(([pn,pd])=>{
-              const c=ce('div','tok-ctl');const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.value=OV.root[pn]||pd;
+            [['--fw-'+lv,d[0],'字重'],['--lh-'+lv,d[1],'行高 中'],['--lh-en-'+lv,d[2],'行高 英']].forEach(([pn,pd,flab])=>{
+              const c=ce('div','tok-ctl');c.innerHTML=`<span class="tok-flab">${flab}</span>`;const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.value=OV.root[pn]||pd;
               tx.onchange=()=>{OV.root[pn]=tx.value.trim();apply();setPv();};c.appendChild(tx);row.appendChild(c);});
             row.appendChild(pv);
             rows.appendChild(row);});
@@ -8742,8 +8824,8 @@ function buildScheduleChart(view){
           gr.rows.forEach(lv=>{const d=gr.def[lv];
             const row=ce('div','tok-row ls2');
             const nm=ce('div','tok-name');nm.textContent=lv.toUpperCase();row.appendChild(nm);
-            [['--ls-'+lv,d[0]],['--ls-en-'+lv,d[1]]].forEach(([pn,pd])=>{
-              const c=ce('div','tok-ctl');const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.value=OV.root[pn]||pd;
+            [['--ls-'+lv,d[0],'字距 中'],['--ls-en-'+lv,d[1],'字距 英']].forEach(([pn,pd,flab])=>{
+              const c=ce('div','tok-ctl');c.innerHTML=`<span class="tok-flab">${flab}</span>`;const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.value=OV.root[pn]||pd;
               tx.onchange=()=>{OV.root[pn]=tx.value.trim();apply();};c.appendChild(tx);row.appendChild(c);});
             rows.appendChild(row);});
           box.appendChild(rows);bodyEl.appendChild(box);return;
@@ -8755,8 +8837,8 @@ function buildScheduleChart(view){
             const row=ce('div','tok-row resp');row.dataset.tokkey=name;
             const nm=ce('div','tok-name');nm.innerHTML=name+(lab?`<span class="lab">${lab}</span>`:'');
             row.appendChild(nm);
-            ['desktop','tablet','mobile'].forEach((bk,i)=>{
-              const cell=ce('div','tok-ctl');
+            [['desktop','🖥 Desktop'],['tablet','▭ Tablet'],['mobile','▯ Mobile']].forEach(([bk,flab],i)=>{
+              const cell=ce('div','tok-ctl');cell.innerHTML=`<span class="tok-flab">${flab}</span>`;
               const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.value=OV[bk][name]||gr.def[name][i];
               tx.onchange=()=>{OV[bk][name]=tx.value.trim();apply();};
               cell.appendChild(tx);row.appendChild(cell);});
@@ -8796,7 +8878,7 @@ function buildScheduleChart(view){
       bodyEl.appendChild(intro);
       FRAMEWORK_REF.forEach(sec=>{
         const box=ce('div','tok-group');
-        const gh=ce('div','tok-gh');gh.innerHTML=`<span class="t">${sec.t}</span>${sec.note?`<span class="d">${sec.note}</span>`:''}`;box.appendChild(gh);
+        const gh=ce('div','tok-gh');gh.innerHTML=`<span class="t">${sec.t}</span>`;box.appendChild(gh); // header 右側小說明（sec.note）已移除
         const rows=ce('div','tok-rows');
         sec.rows.forEach(([k,v,r])=>{
           const row=ce('div','tref-row');
@@ -9004,7 +9086,7 @@ function buildScheduleChart(view){
   /* ===== 檢視切換 ===== */
   let current='summary';
   /* URL hash 記住當前檢視：重新整理／深連結會停在原元件頁，不跳回匯出需求 */
-  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide')return h;
+  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog')return h;
     const ids=NAV.flatMap(g=>g.items).map(x=>x.id);return ids.includes(h)?h:null;}
   function renderView(id){
     LIVE_REFRESH.clear(); // 換頁清掉舊 Live 篩選器連動註冊，避免累積
@@ -9013,6 +9095,7 @@ function buildScheduleChart(view){
     const item=NAV.flatMap(g=>g.items).find(x=>x.id===id);
     if(id==='summary'){renderSummary(view);}
     else if(id==='guide'){renderGuide(view);}
+    else if(id==='changelog'){renderChangelog(view);}
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='tokens'){renderTokens(view);}
     else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();}
@@ -9045,7 +9128,10 @@ function buildScheduleChart(view){
       g.items.forEach(it=>{const b=document.createElement('button');b.className='nav-item';b.dataset.id=it.id;b.setAttribute('aria-current',it.id===current);
         b.innerHTML=`<span class="nm">${it.name}</span>`;b.onclick=()=>renderView(it.id);list.appendChild(b);}); // 2026-07-16 移除綠點製作狀態
       grp.append(head,list);host.appendChild(grp);});
-    const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）
+    host.appendChild(ce('div','nav-sep')); // Table 群組 ↔ 版本紀錄／更新紀錄 分隔線
+    const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
+    clpin.innerHTML=`<span>🗒 ${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
+    const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
   }
   function sbFootHTML(){
     if(window.__dsProject) return '<span class="sb-foot-name">'+window.__dsProject+'</span><span class="sb-foot-ver">v'+(window.__dsVersion||0)+'</span>';
@@ -9138,6 +9224,7 @@ function buildScheduleChart(view){
     const b=document.getElementById('dsExportBtn');if(b){const s=b.querySelector('span');s.textContent=window.__dsProject?'儲存並更新':'匯出（下載）';s.dataset.o=s.textContent;}
     const pj=document.getElementById('dsBadgeProj');if(pj&&window.__dsProject){pj.textContent=window.__dsProject+' · v'+(window.__dsVersion||0);} // 版本號跟著專案名走
     const sf=document.getElementById('sbFoot');if(sf)sf.innerHTML=sbFootHTML(); // 選單底部版本號同步
+    const fv=document.getElementById('ftrVer');if(fv){const ver=window.__dsProject?('v'+(window.__dsVersion||0)):((CHANGELOG_DATA[0]&&CHANGELOG_DATA[0].v)||'');fv.textContent=ver?' · '+ver:'';} // footer 尾端版本號
   }
   // 目前狀態的可比較快照（token override + logo + 選用元件 + 各軸）
   function dsSnap(){
