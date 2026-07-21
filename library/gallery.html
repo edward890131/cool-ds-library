@@ -222,7 +222,7 @@
     color:var(--muted);cursor:pointer;align-items:center;justify-content:center;transition:.13s;flex:0 0 auto;}
   .hamb:hover{color:var(--ink);border-color:var(--accent);}
   .hamb svg{width:19px;height:19px;}
-  .brand{display:flex;align-items:center;gap:var(--sp-3);min-width:0;}
+  .brand{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;min-width:0;}
   .brand-logo{width:66px;height:auto;display:block;color:var(--ink);flex:0 0 auto;}
   .brand-logo-img{width:66px;height:auto;display:block;flex:0 0 auto;}
   .brand .divider{width:1px;height:18px;background:var(--line-strong);flex:0 0 auto;}
@@ -360,6 +360,13 @@
   .vpanel .vtitle .vname{font-size:var(--fs-h10);font-weight:600;}
   .vpanel .vtitle .vdesc{font-size:var(--fs-h11);color:var(--faint);margin-left:auto;}
   .grid-scroll{overflow-x:auto;}
+  /* 手機：隱藏 State×Variant 等狀態矩陣（避免橫向爆版），在矩陣區塊補一句導引；Live 互動與示意列不受影響 */
+  @media(max-width:767px){
+    .panels{display:none;}
+    .block:has(> .panels)::after{content:"📱 完整狀態矩陣請在平板／電腦檢視，下方有可操作的即時預覽";display:block;
+      font-family:var(--font-sans);font-size:var(--fs-h11);color:var(--muted);
+      padding:var(--sp-4);background:var(--panel-2);border:1px dashed var(--line-strong);border-radius:var(--r-sm);}
+  }
   .mgrid{display:grid;gap:0;}
   .mgrid .corner,.mgrid .colhead,.mgrid .rowhead,.mgrid .mcell{padding:var(--sp-4);border-bottom:1px solid var(--line);border-right:1px solid var(--line);display:flex;align-items:center;}
   .mgrid .colhead{justify-content:center;flex-direction:column;gap:2px;background:var(--panel);}
@@ -462,16 +469,15 @@
   .sum-actions .spacer{flex:1;}
   .sumtotal{font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--muted);font-variant-numeric:tabular-nums;}
   .sumtotal b{color:var(--accent);font-size:var(--fs-h9);} .sumtotal .full{color:var(--faint);}
-  .sum-selall{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line-strong);background:var(--panel-2);color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;cursor:pointer;user-select:none;transition:.15s;}
-  .sum-selall:hover{border-color:var(--accent);color:var(--ink);}
+  .sum-selall{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0;color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;cursor:pointer;user-select:none;transition:.15s;}
+  .sum-selall:hover{color:var(--ink);}
   .sum-selall input{width:16px;height:16px;margin:0;cursor:pointer;accent-color:var(--accent);flex:0 0 auto;}
-  .aitoggle{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 8px 0 14px;border-radius:999px;border:1px solid var(--line-strong);
-    background:var(--panel-2);color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;cursor:pointer;transition:.15s;}
-  .aitoggle:hover{border-color:var(--accent);color:var(--ink);}
+  .aitoggle{display:inline-flex;align-items:center;gap:9px;height:38px;padding:0;border:0;background:transparent;color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;cursor:pointer;transition:.15s;}
+  .aitoggle:hover{color:var(--ink);}
   .aitoggle svg{width:16px;height:16px;flex:0 0 auto;}
   .aitoggle .sw{position:relative;width:34px;height:20px;border-radius:999px;background:var(--line-strong);transition:background .18s;flex:0 0 auto;}
   .aitoggle .sw::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:var(--r-pill);background:var(--c-neutral-0);transition:transform .2s;box-shadow:0 1px 2px color-mix(in srgb,var(--ink) 20%,transparent);}
-  .aitoggle.on{background:var(--i-primary-tint);border-color:transparent;color:var(--accent);}
+  .aitoggle.on{color:var(--accent);}
   .aitoggle.on .sw{background:var(--accent);}
   .aitoggle.on .sw::after{transform:translateX(14px);}
   .copybtn{height:38px;padding:0 var(--sp-4);border-radius:var(--r-sm);border:1px solid var(--accent);background:var(--accent);color:var(--primary-on);
@@ -558,11 +564,10 @@
   /* ===== Design Token 頁（檢視 + 手動調整；L1/L2 切換、精簡版）===== */
   .tok-lead{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin:var(--sp-4) 0 var(--sp-5);}
   .tok-lead .spacer{flex:1;}
-  .tok-tabs{display:inline-flex;gap:2px;padding:3px;border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);}
-  .tok-tab{height:32px;padding:0 var(--sp-4);border:none;background:transparent;border-radius:var(--r-sm);cursor:pointer;
-    font-family:var(--font-sans);font-size:var(--fs-h11);font-weight:600;color:var(--muted);transition:.13s;}
+  .tok-tabs{display:inline-flex;gap:2px;padding:3px;border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line-strong);}
+  .tok-tab{border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h11);padding:var(--sp-2) var(--sp-4);border-radius:var(--r-sm);cursor:pointer;transition:.12s;}
   .tok-tab:hover{color:var(--ink);}
-  .tok-tab.on{background:var(--panel);color:var(--accent);box-shadow:var(--e-sm);}
+  .tok-tab.on{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.07);}
   .tokbtn{height:34px;padding:0 var(--sp-3);border-radius:var(--r-sm);border:1px solid var(--line-strong);background:var(--panel);
     color:var(--ink);font-family:var(--font-sans);font-size:var(--fs-h11);font-weight:600;cursor:pointer;transition:.13s;display:inline-flex;align-items:center;gap:6px;}
   .tokbtn:hover{border-color:var(--accent);color:var(--accent);}
@@ -675,6 +680,22 @@
   .fieldwrap .fl{font-size:var(--fs-h11);color:var(--muted);font-weight:600;}
   .fieldwrap .fl .req{color:var(--i-danger);margin-left:1px;}
   .fieldwrap .fh{font-size:var(--fs-h12);color:var(--faint);} .fieldwrap .fh.err{color:var(--i-danger);}
+  /* ---------- PIN / OTP 驗證碼（input 家族）：每格沿用 .field 的邊框色／狀態 token ---------- */
+  .pin{display:inline-flex;gap:var(--sp-3);}
+  .pincell{width:44px;height:52px;display:inline-flex;align-items:center;justify-content:center;text-align:center;
+    border:0.75px solid var(--i-sec-edge);border-radius:var(--r-sm);background:var(--panel);color:var(--ink);
+    font-size:var(--fs-h6);font-weight:600;font-family:var(--font-sans);font-variant-numeric:tabular-nums;
+    transition:border-color .13s,background .13s;}
+  .pincell.v-filled{background:var(--panel-2);border-color:transparent;}
+  .pincell.st-hover{border-color:var(--muted);}
+  .pincell.v-filled.st-hover{background:var(--panel-3);border-color:transparent;}
+  .pincell.st-focus{border-color:var(--accent);}                     /* focus：只描邊、無外陰影（同 input） */
+  .pincell.st-error{border-color:var(--i-danger);}                   /* error：紅框 */
+  .pincell.st-disabled{opacity:.5;cursor:not-allowed;}
+  input.pincell{outline:none;padding:0;}
+  .pin.live-pin .pincell{cursor:text;}
+  .pin.live-pin .pincell:focus{border-color:var(--accent);}
+  .pin.live-pin .pincell.v-filled:focus{background:var(--panel-2);border-color:var(--accent);}
 
   /* ===== textarea 多行輸入 ===== */
   .tarea{display:flex;align-items:flex-start;min-height:80px;padding:var(--sp-3);border-radius:var(--r-sm);border:0.75px solid var(--i-sec-edge);
@@ -2192,7 +2213,7 @@
    全部顏色綁 token，明暗色自動跟切 */
 
 /* ---- 外框容器 ---- */
-.tbl-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;max-width:100%;font-family:var(--font-sans);}
+.tbl-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;overflow-y:hidden;max-width:100%;font-family:var(--font-sans);}
 .tbl-wrap.tbl-v-plain{border-color:transparent;}                     /* 簡潔款：拿掉外框 */
 
 /* ---- 表格本體 ---- */
@@ -2271,6 +2292,7 @@
 .tbl-celltypes .tbl-dd .field.dd{min-height:32px;padding:var(--sp-1) var(--sp-3);font-size:var(--fs-h11);} /* 收窄成表格內尺寸 */
 .tbl-celltypes .ddmenu{z-index:40;}
 .tbl-celltypes .tbl-td{overflow:visible;}
+@media(max-width:767px){.tbl-wrap.tbl-celltypes{overflow-x:auto;overflow-y:hidden;}}  /* 手機：寬表格改卡內橫向卷動優先（Dropdown 展開在手機較少用，讓五種欄位型別可完整滑閱） */
 .tbl-actbtn{padding:2px var(--sp-1);min-height:0;}                           /* 文字按鈕儲存格：貼齊列高 */
 
 /* ---- 陳列容器 ---- */
@@ -2710,10 +2732,19 @@
   .dgt-wn{font-size:10px;color:var(--muted);white-space:nowrap;}
   .dgt-note{display:inline-block;width:max-content;padding:6px 12px;border-radius:var(--r-sm);background:var(--i-primary-tint);color:var(--accent);font-size:var(--fs-h11);font-weight:600;}
   .dgt-ctl{display:flex;gap:var(--sp-4);flex-wrap:wrap;margin:var(--sp-2) 0 var(--sp-3);}
-  .dgt-tabs{display:inline-flex;gap:2px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-md);padding:2px;}
-  .dgt-tab{padding:5px 12px;border:0;background:transparent;border-radius:var(--r-sm);font-size:var(--fs-h11);color:var(--muted);cursor:pointer;white-space:nowrap;}
-  .dgt-tab.on{background:var(--panel);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06);}
+  .dgt-tabs{display:inline-flex;gap:2px;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:3px;}
+  .dgt-tab{padding:var(--sp-2) var(--sp-4);border:0;background:transparent;border-radius:var(--r-sm);font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);cursor:pointer;white-space:nowrap;transition:.12s;}
+  .dgt-tab:hover{color:var(--ink);}
+  .dgt-tab.on{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.07);}
   .nav-item.nav-mono{font-family:var(--font-mono);letter-spacing:-0.02em;}
+  .nav-guide-m{display:none;}                                         /* 上手指南選單項：桌機在 topbar，這裡隱藏 */
+  @media(max-width:767px){.nav-guide-m{display:flex;}}               /* 手機 topbar 收起後，改由選單頂端進入上手指南 */
+  /* 選單底部：版本號＋母元件庫說明（手機 topbar badge 收起後改在此顯示；釘在選單底部） */
+  .sb-foot{display:none;padding:var(--sp-4) var(--sp-2) var(--sp-2);border-top:1px solid var(--line);}
+  @media(max-width:767px){.sidebar{display:flex;flex-direction:column;} .sb-foot{display:block;margin-top:auto;}}
+  .sb-foot-name{display:block;font-size:var(--fs-h11);font-weight:600;color:var(--ink);word-break:break-all;}
+  .sb-foot-note{display:block;font-size:var(--fs-h12);color:var(--muted);line-height:1.6;}
+  .sb-foot-ver{display:inline-block;margin-top:var(--sp-2);font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:1px 6px;}
   /* Studio badge（topbar 專案指示 + 匯出）*/
   .ds-badge{display:inline-flex;align-items:center;gap:8px;margin-right:12px;}
   .ds-badge-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:2px 6px;}
@@ -2737,7 +2768,7 @@
   /* ── 上手指南 教學頁（Batch B）── */
   .gd-entry{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 10px;cursor:pointer;margin-left:var(--sp-4);transition:color .15s,border-color .15s;}
   .gd-entry:hover{color:var(--ink);border-color:var(--accent);}
-  @media(max-width:640px){.gd-entry{display:none;}}
+  @media(max-width:767px){#guideBtn,.gd-entry{display:none;} .brand-title,.brand .divider{display:none;}}  /* 手機：隱藏上手指南＋品牌文字，只留 GOONS 字標，釋出 topbar 空間避免 logo 溢出疊字 */
   .gd-hero{padding:var(--sp-5) 0;border-bottom:1px solid var(--line);margin-bottom:var(--sp-6);}
   .gd-hero h1{font-size:var(--fs-h3);font-weight:600;letter-spacing:-.01em;margin:0 0 var(--sp-3);}
   .gd-hero .gd-lede{font-size:var(--fs-h8);color:var(--muted);max-width:62ch;line-height:1.65;}
@@ -3324,7 +3355,7 @@
   }
   function buildInput(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Input',title:'Input 輸入框',
-      lede:'Input 家族：<b>純文字 input、search、password、textarea、file</b>。以下先攤開基本 input（<b>outline／filled 兩 variant、無 size 軸</b>；label／必填／hint／icon／後綴 eye／清除 ×／錯誤文案走 boolean，有值時右側出現清除 ×，focus 只描邊、無外陰影），再往下逐個列出其餘子元件的狀態與互動。',
+      lede:'Input 家族：<b>純文字 input、search、password、PIN／OTP、textarea、file</b>。以下先攤開基本 input（<b>outline／filled 兩 variant、無 size 軸</b>；label／必填／hint／icon／後綴 eye／清除 ×／錯誤文案走 boolean，有值時右側出現清除 ×，focus 只描邊、無外陰影），再往下逐個列出其餘子元件的狀態與互動。',
       specRows:[['axes','<code>variant × state</code>（無 size）'],['formula','<code>2 × 6</code>'],['token-policy','<code>semantic.*.input.*</code>'],['content boolean','label(+必填) / hint / leading icon / 後綴 eye / 清除 × / 錯誤文案']]});
     const Z={default:['預設','default'],hover:['滑過','hover'],focus:['聚焦','focus'],'filled-value':['已填值','filled-value'],disabled:['停用','disabled'],error:['錯誤','error']};
     const axes=DIAL_SPECS.input.axes, zh=DIAL_SPECS.input.zh, active=CHOICE.input.active; // 接中央 store
@@ -3367,6 +3398,20 @@
         i.addEventListener('input',()=>{clr.style.display=i.value?'inline-flex':'none';});f.appendChild(clr);
         const b=document.createElement('span');b.style.cssText='display:inline-flex;cursor:pointer;color:var(--muted);flex:0 0 auto;';b.innerHTML=ICON_EYE;
         b.onclick=()=>{const show=i.type==='password';i.type=show?'text':'password';b.innerHTML=show?ICON_EYE_SLASH:ICON_EYE;};f.appendChild(b);return f;}}});
+
+    famBlock(body,{zh:'PIN 驗證碼',en:'pin / otp',note:'6 位數字一次性驗證碼（OTP）：每格一個數字、<b>自動跳格、貼上自動拆分、只收數字</b>。邊框／聚焦／錯誤沿用 input 家族（focus 只描邊、error 紅框）。variant 同 input（外框／實填）。',
+      variants:[['outline','外框'],['filled','實填']],mincol:320,
+      states:[['default','預設'],['hover','滑過'],['focus','聚焦'],['filled-value','已填值'],['error','錯誤'],['disabled','停用']],
+      el:pinEl,
+      live:{initial:{variant:'outline'},segs:[{key:'variant',label:'Variant',options:['outline','filled']}],
+        render:st=>{const wrap=ce('div','pin live-pin');const inputs=[];
+          for(let i=0;i<6;i++){const cell=document.createElement('input');cell.className=`pincell v-${st.variant}`;
+            cell.maxLength=1;cell.inputMode='numeric';cell.setAttribute('aria-label',`第 ${i+1} 碼`);if(i===0)cell.autocomplete='one-time-code';
+            cell.addEventListener('input',()=>{cell.value=cell.value.replace(/\D/g,'').slice(0,1);if(cell.value&&i<5)inputs[i+1].focus();});
+            cell.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!cell.value&&i>0){inputs[i-1].value='';inputs[i-1].focus();e.preventDefault();}});
+            cell.addEventListener('paste',e=>{e.preventDefault();const d=((e.clipboardData||window.clipboardData).getData('text')||'').replace(/\D/g,'').slice(0,6);if(!d)return;for(let j=0;j<6;j++)inputs[j].value=d[j]||'';inputs[Math.min(d.length,5)].focus();});
+            inputs.push(cell);wrap.appendChild(cell);}
+          return wrap;}}});
 
     famBlock(body,{zh:'Textarea 多行輸入',en:'textarea',note:'多行文字、可垂直拉伸；狀態與 input 相同。',
       states:[['default','預設'],['hover','滑過'],['focus','聚焦'],['filled-value','已填值'],['disabled','停用'],['error','錯誤']],
@@ -3420,6 +3465,15 @@
   function fileEl(variant,state){const hasFile=state==='has-file';const f=ce('div',`filefield v-${variant} st-${state}${hasFile?' has-file':''}`);
     f.innerHTML=`<span class="filebtn">${ICON_UPLOAD}選擇檔案</span><span class="fname">${hasFile?'report-2026.pdf':'未選擇檔案'}</span>`+(hasFile?`<span class="fieldclear">${ICON_XCIRCLE}</span>`:'');
     return f;}
+  /* PIN / OTP：6 格單字元；filled/error 全格帶值、focus 顯示輸入到一半（前兩格已填、第三格 active） */
+  function pinEl(variant,state){const wrap=ce('div','pin');
+    const codes={'filled-value':['2','4','8','1','9','6'],'error':['3','0','7','7','1','2']};
+    for(let i=0;i<6;i++){let cs=state,txt='';
+      if(state==='filled-value'){txt=codes['filled-value'][i];cs='filled-value';}
+      else if(state==='error'){txt=codes['error'][i];cs='error';}
+      else if(state==='focus'){if(i<2){cs='filled-value';txt=['4','9'][i];}else if(i===2){cs='focus';}else{cs='default';}}
+      const c=ce('div',`pincell v-${variant} st-${cs}`);if(txt)c.textContent=txt;wrap.appendChild(c);}
+    return wrap;}
 
   /* ---- CHECKBOX ---- */
   function cbxEl(state,size){const c=ce('div',`cbx sz-${size} st-${state}`);
@@ -8970,6 +9024,10 @@ function buildScheduleChart(view){
     buildTOC(); // 換頁後重建右緣本頁目錄
   }
   function renderNav(){const host=document.getElementById('sidebar');host.innerHTML='';
+    // 手機專用：上手指南入口（桌機在 topbar，CSS .nav-guide-m 只在 ≤767px 顯示）；renderView('guide') 會自動高亮＋收起抽屜
+    const gm=document.createElement('button');gm.className='nav-item nav-pin nav-mono nav-guide-m';gm.dataset.id='guide';gm.setAttribute('aria-current',current==='guide');
+    gm.innerHTML=`<span>📖 上手指南</span>`;gm.onclick=()=>renderView('guide');host.appendChild(gm);
+    host.appendChild(ce('div','nav-sep nav-guide-m')); // 上手指南 ↔ Design Token 分隔線（同樣只手機顯示）
     const tpin=document.createElement('button');tpin.className='nav-item nav-pin nav-mono';tpin.dataset.id='tokens';tpin.setAttribute('aria-current',current==='tokens');
     tpin.innerHTML=`<span>🎨 Design Token</span>`;tpin.onclick=()=>renderView('tokens');host.appendChild(tpin);
     host.appendChild(ce('div','nav-sep')); // Design Token ↔ Design Guideline 分隔線
@@ -8986,7 +9044,13 @@ function buildScheduleChart(view){
       const list=document.createElement('div');list.className='ng-items';
       g.items.forEach(it=>{const b=document.createElement('button');b.className='nav-item';b.dataset.id=it.id;b.setAttribute('aria-current',it.id===current);
         b.innerHTML=`<span class="nm">${it.name}</span>`;b.onclick=()=>renderView(it.id);list.appendChild(b);}); // 2026-07-16 移除綠點製作狀態
-      grp.append(head,list);host.appendChild(grp);});}
+      grp.append(head,list);host.appendChild(grp);});
+    const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）
+  }
+  function sbFootHTML(){
+    if(window.__dsProject) return '<span class="sb-foot-name">'+window.__dsProject+'</span><span class="sb-foot-ver">v'+(window.__dsVersion||0)+'</span>';
+    return '<span class="sb-foot-note">此為母元件庫，若需更新請調整原始檔</span>';
+  }
 
   /* ===== topbar 行為 =====（桌機側欄常駐；窄螢幕漢堡控制抽屜）*/
   const shell=document.getElementById('shell');
@@ -9073,6 +9137,7 @@ function buildScheduleChart(view){
   function updateBadgeVersion(){
     const b=document.getElementById('dsExportBtn');if(b){const s=b.querySelector('span');s.textContent=window.__dsProject?'儲存並更新':'匯出（下載）';s.dataset.o=s.textContent;}
     const pj=document.getElementById('dsBadgeProj');if(pj&&window.__dsProject){pj.textContent=window.__dsProject+' · v'+(window.__dsVersion||0);} // 版本號跟著專案名走
+    const sf=document.getElementById('sbFoot');if(sf)sf.innerHTML=sbFootHTML(); // 選單底部版本號同步
   }
   // 目前狀態的可比較快照（token override + logo + 選用元件 + 各軸）
   function dsSnap(){
