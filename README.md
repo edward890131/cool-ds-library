@@ -4,6 +4,9 @@
 
 > 給同事：**把這個 repo 的 GitHub 網址丟給 Claude Code，說「依 ds-studio 幫我跑一個新專案」即可**，Claude 會照下方七步依序帶你走完。
 
+**🔰 第一次用 → 先讀 [QUICKSTART.md](QUICKSTART.md)**（手把手的新手上手教學，這份 README 只講架構）。
+**🔗 先看成品** → 母元件庫展示網站 **https://cool-ds-library.vercel.app/**（不用裝任何東西、點進去就能逛）。
+
 ---
 
 ## 這個 repo 是什麼
@@ -74,7 +77,7 @@ node sync/check-component-drift.mjs <專案名>  # component 漂移報告（Figm
 ## 最少要會的 git
 
 ```
-git clone <this-repo-url>   # 第一次拿整套（框架已快照在內、不用另外 clone）
+git clone https://github.com/edward890131/cool-ds-library.git   # 第一次拿整套（框架已快照在內、不用另外 clone）
 git pull                    # 之後更新
 ```
 
