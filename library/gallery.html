@@ -21,9 +21,9 @@
     /* ── L1 Primitive · Brand 主色（9 階；深黑，500 為主錨點；primary 動作＝黑）── */
     --c-brand-100:#EDEDEE; --c-brand-200:#D1D1D3; --c-brand-300:#A8A8AB; --c-brand-400:#5F5F64;
     --c-brand-500:#1C1C20; --c-brand-600:#141417; --c-brand-700:#0C0C0E; --c-brand-800:#060607; --c-brand-900:#000000;
-    /* ── L1 Primitive · Brand 副色（9 階；品牌藍 #3358D4）── */
-    --c-brand2-100:#EBEFFB; --c-brand2-200:#D6DFF7; --c-brand2-300:#B3C4F1; --c-brand2-400:#6E8AF5;
-    --c-brand2-500:#3358D4; --c-brand2-600:#2B49B6; --c-brand2-700:#233C97; --c-brand2-800:#1B2E74; --c-brand2-900:#131F4E;
+    /* ── L1 Primitive · Brand 副色（9 階；品牌橘 #EA580C）── */
+    --c-brand2-100:#FFEDD5; --c-brand2-200:#FED7AA; --c-brand2-300:#FDBA74; --c-brand2-400:#FB923C;
+    --c-brand2-500:#EA580C; --c-brand2-600:#C2410C; --c-brand2-700:#9A3412; --c-brand2-800:#7C2D12; --c-brand2-900:#5A200D;
     /* ── L1 Primitive · Feedback 狀態色（框架值，各 9 階）── */
     --c-success-100:#D1FAE5; --c-success-200:#A7F3D0; --c-success-300:#6EE7B7; --c-success-400:#34D399; --c-success-500:#10B981; --c-success-600:#059669; --c-success-700:#047857; --c-success-800:#065F46; --c-success-900:#064E3B;
     --c-warning-100:#FEF3C7; --c-warning-200:#FDE68A; --c-warning-300:#FCD34D; --c-warning-400:#FBBF24; --c-warning-500:#F59E0B; --c-warning-600:#D97706; --c-warning-700:#B45309; --c-warning-800:#92400E; --c-warning-900:#78350F;
@@ -2803,10 +2803,36 @@
   .gd-entry{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 10px;cursor:pointer;margin-left:var(--sp-4);transition:color .15s,border-color .15s;}
   .gd-entry:hover{color:var(--ink);border-color:var(--accent);}
   @media(max-width:767px){#guideBtn,.gd-entry{display:none;} .brand-title,.brand .divider{display:none;}}  /* 手機：隱藏上手指南＋品牌文字，只留 GOONS 字標，釋出 topbar 空間避免 logo 溢出疊字 */
-  .gd-hero{padding:var(--sp-5) 0;border-bottom:1px solid var(--line);margin-bottom:var(--sp-6);}
-  .gd-hero h1{font-size:var(--fs-h3);font-weight:600;letter-spacing:-.01em;margin:0 0 var(--sp-3);}
-  .gd-hero .gd-lede{font-size:var(--fs-h8);color:var(--muted);max-width:62ch;line-height:1.65;}
-  .gd-hero .gd-tag{display:inline-block;font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 8px;margin-bottom:var(--sp-4);}
+  /* 上手指南首屏 hero：出血到內容區滿寬（負 margin＝各斷點 container-pad），暖橘柔和漸層背景，標題靠左、mockup 置中下方 */
+  .gd-hero{position:relative;overflow:hidden;
+    margin:calc(-1*var(--sp-6)) calc(-1*var(--container-pad)) var(--sp-7);
+    padding:clamp(44px,6vw,84px) var(--container-pad) clamp(32px,4vw,56px);
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(90% 70% at 8% 104%, color-mix(in srgb,var(--c-brand2-400) 64%,transparent) 0%, transparent 66%),
+      radial-gradient(88% 66% at 94% 108%, color-mix(in srgb,var(--c-brand2-600) 52%,transparent) 0%, transparent 62%),
+      linear-gradient(180deg, var(--panel) 0%, color-mix(in srgb,var(--c-brand2-300) 9%,var(--panel)) 52%, color-mix(in srgb,var(--c-brand2-400) 30%,var(--panel)) 100%);}
+  @media(prefers-color-scheme:dark){.gd-hero{background:
+      radial-gradient(90% 70% at 8% 104%, color-mix(in srgb,var(--c-brand2-500) 52%,transparent) 0%, transparent 66%),
+      radial-gradient(88% 66% at 94% 108%, color-mix(in srgb,var(--c-brand2-700) 48%,transparent) 0%, transparent 62%),
+      linear-gradient(180deg, var(--panel) 0%, color-mix(in srgb,var(--c-brand2-600) 12%,var(--panel)) 52%, color-mix(in srgb,var(--c-brand2-600) 34%,var(--panel)) 100%);}}
+  :root[data-theme="dark"] .gd-hero{background:
+      radial-gradient(90% 70% at 8% 104%, color-mix(in srgb,var(--c-brand2-500) 52%,transparent) 0%, transparent 66%),
+      radial-gradient(88% 66% at 94% 108%, color-mix(in srgb,var(--c-brand2-700) 48%,transparent) 0%, transparent 62%),
+      linear-gradient(180deg, var(--panel) 0%, color-mix(in srgb,var(--c-brand2-600) 12%,var(--panel)) 52%, color-mix(in srgb,var(--c-brand2-600) 34%,var(--panel)) 100%);}
+  :root[data-theme="light"] .gd-hero{background:
+      radial-gradient(90% 70% at 8% 104%, color-mix(in srgb,var(--c-brand2-400) 64%,transparent) 0%, transparent 66%),
+      radial-gradient(88% 66% at 94% 108%, color-mix(in srgb,var(--c-brand2-600) 52%,transparent) 0%, transparent 62%),
+      linear-gradient(180deg, var(--panel) 0%, color-mix(in srgb,var(--c-brand2-300) 9%,var(--panel)) 52%, color-mix(in srgb,var(--c-brand2-400) 30%,var(--panel)) 100%);}
+  .gd-hero-copy{position:relative;z-index:1;max-width:60ch;}
+  .gd-hero-copy .eyebrow{margin-bottom:var(--sp-4);}
+  .gd-hero h1{font-size:clamp(var(--fs-h4),4.2vw,var(--fs-h2));font-weight:650;letter-spacing:-.02em;line-height:1.1;margin:0 0 var(--sp-4);text-wrap:balance;}
+  .gd-hero-lede{color:var(--muted);max-width:54ch;margin:0;font-size:var(--fs-h8);line-height:1.62;}
+  .gd-hero-lede b{color:var(--ink);}
+  .gd-hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-top:var(--sp-6);}
+  .gd-hero-mock{position:relative;z-index:1;margin-top:clamp(28px,4vw,52px);display:flex;justify-content:center;}
+  .gd-hero-mock .gd-devices{margin:0;width:100%;}
+  .gd-hero-mock .gd-mac-screen{max-width:500px;}
   /* ===== 版本更新紀錄頁（Changelog 時間軸）===== */
   .cl-tl{display:flex;flex-direction:column;}
   .cl-entry{display:grid;grid-template-columns:132px 1fr;gap:var(--sp-7);padding:var(--sp-7) 0;border-top:1px solid var(--line);}
@@ -8435,9 +8461,9 @@ function buildScheduleChart(view){
     {g:'Brand 主色（9 階 · 深黑）',kind:'color',note:'primary 動作＝黑；餵 action.primary／選中／圖表主系列。500 為主錨點，暗色模式翻成亮端（見框架索引）。',
      rows:[['--c-brand-100'],['--c-brand-200','dark 亮端'],['--c-brand-300'],['--c-brand-400'],['--c-brand-500','主 500'],['--c-brand-600','hover'],['--c-brand-700','press'],['--c-brand-800'],['--c-brand-900']],
      def:{'--c-brand-100':'#EDEDEE','--c-brand-200':'#D1D1D3','--c-brand-300':'#A8A8AB','--c-brand-400':'#5F5F64','--c-brand-500':'#1C1C20','--c-brand-600':'#141417','--c-brand-700':'#0C0C0E','--c-brand-800':'#060607','--c-brand-900':'#000000'}},
-    {g:'Brand 副色（9 階 · 品牌藍）',kind:'color',note:'品牌藍 #3358D4；框架 brand.secondary。目前為 primitive，元件端 secondary 仍走中性色（要不要接藍需另行確認）。',
+    {g:'Brand 副色（9 階 · 品牌橘）',kind:'color',note:'品牌橘 #EA580C；框架 brand.secondary。目前為 primitive，元件端 secondary 仍走中性色（要不要接橘需另行確認）。',
      rows:[['--c-brand2-100'],['--c-brand2-200'],['--c-brand2-300'],['--c-brand2-400'],['--c-brand2-500','副 500'],['--c-brand2-600'],['--c-brand2-700'],['--c-brand2-800'],['--c-brand2-900']],
-     def:{'--c-brand2-100':'#EBEFFB','--c-brand2-200':'#D6DFF7','--c-brand2-300':'#B3C4F1','--c-brand2-400':'#6E8AF5','--c-brand2-500':'#3358D4','--c-brand2-600':'#2B49B6','--c-brand2-700':'#233C97','--c-brand2-800':'#1B2E74','--c-brand2-900':'#131F4E'}},
+     def:{'--c-brand2-100':'#FFEDD5','--c-brand2-200':'#FED7AA','--c-brand2-300':'#FDBA74','--c-brand2-400':'#FB923C','--c-brand2-500':'#EA580C','--c-brand2-600':'#C2410C','--c-brand2-700':'#9A3412','--c-brand2-800':'#7C2D12','--c-brand2-900':'#5A200D'}},
     {g:'Feedback 狀態色（各 9 階）',kind:'color',note:'成功／警告／錯誤／資訊，框架完整 9 階 tint；500 為主、兼圖表系列色，400/600 供 hover/press 與暗色。',
      rows:[['--c-success-100'],['--c-success-200'],['--c-success-300'],['--c-success-400'],['--c-success-500','success'],['--c-success-600'],['--c-success-700'],['--c-success-800'],['--c-success-900'],['--c-warning-100'],['--c-warning-200'],['--c-warning-300'],['--c-warning-400'],['--c-warning-500','warning'],['--c-warning-600'],['--c-warning-700'],['--c-warning-800'],['--c-warning-900'],['--c-error-100'],['--c-error-200'],['--c-error-300'],['--c-error-400'],['--c-error-500','error'],['--c-error-600'],['--c-error-700'],['--c-error-800'],['--c-error-900'],['--c-info-100'],['--c-info-200'],['--c-info-300'],['--c-info-400'],['--c-info-500','info'],['--c-info-600'],['--c-info-700'],['--c-info-800'],['--c-info-900']],
      def:{'--c-success-100':'#D1FAE5','--c-success-200':'#A7F3D0','--c-success-300':'#6EE7B7','--c-success-400':'#34D399','--c-success-500':'#10B981','--c-success-600':'#059669','--c-success-700':'#047857','--c-success-800':'#065F46','--c-success-900':'#064E3B','--c-warning-100':'#FEF3C7','--c-warning-200':'#FDE68A','--c-warning-300':'#FCD34D','--c-warning-400':'#FBBF24','--c-warning-500':'#F59E0B','--c-warning-600':'#D97706','--c-warning-700':'#B45309','--c-warning-800':'#92400E','--c-warning-900':'#78350F','--c-error-100':'#FEE2E2','--c-error-200':'#FECACA','--c-error-300':'#FCA5A5','--c-error-400':'#F87171','--c-error-500':'#EF4444','--c-error-600':'#DC2626','--c-error-700':'#B91C1C','--c-error-800':'#991B1B','--c-error-900':'#7F1D1D','--c-info-100':'#DBEAFE','--c-info-200':'#BFDBFE','--c-info-300':'#93C5FD','--c-info-400':'#60A5FA','--c-info-500':'#3B82F6','--c-info-600':'#2563EB','--c-info-700':'#1D4ED8','--c-info-800':'#1E40AF','--c-info-900':'#1E3A8A'}},
@@ -8502,7 +8528,7 @@ function buildScheduleChart(view){
      rows:[['gray.0','#FFFFFF'],['gray.50','#F9FAFB'],['gray.100','#F3F4F6'],['gray.200','#E5E7EB'],['gray.300','#D1D5DB'],['gray.400','#9CA3AF'],['gray.500','#6B7280'],['gray.600','#4B5563'],['gray.700','#374151'],['gray.800','#1F2937'],['gray.900','#111827']]},
     {t:'Color · Brand 主色（9 階）',note:'框架結構鎖定、值留空由專案 delta 填；本專案主色種子＝深黑（見 L1 分頁）。',
      rows:[['brand.primary.100','（專案填）'],['brand.primary.200','（專案填）'],['brand.primary.300','（專案填）'],['brand.primary.400','（專案填）'],['brand.primary.500','（主錨點）'],['brand.primary.600','（專案填）'],['brand.primary.700','（專案填）'],['brand.primary.800','（專案填）'],['brand.primary.900','（專案填）']]},
-    {t:'Color · Brand 副色（9 階）',note:'同上，框架留空；本專案副色＝品牌藍 #3358D4。',
+    {t:'Color · Brand 副色（9 階）',note:'同上，框架留空；本專案副色＝品牌橘 #EA580C。',
      rows:[['brand.secondary.100','（專案填）'],['brand.secondary.300','（專案填）'],['brand.secondary.500','（副錨點）'],['brand.secondary.700','（專案填）'],['brand.secondary.900','（專案填）']]},
     {t:'Color · Feedback / Success（9 階）',
      rows:[['success.100','#D1FAE5'],['success.200','#A7F3D0'],['success.300','#6EE7B7'],['success.400','#34D399'],['success.500','#10B981'],['success.600','#059669'],['success.700','#047857'],['success.800','#065F46'],['success.900','#064E3B']]},
@@ -8668,6 +8694,11 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v4', date:'2026-07-22', title:'品牌副色改橘 · 上手指南首屏', items:[
+      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步換色）；主色維持中性近黑，橘作副色與情境點綴'},
+      {tag:'add', t:'上手指南新增情境首屏 hero：暖橘柔和漸層背景、標題靠左、mockup 置中縮小、加兩顆 CTA（瀏覽元件／GitHub）'},
+      {tag:'improve', t:'母元件庫預設進站頁改為上手指南首屏（專案模式維持需求匯總）'},
+    ]},
     {v:'v3', date:'2026-07-22', title:'元件級 Token 綁定 · 上手指南更新', items:[
       {tag:'add', t:'每顆元件新增「變數與 Token」段落：可把該元件的圓角／間距／字級換綁成同類別的其他 token（專案層編輯，不動共用母庫；母庫頁僅預覽）'},
       {tag:'add', t:'字級可換綁（typography 尺標 h1–h12）；共 35 顆元件開放結構槽、18 顆開放字級槽'},
@@ -8734,9 +8765,34 @@ function buildScheduleChart(view){
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
   function renderGuide(view){
     view.innerHTML = `
-      <div class="sum-top"><div class="sum-head"><p class="eyebrow">上手指南 · Getting Started</p><h1>什麼是 Cool-DS-Library？</h1></div></div>
-      <p class="lede">這是 Goons 的設計系統元件庫。你在這裡<b>挑元件、調 token、預覽整體效果</b>，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
-      <div class="head-rule"></div>
+      <section class="gd-hero">
+        <div class="gd-hero-copy">
+          <p class="eyebrow">上手指南 · Getting Started</p>
+          <h1>什麼是 Cool-DS-Library？</h1>
+          <p class="gd-hero-lede">這是 Goons 的設計系統元件庫。你在這裡<b>挑元件、調 token、預覽整體效果</b>，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
+          <div class="gd-hero-cta" id="gdHeroCta"></div>
+        </div>
+        <div class="gd-hero-mock">
+          <div class="gd-devices">
+            <div class="gd-mac">
+              <div class="gd-mac-screen">
+                <div class="gd-mac-inner">
+                  <div class="gd-gh" id="gdGhScreen"></div>
+                  <div class="gd-mac-dim"></div>
+                  <div class="gd-mac-cta" id="gdGh"></div>
+                </div>
+              </div>
+              <div class="gd-mac-base"></div>
+            </div>
+            <div class="gd-iphone">
+              <div class="gd-ip-frame">
+                <div class="gd-ip-island"></div>
+                <div class="gd-ip-screen"><div class="gd-ghm" id="gdIphoneScreen"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="gd-sec">
         <div class="gd-sec-h"><span class="gd-sec-n">01</span><h2 class="gd-sec-t">整套流程總覽</h2></div>
@@ -8749,24 +8805,6 @@ function buildScheduleChart(view){
           <div class="gd-card gd-scard"><div class="gd-card-ic">05</div><h3>產出程式碼</h3><p>Claude 依設定檔，從元件庫建出對應的程式碼元件。</p></div>
           <div class="gd-card gd-scard"><div class="gd-card-ic">06</div><h3>寫進 Figma</h3><p>把 token 與元件同步建進 Figma 設計檔（軸＝variant）。</p></div>
           <div class="gd-card gd-scard"><div class="gd-card-ic">07</div><h3>雙向同步</h3><p>之後 code 或 Figma 任一邊改動，跑腳本把差異對齊。</p></div>
-        </div>
-        <div class="gd-devices">
-          <div class="gd-mac">
-            <div class="gd-mac-screen">
-              <div class="gd-mac-inner">
-                <div class="gd-gh" id="gdGhScreen"></div>
-                <div class="gd-mac-dim"></div>
-                <div class="gd-mac-cta" id="gdGh"></div>
-              </div>
-            </div>
-            <div class="gd-mac-base"></div>
-          </div>
-          <div class="gd-iphone">
-            <div class="gd-ip-frame">
-              <div class="gd-ip-island"></div>
-              <div class="gd-ip-screen"><div class="gd-ghm" id="gdIphoneScreen"></div></div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -8824,7 +8862,7 @@ function buildScheduleChart(view){
         <div class="gd-grid">
           <div class="gd-fig">
             <div class="gd-tokrow"><span class="gd-tok-sw" style="background:var(--accent)"></span><span class="gd-tok-nm">--c-brand-500</span><span class="gd-tok-field">#1C1C20</span></div>
-            <div class="gd-tokrow"><span class="gd-tok-sw" style="background:var(--c-brand2-500)"></span><span class="gd-tok-nm">--c-brand2-500</span><span class="gd-tok-field">#3358D4</span></div>
+            <div class="gd-tokrow"><span class="gd-tok-sw" style="background:var(--c-brand2-500)"></span><span class="gd-tok-nm">--c-brand2-500</span><span class="gd-tok-field">#EA580C</span></div>
             <div class="gd-tokrow"><span class="gd-tok-nm">--r-md 圓角</span><span class="gd-tok-field">8px</span></div>
             <span class="gd-anno gd-anno-blk">改欄位 → 整站即時變</span>
           </div>
@@ -8967,6 +9005,18 @@ function buildScheduleChart(view){
       g.insertAdjacentHTML('afterbegin',ICON_GITHUB);       // 前置 GitHub icon（吃 .btn svg 的 1.15em 尺寸與 currentColor）
       g.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
       gh.appendChild(g);}
+    // 首屏 hero 兩顆 CTA：主要＝進站瀏覽元件、次要＝GitHub 外連（全用 library mkBtn 原子、isLive 帶真互動，不手拼 class）
+    const heroCta=view.querySelector('#gdHeroCta');
+    if(heroCta){
+      const pri=mkBtn({variant:'solid',intent:'primary',size:'l',isLive:true});pri.type='button';
+      pri.querySelector('span').textContent='瀏覽所有元件';
+      pri.onclick=()=>renderView('summary');
+      const ghl=mkBtn({variant:'outline',intent:'secondary',size:'l',isLive:true});ghl.type='button';
+      ghl.querySelector('span').textContent='GitHub';
+      ghl.insertAdjacentHTML('afterbegin',ICON_GITHUB);
+      ghl.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
+      heroCta.append(pri,ghl);
+    }
     // FAQ 展開收合（＋／− 由 CSS ::before 依 collapsed 狀態切換，JS 只負責 toggle）
     view.querySelectorAll('#gdFaq .gd-faq-item').forEach(it=>{
       const q=it.querySelector('.gd-faq-q');if(q)q.onclick=()=>it.classList.toggle('collapsed');
@@ -9773,7 +9823,7 @@ function buildScheduleChart(view){
   (function studioInit(){
     const proj=new URLSearchParams(location.search).get('project');
     window.__dsProject=proj||null;
-    const boot=()=>{ current=hashId()||'summary'; renderNav(); renderView(current); if(typeof refreshLogo==='function')refreshLogo(); showStudioBadge(proj); };
+    const boot=()=>{ current=hashId()||(window.__dsProject?'summary':'guide'); renderNav(); renderView(current); if(typeof refreshLogo==='function')refreshLogo(); showStudioBadge(proj); }; // 母庫模式預設進 guide 首屏；專案模式維持 summary（設計師選取流程）
     if(!proj){ boot(); window.__dsBaseline=dsSnap(); return; }
     fetch('/api/project/'+encodeURIComponent(proj)).then(r=>r.ok?r.json():null).then(d=>{
       window.__dsProjectData=d||null;
@@ -9782,7 +9832,7 @@ function buildScheduleChart(view){
       window.__dsVersion=(d&&d.version&&d.version.version)||0;
     }).catch(()=>{}).finally(()=>{ boot(); window.__dsBaseline=dsSnap(); dsVersionPopup(); });
   })();
-  window.addEventListener('hashchange',()=>{const id=hashId()||'summary';if(id!==current){current=id;renderNav();renderView(id);}});
+  window.addEventListener('hashchange',()=>{const id=hashId()||(window.__dsProject?'summary':'guide');if(id!==current){current=id;renderNav();renderView(id);}});
 
   /* ===== 側邊欄拖曳調寬 ===== */
   (function(){
