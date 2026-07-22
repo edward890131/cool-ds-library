@@ -2879,13 +2879,35 @@
   .gd-step.now{border-color:transparent;background:var(--accent);}
   .gd-step.now .gd-step-n,.gd-step.now .gd-step-t{color:var(--primary-on);}
   .gd-flow-note{margin-top:var(--sp-4);color:var(--muted);font-size:var(--fs-h10);line-height:1.6;}
+  /* 流程總覽：摘要描述 ＋ MacBook 正面 mockup（內含 GitHub repo 畫面示意）*/
+  .gd-flow-desc{color:var(--muted);font-size:var(--fs-h10);line-height:1.75;margin:0 0 var(--sp-3);}
+  .gd-mac{display:flex;flex-direction:column;align-items:center;margin:var(--sp-5) 0 var(--sp-6);}
+  .gd-mac-screen{width:100%;max-width:580px;box-sizing:border-box;background:#17171a;border-radius:11px 11px 4px 4px;padding:12px;box-shadow:0 16px 44px color-mix(in srgb,var(--ink) 24%,transparent);}
+  .gd-mac-inner{background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid #000;}
+  .gd-mac-base{width:min(100%,668px);height:13px;background:linear-gradient(180deg,#cbced3,#a6aab1);border-radius:0 0 12px 12px;position:relative;box-shadow:0 3px 6px color-mix(in srgb,var(--ink) 20%,transparent);}
+  .gd-mac-base::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:6px;background:#8d919a;border-radius:0 0 7px 7px;}
+  .gd-gh-bar{display:flex;align-items:center;gap:6px;padding:8px 11px;background:var(--panel-2);border-bottom:1px solid var(--line);}
+  .gd-gh-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+  .gd-gh-url{margin-left:8px;flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 11px;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .gd-gh-body{padding:var(--sp-5) var(--sp-5) var(--sp-6);}
+  .gd-gh-repo{display:flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h8);color:var(--ink);flex-wrap:wrap;}
+  .gd-gh-repo b{font-weight:600;}
+  .gd-gh-ico{font-size:var(--fs-h7);line-height:1;}
+  .gd-gh-badge{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:1px 8px;}
+  .gd-gh-desc{font-size:var(--fs-h11);color:var(--muted);margin:var(--sp-3) 0 var(--sp-5);line-height:1.5;}
+  .gd-gh-files{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;}
+  .gd-gh-file{display:flex;align-items:center;gap:var(--sp-3);padding:8px var(--sp-4);border-bottom:1px solid var(--line);font-size:var(--fs-h11);}
+  .gd-gh-file:last-child{border-bottom:none;}
+  .gd-gh-fico{flex:0 0 auto;line-height:1;}
+  .gd-gh-fn{color:var(--ink);font-weight:500;font-family:var(--font-mono);}
+  .gd-gh-fm{margin-left:auto;color:var(--faint);font-size:var(--fs-h12);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .gd-faq{display:flex;flex-direction:column;gap:var(--sp-3);}
   .gd-faq-item{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;}
   .gd-faq-q{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-weight:600;font-size:var(--fs-h9);color:var(--ink);padding:var(--sp-4) var(--sp-5);font-family:var(--font-sans);}
   .gd-faq-q:hover{color:var(--accent);}
-  .gd-faq-caret{flex:0 0 auto;display:inline-flex;color:var(--muted);transition:transform .2s;}
-  .gd-faq-caret svg{width:16px;height:16px;}
-  .gd-faq-item.collapsed .gd-faq-caret{transform:rotate(-90deg);}
+  .gd-faq-caret{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h6);line-height:1;font-weight:400;}
+  .gd-faq-item.collapsed .gd-faq-caret::before{content:"+";}       /* 收合＝＋ */
+  .gd-faq-item:not(.collapsed) .gd-faq-caret::before{content:"\2212";}  /* 展開＝−（減號 U+2212）*/
   .gd-faq-a{font-size:var(--fs-h10);color:var(--muted);line-height:1.7;padding:0 var(--sp-5) var(--sp-4);}
   .gd-faq-item.collapsed .gd-faq-a{display:none;}
   /* spec 矩陣示意（用真 library 按鈕原子）*/
@@ -8596,7 +8618,39 @@ function buildScheduleChart(view){
       <div class="head-rule"></div>
 
       <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">01</span><h2 class="gd-sec-t">畫面地圖</h2></div>
+        <div class="gd-sec-h"><span class="gd-sec-n">01</span><h2 class="gd-sec-t">整套流程總覽</h2></div>
+        <p class="gd-flow-desc">這是一套「<b>設計系統即工作流</b>」的框架——把設計系統的治理規範、元件庫網站、Figma 雙向同步整合成<b>同一個 GitHub repo</b>：同事只要把網址丟給 Claude Code，就能照著跑一個新專案。整條線從品牌訪談、token／元件提案，到<b>在這個網站選取定案</b>，再產出程式碼、寫進 Figma、兩邊同步。你（設計師）主要負責下面標記「你在這」的<b>第 3 步</b>，前後由 Claude 接手。</p>
+        <div class="gd-mac">
+          <div class="gd-mac-screen"><div class="gd-mac-inner">
+            <div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url">github.com/edward890131/cool-ds-library</span></div>
+            <div class="gd-gh-body">
+              <div class="gd-gh-repo"><span class="gd-gh-ico">📦</span><span><b>edward890131</b> / <b>cool-ds-library</b></span><span class="gd-gh-badge">Public</span></div>
+              <p class="gd-gh-desc">設計系統框架 ＋ 元件庫網站 ＋ Figma 雙向同步，整合成一條可重複執行的工作流。</p>
+              <div class="gd-gh-files">
+                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">framework</span><span class="gd-gh-fm">治理規範快照</span></div>
+                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">library</span><span class="gd-gh-fm">元件庫網站 gallery.html</span></div>
+                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">sync</span><span class="gd-gh-fm">Figma 雙向同步腳本</span></div>
+                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">projects</span><span class="gd-gh-fm">各專案狀態與輸出</span></div>
+                <div class="gd-gh-file"><span class="gd-gh-fico">📄</span><span class="gd-gh-fn">README.md</span><span class="gd-gh-fm">架構說明</span></div>
+              </div>
+            </div>
+          </div></div>
+          <div class="gd-mac-base"></div>
+        </div>
+        <div class="gd-flow">
+          <div class="gd-step"><div class="gd-step-n">01</div><div class="gd-step-t">品牌訪談 · 聊需求</div></div>
+          <div class="gd-step"><div class="gd-step-n">02</div><div class="gd-step-t">Claude 給 token／元件提案</div></div>
+          <div class="gd-step now"><div class="gd-step-n">03</div><div class="gd-step-t">你在這 · 在網站挑元件、調 token</div></div>
+          <div class="gd-step"><div class="gd-step-n">04</div><div class="gd-step-t">匯出設定檔</div></div>
+          <div class="gd-step"><div class="gd-step-n">05</div><div class="gd-step-t">Claude 產出程式碼</div></div>
+          <div class="gd-step"><div class="gd-step-n">06</div><div class="gd-step-t">Claude 寫進 Figma</div></div>
+          <div class="gd-step"><div class="gd-step-n">07</div><div class="gd-step-t">Figma ↔ 程式碼雙向同步</div></div>
+        </div>
+        <div id="gdGh"></div>
+      </section>
+
+      <section class="gd-sec">
+        <div class="gd-sec-h"><span class="gd-sec-n">02</span><h2 class="gd-sec-t">畫面地圖</h2></div>
         <div class="gd-grid">
           <div class="gd-fig">
             <div class="gd-shell">
@@ -8616,7 +8670,7 @@ function buildScheduleChart(view){
       </section>
 
       <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">02</span><h2 class="gd-sec-t">三個核心頁</h2></div>
+        <div class="gd-sec-h"><span class="gd-sec-n">03</span><h2 class="gd-sec-t">三個核心頁</h2></div>
         <div class="gd-cards">
           <div class="gd-card"><div class="gd-card-ic">TOKEN</div><h3>Design Token</h3><p>改顏色、字級、圓角、間距的地方。改了整站<b>即時套用</b>，可隨時 reset。</p></div>
           <div class="gd-card"><div class="gd-card-ic">GUIDELINE</div><h3>Design Guideline</h3><p>把「目前 token ＋ 選定元件」的整體效果攤成一頁。<b>交付前最後確認</b>看這裡。</p></div>
@@ -8625,7 +8679,7 @@ function buildScheduleChart(view){
       </section>
 
       <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">03</span><h2 class="gd-sec-t">看懂一顆元件</h2></div>
+        <div class="gd-sec-h"><span class="gd-sec-n">04</span><h2 class="gd-sec-t">看懂一顆元件</h2></div>
         <div class="gd-grid rev">
           <div class="gd-fig">
             <div class="gd-chiprow"><span class="gd-chip on">實心</span><span class="gd-chip on">外框</span><span class="gd-chip on">柔色</span><span class="gd-chip on">主要</span><span class="gd-chip on">次要</span><span class="gd-chip on">危險</span></div>
@@ -8645,7 +8699,7 @@ function buildScheduleChart(view){
       </section>
 
       <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">04</span><h2 class="gd-sec-t">調 token（改值）</h2></div>
+        <div class="gd-sec-h"><span class="gd-sec-n">05</span><h2 class="gd-sec-t">調 token（改值）</h2></div>
         <div class="gd-grid">
           <div class="gd-fig">
             <div class="gd-tokrow"><span class="gd-tok-sw" style="background:var(--accent)"></span><span class="gd-tok-nm">--c-brand-500</span><span class="gd-tok-field">#1C1C20</span></div>
@@ -8663,7 +8717,7 @@ function buildScheduleChart(view){
       </section>
 
       <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">05</span><h2 class="gd-sec-t">選元件 · 換 logo · 深淺色</h2></div>
+        <div class="gd-sec-h"><span class="gd-sec-n">06</span><h2 class="gd-sec-t">選元件 · 換 logo · 深淺色</h2></div>
         <div class="gd-grid rev">
           <div class="gd-fig">
             <div class="gd-chiprow"><span class="gd-chip on">✓ Button</span><span class="gd-chip on">✓ Input</span><span class="gd-chip">Tag</span><span class="gd-chip on">✓ Card</span></div>
@@ -8681,7 +8735,7 @@ function buildScheduleChart(view){
       </section>
 
       <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">06</span><h2 class="gd-sec-t">存檔與版本</h2></div>
+        <div class="gd-sec-h"><span class="gd-sec-n">07</span><h2 class="gd-sec-t">存檔與版本</h2></div>
         <div class="gd-grid">
           <div class="gd-fig">
             <div class="gd-dlgm">
@@ -8696,21 +8750,6 @@ function buildScheduleChart(view){
             <li>之後若 Figma 那邊同步了新版本，你一進站會跳<b>「版本已更新」</b>說明。</li>
           </ul></div>
         </div>
-      </section>
-
-      <section class="gd-sec">
-        <div class="gd-sec-h"><span class="gd-sec-n">07</span><h2 class="gd-sec-t">你在整套流程的哪一步</h2></div>
-        <div class="gd-flow">
-          <div class="gd-step"><div class="gd-step-n">01</div><div class="gd-step-t">訪談</div></div>
-          <div class="gd-step"><div class="gd-step-n">02</div><div class="gd-step-t">Claude 提案</div></div>
-          <div class="gd-step now"><div class="gd-step-n">03</div><div class="gd-step-t">你在這 · 網站選取</div></div>
-          <div class="gd-step"><div class="gd-step-n">04</div><div class="gd-step-t">匯出</div></div>
-          <div class="gd-step"><div class="gd-step-n">05</div><div class="gd-step-t">建 code</div></div>
-          <div class="gd-step"><div class="gd-step-n">06</div><div class="gd-step-t">寫 Figma</div></div>
-          <div class="gd-step"><div class="gd-step-n">07</div><div class="gd-step-t">雙向同步</div></div>
-        </div>
-        <p class="gd-flow-note">前面 Claude 先問你品牌需求、給 token 與元件提案；你在這個網站調整定案；後面 Claude 接手建 code、寫 Figma，之後兩邊差異也由 Claude 幫你對齊。</p>
-        <div id="gdGh"></div>
       </section>
 
       <section class="gd-sec">
@@ -8739,9 +8778,8 @@ function buildScheduleChart(view){
       g.style.marginTop='var(--sp-5)';
       g.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
       gh.appendChild(g);}
-    // FAQ 展開收合（chevron + 點擊 toggle）
+    // FAQ 展開收合（＋／− 由 CSS ::before 依 collapsed 狀態切換，JS 只負責 toggle）
     view.querySelectorAll('#gdFaq .gd-faq-item').forEach(it=>{
-      const car=it.querySelector('.gd-faq-caret');if(car)car.innerHTML=ICON_CARET;
       const q=it.querySelector('.gd-faq-q');if(q)q.onclick=()=>it.classList.toggle('collapsed');
     });
   }
