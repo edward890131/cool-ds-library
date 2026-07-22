@@ -806,12 +806,28 @@
                     "zh": "品牌"
                   },
                   {
+                    "value": "brand2",
+                    "zh": "輔助"
+                  },
+                  {
                     "value": "neutral",
                     "zh": "中性"
                   },
                   {
                     "value": "danger",
                     "zh": "危險"
+                  },
+                  {
+                    "value": "success",
+                    "zh": "成功"
+                  },
+                  {
+                    "value": "warning",
+                    "zh": "警告"
+                  },
+                  {
+                    "value": "info",
+                    "zh": "資訊"
                   }
                 ]
               },

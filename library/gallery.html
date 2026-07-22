@@ -80,12 +80,19 @@
     --s-feedback-error:var(--c-error-500); --s-feedback-info:var(--c-info-500);
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-500) 12%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-500) 12%,transparent);
+    /* info tint ＋ 三色 tint2（從主題正確的 --s-feedback-* 衍生，故只定義一次、跨主題靠 var 延後解析自動吃深/淺色值）*/
+    --s-feedback-info-tint:color-mix(in srgb,var(--s-feedback-info) 12%,transparent);
+    --s-feedback-success-tint2:color-mix(in srgb,var(--s-feedback-success) 24%,transparent);
+    --s-feedback-warning-tint2:color-mix(in srgb,var(--s-feedback-warning) 24%,transparent);
+    --s-feedback-info-tint2:color-mix(in srgb,var(--s-feedback-info) 24%,transparent);
 
     /* ── 舊變數別名（→ L2 semantic；元件全數沿用、無需改動）── */
     --canvas:var(--s-surface-canvas); --panel:var(--s-surface-1); --panel-2:var(--s-surface-2); --panel-3:var(--s-surface-3);
     --ink:var(--s-text-1); --muted:var(--s-text-2); --faint:var(--s-text-3);
     --line:var(--s-border-1); --line-strong:var(--s-border-2);
     --accent:var(--s-action-primary);
+    --accent2:var(--c-brand2-500); --accent2-on:#FFFFFF;   /* 輔助色（副品牌）：淺=brand2-500、深→brand2-400（各主題區塊覆寫）；tint/tint2 從 --accent2 衍生一次、跨主題靠 var 延後解析吃色 */
+    --accent2-tint:color-mix(in srgb,var(--accent2) 12%,transparent); --accent2-tint2:color-mix(in srgb,var(--accent2) 24%,transparent);
     --i-primary:var(--s-action-primary); --i-primary-h:var(--s-action-primary-hover); --i-primary-p:var(--s-action-primary-press);
     --i-primary-tint:var(--s-action-primary-tint); --i-primary-tint2:var(--s-action-primary-tint2);
     --i-danger:var(--s-action-danger); --i-danger-h:var(--s-action-danger-hover); --i-danger-p:var(--s-action-danger-press);
@@ -94,6 +101,7 @@
     --i-sec-on:var(--s-sec-on); --i-sec-edge:var(--s-sec-edge); --i-sec-fg:var(--s-sec-fg);
     --i-sec-tint:var(--s-sec-tint); --i-sec-tint2:var(--s-sec-tint2);
     --primary-on:var(--s-on-primary); --danger-on:#FFFFFF;
+    --success-on:#FFFFFF; --warning-on:#1C1C20; --info-on:#FFFFFF;   /* solid tag 底上的文字色（warning 底偏亮→用深字）；同 --danger-on 為主題無關固定字面 */
     --radius:var(--r-sm);
   }
 
@@ -116,6 +124,7 @@
     --s-feedback-error:var(--c-error-400); --s-feedback-info:var(--c-info-400);
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-400) 16%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-400) 16%,transparent);
+    --accent2:var(--c-brand2-400);   /* 深色輔助色提亮，soft/outline 文字才不糊在暗底 */
     /* dark elevation：暗底改用更深的陰影撐層次 */
     --e-sm:0 1px 2px 0 rgba(0,0,0,.4);
     --e-md:0 4px 6px -1px rgba(0,0,0,.5),0 2px 4px -2px rgba(0,0,0,.5);
@@ -141,6 +150,7 @@
     --s-feedback-error:var(--c-error-400); --s-feedback-info:var(--c-info-400);
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-400) 16%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-400) 16%,transparent);
+    --accent2:var(--c-brand2-400);   /* 深色輔助色提亮 */
     --e-sm:0 1px 2px 0 rgba(0,0,0,.4);
     --e-md:0 4px 6px -1px rgba(0,0,0,.5),0 2px 4px -2px rgba(0,0,0,.5);
     --e-lg:0 10px 15px -3px rgba(0,0,0,.5),0 4px 6px -4px rgba(0,0,0,.5);
@@ -167,6 +177,7 @@
     --s-feedback-error:var(--c-error-500); --s-feedback-info:var(--c-info-500);
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-500) 12%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-500) 12%,transparent);
+    --accent2:var(--c-brand2-500);   /* ‼ 必補：OS=深色+手動切淺色時，避免洩漏成深色 400 輔助色 */
     /* ‼ 必補：淺色 elevation，否則 OS=深色時洩漏成深色重陰影 */
     --e-sm:0 1px 2px 0 rgba(0,0,0,.05);
     --e-md:0 4px 6px -1px rgba(0,0,0,.10),0 2px 4px -2px rgba(0,0,0,.10);
@@ -792,6 +803,10 @@
   .tg.i-brand{--tfill:var(--accent);--tc:var(--accent);--tedge:var(--accent);--ton:var(--primary-on);--ttint:var(--i-primary-tint);--ttint2:var(--i-primary-tint2);}
   .tg.i-neutral{--tfill:var(--i-sec-fill);--tc:var(--i-sec-fg);--tedge:var(--i-sec-edge);--ton:var(--i-sec-on);--ttint:var(--i-sec-tint);--ttint2:var(--i-sec-tint2);}
   .tg.i-danger{--tfill:var(--i-danger);--tc:var(--i-danger);--tedge:var(--i-danger);--ton:var(--danger-on);--ttint:var(--i-danger-tint);--ttint2:var(--i-danger-tint2);}
+  .tg.i-success{--tfill:var(--s-feedback-success);--tc:var(--s-feedback-success);--tedge:var(--s-feedback-success);--ton:var(--success-on);--ttint:var(--s-feedback-success-tint);--ttint2:var(--s-feedback-success-tint2);}
+  .tg.i-warning{--tfill:var(--s-feedback-warning);--tc:var(--s-feedback-warning);--tedge:var(--s-feedback-warning);--ton:var(--warning-on);--ttint:var(--s-feedback-warning-tint);--ttint2:var(--s-feedback-warning-tint2);}
+  .tg.i-info{--tfill:var(--s-feedback-info);--tc:var(--s-feedback-info);--tedge:var(--s-feedback-info);--ton:var(--info-on);--ttint:var(--s-feedback-info-tint);--ttint2:var(--s-feedback-info-tint2);}
+  .tg.i-brand2{--tfill:var(--accent2);--tc:var(--accent2);--tedge:var(--accent2);--ton:var(--accent2-on);--ttint:var(--accent2-tint);--ttint2:var(--accent2-tint2);}
   .tg.v-solid{background:var(--tfill);color:var(--ton);border-color:var(--tfill);}
   .tg.v-outline{background:transparent;color:var(--tc);border-color:var(--tedge);}
   .tg.v-soft{background:var(--ttint);color:var(--tc);border-color:transparent;}
@@ -3011,8 +3026,8 @@
       axes:{state:['default','hover','checked','disabled','focus'],size:['m']},
       zh:{state:{default:'預設',hover:'滑過',checked:'已選',disabled:'停用',focus:'聚焦'},size:{m:'標準 m'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
     tag:{label:'Tag 標籤',order:['variant','corner','intent','state'],
-      axes:{variant:['solid','outline','soft'],corner:['round','rect'],intent:['brand','neutral','danger'],state:['default','hover','disabled']},
-      zh:{variant:{solid:'實心',outline:'外框',soft:'柔色'},corner:{round:'圓角',rect:'方角'},intent:{brand:'品牌',neutral:'中性',danger:'危險'},state:{default:'預設',hover:'滑過',disabled:'停用'},axisName:{variant:'Variant 風格',corner:'Corner 圓角',intent:'Intent 意圖',state:'State 狀態'}}},
+      axes:{variant:['solid','outline','soft'],corner:['round','rect'],intent:['brand','brand2','neutral','danger','success','warning','info'],state:['default','hover','disabled']},
+      zh:{variant:{solid:'實心',outline:'外框',soft:'柔色'},corner:{round:'圓角',rect:'方角'},intent:{brand:'品牌',brand2:'輔助',neutral:'中性',danger:'危險',success:'成功',warning:'警告',info:'資訊'},state:{default:'預設',hover:'滑過',disabled:'停用'},axisName:{variant:'Variant 風格',corner:'Corner 圓角',intent:'Intent 意圖',state:'State 狀態'}}},
     tab:{label:'Tab 分頁',order:['variant','state','size'],
       axes:{variant:['line','contained','pill'],state:['default','hover','active','disabled'],size:['m','s']},
       zh:{variant:{line:'底線',contained:'容器',pill:'藥丸'},state:{default:'預設',hover:'滑過',active:'選中',disabled:'停用'},size:{m:'標準 m',s:'小 s'},axisName:{variant:'Variant 風格',state:'State 狀態',size:'Size 尺寸'}}},
@@ -3354,7 +3369,7 @@
   });
   LIVE.tag=(host)=>mountLive(host,{gate:'tag',
     initial:{variant:'soft',corner:'round',intent:'brand',icon:false,close:false},
-    segs:[{key:'variant',label:'Variant',options:['solid','outline','soft']},{key:'corner',label:'Corner',options:['round','rect']},{key:'intent',label:'Intent',options:['brand','neutral','danger']}],
+    segs:[{key:'variant',label:'Variant',options:['solid','outline','soft']},{key:'corner',label:'Corner',options:['round','rect']},{key:'intent',label:'Intent',options:['brand','brand2','neutral','danger','success','warning','info']}],
     bools:[{key:'icon',label:'icon'},{key:'close',label:'removable ×'}],
     render:st=>{
       const t=ce('div',`tg v-${st.variant} c-${st.corner} i-${st.intent} st-default`);
@@ -3556,8 +3571,8 @@
     t.innerHTML=`<span>標籤</span>`;return t;}
   function buildTag(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Tag',title:'Tag 標籤 / Chip',
-      lede:'標籤與 Chip 合併。<b>variant × corner × intent（3 × 2 × 3 = 18）</b>，intent 提供 brand／neutral／danger（danger 供特價／警示標籤；alert 已移除，feedback 語意色歸此）。corner 圓角／方角切換；removable／icon 為 feature flag。',
-      specRows:[['axes','<code>variant × corner × intent × state</code>'],['formula','<code>3 × 2 × 3</code>（視覺全展）'],['token-policy','<code>semantic.*.tag.*</code>'],['features','removable / icon / avatar']]});
+      lede:'標籤與 Chip 合併。<b>variant × corner × intent（3 × 2 × 7 = 42）</b>，intent 提供 brand／brand2（輔助）／neutral／danger／success／warning／info 七色（brand2 綁副品牌 <code>--accent2</code>、feedback 綁 <code>--s-feedback-*</code>；warning solid 底自動改深字保可讀）。corner 圓角／方角切換；removable／icon 為 feature flag。',
+      specRows:[['axes','<code>variant × corner × intent × state</code>'],['formula','<code>3 × 2 × 7</code>（視覺全展）'],['token-policy','<code>semantic.*.tag.*</code>'],['features','removable / icon / avatar']]});
     const Z={default:['預設','default'],hover:['滑過','hover'],disabled:['停用','disabled']};
     const VN={solid:'實心 solid',outline:'外框 outline',soft:'柔色 soft'};
     const axes=DIAL_SPECS.tag.axes, zh=DIAL_SPECS.tag.zh, active=CHOICE.tag.active; // 接中央 store
