@@ -355,7 +355,10 @@
 
   /* ---------- blocks ---------- */
   section.block{margin:var(--sp-7) 0 0;}
-  .block > h2{font-size:var(--fs-h11);font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp-1);font-weight:600;}
+  /* 段落標題統一成 Design Token 段（.tok-sec-head）樣式：mono h8 標題＋同行 muted h11 副標＋2px ink 底線 */
+  .block > h2{display:flex;flex-direction:column;gap:var(--sp-1);margin:0 0 var(--sp-5);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);font-weight:400;}  /* 副標放標題下方 */
+  .block > h2 .bh-t{font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:600;color:var(--ink);}
+  .block > h2 .bh-d{font-size:var(--fs-h11);color:var(--muted);} .block > h2 .bh-d code{font-family:var(--font-mono);background:var(--panel-2);padding:1px 5px;border-radius:var(--r-sm);}
   .block > .sub{color:var(--faint);font-size:var(--fs-h11);margin:0 0 var(--sp-5);} .block > .sub code{font-family:var(--font-mono);background:var(--panel-2);padding:1px 5px;border-radius:var(--r-sm);}
   /* 站台 chrome 文字：英文用 Geist Mono（技術風格），中文自動 fallback PingFang；元件庫元件維持 sans（見 body 預設） */
   .brand-title,h1,.lede,.block>.sub,.dial h2,.dial .hint,.spec .cell .v,
@@ -393,13 +396,13 @@
   .btn{--fill:var(--i-primary);--fill-h:var(--i-primary-h);--fill-p:var(--i-primary-p);--on:var(--primary-on);
     --edge:var(--i-primary);--fg:var(--i-primary);--tint:var(--i-primary-tint);--tint2:var(--i-primary-tint2);
     display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-family:var(--font-sans);font-weight:600;
-    line-height:1;border:0.75px solid transparent;border-radius:var(--r-sm);cursor:pointer;white-space:nowrap;
+    line-height:1;border:0.75px solid transparent;border-radius:var(--btn-radius,var(--r-sm));cursor:pointer;white-space:nowrap;
     transition:background .13s,border-color .13s,transform .06s,box-shadow .13s;}
   .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .btn svg{width:1.15em;height:1.15em;flex:0 0 auto;}
-  .sz-s{height:32px;padding:0 var(--sp-4);font-size:var(--fs-h11);border-radius:var(--r-sm);}
-  .sz-m{height:40px;padding:0 var(--sp-5);font-size:var(--fs-h10);border-radius:var(--r-sm);}
-  .sz-l{height:48px;padding:0 var(--sp-5);font-size:var(--fs-h9);border-radius:var(--r-sm);}
+  .sz-s{height:32px;padding:0 var(--sp-4);font-size:var(--fs-h11);}   /* radius 收斂到 .btn base 的 --btn-radius 槽（可專案級換綁）*/
+  .sz-m{height:40px;padding:0 var(--sp-5);font-size:var(--fs-h10);}
+  .sz-l{height:48px;padding:0 var(--sp-5);font-size:var(--fs-h9);}
   .btn.icon-only{padding:0;aspect-ratio:1;} .sz-s.icon-only{width:32px} .sz-m.icon-only{width:40px} .sz-l.icon-only{width:48px}
   .i-primary{--fill:var(--i-primary);--fill-h:var(--i-primary-h);--fill-p:var(--i-primary-p);--on:var(--primary-on);--edge:var(--i-primary);--fg:var(--i-primary);--tint:var(--i-primary-tint);--tint2:var(--i-primary-tint2);}
   .i-danger{--fill:var(--i-danger);--fill-h:var(--i-danger-h);--fill-p:var(--i-danger-p);--on:var(--danger-on);--edge:var(--i-danger);--fg:var(--i-danger);--tint:var(--i-danger-tint);--tint2:var(--i-danger-tint2);}
@@ -633,7 +636,7 @@
   .tok-cardgrid .tok-group{margin-bottom:0;}                 /* gap 已處理間距 */
   .tok-cardgrid .tok-group.span{grid-column:1/-1;}           /* 寬表（typography）跨滿整列 */
   .tok-cardgrid .tref-note{grid-column:1/-1;}
-  .tok-sec-head{grid-column:1/-1;display:flex;align-items:baseline;gap:var(--sp-3);flex-wrap:wrap;margin:20px 0 var(--sp-1);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);}
+  .tok-sec-head{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--sp-1);margin:20px 0 var(--sp-1);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);}  /* 副標統一放標題下方 */
   .tok-sec-t{font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:600;color:var(--ink);}
   .tok-sec-d{font-size:var(--fs-h11);color:var(--muted);}
   /* device 切換小 tab（typography 用；補下方間距） */
@@ -797,7 +800,7 @@
   .optrow{display:inline-flex;align-items:center;gap:var(--sp-3);cursor:pointer;} .optrow .oplab{font-size:var(--fs-h11);color:var(--ink);}
 
   /* ===== tag ===== */
-  .tg{display:inline-flex;align-items:center;gap:var(--sp-1);height:22px;padding:0 var(--sp-3);border-radius:var(--r-pill);font-size:var(--fs-h12);
+  .tg{display:inline-flex;align-items:center;gap:var(--tg-gap,var(--sp-1));height:22px;padding:0 var(--tg-pad-x,var(--sp-3));border-radius:var(--r-pill);font-size:var(--fs-h12);
     font-weight:600;border:0.75px solid transparent;font-family:var(--font-sans);cursor:default;transition:.12s;white-space:nowrap;}
   .tg.c-round{border-radius:var(--r-pill);} .tg.c-rect{border-radius:var(--r-sm);}
   .tg.i-brand{--tfill:var(--accent);--tc:var(--accent);--tedge:var(--accent);--ton:var(--primary-on);--ttint:var(--i-primary-tint);--ttint2:var(--i-primary-tint2);}
@@ -815,6 +818,12 @@
   .tg.st-disabled{opacity:.45;}
   .tg .x{display:inline-flex;cursor:pointer;opacity:.7;margin-right:-3px;} .tg .x:hover{opacity:1;}
   .tg svg{width:12px;height:12px;}
+  /* 元件級 Token 綁定卡：沿用 .dcard 收合＋library .fieldwrap/.dh-title/.hint/.tg/.field.dd；只補 overflow 放開（否則下拉選單被卡片 overflow:hidden 裁切）＋列距 */
+  .dcard.bind-dcard{overflow:visible;}
+  .dcard.bind-dcard .dcard-head{border-radius:var(--radius) var(--radius) 0 0;}
+  .dcard.bind-dcard.collapsed .dcard-head{border-radius:var(--radius);}
+  .dcard-body .bindrows{display:flex;flex-direction:column;gap:var(--sp-5);}
+  .dcard-body .bindrows .fl code{margin-left:var(--sp-2);}
 
   /* ===== tab ===== */
   .tabbar{display:inline-flex;align-items:stretch;gap:2px;}
@@ -2710,10 +2719,10 @@
   .dg-body{display:flex;flex-direction:column;gap:var(--sp-8);}
   .dg-sec{display:flex;flex-direction:column;gap:var(--sp-5);}
   .dg-body > .dg-sec:first-child{margin-top:20px;} /* 第一段（品牌 Brand）與上方說明文拉開，跟 token 頁段落一致 */
-  .dg-sechead{display:flex;flex-direction:column;gap:6px;}
-  .dg-sectitle{margin:0;font-size:var(--fs-h7);font-weight:700;color:var(--ink);}
-  .dg-secdesc{margin:0;font-size:var(--fs-h8);color:var(--muted);}
-  .dg-secline{height:1px;background:var(--line);margin-top:4px;}
+  .dg-sechead{display:flex;flex-direction:column;gap:var(--sp-1);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);}  /* 對齊 Design Token 段標題樣式（副標放下方）*/
+  .dg-sectitle{margin:0;font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:600;color:var(--ink);}
+  .dg-secdesc{margin:0;font-size:var(--fs-h11);color:var(--muted);}
+  .dg-secline{display:none;}  /* 底線改由 .dg-sechead 的 border-bottom 提供（對齊 Token 段）*/
   /* 品牌 */
   .dg-brand{display:flex;gap:var(--sp-7);flex-wrap:wrap;align-items:flex-start;}
   .dg-brand-logos{display:flex;gap:var(--sp-4);flex-wrap:wrap;}
@@ -3112,22 +3121,18 @@
       <button class="dcard-head"><span class="dh-title">變數篩選器</span><span class="dh-count" id="countOut"></span><span class="dh-chevron">${ICON_CARET}</span></button>
       <div class="dcard-body"><p class="hint">勾掉不需要的軸值，矩陣與總變體數即時縮減。每軸至少保留一個。</p><div class="axes" id="axesCtl"></div></div>
     </div>
-    <section class="block"><h2>State × Intent 矩陣</h2>
-      <p class="sub">每個 variant 一塊；列＝狀態、欄＝意圖，尺寸固定 m。停用狀態帶 <code>disabled</code>。此區為靜態呈現。</p>
+    <section class="block"><h2><span class="bh-t">State × Intent 矩陣</span><span class="bh-d">每個 variant 一塊；列＝狀態、欄＝意圖，尺寸固定 m。停用狀態帶 <code>disabled</code>。此區為靜態呈現。</span></h2>
       <div class="panels" id="matrix"></div></section>
-    <section class="block"><h2>實際互動 Live</h2>
-      <p class="sub">這區是<b>真的可以操作</b>的按鈕——滑鼠移上去會切到 hover、按住會切到 pressed。調參數看即時效果。</p>
+    <section class="block"><h2><span class="bh-t">實際互動 Live</span><span class="bh-d">這區是<b>真的可以操作</b>的按鈕——滑鼠移上去會切到 hover、按住會切到 pressed。調參數看即時效果。</span></h2>
       <div class="livewrap">
         <div class="ctl-row" id="liveCtl"></div>
         <div class="live-stage" id="liveStage"></div>
         <p class="live-note">↓ 這排直接用滑鼠試 hover / 按下（solid・soft・outline・text，皆 primary）</p>
         <div class="live-free" id="liveFree"></div>
       </div></section>
-    <section class="block"><h2>Size 尺寸軸</h2>
-      <p class="sub">solid・primary・預設狀態，對照 s／m／l。</p>
+    <section class="block"><h2><span class="bh-t">Size 尺寸軸</span><span class="bh-d">solid・primary・預設狀態，對照 s／m／l。</span></h2>
       <div class="row-demo" id="sizeRow"></div></section>
-    <section class="block"><h2>Content 內容軸（boolean）</h2>
-      <p class="sub"><code>show-label</code>／<code>show-leading-icon</code>／<code>show-trailing-icon</code>；<code>show-label=false</code> 的 icon-only 取代舊 icon-button。</p>
+    <section class="block"><h2><span class="bh-t">Content 內容軸（boolean）</span><span class="bh-d"><code>show-label</code>／<code>show-leading-icon</code>／<code>show-trailing-icon</code>；<code>show-label=false</code> 的 icon-only 取代舊 icon-button。</span></h2>
       <div class="row-demo" id="boolRow"></div></section>
     <footer><span>來源：L0-scope-manifest.yaml · components/button（唯讀）</span><span id="deltaOut"></span></footer>`;
   }
@@ -3208,7 +3213,7 @@
     document.getElementById('specStrip').innerHTML=o.specRows.map(r=>`<div class="cell"><div class="k">${r[0]}</div><div class="v">${r[1]}</div></div>`).join('');
     return document.getElementById('cbody');
   }
-  function section(host,title,sub){const s=ce('section','block');s.innerHTML=`<h2>${title}</h2><p class="sub">${sub}</p>`;host.appendChild(s);return s;}
+  function section(host,title,sub){const s=ce('section','block');s.innerHTML=`<h2><span class="bh-t">${title}</span>${sub?`<span class="bh-d">${sub}</span>`:''}</h2>`;host.appendChild(s);return s;}
   function panelsIn(sec){const p=ce('div','panels');sec.appendChild(p);return p;}
   function matrixPanel(o){
     const mincol=o.mincol||130;
@@ -3247,6 +3252,7 @@
         row.append(box,txt);list.appendChild(row);});
       ax.appendChild(list);axesWrap.appendChild(ax);});
     card.append(head,bodyEl);host.appendChild(card);updateCount();
+    ensureVarTokenSection(host);   // 專案模式：把變數篩選器包進「變數與 Token」段落（含尚未有綁定卡的頁面）
   }
 
   /* ---- 共用：實際互動 Live 控制面板（segmented 控制 + boolean 勾選 + 即時預覽）---- */
@@ -3588,6 +3594,7 @@
     const sec=section(body,'State × (Intent·Corner) 矩陣','每個 variant 一塊；列＝狀態、欄＝intent × 圓角。');p=panelsIn(sec);renderM();
     const sl=section(body,'實際互動 Live','調 variant／corner／intent／feature，下面即時預覽（removable 可點 × 移除）。');
     LIVE.tag(sl);
+    renderBindPanel(body,'tag');
   }
 
   /* ---- TAB ---- */
@@ -3671,7 +3678,10 @@
     f.append(b,c);return f;}
   /* 可互動下拉：opts={searchable, multi} —— 單選點了關閉、多選勾選 chip 不關 */
   function ddField(variant,opts){opts=opts||{};
-    const OPTS=['台北市','台中市','高雄市','花蓮縣'];const selected=new Set();
+    const RAW=opts.options||['台北市','台中市','高雄市','花蓮縣'];               // 可傳 options=[{value,label}] 或字串陣列；不傳→沿用原示範選項（向後相容）
+    const OPTS=RAW.map(o=>typeof o==='string'?{value:o,label:o}:o);
+    const selected=new Set(); if(opts.value!=null)selected.add(opts.value);       // 可帶初始值
+    const labelOf=v=>{const f=OPTS.find(o=>o.value===v);return f?f.label:v;};
     const wrap=ce('div','ddwrap');
     const trg=ce('div',`field dd v-${variant}${opts.multi?' multi':''}`);
     const bodyEl=ce('span','dd-body');
@@ -3684,21 +3694,21 @@
       menu.appendChild(searchInput);}
     const optEls={};
     OPTS.forEach(o=>{const it=ce('div','ddopt');
-      if(opts.multi){const box=ce('span','ddcheck');const lab=document.createElement('span');lab.textContent=o;it.append(box,lab);}
-      else it.textContent=o;
-      it.onclick=()=>{ if(opts.multi){selected.has(o)?selected.delete(o):selected.add(o);syncMenu();renderTrg();}
-        else{selected.clear();selected.add(o);renderTrg();toggle(false);} };
-      optEls[o]=it;menu.appendChild(it);});
+      if(opts.multi){const box=ce('span','ddcheck');const lab=document.createElement('span');lab.textContent=o.label;it.append(box,lab);}
+      else it.textContent=o.label;
+      it.onclick=()=>{ if(opts.multi){selected.has(o.value)?selected.delete(o.value):selected.add(o.value);syncMenu();renderTrg();opts.onChange&&opts.onChange([...selected]);}
+        else{selected.clear();selected.add(o.value);renderTrg();toggle(false);opts.onChange&&opts.onChange(o.value);} };
+      optEls[o.value]=it;menu.appendChild(it);});
     function renderTrg(){bodyEl.innerHTML='';
-      if(selected.size===0){const p=ce('span','ph');p.textContent='請選擇…';bodyEl.appendChild(p);return;}
-      if(opts.multi){[...selected].forEach(o=>{const chip=ce('span','ddchip');chip.innerHTML=`<span>${o}</span>`;const x=ce('span','x');x.innerHTML=ICON_CLOSE;
-        x.onclick=e=>{e.stopPropagation();selected.delete(o);syncMenu();renderTrg();};chip.appendChild(x);bodyEl.appendChild(chip);});}
-      else{const val=ce('span','val');val.textContent=[...selected][0];bodyEl.appendChild(val);}}
-    function syncMenu(){if(!opts.multi)return;OPTS.forEach(o=>{optEls[o].classList.toggle('on',selected.has(o));optEls[o].querySelector('.ddcheck').innerHTML=selected.has(o)?ICON_CHECK:'';});}
+      if(selected.size===0){const p=ce('span','ph');p.textContent=opts.placeholder||'請選擇…';bodyEl.appendChild(p);return;}
+      if(opts.multi){[...selected].forEach(v=>{const chip=ce('span','ddchip');chip.innerHTML=`<span>${labelOf(v)}</span>`;const x=ce('span','x');x.innerHTML=ICON_CLOSE;
+        x.onclick=e=>{e.stopPropagation();selected.delete(v);syncMenu();renderTrg();opts.onChange&&opts.onChange([...selected]);};chip.appendChild(x);bodyEl.appendChild(chip);});}
+      else{const val=ce('span','val');val.textContent=labelOf([...selected][0]);bodyEl.appendChild(val);}}
+    function syncMenu(){if(!opts.multi)return;OPTS.forEach(o=>{optEls[o.value].classList.toggle('on',selected.has(o.value));optEls[o.value].querySelector('.ddcheck').innerHTML=selected.has(o.value)?ICON_CHECK:'';});}
     let open=false;
     function toggle(v){open=v;menu.style.display=v?'block':'none';trg.classList.toggle('st-open',v);caret.classList.toggle('up',v);if(v&&searchInput)searchInput.focus();}
     trg.onclick=()=>toggle(!open);
-    renderTrg();wrap.append(trg,menu);return wrap;}
+    renderTrg();syncMenu();wrap.append(trg,menu);return wrap;}
   function buildDropdown(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Dropdown',title:'Dropdown 下拉',
       lede:'扁平列表選單（role=combobox），併入 multi-select。<b>兩個變體軸：<code>type 單選／多選</code>（跟 outline／filled 同層級）× <code>variant outline／filled</code></b>；狀態含 <code>selected</code>（已選：單選顯示值、多選顯示 chips）、<code>open</code>（展開）。label／必填／hint／searchable 走 boolean／feature flag。與 input 對齊：無 size 軸、focus/open 只描邊無外陰影。<br><span style="color:var(--faint)">註：spec 另有 size／success、及多選專屬 select-all／max-selected，此處先略、需要可補。</span>',
@@ -9123,7 +9133,7 @@ function buildScheduleChart(view){
     else if(id==='changelog'){renderChangelog(view);}
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='tokens'){renderTokens(view);}
-    else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();}
+    else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');}
     else if(BUILD[id]){BUILD[id](view);}
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
@@ -9190,6 +9200,7 @@ function buildScheduleChart(view){
     view.querySelectorAll('.block > h2, .famhead, .dg-sectitle, .gd-sec-t, .tok-sec-head').forEach(el=>{ // ＋.tok-sec-head＝Design Token 段
       if(el.classList.contains('famhead')){const t=el.querySelector('.fz');if(t)tocItems.push({el,lv:2,txt:t.textContent.trim()});}
       else if(el.classList.contains('tok-sec-head')){const t=el.querySelector('.tok-sec-t');tocItems.push({el,lv:1,txt:t?t.textContent.trim():el.textContent.trim()});}
+      else if(el.matches('.block > h2')){const t=el.querySelector('.bh-t');tocItems.push({el,lv:1,txt:t?t.textContent.trim():el.textContent.trim()});} // 只取標題、不含同行副標
       else tocItems.push({el,lv:1,txt:el.textContent.trim()});
     });
     if(tocItems.length<2){tocDock.style.display='none';tocPanel.classList.remove('on');tocPanel.innerHTML='';return;} // 段落太少不顯示
@@ -9232,14 +9243,75 @@ function buildScheduleChart(view){
     if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
     ovr.textContent=css;
   }
+  /* ── 元件級 Token 綁定（實驗，垂直切片：button／tag）──
+   * 元件 CSS 的屬性走「元件槽 var(--元件-槽, var(--預設token))」；這裡讓專案把某槽換綁到同類別的另一顆 token。
+   * 只寫專案層（存進 export 的 tokens.bindings），不碰共用引擎；粒度＝專案內該元件全體；類別鎖（spacing 槽只能選 --sp-*）。*/
+  const TOKEN_SLOTS={
+    button:[{slot:'--btn-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    tag:[{slot:'--tg-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-3'},
+         {slot:'--tg-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-1'}],
+  };
+  const TOK_POOLS={
+    spacing:['--sp-0','--sp-1','--sp-2','--sp-3','--sp-4','--sp-5','--sp-6','--sp-7','--sp-8','--sp-9'],
+    radius:['--r-none','--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-2xl','--r-pill'],
+  };
+  function tokVal(tok){return getComputedStyle(document.documentElement).getPropertyValue(tok).trim();}
+  function applyCompBindings(){ // 把 __compBindings 疊成一段 :root{ --槽:var(--新token) }，全站該元件生效
+    let st=document.getElementById('bindOverrides');
+    if(!st){st=document.createElement('style');st.id='bindOverrides';document.head.appendChild(st);}
+    const B=window.__compBindings||{}; let css=':root{';
+    Object.values(B).forEach(slots=>Object.entries(slots).forEach(([slot,tok])=>{if(tok)css+=slot+':var('+tok+');';}));
+    st.textContent=css+'}';
+  }
+  // 專案模式下：把「變數篩選器」dcard 包進一個有錨點的段落「變數與 Token」（所有元件頁一致，即使還沒有綁定卡）
+  function ensureVarTokenSection(host){
+    if(!window.__dsProject)return null;                            // 只在專案 cockpit 群組
+    let sec=host.querySelector('#sec-vartoken'); if(sec)return sec;
+    const filter=host.querySelector('.dcard:not(.bind-dcard)'); if(!filter)return null;
+    sec=ce('section','block');sec.id='sec-vartoken';
+    sec.innerHTML='<h2><span class="bh-t">變數與 Token</span><span class="bh-d">篩選要保留的變體</span></h2>';
+    filter.parentNode.insertBefore(sec,filter);                    // 段落插在原篩選器位置
+    sec.appendChild(filter);                                       // 變數篩選器移進段落
+    return sec;
+  }
+  function renderBindPanel(host,compId){
+    if(!window.__dsProject)return;                          // 只在專案 cockpit 模式出現（公開母庫不給改綁定）
+    const slots=TOKEN_SLOTS[compId]; if(!slots||!slots.length)return;
+    const B=window.__compBindings||(window.__compBindings={}); const bc=B[compId]||(B[compId]={});
+    // 沿用「變數篩選器」那張 .dcard 的結構＋全域委派收合（點 .dcard-head 即 toggle）；標題/內文/pill/下拉全用 library 既有 class 與原子
+    const card=ce('div','dcard bind-dcard');
+    const head=ce('button','dcard-head');head.type='button';
+    const title=ce('span','dh-title');title.textContent='Token 綁定';
+    const pill=tagEl('soft','neutral','default','round');pill.querySelector('span').textContent='實驗 · 專案層'; // library Tag 原子（中性，meta 標籤不隨專案色變動）
+    const chev=ce('span','dh-chevron');chev.innerHTML=ICON_CARET;
+    head.append(title,pill,chev);
+    const bodyEl=ce('div','dcard-body');
+    const hint=ce('p','hint');hint.innerHTML='把這顆元件某個屬性從預設 token 換綁成<b>同類別</b>的其他 token（例：padding 從 <code>--sp-3</code> 換 <code>--sp-4</code>）。只影響<b>本專案的這顆元件</b>、不動共用母庫；換綁寫進匯出 <code>tokens.bindings</code>，之後由 Figma 同步改對應 Variable。';
+    bodyEl.appendChild(hint);
+    const rows=ce('div','bindrows');
+    slots.forEach(s=>{
+      const fw=ce('div','fieldwrap');                       // library 欄位包裝：.fl 標籤 → ddField 下拉 → .fh 提示
+      const fl=ce('span','fl');fl.innerHTML=s.label+' <code>'+s.cat+'</code>';
+      const pool=(TOK_POOLS[s.cat]||[]).map(tok=>({value:tok,label:tok+(tokVal(tok)?'（'+tokVal(tok)+'）':'')+(tok===s.def?' · 預設':'')}));
+      const picker=ddField('outline',{options:pool,value:bc[s.slot]||s.def,onChange:v=>{ if(v===s.def){delete bc[s.slot];}else{bc[s.slot]=v;} applyCompBindings(); }});
+      const fh=ce('span','fh');fh.textContent='預設 '+s.def;
+      fw.append(fl,picker,fh);rows.appendChild(fw);
+    });
+    bodyEl.appendChild(rows);
+    card.append(head,bodyEl);
+    const sec=ensureVarTokenSection(host);          // 取得（或建立）「變數與 Token」段落
+    if(sec){ const d=sec.querySelector('.bh-d'); if(d)d.textContent='篩選要保留的變體，並把屬性換綁其他 token'; sec.appendChild(card); } // 有綁定卡→副標補上 token 說明
+    else host.appendChild(card);
+  }
   function dsBuildExport(){
     const logo={light:PROJECT_LOGOS.light||null,dark:PROJECT_LOGOS.dark||null};
     const rep=choiceReport();
     const comp={selected:[...SUMSEL],axes:{},counts:{}};
     [...SUMSEL].forEach(id=>{const spec=DIAL_SPECS[id];if(!spec||!rep[id])return;comp.axes[id]={};spec.order.forEach(k=>comp.axes[id][k]=rep[id][k]);comp.counts[id]=rep[id].count;});
     const disabled=[...(window.__tokDisabled||[])].sort();
-    const state={tokens:window.__tokOverrides||{},logo,disabled,components:comp};
-    return {tokens:{overrides:window.__tokOverrides||{},logo,disabled},components:comp,state};
+    const bindings=window.__compBindings||{};
+    const state={tokens:window.__tokOverrides||{},logo,disabled,bindings,components:comp};
+    return {tokens:{overrides:window.__tokOverrides||{},logo,disabled,bindings},components:comp,state};
   }
   function dsDownload(name,obj){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
   /* ── 專案元件庫版本化（Phase F）：CTA＝儲存並更新 vN、防呆彈窗、進站版本比對；只動專案層、不碰共用引擎 ── */
@@ -9255,7 +9327,7 @@ function buildScheduleChart(view){
   function dsSnap(){
     const rep=(typeof choiceReport==='function')?choiceReport():{}; const axes={};
     [...SUMSEL].forEach(id=>{const spec=DIAL_SPECS[id];if(spec&&rep[id]){axes[id]={};spec.order.forEach(k=>axes[id][k]=(rep[id][k]||[]));}});
-    return {ov:JSON.parse(JSON.stringify(window.__tokOverrides||{})),logo:{light:PROJECT_LOGOS.light||null,dark:PROJECT_LOGOS.dark||null},sel:[...SUMSEL].sort(),axes,disabled:[...(window.__tokDisabled||[])].sort()};
+    return {ov:JSON.parse(JSON.stringify(window.__tokOverrides||{})),logo:{light:PROJECT_LOGOS.light||null,dark:PROJECT_LOGOS.dark||null},sel:[...SUMSEL].sort(),axes,disabled:[...(window.__tokDisabled||[])].sort(),bindings:JSON.parse(JSON.stringify(window.__compBindings||{}))};
   }
   // baseline → current 差異 → [{t:'add'|'rm'|'chg', s}]
   function dsDiff(a,b){
@@ -9284,6 +9356,16 @@ function buildScheduleChart(view){
     const da=new Set(a.disabled||[]), db=new Set(b.disabled||[]);
     (b.disabled||[]).filter(x=>!da.has(x)).forEach(k=>out.push({t:'rm',s:'停用 '+k}));
     (a.disabled||[]).filter(x=>!db.has(x)).forEach(k=>out.push({t:'add',s:'恢復 '+k}));
+    const ba=a.bindings||{}, bb=b.bindings||{};
+    new Set([...Object.keys(ba),...Object.keys(bb)]).forEach(cid=>{
+      const sa=ba[cid]||{}, sb=bb[cid]||{};
+      new Set([...Object.keys(sa),...Object.keys(sb)]).forEach(slot=>{
+        const va=sa[slot], vb=sb[slot]; if(va===vb)return;
+        if(va===undefined)out.push({t:'add',s:'綁定 '+cid+' '+slot+' → '+vb});
+        else if(vb===undefined)out.push({t:'rm',s:'綁定 '+cid+' '+slot+' 還原'});
+        else out.push({t:'chg',s:'綁定 '+cid+' '+slot+'：'+va+' → '+vb});
+      });
+    });
     return out;
   }
   function dsDialog(o){
@@ -9350,6 +9432,9 @@ function buildScheduleChart(view){
     if(tok&&typeof tok==='object'){window.__tokOverrides=Object.assign({root:{},dark:{},desktop:{},tablet:{},mobile:{}},tok);applyTokOverrides();}
     const dis=(p.tokens&&p.tokens.disabled)||p.disabled;
     if(Array.isArray(dis))window.__tokDisabled=new Set(dis);
+    const bind=(p.tokens&&p.tokens.bindings)||p.bindings;
+    window.__compBindings=(bind&&typeof bind==='object')?bind:{};
+    applyCompBindings();
     const logo=p.logo||(p.tokens&&p.tokens.logo);
     if(logo){PROJECT_LOGOS.light=logo.light||null;PROJECT_LOGOS.dark=logo.dark||null;}
     if(p.components&&Array.isArray(p.components.selected)){SUMSEL.clear();p.components.selected.forEach(id=>SUMSEL.add(id));}
