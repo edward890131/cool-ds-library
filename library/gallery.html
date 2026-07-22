@@ -914,7 +914,7 @@
       transform:translateX(-100%);transition:transform .22s ease;border-right:1px solid var(--line-strong);}
     .shell.nav-open .sidebar{transform:translateX(0);}
     .shell.nav-open .scrim{display:block;position:fixed;inset:58px 0 0 0;background:rgba(0,0,0,.42);z-index:35;}
-    .main{padding:26px var(--container-pad) 80px;}   /* 側 padding 用 token，與 hero 出血的 -container-pad 對齊，避免手機漸層左右露白邊 */
+    .main{padding:var(--sp-6) var(--container-pad) 80px;}   /* 上/側 padding 都用 token，與 hero 出血的 -sp-6／-container-pad 對齊，避免手機漸層上緣與左右露白邊 */
   }
   @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
 
@@ -1124,6 +1124,13 @@
 @keyframes ld-spin{to{transform:rotate(360deg);}}
 @keyframes ld-bounce{0%,80%,100%{transform:scale(.45);opacity:.45;}40%{transform:scale(1);opacity:1;}}
 @keyframes ld-bar{0%{left:-40%;}100%{left:100%;}}
+
+/* 下拉重新整理（pull-to-refresh，手機觸控）：.main 捲到頂再下拉 → 圓圈 loader 淡入＋跟隨＋隨拉旋轉；放手過閾值 → 持續轉圈並 reload */
+.ptr-loader{position:fixed;top:58px;left:50%;z-index:60;transform:translate(-50%,-4px);opacity:0;pointer-events:none;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r-pill);box-shadow:0 4px 14px rgba(0,0,0,.18);}
+.ptr-spinner{width:18px;height:18px;border-radius:50%;border:2px solid var(--line-strong);border-top-color:var(--accent);}
+.ptr-loader.spin .ptr-spinner{animation:ld-spin .7s linear infinite;}
 
 /* ===== menu (mn-) ===== */
 /* ===== Menu 選單 ===== */
@@ -8762,6 +8769,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v10', date:'2026-07-23', title:'下拉重新整理＋手機白邊修正', items:[
+      {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現圓圈 loader，放手過閾值即重新整理'},
+      {tag:'fix', t:'手機版首屏漸層頂部白邊修正（主內容區上邊距改用 token，對齊 hero 出血）'},
+    ]},
     {v:'v9', date:'2026-07-23', title:'首屏漸層融合＋互動細修', items:[
       {tag:'improve', t:'漸層改用獨立層＋filter:blur，各彩色色塊無縫融合、更柔和'},
       {tag:'improve', t:'背景網格更淡更密、加入延遲拖尾（rAF lerp）跟隨滑鼠'},
@@ -9950,6 +9961,34 @@ function buildScheduleChart(view){
     }).catch(()=>{}).finally(()=>{ boot(); window.__dsBaseline=dsSnap(); dsVersionPopup(); });
   })();
   window.addEventListener('hashchange',()=>{const id=hashId()||'guide';if(id!==current){current=id;renderNav();renderView(id);}});
+
+  /* ===== 下拉重新整理（手機觸控 pull-to-refresh）：.main 捲到頂再下拉 → 圓圈 loader → 放手過閾值 reload ===== */
+  (function(){
+    const main=document.querySelector('.main'); const shell=document.getElementById('shell');
+    if(!main||!shell)return;
+    const loader=document.createElement('div'); loader.className='ptr-loader';
+    loader.innerHTML='<div class="ptr-spinner"></div>';
+    shell.appendChild(loader);
+    const spin=loader.querySelector('.ptr-spinner');
+    const TH=72; let startY=0, dist=0, pulling=false;
+    const reset=()=>{ loader.classList.remove('spin'); loader.style.opacity='0'; loader.style.transform='translate(-50%,-4px)'; spin.style.transform=''; };
+    main.addEventListener('touchstart',e=>{ if(main.scrollTop<=0){startY=e.touches[0].clientY;dist=0;pulling=true;} },{passive:true});
+    main.addEventListener('touchmove',e=>{ if(!pulling)return;
+      dist=e.touches[0].clientY-startY;
+      if(dist>0 && main.scrollTop<=0){
+        e.preventDefault();                                   // 攔掉原生 overscroll，改跑自訂下拉
+        const d=Math.min(dist,140);
+        loader.style.opacity=String(Math.min(d/TH,1));
+        loader.style.transform='translate(-50%,'+Math.min(d*0.5,64)+'px)';
+        spin.style.transform='rotate('+(d*2.6)+'deg)';
+      } else { reset(); pulling=false; }
+    },{passive:false});
+    main.addEventListener('touchend',()=>{ if(!pulling)return; pulling=false;
+      if(dist>TH){ loader.classList.add('spin'); loader.style.opacity='1'; loader.style.transform='translate(-50%,60px)'; spin.style.transform='';
+        setTimeout(()=>location.reload(),600);
+      } else { reset(); }
+    });
+  })();
 
   /* ===== 側邊欄拖曳調寬 ===== */
   (function(){
