@@ -2767,6 +2767,12 @@
   .dgc-name{font-size:var(--fs-h10);font-weight:600;color:var(--ink);line-height:1.4;}
   .dgc-hex{font-size:var(--fs-h11);color:var(--muted);line-height:1.4;}
   .dgc-item.dgc-off{opacity:.3;filter:grayscale(.5);}  /* token 頁停用的色號 → guideline 變淺 */
+  @media(max-width:767px){  /* 手機：色票改一列四等分（grid），色塊等比縮放填滿格 */
+    .dgc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-3);}
+    .dgc-item{width:auto;gap:6px;}
+    .dgc-chip{width:100%;height:auto;aspect-ratio:1;}
+    .dgc-name{font-size:var(--fs-h11);}
+  }
   /* 字體（JoiiNi 寫法）*/
   .dgt-fams{display:flex;gap:var(--sp-8);flex-wrap:wrap;}
   .dgt-fam{display:flex;flex-direction:column;gap:var(--sp-3);}
@@ -8777,6 +8783,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v12', date:'2026-07-23', title:'副色編輯復原＋Guideline 色票手機四欄', items:[
+      {tag:'fix', t:'Design Token 頁「Brand 副色」群組復原（改名品牌橘後群組索引仍指舊名「品牌藍」導致不顯示 → 現可正常編輯輔助色）'},
+      {tag:'improve', t:'Design Guideline 色票手機版改為一列四等分（色塊等比縮放）'},
+    ]},
     {v:'v11', date:'2026-07-23', title:'Guideline 手機版修正＋下拉位移動效', items:[
       {tag:'fix', t:'Design Guideline 手機版寬度爆版修正（字級尺標表與色彩用途表改為堆疊/去固定欄寬）'},
       {tag:'improve', t:'下拉重新整理改為內容跟著往下位移，loader 顯示在 header 與內容之間讓出的空間'},
@@ -9219,7 +9229,7 @@ function buildScheduleChart(view){
     if(layer==='l1'){
       bodyEl.className='tok-cardgrid'; // 牌卡由左至右排列、寬度不夠再往下
       const TOK_L1_SECTIONS=[
-        {t:'色彩 Color',d:'品牌、中性與狀態色階',g:['Neutral 中性色階','Brand 主色（9 階 · 深黑）','Brand 副色（9 階 · 品牌藍）','Feedback 狀態色（各 9 階）']},
+        {t:'色彩 Color',d:'品牌、中性與狀態色階',g:['Neutral 中性色階','Brand 主色（9 階 · 深黑）','Brand 副色（9 階 · 品牌橘）','Feedback 狀態色（各 9 階）']},
         {t:'文字 Typography',d:'字級、字重、行高、字距',g:['Typography 複合樣式（text style）','Letter Spacing 字距（中／英）','Font Weight 字重','Line Height 行高']},
         {t:'間距與尺寸 Spacing & Sizing',d:'間距、圓角、容器、斷點、網格',g:['Spacing 間距（v0 校準）','Radius 圓角（9 階）','Container 容器','Breakpoints 裝置斷點','Grid 網格（per device）']},
         {t:'效果 Effect',d:'陰影與動態',g:['Elevation 陰影（6 階）','Motion 動態']},
