@@ -107,7 +107,7 @@
 
   /* ── L2 Semantic overrides · DARK（只覆寫語意層＋品牌 accent 提亮；別名自動跟隨）── */
   @media (prefers-color-scheme:dark){ :root{
-    --s-surface-canvas:#0B0B0C; --s-surface-1:#141416; --s-surface-2:#1C1C20; --s-surface-3:#26262B;
+    --s-surface-canvas:#060608; --s-surface-1:#0C0C0E; --s-surface-2:#141416; --s-surface-3:#1C1C20;
     --s-text-1:#F4F4F5; --s-text-2:#9A9CA4; --s-text-3:#6B6E77;
     --s-border-1:#26272B; --s-border-2:#34363C;
     --s-action-primary:var(--c-brand-200); --s-action-primary-hover:#FFFFFF; --s-action-primary-press:var(--c-brand-300);
@@ -133,7 +133,7 @@
     --e-2xl:0 25px 50px -12px rgba(0,0,0,.7);
   }}
   :root[data-theme="dark"]{
-    --s-surface-canvas:#0B0B0C; --s-surface-1:#141416; --s-surface-2:#1C1C20; --s-surface-3:#26262B;
+    --s-surface-canvas:#060608; --s-surface-1:#0C0C0E; --s-surface-2:#141416; --s-surface-3:#1C1C20;
     --s-text-1:#F4F4F5; --s-text-2:#9A9CA4; --s-text-3:#6B6E77;
     --s-border-1:#26272B; --s-border-2:#34363C;
     --s-action-primary:var(--c-brand-200); --s-action-primary-hover:#FFFFFF; --s-action-primary-press:var(--c-brand-300);
@@ -224,8 +224,8 @@
   body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px;
     mix-blend-mode:multiply;opacity:.3;}                     /* 淺色：multiply 讓顆粒在近白底變灰點（soft-light 在純白幾乎不顯，故不用）*/
-  @media(prefers-color-scheme:dark){body::after{mix-blend-mode:screen;opacity:.26;}}  /* 深色：screen 讓顆粒在近黑底變亮點 */
-  :root[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.26;}
+  @media(prefers-color-scheme:dark){body::after{mix-blend-mode:screen;opacity:.2;}}  /* 深色：screen 讓顆粒在近黑底變亮點；配更深底色，降回 .2 保易讀 */
+  :root[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.2;}
   :root[data-theme="light"] body::after{mix-blend-mode:multiply;opacity:.3;}
 
   /* ---------- scrollbar：純標準屬性一套（scrollbar-width/color 會被繼承，整頁與側邊欄自動一致）。
@@ -2817,14 +2817,13 @@
     margin:calc(-1*var(--sp-6)) calc(-1*var(--container-pad)) var(--sp-7);
     padding:clamp(44px,6vw,84px) var(--container-pad) clamp(40px,5vw,64px);
     background:
-      linear-gradient(180deg, rgba(78,28,16,.5) 0%, rgba(78,28,16,.4) 20%, rgba(78,28,16,.12) 34%, rgba(78,28,16,0) 48%),
-      linear-gradient(0deg, #ffffff 0%, #ffffff 8%, rgba(255,255,255,0) 42%),
-      radial-gradient(95% 78% at 92% 56%, rgba(244,147,164,.72) 0%, rgba(244,147,164,0) 60%),
-      radial-gradient(92% 74% at 3% 46%, rgba(255,85,8,.9) 0%, rgba(255,85,8,0) 58%),
-      radial-gradient(100% 68% at 48% 22%, rgba(234,88,12,.92) 0%, rgba(234,88,12,0) 60%),
-      radial-gradient(80% 54% at 52% -10%, rgba(127,43,107,.82) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(76% 56% at 12% -4%, rgba(176,56,60,.88) 0%, rgba(176,56,60,0) 58%),
-      radial-gradient(78% 58% at 88% -6%, rgba(164,49,33,.88) 0%, rgba(164,49,33,0) 58%),
+      linear-gradient(180deg, rgba(214,80,40,.4) 0%, rgba(214,80,40,.2) 22%, rgba(214,80,40,0) 46%),
+      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 48%),
+      radial-gradient(100% 80% at 96% 52%, rgba(252,150,125,.52) 0%, rgba(252,150,125,0) 62%),
+      radial-gradient(96% 78% at 2% 46%, rgba(249,115,22,.56) 0%, rgba(249,115,22,0) 60%),
+      radial-gradient(110% 74% at 50% 18%, rgba(237,90,20,.54) 0%, rgba(237,90,20,0) 62%),
+      radial-gradient(84% 58% at 14% -4%, rgba(252,120,70,.48) 0%, rgba(252,120,70,0) 60%),
+      radial-gradient(84% 58% at 88% -6%, rgba(247,125,100,.48) 0%, rgba(247,125,100,0) 60%),
       #ffffff;}
   @media(prefers-color-scheme:dark){.gd-hero{background:
       linear-gradient(0deg, var(--panel) 0%, var(--panel) 8%, rgba(0,0,0,0) 36%),
@@ -2845,14 +2844,13 @@
       radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.56) 0%, rgba(164,49,33,0) 58%),
       var(--panel);}
   :root[data-theme="light"] .gd-hero{background:
-      linear-gradient(180deg, rgba(78,28,16,.5) 0%, rgba(78,28,16,.4) 20%, rgba(78,28,16,.12) 34%, rgba(78,28,16,0) 48%),
-      linear-gradient(0deg, #ffffff 0%, #ffffff 8%, rgba(255,255,255,0) 42%),
-      radial-gradient(95% 78% at 92% 56%, rgba(244,147,164,.72) 0%, rgba(244,147,164,0) 60%),
-      radial-gradient(92% 74% at 3% 46%, rgba(255,85,8,.9) 0%, rgba(255,85,8,0) 58%),
-      radial-gradient(100% 68% at 48% 22%, rgba(234,88,12,.92) 0%, rgba(234,88,12,0) 60%),
-      radial-gradient(80% 54% at 52% -10%, rgba(127,43,107,.82) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(76% 56% at 12% -4%, rgba(176,56,60,.88) 0%, rgba(176,56,60,0) 58%),
-      radial-gradient(78% 58% at 88% -6%, rgba(164,49,33,.88) 0%, rgba(164,49,33,0) 58%),
+      linear-gradient(180deg, rgba(214,80,40,.4) 0%, rgba(214,80,40,.2) 22%, rgba(214,80,40,0) 46%),
+      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 48%),
+      radial-gradient(100% 80% at 96% 52%, rgba(252,150,125,.52) 0%, rgba(252,150,125,0) 62%),
+      radial-gradient(96% 78% at 2% 46%, rgba(249,115,22,.56) 0%, rgba(249,115,22,0) 60%),
+      radial-gradient(110% 74% at 50% 18%, rgba(237,90,20,.54) 0%, rgba(237,90,20,0) 62%),
+      radial-gradient(84% 58% at 14% -4%, rgba(252,120,70,.48) 0%, rgba(252,120,70,0) 60%),
+      radial-gradient(84% 58% at 88% -6%, rgba(247,125,100,.48) 0%, rgba(247,125,100,0) 60%),
       #ffffff;}
   .gd-hero-copy{position:relative;z-index:1;max-width:62ch;margin:0 auto;text-align:center;}
   /* 翻轉後暖色在頂＋加深，文字一律用白（灰字在暖底看不清）；標題/說明/eyebrow 皆白，深淺色一致 */
@@ -2880,7 +2878,8 @@
     transform:translate(-50%,-50%) scale(.94);transition:opacity .3s ease,transform .3s ease;}
   .gd-hero-frame:hover .gd-hero-float{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
   @media(max-width:767px){
-    .gd-hero-screen{max-height:460px;}
+    .gd-hero-frame{width:min(84vw,300px);padding:10px;border-radius:18px;}  /* 手機：mockup 收窄置中（.gd-hero-mock 已 justify-center），外框 padding 等比縮小 */
+    .gd-hero-screen{max-height:440px;}
     .gd-hero-screen .gd-gh{display:none;}
     .gd-hero-screen .gd-ghm{display:block;width:100%;}
   }
@@ -8556,8 +8555,8 @@ function buildScheduleChart(view){
   // L2：semantic 角色（每列 light / dark 兩模式值；值可為 hex 或 var(--c-*) 參考）
   const TOK_L2=[
     {g:'Surface 表面',rows:[
-      ['--s-surface-canvas','canvas','var(--c-neutral-50)','#0B0B0C'],['--s-surface-1','surface','var(--c-neutral-0)','#141416'],
-      ['--s-surface-2','surface-2','var(--c-neutral-100)','#1C1C20'],['--s-surface-3','surface-3','var(--c-neutral-200)','#26262B']]},
+      ['--s-surface-canvas','canvas','var(--c-neutral-50)','#060608'],['--s-surface-1','surface','var(--c-neutral-0)','#0C0C0E'],
+      ['--s-surface-2','surface-2','var(--c-neutral-100)','#141416'],['--s-surface-3','surface-3','var(--c-neutral-200)','#1C1C20']]},
     {g:'Text 文字',rows:[
       ['--s-text-1','ink','var(--c-neutral-900)','#F4F4F5'],['--s-text-2','muted','var(--c-neutral-600)','#9A9CA4'],['--s-text-3','faint','var(--c-neutral-500)','#6B6E77']]},
     {g:'Border 邊界',rows:[
@@ -8745,6 +8744,12 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v7', date:'2026-07-23', title:'漸層柔化 · 深色底色加深 · 手機 mockup', items:[
+      {tag:'improve', t:'首屏淺色漸層調淡柔化：移除偏髒的褐/紫調，改乾淨的珊瑚／橘漸層'},
+      {tag:'improve', t:'深色主題底色整組加深（surface token：canvas #060608、surface #0C0C0E…），配磨砂後文字更好讀'},
+      {tag:'improve', t:'深色磨砂顆粒略降（screen .2），兼顧質感與易讀'},
+      {tag:'improve', t:'手機版 mockup 收窄置中（300px）、外框 padding 等比縮小'},
+    ]},
     {v:'v6', date:'2026-07-23', title:'首屏文案/對比/材質微調', items:[
       {tag:'improve', t:'首屏標題精簡為「Cool-DS-Library」；說明文字改白色、移除加粗（灰字在暖底看不清）'},
       {tag:'improve', t:'首屏淺色漸層頂部加深，白色標題/說明對比更清楚'},
