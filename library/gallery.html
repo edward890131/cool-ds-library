@@ -220,6 +220,13 @@
   input,button,select,textarea,optgroup{font-family:inherit;}
   html,body{margin:0;height:100%;}
   body{background:var(--canvas);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.5;overflow:hidden;} /* app-shell：document 不捲，捲動交給 sidebar / main */
+  /* 全站紙質磨砂材質：fixed 覆蓋整個 viewport 的 SVG fractalNoise 顆粒，soft-light 混色疊在所有背景上，pointer-events:none 不擋互動 */
+  body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px;
+    mix-blend-mode:multiply;opacity:.16;}                    /* 淺色：multiply 讓顆粒在近白底變灰點（soft-light 在純白幾乎不顯，故不用）*/
+  @media(prefers-color-scheme:dark){body::after{mix-blend-mode:screen;opacity:.14;}}  /* 深色：screen 讓顆粒在近黑底變亮點 */
+  :root[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.14;}
+  :root[data-theme="light"] body::after{mix-blend-mode:multiply;opacity:.16;}
 
   /* ---------- scrollbar：純標準屬性一套（scrollbar-width/color 會被繼承，整頁與側邊欄自動一致）。
        不混用 ::-webkit-scrollbar——同時存在會讓 Chrome 對 root 與元素捲軸挑不同渲染路徑，一粗一細。
@@ -2804,44 +2811,46 @@
   .gd-entry:hover{color:var(--ink);border-color:var(--accent);}
   @media(max-width:767px){#guideBtn,.gd-entry{display:none;} .brand-title,.brand .divider{display:none;}}  /* 手機：隱藏上手指南＋品牌文字，只留 GOONS 字標，釋出 topbar 空間避免 logo 溢出疊字 */
   /* 上手指南首屏 hero：出血到內容區滿寬（負 margin＝各斷點 container-pad），標題+說明置中，mockup 置中下方
-     漸層＝還原 agentixx.framer.website 的 mesh（白頂→橘紅中→洋紅/李紫/紅棕底，取樣其背景 PNG 實際色點），
-     用同色 alpha 大半徑重疊 radial 疊出平滑 mesh，避免硬邊 */
+     漸層＝還原 agentixx.framer.website mesh 但「上下顛倒」：暖色移到頂、底部沉回 #fff/panel，
+     讓 hero 底緣無縫接下一段（去斷差）。深色底色降 alpha、把底部深色縮小貼頂保標題可讀 */
   .gd-hero{position:relative;overflow:hidden;
     margin:calc(-1*var(--sp-6)) calc(-1*var(--container-pad)) var(--sp-7);
     padding:clamp(44px,6vw,84px) var(--container-pad) clamp(40px,5vw,64px);
     background:
-      radial-gradient(90% 82% at 95% 42%, rgba(244,147,164,.92) 0%, rgba(244,147,164,0) 60%),
-      radial-gradient(95% 88% at 52% 118%, rgba(127,43,107,.98) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(80% 78% at 15% 106%, rgba(176,56,60,.95) 0%, rgba(176,56,60,0) 60%),
-      radial-gradient(84% 80% at 85% 108%, rgba(164,49,33,.95) 0%, rgba(164,49,33,0) 60%),
-      radial-gradient(86% 78% at 2% 52%, rgba(255,85,8,.92) 0%, rgba(255,85,8,0) 60%),
-      radial-gradient(98% 86% at 46% 66%, rgba(248,70,50,.9) 0%, rgba(248,70,50,0) 62%),
-      linear-gradient(180deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 36%),
+      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 40%),
+      radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.85) 0%, rgba(244,147,164,0) 62%),
+      radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.85) 0%, rgba(255,85,8,0) 60%),
+      radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.72) 0%, rgba(248,70,50,0) 60%),
+      radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.6) 0%, rgba(127,43,107,0) 60%),
+      radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.66) 0%, rgba(176,56,60,0) 58%),
+      radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.66) 0%, rgba(164,49,33,0) 58%),
       #ffffff;}
   @media(prefers-color-scheme:dark){.gd-hero{background:
-      radial-gradient(90% 82% at 95% 42%, rgba(244,147,164,.5) 0%, rgba(244,147,164,0) 60%),
-      radial-gradient(95% 88% at 52% 118%, rgba(127,43,107,.7) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(80% 78% at 15% 106%, rgba(176,56,60,.68) 0%, rgba(176,56,60,0) 60%),
-      radial-gradient(84% 80% at 85% 108%, rgba(164,49,33,.7) 0%, rgba(164,49,33,0) 60%),
-      radial-gradient(86% 78% at 2% 52%, rgba(255,85,8,.55) 0%, rgba(255,85,8,0) 60%),
-      radial-gradient(98% 86% at 46% 66%, rgba(248,70,50,.5) 0%, rgba(248,70,50,0) 62%),
+      linear-gradient(0deg, var(--panel) 0%, var(--panel) 8%, rgba(0,0,0,0) 36%),
+      radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.46) 0%, rgba(244,147,164,0) 62%),
+      radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.5) 0%, rgba(255,85,8,0) 60%),
+      radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.42) 0%, rgba(248,70,50,0) 60%),
+      radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.5) 0%, rgba(127,43,107,0) 60%),
+      radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.56) 0%, rgba(176,56,60,0) 58%),
+      radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.56) 0%, rgba(164,49,33,0) 58%),
       var(--panel);}}
   :root[data-theme="dark"] .gd-hero{background:
-      radial-gradient(90% 82% at 95% 42%, rgba(244,147,164,.5) 0%, rgba(244,147,164,0) 60%),
-      radial-gradient(95% 88% at 52% 118%, rgba(127,43,107,.7) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(80% 78% at 15% 106%, rgba(176,56,60,.68) 0%, rgba(176,56,60,0) 60%),
-      radial-gradient(84% 80% at 85% 108%, rgba(164,49,33,.7) 0%, rgba(164,49,33,0) 60%),
-      radial-gradient(86% 78% at 2% 52%, rgba(255,85,8,.55) 0%, rgba(255,85,8,0) 60%),
-      radial-gradient(98% 86% at 46% 66%, rgba(248,70,50,.5) 0%, rgba(248,70,50,0) 62%),
+      linear-gradient(0deg, var(--panel) 0%, var(--panel) 8%, rgba(0,0,0,0) 36%),
+      radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.46) 0%, rgba(244,147,164,0) 62%),
+      radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.5) 0%, rgba(255,85,8,0) 60%),
+      radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.42) 0%, rgba(248,70,50,0) 60%),
+      radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.5) 0%, rgba(127,43,107,0) 60%),
+      radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.56) 0%, rgba(176,56,60,0) 58%),
+      radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.56) 0%, rgba(164,49,33,0) 58%),
       var(--panel);}
   :root[data-theme="light"] .gd-hero{background:
-      radial-gradient(90% 82% at 95% 42%, rgba(244,147,164,.92) 0%, rgba(244,147,164,0) 60%),
-      radial-gradient(95% 88% at 52% 118%, rgba(127,43,107,.98) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(80% 78% at 15% 106%, rgba(176,56,60,.95) 0%, rgba(176,56,60,0) 60%),
-      radial-gradient(84% 80% at 85% 108%, rgba(164,49,33,.95) 0%, rgba(164,49,33,0) 60%),
-      radial-gradient(86% 78% at 2% 52%, rgba(255,85,8,.92) 0%, rgba(255,85,8,0) 60%),
-      radial-gradient(98% 86% at 46% 66%, rgba(248,70,50,.9) 0%, rgba(248,70,50,0) 62%),
-      linear-gradient(180deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 36%),
+      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 40%),
+      radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.85) 0%, rgba(244,147,164,0) 62%),
+      radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.85) 0%, rgba(255,85,8,0) 60%),
+      radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.72) 0%, rgba(248,70,50,0) 60%),
+      radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.6) 0%, rgba(127,43,107,0) 60%),
+      radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.66) 0%, rgba(176,56,60,0) 58%),
+      radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.66) 0%, rgba(164,49,33,0) 58%),
       #ffffff;}
   .gd-hero-copy{position:relative;z-index:1;max-width:62ch;margin:0 auto;text-align:center;}
   .gd-hero-copy .eyebrow{margin-bottom:var(--sp-4);}
@@ -2852,11 +2861,24 @@
   .gd-hero-mock{position:relative;z-index:1;margin-top:clamp(28px,4vw,52px);display:flex;justify-content:center;}
   .gd-hero-mock .gd-devices{margin:0;width:100%;display:flex;justify-content:center;}
   /* 簡單方形 mockup 外框：半透明外框＋柔和陰影，內含 GitHub 桌機畫面（吃 .gd-devices 上的 gh* 主題反轉色），超高裁切 */
-  .gd-hero-frame{width:min(100%,640px);max-height:420px;overflow:hidden;border-radius:14px;
+  .gd-hero-frame{position:relative;width:min(100%,640px);max-height:420px;overflow:hidden;border-radius:14px;
     border:1px solid rgba(255,255,255,.5);background:var(--ghbg);
     box-shadow:0 24px 64px -16px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.12);}
-  /* 內容固定 640px 桌機寬：桌機恰好填滿；手機時 frame 縮窄＋overflow 裁切，露出乾淨的桌機頁左半截而非擠壓變形 */
-  .gd-hero-frame .gd-gh{width:640px;max-width:none;}
+  .gd-hero-frame .gd-gh{width:640px;max-width:none;}   /* 桌機內容固定 640px 剛好填滿 frame */
+  .gd-hero-frame .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
+  .gd-hero-scale{transition:transform .4s cubic-bezier(.2,.7,.2,1);transform-origin:center 22%;}
+  .gd-hero-frame:hover .gd-hero-scale{transform:scale(1.08);}   /* hover：內容放大 */
+  .gd-hero-dim{position:absolute;inset:0;z-index:5;opacity:0;pointer-events:none;transition:opacity .3s ease;
+    background:rgba(12,10,16,.30);backdrop-filter:blur(7px) saturate(1.05);-webkit-backdrop-filter:blur(7px) saturate(1.05);}
+  .gd-hero-frame:hover .gd-hero-dim{opacity:1;}                 /* hover：多罩一層背景 blur 凸顯浮鈕 */
+  .gd-hero-float{position:absolute;left:50%;top:50%;z-index:6;opacity:0;pointer-events:none;
+    transform:translate(-50%,-50%) scale(.94);transition:opacity .3s ease,transform .3s ease;}
+  .gd-hero-frame:hover .gd-hero-float{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
+  @media(max-width:767px){
+    .gd-hero-frame{max-height:460px;}
+    .gd-hero-frame .gd-gh{display:none;}
+    .gd-hero-frame .gd-ghm{display:block;width:100%;}
+  }
   /* ===== 版本更新紀錄頁（Changelog 時間軸）===== */
   .cl-tl{display:flex;flex-direction:column;}
   .cl-entry{display:grid;grid-template-columns:132px 1fr;gap:var(--sp-7);padding:var(--sp-7) 0;border-top:1px solid var(--line);}
@@ -8718,6 +8740,14 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v5', date:'2026-07-22', title:'首屏漸層/互動精修 · 全站紙質材質', items:[
+      {tag:'improve', t:'首屏漸層上下顛倒：暖色移到頂、底部沉回底色，hero 底緣無縫接下一段（去除斷差）'},
+      {tag:'improve', t:'首屏「瀏覽元件」改實心次要（淺色近白底／深色近黑底），凸顯於漸層之上'},
+      {tag:'add', t:'首屏 mockup 加回 hover 互動：內容放大＋背景 blur 罩層，中央浮出「GitHub 查看完整流程」外連鈕'},
+      {tag:'fix', t:'首屏 mockup 手機版改用 GitHub 手機網頁單欄版型，不再爆版／擠壓'},
+      {tag:'add', t:'全站背景疊一層紙質磨砂顆粒材質（fixed noise overlay），提升質感'},
+      {tag:'improve', t:'專案模式進站頁也改為上手指南首屏（與母庫一致）'},
+    ]},
     {v:'v4', date:'2026-07-22', title:'品牌副色改橘 · 上手指南首屏', items:[
       {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步換色）；主色維持中性近黑，橘作副色與情境點綴'},
       {tag:'add', t:'上手指南新增情境首屏 hero：多色暖漸層（還原參考站 mesh 質感）、標題＋說明置中、簡單方形 mockup 外框（GitHub 桌機畫面、手機裁切）、兩顆 CTA（編輯 Token／瀏覽元件）'},
@@ -8798,8 +8828,13 @@ function buildScheduleChart(view){
         </div>
         <div class="gd-hero-mock">
           <div class="gd-devices">
-            <div class="gd-hero-frame">
-              <div class="gd-gh" id="gdGhScreen"></div>
+            <div class="gd-hero-frame" id="gdHeroFrame">
+              <div class="gd-hero-scale">
+                <div class="gd-gh" id="gdGhScreen"></div>
+                <div class="gd-ghm" id="gdMobScreen"></div>
+              </div>
+              <div class="gd-hero-dim"></div>
+              <div class="gd-hero-float" id="gdHeroFloat"></div>
             </div>
           </div>
         </div>
@@ -8992,13 +9027,38 @@ function buildScheduleChart(view){
         +'<div class="gd-gh-side-h2">Releases</div><p class="gd-gh-side-sub">No releases published</p>'
         +'<div class="gd-gh-side-h2">Deployments <span class="gd-gh-badge">13</span></div>'
       +'</div></div>';
-    // 首屏 hero 兩顆 CTA：主要＝編輯 Token、次要＝瀏覽元件（都用 library mkBtn 原子、isLive 帶真互動，不手拼 class）
+    // 手機版 frame 內容：GitHub 手機網頁單欄版型（沿用舊 .gd-ghm-* 樣式，去掉手機狀態列、前置瀏覽器列與桌機一致；CSS 在 ≤767px 才顯示 .gd-ghm、隱藏 .gd-gh）
+    const mFileRows=FILES.map(function(x){var ic=x[0],nm=x[1],t=x[3];return '<div class="gd-ghm-file"><span class="gd-ghm-fico'+(ic==='folder'?' gd-gh-folder':'')+'">'+O[ic]+'</span><span class="gd-ghm-fn">'+nm+'</span><span class="gd-ghm-ft">'+t+'</span></div>';}).join('');
+    const mob=view.querySelector('#gdMobScreen');
+    if(mob)mob.innerHTML=
+      '<div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url"><span class="gd-gh-lock">🔒</span>github.com/edward890131/cool-ds-library</span></div>'
+      +'<div class="gd-ghm-top"><span class="gd-ghm-burger">☰</span><span class="gd-ghm-mark">'+O.mark+'</span><span class="gd-ghm-crumb">⋯ / <b>cool-ds-library</b> ▾</span><span class="gd-ghm-top-r"><span class="gd-ghm-search">'+O.search+'</span><span class="gd-ghm-avatar"></span></span></div>'
+      +'<div class="gd-ghm-tabs"><span class="gd-ghm-tab on">Code</span><span class="gd-ghm-tab">Issues</span><span class="gd-ghm-tab">Pull requests</span><span class="gd-ghm-more">More ▾</span></div>'
+      +'<div class="gd-ghm-body">'
+        +'<div class="gd-ghm-actions"><span class="gd-ghm-abtn">'+O.eye+'Watch <b>0</b> <span class="gd-ghm-cv">▾</span></span><span class="gd-ghm-abtn">'+O.fork+'<span class="gd-ghm-cv">▾</span></span><span class="gd-ghm-abtn">'+O.star+'<span class="gd-ghm-cv">▾</span></span></div>'
+        +'<p class="gd-ghm-desc">cool-des-library — 設計系統元件庫網站＋框架＋Figma 雙向同步</p>'
+        +'<div class="gd-ghm-link">'+O.link+'cool-ds-library.vercel.app</div>'
+        +'<div class="gd-ghm-stats"><span>'+O.star+'<b>0</b> stars</span><span>'+O.fork+'<b>0</b> forks</span><span>'+O.eye+'<b>0</b> watching</span><span>'+O.branch+'<b>1</b> Branch</span><span>'+O.tag+'<b>0</b> Tags</span><span>'+O.pulse+'Activity</span></div>'
+        +'<div class="gd-ghm-public">'+O.globe+'Public repository</div>'
+        +'<div class="gd-ghm-divider"></div>'
+        +'<div class="gd-ghm-toolbar"><span class="gd-ghm-branchbtn">'+O.branch+'main <span class="gd-ghm-cv">▾</span></span><span class="gd-ghm-spacer"></span><span class="gd-ghm-codebtn">'+O.code+'Code <span class="gd-ghm-cv">▾</span></span><span class="gd-ghm-dots">⋯</span></div>'
+        +'<div class="gd-ghm-commit"><span class="gd-ghm-cav"></span><span class="gd-ghm-cauth"><b>edward890131</b> and <b>claude</b></span><span class="gd-ghm-ctime">1 hour ago</span></div>'
+        +'<div class="gd-ghm-files">'+mFileRows+'</div>'
+      +'</div>';
+    // hover 浮出的 GitHub 外連 CTA（實心主色 mkBtn＋GitHub icon）；frame:hover 時內容放大＋背景 blur 罩層淡入凸顯此鈕
+    const float=view.querySelector('#gdHeroFloat');
+    if(float){const g=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});g.type='button';
+      g.querySelector('span').textContent='在 GitHub 查看完整流程';
+      g.insertAdjacentHTML('afterbegin',ICON_GITHUB);
+      g.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
+      float.appendChild(g);}
+    // 首屏 hero 兩顆 CTA：主要＝編輯 Token（solid primary）、次要＝瀏覽元件（solid secondary：淺色近白底／深色近黑底，凸顯於漸層上）；都用 library mkBtn 原子，不手拼 class
     const heroCta=view.querySelector('#gdHeroCta');
     if(heroCta){
       const pri=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});pri.type='button';
       pri.querySelector('span').textContent='編輯 Token';
       pri.onclick=()=>renderView('tokens');
-      const sec=mkBtn({variant:'outline',intent:'secondary',size:'m',isLive:true});sec.type='button';
+      const sec=mkBtn({variant:'solid',intent:'secondary',size:'m',isLive:true});sec.type='button';
       sec.querySelector('span').textContent='瀏覽元件';
       sec.onclick=()=>renderView('summary');
       heroCta.append(pri,sec);
@@ -9809,7 +9869,7 @@ function buildScheduleChart(view){
   (function studioInit(){
     const proj=new URLSearchParams(location.search).get('project');
     window.__dsProject=proj||null;
-    const boot=()=>{ current=hashId()||(window.__dsProject?'summary':'guide'); renderNav(); renderView(current); if(typeof refreshLogo==='function')refreshLogo(); showStudioBadge(proj); }; // 母庫模式預設進 guide 首屏；專案模式維持 summary（設計師選取流程）
+    const boot=()=>{ current=hashId()||'guide'; renderNav(); renderView(current); if(typeof refreshLogo==='function')refreshLogo(); showStudioBadge(proj); }; // 母庫＋專案模式皆預設進 guide 首屏
     if(!proj){ boot(); window.__dsBaseline=dsSnap(); return; }
     fetch('/api/project/'+encodeURIComponent(proj)).then(r=>r.ok?r.json():null).then(d=>{
       window.__dsProjectData=d||null;
@@ -9818,7 +9878,7 @@ function buildScheduleChart(view){
       window.__dsVersion=(d&&d.version&&d.version.version)||0;
     }).catch(()=>{}).finally(()=>{ boot(); window.__dsBaseline=dsSnap(); dsVersionPopup(); });
   })();
-  window.addEventListener('hashchange',()=>{const id=hashId()||(window.__dsProject?'summary':'guide');if(id!==current){current=id;renderNav();renderView(id);}});
+  window.addEventListener('hashchange',()=>{const id=hashId()||'guide';if(id!==current){current=id;renderNav();renderView(id);}});
 
   /* ===== 側邊欄拖曳調寬 ===== */
   (function(){
