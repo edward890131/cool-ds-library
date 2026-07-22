@@ -107,7 +107,7 @@
 
   /* ── L2 Semantic overrides · DARK（只覆寫語意層＋品牌 accent 提亮；別名自動跟隨）── */
   @media (prefers-color-scheme:dark){ :root{
-    --s-surface-canvas:#060608; --s-surface-1:#0C0C0E; --s-surface-2:#141416; --s-surface-3:#1C1C20;
+    --s-surface-canvas:#040406; --s-surface-1:#09090B; --s-surface-2:#101012; --s-surface-3:#17171A;
     --s-text-1:#F4F4F5; --s-text-2:#9A9CA4; --s-text-3:#6B6E77;
     --s-border-1:#26272B; --s-border-2:#34363C;
     --s-action-primary:var(--c-brand-200); --s-action-primary-hover:#FFFFFF; --s-action-primary-press:var(--c-brand-300);
@@ -133,7 +133,7 @@
     --e-2xl:0 25px 50px -12px rgba(0,0,0,.7);
   }}
   :root[data-theme="dark"]{
-    --s-surface-canvas:#060608; --s-surface-1:#0C0C0E; --s-surface-2:#141416; --s-surface-3:#1C1C20;
+    --s-surface-canvas:#040406; --s-surface-1:#09090B; --s-surface-2:#101012; --s-surface-3:#17171A;
     --s-text-1:#F4F4F5; --s-text-2:#9A9CA4; --s-text-3:#6B6E77;
     --s-border-1:#26272B; --s-border-2:#34363C;
     --s-action-primary:var(--c-brand-200); --s-action-primary-hover:#FFFFFF; --s-action-primary-press:var(--c-brand-300);
@@ -2817,47 +2817,67 @@
     margin:calc(-1*var(--sp-6)) calc(-1*var(--container-pad)) var(--sp-7);
     padding:clamp(44px,6vw,84px) var(--container-pad) clamp(40px,5vw,64px);
     background:
+      radial-gradient(58% 42% at 26% 3%, rgba(255,40,120,.5) 0%, transparent 55%),
+      radial-gradient(56% 40% at 76% 1%, rgba(255,110,0,.55) 0%, transparent 55%),
+      radial-gradient(54% 38% at 52% -2%, rgba(190,60,200,.32) 0%, transparent 56%),
       linear-gradient(180deg, rgba(214,80,40,.4) 0%, rgba(214,80,40,.2) 22%, rgba(214,80,40,0) 46%),
-      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 48%),
+      linear-gradient(0deg, var(--canvas) 0%, var(--canvas) 10%, transparent 48%),
       radial-gradient(100% 80% at 96% 52%, rgba(252,150,125,.52) 0%, rgba(252,150,125,0) 62%),
       radial-gradient(96% 78% at 2% 46%, rgba(249,115,22,.56) 0%, rgba(249,115,22,0) 60%),
       radial-gradient(110% 74% at 50% 18%, rgba(237,90,20,.54) 0%, rgba(237,90,20,0) 62%),
       radial-gradient(84% 58% at 14% -4%, rgba(252,120,70,.48) 0%, rgba(252,120,70,0) 60%),
       radial-gradient(84% 58% at 88% -6%, rgba(247,125,100,.48) 0%, rgba(247,125,100,0) 60%),
-      #ffffff;}
+      var(--canvas);}
   @media(prefers-color-scheme:dark){.gd-hero{background:
-      linear-gradient(0deg, var(--panel) 0%, var(--panel) 8%, rgba(0,0,0,0) 36%),
+      radial-gradient(58% 42% at 28% 2%, rgba(255,50,130,.36) 0%, transparent 55%),
+      radial-gradient(56% 40% at 74% 0%, rgba(255,120,20,.4) 0%, transparent 55%),
+      linear-gradient(0deg, var(--canvas) 0%, var(--canvas) 8%, transparent 36%),
       radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.46) 0%, rgba(244,147,164,0) 62%),
       radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.5) 0%, rgba(255,85,8,0) 60%),
       radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.42) 0%, rgba(248,70,50,0) 60%),
       radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.5) 0%, rgba(127,43,107,0) 60%),
       radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.56) 0%, rgba(176,56,60,0) 58%),
       radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.56) 0%, rgba(164,49,33,0) 58%),
-      var(--panel);}}
+      var(--canvas);}}
   :root[data-theme="dark"] .gd-hero{background:
-      linear-gradient(0deg, var(--panel) 0%, var(--panel) 8%, rgba(0,0,0,0) 36%),
+      radial-gradient(58% 42% at 28% 2%, rgba(255,50,130,.36) 0%, transparent 55%),
+      radial-gradient(56% 40% at 74% 0%, rgba(255,120,20,.4) 0%, transparent 55%),
+      linear-gradient(0deg, var(--canvas) 0%, var(--canvas) 8%, transparent 36%),
       radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.46) 0%, rgba(244,147,164,0) 62%),
       radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.5) 0%, rgba(255,85,8,0) 60%),
       radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.42) 0%, rgba(248,70,50,0) 60%),
       radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.5) 0%, rgba(127,43,107,0) 60%),
       radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.56) 0%, rgba(176,56,60,0) 58%),
       radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.56) 0%, rgba(164,49,33,0) 58%),
-      var(--panel);}
+      var(--canvas);}
   :root[data-theme="light"] .gd-hero{background:
+      radial-gradient(58% 42% at 26% 3%, rgba(255,40,120,.5) 0%, transparent 55%),
+      radial-gradient(56% 40% at 76% 1%, rgba(255,110,0,.55) 0%, transparent 55%),
+      radial-gradient(54% 38% at 52% -2%, rgba(190,60,200,.32) 0%, transparent 56%),
       linear-gradient(180deg, rgba(214,80,40,.4) 0%, rgba(214,80,40,.2) 22%, rgba(214,80,40,0) 46%),
-      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 48%),
+      linear-gradient(0deg, var(--canvas) 0%, var(--canvas) 10%, transparent 48%),
       radial-gradient(100% 80% at 96% 52%, rgba(252,150,125,.52) 0%, rgba(252,150,125,0) 62%),
       radial-gradient(96% 78% at 2% 46%, rgba(249,115,22,.56) 0%, rgba(249,115,22,0) 60%),
       radial-gradient(110% 74% at 50% 18%, rgba(237,90,20,.54) 0%, rgba(237,90,20,0) 62%),
       radial-gradient(84% 58% at 14% -4%, rgba(252,120,70,.48) 0%, rgba(252,120,70,0) 60%),
       radial-gradient(84% 58% at 88% -6%, rgba(247,125,100,.48) 0%, rgba(247,125,100,0) 60%),
-      #ffffff;}
+      var(--canvas);}
   .gd-hero-copy{position:relative;z-index:1;max-width:62ch;margin:0 auto;text-align:center;}
   /* 翻轉後暖色在頂＋加深，文字一律用白（灰字在暖底看不清）；標題/說明/eyebrow 皆白，深淺色一致 */
   .gd-hero-copy .eyebrow{margin-bottom:var(--sp-4);color:rgba(255,255,255,.82);}
-  .gd-hero h1{font-size:var(--fs-h5);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0 0 var(--sp-5);text-wrap:balance;color:#fff;}
-  .gd-hero-lede{color:#fff;max-width:56ch;margin:0 auto;font-size:var(--fs-h10);line-height:1.6;}
+  .gd-hero h1{font-size:clamp(var(--fs-h3),5vw,var(--fs-h1));font-weight:800;letter-spacing:-.03em;line-height:1.04;margin:0 0 var(--sp-5);text-wrap:balance;color:#fff;}
+  .gd-hero-lede{color:#fff;max-width:56ch;margin:0 auto;font-size:var(--fs-h9);line-height:1.65;}
   .gd-hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-top:var(--sp-6);justify-content:center;}
+  /* 滑鼠滑過背景透出網格線（參考 cula.tech）：網格 overlay 用 radial mask 只在游標半徑內顯示，JS 更新 --mx/--my */
+  .gd-hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .35s ease;
+    background-image:linear-gradient(to right, rgba(255,255,255,.55) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.55) 1px, transparent 1px);
+    background-size:38px 38px;
+    -webkit-mask-image:radial-gradient(200px circle at var(--mx,-999px) var(--my,-999px), #000 0%, rgba(0,0,0,.4) 46%, transparent 72%);
+    mask-image:radial-gradient(200px circle at var(--mx,-999px) var(--my,-999px), #000 0%, rgba(0,0,0,.4) 46%, transparent 72%);}
+  .gd-hero:hover .gd-hero-grid{opacity:1;}
+  /* hero 專屬紙質磨砂（比全站 body::after 更明顯，疊在彩色漸層上用 overlay 才吃得到色）*/
+  .gd-hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;mix-blend-mode:overlay;opacity:.55;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='hn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hn)'/%3E%3C/svg%3E");background-size:150px 150px;}
   .gd-hero-mock{position:relative;z-index:1;margin-top:clamp(28px,4vw,52px);display:flex;justify-content:center;}
   .gd-hero-mock .gd-devices{margin:0;width:100%;display:flex;justify-content:center;}
   /* mockup 外框（比照參考站）：外層帶 padding 的半透明磨砂框，內層才是真正的螢幕 */
@@ -2869,14 +2889,11 @@
     box-shadow:0 1px 3px rgba(0,0,0,.22);}   /* 內層螢幕：裁切內容、hover 目標之容器 */
   .gd-hero-screen .gd-gh{width:640px;max-width:none;}   /* 桌機內容固定 640px 剛好填滿內層 */
   .gd-hero-screen .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
-  .gd-hero-scale{transition:transform .4s cubic-bezier(.2,.7,.2,1);transform-origin:center 22%;}
-  .gd-hero-frame:hover .gd-hero-scale{transform:scale(1.08);}   /* hover：內容放大 */
-  .gd-hero-dim{position:absolute;inset:0;z-index:5;opacity:0;pointer-events:none;transition:opacity .3s ease;
-    background:rgba(12,10,16,.30);backdrop-filter:blur(7px) saturate(1.05);-webkit-backdrop-filter:blur(7px) saturate(1.05);}
-  .gd-hero-frame:hover .gd-hero-dim{opacity:1;}                 /* hover：多罩一層背景 blur 凸顯浮鈕 */
-  .gd-hero-float{position:absolute;left:50%;top:50%;z-index:6;opacity:0;pointer-events:none;
-    transform:translate(-50%,-50%) scale(.94);transition:opacity .3s ease,transform .3s ease;}
-  .gd-hero-frame:hover .gd-hero-float{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
+  /* mockup 自訂游標：hover 時隱藏原生游標，改用跟隨滑鼠的「在 GitHub 查看完整流程」按鈕（pill）；內容不放大不模糊；點整個 frame 另開 GitHub */
+  @media(hover:hover){.gd-hero-frame{cursor:none;}}
+  .gd-hero-cursor{position:absolute;top:0;left:0;z-index:7;pointer-events:none;opacity:0;transition:opacity .16s ease;will-change:transform;}
+  .gd-hero-frame.cur-on .gd-hero-cursor{opacity:1;}
+  .gd-hero-cursor .btn{box-shadow:0 8px 24px rgba(0,0,0,.38);}
   @media(max-width:767px){
     .gd-hero-frame{width:min(84vw,300px);padding:10px;border-radius:18px;}  /* 手機：mockup 收窄置中（.gd-hero-mock 已 justify-center），外框 padding 等比縮小 */
     .gd-hero-screen{max-height:440px;}
@@ -8555,8 +8572,8 @@ function buildScheduleChart(view){
   // L2：semantic 角色（每列 light / dark 兩模式值；值可為 hex 或 var(--c-*) 參考）
   const TOK_L2=[
     {g:'Surface 表面',rows:[
-      ['--s-surface-canvas','canvas','var(--c-neutral-50)','#060608'],['--s-surface-1','surface','var(--c-neutral-0)','#0C0C0E'],
-      ['--s-surface-2','surface-2','var(--c-neutral-100)','#141416'],['--s-surface-3','surface-3','var(--c-neutral-200)','#1C1C20']]},
+      ['--s-surface-canvas','canvas','var(--c-neutral-50)','#040406'],['--s-surface-1','surface','var(--c-neutral-0)','#09090B'],
+      ['--s-surface-2','surface-2','var(--c-neutral-100)','#101012'],['--s-surface-3','surface-3','var(--c-neutral-200)','#17171A']]},
     {g:'Text 文字',rows:[
       ['--s-text-1','ink','var(--c-neutral-900)','#F4F4F5'],['--s-text-2','muted','var(--c-neutral-600)','#9A9CA4'],['--s-text-3','faint','var(--c-neutral-500)','#6B6E77']]},
     {g:'Border 邊界',rows:[
@@ -8744,6 +8761,15 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v8', date:'2026-07-23', title:'首屏視覺升級：鮮艷漸層＋網格互動＋游標 CTA', items:[
+      {tag:'add', t:'首屏漸層最上層加入鮮艷高彩度色（洋紅／橘／紫紅 pop），淺色也更豐富飽和'},
+      {tag:'add', t:'背景滑鼠互動：游標滑過時透出網格線（參考 cula.tech），增加動態感'},
+      {tag:'improve', t:'標題 Cool-DS-Library 放大加粗（更顯眼）；描述改為品牌化專業文案'},
+      {tag:'improve', t:'首屏漸層專屬紙質磨砂加強，質感更明顯'},
+      {tag:'fix', t:'首屏漸層底色改用與下段相同的背景色，消除銜接斷層'},
+      {tag:'improve', t:'深色主題底色再加深一階（surface token）'},
+      {tag:'improve', t:'mockup 互動改為：游標移入時變成「在 GitHub 查看完整流程」按鈕跟隨（不再放大/模糊），點擊另開'},
+    ]},
     {v:'v7', date:'2026-07-23', title:'漸層柔化 · 深色底色加深 · 手機 mockup', items:[
       {tag:'improve', t:'首屏淺色漸層調淡柔化：移除偏髒的褐/紫調，改乾淨的珊瑚／橘漸層'},
       {tag:'improve', t:'深色主題底色整組加深（surface token：canvas #060608、surface #0C0C0E…），配磨砂後文字更好讀'},
@@ -8835,24 +8861,22 @@ function buildScheduleChart(view){
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
   function renderGuide(view){
     view.innerHTML = `
-      <section class="gd-hero">
+      <section class="gd-hero" id="gdHero">
+        <div class="gd-hero-grid" id="gdHeroGrid"></div>
         <div class="gd-hero-copy">
           <p class="eyebrow">上手指南 · Getting Started</p>
           <h1>Cool-DS-Library</h1>
-          <p class="gd-hero-lede">這是 Goons 的設計系統元件庫。你在這裡挑元件、調 token、預覽整體效果，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
+          <p class="gd-hero-lede">Goons 設計系統的單一事實來源。選定元件、校準 Design Token、預覽整體視覺，一鍵雙向同步至工程與 Figma——讓每一次交付都精準、一致、可追溯。</p>
           <div class="gd-hero-cta" id="gdHeroCta"></div>
         </div>
         <div class="gd-hero-mock">
           <div class="gd-devices">
             <div class="gd-hero-frame" id="gdHeroFrame">
               <div class="gd-hero-screen">
-                <div class="gd-hero-scale">
-                  <div class="gd-gh" id="gdGhScreen"></div>
-                  <div class="gd-ghm" id="gdMobScreen"></div>
-                </div>
-                <div class="gd-hero-dim"></div>
-                <div class="gd-hero-float" id="gdHeroFloat"></div>
+                <div class="gd-gh" id="gdGhScreen"></div>
+                <div class="gd-ghm" id="gdMobScreen"></div>
               </div>
+              <div class="gd-hero-cursor" id="gdHeroCursor"></div>
             </div>
           </div>
         </div>
@@ -9063,13 +9087,28 @@ function buildScheduleChart(view){
         +'<div class="gd-ghm-commit"><span class="gd-ghm-cav"></span><span class="gd-ghm-cauth"><b>edward890131</b> and <b>claude</b></span><span class="gd-ghm-ctime">1 hour ago</span></div>'
         +'<div class="gd-ghm-files">'+mFileRows+'</div>'
       +'</div>';
-    // hover 浮出的 GitHub 外連 CTA（實心主色 mkBtn＋GitHub icon）；frame:hover 時內容放大＋背景 blur 罩層淡入凸顯此鈕
-    const float=view.querySelector('#gdHeroFloat');
-    if(float){const g=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});g.type='button';
-      g.querySelector('span').textContent='在 GitHub 查看完整流程';
-      g.insertAdjacentHTML('afterbegin',ICON_GITHUB);
-      g.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
-      float.appendChild(g);}
+    // mockup 自訂游標：pill＝library mkBtn 跟隨滑鼠（內容不放大不模糊），整個 frame 可點另開 GitHub
+    const gFrame=view.querySelector('#gdHeroFrame');
+    const gCur=view.querySelector('#gdHeroCursor');
+    if(gFrame&&gCur){
+      const pill=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});pill.type='button';
+      pill.querySelector('span').textContent='在 GitHub 查看完整流程';
+      pill.insertAdjacentHTML('afterbegin',ICON_GITHUB);
+      pill.style.pointerEvents='none';
+      gCur.appendChild(pill);
+      gFrame.addEventListener('mouseenter',()=>gFrame.classList.add('cur-on'));
+      gFrame.addEventListener('mouseleave',()=>gFrame.classList.remove('cur-on'));
+      gFrame.addEventListener('mousemove',e=>{const r=gFrame.getBoundingClientRect();
+        gCur.style.transform='translate('+(e.clientX-r.left)+'px,'+(e.clientY-r.top)+'px) translate(-50%,-50%)';});
+      gFrame.addEventListener('click',()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener'));
+    }
+    // hero 背景網格互動（cula.tech 風）：滑鼠滑過時用 radial mask 在游標半徑內透出網格線
+    const gHero=view.querySelector('#gdHero');const gGrid=view.querySelector('#gdHeroGrid');
+    if(gHero&&gGrid){
+      gHero.addEventListener('mousemove',e=>{const r=gHero.getBoundingClientRect();
+        gGrid.style.setProperty('--mx',(e.clientX-r.left)+'px');
+        gGrid.style.setProperty('--my',(e.clientY-r.top)+'px');});
+    }
     // 首屏 hero 兩顆 CTA：主要＝編輯 Token（solid primary）、次要＝瀏覽元件（solid secondary：淺色近白底／深色近黑底，凸顯於漸層上）；都用 library mkBtn 原子，不手拼 class
     const heroCta=view.querySelector('#gdHeroCta');
     if(heroCta){
