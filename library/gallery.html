@@ -2783,6 +2783,8 @@
   .ds-badge-proj{font-weight:600;font-size:var(--fs-h11);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ds-badge-proj.full{max-width:none;overflow:visible;} /* 母庫提示文案完整呈現、不截斷 */
   @media(max-width:900px){.ds-badge-proj,.ds-badge-lbl{display:none;}}
+  .ds-badge .gh-topbar{margin-right:var(--sp-2);}                       /* GitHub 入口與 CTA 間距 */
+  @media(max-width:767px){.gh-topbar{display:none;}}                    /* 手機 topbar 空間有限，隱藏 GitHub 入口 */
   .theme-toggle-left{margin-left:var(--sp-4);}
   /* Studio 版本彈窗（Phase F：專案元件庫版本化）*/
   .ds-ovl{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 45%,transparent);display:flex;align-items:center;justify-content:center;z-index:9999;padding:var(--sp-5);}
@@ -2874,33 +2876,57 @@
   .gd-dlgm-f{padding:8px 12px;display:flex;justify-content:flex-end;gap:8px;}
   .gd-flow{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;}
   .gd-step{flex:1 0 auto;min-width:98px;border:1px solid var(--line);border-radius:var(--r-sm);padding:10px;background:var(--panel-2);}
-  .gd-step-n{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);}
-  .gd-step-t{font-size:var(--fs-h11);margin-top:4px;color:var(--ink);}
+  .gd-step-n{font-family:var(--font-mono);font-size:var(--fs-h10);color:var(--muted);}  /* 編號放大兩級 h12→h10 */
+  .gd-step-t{font-size:var(--fs-h10);margin-top:4px;color:var(--ink);}  /* 名稱放大一級 h11→h10 */
   .gd-step.now{border-color:transparent;background:var(--accent);}
   .gd-step.now .gd-step-n,.gd-step.now .gd-step-t{color:var(--primary-on);}
   .gd-flow-note{margin-top:var(--sp-4);color:var(--muted);font-size:var(--fs-h10);line-height:1.6;}
   /* 流程總覽：摘要描述 ＋ MacBook 正面 mockup（內含 GitHub repo 畫面示意）*/
   .gd-flow-desc{color:var(--muted);font-size:var(--fs-h10);line-height:1.75;margin:0 0 var(--sp-3);}
-  .gd-mac{display:flex;flex-direction:column;align-items:center;margin:var(--sp-5) 0 var(--sp-6);}
-  .gd-mac-screen{width:100%;max-width:580px;box-sizing:border-box;background:#17171a;border-radius:11px 11px 4px 4px;padding:12px;box-shadow:0 16px 44px color-mix(in srgb,var(--ink) 24%,transparent);}
-  .gd-mac-inner{background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid #000;}
+  .gd-mac{display:flex;flex-direction:column;align-items:center;margin:40px 0;}  /* 上下各 40px 留白 */
+  .gd-mac-screen{position:relative;width:100%;max-width:580px;box-sizing:border-box;background:#17171a;border-radius:11px 11px 4px 4px;padding:12px;box-shadow:0 16px 44px color-mix(in srgb,var(--ink) 24%,transparent);}
+  .gd-mac-inner{position:relative;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid #000;}
   .gd-mac-base{width:min(100%,668px);height:13px;background:linear-gradient(180deg,#cbced3,#a6aab1);border-radius:0 0 12px 12px;position:relative;box-shadow:0 3px 6px color-mix(in srgb,var(--ink) 20%,transparent);}
   .gd-mac-base::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:6px;background:#8d919a;border-radius:0 0 7px 7px;}
+  /* 深色模式：外層再疊一圈低模糊邊緣光（1px 亮邊＋14px 亮暈），避免電腦與深底融合 */
+  @media(prefers-color-scheme:dark){.gd-mac-screen{box-shadow:0 18px 44px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.10),0 0 14px 1px rgba(255,255,255,.13);}}
+  :root[data-theme="dark"] .gd-mac-screen{box-shadow:0 18px 44px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.10),0 0 14px 1px rgba(255,255,255,.13);}
+  :root[data-theme="light"] .gd-mac-screen{box-shadow:0 16px 44px color-mix(in srgb,var(--ink) 24%,transparent);}
+  /* hover mockup：螢幕變暗 ＋ 中央 CTA 淡入 */
+  .gd-mac-dim{position:absolute;inset:0;background:rgba(8,10,14,.62);opacity:0;transition:opacity .25s ease;pointer-events:none;z-index:2;}
+  .gd-mac-cta{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);opacity:0;transition:opacity .25s ease,transform .25s ease;pointer-events:none;z-index:3;}
+  .gd-mac:hover .gd-mac-dim{opacity:1;}
+  .gd-mac:hover .gd-mac-cta{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
   .gd-gh-bar{display:flex;align-items:center;gap:6px;padding:8px 11px;background:var(--panel-2);border-bottom:1px solid var(--line);}
   .gd-gh-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
-  .gd-gh-url{margin-left:8px;flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 11px;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .gd-gh-url{margin-left:8px;flex:1;min-width:0;display:flex;align-items:center;gap:5px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 11px;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);white-space:nowrap;overflow:hidden;}
+  .gd-gh-lock{font-size:9px;opacity:.7;}
   .gd-gh-body{padding:var(--sp-5) var(--sp-5) var(--sp-6);}
-  .gd-gh-repo{display:flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h8);color:var(--ink);flex-wrap:wrap;}
-  .gd-gh-repo b{font-weight:600;}
-  .gd-gh-ico{font-size:var(--fs-h7);line-height:1;}
-  .gd-gh-badge{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:1px 8px;}
-  .gd-gh-desc{font-size:var(--fs-h11);color:var(--muted);margin:var(--sp-3) 0 var(--sp-5);line-height:1.5;}
+  .gd-gh-head{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;}
+  .gd-gh-repo{display:flex;align-items:center;gap:6px;font-size:var(--fs-h8);color:var(--ink);min-width:0;}
+  .gd-gh-repoic{display:inline-flex;color:var(--muted);flex:0 0 auto;}
+  .gd-gh-repoic svg{width:16px;height:16px;display:block;}
+  .gd-gh-owner{color:var(--muted);font-weight:400;}
+  .gd-gh-name{color:var(--accent);font-weight:600;}
+  .gd-gh-badge{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:1px 8px;flex:0 0 auto;}
+  .gd-gh-actions{display:flex;align-items:center;gap:6px;flex:0 0 auto;}
+  .gd-gh-abtn{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-h12);font-weight:600;color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:3px 9px;white-space:nowrap;}
+  .gd-gh-abtn svg{width:13px;height:13px;}
+  .gd-gh-code{background:#1f883d;border-color:#1f883d;color:#fff;}
+  .gd-gh-desc{font-size:var(--fs-h11);color:var(--muted);margin:var(--sp-3) 0 var(--sp-4);line-height:1.5;}
+  .gd-gh-sub{display:flex;align-items:center;gap:var(--sp-4);margin-bottom:var(--sp-3);font-size:var(--fs-h11);}
+  .gd-gh-branch{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--ink);}
+  .gd-gh-branch svg{width:14px;height:14px;color:var(--muted);}
+  .gd-gh-commits{color:var(--muted);}
   .gd-gh-files{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;}
-  .gd-gh-file{display:flex;align-items:center;gap:var(--sp-3);padding:8px var(--sp-4);border-bottom:1px solid var(--line);font-size:var(--fs-h11);}
+  .gd-gh-file{display:flex;align-items:center;gap:var(--sp-3);padding:7px var(--sp-4);border-bottom:1px solid var(--line);font-size:var(--fs-h11);}
   .gd-gh-file:last-child{border-bottom:none;}
-  .gd-gh-fico{flex:0 0 auto;line-height:1;}
-  .gd-gh-fn{color:var(--ink);font-weight:500;font-family:var(--font-mono);}
-  .gd-gh-fm{margin-left:auto;color:var(--faint);font-size:var(--fs-h12);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .gd-gh-fico{flex:0 0 auto;display:inline-flex;color:var(--muted);}
+  .gd-gh-fico svg{width:16px;height:16px;display:block;}
+  .gd-gh-folder{color:#54aeff;}
+  .gd-gh-fn{color:var(--ink);font-weight:500;font-family:var(--font-mono);flex:0 0 auto;}
+  .gd-gh-fmsg{flex:1;min-width:0;color:var(--muted);font-size:var(--fs-h12);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .gd-gh-ft{flex:0 0 auto;color:var(--faint);font-size:var(--fs-h12);white-space:nowrap;padding-left:var(--sp-3);}
   .gd-faq{display:flex;flex-direction:column;gap:var(--sp-3);}
   .gd-faq-item{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;}
   .gd-faq-q{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-weight:600;font-size:var(--fs-h9);color:var(--ink);padding:var(--sp-4) var(--sp-5);font-family:var(--font-sans);}
@@ -8613,7 +8639,7 @@ function buildScheduleChart(view){
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
   function renderGuide(view){
     view.innerHTML = `
-      <div class="sum-top"><div class="sum-head"><p class="eyebrow">上手指南 · Getting Started</p><h1>五分鐘看懂這個元件庫</h1></div></div>
+      <div class="sum-top"><div class="sum-head"><p class="eyebrow">上手指南 · Getting Started</p><h1>什麼是 Cool-DS-Library？</h1></div></div>
       <p class="lede">這是 Goons 的設計系統元件庫。你在這裡<b>挑元件、調 token、預覽整體效果</b>，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
       <div class="head-rule"></div>
 
@@ -8621,20 +8647,28 @@ function buildScheduleChart(view){
         <div class="gd-sec-h"><span class="gd-sec-n">01</span><h2 class="gd-sec-t">整套流程總覽</h2></div>
         <p class="gd-flow-desc">這是一套「<b>設計系統即工作流</b>」的框架——把設計系統的治理規範、元件庫網站、Figma 雙向同步整合成<b>同一個 GitHub repo</b>：同事只要把網址丟給 Claude Code，就能照著跑一個新專案。整條線從品牌訪談、token／元件提案，到<b>在這個網站選取定案</b>，再產出程式碼、寫進 Figma、兩邊同步。你（設計師）主要負責下面標記「你在這」的<b>第 3 步</b>，前後由 Claude 接手。</p>
         <div class="gd-mac">
-          <div class="gd-mac-screen"><div class="gd-mac-inner">
-            <div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url">github.com/edward890131/cool-ds-library</span></div>
-            <div class="gd-gh-body">
-              <div class="gd-gh-repo"><span class="gd-gh-ico">📦</span><span><b>edward890131</b> / <b>cool-ds-library</b></span><span class="gd-gh-badge">Public</span></div>
-              <p class="gd-gh-desc">設計系統框架 ＋ 元件庫網站 ＋ Figma 雙向同步，整合成一條可重複執行的工作流。</p>
-              <div class="gd-gh-files">
-                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">framework</span><span class="gd-gh-fm">治理規範快照</span></div>
-                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">library</span><span class="gd-gh-fm">元件庫網站 gallery.html</span></div>
-                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">sync</span><span class="gd-gh-fm">Figma 雙向同步腳本</span></div>
-                <div class="gd-gh-file"><span class="gd-gh-fico">📁</span><span class="gd-gh-fn">projects</span><span class="gd-gh-fm">各專案狀態與輸出</span></div>
-                <div class="gd-gh-file"><span class="gd-gh-fico">📄</span><span class="gd-gh-fn">README.md</span><span class="gd-gh-fm">架構說明</span></div>
+          <div class="gd-mac-screen">
+            <div class="gd-mac-inner">
+              <div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url"><span class="gd-gh-lock">🔒</span>github.com/edward890131/cool-ds-library</span></div>
+              <div class="gd-gh-body">
+                <div class="gd-gh-head">
+                  <div class="gd-gh-repo"><span class="gd-gh-repoic"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></svg></span><span class="gd-gh-owner">edward890131 /</span> <b class="gd-gh-name">cool-ds-library</b><span class="gd-gh-badge">Public</span></div>
+                  <div class="gd-gh-actions"><span class="gd-gh-abtn"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>Star</span><span class="gd-gh-abtn gd-gh-code"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4.72 3.22a.75.75 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L.47 8.53a.75.75 0 0 1 0-1.06Zm6.56 0a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L13.94 8l-3.72-3.72a.75.75 0 0 1 0-1.06Z"/></svg>Code</span></div>
+                </div>
+                <p class="gd-gh-desc">設計系統框架 ＋ 元件庫網站 ＋ Figma 雙向同步，整合成一條可重複執行的工作流。</p>
+                <div class="gd-gh-sub"><span class="gd-gh-branch"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M9.5 3.25a2.25 2.25 0 1 1 3 2.122V6A2.5 2.5 0 0 1 10 8.5H6a1 1 0 0 0-1 1v1.128a2.251 2.251 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.5 0v1.836A2.493 2.493 0 0 1 6 7h4a1 1 0 0 0 1-1v-.628A2.25 2.25 0 0 1 9.5 3.25Z"/></svg>main</span><span class="gd-gh-commits">35 commits</span></div>
+                <div class="gd-gh-files">
+                  <div class="gd-gh-file"><span class="gd-gh-fico gd-gh-folder"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg></span><span class="gd-gh-fn">framework</span><span class="gd-gh-fmsg">Phase E：sync 雙向同步落地</span><span class="gd-gh-ft">5 days ago</span></div>
+                  <div class="gd-gh-file"><span class="gd-gh-fico gd-gh-folder"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg></span><span class="gd-gh-fn">library</span><span class="gd-gh-fmsg">元件級 token 綁定加開字級槽</span><span class="gd-gh-ft">1 hour ago</span></div>
+                  <div class="gd-gh-file"><span class="gd-gh-fico gd-gh-folder"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg></span><span class="gd-gh-fn">sync</span><span class="gd-gh-fmsg">元件庫多項功能：字級 12 階、停用清單…</span><span class="gd-gh-ft">2 days ago</span></div>
+                  <div class="gd-gh-file"><span class="gd-gh-fico gd-gh-folder"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg></span><span class="gd-gh-fn">projects</span><span class="gd-gh-fmsg">元件庫多項功能：字級 12 階、停用清單…</span><span class="gd-gh-ft">2 days ago</span></div>
+                  <div class="gd-gh-file"><span class="gd-gh-fico"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg></span><span class="gd-gh-fn">README.md</span><span class="gd-gh-fmsg">README 補指向 QUICKSTART、線上網址…</span><span class="gd-gh-ft">yesterday</span></div>
+                </div>
               </div>
+              <div class="gd-mac-dim"></div>
+              <div class="gd-mac-cta" id="gdGh"></div>
             </div>
-          </div></div>
+          </div>
           <div class="gd-mac-base"></div>
         </div>
         <div class="gd-flow">
@@ -8646,7 +8680,6 @@ function buildScheduleChart(view){
           <div class="gd-step"><div class="gd-step-n">06</div><div class="gd-step-t">Claude 寫進 Figma</div></div>
           <div class="gd-step"><div class="gd-step-n">07</div><div class="gd-step-t">Figma ↔ 程式碼雙向同步</div></div>
         </div>
-        <div id="gdGh"></div>
       </section>
 
       <section class="gd-sec">
@@ -8771,11 +8804,10 @@ function buildScheduleChart(view){
     const foot=view.querySelector('#gdDlgFoot');
     if(foot){const c=mkBtn({variant:'outline',intent:'secondary',size:'s'});c.querySelector('span').textContent='取消';const k=mkBtn({variant:'solid',intent:'primary',size:'s'});k.querySelector('span').textContent='確定更新';foot.append(c,k);}
     // section 07 → GitHub 原始碼導連：用 library 按鈕原子（mkBtn），非手刻樣式；另開新分頁
-    const gh=view.querySelector('#gdGh');
-    if(gh){const g=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});
+    const gh=view.querySelector('#gdGh');   // 螢幕中央 overlay CTA：hover mockup 才淡入（實心鈕在變暗螢幕上顯眼）
+    if(gh){const g=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});
       g.querySelector('span').textContent='在 GitHub 查看完整流程';
       g.insertAdjacentHTML('afterbegin',ICON_GITHUB);       // 前置 GitHub icon（吃 .btn svg 的 1.15em 尺寸與 currentColor）
-      g.style.marginTop='var(--sp-5)';
       g.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
       gh.appendChild(g);}
     // FAQ 展開收合（＋／− 由 CSS ::before 依 collapsed 狀態切換，JS 只負責 toggle）
@@ -9557,6 +9589,10 @@ function buildScheduleChart(view){
     const tb=document.querySelector('.topbar'); if(!tb||document.getElementById('dsBadge'))return;
     const wrap=document.createElement('div');wrap.id='dsBadge';wrap.className='ds-badge';
     wrap.innerHTML='<span class="ds-badge-proj'+(proj?'':' full')+'" id="dsBadgeProj">'+(proj||'此為母元件庫，若需更新請調整原始檔')+'</span>';
+    const ghb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});ghb.type='button';ghb.classList.add('gh-topbar'); // CTA 左邊的 GitHub 外連入口（library 外框次要原子）
+    ghb.querySelector('span').textContent='Github';ghb.insertAdjacentHTML('afterbegin',ICON_GITHUB);
+    ghb.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
+    wrap.appendChild(ghb);
     const btn=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});btn.type='button';btn.id='dsExportBtn';btn.onclick=dsSave; // 兩模式都 s
     wrap.appendChild(btn);
     tb.appendChild(wrap); // 匯出 badge 靠右（spacer 後）
