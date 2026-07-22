@@ -674,7 +674,7 @@
   :root{--ok:var(--s-feedback-success);--ok-tint:var(--s-feedback-success-tint);--warn:var(--s-feedback-warning);}
 
   /* ===== input ===== */
-  .field{display:inline-flex;align-items:center;gap:var(--sp-3);height:36px;padding:0 var(--sp-3);border-radius:var(--r-sm);
+  .field{display:inline-flex;align-items:center;gap:var(--field-gap,var(--sp-3));height:36px;padding:0 var(--field-pad-x,var(--sp-3));border-radius:var(--field-radius,var(--r-sm));
     border:0.75px solid var(--i-sec-edge);background:var(--panel);color:var(--ink);font-size:var(--fs-h10);min-width:220px;
     font-family:var(--font-sans);transition:border-color .13s,box-shadow .13s,background .13s;}
   .field .ph{color:var(--faint);flex:1;} .field .val{color:var(--ink);flex:1;}
@@ -760,8 +760,8 @@
   .ddcaret.up{transform:rotate(180deg);}
   .ddwrap{position:relative;display:inline-block;min-width:260px;}
   .ddmenu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;background:var(--panel);border:1px solid var(--line-strong);
-    border-radius:var(--r-sm);box-shadow:0 10px 30px rgba(0,0,0,.16);padding:var(--sp-1);max-height:240px;overflow-y:auto;}
-  .ddopt{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-radius:var(--r-sm);font-size:var(--fs-h11);color:var(--ink);cursor:pointer;}
+    border-radius:var(--ddmenu-radius,var(--r-sm));box-shadow:0 10px 30px rgba(0,0,0,.16);padding:var(--sp-1);max-height:240px;overflow-y:auto;}
+  .ddopt{display:flex;align-items:center;gap:var(--ddopt-gap,var(--sp-3));padding:var(--sp-3) var(--ddopt-pad-x,var(--sp-4));border-radius:var(--r-sm);font-size:var(--fs-h11);color:var(--ink);cursor:pointer;}
   .ddopt:hover{background:var(--i-primary-tint);color:var(--accent);}
   .ddopt.sel{color:var(--accent);font-weight:600;}
   .ddsearch{width:100%;box-sizing:border-box;height:34px;padding:0 var(--sp-3);margin-bottom:var(--sp-1);border:1px solid var(--i-sec-edge);
@@ -829,15 +829,15 @@
   .tabbar{display:inline-flex;align-items:stretch;gap:2px;}
   .tabbar.v-line{gap:0;border-bottom:1px solid var(--line);}
   .tabbar.v-contained{gap:var(--sp-2);} .tabbar.v-pill{gap:var(--sp-1);background:var(--panel-2);padding:var(--sp-1);border-radius:var(--r-pill);}
-  .tabi{display:inline-flex;align-items:center;gap:var(--sp-2);height:38px;padding:0 var(--sp-5);font-size:var(--fs-h11);font-weight:600;
+  .tabi{display:inline-flex;align-items:center;gap:var(--tab-gap,var(--sp-2));height:38px;padding:0 var(--tab-pad-x,var(--sp-5));font-size:var(--fs-h11);font-weight:600;
     color:var(--muted);cursor:pointer;border:1px solid transparent;background:transparent;font-family:var(--font-sans);transition:.12s;white-space:nowrap;}
   .v-line .tabi{border-radius:0;margin-bottom:-1px;box-shadow:inset 0 -2px 0 transparent;}
   .v-line .tabi.st-hover{color:var(--ink);}
   .v-line .tabi.st-active{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent);}
-  .v-contained .tabi{border:1px solid var(--line);border-radius:var(--r-pill);} /* 容器 variant：全圓角 */
+  .v-contained .tabi{border:1px solid var(--line);border-radius:var(--tab-radius,var(--r-pill));} /* 容器 variant：全圓角 */
   .v-contained .tabi.st-hover{background:var(--panel-2);color:var(--ink);}
   .v-contained .tabi.st-active{background:var(--accent);color:var(--primary-on);border-color:var(--accent);}
-  .v-pill .tabi{border-radius:var(--r-pill);}
+  .v-pill .tabi{border-radius:var(--tab-radius,var(--r-pill));}
   .v-pill .tabi.st-hover{color:var(--ink);}
   .v-pill .tabi.st-active{background:var(--panel);color:var(--accent);box-shadow:0 1px 2px rgba(0,0,0,.08);}
   .tabi.st-disabled{opacity:.4;cursor:not-allowed;}
@@ -912,7 +912,7 @@
 /* solid 提示泡泡：深底白字，用 --ink/--canvas 反相 → 深淺色自動可讀，不需 feedback hex。
    TODO: 待接 semantic.*.tooltip.surface / .text token 後改綁 token */
 .tt-tip{position:relative;display:inline-block;max-width:220px;background:var(--ink);color:var(--canvas);
-  font-family:var(--font-sans);line-height:1.45;border-radius:var(--r-sm);
+  font-family:var(--font-sans);line-height:1.45;border-radius:var(--tt-radius,var(--r-sm));
   box-shadow:0 4px 14px rgba(0,0,0,.20);word-break:break-word;}
 .tt-tip.tt-sz-s{font-size:var(--fs-h12);padding:var(--sp-1) var(--sp-3);border-radius:var(--r-sm);letter-spacing:.01em;}
 .tt-tip.tt-sz-m{font-size:var(--fs-h11);padding:var(--sp-3) var(--sp-4);}
@@ -949,8 +949,8 @@
 .nt-i-error{--nt-c:#E5484D;--nt-solid:#D93A3F;--nt-soft:rgba(229,72,77,.13);--nt-soft-edge:rgba(229,72,77,.34);}
 .nt-i-info{--nt-c:#3B82F6;--nt-solid:#2E6FE0;--nt-soft:rgba(59,130,246,.13);--nt-soft-edge:rgba(59,130,246,.34);}
 
-.nt-toast{position:relative;display:flex;gap:var(--sp-3);align-items:flex-start;min-width:220px;max-width:360px;
-  padding:var(--sp-4) var(--sp-4);border-radius:var(--radius);box-shadow:0 6px 20px rgba(0,0,0,.10);
+.nt-toast{position:relative;display:flex;gap:var(--nt-gap,var(--sp-3));align-items:flex-start;min-width:220px;max-width:360px;
+  padding:var(--nt-pad,var(--sp-4)) var(--nt-pad,var(--sp-4));border-radius:var(--nt-radius,var(--radius));box-shadow:0 6px 20px rgba(0,0,0,.10);
   font-family:var(--font-sans);box-sizing:border-box;}
 .nt-ico{flex:0 0 auto;display:inline-flex;width:20px;height:20px;margin-top:1px;color:var(--nt-c);}
 .nt-ico svg{width:20px;height:20px;display:block;}
@@ -1019,11 +1019,11 @@
 :root[data-theme="light"] .sk{--sk-sheen:rgba(255,255,255,.55);}
 
 /* shape：文字列（圓角細條）／矩形（中圓角）／圓形（正圓） */
-.sk-text{border-radius:var(--r-sm);width:112px;max-width:100%;}
+.sk-text{border-radius:var(--sk-radius,var(--r-sm));width:112px;max-width:100%;}
 .sk-text.sk-sz-s{height:8px;}
 .sk-text.sk-sz-m{height:12px;}
 .sk-text.sk-sz-l{height:16px;}
-.sk-rectangle{border-radius:var(--r-sm);}
+.sk-rectangle{border-radius:var(--sk-radius,var(--r-sm));}
 .sk-rectangle.sk-sz-s{width:56px;height:34px;}
 .sk-rectangle.sk-sz-m{width:84px;height:52px;}
 .sk-rectangle.sk-sz-l{width:112px;height:72px;}
@@ -1067,7 +1067,7 @@
 /* ===== Loader 載入器（前綴 ld-）===== */
 /* NOTE: loader 只用 neutral / primary，兩者都有 token；本頁不需 feedback 色。
    TODO: 若日後 loader 要吃 success/warning/info，需先接 semantic.*.feedback token，勿寫死 hex。 */
-.ld-wrap{display:inline-flex;align-items:center;gap:var(--sp-3);}
+.ld-wrap{display:inline-flex;align-items:center;gap:var(--ld-gap,var(--sp-3));}
 .ld-wrap.ld-inline{gap:var(--sp-2);vertical-align:middle;}
 .ld-label{font:500 13px/1.2 var(--font-sans);color:var(--muted);white-space:nowrap;}
 .ld-pct{font:600 12px/1 var(--font-mono);color:var(--muted);min-width:34px;text-align:right;}
@@ -1116,7 +1116,7 @@
 
 /* ===== menu (mn-) ===== */
 /* ===== Menu 選單 ===== */
-  .mn-item{position:relative;display:inline-flex;align-items:center;gap:var(--sp-3);font-family:var(--font-sans);color:var(--muted);background:transparent;border:0;border-radius:var(--r-sm);cursor:pointer;white-space:nowrap;user-select:none;line-height:1.2;transition:background .12s,color .12s;}
+  .mn-item{position:relative;display:inline-flex;align-items:center;gap:var(--mn-gap,var(--sp-3));font-family:var(--font-sans);color:var(--muted);background:transparent;border:0;border-radius:var(--mn-item-radius,var(--r-sm));cursor:pointer;white-space:nowrap;user-select:none;line-height:1.2;transition:background .12s,color .12s;}
   .mn-item--s{padding:var(--sp-2) var(--sp-3);font-size:var(--fs-h11);}
   .mn-item--m{padding:var(--sp-3) var(--sp-4);font-size:var(--fs-h10);}
   .mn-item--l{padding:var(--sp-4) var(--sp-5);font-size:var(--fs-h9);}
@@ -1148,7 +1148,7 @@
   .am-panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 10px 28px rgba(0,0,0,.16);padding:var(--sp-2);display:flex;flex-direction:column;gap:2px;min-height:max-content;height:max-content;flex:0 0 auto;} /* min-height+height:max-content＋flex:0 0 auto 修正：巢狀 flex column 面板在 grid／flex 容器內被算成單列高、內容溢出，撐回內容高並不被父容器壓縮（矩陣／Live／匯出卡三處通用） */
   .am-panel>.am-item,.am-panel>.am-divider{flex:0 0 auto;} /* 面板被高度限縮時 item 不垂直壓縮 */
   .am-panel.sz-s{min-width:132px;} .am-panel.sz-m{min-width:170px;} .am-panel.sz-l{min-width:210px;}
-  .am-item{display:flex;align-items:center;gap:var(--sp-3);min-width:118px;padding:var(--sp-2);border-radius:var(--r-sm);border:1px solid transparent;font-family:var(--font-sans);font-size:var(--fs-h10);line-height:1.2;color:var(--ink);cursor:pointer;user-select:none;white-space:nowrap;}
+  .am-item{display:flex;align-items:center;gap:var(--am-gap,var(--sp-3));min-width:118px;padding:var(--am-item-pad,var(--sp-2));border-radius:var(--am-item-radius,var(--r-sm));border:1px solid transparent;font-family:var(--font-sans);font-size:var(--fs-h10);line-height:1.2;color:var(--ink);cursor:pointer;user-select:none;white-space:nowrap;}
   .am-item svg{width:16px;height:16px;flex:0 0 auto;color:var(--muted);}
   .am-item .am-lb{flex:1 1 auto;}
   .am-item.st-hover{background:var(--panel-2);}
@@ -1171,7 +1171,7 @@
 
 /* ===== breadcrumb (bc-) ===== */
 /* ---- BREADCRUMB 麵包屑 ---- */
-  .bc-trail{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-3);font-family:var(--font-sans);font-size:var(--fs-h10);line-height:1.5;}
+  .bc-trail{display:flex;flex-wrap:wrap;align-items:center;gap:var(--bc-gap,var(--sp-3));font-family:var(--font-sans);font-size:var(--fs-h10);line-height:1.5;}
   .bc-item{color:var(--muted);cursor:pointer;text-decoration:none;transition:color .12s ease;}
   .bc-item:hover,.bc-item.bc-hover{color:var(--accent);}
   .bc-item.bc-current{color:var(--ink);font-weight:600;cursor:default;text-decoration:none;}
@@ -1183,8 +1183,8 @@
 
 /* ===== pagination (pg-) ===== */
 /* ---- PAGINATION 分頁器 ---- */
-  .pg-bar{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap;font-family:var(--font-sans);}
-  .pg-btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;background:transparent;color:var(--ink);border:1px solid transparent;border-radius:var(--r-sm);font-family:var(--font-sans);font-weight:600;line-height:1;cursor:pointer;padding:0;transition:background .12s,border-color .12s,color .12s;}
+  .pg-bar{display:flex;align-items:center;gap:var(--pg-gap,var(--sp-2));flex-wrap:wrap;font-family:var(--font-sans);}
+  .pg-btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;background:transparent;color:var(--ink);border:1px solid transparent;border-radius:var(--pg-btn-radius,var(--r-sm));font-family:var(--font-sans);font-weight:600;line-height:1;cursor:pointer;padding:0;transition:background .12s,border-color .12s,color .12s;}
   .pg-btn.pg-sz-s{min-width:28px;height:28px;font-size:var(--fs-h11);}
   .pg-btn.pg-sz-m{min-width:34px;height:34px;font-size:var(--fs-h11);}
   .pg-btn.pg-sz-l{min-width:40px;height:40px;font-size:var(--fs-h9);}
@@ -1222,7 +1222,7 @@
   .ic-inline{display:inline-flex;align-items:center;gap:var(--sp-2);font-family:var(--font-sans);font-size:var(--fs-h10);color:var(--ink);line-height:1.4;}
 
 /* ===== price (pr-) ===== */
-.pr-price{display:inline-flex;align-items:baseline;gap:var(--sp-2);font-family:var(--font-sans);color:var(--ink);font-weight:600;line-height:1.1;white-space:nowrap;}
+.pr-price{display:inline-flex;align-items:baseline;gap:var(--pr-gap,var(--sp-2));font-family:var(--font-sans);color:var(--ink);font-weight:600;line-height:1.1;white-space:nowrap;}
 .pr-price .pr-cur{font-weight:600;color:var(--muted);font-size:.68em;}
 .pr-sz-sm{font-size:var(--fs-h9);}
 .pr-sz-md{font-size:var(--fs-h7);}
@@ -1261,7 +1261,7 @@
 .im-box{position:relative;overflow:hidden;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;background:var(--panel-2);border:1px solid var(--line);aspect-ratio:1;}
 /* 形狀 variant：矩形（小圓角）／圓角（中圓角）／圓形（正圓） */
 .im-rectangular{border-radius:var(--r-sm);}
-.im-rounded{border-radius:var(--r-lg);}
+.im-rounded{border-radius:var(--im-radius,var(--r-lg));}
 .im-circular{border-radius:50%;}
 /* 尺寸 size → 正方邊長 */
 .im-sz-s{height:40px;}
@@ -1293,8 +1293,8 @@
 /* ===== header (Complex) ===== */
 /* ==================== header 頁首 ==================== */
   /* 整條頁首 bar：面板底 + 描邊 + 圓角；compact 收縮高度與間距 */
-  .hdr-bar{display:flex;align-items:center;gap:var(--sp-5);height:60px;padding:0 var(--sp-4);width:100%;box-sizing:border-box;
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);}
+  .hdr-bar{display:flex;align-items:center;gap:var(--hdr-gap,var(--sp-5));height:60px;padding:0 var(--hdr-pad-x,var(--sp-4));width:100%;box-sizing:border-box;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--hdr-radius,var(--radius));}
   /* logo：複用 topbar 的 Goons 官方字標 svg */
   .hdr-logo{display:inline-flex;align-items:center;flex:0 0 auto;color:var(--ink);}
   .hdr-logo svg,.hdr-logo img{width:72px;height:auto;display:block;}
@@ -1325,8 +1325,8 @@
 /* ===== footer (Complex) ===== */
 /* ==================== FOOTER 頁尾 ==================== */
   /* 整條頁尾容器：整頁寬版、頂部一條分隔線、走 token 深淺自適應 */
-  .ftr-foot{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-    padding:var(--sp-5);color:var(--muted);font-family:var(--font-sans);overflow:hidden;display:block;margin-top:0;}
+  .ftr-foot{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:var(--ftr-radius,var(--radius));
+    padding:var(--ftr-pad,var(--sp-5));color:var(--muted);font-family:var(--font-sans);overflow:hidden;display:block;margin-top:0;}
   .ftr-foot + .ftr-foot{margin-top:var(--sp-6);}
   .ftr-foot.ftr-v-simple{padding:var(--sp-4);}
   .ftr-foot.ftr-v-minimal{padding:var(--sp-4);}
@@ -1386,7 +1386,7 @@
 /* ===== section-head (Complex) ===== */
 /* ==================== section-head 區段標題 ==================== */
 /* 內容區塊上方的標題列：eyebrow（可選）+ 主標 + 副標 +（可選）右側動作 / 計數 / 底線 */
-.sch-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-5);width:100%;padding:2px 0;font-family:var(--font-sans);}
+.sch-head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sch-gap,var(--sp-5));width:100%;padding:2px 0;font-family:var(--font-sans);}
 .sch-head.sch-divider{border-bottom:1px solid var(--line);padding-bottom:var(--sp-4);}
 .sch-main{display:flex;flex-direction:column;gap:var(--sp-2);min-width:0;}
 .sch-eyebrow{margin-bottom:2px;}
@@ -1420,9 +1420,9 @@
 /* ===== list (Complex) ===== */
 /* ==================== list 列表 ==================== */
   /* 單列 list-item：左 leading（icon／圓形 avatar）＋ 中 title／描述 ＋ 右 trailing（meta／動作鈕／caret） */
-  .lst-solo{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
-  .lst-group{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
-  .lst-item{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3);position:relative;
+  .lst-solo{background:var(--panel);border:1px solid var(--line);border-radius:var(--lst-radius,var(--radius));overflow:hidden;}
+  .lst-group{background:var(--panel);border:1px solid var(--line);border-radius:var(--lst-radius,var(--radius));overflow:hidden;}
+  .lst-item{display:flex;align-items:center;gap:var(--lst-item-gap,var(--sp-4));padding:var(--lst-item-pad,var(--sp-3));position:relative;
     font-family:var(--font-sans);background:transparent;transition:background .12s;cursor:pointer;}
   /* hover：滑過底色轉深一階；同時支援靜態 class（矩陣）與真實 :hover（Live／整組） */
   .lst-item.is-hover,
@@ -1515,7 +1515,7 @@
 /* ==================== collapse 摺疊 / 手風琴 ==================== */
   /* 單一摺疊面板：header 列（標題 + 右側 caret）+ 展開後的 body */
   .cps-panel{font-family:var(--font-sans);background:var(--panel);overflow:hidden;width:100%;box-sizing:border-box;}
-  .cps-head{display:flex;align-items:center;gap:var(--sp-3);width:100%;padding:var(--sp-4);background:none;border:none;font-family:inherit;color:var(--ink);text-align:left;cursor:default;user-select:none;}
+  .cps-head{display:flex;align-items:center;gap:var(--cps-head-gap,var(--sp-3));width:100%;padding:var(--cps-head-pad,var(--sp-4));background:none;border:none;font-family:inherit;color:var(--ink);text-align:left;cursor:default;user-select:none;}
   .cps-head-btn{cursor:pointer;}
   .cps-head-btn:hover{background:var(--panel-2);}
   .cps-panel.v-filled .cps-head-btn:hover{background:var(--panel-3);}
@@ -1539,9 +1539,9 @@
 
   /* ---- variant 風格 ---- */
   /* bordered 外框：有外框 + 圓角 */
-  .cps-panel.v-bordered{border:1px solid var(--line);border-radius:var(--radius);}
+  .cps-panel.v-bordered{border:1px solid var(--line);border-radius:var(--cps-radius,var(--radius));}
   /* filled 填色：整張 panel 填 --panel-2 底（head + body 同一塊色卡，展開後 body 維持填色） */
-  .cps-panel.v-filled{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel-2);}
+  .cps-panel.v-filled{border:1px solid var(--line);border-radius:var(--cps-radius,var(--radius));background:var(--panel-2);}
   /* plain 極簡：只有底部分隔線、無框無圓角 */
   .cps-panel.v-plain{border-bottom:1px solid var(--line);border-radius:0;background:none;}
 
@@ -1573,7 +1573,7 @@
 /* ==================== modal 對話框 ==================== */
   /* 對話框卡片：兩種 kind（popup 小彈窗／modal 大視窗）共用浮層外框（矩陣為靜態縮小示意、Live 為真浮層） */
   .mdl-card{position:relative;display:flex;flex-direction:column;
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--mdl-radius,var(--radius));
     box-shadow:0 12px 34px rgba(0,0,0,.20);overflow:hidden;}
 
   /* ---- kind=popup：置中小卡（置中標題＋說明＋可選 icon／備註／記住帳號） ---- */
@@ -1698,7 +1698,7 @@
      面板 overflow:hidden 讓圓角正確裁切內容，寬度依 size */
   .drw-panel{position:absolute;top:var(--sp-3);bottom:var(--sp-3);height:calc(100% - 18px);background:var(--panel);
     padding:0;/* 同 Live：歸零裸 .sz-* 撞名漏進來的 padding，讓 .drw-phead 分隔線填滿面板寬 */
-    display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:var(--r-sm);
+    display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:var(--drw-radius,var(--r-sm));
     box-shadow:0 5px 16px color-mix(in srgb,var(--ink) 26%,transparent);}
   .drw-panel.side-left{left:var(--sp-3);} .drw-panel.side-right{right:var(--sp-3);}
   .drw-panel.sz-s{width:42%;} .drw-panel.sz-m{width:54%;} .drw-panel.sz-l{width:68%;}
@@ -1715,7 +1715,7 @@
   /* ---- 內容結構示意（真實比例抽屜 + 三段圖例）---- */
   .drw-struct-wrap{display:flex;flex-wrap:wrap;gap:var(--sp-7);align-items:stretch;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:var(--sp-6);}
-  .drw-struct{width:300px;max-width:100%;flex:0 0 auto;border:1px solid var(--line);border-radius:var(--r-sm);
+  .drw-struct{width:300px;max-width:100%;flex:0 0 auto;border:1px solid var(--line);border-radius:var(--drw-radius,var(--r-sm));
     overflow:hidden;background:var(--panel);display:flex;flex-direction:column;
     box-shadow:0 10px 28px color-mix(in srgb,var(--ink) 9%,transparent);}
   .drw-legend{display:flex;flex-direction:column;justify-content:center;gap:var(--sp-5);flex:1;min-width:220px;}
@@ -1750,7 +1750,7 @@
      圓角＋陰影呈漂浮感；面板本體 overflow:hidden 讓圓角裁切，內容溢出由 .drw-nav 內部捲動 */
   .drw-live-panel{position:absolute;top:var(--sp-6);bottom:var(--sp-6);height:calc(100% - 48px);max-width:calc(82% - 24px);background:var(--panel);
     padding:0;/* 面板掛 sz-* 會撞到 Button 裸 .sz-* 的 padding，明確歸零讓 .drw-head 分隔線填滿面板寬 */
-    display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:var(--r-sm);
+    display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:var(--drw-radius,var(--r-sm));
     box-shadow:0 12px 40px color-mix(in srgb,var(--ink) 30%,transparent);
     transition:transform .3s cubic-bezier(.4,0,.2,1);}
   .drw-live-panel.sz-s{width:220px;} .drw-live-panel.sz-m{width:300px;} .drw-live-panel.sz-l{width:380px;}
@@ -1775,8 +1775,8 @@
   .flo-float.flo-pos-bottom-right{right:var(--sp-4);bottom:var(--sp-4);}
 
   /* 1) 選取列：深色小圓角橫條，計數 + 動作鈕（inline-flex 垂直置中、按鈕等高） */
-  .flo-select{display:inline-flex;align-items:center;gap:var(--sp-4);background:var(--ink);color:var(--canvas);
-    padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-5);border-radius:var(--r-sm);box-shadow:0 10px 28px rgba(0,0,0,.30);}
+  .flo-select{display:inline-flex;align-items:center;gap:var(--flo-gap,var(--sp-4));background:var(--ink);color:var(--canvas);
+    padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-5);border-radius:var(--flo-radius,var(--r-sm));box-shadow:0 10px 28px rgba(0,0,0,.30);}
   .flo-select .flo-count{font-size:var(--fs-h11);font-weight:600;white-space:nowrap;letter-spacing:.01em;}
   .flo-select .flo-count b{font-weight:600;}
   .flo-select .flo-actions{display:flex;align-items:center;gap:var(--sp-2);}
@@ -1785,7 +1785,7 @@
   .flo-select .btn.v-text.i-secondary:hover{background:rgba(255,255,255,.14);}
 
   /* 2) 工具列：白底圓角陰影，icon-only 工具鈕 + 分隔線分組 */
-  .flo-toolbar{display:inline-flex;align-items:center;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--sp-1);
+  .flo-toolbar{display:inline-flex;align-items:center;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:var(--flo-radius,var(--r-sm));padding:var(--sp-1);
     box-shadow:0 8px 24px rgba(0,0,0,.14);}
   .flo-tdiv{width:1px;align-self:stretch;margin:var(--sp-1) var(--sp-1);background:var(--line);}
 
@@ -1842,7 +1842,7 @@
 
   /* ---- 水平 horizontal ---- */
   .stp-horizontal{display:flex;align-items:flex-start;width:100%;}
-  .stp-horizontal .stp-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--sp-3);flex:0 0 auto;}
+  .stp-horizontal .stp-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--stp-gap,var(--sp-3));flex:0 0 auto;}
   .stp-horizontal .stp-labels{align-items:center;text-align:center;max-width:76px;}
   .stp-horizontal .stp-conn{flex:1 1 auto;height:2px;min-width:16px;margin-top:var(--sp-5);
     background:var(--line);border-radius:var(--r-xs);}
@@ -1851,7 +1851,7 @@
 
   /* ---- 垂直 vertical ---- */
   .stp-vertical{display:flex;flex-direction:column;}
-  .stp-vstep{display:flex;gap:var(--sp-4);}
+  .stp-vstep{display:flex;gap:var(--stp-gap,var(--sp-4));}
   .stp-vrail{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;}
   .stp-vconn{width:2px;flex:1 1 auto;min-height:22px;margin:var(--sp-1) 0;background:var(--line);border-radius:var(--r-xs);}
   .stp-vconn.stp-conn-done{background:var(--accent);}
@@ -1869,7 +1869,7 @@
   .qty .qty-val{min-width:2.4em;padding:0 var(--sp-2);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
   .qty-sz-s .qty-val{font-size:var(--fs-h11);min-width:2em;} .qty-sz-l .qty-val{font-size:var(--fs-h9);}
   /* 外框：整體一個 bordered 容器，內部按鈕去框、數值兩側分隔線 */
-  .qty-v-outline{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .qty-v-outline{border:1px solid var(--line);border-radius:var(--qty-radius,var(--radius));overflow:hidden;}
   .qty-v-outline .btn{border:0;border-radius:0;background:transparent;}
   .qty-v-outline .btn:hover:not(:disabled){background:var(--panel-2);}
   .qty-v-outline .qty-val{border-left:1px solid var(--line);border-right:1px solid var(--line);}
@@ -1895,9 +1895,9 @@
   .prg-sz-m .prg-pct{font-size:var(--fs-h10);}
   .prg-sz-l .prg-cap{font-size:var(--fs-h10);}
   .prg-sz-l .prg-pct{font-size:var(--fs-h8);}
-  .prg-track{width:100%;background:var(--panel-3);border-radius:var(--r-pill);overflow:hidden;}
+  .prg-track{width:100%;background:var(--panel-3);border-radius:var(--prg-radius,var(--r-pill));overflow:hidden;}
   .prg-sz-s .prg-track{height:4px;} .prg-sz-m .prg-track{height:8px;} .prg-sz-l .prg-track{height:12px;}
-  .prg-fill{height:100%;border-radius:var(--r-pill);transition:width .3s ease;}
+  .prg-fill{height:100%;border-radius:var(--prg-radius,var(--r-pill));transition:width .3s ease;}
   .prg-fill.i-primary{background:var(--accent);}
   .prg-fill.i-success{background:var(--ok);}
   .prg-fill.i-warning{background:var(--warn);}
@@ -1926,7 +1926,7 @@
    陰影一律用 color-mix(--ink) 調透明度，暗色模式自動跟著加深（比照 modal/drawer 的做法）。 */
 
 .crd{position:relative;display:flex;flex-direction:column;width:100%;max-width:300px;padding:12px;
-  background:var(--panel);border:1px solid transparent;border-radius:var(--radius);overflow:hidden;
+  background:var(--panel);border:1px solid transparent;border-radius:var(--crd-radius,var(--radius));overflow:hidden;
   font-family:var(--font-sans);text-align:left;
   transition:box-shadow .15s,border-color .15s,background .15s,transform .12s;}
 
@@ -1973,7 +1973,7 @@
 .tg.tg-glass span{color:#fff;}
 .crd-badge .tg{box-shadow:0 1px 4px color-mix(in srgb,var(--ink) 18%,transparent);} /* 壓在照片上補一點分離度 */
 /* body：標題＋描述 */
-.crd-body{display:flex;flex-direction:column;gap:var(--sp-2);padding:var(--sp-4) var(--sp-1) 0;}
+.crd-body{display:flex;flex-direction:column;gap:var(--crd-body-gap,var(--sp-2));padding:var(--sp-4) var(--sp-1) 0;}
 .crd-title{font-size:var(--fs-h10);font-weight:600;line-height:1.4;color:var(--ink);}
 .crd-desc{font-size:var(--fs-h11);line-height:1.6;color:var(--muted);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;} /* 兩行截斷 */
@@ -2005,8 +2005,8 @@
   /* ===== Card group: product-card ===== */
 /* ==================== Product Card 商品卡（pcd- namespace）==================== */
 /* 卡片本體：panel 底 + line 邊框 + radius token；hover 有浮起過渡 */
-.pcd-card{position:relative;display:flex;flex-direction:column;background:var(--panel);padding:var(--sp-3);
-  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+.pcd-card{position:relative;display:flex;flex-direction:column;background:var(--panel);padding:var(--pcd-pad,var(--sp-3));
+  border:1px solid var(--line);border-radius:var(--pcd-radius,var(--radius));overflow:hidden;
   font-family:var(--font-sans);text-align:left;max-width:100%;
   transition:box-shadow .18s,transform .18s,border-color .18s;}
 
@@ -2078,9 +2078,9 @@
 /* ===== category-tile (Card) ===== */
 /* ==================== category-tile 分類磚 ==================== */
 /* 基底磚：panel 底＋細框，橫向 flex（leading 圓圈/圖片 ＋ body ＋ arrow） */
-.cat-tile{position:relative;display:flex;align-items:center;gap:var(--sp-4);
-  width:100%;min-width:200px;max-width:300px;padding:var(--sp-4);box-sizing:border-box;
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+.cat-tile{position:relative;display:flex;align-items:center;gap:var(--cat-gap,var(--sp-4));
+  width:100%;min-width:200px;max-width:300px;padding:var(--cat-pad,var(--sp-4));box-sizing:border-box;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--cat-radius,var(--radius));
   font-family:var(--font-sans);cursor:pointer;user-select:none;overflow:hidden;text-align:left;
   transition:border-color .13s,background .13s,transform .13s,box-shadow .13s,filter .13s;}
 .cat-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
@@ -2166,7 +2166,7 @@
 /* ==================== ARTICLE CARD 文章卡（art-）==================== */
 /* 卡片外殼：--panel 底 + --line 邊框 + --radius 圓角；hover 過渡（浮起/陰影/邊框） */
 .art-card{position:relative;display:flex;flex-direction:column;width:100%;max-width:340px;
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--art-radius,var(--radius));overflow:hidden;
   font-family:var(--font-sans);text-align:left;
   transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease;}
 .art-card.v-horizontal{flex-direction:row;max-width:560px;}
@@ -2189,7 +2189,7 @@
   background:linear-gradient(to top,rgba(0,0,0,.7),rgba(0,0,0,.4) 55%);} /* 全圖 ≥40% 黑遮罩、底部再深保文字 */
 
 /* ---- 內容區 ---- */
-.art-body{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5) var(--sp-5);min-width:0;flex:1 1 auto;}
+.art-body{display:flex;flex-direction:column;gap:var(--art-body-gap,var(--sp-3));padding:var(--sp-4) var(--sp-5) var(--sp-5);min-width:0;flex:1 1 auto;}
 .art-card.v-overlay .art-body{position:relative;flex:0 0 auto;} /* 疊字：內容壓在遮罩上、貼齊底部 */
 .art-cat{display:flex;}
 .art-title{margin:0;font-size:var(--fs-h9);font-weight:600;line-height:1.45;color:var(--ink);
@@ -2241,7 +2241,7 @@
    全部顏色綁 token，明暗色自動跟切 */
 
 /* ---- 外框容器 ---- */
-.tbl-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;overflow-y:hidden;max-width:100%;font-family:var(--font-sans);}
+.tbl-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--tbl-radius,var(--radius));overflow-x:auto;overflow-y:hidden;max-width:100%;font-family:var(--font-sans);}
 .tbl-wrap.tbl-v-plain{border-color:transparent;}                     /* 簡潔款：拿掉外框 */
 
 /* ---- 表格本體 ---- */
@@ -2339,7 +2339,7 @@
    系列色一律綁 token：--accent 主／--ok 成功／--warn 警告／--i-danger 危險；格線 --line、軸線 --line-strong。 */
 
 /* --- 基礎容器 --- */
-.cht-box{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--sp-3);font-family:var(--font-sans);color:var(--ink);max-width:100%;}
+.cht-box{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--cht-gap,var(--sp-3));font-family:var(--font-sans);color:var(--ink);max-width:100%;}
 .cht-box svg{display:block;overflow:visible;max-width:100%;}
 .cht-box svg text{font-family:var(--font-sans);}
 
@@ -2375,7 +2375,7 @@
 .cht-val{font-size:8.5px;font-weight:600;fill:var(--muted);font-variant-numeric:tabular-nums;}
 
 /* --- 矩陣格／Live 舞台的 dashboard tile 容器（panel 底＋細邊） --- */
-.cht-tile{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--sp-3);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:var(--sp-4) var(--sp-5);max-width:100%;}
+.cht-tile{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--sp-3);background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-4) var(--sp-5);max-width:100%;}
 
 /* --- 圖例：重用 .tg 原子（v-soft i-neutral），前置色點綁各系列色 token --- */
 .cht-legend{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
@@ -2387,7 +2387,7 @@
 
 /* --- Showcase：dashboard 組合（6 欄 grid：stat 2＋stat 2＋donut 2／line 3＋bar 3） --- */
 .cht-dash{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--sp-4);width:100%;}
-.cht-card{grid-column:span 2;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
+.cht-card{grid-column:span 2;background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
 .cht-card.cht-span-3{grid-column:span 3;}
 .cht-card-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);width:100%;}
 .cht-card-t{font-size:var(--fs-h11);font-weight:600;color:var(--muted);letter-spacing:.02em;}
@@ -2405,7 +2405,7 @@
 /* 樹容器：ul 巢狀結構，縮排靠 .trv-children 的 padding-left 疊出 depth */
 .trv-tree{list-style:none;margin:0;padding:0;font-family:var(--font-sans);font-size:var(--fs-h11);color:var(--ink);}
 .trv-tree ul{list-style:none;margin:0;}
-.trv-children{padding-left:var(--sp-6);}
+.trv-children{padding-left:var(--trv-indent,var(--sp-6));}
 .trv-item{position:relative;}
 .trv-item:not(.is-open)>.trv-children{display:none;}   /* 收合：直接藏子層 */
 
@@ -2441,7 +2441,7 @@
 .trv-row.live:hover .cbx:not(.st-checked){border-color:var(--accent);}
 
 /* --- lines variant：L 形連接線（--line token；只畫第二層以下） --- */
-.trv-v-lines .trv-children{padding-left:var(--sp-6);}
+.trv-v-lines .trv-children{padding-left:var(--trv-indent,var(--sp-6));}
 /* 每個子節點一段 L：直線落在父層箭頭中心，橫線接到子列前緣 */
 .trv-v-lines .trv-children>.trv-item::before{content:'';position:absolute;left:-10px;top:0;
   width:10px;height:15px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);
@@ -2452,7 +2452,7 @@
 
 /* --- 容器：矩陣格輕量包、showcase/Live 用 panel 卡 --- */
 .trv-cellbox{width:100%;min-width:0;padding:2px 0;box-sizing:border-box;}
-.trv-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:var(--sp-3);box-sizing:border-box;}
+.trv-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--trv-radius,var(--radius));padding:var(--sp-3);box-sizing:border-box;}
 
 /* showcase 三棵並排 */
 .trv-show-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-4);align-items:start;}
@@ -2463,7 +2463,7 @@
    × size m 標準／s 精簡。系列色一律經 --gc 綁 token（accent/ok/warn/i-danger），格線 --line、字 --muted/--faint。 */
 
 /* --- 容器共通：panel 底 + line 邊框 + radius token；數字一律 tabular --- */
-.gnt-box{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+.gnt-box{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--gnt-radius,var(--radius));
   font-family:var(--font-sans);font-variant-numeric:tabular-nums;max-width:100%;box-sizing:border-box;}
 
 /* --- size 兩級：所有尺寸經 CSS 變數收斂，m 標準／s 精簡 --- */
@@ -2599,8 +2599,8 @@
    矩陣用靜態 class（is-hover）模擬；Live／showcase 加 .live 走真實 :hover。
    全部綁 token：--accent／--i-primary-tint／--line／--panel*／--ink／--muted／--faint，不 hard-code 色值。 */
 
-.cal{display:inline-flex;flex-direction:column;gap:var(--sp-2);background:var(--panel);
-  border:1px solid var(--line);border-radius:var(--radius);
+.cal{display:inline-flex;flex-direction:column;gap:var(--cal-gap,var(--sp-2));background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--cal-radius,var(--radius));
   font-family:var(--font-sans);text-align:left;flex:0 0 auto;}
 .cal-sz-m{width:290px;padding:var(--sp-4);}
 .cal-sz-s{width:232px;padding:var(--sp-3);gap:var(--sp-1);}
@@ -3594,7 +3594,6 @@
     const sec=section(body,'State × (Intent·Corner) 矩陣','每個 variant 一塊；列＝狀態、欄＝intent × 圓角。');p=panelsIn(sec);renderM();
     const sl=section(body,'實際互動 Live','調 variant／corner／intent／feature，下面即時預覽（removable 可點 × 移除）。');
     LIVE.tag(sl);
-    renderBindPanel(body,'tag');
   }
 
   /* ---- TAB ---- */
@@ -9134,7 +9133,7 @@ function buildScheduleChart(view){
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='tokens'){renderTokens(view);}
     else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');}
-    else if(BUILD[id]){BUILD[id](view);}
+    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);} // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
@@ -9247,9 +9246,74 @@ function buildScheduleChart(view){
    * 元件 CSS 的屬性走「元件槽 var(--元件-槽, var(--預設token))」；這裡讓專案把某槽換綁到同類別的另一顆 token。
    * 只寫專案層（存進 export 的 tokens.bindings），不碰共用引擎；粒度＝專案內該元件全體；類別鎖（spacing 槽只能選 --sp-*）。*/
   const TOKEN_SLOTS={
+    /* ── Basic ── */
     button:[{slot:'--btn-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    input:[{slot:'--field-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+           {slot:'--field-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-3'},
+           {slot:'--field-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-3'}],
+    dropdown:[{slot:'--ddmenu-radius',label:'選單圓角 radius',cat:'radius',def:'--r-sm'},
+              {slot:'--ddopt-pad-x',label:'選項水平內距 padding-x',cat:'spacing',def:'--sp-4'},
+              {slot:'--ddopt-gap',label:'選項圖文間距 gap',cat:'spacing',def:'--sp-3'}],
+    tab:[{slot:'--tab-radius',label:'圓角 radius（容器／藥丸）',cat:'radius',def:'--r-pill'},
+         {slot:'--tab-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-5'},
+         {slot:'--tab-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-2'}],
+    menu:[{slot:'--mn-item-radius',label:'項目圓角 radius',cat:'radius',def:'--r-sm'},
+          {slot:'--mn-gap',label:'項目圖文間距 gap',cat:'spacing',def:'--sp-3'}],
+    'action-menu':[{slot:'--am-item-radius',label:'項目圓角 radius',cat:'radius',def:'--r-sm'},
+                   {slot:'--am-item-pad',label:'項目內距 padding',cat:'spacing',def:'--sp-2'},
+                   {slot:'--am-gap',label:'項目圖文間距 gap',cat:'spacing',def:'--sp-3'}],
+    breadcrumb:[{slot:'--bc-gap',label:'項目間距 gap',cat:'spacing',def:'--sp-3'}],
+    pagination:[{slot:'--pg-btn-radius',label:'頁碼鈕圓角 radius',cat:'radius',def:'--r-sm'},
+                {slot:'--pg-gap',label:'頁碼間距 gap',cat:'spacing',def:'--sp-2'}],
+    notification:[{slot:'--nt-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+                  {slot:'--nt-pad',label:'內距 padding',cat:'spacing',def:'--sp-4'},
+                  {slot:'--nt-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-3'}],
+    tooltip:[{slot:'--tt-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    skeleton:[{slot:'--sk-radius',label:'圓角 radius（文字／矩形）',cat:'radius',def:'--r-sm'}],
+    loader:[{slot:'--ld-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-3'}],
     tag:[{slot:'--tg-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-3'},
          {slot:'--tg-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-1'}],
+    price:[{slot:'--pr-gap',label:'數字間距 gap',cat:'spacing',def:'--sp-2'}],
+    image:[{slot:'--im-radius',label:'圓角 radius（rounded 變體）',cat:'radius',def:'--r-lg'}],
+    /* ── Complex ── */
+    header:[{slot:'--hdr-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+            {slot:'--hdr-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-4'},
+            {slot:'--hdr-gap',label:'區塊間距 gap',cat:'spacing',def:'--sp-5'}],
+    footer:[{slot:'--ftr-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+            {slot:'--ftr-pad',label:'內距 padding',cat:'spacing',def:'--sp-5'}],
+    'section-head':[{slot:'--sch-gap',label:'標題↔動作間距 gap',cat:'spacing',def:'--sp-5'}],
+    list:[{slot:'--lst-radius',label:'容器圓角 radius',cat:'radius',def:'--r-sm'}],
+    'list-item':[{slot:'--lst-item-pad',label:'列內距 padding',cat:'spacing',def:'--sp-3'},
+                 {slot:'--lst-item-gap',label:'列圖文間距 gap',cat:'spacing',def:'--sp-4'}],
+    collapse:[{slot:'--cps-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+              {slot:'--cps-head-pad',label:'標題列內距 padding',cat:'spacing',def:'--sp-4'},
+              {slot:'--cps-head-gap',label:'標題列間距 gap',cat:'spacing',def:'--sp-3'}],
+    modal:[{slot:'--mdl-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    drawer:[{slot:'--drw-radius',label:'面板圓角 radius',cat:'radius',def:'--r-sm'}],
+    'floating-line':[{slot:'--flo-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+                     {slot:'--flo-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-4'}],
+    step:[{slot:'--stp-gap',label:'節點↔標籤間距 gap',cat:'spacing',def:'--sp-3'}],
+    quantity:[{slot:'--qty-radius',label:'圓角 radius（外框變體）',cat:'radius',def:'--r-sm'}],
+    progress:[{slot:'--prg-radius',label:'圓角 radius',cat:'radius',def:'--r-pill'}],
+    /* ── Card ── */
+    card:[{slot:'--crd-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+          {slot:'--crd-body-gap',label:'內文間距 gap',cat:'spacing',def:'--sp-2'}],
+    'product-card':[{slot:'--pcd-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+                    {slot:'--pcd-pad',label:'內距 padding',cat:'spacing',def:'--sp-3'}],
+    'category-tile':[{slot:'--cat-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+                     {slot:'--cat-pad',label:'內距 padding',cat:'spacing',def:'--sp-4'},
+                     {slot:'--cat-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-4'}],
+    'article-card':[{slot:'--art-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+                    {slot:'--art-body-gap',label:'內文間距 gap',cat:'spacing',def:'--sp-3'}],
+    /* ── Table & Chart ── */
+    table:[{slot:'--tbl-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    chart:[{slot:'--cht-radius',label:'圖表卡圓角 radius',cat:'radius',def:'--r-sm'},
+           {slot:'--cht-gap',label:'圖表↔圖例間距 gap',cat:'spacing',def:'--sp-3'}],
+    'tree-view':[{slot:'--trv-radius',label:'容器圓角 radius',cat:'radius',def:'--r-sm'},
+                 {slot:'--trv-indent',label:'層級縮排 indent',cat:'spacing',def:'--sp-6'}],
+    'schedule-chart':[{slot:'--gnt-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    calendar:[{slot:'--cal-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+              {slot:'--cal-gap',label:'區塊間距 gap',cat:'spacing',def:'--sp-2'}],
   };
   const TOK_POOLS={
     spacing:['--sp-0','--sp-1','--sp-2','--sp-3','--sp-4','--sp-5','--sp-6','--sp-7','--sp-8','--sp-9'],
