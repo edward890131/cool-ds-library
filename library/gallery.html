@@ -3160,6 +3160,14 @@
   .dg-radius-box{width:64px;height:48px;background:var(--panel-2);border:1px solid var(--line-strong);}
   .dg-elev-box{width:80px;height:56px;background:var(--panel);border-radius:var(--r-md);}
   .dg-muted{color:var(--faint);font-size:var(--fs-h11);}
+  /* Design Guideline 手機版：字級尺標表 4 欄(min≈452px)與色彩用途表固定欄寬會爆版 → 收窄堆疊、去固定 min-width */
+  @media(max-width:767px){
+    .dgt-note{max-width:100%;white-space:normal;}
+    .dgt-row{grid-template-columns:24px minmax(0,1fr);gap:var(--sp-1) var(--sp-3);}
+    .dgt-row .dgt-cs,.dgt-row .dgt-cu{grid-column:1/-1;}
+    .dgt-fcrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .dg-sp-lb{width:88px;}
+  }
 </style>
 
 <div class="shell" id="shell">
@@ -8769,6 +8777,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v11', date:'2026-07-23', title:'Guideline 手機版修正＋下拉位移動效', items:[
+      {tag:'fix', t:'Design Guideline 手機版寬度爆版修正（字級尺標表與色彩用途表改為堆疊/去固定欄寬）'},
+      {tag:'improve', t:'下拉重新整理改為內容跟著往下位移，loader 顯示在 header 與內容之間讓出的空間'},
+    ]},
     {v:'v10', date:'2026-07-23', title:'下拉重新整理＋手機白邊修正', items:[
       {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現圓圈 loader，放手過閾值即重新整理'},
       {tag:'fix', t:'手機版首屏漸層頂部白邊修正（主內容區上邊距改用 token，對齊 hero 出血）'},
@@ -9965,27 +9977,33 @@ function buildScheduleChart(view){
   /* ===== 下拉重新整理（手機觸控 pull-to-refresh）：.main 捲到頂再下拉 → 圓圈 loader → 放手過閾值 reload ===== */
   (function(){
     const main=document.querySelector('.main'); const shell=document.getElementById('shell');
-    if(!main||!shell)return;
+    const view=document.getElementById('view');
+    if(!main||!shell||!view)return;
     const loader=document.createElement('div'); loader.className='ptr-loader';
     loader.innerHTML='<div class="ptr-spinner"></div>';
     shell.appendChild(loader);
     const spin=loader.querySelector('.ptr-spinner');
-    const TH=72; let startY=0, dist=0, pulling=false;
-    const reset=()=>{ loader.classList.remove('spin'); loader.style.opacity='0'; loader.style.transform='translate(-50%,-4px)'; spin.style.transform=''; };
-    main.addEventListener('touchstart',e=>{ if(main.scrollTop<=0){startY=e.touches[0].clientY;dist=0;pulling=true;} },{passive:true});
+    const TH=72, MAXSHIFT=88; let startY=0, dist=0, pulling=false;
+    const shiftFor=d=>Math.min(d*0.55,MAXSHIFT);              // rubber-band 阻尼
+    const reset=()=>{ loader.classList.remove('spin'); loader.style.opacity='0'; loader.style.transform='translate(-50%,-6px)'; spin.style.transform='';
+      view.style.transition='transform .3s cubic-bezier(.2,.7,.2,1)'; view.style.transform=''; };
+    main.addEventListener('touchstart',e=>{ if(main.scrollTop<=0){startY=e.touches[0].clientY;dist=0;pulling=true;view.style.transition='';} },{passive:true});
     main.addEventListener('touchmove',e=>{ if(!pulling)return;
       dist=e.touches[0].clientY-startY;
       if(dist>0 && main.scrollTop<=0){
         e.preventDefault();                                   // 攔掉原生 overscroll，改跑自訂下拉
-        const d=Math.min(dist,140);
-        loader.style.opacity=String(Math.min(d/TH,1));
-        loader.style.transform='translate(-50%,'+Math.min(d*0.5,64)+'px)';
-        spin.style.transform='rotate('+(d*2.6)+'deg)';
-      } else { reset(); pulling=false; }
+        const sh=shiftFor(dist);
+        view.style.transform='translateY('+sh+'px)';          // 內容跟著往下位移
+        loader.style.opacity=String(Math.min(dist/TH,1));
+        loader.style.transform='translate(-50%,'+(sh/2)+'px)'; // loader 置於 header 與內容間讓出的空間
+        spin.style.transform='rotate('+(dist*2.6)+'deg)';
+      } else { pulling=false; reset(); }
     },{passive:false});
     main.addEventListener('touchend',()=>{ if(!pulling)return; pulling=false;
-      if(dist>TH){ loader.classList.add('spin'); loader.style.opacity='1'; loader.style.transform='translate(-50%,60px)'; spin.style.transform='';
-        setTimeout(()=>location.reload(),600);
+      if(dist>TH){ loader.classList.add('spin'); loader.style.opacity='1';
+        view.style.transition='transform .25s ease'; view.style.transform='translateY('+MAXSHIFT+'px)';  // 保持下移露出 loader
+        loader.style.transform='translate(-50%,'+(MAXSHIFT/2)+'px)'; spin.style.transform='';
+        setTimeout(()=>location.reload(),650);
       } else { reset(); }
     });
   })();
