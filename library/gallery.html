@@ -914,7 +914,7 @@
       transform:translateX(-100%);transition:transform .22s ease;border-right:1px solid var(--line-strong);}
     .shell.nav-open .sidebar{transform:translateX(0);}
     .shell.nav-open .scrim{display:block;position:fixed;inset:58px 0 0 0;background:rgba(0,0,0,.42);z-index:35;}
-    .main{padding:26px 18px 80px;}
+    .main{padding:26px var(--container-pad) 80px;}   /* 側 padding 用 token，與 hero 出血的 -container-pad 對齊，避免手機漸層左右露白邊 */
   }
   @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
 
@@ -8767,6 +8767,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'背景網格更淡更密、加入延遲拖尾（rAF lerp）跟隨滑鼠'},
       {tag:'improve', t:'mockup 游標按鈕移除陰影，改淺色白底／深色黑底'},
       {tag:'fix', t:'mockup 陰影 y／blur 收小＋hero 底部留白加大，漸層與下段銜接不再突兀'},
+      {tag:'fix', t:'手機版漸層左右露白邊修正（主內容區側邊距改用 token，對齊 hero 出血）'},
     ]},
     {v:'v8', date:'2026-07-23', title:'首屏視覺升級：鮮艷漸層＋網格互動＋游標 CTA', items:[
       {tag:'add', t:'首屏漸層最上層加入鮮艷高彩度色（洋紅／橘／紫紅 pop），淺色也更豐富飽和'},
