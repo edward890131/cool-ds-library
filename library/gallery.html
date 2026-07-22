@@ -822,7 +822,9 @@
   .dcard.bind-dcard{overflow:visible;}
   .dcard.bind-dcard .dcard-head{border-radius:var(--radius) var(--radius) 0 0;}
   .dcard.bind-dcard.collapsed .dcard-head{border-radius:var(--radius);}
-  .dcard-body .bindrows{display:flex;flex-direction:column;gap:var(--sp-5);}
+  .dcard-body .bindrows{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--sp-5) var(--sp-4);} /* 對齊上方變數篩選器 .axes 的三等份 grid */
+  .dcard-body .bindrows .fieldwrap{min-width:0;}                    /* 放開 fieldwrap 240px 下限，讓欄可縮 */
+  .dcard-body .bindrows .ddwrap{min-width:0;width:100%;}            /* ddField 下拉填滿 grid 欄、蓋掉 260px 下限不撐爆 */
   .dcard-body .bindrows .fl code{margin-left:var(--sp-2);}
 
   /* ===== tab ===== */
