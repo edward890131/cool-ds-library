@@ -223,10 +223,10 @@
   /* 全站紙質磨砂材質：fixed 覆蓋整個 viewport 的 SVG fractalNoise 顆粒，soft-light 混色疊在所有背景上，pointer-events:none 不擋互動 */
   body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px;
-    mix-blend-mode:multiply;opacity:.16;}                    /* 淺色：multiply 讓顆粒在近白底變灰點（soft-light 在純白幾乎不顯，故不用）*/
-  @media(prefers-color-scheme:dark){body::after{mix-blend-mode:screen;opacity:.14;}}  /* 深色：screen 讓顆粒在近黑底變亮點 */
-  :root[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.14;}
-  :root[data-theme="light"] body::after{mix-blend-mode:multiply;opacity:.16;}
+    mix-blend-mode:multiply;opacity:.3;}                     /* 淺色：multiply 讓顆粒在近白底變灰點（soft-light 在純白幾乎不顯，故不用）*/
+  @media(prefers-color-scheme:dark){body::after{mix-blend-mode:screen;opacity:.26;}}  /* 深色：screen 讓顆粒在近黑底變亮點 */
+  :root[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.26;}
+  :root[data-theme="light"] body::after{mix-blend-mode:multiply;opacity:.3;}
 
   /* ---------- scrollbar：純標準屬性一套（scrollbar-width/color 會被繼承，整頁與側邊欄自動一致）。
        不混用 ::-webkit-scrollbar——同時存在會讓 Chrome 對 root 與元素捲軸挑不同渲染路徑，一粗一細。
@@ -2817,13 +2817,14 @@
     margin:calc(-1*var(--sp-6)) calc(-1*var(--container-pad)) var(--sp-7);
     padding:clamp(44px,6vw,84px) var(--container-pad) clamp(40px,5vw,64px);
     background:
-      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 40%),
-      radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.85) 0%, rgba(244,147,164,0) 62%),
-      radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.85) 0%, rgba(255,85,8,0) 60%),
-      radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.72) 0%, rgba(248,70,50,0) 60%),
-      radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.6) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.66) 0%, rgba(176,56,60,0) 58%),
-      radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.66) 0%, rgba(164,49,33,0) 58%),
+      linear-gradient(180deg, rgba(78,28,16,.5) 0%, rgba(78,28,16,.4) 20%, rgba(78,28,16,.12) 34%, rgba(78,28,16,0) 48%),
+      linear-gradient(0deg, #ffffff 0%, #ffffff 8%, rgba(255,255,255,0) 42%),
+      radial-gradient(95% 78% at 92% 56%, rgba(244,147,164,.72) 0%, rgba(244,147,164,0) 60%),
+      radial-gradient(92% 74% at 3% 46%, rgba(255,85,8,.9) 0%, rgba(255,85,8,0) 58%),
+      radial-gradient(100% 68% at 48% 22%, rgba(234,88,12,.92) 0%, rgba(234,88,12,0) 60%),
+      radial-gradient(80% 54% at 52% -10%, rgba(127,43,107,.82) 0%, rgba(127,43,107,0) 60%),
+      radial-gradient(76% 56% at 12% -4%, rgba(176,56,60,.88) 0%, rgba(176,56,60,0) 58%),
+      radial-gradient(78% 58% at 88% -6%, rgba(164,49,33,.88) 0%, rgba(164,49,33,0) 58%),
       #ffffff;}
   @media(prefers-color-scheme:dark){.gd-hero{background:
       linear-gradient(0deg, var(--panel) 0%, var(--panel) 8%, rgba(0,0,0,0) 36%),
@@ -2844,28 +2845,32 @@
       radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.56) 0%, rgba(164,49,33,0) 58%),
       var(--panel);}
   :root[data-theme="light"] .gd-hero{background:
-      linear-gradient(0deg, #ffffff 0%, #ffffff 10%, rgba(255,255,255,0) 40%),
-      radial-gradient(92% 80% at 95% 60%, rgba(244,147,164,.85) 0%, rgba(244,147,164,0) 62%),
-      radial-gradient(88% 76% at 2% 50%, rgba(255,85,8,.85) 0%, rgba(255,85,8,0) 60%),
-      radial-gradient(96% 70% at 46% 26%, rgba(248,70,50,.72) 0%, rgba(248,70,50,0) 60%),
-      radial-gradient(70% 46% at 52% -14%, rgba(127,43,107,.6) 0%, rgba(127,43,107,0) 60%),
-      radial-gradient(66% 46% at 14% -8%, rgba(176,56,60,.66) 0%, rgba(176,56,60,0) 58%),
-      radial-gradient(68% 48% at 86% -10%, rgba(164,49,33,.66) 0%, rgba(164,49,33,0) 58%),
+      linear-gradient(180deg, rgba(78,28,16,.5) 0%, rgba(78,28,16,.4) 20%, rgba(78,28,16,.12) 34%, rgba(78,28,16,0) 48%),
+      linear-gradient(0deg, #ffffff 0%, #ffffff 8%, rgba(255,255,255,0) 42%),
+      radial-gradient(95% 78% at 92% 56%, rgba(244,147,164,.72) 0%, rgba(244,147,164,0) 60%),
+      radial-gradient(92% 74% at 3% 46%, rgba(255,85,8,.9) 0%, rgba(255,85,8,0) 58%),
+      radial-gradient(100% 68% at 48% 22%, rgba(234,88,12,.92) 0%, rgba(234,88,12,0) 60%),
+      radial-gradient(80% 54% at 52% -10%, rgba(127,43,107,.82) 0%, rgba(127,43,107,0) 60%),
+      radial-gradient(76% 56% at 12% -4%, rgba(176,56,60,.88) 0%, rgba(176,56,60,0) 58%),
+      radial-gradient(78% 58% at 88% -6%, rgba(164,49,33,.88) 0%, rgba(164,49,33,0) 58%),
       #ffffff;}
   .gd-hero-copy{position:relative;z-index:1;max-width:62ch;margin:0 auto;text-align:center;}
-  .gd-hero-copy .eyebrow{margin-bottom:var(--sp-4);}
-  .gd-hero h1{font-size:var(--fs-h5);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0 0 var(--sp-5);text-wrap:balance;}
-  .gd-hero-lede{color:var(--muted);max-width:56ch;margin:0 auto;font-size:var(--fs-h10);line-height:1.6;}
-  .gd-hero-lede b{color:var(--ink);}
+  /* 翻轉後暖色在頂＋加深，文字一律用白（灰字在暖底看不清）；標題/說明/eyebrow 皆白，深淺色一致 */
+  .gd-hero-copy .eyebrow{margin-bottom:var(--sp-4);color:rgba(255,255,255,.82);}
+  .gd-hero h1{font-size:var(--fs-h5);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0 0 var(--sp-5);text-wrap:balance;color:#fff;}
+  .gd-hero-lede{color:#fff;max-width:56ch;margin:0 auto;font-size:var(--fs-h10);line-height:1.6;}
   .gd-hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-top:var(--sp-6);justify-content:center;}
   .gd-hero-mock{position:relative;z-index:1;margin-top:clamp(28px,4vw,52px);display:flex;justify-content:center;}
   .gd-hero-mock .gd-devices{margin:0;width:100%;display:flex;justify-content:center;}
-  /* 簡單方形 mockup 外框：半透明外框＋柔和陰影，內含 GitHub 桌機畫面（吃 .gd-devices 上的 gh* 主題反轉色），超高裁切 */
-  .gd-hero-frame{position:relative;width:min(100%,640px);max-height:420px;overflow:hidden;border-radius:14px;
-    border:1px solid rgba(255,255,255,.5);background:var(--ghbg);
-    box-shadow:0 24px 64px -16px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.12);}
-  .gd-hero-frame .gd-gh{width:640px;max-width:none;}   /* 桌機內容固定 640px 剛好填滿 frame */
-  .gd-hero-frame .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
+  /* mockup 外框（比照參考站）：外層帶 padding 的半透明磨砂框，內層才是真正的螢幕 */
+  .gd-hero-frame{position:relative;width:min(100%,668px);padding:14px;border-radius:22px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    box-shadow:0 30px 72px -18px rgba(0,0,0,.5);}
+  .gd-hero-screen{position:relative;overflow:hidden;border-radius:12px;background:var(--ghbg);max-height:420px;
+    box-shadow:0 1px 3px rgba(0,0,0,.22);}   /* 內層螢幕：裁切內容、hover 目標之容器 */
+  .gd-hero-screen .gd-gh{width:640px;max-width:none;}   /* 桌機內容固定 640px 剛好填滿內層 */
+  .gd-hero-screen .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
   .gd-hero-scale{transition:transform .4s cubic-bezier(.2,.7,.2,1);transform-origin:center 22%;}
   .gd-hero-frame:hover .gd-hero-scale{transform:scale(1.08);}   /* hover：內容放大 */
   .gd-hero-dim{position:absolute;inset:0;z-index:5;opacity:0;pointer-events:none;transition:opacity .3s ease;
@@ -2875,9 +2880,9 @@
     transform:translate(-50%,-50%) scale(.94);transition:opacity .3s ease,transform .3s ease;}
   .gd-hero-frame:hover .gd-hero-float{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
   @media(max-width:767px){
-    .gd-hero-frame{max-height:460px;}
-    .gd-hero-frame .gd-gh{display:none;}
-    .gd-hero-frame .gd-ghm{display:block;width:100%;}
+    .gd-hero-screen{max-height:460px;}
+    .gd-hero-screen .gd-gh{display:none;}
+    .gd-hero-screen .gd-ghm{display:block;width:100%;}
   }
   /* ===== 版本更新紀錄頁（Changelog 時間軸）===== */
   .cl-tl{display:flex;flex-direction:column;}
@@ -8740,6 +8745,12 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v6', date:'2026-07-23', title:'首屏文案/對比/材質微調', items:[
+      {tag:'improve', t:'首屏標題精簡為「Cool-DS-Library」；說明文字改白色、移除加粗（灰字在暖底看不清）'},
+      {tag:'improve', t:'首屏淺色漸層頂部加深，白色標題/說明對比更清楚'},
+      {tag:'improve', t:'mockup 外框改為帶 padding 的半透明磨砂框（比照參考站），內層才是螢幕'},
+      {tag:'improve', t:'全站紙質磨砂材質加強、更明顯（覆蓋所有頁面背景）'},
+    ]},
     {v:'v5', date:'2026-07-22', title:'首屏漸層/互動精修 · 全站紙質材質', items:[
       {tag:'improve', t:'首屏漸層上下顛倒：暖色移到頂、底部沉回底色，hero 底緣無縫接下一段（去除斷差）'},
       {tag:'improve', t:'首屏「瀏覽元件」改實心次要（淺色近白底／深色近黑底），凸顯於漸層之上'},
@@ -8822,19 +8833,21 @@ function buildScheduleChart(view){
       <section class="gd-hero">
         <div class="gd-hero-copy">
           <p class="eyebrow">上手指南 · Getting Started</p>
-          <h1>什麼是 Cool-DS-Library？</h1>
-          <p class="gd-hero-lede">這是 Goons 的設計系統元件庫。你在這裡<b>挑元件、調 token、預覽整體效果</b>，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
+          <h1>Cool-DS-Library</h1>
+          <p class="gd-hero-lede">這是 Goons 的設計系統元件庫。你在這裡挑元件、調 token、預覽整體效果，確認後一鍵交付給工程與 Figma。沒用過也沒關係——照下面順序看一遍就會用。</p>
           <div class="gd-hero-cta" id="gdHeroCta"></div>
         </div>
         <div class="gd-hero-mock">
           <div class="gd-devices">
             <div class="gd-hero-frame" id="gdHeroFrame">
-              <div class="gd-hero-scale">
-                <div class="gd-gh" id="gdGhScreen"></div>
-                <div class="gd-ghm" id="gdMobScreen"></div>
+              <div class="gd-hero-screen">
+                <div class="gd-hero-scale">
+                  <div class="gd-gh" id="gdGhScreen"></div>
+                  <div class="gd-ghm" id="gdMobScreen"></div>
+                </div>
+                <div class="gd-hero-dim"></div>
+                <div class="gd-hero-float" id="gdHeroFloat"></div>
               </div>
-              <div class="gd-hero-dim"></div>
-              <div class="gd-hero-float" id="gdHeroFloat"></div>
             </div>
           </div>
         </div>
