@@ -258,11 +258,13 @@
   :root[data-theme="dark"] .theme-toggle .knob{transform:translateX(20px);}
 
   /* ---------- layout ---------- */
-  .shell{--sb:max(200px,20vw);height:100vh;height:100dvh;display:flex;flex-direction:column;} /* 整個 app 固定一屏；側邊欄＝20vw，最小 200px */
-  .layout{flex:1 1 auto;min-height:0;position:relative;display:grid;grid-template-columns:var(--sb) 1fr;} /* 填滿 topbar 以下的剩餘高度；min-height:0 讓子欄可各自內捲；relative 供拖曳把手定位 */
-  .sidebar{min-height:0;overflow-y:auto;border-right:1px solid var(--line);background:var(--panel);padding:var(--sp-4) var(--sp-3);display:flex;flex-direction:column;} /* 撐滿 layout 高度、自身垂直捲動；flex-column 讓 .sb-shader 可 margin-top:auto 釘底 */
-  /* ---- 側邊欄拖曳調寬把手：貼在 sidebar 右緣，left 跟隨 --sb ---- */
-  .sidebar-resize{position:absolute;top:0;bottom:0;left:var(--sb);width:9px;transform:translateX(-5px);z-index:31;cursor:col-resize;touch-action:none;}
+  @property --sb-w{syntax:'<length>';inherits:true;initial-value:0px;} /* 可動畫的側欄「當前寬」：展開＝--sb、收合＝0。註冊成 <length> 才能 transition，讓 grid 軌寬平滑縮放 */
+  .shell{--sb:max(200px,20vw);--sb-w:var(--sb);height:100vh;height:100dvh;display:flex;flex-direction:column;} /* --sb＝目標全寬（可拖曳改寫）；--sb-w＝當前渲染寬（展開時＝--sb）；固定一屏、側欄 20vw 最小 200px */
+  .shell.nav-anim{transition:--sb-w .3s var(--ease-standard);} /* 只在漢堡展開/收合時開啟寬度過場；拖曳時不掛此 class → 即時跟手不延遲 */
+  .layout{flex:1 1 auto;min-height:0;position:relative;display:grid;grid-template-columns:var(--sb-w) 1fr;} /* 軌寬綁 --sb-w：收合/展開時右側內容＋mockup 隨之平滑縮放；min-height:0 讓子欄各自內捲；relative 供拖曳把手定位 */
+  .sidebar{min-width:0;min-height:0;overflow:hidden auto;border-right:1px solid var(--line);background:var(--panel);padding:var(--sp-4) var(--sp-3);display:flex;flex-direction:column;} /* min-width:0＋overflow-x:hidden：寬度縮到 0 時內容乾淨裁切不擠爆；自身垂直捲動；flex-column 讓 .sb-shader 可 margin-top:auto 釘底 */
+  /* ---- 側邊欄拖曳調寬把手：貼在 sidebar 右緣，left 跟隨 --sb-w ---- */
+  .sidebar-resize{position:absolute;top:0;bottom:0;left:var(--sb-w);width:9px;transform:translateX(-5px);z-index:31;cursor:col-resize;touch-action:none;}
   .sidebar-resize::after{content:'';position:absolute;top:0;bottom:0;left:5px;width:2px;background:transparent;transition:background .15s;} /* 視覺線：hover/拖曳才亮 */
   .sidebar-resize:hover::after,.sidebar-resize.is-drag::after{background:var(--accent);}
   body.is-resizing{cursor:col-resize;user-select:none;}
@@ -289,13 +291,16 @@
   .toc-item.active{color:var(--accent);border-left-color:var(--accent);background:var(--i-primary-tint);}
   @media(max-width:900px){.toc-dock{display:none!important;}}
   @media(min-width:901px){
-    .shell.nav-collapsed .layout{grid-template-columns:1fr;} /* sidebar/edge-trigger 皆 position:fixed 出流，只剩 .main 在 grid 內 → 單軌填滿（不能用 0 1fr，否則 main 遞補進 0 寬軌被壓爛）*/
+    .shell.nav-collapsed{--sb-w:0px;} /* 收合＝軌寬歸零：側欄在動畫期間仍留 grid 內平滑縮、主內容平滑放大；動畫結束才由 JS 補 .nav-drawer 切成浮動抽屜 */
     .shell.nav-collapsed .sidebar-resize{display:none;} /* 收合時無左欄可拖 */
-    .shell.nav-collapsed .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sb);z-index:40;
+    /* ── 浮動抽屜（peek）：JS 在收合動畫結束後掛 .nav-drawer（此時側欄寬已為 0，切 fixed 不會跳動）；展開前 JS 先移除，側欄回 grid 內再展開 ── */
+    .shell.nav-drawer .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sb);z-index:40;
       transform:translateX(-100%);transition:transform .2s var(--ease-standard) .32s;box-shadow:6px 0 24px rgba(0,0,0,.10);} /* 離開延遲 .32s：滑走後不馬上縮回，留時間移到側欄上 */
-    .shell.nav-collapsed .edge-trigger{display:block;position:fixed;top:58px;left:0;bottom:0;width:28px;z-index:39;} /* 左緣熱區加寬 14→28，較好觸發 */
-    .shell.nav-collapsed .edge-trigger:hover ~ .sidebar,
-    .shell.nav-collapsed .sidebar:hover{transform:translateX(0);transition-delay:.14s;} /* 進入延遲 .14s：hover-intent，避免滑過就彈出 */
+    .shell.nav-drawer .edge-trigger{display:block;position:fixed;top:58px;left:0;bottom:0;width:28px;z-index:39;} /* 左緣熱區加寬 14→28，較好觸發 */
+    .shell.nav-drawer .edge-trigger:hover ~ .sidebar,
+    .shell.nav-drawer .sidebar:hover{transform:translateX(0);transition-delay:.14s;} /* 進入延遲 .14s：hover-intent，避免滑過就彈出 */
+    .shell.nav-arming .sidebar{transition:none!important;} /* 剛切成浮動抽屜的那一幀：關掉 transform 過場，直接歸位到 translateX(-100%)，避免側欄先浮現再滑走的閃爍 */
+    .shell.nav-drawer .main{grid-column:2;} /* 側欄變 fixed 出流後，強制 main 待在第 2 軌(1fr)填滿；否則會被自動塞進 0px 軌壓爛 */
   }
 
   /* 類別間以淺灰細線分隔；類別標題與頁籤標題同字級/字重/顏色 */
@@ -2945,6 +2950,11 @@
   .gd-hero-cta{animation-delay:.34s;}
   .gd-hero-mock{animation-delay:.46s;}
   @media(prefers-reduced-motion:reduce){.gd-hero-copy .eyebrow,.gd-hero h1,.gd-hero-lede,.gd-hero-cta,.gd-hero-mock{animation:none;}}
+  /* ── 全站段落捲動進場：沿用 hero 的 fade-up 曲線，段落滾進視窗才淡入上浮（JS armReveal 掛 .rv/.rv-in）。reduced-motion 直接顯示 ── */
+  .rv{opacity:0;transform:translateY(24px);will-change:opacity,transform;
+    transition:opacity .72s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms),transform .72s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms);}
+  .rv.rv-in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important;}}
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
   .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
   .gd-caro-stage{position:relative;width:100%;aspect-ratio:1040/652;}     /* 鎖比例＝等比縮放不拉扁 */
@@ -10012,6 +10022,21 @@ function buildScheduleChart(view){
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
     const _m=document.querySelector('.main');if(_m)_m.scrollTo(0,0); // app-shell：捲 main 容器（非 document）
     buildTOC(); // 換頁後重建右緣本頁目錄
+    armReveal(); // 換頁後為本頁段落掛捲動進場（fade-up）
+  }
+  function armReveal(){ // 全站段落捲動進場：段落滾進視窗才 fade-up；SPA 換頁重建內容故每次換頁重掛
+    const view=document.getElementById('view'); if(!view) return;
+    if(view.__rvObs){view.__rvObs.disconnect();view.__rvObs=null;} // 先斷開舊 observer 避免累積
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches) return; // 尊重系統「減少動態」設定：不隱藏、不動畫
+    const SEL='.gd-sec,section.block,.tok-sec,.cl-entry,.dg-sec,.sumcat,.placeholder'; // 各頁的天然段落單位（hero 有自己的載入動畫，不納入）
+    const targets=[...view.querySelectorAll(SEL)].filter(el=>!el.parentElement.closest(SEL)); // 只取最外層段落，避免巢狀重複觸發
+    if(!targets.length) return;
+    const main=document.querySelector('.main'); // 捲動容器＝IntersectionObserver 的 root
+    const obs=new IntersectionObserver(ents=>{ ents.forEach(e=>{ // 進視窗、或已被捲過(段落頂端在視窗上緣以上)都直接顯示，避免快速捲動/TOC 跳轉跳過的段落卡在隱藏
+      if(e.isIntersecting || (e.rootBounds && e.boundingClientRect.top < e.rootBounds.top)){ e.target.classList.add('rv-in'); obs.unobserve(e.target); } }); },
+      {root:main,rootMargin:'0px 0px -8% 0px',threshold:.08}); // 進視窗約 8% 才觸發、只播一次
+    view.__rvObs=obs;
+    targets.forEach((el,i)=>{ el.classList.add('rv'); el.style.setProperty('--rv-d',Math.min(i,4)*60+'ms'); obs.observe(el); }); // 首屏同時可見的段落用小幅 stagger 錯開（上限 4×60ms）
   }
   function renderNav(){const host=document.getElementById('sidebar');host.innerHTML='';
     // 手機專用：上手指南入口（桌機在 topbar，CSS .nav-guide-m 只在 ≤767px 顯示）；renderView('guide') 會自動高亮＋收起抽屜
@@ -10071,7 +10096,34 @@ function buildScheduleChart(view){
   (function(){ // 漢堡改用 library icon-only s 按鈕（保留原 svg 與行為）
     const hb=document.getElementById('hambBtn'); if(hb){ const svg=hb.querySelector('svg'); hb.className='btn v-outline i-secondary sz-s st-default live icon-only'; hb.innerHTML=''; if(svg)hb.appendChild(svg); }
   })();
-  document.getElementById('hambBtn').onclick=()=>{ if(window.innerWidth>900) shell.classList.toggle('nav-collapsed'); else shell.classList.toggle('nav-open'); };
+  const NAV_DUR=300; // 與 CSS .nav-anim 的 --sb-w transition(.3s) 同步（ms）
+  function setNavCollapsed(collapse){ // 桌機側欄收合/展開：動畫期間側欄留 grid 內平滑縮放，動畫結束才切浮動抽屜（保留 peek）
+    if(shell.__navT){clearTimeout(shell.__navT);shell.__navT=null;}
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(collapse){
+      if(reduce){shell.classList.add('nav-collapsed','nav-drawer');return;} // 減少動態：直接到位、不跑過場
+      shell.classList.remove('nav-drawer');       // 確保動畫期間側欄留在 grid 內（尚未變 fixed）
+      shell.classList.add('nav-anim');            // 開啟寬度過場
+      void shell.offsetWidth;                     // 強制 reflow，讓 nav-anim 先生效再改寬
+      shell.classList.add('nav-collapsed');       // --sb-w → 0：側欄平滑縮、主內容＋mockup 平滑放大
+      shell.__navT=setTimeout(()=>{ // 縮完才切浮動抽屜備用
+        shell.classList.add('nav-arming');        // 先關掉 transform 過場
+        shell.classList.add('nav-drawer');        // 切成 fixed 浮動抽屜
+        shell.classList.remove('nav-anim');
+        void shell.offsetWidth;                   // reflow → 側欄無過場直接歸位 translateX(-100%)
+        shell.classList.remove('nav-arming');     // 復原過場，之後 hover peek 才有滑入/滑出動畫
+        shell.__navT=null;
+      },NAV_DUR);
+    }else{
+      shell.classList.remove('nav-drawer');       // 先把側欄從 fixed 收回 grid 內（此時 --sb-w 仍為 0、不可見，無跳動）
+      if(reduce){shell.classList.remove('nav-collapsed');return;}
+      shell.classList.add('nav-anim');
+      void shell.offsetWidth;
+      shell.classList.remove('nav-collapsed');    // --sb-w 0 → 全寬：側欄平滑展開、主內容＋mockup 平滑縮小
+      shell.__navT=setTimeout(()=>{ shell.classList.remove('nav-anim'); shell.__navT=null; },NAV_DUR);
+    }
+  }
+  document.getElementById('hambBtn').onclick=()=>{ if(window.innerWidth>900) setNavCollapsed(!shell.classList.contains('nav-collapsed')); else shell.classList.toggle('nav-open'); };
   { const gb=document.getElementById('guideBtn'); if(gb){ const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true}); nb.id='guideBtn'; nb.type='button'; nb.querySelector('span').textContent='📖 上手指南'; nb.style.marginLeft='var(--sp-4)'; nb.onclick=()=>{location.hash='guide';}; gb.replaceWith(nb); } }
   { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>{location.hash='guide';}; bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
