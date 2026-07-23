@@ -9412,9 +9412,7 @@ function buildScheduleChart(view){
       +'<p class="hm-lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡看該元件的<b>實際操作</b>，牌卡前的勾選框決定<b>要不要產出</b>。回各元件用「變數篩選器」調整組合，這裡即時彙整。</p>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-actions"><span class="hm-aitoggle">✦ AI 建議產出<span class="sw"></span></span><span class="hm-selall"><span class="ck">'+CK2+'</span>全選</span><span class="hm-total">已選 <b>39</b>/39 個元件 · 共 <b>860</b> 個變體將建立</span></div>'
-      +catCard('🧱 Basic 基本','18 / 18')+catCard('🍀 Complex 複雜','12 / 12')+catCard('🗂 Card 卡片','4 / 4')+catCard('📊 Table & Chart 表格圖表','5 / 5')
-      +'<div class="hm-restt">其餘元件</div><div class="hm-rule strong"></div>'
-      +'<div class="hm-restnote">input 家族的 search / password / textarea / file 以完整狀態建立（無轉版）。其餘 0 個項目為待建，之後定案後會一併納入此總覽。</div></div>';
+      +catCard('🧱 Basic 基本','18 / 18')+catCard('🍀 Complex 複雜','12 / 12')+catCard('🗂 Card 卡片','4 / 4')+catCard('📊 Table & Chart 表格圖表','5 / 5')+'</div>';
     const summaryHTML='<div class="hm">'+hmBar('cool-ds-library.vercel.app')+hmTop+'<div class="hm-body">'+hmSide('summary')+summaryMain+'</div></div>';
     // 首屏 mockup 輪播：3 張＝GitHub repo／Design Token 頁／需求匯總頁；一次只呈現一張、每 5 秒前後輪播（淡切）；
     //   桌機內容固定 1040 native 由 JS 依螢幕寬 scale＝等比縮放（鎖比例不拉扁）；active 卡＝自訂游標＋點擊開對應連結
@@ -9877,8 +9875,7 @@ function buildScheduleChart(view){
         <div class="spacer"></div>
         <div class="sumtotal" id="sumTotal"></div>
       </div>
-      <div id="sumBody"></div>
-      <div class="block"><h2>其餘元件</h2><p class="sub" id="sumRest"></p></div>`;
+      <div id="sumBody"></div>`;
     const allKeys=Object.keys(DIAL_SPECS);
     function syncTotal(){let comp=0,vari=0;allKeys.forEach(id=>{if(SUMSEL.has(id)){comp++;vari+=rep[id].count;}});
       document.getElementById('sumTotal').innerHTML=`已選 <b>${comp}</b>/${allKeys.length} 個元件 · 共 <b>${vari}</b> 個變體將建立`;
@@ -9984,8 +9981,6 @@ function buildScheduleChart(view){
     renderBody();syncTotal();
     const selAll=document.getElementById('selAllChk');
     if(selAll)selAll.onchange=()=>{const on=selAll.checked;allKeys.forEach(id=>on?SUMSEL.add(id):SUMSEL.delete(id));onManual();renderBody();syncTotal();}; // 全選/全不選 → 重繪三版型卡片＋更新總計
-    const todo=NAV.flatMap(g=>g.items).filter(it=>!DIAL_SPECS[it.id]&&it.id!=='input'&&!it.st).length;
-    document.getElementById('sumRest').innerHTML=`input 家族的 <code>search / password / textarea / file</code> 以完整狀態建立（無轉盤）。其餘 <b>${todo}</b> 個項目為待建，之後定案後會一併納入此總覽。`;
     const aiBtn=document.getElementById('aiBtn');
     aiBtn.classList.toggle('on',aiOn);
     aiBtn.onclick=()=>{ // AI 建議 toggle：開→套用建議並存快照；關→還原點擊前選擇
