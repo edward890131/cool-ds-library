@@ -2889,7 +2889,7 @@
     -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 50%,rgba(0,0,0,.45) 76%,transparent 96%);
             mask-image:linear-gradient(180deg,#000 0%,#000 50%,rgba(0,0,0,.45) 76%,transparent 96%);}
   .gd-hero-shader canvas{display:block!important;width:100%!important;height:100%!important;}
-  .gd-hero.shader-on .gd-hero-shader{opacity:.82;}   /* 整層降透明度、不這麼顯眼（靜態暖底仍在下方，白字對比不受影響）*/
+  .gd-hero.shader-on .gd-hero-shader{opacity:1;}
   /* 標題區暗角 scrim：僅 shader 開啟時出現，壓一點中央亮度確保白字對比（底部淡出、不壓 mockup） */
   .gd-hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .9s ease;
     background:radial-gradient(120% 82% at 50% 34%, rgba(24,12,6,.36) 0%, rgba(24,12,6,.12) 40%, transparent 66%);}
@@ -2912,7 +2912,7 @@
     mask-image:radial-gradient(190px circle at var(--mx,-999px) var(--my,-999px), #000 0%, rgba(0,0,0,.35) 46%, transparent 72%);}
   .gd-hero:hover .gd-hero-grid{opacity:1;}
   /* hero 專屬紙質磨砂（比全站 body::after 更明顯，疊在彩色漸層上用 overlay 才吃得到色）*/
-  .gd-hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:overlay;opacity:.28;
+  .gd-hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:overlay;opacity:.55;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='hn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hn)'/%3E%3C/svg%3E");background-size:150px 150px;}
   .gd-hero-mock{position:relative;z-index:3;margin-top:clamp(28px,4vw,52px);display:flex;flex-direction:column;align-items:center;justify-content:center;}
   .gd-hero-mock .gd-devices{margin:0;width:100%;display:flex;justify-content:center;}
@@ -9486,7 +9486,7 @@ function buildScheduleChart(view){
       if(window.__sgUnmount){try{window.__sgUnmount();}catch(e){}window.__sgUnmount=null;}   // 換頁重渲染：先卸掉上一份，避免殘留 WebGL context
       const host=view.querySelector('#gdHeroShader');const hero=view.querySelector('#gdHero');
       if(!host||!hero)return;
-      const URLSTR='https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23FF915F&color2=%23F3B8AC&color3=%23DEB4E1&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.2&uStrength=6.4&uTime=0&wireframe=false';
+      const URLSTR='https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23FF9669&color2=%23F8D4CD&color3=%23EBD2ED&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.2&uStrength=6.4&uTime=0&wireframe=false';
       let root=null,shaderOn=(window.__shaderPref!=='off'),mounted=false,loading=false,failed=false;   // 開關偏好存 window.__shaderPref，跨換頁保留；toggle 已移到側邊選單（renderNav）
       const unmount=()=>{if(root){try{root.unmount();}catch(e){}root=null;}mounted=false;};
       window.__sgUnmount=unmount;
