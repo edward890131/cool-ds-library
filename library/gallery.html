@@ -2946,9 +2946,9 @@
   .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
   .gd-caro-stage{position:relative;width:100%;aspect-ratio:1040/652;}     /* 鎖比例＝等比縮放不拉扁 */
   /* 一次只呈現一張：非 active 淡出、active 淡入（保留前後輪播切換）*/
-  .gd-caro-slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:scale(.985);
-    transition:opacity .55s ease,transform .55s ease;will-change:opacity,transform;}
-  .gd-caro-slide.is-active{opacity:1;pointer-events:auto;transform:scale(1);z-index:2;}
+  .gd-caro-slide{position:absolute;inset:0;opacity:0;pointer-events:none;
+    transition:opacity .55s ease;will-change:opacity;}   /* 原尺寸純淡入淡出，不縮放 */
+  .gd-caro-slide.is-active{opacity:1;pointer-events:auto;z-index:2;}
   .gd-caro-slide .gd-hero-frame{width:100%;height:100%;}
   .gd-caro-slide .gd-hero-screen{height:100%;max-height:none;}
   @media(max-width:767px){.gd-carousel{width:85%;}
@@ -9473,17 +9473,12 @@ function buildScheduleChart(view){
         if(devs)devs.classList.toggle('gd-dev-match',match);
         view.querySelectorAll('#gdMockToggle .gd-mt-seg').forEach(s=>s.classList.toggle('on',s===seg));};
     });
-    // hero 背景網格互動（cula.tech 風）：radial mask 在游標半徑內透出網格；用 rAF lerp 讓網格「延遲拖尾」跟隨（delay 感）
+    // hero 背景網格互動（cula.tech 風）：radial mask 在游標半徑內透出網格；游標即時跟隨（已移除 lerp 拖尾 delay）
     const gHero=view.querySelector('#gdHero');const gGrid=view.querySelector('#gdHeroGrid');
     if(gHero&&gGrid){
-      let tx=-999,ty=-999,cx=-999,cy=-999,raf=null;
-      const tick=()=>{ cx+=(tx-cx)*0.12; cy+=(ty-cy)*0.12;
-        gGrid.style.setProperty('--mx',cx.toFixed(1)+'px'); gGrid.style.setProperty('--my',cy.toFixed(1)+'px');
-        if(Math.abs(tx-cx)>0.4||Math.abs(ty-cy)>0.4){raf=requestAnimationFrame(tick);}else{raf=null;} };
       gHero.addEventListener('mousemove',e=>{const r=gHero.getBoundingClientRect();
-        tx=e.clientX-r.left; ty=e.clientY-r.top;
-        if(cx<-900){cx=tx;cy=ty;}                      // 首次進場直接定位，避免從 -999 掃過來
-        if(!raf)raf=requestAnimationFrame(tick);});
+        gGrid.style.setProperty('--mx',(e.clientX-r.left).toFixed(1)+'px');
+        gGrid.style.setProperty('--my',(e.clientY-r.top).toFixed(1)+'px');});
     }
     // 方案 B：直接掛 ShaderGradient 官方 React 元件（control='query' 讀下方 URL 的全部參數），畫面等同 shadergradient.co 預覽。
     // 純 HTML 頁用 ESM 從 CDN 動態載入官方套件＋peer deps；載入失敗（離線/CDN 掛）自動退回原本靜態漸層並藏 toggle。city 環境反射走官方預設 envBasePath。
@@ -9491,7 +9486,7 @@ function buildScheduleChart(view){
       if(window.__sgUnmount){try{window.__sgUnmount();}catch(e){}window.__sgUnmount=null;}   // 換頁重渲染：先卸掉上一份，避免殘留 WebGL context
       const host=view.querySelector('#gdHeroShader');const hero=view.querySelector('#gdHero');
       if(!host||!hero)return;
-      const URLSTR='https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23FF5005&color2=%23F3B8AC&color3=%23DEB4E1&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.4&uStrength=6.4&uTime=0&wireframe=false';
+      const URLSTR='https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23FF5005&color2=%23F3B8AC&color3=%23DEB4E1&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.2&uStrength=6.4&uTime=0&wireframe=false';
       let root=null,shaderOn=(window.__shaderPref!=='off'),mounted=false,loading=false,failed=false;   // 開關偏好存 window.__shaderPref，跨換頁保留；toggle 已移到側邊選單（renderNav）
       const unmount=()=>{if(root){try{root.unmount();}catch(e){}root=null;}mounted=false;};
       window.__sgUnmount=unmount;
