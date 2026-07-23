@@ -323,6 +323,7 @@
   .nav-item:hover{background:var(--canvas);}
   .nav-item[aria-current="true"]{background:var(--i-primary-tint);color:var(--accent);} /* 當前頁淺藍底 */
   .nav-item .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-pin>span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;} /* 釘選項用裸 span，補上與 .nm 同款：收合縮寬時維持一行、超出變刪節號不折行 */
   .nav-item .dot{margin-left:auto;width:7px;height:7px;border-radius:var(--r-pill);flex:0 0 auto;background:var(--line-strong);} /* 建立狀態＝色圈（已停用） */
   .nav-item .dot.st-ready{background:var(--ok);}
   .nav-item .dot.st-partial{background:var(--warn);}
@@ -10028,8 +10029,12 @@ function buildScheduleChart(view){
     const view=document.getElementById('view'); if(!view) return;
     if(view.__rvObs){view.__rvObs.disconnect();view.__rvObs=null;} // 先斷開舊 observer 避免累積
     if(matchMedia('(prefers-reduced-motion:reduce)').matches) return; // 尊重系統「減少動態」設定：不隱藏、不動畫
-    const SEL='.gd-sec,section.block,.tok-sec,.cl-entry,.dg-sec,.sumcat,.placeholder'; // 各頁的天然段落單位（hero 有自己的載入動畫，不納入）
-    const targets=[...view.querySelectorAll(SEL)].filter(el=>!el.parentElement.closest(SEL)); // 只取最外層段落，避免巢狀重複觸發
+    const SECT='.gd-sec,.block,.tok-sec,.cl-entry,.dg-sec,.sumcat,.placeholder'; // 內容段落單位（hero 有自己的載入動畫，不納入）
+    const guide=view.querySelector(':scope > .gd-guide');
+    const root=guide||view; // guide 頁降一層進 .gd-guide（跳過 hero）；其餘頁以 #view 為根
+    const units=[...root.querySelectorAll(SECT)].filter(el=>!el.parentElement.closest(SECT) && !el.closest('.gd-hero')); // 最外層段落單位（去巢狀、排除 hero 內）
+    const loose=[...root.children].filter(el=>!el.classList.contains('gd-hero') && el.tagName!=='FOOTER' && !el.matches(SECT) && !el.querySelector(SECT)); // 頂層區塊本身不含段落單位者（各頁標題頭部、tokens 卡片區等）整塊納入 → 讓「第一個段落」也淡入
+    const targets=[...loose,...units].sort((a,b)=> (a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1); // 依 DOM 順序排序，stagger 才正確
     if(!targets.length) return;
     const main=document.querySelector('.main'); // 捲動容器＝IntersectionObserver 的 root
     const obs=new IntersectionObserver(ents=>{ ents.forEach(e=>{ // 進視窗、或已被捲過(段落頂端在視窗上緣以上)都直接顯示，避免快速捲動/TOC 跳轉跳過的段落卡在隱藏
