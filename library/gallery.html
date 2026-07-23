@@ -2901,7 +2901,7 @@
   .gd-hero-screen{position:relative;overflow:hidden;border-radius:12px;background:var(--ghbg);max-height:420px;
     box-shadow:0 1px 3px rgba(0,0,0,.14);}   /* 螢幕：裁切內容、hover 目標之容器 */
   .gd-caro-slide.is-active .gd-hero-screen{box-shadow:0 24px 54px -26px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.14);}  /* 最上方主卡加深落地陰影 */
-  .gd-hero-screen .gd-gh{width:1040px;max-width:none;transform-origin:top left;}   /* 桌機內容固定 1040 native，JS 依螢幕寬 scale＝等比縮放 */
+  .gd-hero-screen .gd-gh{max-width:none;transform-origin:top left;}   /* 桌機內容 native 寬由 JS inline 設（per-slide），依螢幕寬 scale＝等比縮放 */
   .gd-hero-screen .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
   /* mockup 自訂游標：hover 時隱藏原生游標，改用跟隨滑鼠的「在 GitHub 查看完整流程」按鈕（pill）；內容不放大不模糊；點整個 frame 另開 GitHub */
   @media(hover:hover){.gd-caro-slide.is-active .gd-hero-frame{cursor:none;}}
@@ -2934,7 +2934,7 @@
   @media(max-width:767px){.gd-carousel{width:85%;}
     .gd-caro-stage{aspect-ratio:auto;}
     .gd-caro-slide.is-active{position:relative;}
-    .gd-caro-slide .gd-hero-screen{height:auto;max-height:460px;}}
+    .gd-caro-slide .gd-hero-screen{height:auto;max-height:80vh;}}
   /* 首屏 mockup 深淺對調小 toggle（實心面板，位於漸層淡出處也讀得清；深淺主題皆可）*/
   .gd-mocktoggle{display:inline-flex;align-items:center;gap:2px;margin-top:var(--sp-5);
     background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;box-shadow:var(--e-md);}
@@ -2953,7 +2953,7 @@
   .hm-pill{font-family:var(--font-mono);font-size:12px;color:var(--ghmut);border:1px solid var(--ghline);border-radius:6px;padding:4px 9px;display:inline-flex;align-items:center;gap:5px;}
   .hm-sp{flex:1;}
   .hm-tbtn{font-size:12px;color:var(--ghtext);border:1px solid var(--ghline2);border-radius:7px;padding:5px 11px;display:inline-flex;align-items:center;gap:5px;}
-  .hm-tbtn.solid{background:#1c1c20;color:#fff;border-color:#1c1c20;}
+  .hm-tbtn.solid{background:var(--ghtext);color:var(--ghbg);border-color:var(--ghtext);}   /* 主要動作：深頁→白鈕、淺頁→深鈕（隨 mockup 深淺反轉，比照真站）*/
   .hm-body{display:flex;}
   .hm-side{width:212px;flex:0 0 212px;border-right:1px solid var(--ghline);padding:12px 12px;display:flex;flex-direction:column;gap:1px;}
   .hm-nav{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-family:var(--font-mono);font-size:13.5px;color:var(--ghtext);}
@@ -2965,7 +2965,7 @@
   .hm-main{flex:1;min-width:0;padding:22px 28px;}
   .hm-eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.11em;color:var(--ghmut);text-transform:uppercase;}
   .hm-headrow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:7px;}
-  .hm-h1{font-size:33px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin:0;color:var(--ghtext);}
+  .gd-hero .hm-h1{font-size:27px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:0;color:var(--ghtext);text-wrap:initial;}
   .hm-copybtn{flex:0 0 auto;font-size:12.5px;color:var(--ghtext);background:var(--ghsub);border:1px solid var(--ghline2);border-radius:8px;padding:8px 13px;}
   .hm-lede{color:var(--ghmut);font-size:13.5px;line-height:1.72;margin:14px 0 0;max-width:74ch;}
   .hm-lede b{color:var(--ghtext);font-weight:600;}
@@ -2994,7 +2994,7 @@
   .hm-aitoggle .sw{width:30px;height:17px;border-radius:20px;background:var(--ghsub);border:1px solid var(--ghline2);position:relative;}
   .hm-aitoggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:var(--ghfaint);}
   .hm-selall{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ghtext);}
-  .hm-selall .ck{width:15px;height:15px;border-radius:4px;background:#1c1c20;display:inline-flex;align-items:center;justify-content:center;color:#fff;}
+  .hm-selall .ck{width:15px;height:15px;border-radius:4px;background:var(--ghtext);display:inline-flex;align-items:center;justify-content:center;color:var(--ghbg);}
   .hm-selall .ck svg{width:10px;height:10px;}
   .hm-total{margin-left:auto;font-size:12.5px;color:var(--ghmut);}
   .hm-total b{color:var(--ghtext);font-weight:700;}
@@ -9349,7 +9349,7 @@ function buildScheduleChart(view){
     const BRD=[['--c-brand-100','#EDEDEE'],['--c-brand-200','#D1D1D3','dark 亮端'],['--c-brand-300','#A8A8AB'],['--c-brand-400','#5F5F64'],['--c-brand-500','#1C1C20','± 500'],['--c-brand-600','#141417','hover'],['--c-brand-700','#0C0C0E','press']];
     const tokenMain='<div class="hm-main">'
       +'<div class="hm-eyebrow">Foundation · Design Token</div>'
-      +'<div class="hm-headrow"><h1 class="hm-h1">Design Token</h1><span class="hm-copybtn">複製此頁 CSS</span></div>'
+      +'<div class="hm-headrow"><div class="hm-h1">Design Token</div><span class="hm-copybtn">複製此頁 CSS</span></div>'
       +'<p class="hm-lede">依 <b>DS Framework L1 Primitive → L2 Semantic</b> 架構、以 <b>v0 視覺</b> 為種子的預設 token。L1 純值來源、L2 角色組合（含 light/dark）、框架索引是唯讀對照。</p>'
       +'<div class="hm-tablead"><span class="hm-tab on">L1 Primitive</span><span class="hm-tab">L2 Semantic</span><span class="hm-tab">框架索引</span><span class="hm-reset">重設</span><span class="hm-leadnote">即時預覽 · 不自動儲存</span></div>'
       +'<div class="hm-sec-t">色彩 Color</div><div class="hm-sec-d">品牌、中性與狀態色階</div><div class="hm-rule strong"></div>'
@@ -9359,7 +9359,7 @@ function buildScheduleChart(view){
     const catCard=(t,n)=>'<div class="hm-catcard"><span class="hm-catt">'+t+'</span><span class="hm-catn">'+n+'</span><span class="hm-catcaret">›</span></div>';
     const summaryMain='<div class="hm-main">'
       +'<div class="hm-eyebrow">Overview · 需求匯總</div>'
-      +'<div class="hm-headrow"><h1 class="hm-h1">需求匯總</h1><span class="hm-copybtn">複製此頁 JSON</span></div>'
+      +'<div class="hm-headrow"><div class="hm-h1">需求匯總</div><span class="hm-copybtn">複製此頁 JSON</span></div>'
       +'<p class="hm-lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡看該元件的<b>實際操作</b>，牌卡前的勾選框決定<b>要不要產出</b>。回各元件用「變數篩選器」調整組合，這裡即時彙整。</p>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-actions"><span class="hm-aitoggle">✦ AI 建議產出<span class="sw"></span></span><span class="hm-selall"><span class="ck">'+CK2+'</span>全選</span><span class="hm-total">已選 <b>39</b>/39 個元件 · 共 <b>860</b> 個變體將建立</span></div>'
@@ -9369,19 +9369,20 @@ function buildScheduleChart(view){
     const summaryHTML='<div class="hm">'+hmBar('cool-ds-library.vercel.app')+hmTop+'<div class="hm-body">'+hmSide('summary')+summaryMain+'</div></div>';
     // 首屏 mockup 輪播：3 張＝GitHub repo／Design Token 頁／需求匯總頁；一次只呈現一張、每 5 秒前後輪播（淡切）；
     //   桌機內容固定 1040 native 由 JS 依螢幕寬 scale＝等比縮放（鎖比例不拉扁）；active 卡＝自訂游標＋點擊開對應連結
+    // native＝每張桌機內容的設計寬（github 較密設 680，token/summary 頁面設 1040）
     const SLIDE_DATA=[
-      {d:ghHTML,m:ghmHTML,url:'https://github.com/edward890131/cool-ds-library',pill:'在 GitHub 查看完整流程',icon:ICON_GITHUB},
-      {d:tokenHTML,m:tokenHTML,url:'https://cool-ds-library.vercel.app/#tokens',pill:'開啟 Design Token 頁',icon:O.link},
-      {d:summaryHTML,m:summaryHTML,url:'https://cool-ds-library.vercel.app/#summary',pill:'開啟需求匯總頁',icon:O.link}
+      {d:ghHTML,m:ghmHTML,url:'https://github.com/edward890131/cool-ds-library',pill:'在 GitHub 查看完整流程',icon:ICON_GITHUB,native:680},
+      {d:tokenHTML,m:tokenHTML,url:'https://cool-ds-library.vercel.app/#tokens',pill:'開啟 Design Token 頁',icon:O.link,native:1040},
+      {d:summaryHTML,m:summaryHTML,url:'https://cool-ds-library.vercel.app/#summary',pill:'開啟需求匯總頁',icon:O.link,native:1040}
     ];
     const stage=view.querySelector('#gdCaroStage');
     if(stage){
-      const SLIDES=SLIDE_DATA.length, frames=[], NATIVE=1040;
+      const SLIDES=SLIDE_DATA.length, frames=[];
       SLIDE_DATA.forEach((sd,i)=>{
         const slide=ce('div','gd-caro-slide');
         const frame=ce('div','gd-hero-frame');
         const scr=ce('div','gd-hero-screen');
-        const gh=ce('div','gd-gh');gh.innerHTML=sd.d;
+        const gh=ce('div','gd-gh');gh.innerHTML=sd.d;gh.style.width=sd.native+'px';
         const ghm=ce('div','gd-ghm');ghm.innerHTML=sd.m;
         scr.append(gh,ghm);
         const cur=ce('div','gd-hero-cursor');
@@ -9393,12 +9394,12 @@ function buildScheduleChart(view){
         frame.append(scr,cur);
         slide.appendChild(frame);
         stage.appendChild(slide);
-        frames.push({slide,frame,cur,url:sd.url});
+        frames.push({slide,frame,cur,url:sd.url,native:sd.native});
       });
-      // 等比縮放：桌機把 1040 native 內容 scale 到螢幕寬；手機清除 transform（改走 .gd-ghm 單欄）
+      // 等比縮放：桌機把各張 native 內容 scale 到螢幕寬；手機清除 transform（改走 .gd-ghm 單欄）
       const fitScale=()=>{const mob=window.matchMedia('(max-width:767px)').matches;
         frames.forEach(f=>{const g=f.frame.querySelector('.gd-gh');const s=f.frame.querySelector('.gd-hero-screen');
-          if(g&&s)g.style.transform=mob?'':'scale('+(s.clientWidth/NATIVE)+')';});};
+          if(g&&s)g.style.transform=mob?'':'scale('+(s.clientWidth/f.native)+')';});};
       let active=0;
       const setActive=(n)=>{active=((n%SLIDES)+SLIDES)%SLIDES;
         frames.forEach((f,i)=>f.slide.classList.toggle('is-active',i===active));};
