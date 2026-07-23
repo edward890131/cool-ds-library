@@ -2901,7 +2901,7 @@
   .gd-hero-screen{position:relative;overflow:hidden;border-radius:12px;background:var(--ghbg);max-height:420px;
     box-shadow:0 1px 3px rgba(0,0,0,.14);}   /* 螢幕：裁切內容、hover 目標之容器 */
   .gd-caro-slide.is-active .gd-hero-screen{box-shadow:0 24px 54px -26px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.14);}  /* 最上方主卡加深落地陰影 */
-  .gd-hero-screen .gd-gh{width:100%;max-width:none;}   /* 桌機內容填滿內層（隨 70% 寬度自適應）*/
+  .gd-hero-screen .gd-gh{width:1040px;max-width:none;transform-origin:top left;}   /* 桌機內容固定 1040 native，JS 依螢幕寬 scale＝等比縮放 */
   .gd-hero-screen .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
   /* mockup 自訂游標：hover 時隱藏原生游標，改用跟隨滑鼠的「在 GitHub 查看完整流程」按鈕（pill）；內容不放大不模糊；點整個 frame 另開 GitHub */
   @media(hover:hover){.gd-caro-slide.is-active .gd-hero-frame{cursor:none;}}
@@ -2923,23 +2923,94 @@
   .gd-hero-mock{animation-delay:.46s;}
   @media(prefers-reduced-motion:reduce){.gd-hero-copy .eyebrow,.gd-hero h1,.gd-hero-lede,.gd-hero-cta,.gd-hero-mock{animation:none;}}
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
-  .gd-carousel{position:relative;width:70%;margin:0 auto;padding-top:38px;}  /* 電腦版佔 70%；上留白＝後方露出的卡不觸及 CTA */
-  .gd-caro-stage{position:relative;width:100%;}
-  .gd-caro-slide{position:absolute;top:0;left:0;width:100%;transform-origin:top center;
-    transition:transform .8s cubic-bezier(.4,.14,.2,1),filter .8s ease;will-change:transform,filter;}
-  /* 後方卡＝完全不透明（避免半透明疊圖雜亂），改用漸進模糊表現景深 */
-  .gd-caro-slide.is-active{position:relative;z-index:3;transform:translateY(0) scale(1);opacity:1;filter:none;}
-  .gd-caro-slide.s1{z-index:2;transform:translateY(-16px) scale(.955);opacity:1;filter:blur(2px);}
-  .gd-caro-slide.s2{z-index:1;transform:translateY(-30px) scale(.91);opacity:1;filter:blur(5px);}
-  @media(max-width:767px){.gd-carousel{width:85%;padding-top:26px;}   /* 手機縮窄 mockup 保留左右呼吸空間 */
-    .gd-caro-slide.s1{transform:translateY(-12px) scale(.955);}
-    .gd-caro-slide.s2{transform:translateY(-23px) scale(.91);}}
+  .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
+  .gd-caro-stage{position:relative;width:100%;aspect-ratio:1040/652;}     /* 鎖比例＝等比縮放不拉扁 */
+  /* 一次只呈現一張：非 active 淡出、active 淡入（保留前後輪播切換）*/
+  .gd-caro-slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:scale(.985);
+    transition:opacity .55s ease,transform .55s ease;will-change:opacity,transform;}
+  .gd-caro-slide.is-active{opacity:1;pointer-events:auto;transform:scale(1);z-index:2;}
+  .gd-caro-slide .gd-hero-frame{width:100%;height:100%;}
+  .gd-caro-slide .gd-hero-screen{height:100%;max-height:none;}
+  @media(max-width:767px){.gd-carousel{width:85%;}
+    .gd-caro-stage{aspect-ratio:auto;}
+    .gd-caro-slide.is-active{position:relative;}
+    .gd-caro-slide .gd-hero-screen{height:auto;max-height:460px;}}
   /* 首屏 mockup 深淺對調小 toggle（實心面板，位於漸層淡出處也讀得清；深淺主題皆可）*/
   .gd-mocktoggle{display:inline-flex;align-items:center;gap:2px;margin-top:var(--sp-5);
     background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;box-shadow:var(--e-md);}
   .gd-mt-lb{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);padding:0 6px 0 8px;white-space:nowrap;}
   .gd-mt-seg{font-size:var(--fs-h11);font-weight:600;color:var(--muted);background:transparent;border:0;border-radius:var(--r-pill);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s;white-space:nowrap;}
   .gd-mt-seg.on{color:var(--primary-on);background:var(--accent);}
+  /* ── 首屏輪播「我們的網站頁面」mockup（Token／需求匯總，高還原；1040 native，隨 gh 深淺變數）── */
+  .hm{width:1040px;background:var(--ghbg);color:var(--ghtext);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .hm-top{display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid var(--ghline);}
+  .hm-burger{color:var(--ghmut);font-size:17px;line-height:1;}
+  .hm-brand{font-weight:800;font-size:19px;letter-spacing:.03em;color:var(--ghtext);}
+  .hm-brandsub{font-family:var(--font-mono);font-size:13px;color:var(--ghmut);}
+  .hm-divider{width:1px;height:18px;background:var(--ghline);}
+  .hm-theme{width:34px;height:19px;border-radius:20px;background:var(--ghsub);border:1px solid var(--ghline2);position:relative;flex:0 0 auto;}
+  .hm-theme::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--ghtext);}
+  .hm-pill{font-family:var(--font-mono);font-size:12px;color:var(--ghmut);border:1px solid var(--ghline);border-radius:6px;padding:4px 9px;display:inline-flex;align-items:center;gap:5px;}
+  .hm-sp{flex:1;}
+  .hm-tbtn{font-size:12px;color:var(--ghtext);border:1px solid var(--ghline2);border-radius:7px;padding:5px 11px;display:inline-flex;align-items:center;gap:5px;}
+  .hm-tbtn.solid{background:#1c1c20;color:#fff;border-color:#1c1c20;}
+  .hm-body{display:flex;}
+  .hm-side{width:212px;flex:0 0 212px;border-right:1px solid var(--ghline);padding:12px 12px;display:flex;flex-direction:column;gap:1px;}
+  .hm-nav{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-family:var(--font-mono);font-size:13.5px;color:var(--ghtext);}
+  .hm-nav.on{background:var(--ghsub);font-weight:600;}
+  .hm-sep{height:1px;background:var(--ghline);margin:5px 4px;opacity:.7;}
+  .hm-navg{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:13.5px;color:var(--ghtext);}
+  .hm-navg .n{margin-left:auto;font-family:var(--font-mono);font-size:12px;color:var(--ghmut);}
+  .hm-navg .cv{color:var(--ghfaint);font-size:11px;}
+  .hm-main{flex:1;min-width:0;padding:22px 28px;}
+  .hm-eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.11em;color:var(--ghmut);text-transform:uppercase;}
+  .hm-headrow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:7px;}
+  .hm-h1{font-size:33px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin:0;color:var(--ghtext);}
+  .hm-copybtn{flex:0 0 auto;font-size:12.5px;color:var(--ghtext);background:var(--ghsub);border:1px solid var(--ghline2);border-radius:8px;padding:8px 13px;}
+  .hm-lede{color:var(--ghmut);font-size:13.5px;line-height:1.72;margin:14px 0 0;max-width:74ch;}
+  .hm-lede b{color:var(--ghtext);font-weight:600;}
+  .hm-rule{height:1px;background:var(--ghline);margin:18px 0;}
+  .hm-rule.strong{height:2px;background:var(--ghtext);opacity:.85;margin:14px 0 16px;}
+  /* Token 頁 */
+  .hm-tablead{display:flex;align-items:center;gap:10px;margin:18px 0 6px;}
+  .hm-tab{font-family:var(--font-mono);font-size:12.5px;color:var(--ghmut);border:1px solid transparent;border-radius:7px;padding:6px 12px;background:var(--ghsub);}
+  .hm-tab.on{color:var(--ghtext);font-weight:600;border-color:var(--ghline2);background:var(--ghbg);box-shadow:0 1px 2px rgba(0,0,0,.12);}
+  .hm-reset{font-family:var(--font-mono);font-size:12px;color:var(--ghtext);background:var(--ghsub);border:1px solid var(--ghline2);border-radius:7px;padding:6px 12px;}
+  .hm-leadnote{margin-left:auto;font-family:var(--font-mono);font-size:11.5px;color:var(--ghfaint);}
+  .hm-sec-t{font-size:20px;font-weight:700;color:var(--ghtext);margin:2px 0 1px;}
+  .hm-sec-d{font-family:var(--font-mono);font-size:12px;color:var(--ghmut);}
+  .hm-tokgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;}
+  .hm-tokgroup{border:1px solid var(--ghline);border-radius:10px;overflow:hidden;}
+  .hm-tokgh{padding:9px 13px;border-bottom:1px solid var(--ghline);font-size:13px;font-weight:600;color:var(--ghtext);background:var(--ghsub);}
+  .hm-tokrow{display:flex;align-items:center;gap:11px;padding:7px 13px;border-top:1px solid var(--ghline);}
+  .hm-tokrow:first-child{border-top:0;}
+  .hm-tokname{font-family:var(--font-mono);font-size:12.5px;color:var(--ghtext);}
+  .hm-tokname .lab{margin-left:6px;font-size:10.5px;color:var(--ghfaint);}
+  .hm-toksw{width:26px;height:22px;border-radius:5px;border:1px solid var(--ghline2);flex:0 0 auto;margin-left:auto;}
+  .hm-tokhex{font-family:var(--font-mono);font-size:12px;color:var(--ghtext);border:1px solid var(--ghline2);border-radius:6px;padding:4px 9px;width:104px;text-align:left;background:var(--ghbg);}
+  /* 需求匯總頁 */
+  .hm-actions{display:flex;align-items:center;gap:14px;margin:2px 0 14px;}
+  .hm-aitoggle{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ghtext);border:1px solid var(--ghline2);border-radius:8px;padding:6px 11px;}
+  .hm-aitoggle .sw{width:30px;height:17px;border-radius:20px;background:var(--ghsub);border:1px solid var(--ghline2);position:relative;}
+  .hm-aitoggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:var(--ghfaint);}
+  .hm-selall{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ghtext);}
+  .hm-selall .ck{width:15px;height:15px;border-radius:4px;background:#1c1c20;display:inline-flex;align-items:center;justify-content:center;color:#fff;}
+  .hm-selall .ck svg{width:10px;height:10px;}
+  .hm-total{margin-left:auto;font-size:12.5px;color:var(--ghmut);}
+  .hm-total b{color:var(--ghtext);font-weight:700;}
+  .hm-catcard{display:flex;align-items:center;gap:10px;border:1px solid var(--ghline);border-radius:11px;padding:15px 17px;margin-bottom:11px;background:var(--ghbg);}
+  .hm-catt{font-size:15px;font-weight:600;color:var(--ghtext);}
+  .hm-catn{margin-left:auto;font-family:var(--font-mono);font-size:12.5px;color:var(--ghmut);border:1px solid var(--ghline2);border-radius:20px;padding:2px 11px;}
+  .hm-catcaret{color:var(--ghfaint);font-size:14px;}
+  .hm-restt{font-size:19px;font-weight:700;color:var(--ghtext);margin:6px 0 0;}
+  .hm-restnote{font-family:var(--font-mono);font-size:11.5px;color:var(--ghfaint);margin-top:10px;line-height:1.6;}
+  /* hm 手機版（放進 .gd-ghm，單欄響應式、隱藏側欄）*/
+  .gd-ghm .hm{width:100%;}
+  .gd-ghm .hm-side{display:none;}
+  .gd-ghm .hm-brandsub,.gd-ghm .hm-divider,.gd-ghm .hm-pill,.gd-ghm .hm-tbtn,.gd-ghm .hm-copybtn,.gd-ghm .hm-leadnote{display:none;}
+  .gd-ghm .hm-main{padding:15px 15px;}
+  .gd-ghm .hm-h1{font-size:23px;}
+  .gd-ghm .hm-tokgrid{grid-template-columns:1fr;}
   /* ── 上手指南配圖「簡略／精細」切換 ── */
   .gd-figv-rich{display:none;width:100%;}
   .gd-guide.show-rich .gd-figv-simple{display:none;}
@@ -9259,49 +9330,95 @@ function buildScheduleChart(view){
         +'<div class="gd-ghm-commit"><span class="gd-ghm-cav"></span><span class="gd-ghm-cauth"><b>edward890131</b> and <b>claude</b></span><span class="gd-ghm-ctime">1 hour ago</span></div>'
         +'<div class="gd-ghm-files">'+mFileRows+'</div>'
       +'</div>';
-    // 首屏 mockup 輪播（aiwork 風垂直堆疊）：3 張 slide（先放同一份 GitHub mockup 複本）；
-    //   前卡在最上層、後方兩張從上緣露出；每 5 秒由後往前把最上方替換掉；無箭頭無圓點；active 卡＝自訂游標＋點擊開 GitHub
+    // ── 另兩張輪播 mockup：高還原「我們網站」的 Design Token 頁與需求匯總頁（1040 native，隨 gh 深淺變數）──
+    const hmBar=(u)=>'<div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url"><span class="gd-gh-lock">🔒</span>'+u+'</span></div>';
+    const hmTop='<div class="hm-top"><span class="hm-burger">☰</span><span class="hm-brand">GOONS</span><span class="hm-brandsub">cool-ds-library</span><span class="hm-divider"></span><span class="hm-theme"></span><span class="hm-pill">📖 上手指南</span><span class="hm-sp"></span><span class="hm-tbtn">'+O.mark+'Github</span><span class="hm-tbtn solid">匯出（下載）</span></div>';
+    const hmSide=(act)=>'<div class="hm-side">'
+      +'<div class="hm-nav'+(act==='guide'?' on':'')+'">📖 上手指南</div>'
+      +'<div class="hm-sep"></div><div class="hm-nav'+(act==='tokens'?' on':'')+'">🎨 Design Token</div>'
+      +'<div class="hm-sep"></div><div class="hm-nav'+(act==='guideline'?' on':'')+'">📐 Design Guideline</div>'
+      +'<div class="hm-sep"></div><div class="hm-nav'+(act==='summary'?' on':'')+'">📋 需求匯總</div>'
+      +'<div class="hm-navg">🧱 Basic 基本<span class="n">18</span><span class="cv">›</span></div>'
+      +'<div class="hm-navg">🍀 Complex 複雜<span class="n">12</span><span class="cv">›</span></div>'
+      +'<div class="hm-navg">🗂 Card 卡片<span class="n">4</span><span class="cv">›</span></div>'
+      +'<div class="hm-navg">📊 Table & Chart 表格圖表<span class="n">5</span><span class="cv">›</span></div>'
+      +'<div class="hm-navg">🗒 版本紀錄</div></div>';
+    const CK2='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0L3.22 8.28a.75.75 0 0 1 1.06-1.06L7 9.94l5.72-5.72a.75.75 0 0 1 1.06 0Z"/></svg>';
+    const tokRow=(nm,hex,lab)=>'<div class="hm-tokrow"><span class="hm-tokname">'+nm+(lab?'<span class="lab">'+lab+'</span>':'')+'</span><span class="hm-toksw" style="background:'+hex+'"></span><span class="hm-tokhex">'+hex+'</span></div>';
+    const NEU=[['--c-neutral-0','#FFFFFF'],['--c-neutral-50','#FAFAFA'],['--c-neutral-100','#F4F5F7'],['--c-neutral-200','#ECEEF2'],['--c-neutral-300','#DFE1E7'],['--c-neutral-400','#C9CDD6'],['--c-neutral-500','#9BA0AA']];
+    const BRD=[['--c-brand-100','#EDEDEE'],['--c-brand-200','#D1D1D3','dark 亮端'],['--c-brand-300','#A8A8AB'],['--c-brand-400','#5F5F64'],['--c-brand-500','#1C1C20','± 500'],['--c-brand-600','#141417','hover'],['--c-brand-700','#0C0C0E','press']];
+    const tokenMain='<div class="hm-main">'
+      +'<div class="hm-eyebrow">Foundation · Design Token</div>'
+      +'<div class="hm-headrow"><h1 class="hm-h1">Design Token</h1><span class="hm-copybtn">複製此頁 CSS</span></div>'
+      +'<p class="hm-lede">依 <b>DS Framework L1 Primitive → L2 Semantic</b> 架構、以 <b>v0 視覺</b> 為種子的預設 token。L1 純值來源、L2 角色組合（含 light/dark）、框架索引是唯讀對照。</p>'
+      +'<div class="hm-tablead"><span class="hm-tab on">L1 Primitive</span><span class="hm-tab">L2 Semantic</span><span class="hm-tab">框架索引</span><span class="hm-reset">重設</span><span class="hm-leadnote">即時預覽 · 不自動儲存</span></div>'
+      +'<div class="hm-sec-t">色彩 Color</div><div class="hm-sec-d">品牌、中性與狀態色階</div><div class="hm-rule strong"></div>'
+      +'<div class="hm-tokgrid"><div class="hm-tokgroup"><div class="hm-tokgh">Neutral 中性色階</div>'+NEU.map(r=>tokRow(r[0],r[1],r[2])).join('')+'</div>'
+      +'<div class="hm-tokgroup"><div class="hm-tokgh">Brand 主色（9 階）</div>'+BRD.map(r=>tokRow(r[0],r[1],r[2])).join('')+'</div></div></div>';
+    const tokenHTML='<div class="hm">'+hmBar('cool-ds-library.vercel.app')+hmTop+'<div class="hm-body">'+hmSide('tokens')+tokenMain+'</div></div>';
+    const catCard=(t,n)=>'<div class="hm-catcard"><span class="hm-catt">'+t+'</span><span class="hm-catn">'+n+'</span><span class="hm-catcaret">›</span></div>';
+    const summaryMain='<div class="hm-main">'
+      +'<div class="hm-eyebrow">Overview · 需求匯總</div>'
+      +'<div class="hm-headrow"><h1 class="hm-h1">需求匯總</h1><span class="hm-copybtn">複製此頁 JSON</span></div>'
+      +'<p class="hm-lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡看該元件的<b>實際操作</b>，牌卡前的勾選框決定<b>要不要產出</b>。回各元件用「變數篩選器」調整組合，這裡即時彙整。</p>'
+      +'<div class="hm-rule"></div>'
+      +'<div class="hm-actions"><span class="hm-aitoggle">✦ AI 建議產出<span class="sw"></span></span><span class="hm-selall"><span class="ck">'+CK2+'</span>全選</span><span class="hm-total">已選 <b>39</b>/39 個元件 · 共 <b>860</b> 個變體將建立</span></div>'
+      +catCard('🧱 Basic 基本','18 / 18')+catCard('🍀 Complex 複雜','12 / 12')+catCard('🗂 Card 卡片','4 / 4')+catCard('📊 Table & Chart 表格圖表','5 / 5')
+      +'<div class="hm-restt">其餘元件</div><div class="hm-rule strong"></div>'
+      +'<div class="hm-restnote">input 家族的 search / password / textarea / file 以完整狀態建立（無轉版）。其餘 0 個項目為待建，之後定案後會一併納入此總覽。</div></div>';
+    const summaryHTML='<div class="hm">'+hmBar('cool-ds-library.vercel.app')+hmTop+'<div class="hm-body">'+hmSide('summary')+summaryMain+'</div></div>';
+    // 首屏 mockup 輪播：3 張＝GitHub repo／Design Token 頁／需求匯總頁；一次只呈現一張、每 5 秒前後輪播（淡切）；
+    //   桌機內容固定 1040 native 由 JS 依螢幕寬 scale＝等比縮放（鎖比例不拉扁）；active 卡＝自訂游標＋點擊開對應連結
+    const SLIDE_DATA=[
+      {d:ghHTML,m:ghmHTML,url:'https://github.com/edward890131/cool-ds-library',pill:'在 GitHub 查看完整流程',icon:ICON_GITHUB},
+      {d:tokenHTML,m:tokenHTML,url:'https://cool-ds-library.vercel.app/#tokens',pill:'開啟 Design Token 頁',icon:O.link},
+      {d:summaryHTML,m:summaryHTML,url:'https://cool-ds-library.vercel.app/#summary',pill:'開啟需求匯總頁',icon:O.link}
+    ];
     const stage=view.querySelector('#gdCaroStage');
     if(stage){
-      const SLIDES=3, frames=[];
-      for(let i=0;i<SLIDES;i++){
+      const SLIDES=SLIDE_DATA.length, frames=[], NATIVE=1040;
+      SLIDE_DATA.forEach((sd,i)=>{
         const slide=ce('div','gd-caro-slide');
         const frame=ce('div','gd-hero-frame');
         const scr=ce('div','gd-hero-screen');
-        const gh=ce('div','gd-gh');gh.innerHTML=ghHTML;
-        const ghm=ce('div','gd-ghm');ghm.innerHTML=ghmHTML;
+        const gh=ce('div','gd-gh');gh.innerHTML=sd.d;
+        const ghm=ce('div','gd-ghm');ghm.innerHTML=sd.m;
         scr.append(gh,ghm);
         const cur=ce('div','gd-hero-cursor');
         const pill=mkBtn({variant:'solid',intent:'secondary',size:'s',isLive:true});pill.type='button';  // 淺色近白底／深色近黑底
-        pill.querySelector('span').textContent='在 GitHub 查看完整流程';
-        pill.insertAdjacentHTML('afterbegin',ICON_GITHUB);
+        pill.querySelector('span').textContent=sd.pill;
+        pill.insertAdjacentHTML('afterbegin',sd.icon);
         pill.style.pointerEvents='none';
         cur.appendChild(pill);
         frame.append(scr,cur);
         slide.appendChild(frame);
         stage.appendChild(slide);
-        frames.push({slide,frame,cur});
-      }
+        frames.push({slide,frame,cur,url:sd.url});
+      });
+      // 等比縮放：桌機把 1040 native 內容 scale 到螢幕寬；手機清除 transform（改走 .gd-ghm 單欄）
+      const fitScale=()=>{const mob=window.matchMedia('(max-width:767px)').matches;
+        frames.forEach(f=>{const g=f.frame.querySelector('.gd-gh');const s=f.frame.querySelector('.gd-hero-screen');
+          if(g&&s)g.style.transform=mob?'':'scale('+(s.clientWidth/NATIVE)+')';});};
       let active=0;
-      // rel 0＝最上層主卡、1＝往後第一張、2＝最後方；每次 active+1＝把後方那張往前遞補
       const setActive=(n)=>{active=((n%SLIDES)+SLIDES)%SLIDES;
-        frames.forEach((f,i)=>{f.slide.classList.remove('is-active','s1','s2');
-          const rel=(i-active+SLIDES)%SLIDES;
-          f.slide.classList.add(rel===0?'is-active':rel===1?'s1':'s2');});};
+        frames.forEach((f,i)=>f.slide.classList.toggle('is-active',i===active));};
       frames.forEach((f,i)=>{
         f.frame.addEventListener('mouseenter',()=>{if(i===active)f.frame.classList.add('cur-on');});
         f.frame.addEventListener('mouseleave',()=>f.frame.classList.remove('cur-on'));
         f.frame.addEventListener('mousemove',e=>{if(i!==active)return;const r=f.frame.getBoundingClientRect();
           f.cur.style.transform='translate('+(e.clientX-r.left)+'px,'+(e.clientY-r.top)+'px) translate(-50%,-50%)';});
-        f.frame.addEventListener('click',()=>{if(i===active)window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');});
+        f.frame.addEventListener('click',()=>{if(i===active)window.open(f.url,'_blank','noopener');});
       });
-      // 自動輪播（每 5 秒）：timer 存 window，換頁 renderGuide 重跑時先清舊 timer 避免累積；hover 主卡時暫停
+      // 自動輪播（每 5 秒）：timer 存 window，換頁重跑先清；hover 暫停
       if(window.__caroTimer){clearInterval(window.__caroTimer);window.__caroTimer=null;}
       const startAuto=()=>{window.__caroTimer=setInterval(()=>setActive(active+1),5000);};
       const caro=view.querySelector('#gdCarousel');
       if(caro){caro.addEventListener('mouseenter',()=>{if(window.__caroTimer){clearInterval(window.__caroTimer);window.__caroTimer=null;}});
         caro.addEventListener('mouseleave',()=>{if(!window.__caroTimer)startAuto();});}
       setActive(0);
+      fitScale();requestAnimationFrame(fitScale);setTimeout(fitScale,180);
+      if(window.__caroResize)window.removeEventListener('resize',window.__caroResize);
+      window.__caroResize=fitScale;window.addEventListener('resize',fitScale);
       startAuto();
     }
     // 首屏 mockup 深淺對調 toggle：切 .gd-devices.gd-dev-match（同步＝淺頁用淺 mockup；對比＝預設反轉）
