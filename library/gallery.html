@@ -260,7 +260,7 @@
   /* ---------- layout ---------- */
   .shell{--sb:max(200px,20vw);height:100vh;height:100dvh;display:flex;flex-direction:column;} /* 整個 app 固定一屏；側邊欄＝20vw，最小 200px */
   .layout{flex:1 1 auto;min-height:0;position:relative;display:grid;grid-template-columns:var(--sb) 1fr;} /* 填滿 topbar 以下的剩餘高度；min-height:0 讓子欄可各自內捲；relative 供拖曳把手定位 */
-  .sidebar{min-height:0;overflow-y:auto;border-right:1px solid var(--line);background:var(--panel);padding:var(--sp-4) var(--sp-3);} /* 撐滿 layout 高度、自身垂直捲動 */
+  .sidebar{min-height:0;overflow-y:auto;border-right:1px solid var(--line);background:var(--panel);padding:var(--sp-4) var(--sp-3);display:flex;flex-direction:column;} /* 撐滿 layout 高度、自身垂直捲動；flex-column 讓 .sb-shader 可 margin-top:auto 釘底 */
   /* ---- 側邊欄拖曳調寬把手：貼在 sidebar 右緣，left 跟隨 --sb ---- */
   .sidebar-resize{position:absolute;top:0;bottom:0;left:var(--sb);width:9px;transform:translateX(-5px);z-index:31;cursor:col-resize;touch-action:none;}
   .sidebar-resize::after{content:'';position:absolute;top:0;bottom:0;left:5px;width:2px;background:transparent;transition:background .15s;} /* 視覺線：hover/拖曳才亮 */
@@ -2798,10 +2798,10 @@
   .sb-foot{display:none;padding:var(--sp-4) var(--sp-2) var(--sp-2);border-top:1px solid var(--line);}
   @media(max-width:767px){.sidebar{display:flex;flex-direction:column;} .sb-foot{display:block;margin-top:auto;}}
   /* 選單底部的「背景漸層 動態/原本」toggle：只在首屏頁出現，桌機/手機都顯示，位於 sb-foot 之上 */
-  .sb-shader{display:block;margin:var(--sp-3) var(--sp-1) 0;padding-top:var(--sp-3);border-top:1px solid var(--line);}
+  .sb-shader{display:block;margin:auto var(--sp-1) var(--sp-4);padding-top:var(--sp-3);border-top:1px solid var(--line);}   /* margin-top:auto 釘側欄底部（桌機/手機皆是）；bottom sp-4＝下方留白（手機與 footer 間、桌機與邊緣間）*/
   .sb-shader-lb{display:block;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);margin-bottom:var(--sp-2);padding-left:var(--sp-1);}
   .sb-shader-seg{display:inline-flex;align-items:center;gap:2px;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;}
-  @media(max-width:767px){.sb-shader{margin-top:auto;} .sidebar:has(.sb-shader) .sb-foot{margin-top:0;}}   /* 手機：toggle 接 footer 正上方一起沉底（sb-shader 吸走剩餘空間，footer 就緊貼其下） */
+  @media(max-width:767px){.sidebar:has(.sb-shader) .sb-foot{margin-top:0;}}   /* 手機：footer 緊貼 toggle 下方（sb-shader 已 margin-top:auto 吸走剩餘空間）；toggle 的 margin-bottom 提供兩者間距 */
   .sb-foot-name{display:block;font-size:var(--fs-h11);font-weight:600;color:var(--ink);word-break:break-all;}
   .sb-foot-note{display:block;font-size:var(--fs-h11);color:var(--muted);line-height:1.6;}
   .sb-foot-ver{display:inline-block;margin-top:var(--sp-2);font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:1px 6px;}
@@ -2958,7 +2958,6 @@
   /* 首屏 mockup 深淺對調小 toggle（實心面板，位於漸層淡出處也讀得清；深淺主題皆可）*/
   .gd-mocktoggle{display:inline-flex;align-items:center;gap:2px;margin-top:var(--sp-5);
     background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;box-shadow:var(--e-md);}
-  .gd-mt-lb{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);padding:0 6px 0 8px;white-space:nowrap;}
   .gd-mt-seg{font-size:var(--fs-h11);font-weight:600;color:var(--muted);background:transparent;border:0;border-radius:var(--r-pill);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s;white-space:nowrap;}
   .gd-mt-seg.on{color:var(--primary-on);background:var(--accent);}
   /* ── 首屏輪播「我們的網站頁面」mockup（Token／需求匯總，高還原；1040 native，隨 gh 深淺變數）── */
@@ -3214,17 +3213,11 @@
   .gd-scard .gd-card-ic{font-size:var(--fs-h10);}            /* 編號用前一版大小、只有數字 */
   .gd-scard.now{background:var(--accent);border-color:transparent;box-shadow:none;}  /* 你在這＝填滿底色（比照原步驟牌卡 active）*/
   .gd-scard.now .gd-card-ic,.gd-scard.now h3,.gd-scard.now p{color:var(--primary-on);}
-  /* 裝置 mockup：主題反轉——淺色頁用深色 GitHub、深色頁用淺色 GitHub（gh* 變數整組翻轉，MacBook 與 iPhone 共用）*/
+  /* 裝置 mockup：配色由首屏 toggle 直接控制（深色模式／淺色模式），預設深色；gh* 變數整組切換 */
   .gd-devices{margin:40px 0;--gh-av:url("data:image/png;base64,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");
     --ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}
-  @media(prefers-color-scheme:dark){.gd-devices{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}}
-  :root[data-theme="dark"] .gd-devices{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
-  :root[data-theme="light"] .gd-devices{--ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}
-  /* mockup 深淺對調（.gd-dev-match）：淺頁用淺 mockup、深頁用深 mockup（與預設反轉相反）*/
-  .gd-devices.gd-dev-match{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
-  @media(prefers-color-scheme:dark){.gd-devices.gd-dev-match{--ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}}
-  :root[data-theme="dark"] .gd-devices.gd-dev-match{--ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}
-  :root[data-theme="light"] .gd-devices.gd-dev-match{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
+  /* mockup 配色由 toggle 直接控制深/淺（不再跟隨頁面主題）：預設＝深色（見上方 .gd-devices base 的 gh 變數）；.gd-dev-light＝淺色 */
+  .gd-devices.gd-dev-light{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
   .gd-mac{position:relative;display:flex;flex-direction:column;align-items:center;}
   .gd-iphone{display:none;flex-direction:column;align-items:center;}   /* 桌機隱藏；手機顯示 */
   @media(max-width:767px){.gd-mac{display:none;} .gd-iphone{display:flex;}}
@@ -9144,9 +9137,8 @@ function buildScheduleChart(view){
             </div>
           </div>
           <div class="gd-mocktoggle" id="gdMockToggle" role="group" aria-label="mockup 深淺配色">
-            <span class="gd-mt-lb">Mockup 配色</span>
-            <button class="gd-mt-seg on" data-mock="invert" type="button">對比</button>
-            <button class="gd-mt-seg" data-mock="match" type="button">同步</button>
+            <button class="gd-mt-seg on" data-mock="dark" type="button">深色模式</button>
+            <button class="gd-mt-seg" data-mock="light" type="button">淺色模式</button>
           </div>
         </div>
       </section>
@@ -9466,11 +9458,11 @@ function buildScheduleChart(view){
       window.__caroRO.observe(stage);
       startAuto();
     }
-    // 首屏 mockup 深淺對調 toggle：切 .gd-devices.gd-dev-match（同步＝淺頁用淺 mockup；對比＝預設反轉）
+    // 首屏 mockup 配色 toggle：直接控制深/淺（深色模式＝預設無 class；淺色模式＝加 .gd-dev-light），active 即 mockup 當前配色
     const devs=view.querySelector('.gd-hero-mock .gd-devices');
     view.querySelectorAll('#gdMockToggle .gd-mt-seg').forEach(seg=>{
-      seg.onclick=()=>{const match=seg.getAttribute('data-mock')==='match';
-        if(devs)devs.classList.toggle('gd-dev-match',match);
+      seg.onclick=()=>{const light=seg.getAttribute('data-mock')==='light';
+        if(devs)devs.classList.toggle('gd-dev-light',light);
         view.querySelectorAll('#gdMockToggle .gd-mt-seg').forEach(s=>s.classList.toggle('on',s===seg));};
     });
     // hero 背景網格互動（cula.tech 風）：radial mask 在游標半徑內透出網格；游標即時跟隨（已移除 lerp 拖尾 delay）
@@ -9519,7 +9511,7 @@ function buildScheduleChart(view){
     const heroCta=view.querySelector('#gdHeroCta');
     if(heroCta){
       const pri=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});pri.type='button';
-      pri.querySelector('span').textContent='編輯 Token';
+      pri.querySelector('span').textContent='編輯 Design Token';
       pri.onclick=()=>renderView('tokens');
       const sec=mkBtn({variant:'solid',intent:'secondary',size:'m',isLive:true});sec.type='button';
       sec.querySelector('span').textContent='瀏覽 Component';
@@ -10048,7 +10040,7 @@ function buildScheduleChart(view){
       st.innerHTML='<span class="sb-shader-lb">背景漸層</span>'+
         '<div class="sb-shader-seg" role="group" aria-label="首屏背景漸層">'+
         '<button class="gd-st-seg'+(on?' on':'')+'" data-shader="on" type="button">動態</button>'+
-        '<button class="gd-st-seg'+(on?'':' on')+'" data-shader="off" type="button">原本</button></div>';
+        '<button class="gd-st-seg'+(on?'':' on')+'" data-shader="off" type="button">靜態</button></div>';
       st.querySelectorAll('.gd-st-seg').forEach(seg=>{seg.onclick=()=>{
         const isOn=seg.getAttribute('data-shader')==='on';
         window.__shaderPref=isOn?'on':'off';
