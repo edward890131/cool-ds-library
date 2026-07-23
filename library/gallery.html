@@ -8786,6 +8786,7 @@ function buildScheduleChart(view){
     {v:'v12', date:'2026-07-23', title:'副色編輯復原＋Guideline 色票手機四欄', items:[
       {tag:'fix', t:'Design Token 頁「Brand 副色」群組復原（改名品牌橘後群組索引仍指舊名「品牌藍」導致不顯示 → 現可正常編輯輔助色）'},
       {tag:'improve', t:'Design Guideline 色票手機版改為一列四等分（色塊等比縮放）'},
+      {tag:'improve', t:'上手指南 FAQ 補充：元件級 token 綁定、改主色/副色，並把首屏隱藏互動（背景網格、mockup 游標、手機下拉重整、mockup 配色反轉）寫進操作小技巧'},
     ]},
     {v:'v11', date:'2026-07-23', title:'Guideline 手機版修正＋下拉位移動效', items:[
       {tag:'fix', t:'Design Guideline 手機版寬度爆版修正（字級尺標表與色彩用途表改為堆疊/去固定欄寬）'},
@@ -9046,7 +9047,9 @@ function buildScheduleChart(view){
         <div class="gd-faq" id="gdFaq">
           <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">我在這裡改東西，會不會動到共用母庫？<span class="gd-faq-caret"></span></button><div class="gd-faq-a">不會。你的調整只存進「這個專案」；共用母庫（給所有專案用的母盤）只有人工升級才會變。</div></div>
           <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">存的東西跑去哪了？<span class="gd-faq-caret"></span></button><div class="gd-faq-a">寫進專案資料夾 projects/&lt;專案名&gt;/。Claude 之後會拿這些檔去建 code 和 Figma。</div></div>
-          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">操作小技巧<span class="gd-faq-caret"></span></button><div class="gd-faq-a">側欄邊緣可拖曳調寬、雙擊還原；深淺色隨時切換檢查；改壞的 token 用 reset 一鍵還原。</div></div>
+          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">每顆元件可以單獨換綁 token 嗎？<span class="gd-faq-caret"></span></button><div class="gd-faq-a">可以。每顆元件頁下方的「變數與 Token」段有 <b>Token 綁定</b>：能把這顆元件的<b>圓角 / 間距 / 字級</b>換綁成同類別的其他 token（例：padding 從 <code>--sp-3</code> 換 <code>--sp-4</code>）。只影響<b>這個專案的這顆元件</b>，不動共用母庫；母庫頁只做唯讀示意。</div></div>
+          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">怎麼改整站的主色 / 副色？<span class="gd-faq-caret"></span></button><div class="gd-faq-a">到 <b>Design Token</b> 頁的「色彩 Color」→ 改 <b>Brand 主色</b>或 <b>Brand 副色</b>的九階色號，整站會<b>即時套用</b>。主色＝主要動作（按鈕、選中）；副色＝點綴與次要強調。改壞了用 reset 一鍵還原。</div></div>
+          <div class="gd-faq-item collapsed"><button class="gd-faq-q" type="button">操作小技巧<span class="gd-faq-caret"></span></button><div class="gd-faq-a">側欄邊緣可拖曳調寬、雙擊還原；深淺色隨時切換檢查（首屏 mockup 會自動反轉配色）；改壞的 token 用 reset 一鍵還原。首屏小彩蛋：滑鼠<b>滑過背景</b>會透出網格、<b>移到 mockup 上</b>游標會變成「在 GitHub 查看完整流程」按鈕；<b>手機</b>把頁面拉到頂再下拉可<b>重新整理</b>。</div></div>
         </div>
       </section>
     `;
