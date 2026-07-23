@@ -8547,10 +8547,10 @@ function buildScheduleChart(view){
     {g:'Neutral 中性色階',kind:'color',note:'單色底來源；light 的 surface/text/border 皆引用。',
      rows:[['--c-neutral-0'],['--c-neutral-50'],['--c-neutral-100'],['--c-neutral-200'],['--c-neutral-300'],['--c-neutral-400'],['--c-neutral-500'],['--c-neutral-600'],['--c-neutral-700'],['--c-neutral-800'],['--c-neutral-900']],
      def:{'--c-neutral-0':'#FFFFFF','--c-neutral-50':'#FAFAFA','--c-neutral-100':'#F4F5F7','--c-neutral-200':'#ECEEF2','--c-neutral-300':'#DFE1E7','--c-neutral-400':'#C9CDD6','--c-neutral-500':'#9BA0AA','--c-neutral-600':'#6F7179','--c-neutral-700':'#3A3D45','--c-neutral-800':'#1C1E24','--c-neutral-900':'#0D0F15'}},
-    {g:'Brand 主色（9 階 · 深黑）',kind:'color',note:'primary 動作＝黑；餵 action.primary／選中／圖表主系列。500 為主錨點，暗色模式翻成亮端（見框架索引）。',
+    {g:'Brand 主色（9 階）',kind:'color',note:'primary 主色；餵 action.primary／選中／圖表主系列。500 為主錨點，暗色模式翻成亮端（見框架索引）。色相由 --c-brand 色階定義、可自由調整。',
      rows:[['--c-brand-100'],['--c-brand-200','dark 亮端'],['--c-brand-300'],['--c-brand-400'],['--c-brand-500','主 500'],['--c-brand-600','hover'],['--c-brand-700','press'],['--c-brand-800'],['--c-brand-900']],
      def:{'--c-brand-100':'#EDEDEE','--c-brand-200':'#D1D1D3','--c-brand-300':'#A8A8AB','--c-brand-400':'#5F5F64','--c-brand-500':'#1C1C20','--c-brand-600':'#141417','--c-brand-700':'#0C0C0E','--c-brand-800':'#060607','--c-brand-900':'#000000'}},
-    {g:'Brand 副色（9 階 · 品牌橘）',kind:'color',note:'品牌橘 #EA580C；框架 brand.secondary。目前為 primitive，元件端 secondary 仍走中性色（要不要接橘需另行確認）。',
+    {g:'Brand 副色（9 階）',kind:'color',note:'副品牌色（框架 brand.secondary）；色相由 --c-brand2 色階定義、可自由調整。目前為 primitive，元件端 secondary 仍走中性色（要不要接副色需另行確認）。',
      rows:[['--c-brand2-100'],['--c-brand2-200'],['--c-brand2-300'],['--c-brand2-400'],['--c-brand2-500','副 500'],['--c-brand2-600'],['--c-brand2-700'],['--c-brand2-800'],['--c-brand2-900']],
      def:{'--c-brand2-100':'#FFEDD5','--c-brand2-200':'#FED7AA','--c-brand2-300':'#FDBA74','--c-brand2-400':'#FB923C','--c-brand2-500':'#EA580C','--c-brand2-600':'#C2410C','--c-brand2-700':'#9A3412','--c-brand2-800':'#7C2D12','--c-brand2-900':'#5A200D'}},
     {g:'Feedback 狀態色（各 9 階）',kind:'color',note:'成功／警告／錯誤／資訊，框架完整 9 階 tint；500 為主、兼圖表系列色，400/600 供 hover/press 與暗色。',
@@ -9232,7 +9232,7 @@ function buildScheduleChart(view){
     if(layer==='l1'){
       bodyEl.className='tok-cardgrid'; // 牌卡由左至右排列、寬度不夠再往下
       const TOK_L1_SECTIONS=[
-        {t:'色彩 Color',d:'品牌、中性與狀態色階',g:['Neutral 中性色階','Brand 主色（9 階 · 深黑）','Brand 副色（9 階 · 品牌橘）','Feedback 狀態色（各 9 階）']},
+        {t:'色彩 Color',d:'品牌、中性與狀態色階',g:['Neutral 中性色階','Brand 主色（9 階）','Brand 副色（9 階）','Feedback 狀態色（各 9 階）']},
         {t:'文字 Typography',d:'字級、字重、行高、字距',g:['Typography 複合樣式（text style）','Letter Spacing 字距（中／英）','Font Weight 字重','Line Height 行高']},
         {t:'間距與尺寸 Spacing & Sizing',d:'間距、圓角、容器、斷點、網格',g:['Spacing 間距（v0 校準）','Radius 圓角（9 階）','Container 容器','Breakpoints 裝置斷點','Grid 網格（per device）']},
         {t:'效果 Effect',d:'陰影與動態',g:['Elevation 陰影（6 階）','Motion 動態']},
