@@ -2926,13 +2926,20 @@
   .gd-carousel{position:relative;width:min(100%,600px);margin:0 auto;padding-top:38px;}  /* 上留白＝後方露出的卡不觸及 CTA */
   .gd-caro-stage{position:relative;width:100%;}
   .gd-caro-slide{position:absolute;top:0;left:0;width:100%;transform-origin:top center;
-    transition:transform .8s cubic-bezier(.4,.14,.2,1),opacity .8s ease;will-change:transform,opacity;}
-  .gd-caro-slide.is-active{position:relative;z-index:3;transform:translateY(0) scale(1);opacity:1;}
-  .gd-caro-slide.s1{z-index:2;transform:translateY(-16px) scale(.955);opacity:.62;}
-  .gd-caro-slide.s2{z-index:1;transform:translateY(-30px) scale(.91);opacity:.34;}
-  @media(max-width:767px){.gd-carousel{padding-top:28px;}
+    transition:transform .8s cubic-bezier(.4,.14,.2,1),filter .8s ease;will-change:transform,filter;}
+  /* 後方卡＝完全不透明（避免半透明疊圖雜亂），改用漸進模糊表現景深 */
+  .gd-caro-slide.is-active{position:relative;z-index:3;transform:translateY(0) scale(1);opacity:1;filter:none;}
+  .gd-caro-slide.s1{z-index:2;transform:translateY(-16px) scale(.955);opacity:1;filter:blur(2px);}
+  .gd-caro-slide.s2{z-index:1;transform:translateY(-30px) scale(.91);opacity:1;filter:blur(5px);}
+  @media(max-width:767px){.gd-carousel{width:85%;padding-top:26px;}   /* 手機縮窄 mockup 保留左右呼吸空間 */
     .gd-caro-slide.s1{transform:translateY(-12px) scale(.955);}
     .gd-caro-slide.s2{transform:translateY(-23px) scale(.91);}}
+  /* 首屏 mockup 深淺對調小 toggle（實心面板，位於漸層淡出處也讀得清；深淺主題皆可）*/
+  .gd-mocktoggle{display:inline-flex;align-items:center;gap:2px;margin-top:var(--sp-5);
+    background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;box-shadow:var(--e-md);}
+  .gd-mt-lb{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);padding:0 6px 0 8px;white-space:nowrap;}
+  .gd-mt-seg{font-size:var(--fs-h11);font-weight:600;color:var(--muted);background:transparent;border:0;border-radius:var(--r-pill);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s;white-space:nowrap;}
+  .gd-mt-seg.on{color:var(--primary-on);background:var(--accent);}
   /* ── 上手指南配圖「簡略／精細」切換 ── */
   .gd-figv-rich{display:none;width:100%;}
   .gd-guide.show-rich .gd-figv-simple{display:none;}
@@ -2998,7 +3005,7 @@
   .gm-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 34%,transparent);z-index:2;border-radius:var(--r-md);}
   .gm-dlg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:min(88%,320px);background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-md);box-shadow:0 24px 60px -20px rgba(0,0,0,.5);overflow:hidden;}
   .gm-dlg-h{padding:11px 13px;border-bottom:1px solid var(--line);}
-  .gm-dlg-t{font-size:var(--fs-h8);font-weight:600;color:var(--ink);}
+  .gm-dlg-t{font-size:var(--fs-h9);font-weight:600;color:var(--ink);}
   .gm-dlg-sub{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);margin-top:3px;}
   .gm-dlg-b{padding:11px 13px;display:flex;flex-direction:column;gap:6px;}
   .gm-chg{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--ink);padding:5px 9px;border-radius:var(--r-sm);background:var(--panel-2);}
@@ -3102,6 +3109,11 @@
   @media(prefers-color-scheme:dark){.gd-devices{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}}
   :root[data-theme="dark"] .gd-devices{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
   :root[data-theme="light"] .gd-devices{--ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}
+  /* mockup 深淺對調（.gd-dev-match）：淺頁用淺 mockup、深頁用深 mockup（與預設反轉相反）*/
+  .gd-devices.gd-dev-match{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
+  @media(prefers-color-scheme:dark){.gd-devices.gd-dev-match{--ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}}
+  :root[data-theme="dark"] .gd-devices.gd-dev-match{--ghbg:#0d1117;--ghsub:#161b22;--ghline:#30363d;--ghline2:#3d444d;--ghtext:#e6edf3;--ghmut:#9198a1;--ghfaint:#7d8590;--ghlink:#4493f8;--ghgreen:#238636;--ghfolder:#54aeff;}
+  :root[data-theme="light"] .gd-devices.gd-dev-match{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
   .gd-mac{position:relative;display:flex;flex-direction:column;align-items:center;}
   .gd-iphone{display:none;flex-direction:column;align-items:center;}   /* 桌機隱藏；手機顯示 */
   @media(max-width:767px){.gd-mac{display:none;} .gd-iphone{display:flex;}}
@@ -9023,6 +9035,11 @@ function buildScheduleChart(view){
               <div class="gd-caro-stage" id="gdCaroStage"></div>
             </div>
           </div>
+          <div class="gd-mocktoggle" id="gdMockToggle" role="group" aria-label="mockup 深淺配色">
+            <span class="gd-mt-lb">Mockup 配色</span>
+            <button class="gd-mt-seg on" data-mock="invert" type="button">對比</button>
+            <button class="gd-mt-seg" data-mock="match" type="button">同步</button>
+          </div>
         </div>
       </section>
 
@@ -9292,6 +9309,13 @@ function buildScheduleChart(view){
       setActive(0);
       startAuto();
     }
+    // 首屏 mockup 深淺對調 toggle：切 .gd-devices.gd-dev-match（同步＝淺頁用淺 mockup；對比＝預設反轉）
+    const devs=view.querySelector('.gd-hero-mock .gd-devices');
+    view.querySelectorAll('#gdMockToggle .gd-mt-seg').forEach(seg=>{
+      seg.onclick=()=>{const match=seg.getAttribute('data-mock')==='match';
+        if(devs)devs.classList.toggle('gd-dev-match',match);
+        view.querySelectorAll('#gdMockToggle .gd-mt-seg').forEach(s=>s.classList.toggle('on',s===seg));};
+    });
     // hero 背景網格互動（cula.tech 風）：radial mask 在游標半徑內透出網格；用 rAF lerp 讓網格「延遲拖尾」跟隨（delay 感）
     const gHero=view.querySelector('#gdHero');const gGrid=view.querySelector('#gdHeroGrid');
     if(gHero&&gGrid){
@@ -9339,8 +9363,7 @@ function buildScheduleChart(view){
       +'</div><div class="gm-main">'
         +'<div class="gm-crumb">Basic / Button</div><div class="gm-h">Button</div>'
         +'<div class="gm-line" style="width:88%"></div><div class="gm-card-ph"></div><div class="gm-line" style="width:64%"></div>'
-      +'</div></div></div>'
-      +'<div class="gm-legend"><span class="gm-tag">① 上方列</span><span class="gm-tag">② 側欄</span><span class="gm-tag">③ 主區</span></div></div>';
+      +'</div></div></div></div>';
     // 04 元件架構：Button 規格矩陣（mkBtn 原子）＋篩選 chip＋token 綁定列
     const r04=view.querySelector('#gdRich04');
     if(r04){r04.innerHTML=
