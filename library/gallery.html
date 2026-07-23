@@ -2797,7 +2797,7 @@
   /* 選單底部：版本號＋母元件庫說明（手機 topbar badge 收起後改在此顯示；釘在選單底部） */
   .sb-foot{display:none;padding:var(--sp-4) var(--sp-2) var(--sp-2);border-top:1px solid var(--line);}
   @media(max-width:767px){.sidebar{display:flex;flex-direction:column;} .sb-foot{display:block;margin-top:auto;}}
-  /* 選單底部的「背景漸層 動態/原本」toggle：只在首屏頁出現，桌機/手機都顯示，位於 sb-foot 之上 */
+  /* 選單底部的「背景漸層 動態/靜態」toggle：永遠顯示，桌機/手機都在，位於 sb-foot 之上 */
   .sb-shader{display:block;margin:auto var(--sp-1) var(--sp-4);padding-top:var(--sp-3);border-top:1px solid var(--line);}   /* margin-top:auto 釘側欄底部（桌機/手機皆是）；bottom sp-4＝下方留白（手機與 footer 間、桌機與邊緣間）*/
   .sb-shader-lb{display:block;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);margin-bottom:var(--sp-2);padding-left:var(--sp-1);}
   .sb-shader-seg{display:inline-flex;align-items:center;gap:2px;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;}
@@ -9499,7 +9499,7 @@ function buildScheduleChart(view){
             React.createElement(SG.ShaderGradient,{control:'query',urlString:URLSTR})));
           mounted=true;
           requestAnimationFrame(()=>hero.classList.add('shader-on'));   // 掛好再淡入，避開空白閃爍
-        }catch(e){failed=true;loading=false;window.__shaderFailed=true;const st=document.getElementById('gdShaderToggle');if(st)st.remove();hero.classList.remove('shader-on');console.warn('[hero-shader] ShaderGradient 載入失敗，退回靜態漸層',e);}
+        }catch(e){failed=true;loading=false;window.__shaderFailed=true;hero.classList.remove('shader-on');console.warn('[hero-shader] ShaderGradient 載入失敗，退回靜態漸層',e);}   // toggle 永遠保留在側欄（不因載入失敗移除）
       }
       // 側邊選單 toggle 呼叫這支切換（掛/卸並淡入淡出）；此函式每次 renderGuide 重掛時覆寫成綁定當前 host
       window.__shaderApply=(on)=>{shaderOn=!!on;window.__shaderPref=on?'on':'off';
@@ -10004,7 +10004,7 @@ function buildScheduleChart(view){
     else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);} // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
-    syncShaderToggle(); // ⚠️換頁不重建側欄，這裡依 current 補/移「背景漸層」toggle（進 guide 補、離開移）
+    syncShaderToggle(); // ⚠️換頁不重建側欄，這裡確保「背景漸層」toggle 永遠在（任何頁、任何進站方式）
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
     const _m=document.querySelector('.main');if(_m)_m.scrollTo(0,0); // app-shell：捲 main 容器（非 document）
     buildTOC(); // 換頁後重建右緣本頁目錄
@@ -10035,15 +10035,13 @@ function buildScheduleChart(view){
     const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
     clpin.innerHTML=`<span>🗒 ${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
     const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
-    syncShaderToggle(); // 依 current 建/移「背景漸層」toggle（插在 foot 之上）
+    syncShaderToggle(); // 確保「背景漸層」toggle 永遠在側欄（插在 foot 之上）
   }
-  // 首屏背景漸層 動態/靜態 toggle：只在 guide 頁顯示（漸層只存在首屏）、shader 載入失敗則不建。⚠️renderView 換頁不重建側欄，故 renderNav 與 renderView 都呼叫本函式，確保「任何方式進 guide」都補得到 toggle（否則在非 guide 頁重整後點進 guide 會缺 toggle）。狀態存 window.__shaderPref，實際掛/卸交給 hero 的 window.__shaderApply
+  // 背景漸層 動態/靜態 toggle：**永遠顯示在側欄**（不限 guide 頁；Yuu 指定）。⚠️renderView 換頁不重建側欄，故 renderNav 與 renderView 都呼叫本函式冪等確保它一直在。狀態存 window.__shaderPref；在 guide 頁即時套用（window.__shaderApply），其他頁只記偏好、進 guide 時 initHeroShader 讀取生效
   function syncShaderToggle(){
     const host=document.getElementById('sidebar'); if(!host)return;
     const foot=document.getElementById('sbFoot');
     let st=document.getElementById('gdShaderToggle');
-    const shouldShow = current==='guide' && !window.__shaderFailed;
-    if(!shouldShow){ if(st)st.remove(); return; }
     if(st) return; // 已存在就不重建（保留當前 active 狀態）
     const on=window.__shaderPref!=='off';
     st=ce('div','sb-shader');st.id='gdShaderToggle';
@@ -10055,7 +10053,7 @@ function buildScheduleChart(view){
       const isOn=seg.getAttribute('data-shader')==='on';
       window.__shaderPref=isOn?'on':'off';
       st.querySelectorAll('.gd-st-seg').forEach(s=>s.classList.toggle('on',s===seg));
-      if(window.__shaderApply)window.__shaderApply(isOn);
+      if(current==='guide' && window.__shaderApply)window.__shaderApply(isOn); // 只在 guide 頁即時套用；其他頁只記偏好
     };});
     if(foot)host.insertBefore(st,foot); else host.appendChild(st);
   }
