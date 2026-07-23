@@ -2951,11 +2951,11 @@
   .gd-hero-cta{animation-delay:.34s;}
   .gd-hero-mock{animation-delay:.46s;}
   @media(prefers-reduced-motion:reduce){.gd-hero-copy .eyebrow,.gd-hero h1,.gd-hero-lede,.gd-hero-cta,.gd-hero-mock{animation:none;}}
-  /* ── 全站段落捲動進場：沿用 hero 的 fade-up 曲線，段落滾進視窗才淡入上浮（JS armReveal 掛 .rv/.rv-in）。reduced-motion 直接顯示 ── */
-  .rv{opacity:0;transform:translateY(24px);will-change:opacity,transform;
-    transition:opacity .72s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms),transform .72s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms);}
-  .rv.rv-in{opacity:1;transform:none;}
-  @media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important;}}
+  /* ── 全站段落進場：沿用 hero 的 fade-up 曲線。用 @keyframes 動畫（非 transition）：加上 .rv-in 當下就確定性播放，不受 DOM 插入時序/幀合併影響（transition 兩段式切 class 會偶發被跳過→看似沒淡入）。reduced-motion 直接顯示 ── */
+  @keyframes rv-fade-up{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+  .rv{opacity:0;transform:translateY(24px);will-change:opacity,transform;} /* 未進場前隱藏；捲動外/首屏外維持此態 */
+  .rv.rv-in{animation:rv-fade-up .72s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms) both;} /* both：延遲期間停在 from、結束後停在 to */
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;animation:none!important;}}
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
   .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
   .gd-caro-stage{position:relative;width:100%;aspect-ratio:1040/652;}     /* 鎖比例＝等比縮放不拉扁 */
@@ -10025,23 +10025,32 @@ function buildScheduleChart(view){
     buildTOC(); // 換頁後重建右緣本頁目錄
     armReveal(); // 換頁後為本頁段落掛捲動進場（fade-up）
   }
-  function armReveal(){ // 全站段落捲動進場：段落滾進視窗才 fade-up；SPA 換頁重建內容故每次換頁重掛
+  function armReveal(){ // 全站段落進場：首屏可見段落確定性淡入（rAF）＋其餘捲動進視窗才觸發；SPA 換頁重建內容故每次換頁重掛
     const view=document.getElementById('view'); if(!view) return;
     if(view.__rvObs){view.__rvObs.disconnect();view.__rvObs=null;} // 先斷開舊 observer 避免累積
+    if(view.__rvRaf){cancelAnimationFrame(view.__rvRaf);view.__rvRaf=null;}
     if(matchMedia('(prefers-reduced-motion:reduce)').matches) return; // 尊重系統「減少動態」設定：不隱藏、不動畫
     const SECT='.gd-sec,.block,.tok-sec,.cl-entry,.dg-sec,.sumcat,.placeholder'; // 內容段落單位（hero 有自己的載入動畫，不納入）
+    const SKIP='.head-rule'; // 分隔線等非內容元素排除：不加 opacity:0，避免動畫沒播到時整條消失
     const guide=view.querySelector(':scope > .gd-guide');
     const root=guide||view; // guide 頁降一層進 .gd-guide（跳過 hero）；其餘頁以 #view 為根
     const units=[...root.querySelectorAll(SECT)].filter(el=>!el.parentElement.closest(SECT) && !el.closest('.gd-hero')); // 最外層段落單位（去巢狀、排除 hero 內）
-    const loose=[...root.children].filter(el=>!el.classList.contains('gd-hero') && el.tagName!=='FOOTER' && !el.matches(SECT) && !el.querySelector(SECT)); // 頂層區塊本身不含段落單位者（各頁標題頭部、tokens 卡片區等）整塊納入 → 讓「第一個段落」也淡入
+    const loose=[...root.children].filter(el=>!el.classList.contains('gd-hero') && el.tagName!=='FOOTER' && !el.matches(SKIP) && !el.matches(SECT) && !el.querySelector(SECT)); // 頂層區塊本身不含段落單位者（各頁標題頭部、tokens 卡片區等）整塊納入 → 讓「第一個段落」也淡入
     const targets=[...loose,...units].sort((a,b)=> (a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1); // 依 DOM 順序排序，stagger 才正確
     if(!targets.length) return;
     const main=document.querySelector('.main'); // 捲動容器＝IntersectionObserver 的 root
-    const obs=new IntersectionObserver(ents=>{ ents.forEach(e=>{ // 進視窗、或已被捲過(段落頂端在視窗上緣以上)都直接顯示，避免快速捲動/TOC 跳轉跳過的段落卡在隱藏
+    targets.forEach(el=>el.classList.add('rv')); // 同步先隱藏（opacity:0）：保證首幀就是隱藏態
+    const obs=new IntersectionObserver(ents=>{ ents.forEach(e=>{ // 捲動進視窗、或已捲過視窗上緣 → 顯示，避免快速捲動/TOC 跳轉的段落卡在隱藏
       if(e.isIntersecting || (e.rootBounds && e.boundingClientRect.top < e.rootBounds.top)){ e.target.classList.add('rv-in'); obs.unobserve(e.target); } }); },
-      {root:main,rootMargin:'0px 0px -8% 0px',threshold:.08}); // 進視窗約 8% 才觸發、只播一次
+      {root:main,rootMargin:'0px 0px -10% 0px',threshold:.02});
     view.__rvObs=obs;
-    targets.forEach((el,i)=>{ el.classList.add('rv'); el.style.setProperty('--rv-d',Math.min(i,4)*60+'ms'); obs.observe(el); }); // 首屏同時可見的段落用小幅 stagger 錯開（上限 4×60ms）
+    view.__rvRaf=requestAnimationFrame(()=>{ view.__rvRaf=null; // 一次 rAF 等 layout 穩定再量位置（@keyframes 動畫不需靠幀間隔觸發）
+      const mr=main.getBoundingClientRect();
+      const inView=[], below=[];
+      targets.forEach(el=>{ const r=el.getBoundingClientRect(); (r.top<mr.bottom && r.bottom>mr.top ? inView : below).push(el); });
+      below.forEach(el=>obs.observe(el)); // 首屏外：捲動進視窗才觸發
+      inView.forEach((el,i)=>{ el.style.setProperty('--rv-d',Math.min(i,5)*70+'ms'); el.classList.add('rv-in'); }); // 首屏內：確定性淡入＋小幅 stagger（上限 5×70ms）
+    });
   }
   function renderNav(){const host=document.getElementById('sidebar');host.innerHTML='';
     // 手機專用：上手指南入口（桌機在 topbar，CSS .nav-guide-m 只在 ≤767px 顯示）；renderView('guide') 會自動高亮＋收起抽屜
