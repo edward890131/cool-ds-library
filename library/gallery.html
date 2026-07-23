@@ -2797,6 +2797,11 @@
   /* 選單底部：版本號＋母元件庫說明（手機 topbar badge 收起後改在此顯示；釘在選單底部） */
   .sb-foot{display:none;padding:var(--sp-4) var(--sp-2) var(--sp-2);border-top:1px solid var(--line);}
   @media(max-width:767px){.sidebar{display:flex;flex-direction:column;} .sb-foot{display:block;margin-top:auto;}}
+  /* 選單底部的「背景漸層 動態/原本」toggle：只在首屏頁出現，桌機/手機都顯示，位於 sb-foot 之上 */
+  .sb-shader{display:block;margin:var(--sp-3) var(--sp-1) 0;padding-top:var(--sp-3);border-top:1px solid var(--line);}
+  .sb-shader-lb{display:block;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);margin-bottom:var(--sp-2);padding-left:var(--sp-1);}
+  .sb-shader-seg{display:inline-flex;align-items:center;gap:2px;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;}
+  @media(max-width:767px){.sb-shader{margin-top:auto;} .sidebar:has(.sb-shader) .sb-foot{margin-top:0;}}   /* 手機：toggle 接 footer 正上方一起沉底（sb-shader 吸走剩餘空間，footer 就緊貼其下） */
   .sb-foot-name{display:block;font-size:var(--fs-h11);font-weight:600;color:var(--ink);word-break:break-all;}
   .sb-foot-note{display:block;font-size:var(--fs-h11);color:var(--muted);line-height:1.6;}
   .sb-foot-ver{display:inline-block;margin-top:var(--sp-2);font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:1px 6px;}
@@ -2890,13 +2895,9 @@
     background:radial-gradient(120% 82% at 50% 34%, rgba(24,12,6,.36) 0%, rgba(24,12,6,.12) 40%, transparent 66%);}
   .gd-hero.shader-on .gd-hero-scrim{opacity:1;}
   .gd-hero.shader-on .gd-hero h1,.gd-hero.shader-on .gd-hero-lede{text-shadow:0 1px 20px rgba(30,12,4,.35);}
-  /* 角落 toggle：比對「動態漸層 / 原本靜態」，沿用 mocktoggle 視覺 */
-  .gd-shadertoggle{position:absolute;top:14px;right:14px;z-index:5;display:inline-flex;align-items:center;gap:2px;
-    background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;box-shadow:var(--e-md);}
-  .gd-st-lb{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);padding:0 6px 0 8px;white-space:nowrap;}
+  /* toggle「動態漸層 / 原本靜態」按鈕：改放側邊選單底部（見 .sb-shader），seg 樣式共用 */
   .gd-st-seg{font-size:var(--fs-h11);font-weight:600;color:var(--muted);background:transparent;border:0;border-radius:var(--r-pill);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s;white-space:nowrap;}
   .gd-st-seg.on{color:var(--primary-on);background:var(--accent);}
-  @media(max-width:640px){.gd-shadertoggle{top:10px;right:10px;}.gd-st-lb{display:none;}}
   .gd-hero-copy{position:relative;z-index:3;max-width:62ch;margin:0 auto;text-align:center;}
   /* 翻轉後暖色在頂＋加深，文字一律用白（灰字在暖底看不清）；標題/說明/eyebrow 皆白，深淺色一致 */
   .gd-hero-copy .eyebrow{margin-bottom:var(--sp-4);color:rgba(255,255,255,.82);}
@@ -9129,11 +9130,6 @@ function buildScheduleChart(view){
         <div class="gd-hero-bg"></div>
         <div class="gd-hero-shader" id="gdHeroShader" aria-hidden="true"></div>
         <div class="gd-hero-scrim" aria-hidden="true"></div>
-        <div class="gd-shadertoggle" id="gdShaderToggle" role="group" aria-label="首屏背景漸層">
-          <span class="gd-st-lb">背景漸層</span>
-          <button class="gd-st-seg on" data-shader="on" type="button">動態</button>
-          <button class="gd-st-seg" data-shader="off" type="button">原本</button>
-        </div>
         <div class="gd-hero-grid" id="gdHeroGrid"></div>
         <div class="gd-hero-copy">
           <p class="eyebrow">上手指南 · Getting Started</p>
@@ -9493,10 +9489,10 @@ function buildScheduleChart(view){
     // 純 HTML 頁用 ESM 從 CDN 動態載入官方套件＋peer deps；載入失敗（離線/CDN 掛）自動退回原本靜態漸層並藏 toggle。city 環境反射走官方預設 envBasePath。
     (function initHeroShader(){
       if(window.__sgUnmount){try{window.__sgUnmount();}catch(e){}window.__sgUnmount=null;}   // 換頁重渲染：先卸掉上一份，避免殘留 WebGL context
-      const host=view.querySelector('#gdHeroShader');const hero=view.querySelector('#gdHero');const tog=view.querySelector('#gdShaderToggle');
+      const host=view.querySelector('#gdHeroShader');const hero=view.querySelector('#gdHero');
       if(!host||!hero)return;
       const URLSTR='https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23ff5005&color2=%23dbba95&color3=%23d0bce1&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.4&uStrength=6.4&uTime=0&wireframe=false';
-      let root=null,shaderOn=true,mounted=false,loading=false,failed=false;
+      let root=null,shaderOn=(window.__shaderPref!=='off'),mounted=false,loading=false,failed=false;   // 開關偏好存 window.__shaderPref，跨換頁保留；toggle 已移到側邊選單（renderNav）
       const unmount=()=>{if(root){try{root.unmount();}catch(e){}root=null;}mounted=false;};
       window.__sgUnmount=unmount;
       async function mount(){
@@ -9516,15 +9512,13 @@ function buildScheduleChart(view){
             React.createElement(SG.ShaderGradient,{control:'query',urlString:URLSTR})));
           mounted=true;
           requestAnimationFrame(()=>hero.classList.add('shader-on'));   // 掛好再淡入，避開空白閃爍
-        }catch(e){failed=true;loading=false;if(tog)tog.style.display='none';hero.classList.remove('shader-on');console.warn('[hero-shader] ShaderGradient 載入失敗，退回靜態漸層',e);}
+        }catch(e){failed=true;loading=false;window.__shaderFailed=true;const st=document.getElementById('gdShaderToggle');if(st)st.remove();hero.classList.remove('shader-on');console.warn('[hero-shader] ShaderGradient 載入失敗，退回靜態漸層',e);}
       }
-      mount();
-      if(tog){tog.querySelectorAll('.gd-st-seg').forEach(seg=>{seg.onclick=()=>{
-        shaderOn=seg.getAttribute('data-shader')==='on';
-        tog.querySelectorAll('.gd-st-seg').forEach(s=>s.classList.toggle('on',s===seg));
-        if(shaderOn){if(!mounted)mount();else hero.classList.add('shader-on');}
-        else{hero.classList.remove('shader-on');unmount();}
-      };});}
+      // 側邊選單 toggle 呼叫這支切換（掛/卸並淡入淡出）；此函式每次 renderGuide 重掛時覆寫成綁定當前 host
+      window.__shaderApply=(on)=>{shaderOn=!!on;window.__shaderPref=on?'on':'off';
+        if(on){if(!mounted)mount();else hero.classList.add('shader-on');}
+        else{hero.classList.remove('shader-on');unmount();}};
+      if(shaderOn)mount();
     })();
     // 首屏 hero 兩顆 CTA：主要＝編輯 Token（solid primary）、次要＝瀏覽元件（solid secondary：淺色近白底／深色近黑底，凸顯於漸層上）；都用 library mkBtn 原子，不手拼 class
     const heroCta=view.querySelector('#gdHeroCta');
@@ -10052,6 +10046,22 @@ function buildScheduleChart(view){
     host.appendChild(ce('div','nav-sep')); // Table 群組 ↔ 版本紀錄／更新紀錄 分隔線
     const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
     clpin.innerHTML=`<span>🗒 ${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
+    // 首屏背景漸層 動態/原本 toggle（放 sb-foot 之上）：只在 guide 頁顯示（漸層只存在首屏）、shader 載入失敗則不建。狀態存 window.__shaderPref，實際掛/卸交給 hero 的 window.__shaderApply（renderNav 早於 renderGuide，故 click 時才取用）
+    if(current==='guide' && !window.__shaderFailed){
+      const on=window.__shaderPref!=='off';
+      const st=ce('div','sb-shader');st.id='gdShaderToggle';
+      st.innerHTML='<span class="sb-shader-lb">背景漸層</span>'+
+        '<div class="sb-shader-seg" role="group" aria-label="首屏背景漸層">'+
+        '<button class="gd-st-seg'+(on?' on':'')+'" data-shader="on" type="button">動態</button>'+
+        '<button class="gd-st-seg'+(on?'':' on')+'" data-shader="off" type="button">原本</button></div>';
+      st.querySelectorAll('.gd-st-seg').forEach(seg=>{seg.onclick=()=>{
+        const isOn=seg.getAttribute('data-shader')==='on';
+        window.__shaderPref=isOn?'on':'off';
+        st.querySelectorAll('.gd-st-seg').forEach(s=>s.classList.toggle('on',s===seg));
+        if(window.__shaderApply)window.__shaderApply(isOn);
+      };});
+      host.appendChild(st);
+    }
     const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
   }
   function sbFootHTML(){
