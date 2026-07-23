@@ -241,6 +241,8 @@
   .hamb:hover{color:var(--ink);border-color:var(--accent);}
   .hamb svg{width:19px;height:19px;}
   .brand{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;min-width:0;}
+  .brand.is-link{cursor:pointer;} .brand.is-link:hover{opacity:.7;} .brand.is-link{transition:opacity .15s ease;}
+  .brand.is-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-sm);}
   .brand-logo{width:66px;height:auto;display:block;color:var(--ink);flex:0 0 auto;}
   .brand-logo-img{width:66px;height:auto;display:block;flex:0 0 auto;}
   .brand .divider{width:1px;height:18px;background:var(--line-strong);flex:0 0 auto;}
@@ -9621,6 +9623,7 @@ function buildScheduleChart(view){
   })();
   document.getElementById('hambBtn').onclick=()=>{ if(window.innerWidth>900) shell.classList.toggle('nav-collapsed'); else shell.classList.toggle('nav-open'); };
   { const gb=document.getElementById('guideBtn'); if(gb){ const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true}); nb.id='guideBtn'; nb.type='button'; nb.querySelector('span').textContent='📖 上手指南'; nb.style.marginLeft='var(--sp-4)'; nb.onclick=()=>{location.hash='guide';}; gb.replaceWith(nb); } }
+  { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>{location.hash='guide';}; bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
   document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
   (function(){const btn=document.getElementById('themeBtn'),knob=document.getElementById('themeKnob');
