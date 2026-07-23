@@ -2901,7 +2901,7 @@
   .gd-hero-screen{position:relative;overflow:hidden;border-radius:12px;background:var(--ghbg);max-height:420px;
     box-shadow:0 1px 3px rgba(0,0,0,.14);}   /* 螢幕：裁切內容、hover 目標之容器 */
   .gd-caro-slide.is-active .gd-hero-screen{box-shadow:0 24px 54px -26px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.14);}  /* 最上方主卡加深落地陰影 */
-  .gd-hero-screen .gd-gh{width:640px;max-width:none;}   /* 桌機內容固定 640px 剛好填滿內層 */
+  .gd-hero-screen .gd-gh{width:100%;max-width:none;}   /* 桌機內容填滿內層（隨 70% 寬度自適應）*/
   .gd-hero-screen .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
   /* mockup 自訂游標：hover 時隱藏原生游標，改用跟隨滑鼠的「在 GitHub 查看完整流程」按鈕（pill）；內容不放大不模糊；點整個 frame 另開 GitHub */
   @media(hover:hover){.gd-caro-slide.is-active .gd-hero-frame{cursor:none;}}
@@ -2923,7 +2923,7 @@
   .gd-hero-mock{animation-delay:.46s;}
   @media(prefers-reduced-motion:reduce){.gd-hero-copy .eyebrow,.gd-hero h1,.gd-hero-lede,.gd-hero-cta,.gd-hero-mock{animation:none;}}
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
-  .gd-carousel{position:relative;width:min(100%,600px);margin:0 auto;padding-top:38px;}  /* 上留白＝後方露出的卡不觸及 CTA */
+  .gd-carousel{position:relative;width:70%;margin:0 auto;padding-top:38px;}  /* 電腦版佔 70%；上留白＝後方露出的卡不觸及 CTA */
   .gd-caro-stage{position:relative;width:100%;}
   .gd-caro-slide{position:absolute;top:0;left:0;width:100%;transform-origin:top center;
     transition:transform .8s cubic-bezier(.4,.14,.2,1),filter .8s ease;will-change:transform,filter;}
@@ -9015,11 +9015,6 @@ function buildScheduleChart(view){
   function renderGuide(view){
     view.innerHTML = `
       <div class="gd-guide show-rich" id="gdGuide">
-      <div class="gd-fig-toggle" id="gdFigToggle" role="group" aria-label="配圖精細度切換">
-        <span class="gd-fig-toggle-lb">配圖</span>
-        <button class="gd-fig-seg" data-fig="simple" type="button">簡略</button>
-        <button class="gd-fig-seg on" data-fig="rich" type="button">精細</button>
-      </div>
       <section class="gd-hero" id="gdHero">
         <div class="gd-hero-bg"></div>
         <div class="gd-hero-grid" id="gdHeroGrid"></div>
@@ -9335,7 +9330,7 @@ function buildScheduleChart(view){
       pri.querySelector('span').textContent='編輯 Token';
       pri.onclick=()=>renderView('tokens');
       const sec=mkBtn({variant:'solid',intent:'secondary',size:'m',isLive:true});sec.type='button';
-      sec.querySelector('span').textContent='瀏覽元件';
+      sec.querySelector('span').textContent='瀏覽 Component';
       sec.onclick=()=>renderView('summary');
       heroCta.append(pri,sec);
     }
@@ -9421,13 +9416,6 @@ function buildScheduleChart(view){
       if(f7){const c=mkBtn({variant:'outline',intent:'secondary',size:'s'});c.querySelector('span').textContent='取消';
         const k=mkBtn({variant:'solid',intent:'primary',size:'s'});k.querySelector('span').textContent='確定更新';f7.append(c,k);}
     }
-    // 配圖精細度切換 toggle（頁面右下角）：切 .gd-guide.show-rich，即時對照簡略／精細（定案前用）
-    const guideRoot=view.querySelector('#gdGuide');
-    view.querySelectorAll('#gdFigToggle .gd-fig-seg').forEach(seg=>{
-      seg.onclick=()=>{const rich=seg.getAttribute('data-fig')==='rich';
-        if(guideRoot)guideRoot.classList.toggle('show-rich',rich);
-        view.querySelectorAll('#gdFigToggle .gd-fig-seg').forEach(s=>s.classList.toggle('on',s===seg));};
-    });
   }
 
   function renderTokens(view){
