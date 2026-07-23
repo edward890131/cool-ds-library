@@ -10004,6 +10004,7 @@ function buildScheduleChart(view){
     else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);} // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
+    syncShaderToggle(); // ⚠️換頁不重建側欄，這裡依 current 補/移「背景漸層」toggle（進 guide 補、離開移）
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
     const _m=document.querySelector('.main');if(_m)_m.scrollTo(0,0); // app-shell：捲 main 容器（非 document）
     buildTOC(); // 換頁後重建右緣本頁目錄
@@ -10033,23 +10034,30 @@ function buildScheduleChart(view){
     host.appendChild(ce('div','nav-sep')); // Table 群組 ↔ 版本紀錄／更新紀錄 分隔線
     const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
     clpin.innerHTML=`<span>🗒 ${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
-    // 首屏背景漸層 動態/原本 toggle（放 sb-foot 之上）：只在 guide 頁顯示（漸層只存在首屏）、shader 載入失敗則不建。狀態存 window.__shaderPref，實際掛/卸交給 hero 的 window.__shaderApply（renderNav 早於 renderGuide，故 click 時才取用）
-    if(current==='guide' && !window.__shaderFailed){
-      const on=window.__shaderPref!=='off';
-      const st=ce('div','sb-shader');st.id='gdShaderToggle';
-      st.innerHTML='<span class="sb-shader-lb">背景漸層</span>'+
-        '<div class="sb-shader-seg" role="group" aria-label="首屏背景漸層">'+
-        '<button class="gd-st-seg'+(on?' on':'')+'" data-shader="on" type="button">動態</button>'+
-        '<button class="gd-st-seg'+(on?'':' on')+'" data-shader="off" type="button">靜態</button></div>';
-      st.querySelectorAll('.gd-st-seg').forEach(seg=>{seg.onclick=()=>{
-        const isOn=seg.getAttribute('data-shader')==='on';
-        window.__shaderPref=isOn?'on':'off';
-        st.querySelectorAll('.gd-st-seg').forEach(s=>s.classList.toggle('on',s===seg));
-        if(window.__shaderApply)window.__shaderApply(isOn);
-      };});
-      host.appendChild(st);
-    }
     const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
+    syncShaderToggle(); // 依 current 建/移「背景漸層」toggle（插在 foot 之上）
+  }
+  // 首屏背景漸層 動態/靜態 toggle：只在 guide 頁顯示（漸層只存在首屏）、shader 載入失敗則不建。⚠️renderView 換頁不重建側欄，故 renderNav 與 renderView 都呼叫本函式，確保「任何方式進 guide」都補得到 toggle（否則在非 guide 頁重整後點進 guide 會缺 toggle）。狀態存 window.__shaderPref，實際掛/卸交給 hero 的 window.__shaderApply
+  function syncShaderToggle(){
+    const host=document.getElementById('sidebar'); if(!host)return;
+    const foot=document.getElementById('sbFoot');
+    let st=document.getElementById('gdShaderToggle');
+    const shouldShow = current==='guide' && !window.__shaderFailed;
+    if(!shouldShow){ if(st)st.remove(); return; }
+    if(st) return; // 已存在就不重建（保留當前 active 狀態）
+    const on=window.__shaderPref!=='off';
+    st=ce('div','sb-shader');st.id='gdShaderToggle';
+    st.innerHTML='<span class="sb-shader-lb">背景漸層</span>'+
+      '<div class="sb-shader-seg" role="group" aria-label="首屏背景漸層">'+
+      '<button class="gd-st-seg'+(on?' on':'')+'" data-shader="on" type="button">動態</button>'+
+      '<button class="gd-st-seg'+(on?'':' on')+'" data-shader="off" type="button">靜態</button></div>';
+    st.querySelectorAll('.gd-st-seg').forEach(seg=>{seg.onclick=()=>{
+      const isOn=seg.getAttribute('data-shader')==='on';
+      window.__shaderPref=isOn?'on':'off';
+      st.querySelectorAll('.gd-st-seg').forEach(s=>s.classList.toggle('on',s===seg));
+      if(window.__shaderApply)window.__shaderApply(isOn);
+    };});
+    if(foot)host.insertBefore(st,foot); else host.appendChild(st);
   }
   function sbFootHTML(){
     if(window.__dsProject) return '<span class="sb-foot-name">'+window.__dsProject+'</span><span class="sb-foot-ver">v'+(window.__dsVersion||0)+'</span>';
