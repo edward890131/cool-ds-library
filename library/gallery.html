@@ -2934,7 +2934,7 @@
   @media(max-width:767px){.gd-carousel{width:85%;}
     .gd-caro-stage{aspect-ratio:auto;}
     .gd-caro-slide.is-active{position:relative;}
-    .gd-caro-slide .gd-hero-screen{height:auto;max-height:80vh;}}
+    .gd-caro-slide .gd-hero-screen{height:auto;max-height:60vh;}}
   /* 首屏 mockup 深淺對調小 toggle（實心面板，位於漸層淡出處也讀得清；深淺主題皆可）*/
   .gd-mocktoggle{display:inline-flex;align-items:center;gap:2px;margin-top:var(--sp-5);
     background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:3px;box-shadow:var(--e-md);}
@@ -3004,13 +3004,33 @@
   .hm-catcaret{color:var(--ghfaint);font-size:14px;}
   .hm-restt{font-size:19px;font-weight:700;color:var(--ghtext);margin:6px 0 0;}
   .hm-restnote{font-family:var(--font-mono);font-size:11.5px;color:var(--ghfaint);margin-top:10px;line-height:1.6;}
-  /* hm 手機版（放進 .gd-ghm，單欄響應式、隱藏側欄）*/
+  /* hm 手機版（放進 .gd-ghm，單欄響應式、隱藏側欄；字級/間距全面縮小＝為窄螢幕重排，避免爆版）*/
   .gd-ghm .hm{width:100%;}
   .gd-ghm .hm-side{display:none;}
   .gd-ghm .hm-brandsub,.gd-ghm .hm-divider,.gd-ghm .hm-pill,.gd-ghm .hm-tbtn,.gd-ghm .hm-copybtn,.gd-ghm .hm-leadnote{display:none;}
-  .gd-ghm .hm-main{padding:15px 15px;}
-  .gd-ghm .hm-h1{font-size:23px;}
-  .gd-ghm .hm-tokgrid{grid-template-columns:1fr;}
+  .gd-ghm .hm-top{padding:9px 13px;gap:9px;}
+  .gd-ghm .hm-brand{font-size:15px;}
+  .gd-ghm .hm-main{padding:13px 14px;}
+  .gd-ghm .hm-eyebrow{font-size:10px;letter-spacing:.08em;}
+  .gd-ghm .gd-hero .hm-h1,.gd-ghm .hm-h1{font-size:19px;}
+  .gd-ghm .hm-lede{font-size:12px;line-height:1.6;margin-top:8px;}
+  .gd-ghm .hm-rule{margin:12px 0;} .gd-ghm .hm-rule.strong{margin:10px 0 12px;}
+  .gd-ghm .hm-tablead{flex-wrap:wrap;gap:6px;margin:12px 0 4px;}
+  .gd-ghm .hm-tab,.gd-ghm .hm-reset{font-size:11px;padding:5px 9px;}
+  .gd-ghm .hm-sec-t{font-size:15px;} .gd-ghm .hm-sec-d{font-size:11px;}
+  .gd-ghm .hm-tokgrid{grid-template-columns:1fr;gap:10px;margin-top:8px;}
+  .gd-ghm .hm-tokgh{font-size:12px;padding:8px 11px;}
+  .gd-ghm .hm-tokrow{padding:6px 11px;gap:8px;}
+  .gd-ghm .hm-tokname{font-size:11px;white-space:nowrap;}
+  .gd-ghm .hm-tokname .lab{font-size:9px;}
+  .gd-ghm .hm-toksw{width:20px;height:18px;margin-left:auto;}
+  .gd-ghm .hm-tokhex{width:74px;font-size:10px;padding:3px 7px;flex:0 0 auto;}
+  .gd-ghm .hm-actions{flex-wrap:wrap;gap:9px;margin-bottom:12px;}
+  .gd-ghm .hm-aitoggle,.gd-ghm .hm-selall{font-size:12px;}
+  .gd-ghm .hm-total{margin-left:0;flex:1 1 100%;font-size:11px;order:3;}
+  .gd-ghm .hm-catcard{padding:12px 14px;margin-bottom:10px;}
+  .gd-ghm .hm-catt{font-size:13.5px;} .gd-ghm .hm-catn{font-size:11.5px;padding:2px 9px;}
+  .gd-ghm .hm-restt{font-size:15px;} .gd-ghm .hm-restnote{font-size:10.5px;}
   /* ── 上手指南配圖「簡略／精細」切換 ── */
   .gd-figv-rich{display:none;width:100%;}
   .gd-guide.show-rich .gd-figv-simple{display:none;}
