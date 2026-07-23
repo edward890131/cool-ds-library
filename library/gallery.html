@@ -2885,11 +2885,14 @@
       radial-gradient(84% 58% at 88% -6%, rgba(247,125,100,.48) 0%, rgba(247,125,100,0) 60%),
       var(--canvas);}
   /* 方案 B：直接掛 ShaderGradient 官方元件（three.js PBR＋city 環境反射＋顆粒），畫面等同 shadergradient.co 預覽。host 墊在靜態 .gd-hero-bg 之上；toggle 關閉/載入失敗淡出還原靜態漸層。底部 mask 融入讓 mockup 區乾淨 */
-  .gd-hero-shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .9s ease;
-    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 50%,rgba(0,0,0,.45) 76%,transparent 96%);
-            mask-image:linear-gradient(180deg,#000 0%,#000 50%,rgba(0,0,0,.45) 76%,transparent 96%);}
+  /* ⚠️不可在此層加 mask-image：iOS Safari 上 mask 疊在含 WebGL canvas 的元素會讓整層不渲染（桌機正常、手機空白）。底部融入改用 .gd-hero-shfade overlay */
+  .gd-hero-shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .9s ease;}
   .gd-hero-shader canvas{display:block!important;width:100%!important;height:100%!important;}
   .gd-hero.shader-on .gd-hero-shader{opacity:1;}
+  /* 底部漸隱到底色（取代原本 mask）：只在 shader 開啟時出現，讓 mockup 區乾淨 */
+  .gd-hero-shfade{position:absolute;left:0;right:0;bottom:0;height:52%;z-index:1;pointer-events:none;opacity:0;transition:opacity .9s ease;
+    background:linear-gradient(180deg,transparent 0%,transparent 6%,var(--canvas) 88%);}
+  .gd-hero.shader-on .gd-hero-shfade{opacity:1;}
   /* 標題區暗角 scrim：僅 shader 開啟時出現，壓一點中央亮度確保白字對比（底部淡出、不壓 mockup） */
   .gd-hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .9s ease;
     background:radial-gradient(120% 82% at 50% 34%, rgba(24,12,6,.36) 0%, rgba(24,12,6,.12) 40%, transparent 66%);}
@@ -9122,6 +9125,7 @@ function buildScheduleChart(view){
       <section class="gd-hero" id="gdHero">
         <div class="gd-hero-bg"></div>
         <div class="gd-hero-shader" id="gdHeroShader" aria-hidden="true"></div>
+        <div class="gd-hero-shfade" aria-hidden="true"></div>
         <div class="gd-hero-scrim" aria-hidden="true"></div>
         <div class="gd-hero-grid" id="gdHeroGrid"></div>
         <div class="gd-hero-copy">
