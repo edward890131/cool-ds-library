@@ -2896,13 +2896,11 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='hn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hn)'/%3E%3C/svg%3E");background-size:150px 150px;}
   .gd-hero-mock{position:relative;z-index:3;margin-top:clamp(28px,4vw,52px);display:flex;flex-direction:column;align-items:center;justify-content:center;}
   .gd-hero-mock .gd-devices{margin:0;width:100%;display:flex;justify-content:center;}
-  /* mockup 外框（比照參考站）：外層帶 padding 的半透明磨砂框，內層才是真正的螢幕 */
-  .gd-hero-frame{position:relative;width:min(100%,668px);padding:14px;border-radius:22px;
-    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);
-    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-    box-shadow:0 16px 40px -20px rgba(0,0,0,.42);}   /* 陰影 y／blur 收小，配合 hero 加大的 padding-bottom，不觸及下一段 */
+  /* mockup 卡片（已移除半透明外框）：直接就是螢幕，圓角＋柔和落地陰影（aiwork 風堆疊卡）*/
+  .gd-hero-frame{position:relative;width:100%;border-radius:12px;}
   .gd-hero-screen{position:relative;overflow:hidden;border-radius:12px;background:var(--ghbg);max-height:420px;
-    box-shadow:0 1px 3px rgba(0,0,0,.22);}   /* 內層螢幕：裁切內容、hover 目標之容器 */
+    box-shadow:0 1px 3px rgba(0,0,0,.14);}   /* 螢幕：裁切內容、hover 目標之容器 */
+  .gd-caro-slide.is-active .gd-hero-screen{box-shadow:0 24px 54px -26px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.14);}  /* 最上方主卡加深落地陰影 */
   .gd-hero-screen .gd-gh{width:640px;max-width:none;}   /* 桌機內容固定 640px 剛好填滿內層 */
   .gd-hero-screen .gd-ghm{display:none;}                /* 手機版型預設隱藏，≤767px 才切換 */
   /* mockup 自訂游標：hover 時隱藏原生游標，改用跟隨滑鼠的「在 GitHub 查看完整流程」按鈕（pill）；內容不放大不模糊；點整個 frame 另開 GitHub */
@@ -2911,7 +2909,6 @@
   .gd-caro-slide.is-active .gd-hero-frame.cur-on .gd-hero-cursor{opacity:1;}
   .gd-hero-cursor .btn{box-shadow:none;}   /* 游標按鈕移除陰影 */
   @media(max-width:767px){
-    .gd-hero-frame{width:min(84vw,300px);padding:10px;border-radius:18px;}  /* 手機：mockup 收窄置中（.gd-hero-mock 已 justify-center），外框 padding 等比縮小 */
     .gd-hero-screen{max-height:440px;}
     .gd-hero-screen .gd-gh{display:none;}
     .gd-hero-screen .gd-ghm{display:block;width:100%;}
@@ -2925,32 +2922,17 @@
   .gd-hero-cta{animation-delay:.34s;}
   .gd-hero-mock{animation-delay:.46s;}
   @media(prefers-reduced-motion:reduce){.gd-hero-copy .eyebrow,.gd-hero h1,.gd-hero-lede,.gd-hero-cta,.gd-hero-mock{animation:none;}}
-  /* ── 首屏 mockup 輪播（前後堆疊卡＋箭頭＋圓點＋自動輪播）── */
-  .gd-carousel{position:relative;width:min(100%,720px);margin:0 auto;}
-  .gd-caro-stage{position:relative;width:min(100%,668px);margin:0 auto;}
-  .gd-caro-slide{position:absolute;top:0;left:0;width:100%;
-    transition:transform .55s cubic-bezier(.4,.14,.2,1),opacity .5s ease,filter .5s ease;
-    will-change:transform,opacity;}
-  .gd-caro-slide.is-active{position:relative;z-index:3;transform:translateX(0) scale(1);opacity:1;filter:none;}
-  .gd-caro-slide.is-prev{z-index:2;transform:translateX(-40%) scale(.83);opacity:.4;filter:saturate(.8);}
-  .gd-caro-slide.is-next{z-index:2;transform:translateX(40%) scale(.83);opacity:.4;filter:saturate(.8);}
-  .gd-caro-slide.is-hidden{z-index:1;transform:scale(.7);opacity:0;pointer-events:none;}
-  .gd-caro-slide:not(.is-active){cursor:pointer;}
-  .gd-caro-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:34px;height:34px;border-radius:var(--r-pill);
-    display:flex;align-items:center;justify-content:center;cursor:pointer;
-    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);color:#fff;
-    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .18s ease,transform .18s ease;}
-  .gd-caro-nav:hover{background:rgba(255,255,255,.3);}
-  .gd-caro-nav svg{width:16px;height:16px;display:block;}
-  .gd-caro-nav.prev{left:-6px;} .gd-caro-nav.next{right:-6px;}
-  .gd-caro-dots{display:flex;gap:7px;justify-content:center;margin-top:var(--sp-5);}
-  .gd-caro-dot{width:7px;height:7px;border-radius:var(--r-pill);background:rgba(255,255,255,.4);border:0;cursor:pointer;padding:0;transition:width .2s ease,background .2s ease;}
-  .gd-caro-dot.on{width:20px;background:#fff;}
-  @media(max-width:767px){
-    .gd-caro-slide.is-prev{transform:translateX(-30%) scale(.8);opacity:.28;}
-    .gd-caro-slide.is-next{transform:translateX(30%) scale(.8);opacity:.28;}
-    .gd-caro-nav{width:30px;height:30px;} .gd-caro-nav.prev{left:-2px;} .gd-caro-nav.next{right:-2px;}
-  }
+  /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
+  .gd-carousel{position:relative;width:min(100%,600px);margin:0 auto;padding-top:38px;}  /* 上留白＝後方露出的卡不觸及 CTA */
+  .gd-caro-stage{position:relative;width:100%;}
+  .gd-caro-slide{position:absolute;top:0;left:0;width:100%;transform-origin:top center;
+    transition:transform .8s cubic-bezier(.4,.14,.2,1),opacity .8s ease;will-change:transform,opacity;}
+  .gd-caro-slide.is-active{position:relative;z-index:3;transform:translateY(0) scale(1);opacity:1;}
+  .gd-caro-slide.s1{z-index:2;transform:translateY(-16px) scale(.955);opacity:.62;}
+  .gd-caro-slide.s2{z-index:1;transform:translateY(-30px) scale(.91);opacity:.34;}
+  @media(max-width:767px){.gd-carousel{padding-top:28px;}
+    .gd-caro-slide.s1{transform:translateY(-12px) scale(.955);}
+    .gd-caro-slide.s2{transform:translateY(-23px) scale(.91);}}
   /* ── 上手指南配圖「簡略／精細」切換 ── */
   .gd-figv-rich{display:none;width:100%;}
   .gd-guide.show-rich .gd-figv-simple{display:none;}
@@ -2983,6 +2965,9 @@
   .gm-card-ph{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);height:38px;}
   .gm-anno{position:absolute;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--primary-on);background:var(--accent);border-radius:var(--r-pill);padding:1px 8px;z-index:4;box-shadow:var(--e-md);}
   .gm-rel{position:relative;}
+  /* 02 畫面地圖標註：放在 mockup 外、下方置中的圖例，用輔助色（brand2）*/
+  .gm-legend{display:flex;flex-wrap:wrap;gap:var(--sp-3);justify-content:center;margin-top:var(--sp-4);}
+  .gm-tag{font-family:var(--font-mono);font-size:var(--fs-h12);color:#fff;background:var(--c-brand2-500);border-radius:var(--r-pill);padding:2px 10px;white-space:nowrap;}
   /* 04 元件架構：規格矩陣＋篩選 chip＋token 綁定列 */
   .gm-mx{display:flex;flex-direction:column;gap:6px;}
   .gm-mxrow{display:flex;align-items:center;gap:6px;}
@@ -9035,12 +9020,9 @@ function buildScheduleChart(view){
         <div class="gd-hero-mock">
           <div class="gd-devices">
             <div class="gd-carousel" id="gdCarousel">
-              <button class="gd-caro-nav prev" id="gdCaroPrev" type="button" aria-label="上一張"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 9 12l6 6"/></svg></button>
               <div class="gd-caro-stage" id="gdCaroStage"></div>
-              <button class="gd-caro-nav next" id="gdCaroNext" type="button" aria-label="下一張"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
             </div>
           </div>
-          <div class="gd-caro-dots" id="gdCaroDots"></div>
         </div>
       </section>
 
@@ -9265,12 +9247,11 @@ function buildScheduleChart(view){
         +'<div class="gd-ghm-commit"><span class="gd-ghm-cav"></span><span class="gd-ghm-cauth"><b>edward890131</b> and <b>claude</b></span><span class="gd-ghm-ctime">1 hour ago</span></div>'
         +'<div class="gd-ghm-files">'+mFileRows+'</div>'
       +'</div>';
-    // 首屏 mockup 輪播：建 3 張 slide（先放同一份 GitHub mockup 複本），中間主卡＋左右縮小堆疊；
-    //   箭頭／圓點／自動輪播（hover 暫停）／手機滑動；active 卡＝自訂游標＋點擊開 GitHub，非 active 卡＝點擊切換
+    // 首屏 mockup 輪播（aiwork 風垂直堆疊）：3 張 slide（先放同一份 GitHub mockup 複本）；
+    //   前卡在最上層、後方兩張從上緣露出；每 5 秒由後往前把最上方替換掉；無箭頭無圓點；active 卡＝自訂游標＋點擊開 GitHub
     const stage=view.querySelector('#gdCaroStage');
-    const dotsBox=view.querySelector('#gdCaroDots');
     if(stage){
-      const SLIDES=3, frames=[], dots=[];
+      const SLIDES=3, frames=[];
       for(let i=0;i<SLIDES;i++){
         const slide=ce('div','gd-caro-slide');
         const frame=ce('div','gd-hero-frame');
@@ -9288,36 +9269,26 @@ function buildScheduleChart(view){
         slide.appendChild(frame);
         stage.appendChild(slide);
         frames.push({slide,frame,cur});
-        if(dotsBox){const d=ce('button','gd-caro-dot');d.type='button';d.setAttribute('aria-label','第 '+(i+1)+' 張');
-          d.onclick=()=>{setActive(i);restart();};dotsBox.appendChild(d);dots.push(d);}
       }
       let active=0;
+      // rel 0＝最上層主卡、1＝往後第一張、2＝最後方；每次 active+1＝把後方那張往前遞補
       const setActive=(n)=>{active=((n%SLIDES)+SLIDES)%SLIDES;
-        frames.forEach((f,i)=>{f.slide.classList.remove('is-active','is-prev','is-next','is-hidden');
+        frames.forEach((f,i)=>{f.slide.classList.remove('is-active','s1','s2');
           const rel=(i-active+SLIDES)%SLIDES;
-          f.slide.classList.add(i===active?'is-active':rel===1?'is-next':rel===SLIDES-1?'is-prev':'is-hidden');});
-        dots.forEach((d,i)=>d.classList.toggle('on',i===active));};
+          f.slide.classList.add(rel===0?'is-active':rel===1?'s1':'s2');});};
       frames.forEach((f,i)=>{
         f.frame.addEventListener('mouseenter',()=>{if(i===active)f.frame.classList.add('cur-on');});
         f.frame.addEventListener('mouseleave',()=>f.frame.classList.remove('cur-on'));
         f.frame.addEventListener('mousemove',e=>{if(i!==active)return;const r=f.frame.getBoundingClientRect();
           f.cur.style.transform='translate('+(e.clientX-r.left)+'px,'+(e.clientY-r.top)+'px) translate(-50%,-50%)';});
-        f.frame.addEventListener('click',()=>{if(i===active){window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');}else{setActive(i);restart();}});
+        f.frame.addEventListener('click',()=>{if(i===active)window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');});
       });
-      const prevBtn=view.querySelector('#gdCaroPrev'),nextBtn=view.querySelector('#gdCaroNext');
-      if(prevBtn)prevBtn.onclick=()=>{setActive(active-1);restart();};
-      if(nextBtn)nextBtn.onclick=()=>{setActive(active+1);restart();};
-      // 自動輪播：存 window 上，換頁 renderGuide 重跑時先清舊 timer 避免累積
+      // 自動輪播（每 5 秒）：timer 存 window，換頁 renderGuide 重跑時先清舊 timer 避免累積；hover 主卡時暫停
       if(window.__caroTimer){clearInterval(window.__caroTimer);window.__caroTimer=null;}
-      const startAuto=()=>{window.__caroTimer=setInterval(()=>setActive(active+1),4500);};
-      const restart=()=>{if(window.__caroTimer)clearInterval(window.__caroTimer);startAuto();};
+      const startAuto=()=>{window.__caroTimer=setInterval(()=>setActive(active+1),5000);};
       const caro=view.querySelector('#gdCarousel');
       if(caro){caro.addEventListener('mouseenter',()=>{if(window.__caroTimer){clearInterval(window.__caroTimer);window.__caroTimer=null;}});
         caro.addEventListener('mouseleave',()=>{if(!window.__caroTimer)startAuto();});}
-      let sx=0,sy=0;
-      stage.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
-      stage.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
-        if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){setActive(active+(dx<0?1:-1));restart();}},{passive:true});
       setActive(0);
       startAuto();
     }
@@ -9360,7 +9331,7 @@ function buildScheduleChart(view){
     const r02=view.querySelector('#gdRich02');
     if(r02)r02.innerHTML=
       '<div class="gm-rel"><div class="gm-win">'
-      +'<div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-sp"></span><span class="gm-theme"></span><span class="gm-ver">儲存並更新 · v3</span></div>'
+      +'<div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-sp"></span><span class="gm-ver">儲存並更新 · v3</span></div>'
       +'<div class="gm-body"><div class="gm-side">'
         +'<div class="gm-si on"><span class="gm-ico"></span>上手指南</div><div class="gm-si"><span class="gm-ico"></span>Design Token</div><div class="gm-si"><span class="gm-ico"></span>需求匯總</div>'
         +'<div class="gm-lb">BASIC</div><div class="gm-si"><span class="gm-ico"></span>Button</div><div class="gm-si"><span class="gm-ico"></span>Input</div>'
@@ -9369,13 +9340,11 @@ function buildScheduleChart(view){
         +'<div class="gm-crumb">Basic / Button</div><div class="gm-h">Button</div>'
         +'<div class="gm-line" style="width:88%"></div><div class="gm-card-ph"></div><div class="gm-line" style="width:64%"></div>'
       +'</div></div></div>'
-      +'<span class="gm-anno" style="top:-9px;left:16px">① 上方列</span>'
-      +'<span class="gm-anno" style="top:54px;left:-8px">② 側欄</span>'
-      +'<span class="gm-anno" style="bottom:-9px;right:16px">③ 主區</span></div>';
+      +'<div class="gm-legend"><span class="gm-tag">① 上方列</span><span class="gm-tag">② 側欄</span><span class="gm-tag">③ 主區</span></div></div>';
     // 04 元件架構：Button 規格矩陣（mkBtn 原子）＋篩選 chip＋token 綁定列
     const r04=view.querySelector('#gdRich04');
     if(r04){r04.innerHTML=
-      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">/ Basic / Button</span><span class="gm-sp"></span><span class="gm-theme"></span></div>'
+      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">/ Basic / Button</span><span class="gm-sp"></span></div>'
       +'<div class="gm-main" style="gap:9px">'
         +'<div class="gm-h" style="font-size:var(--fs-h9)">規格矩陣</div>'
         +'<div class="gd-chiprow"><span class="gd-chip on">實心</span><span class="gd-chip on">外框</span><span class="gd-chip on">柔色</span><span class="gd-chip on">主要</span><span class="gd-chip on">次要</span><span class="gd-chip on">危險</span></div>'
@@ -9393,7 +9362,7 @@ function buildScheduleChart(view){
     // 05 數值編輯：Design Token L1 tab＋色票／數值列（brand2 欄位 focus 高亮示意編輯中）
     const r05=view.querySelector('#gdRich05');
     if(r05){r05.innerHTML=
-      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">Design Token</span><span class="gm-sp"></span><span id="gdR05Reset"></span><span class="gm-theme"></span></div>'
+      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">Design Token</span><span class="gm-sp"></span><span id="gdR05Reset"></span></div>'
       +'<div class="gm-main" style="gap:8px">'
         +'<div class="gm-tabs"><span class="gm-tab on">L1 Primitive</span><span class="gm-tab">L2 Semantic</span><span class="gm-tab">框架索引</span></div>'
         +'<div class="gm-trow"><span class="gm-tsw" style="background:var(--accent)"></span><span class="gm-tnm">--c-brand-500</span><span class="gm-tfield plain">#1C1C20</span></div>'
@@ -9407,7 +9376,7 @@ function buildScheduleChart(view){
     // 06 需求偏好：需求匯總勾選列＋每列軸 chip＋logo 雙版
     const r06=view.querySelector('#gdRich06');
     if(r06)r06.innerHTML=
-      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">需求匯總</span><span class="gm-sp"></span><span class="gm-theme"></span></div>'
+      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">需求匯總</span><span class="gm-sp"></span></div>'
       +'<div class="gm-main" style="gap:0;padding-bottom:6px">'
         +'<div class="gm-crow"><span class="gm-ck on">'+CK+'</span><span class="gm-cnm">Button</span><span class="gm-caxis"><span class="gm-ax on">實心</span><span class="gm-ax on">外框</span><span class="gm-ax">柔色</span></span></div>'
         +'<div class="gm-crow"><span class="gm-ck on">'+CK+'</span><span class="gm-cnm">Input</span><span class="gm-caxis"><span class="gm-ax on">預設</span><span class="gm-ax on">錯誤</span></span></div>'
@@ -9419,8 +9388,8 @@ function buildScheduleChart(view){
     // 07 版本存檔：存檔確認對話框疊在暗化視窗上（按鈕用 mkBtn 原子）
     const r07=view.querySelector('#gdRich07');
     if(r07){r07.innerHTML=
-      '<div class="gm-win gm-stage7"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-sp"></span><span class="gm-theme"></span><span class="gm-ver">v1</span></div>'
-      +'<div class="gm-body" style="min-height:210px"><div class="gm-side"><div class="gm-si on"><span class="gm-ico"></span>上手指南</div><div class="gm-si"><span class="gm-ico"></span>Design Token</div><div class="gm-si"><span class="gm-ico"></span>需求匯總</div></div><div class="gm-main"><div class="gm-line" style="width:78%"></div><div class="gm-card-ph"></div><div class="gm-line" style="width:56%"></div><div class="gm-line" style="width:68%"></div></div></div>'
+      '<div class="gm-win gm-stage7"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-sp"></span><span class="gm-ver">v1</span></div>'
+      +'<div class="gm-body" style="min-height:270px"><div class="gm-side"><div class="gm-si on"><span class="gm-ico"></span>上手指南</div><div class="gm-si"><span class="gm-ico"></span>Design Token</div><div class="gm-si"><span class="gm-ico"></span>需求匯總</div><div class="gm-lb">BASIC</div><div class="gm-si"><span class="gm-ico"></span>Button</div></div><div class="gm-main"><div class="gm-line" style="width:78%"></div><div class="gm-card-ph"></div><div class="gm-line" style="width:56%"></div><div class="gm-line" style="width:68%"></div></div></div>'
       +'<div class="gm-scrim"></div>'
       +'<div class="gm-dlg"><div class="gm-dlg-h"><div class="gm-dlg-t">儲存並更新此元件庫</div><div class="gm-dlg-sub">v1 → v2 · 3 項變更</div></div>'
         +'<div class="gm-dlg-b"><span class="gm-chg chg">token --r-md：8px → 12px</span><span class="gm-chg add">新增元件 Input</span><span class="gm-chg rm">停用 --fs-h1</span></div>'
