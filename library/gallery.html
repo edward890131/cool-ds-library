@@ -495,6 +495,8 @@
   .livewrap.lay-h>.live-code{position:relative;}
   .livewrap.lay-h>.live-code>.code-inner{position:absolute;inset:0;}
   .livewrap.lay-h .code-body{overflow-y:auto;}
+  /* 手機：水平版強制單欄堆疊，程式碼區還原一般流（否則 code-inner 絕對定位會讓 .live-code 塌成 0 高度而看不到）*/
+  @media(max-width:767px){.livewrap.lay-h>.live-code{position:static;}.livewrap.lay-h>.live-code>.code-inner{position:static;}.livewrap.lay-h .code-body{overflow-y:visible;}}
   @media(prefers-color-scheme:dark){.live-code{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}}
   :root[data-theme="dark"] .live-code{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}
   :root[data-theme="light"] .live-code{--code-bg:var(--panel-2);--syn-tag:#116329;--syn-attr:#953800;--syn-str:#0a3069;--syn-punct:#57606a;--syn-txt:#1f2328;}
