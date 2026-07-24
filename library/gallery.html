@@ -3240,14 +3240,15 @@
   .gd-card h3{font-size:var(--fs-h8);margin:0 0 6px;font-weight:600;}
   .gd-card p{font-size:var(--fs-h11);color:var(--muted);margin:0;line-height:1.6;}
   /* 核心頁面三張導覽牌卡：可點跳頁、hover 抬升＋右上箭頭引導 */
-  .gd-navcard{position:relative;cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;}
+  .gd-navcard{position:relative;cursor:pointer;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;} /* overflow:hidden 讓滿版 mockup 被牌卡圓角裁切（peek 效果）*/
   .gd-navcard:hover{border-color:var(--accent);transform:translateY(-3px);background:var(--panel);box-shadow:0 12px 26px -14px color-mix(in srgb,var(--ink) 32%,transparent);}
   .gd-navcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .gd-navcard-arrow{position:absolute;top:var(--sp-4);right:var(--sp-4);width:20px;height:20px;color:var(--accent);transition:transform .18s ease;pointer-events:none;} /* 固定顯示（不再 hover 才出現）*/
   .gd-navcard-arrow svg{width:100%;height:100%;display:block;}
   .gd-navcard:hover .gd-navcard-arrow,.gd-navcard:focus-visible .gd-navcard-arrow{transform:translate(2px,-2px);} /* hover 微移保留回饋 */
   /* 03 核心頁卡片內嵌 mockup（用首屏精修版，JS 等比縮放到卡寬；包一層 .gd-devices 供 --gh* 變數）；放在說明文字下方 */
-  .gd-navcard-mock{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);margin-top:var(--sp-5);background:#0d1117;}
+  .gd-navcard-mock{position:relative;height:200px;overflow:hidden;background:#0d1117;border-top:1px solid var(--line);
+    margin:var(--sp-5) calc(-1 * var(--sp-5)) calc(-1 * var(--sp-5));} /* 上留白；左右下負 margin 貼齊牌卡邊 → 底部被牌卡(--r-sm)裁切、只露出頂部局部介面 */
   .gd-navcard-mock .gd-devices{position:absolute;top:0;left:0;margin:0;width:1040px;transform-origin:top left;pointer-events:none;}
   /* 深色模式：mockup 示意改淺色（覆寫 gh 變數與底色，避免深底 mockup 融進深色頁）*/
   :root[data-theme="dark"] .gd-navcard-mock{background:#fff;}
