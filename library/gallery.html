@@ -2956,6 +2956,56 @@
   .rv{opacity:0;transform:translateY(24px);will-change:opacity,transform;} /* 未進場前隱藏；捲動外/首屏外維持此態 */
   .rv.rv-in{animation:rv-fade-up .72s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms) both;} /* both：延遲期間停在 from、結束後停在 to */
   @media(prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;animation:none!important;}}
+
+  /* ---------- 偏好設定頁 ---------- */
+  .pref-sec{margin:var(--sp-6) 0 0;border:none;padding:0;background:none;} /* 覆蓋 .block 的卡片外觀，走純段落 */
+  .pref-sec-h{margin:0 0 var(--sp-4);}
+  .pref-sec-h h2{font-size:var(--fs-h8);font-weight:600;margin:0;letter-spacing:-.01em;}
+  .pref-sec-h p{color:var(--muted);font-size:var(--fs-h11);margin:5px 0 0;}
+  .pref-cards{display:flex;gap:var(--sp-5);flex-wrap:wrap;}
+  .pref-card{flex:0 1 232px;min-width:170px;display:flex;flex-direction:column;gap:var(--sp-3);background:transparent;border:none;padding:0;cursor:pointer;text-align:left;font-family:inherit;}
+  .pref-thumb{position:relative;aspect-ratio:16/10;border-radius:var(--r-md);overflow:hidden;border:2px solid var(--line-strong);transition:border-color .15s,box-shadow .15s;}
+  .pref-card:hover .pref-thumb{border-color:var(--muted);}
+  .pref-card.sel .pref-thumb{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent);}
+  .pref-cardfoot{display:flex;align-items:center;gap:var(--sp-2);}
+  .pref-cardname{font-size:var(--fs-h10);font-weight:600;color:var(--ink);}
+  .pref-check{margin-left:auto;width:18px;height:18px;border-radius:var(--r-pill);background:var(--accent);color:var(--primary-on);display:none;align-items:center;justify-content:center;flex:0 0 auto;}
+  .pref-card.sel .pref-check{display:inline-flex;}
+  .pref-check svg{width:12px;height:12px;}
+  /* 縮圖：我們頁面的化簡（topbar 圓點＋側欄列＋內容列） */
+  .pt{position:absolute;inset:0;display:flex;flex-direction:column;}
+  .pt-top{height:15%;min-height:11px;display:flex;align-items:center;gap:3px;padding:0 7px;}
+  .pt-dot{width:4px;height:4px;border-radius:50%;flex:0 0 auto;}
+  .pt-body{flex:1;display:flex;min-height:0;}
+  .pt-side{width:34%;display:flex;flex-direction:column;gap:5px;padding:8px 7px;}
+  .pt-side span{height:4px;border-radius:2px;}
+  .pt-side span:nth-child(1){width:88%;} .pt-side span:nth-child(2){width:66%;} .pt-side span:nth-child(3){width:74%;} .pt-side span:nth-child(4){width:58%;}
+  .pt-main{flex:1;display:flex;flex-direction:column;gap:5px;padding:9px 10px;}
+  .pt-main span{height:4px;border-radius:2px;width:100%;}
+  .pt-main .pt-h{height:8px;width:52%;margin-bottom:3px;}
+  .pt-main span:nth-child(4){width:82%;} .pt-main span:nth-child(5){width:90%;}
+  /* 淺色縮圖 */
+  .pt-light{background:#fff;}
+  .pt-light .pt-top{background:#F4F5F7;} .pt-light .pt-dot{background:#C9CDD6;}
+  .pt-light .pt-side{background:#FAFAFA;border-right:1px solid #ECEEF2;} .pt-light .pt-side span{background:#DFE1E7;}
+  .pt-light .pt-main span{background:#ECEEF2;} .pt-light .pt-main .pt-h{background:#1C1C20;}
+  /* 深色縮圖 */
+  .pt-dark{background:#141417;}
+  .pt-dark .pt-top{background:#1C1C20;} .pt-dark .pt-dot{background:#3d3d44;}
+  .pt-dark .pt-side{background:#18181b;border-right:1px solid #26262b;} .pt-dark .pt-side span{background:#3a3a42;}
+  .pt-dark .pt-main span{background:#2a2a30;} .pt-dark .pt-main .pt-h{background:#EDEDEE;}
+  /* 跟隨系統：淺色為底、右側對角覆深色 */
+  .pt-split{clip-path:polygon(58% 0,100% 0,100% 100%,42% 100%);border-left:1px solid rgba(255,255,255,.14);}
+  /* 漸層縮圖：化簡首屏 hero（中央 title/副標/CTA 條） */
+  .pt-hero{align-items:center;justify-content:center;gap:6px;padding:0 12%;}
+  .pt-grad-on{background:radial-gradient(120% 130% at 28% 18%,#ff816e 0%,#F3B8AC 42%,#DEB4E1 82%);}
+  .pt-grad-off{background:linear-gradient(150deg,#f6dcd4,#ecdcef);}
+  .pt-hb{height:6px;border-radius:3px;background:rgba(255,255,255,.92);}
+  .pt-hb1{width:64%;height:8px;} .pt-hb2{width:44%;background:rgba(255,255,255,.7);}
+  .pt-hcta{margin-top:3px;width:30%;height:9px;border-radius:4px;background:rgba(28,28,32,.82);}
+  .pt-grad-off .pt-hb{background:rgba(60,50,60,.55);} .pt-grad-off .pt-hb2{background:rgba(60,50,60,.4);} .pt-grad-off .pt-hcta{background:rgba(60,50,60,.7);}
+  @media(max-width:560px){.pref-card{flex:1 1 44%;min-width:130px;}}
+
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
   .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
   .gd-caro-stage{position:relative;width:100%;aspect-ratio:1040/652;}     /* 鎖比例＝等比縮放不拉扁 */
@@ -3411,9 +3461,6 @@
       <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
     </button>
     <div class="brand"><svg class="brand-logo" viewBox="0 0 209 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M104.733 10.4818C102.566 11.349 100.515 12.6797 98.5801 14.4746C96.6451 16.2692 95.0527 18.2959 93.8027 20.5546C92.3928 23.1277 91.4031 26.212 90.8331 29.8079L99.9072 30.4678C100.761 25.684 102.467 22.1385 105.026 19.831C107.684 17.4351 110.161 16.2972 113.84 16.4887C117.519 16.6803 119.577 18.0395 121.398 20.6383C123.218 23.237 123.721 27.0597 122.906 32.1059C122.904 32.1175 122.902 32.1288 122.9 32.1402L131.999 32.8022C132.048 32.4443 132.092 32.0822 132.132 31.7167C132.91 24.497 131.561 18.8608 128.082 14.8073C124.604 10.754 120.295 8.72729 113.773 8.72729C110.169 8.72729 107.618 9.31244 104.733 10.4818ZM59.735 10.4818C57.568 11.349 55.5173 12.6797 53.582 14.4746C51.6468 16.2692 50.054 18.2959 48.804 20.5546C47.8354 22.3226 47.0652 24.3321 46.4929 26.5833L55.6668 27.2505C56.6265 24.0602 58.0802 21.5868 60.0277 19.831C62.6851 17.4351 65.1623 16.2972 68.8418 16.4887C72.5203 16.6803 74.5792 18.0395 76.3996 20.6383C77.8114 22.654 78.4308 25.4056 78.2574 28.8933L87.305 29.5511C87.6135 23.3608 86.2065 18.4463 83.0839 14.8073C79.6053 10.754 75.2969 8.72729 68.7741 8.72729C65.1708 8.72729 62.6189 9.31244 59.735 10.4818ZM4.50813 19.2046C3.59653 20.5817 2.71956 22.18 2.3151 23.3989L11.1863 24.0157C13.653 19.2594 18.6723 16.219 24.0793 16.3564C26.0393 16.4063 28.0306 16.8688 29.6489 17.9687C32.1507 19.6691 32.9742 22.5121 33.3588 25.3576L33.3774 25.392L33.3982 25.4245C33.4866 25.5513 33.6286 25.6336 33.7863 25.6455L41.7678 26.243L41.8049 26.2444L41.8421 26.2435C42.1307 26.2249 42.3501 25.9775 42.3316 25.6904C42.2173 20.9899 40.7876 16.8826 38.1217 14.0743C35.5248 11.3391 32.0475 9.77445 28.3751 9.11318C26.9499 8.85661 25.4957 8.73624 24.0521 8.73624C23.3426 8.73624 22.6356 8.76536 21.9363 8.82153C14.8389 9.39314 8.41631 13.3004 4.50813 19.2046ZM185.892 11.1552C183.416 12.1625 181.446 13.629 179.98 15.5546C178.514 17.4803 177.661 19.549 177.422 21.7609C177.049 25.1974 178.07 28.1103 180.484 30.5002C182.201 32.1987 185.353 33.6306 189.939 34.7956C193.503 35.7038 199.204 36.3348 199.204 41.424C199.154 43.3779 197.514 46.4887 192.951 47.2682C190.053 47.6679 186.473 47.6638 184.13 45.6673C181.666 43.5679 181.418 40.4199 182.387 37.5134C182.385 37.24 182.167 37.0165 181.892 37.0064L175.132 36.5208H175.122H175.113C175.049 36.5208 174.658 36.4506 174.552 36.8104C174.187 38.0494 173.987 41.2442 174.18 42.5906C174.62 45.6553 175.693 48.5982 177.991 50.778C180.666 53.3159 184.756 54.585 190.26 54.585C197.746 54.585 201.753 52.5532 205.341 48.6654C207.332 46.508 208.164 43.6811 208.264 40.8195C208.368 37.8532 207.371 35.2299 205.11 33.1117C201.923 30.125 198.664 28.988 194.445 27.8498C191.289 27.0872 185.048 25.8956 185.794 21.3842C186.222 18.801 189.138 17.4893 191.468 17.1176C195.333 16.5015 201.336 17.8394 201.014 22.8167L201.017 22.8514L201.024 22.8851C201.067 23.0621 201.221 23.196 201.409 23.2095L208.158 23.711L208.167 23.7116C208.258 23.7183 208.632 23.7421 208.745 23.3675C208.896 22.8715 209.092 18.829 206.96 15.5546C204.308 11.4819 197.992 9.64444 194.623 9.64444C190.26 9.64444 188.367 10.1484 185.892 11.1552ZM165.352 10.5616L165.315 10.563C165.07 10.5804 164.869 10.7686 164.84 11.0142L162.374 35.0272L170.701 35.633L173.41 11.1288L173.413 11.1009L173.414 11.0729C173.414 10.7906 173.183 10.5616 172.898 10.5616H165.352ZM139.31 10.5616L139.273 10.563C139.026 10.5804 138.824 10.7702 138.797 11.0172L136.351 33.1349L144.644 33.7384L145.563 24.4899L149.696 34.1054L158.027 34.7115L147.951 10.8714L147.934 10.837C147.846 10.6687 147.67 10.5616 147.477 10.5616H139.31ZM4.54001e-05 35.3526C-0.00364612 37.4226 0.217616 39.4971 0.724972 41.5069C0.81057 41.8461 0.904241 42.1833 1.00668 42.5177C2.25235 46.5953 4.68116 50.1342 8.38376 52.3535C11.6307 54.2996 15.5802 55.2728 20.2311 55.2728C20.4286 55.2728 20.6256 55.2709 20.8227 55.2661C24.4219 55.1876 28.1921 54.4923 31.506 53.0664C34.555 51.7541 37.7282 49.7907 40.1936 47.5972C40.3623 47.4474 40.469 47.2414 40.4951 47.0184L42.3048 31.7583L42.3067 31.7381L42.3083 31.7179C42.3186 31.4306 42.0926 31.1892 41.8037 31.1786L23.6979 30.291H23.6612C23.4037 30.2997 23.1875 30.4951 23.1585 30.7535L22.3881 37.3634L22.3856 37.3854L22.3849 37.4067C22.3766 37.6945 22.6047 37.9341 22.8936 37.9421L32.49 38.2122L31.8803 43.2369L31.7541 43.3357C30.7294 44.124 29.4436 44.942 28.2669 45.4313C23.0761 47.5916 15.4496 47.6928 11.6905 42.8912C9.62968 40.2598 8.48713 35.383 9.7261 29.7078L0.64399 29.3665C0.474195 29.5298 0.194082 31.9595 0.170318 32.2122C0.0711077 33.2575 0.00189119 34.3024 4.54001e-05 35.3526ZM45.5542 31.9282C44.7925 38.9863 46.1375 44.5269 49.5894 48.5499C53.0409 52.573 57.3653 54.585 63.9482 54.585C70.4512 54.585 75.171 52.5629 79.4923 48.5197C83.5797 44.6953 86.0796 39.4779 86.9918 32.8662L77.8375 32.5218C76.9857 37.4177 75.2497 41.0495 72.6292 43.4174C69.9353 45.8515 67.5005 47.0124 63.9413 46.8269C60.3831 46.6414 58.3474 45.2376 56.4506 42.5445C54.6349 39.9649 54.0576 36.335 54.719 31.6537L45.6251 31.3116C45.6002 31.5157 45.5769 31.7211 45.5542 31.9282ZM94.5874 48.5499C98.0393 52.573 102.364 54.585 108.947 54.585C115.449 54.585 120.169 52.5629 124.491 48.5197C128.225 45.0256 130.635 40.3675 131.719 34.5464L122.498 34.1999C121.563 38.2562 119.939 41.3284 117.627 43.4174C114.933 45.8515 112.499 47.0124 108.94 46.8269C105.381 46.6414 103.345 45.2376 101.449 42.5445C99.8571 40.2829 99.2172 37.2139 99.5291 33.3369L90.4522 32.9959C89.9334 39.5476 91.3118 44.7319 94.5874 48.5499ZM134.194 52.6418L134.191 52.6699L134.191 52.6976C134.191 52.98 134.422 53.2093 134.706 53.2093H142.245L142.281 53.2077C142.531 53.1907 142.734 52.9967 142.758 52.7459L144.516 35.0355L136.175 34.7222L134.194 52.6418ZM157.784 52.9166L157.802 52.9516C157.893 53.1099 158.064 53.2093 158.25 53.2093H168.295L168.332 53.2074C168.578 53.1904 168.78 53.0008 168.807 52.7535L170.658 36.0179L162.305 35.7038L161.551 43.048L158.385 35.5566L150.188 35.2487L157.784 52.9166Z"/></svg><span class="divider"></span><span class="brand-title">cool-ds-library</span></div>
-    <button class="theme-toggle theme-toggle-left" id="themeBtn" aria-label="切換深淺色">
-      <span class="knob" id="themeKnob"></span>
-    </button>
     <button class="gd-entry" id="guideBtn" type="button">📖 上手指南</button>
     <div class="spacer"></div>
   </div>
@@ -9998,7 +10045,7 @@ function buildScheduleChart(view){
   /* ===== 檢視切換 ===== */
   let current='summary';
   /* URL hash 記住當前檢視：重新整理／深連結會停在原元件頁，不跳回匯出需求 */
-  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog')return h;
+  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog'||h==='settings')return h;
     const ids=NAV.flatMap(g=>g.items).map(x=>x.id);return ids.includes(h)?h:null;}
   function renderView(id){
     LIVE_REFRESH.clear(); // 換頁清掉舊 Live 篩選器連動註冊，避免累積
@@ -10009,12 +10056,12 @@ function buildScheduleChart(view){
     else if(id==='guide'){renderGuide(view);}
     else if(id==='changelog'){renderChangelog(view);}
     else if(id==='guideline'){renderGuideline(view);}
+    else if(id==='settings'){renderSettings(view);}
     else if(id==='tokens'){renderTokens(view);}
     else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');}
     else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);} // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
-    syncShaderToggle(); // ⚠️換頁不重建側欄，這裡確保「背景漸層」toggle 永遠在（任何頁、任何進站方式）
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
     const _m=document.querySelector('.main');if(_m)_m.scrollTo(0,0); // app-shell：捲 main 容器（非 document）
     buildTOC(); // 換頁後重建右緣本頁目錄
@@ -10047,6 +10094,47 @@ function buildScheduleChart(view){
       inView.forEach((el,i)=>{ el.style.setProperty('--rv-d',Math.min(i,5)*70+'ms'); el.classList.add('rv-in'); }); // 首屏內：確定性淡入＋小幅 stagger（上限 5×70ms）
     });
   }
+  function renderSettings(view){ // 偏好設定頁：深淺色（含跟隨系統）＋背景漸層，皆持久化到 localStorage
+    const CHK='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0L3.22 8.28a.75.75 0 0 1 1.06-1.06L7 9.94l5.72-5.72a.75.75 0 0 1 1.06 0Z"/></svg>';
+    const ptPage='<div class="pt-top"><span class="pt-dot"></span><span class="pt-dot"></span><span class="pt-dot"></span></div>'+
+      '<div class="pt-body"><div class="pt-side"><span></span><span></span><span></span><span></span></div>'+
+      '<div class="pt-main"><span class="pt-h"></span><span></span><span></span><span></span><span></span></div></div>';
+    const ptHero='<span class="pt-hb pt-hb1"></span><span class="pt-hb pt-hb2"></span><span class="pt-hcta"></span>';
+    const THEME=[ // 縮圖＝我們頁面的化簡（topbar 圓點＋側欄列＋內容列）
+      {k:'light',name:'淺色',thumb:'<div class="pt pt-light">'+ptPage+'</div>'},
+      {k:'dark',name:'深色',thumb:'<div class="pt pt-dark">'+ptPage+'</div>'},
+      {k:'system',name:'跟隨系統',thumb:'<div class="pt pt-light">'+ptPage+'</div><div class="pt pt-dark pt-split">'+ptPage+'</div>'},
+    ];
+    const GRAD=[ // 縮圖＝化簡首屏 hero（動態＝鮮豔漸層／靜態＝平塗）
+      {k:'on',name:'動態',thumb:'<div class="pt pt-hero pt-grad-on">'+ptHero+'</div>'},
+      {k:'off',name:'靜態',thumb:'<div class="pt pt-hero pt-grad-off">'+ptHero+'</div>'},
+    ];
+    const curTheme=window.__themePref||'system';
+    const curGrad=(window.__shaderPref==='off')?'off':'on';
+    const card=(o,sel)=>'<button class="pref-card'+(sel?' sel':'')+'" type="button" data-k="'+o.k+'"><div class="pref-thumb">'+o.thumb+'</div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span><span class="pref-check">'+CHK+'</span></div></button>';
+    view.innerHTML=`
+      <div class="sum-top"><div class="sum-head"><p class="eyebrow">Preferences · 偏好設定</p><h1>偏好設定</h1></div></div>
+      <p class="lede">個人化這個介面的外觀。你的選擇會記在這台裝置，重新整理後仍會保留。</p>
+      <div class="head-rule"></div>
+      <section class="block pref-sec">
+        <div class="pref-sec-h"><h2>主題</h2><p>選擇介面配色，或跟隨作業系統設定。</p></div>
+        <div class="pref-cards" id="prefTheme">${THEME.map(o=>card(o,o.k===curTheme)).join('')}</div>
+      </section>
+      <section class="block pref-sec">
+        <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。</p></div>
+        <div class="pref-cards" id="prefGrad">${GRAD.map(o=>card(o,o.k===curGrad)).join('')}</div>
+      </section>`;
+    view.querySelectorAll('#prefTheme .pref-card').forEach(c=>c.onclick=()=>{ // 主題：套用＋持久化＋更新選中態
+      window.__applyThemePref(c.dataset.k,true);
+      view.querySelectorAll('#prefTheme .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
+    });
+    view.querySelectorAll('#prefGrad .pref-card').forEach(c=>c.onclick=()=>{ // 漸層：記偏好＋持久化；在 guide 頁即時套用
+      const on=c.dataset.k==='on'; window.__shaderPref=on?'on':'off';
+      try{localStorage.setItem('ds-shader',window.__shaderPref);}catch(e){}
+      if(current==='guide' && window.__shaderApply)window.__shaderApply(on);
+      view.querySelectorAll('#prefGrad .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
+    });
+  }
   function renderNav(){const host=document.getElementById('sidebar');host.innerHTML='';
     // 手機專用：上手指南入口（桌機在 topbar，CSS .nav-guide-m 只在 ≤767px 顯示）；renderView('guide') 會自動高亮＋收起抽屜
     const gm=document.createElement('button');gm.className='nav-item nav-pin nav-mono nav-guide-m';gm.dataset.id='guide';gm.setAttribute('aria-current',current==='guide');
@@ -10072,28 +10160,10 @@ function buildScheduleChart(view){
     host.appendChild(ce('div','nav-sep')); // Table 群組 ↔ 版本紀錄／更新紀錄 分隔線
     const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
     clpin.innerHTML=`<span>🗒 ${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
+    host.appendChild(ce('div','nav-sep')); // 更新紀錄 ↔ 偏好設定 分隔線
+    const spin=document.createElement('button');spin.className='nav-item nav-pin';spin.dataset.id='settings';spin.setAttribute('aria-current',current==='settings');
+    spin.innerHTML=`<span>⚙️ 偏好設定</span>`;spin.onclick=()=>renderView('settings');host.appendChild(spin); // 深淺色＋背景漸層偏好，放更新紀錄下方
     const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
-    syncShaderToggle(); // 確保「背景漸層」toggle 永遠在側欄（插在 foot 之上）
-  }
-  // 背景漸層 動態/靜態 toggle：**永遠顯示在側欄**（不限 guide 頁；Yuu 指定）。⚠️renderView 換頁不重建側欄，故 renderNav 與 renderView 都呼叫本函式冪等確保它一直在。狀態存 window.__shaderPref；在 guide 頁即時套用（window.__shaderApply），其他頁只記偏好、進 guide 時 initHeroShader 讀取生效
-  function syncShaderToggle(){
-    const host=document.getElementById('sidebar'); if(!host)return;
-    const foot=document.getElementById('sbFoot');
-    let st=document.getElementById('gdShaderToggle');
-    if(st) return; // 已存在就不重建（保留當前 active 狀態）
-    const on=window.__shaderPref!=='off';
-    st=ce('div','sb-shader');st.id='gdShaderToggle';
-    st.innerHTML='<span class="sb-shader-lb">背景漸層</span>'+
-      '<div class="sb-shader-seg" role="group" aria-label="首屏背景漸層">'+
-      '<button class="gd-st-seg'+(on?' on':'')+'" data-shader="on" type="button">動態</button>'+
-      '<button class="gd-st-seg'+(on?'':' on')+'" data-shader="off" type="button">靜態</button></div>';
-    st.querySelectorAll('.gd-st-seg').forEach(seg=>{seg.onclick=()=>{
-      const isOn=seg.getAttribute('data-shader')==='on';
-      window.__shaderPref=isOn?'on':'off';
-      st.querySelectorAll('.gd-st-seg').forEach(s=>s.classList.toggle('on',s===seg));
-      if(current==='guide' && window.__shaderApply)window.__shaderApply(isOn); // 只在 guide 頁即時套用；其他頁只記偏好
-    };});
-    if(foot)host.insertBefore(st,foot); else host.appendChild(st);
   }
   function sbFootHTML(){
     if(window.__dsProject) return '<span class="sb-foot-name">'+window.__dsProject+'</span><span class="sb-foot-ver">v'+(window.__dsVersion||0)+'</span>';
@@ -10137,12 +10207,20 @@ function buildScheduleChart(view){
   { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>{location.hash='guide';}; bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
   document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
-  (function(){const btn=document.getElementById('themeBtn'),knob=document.getElementById('themeKnob');
-    const SUN='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg>';
-    const MOON='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M240,96a8,8,0,0,1-8,8H216v16a8,8,0,0,1-16,0V104H184a8,8,0,0,1,0-16h16V72a8,8,0,0,1,16,0V88h16A8,8,0,0,1,240,96ZM144,56h8v8a8,8,0,0,0,16,0V56h8a8,8,0,0,0,0-16h-8V32a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16Zm72.77,97a8,8,0,0,1,1.43,8A96,96,0,1,1,95.07,37.8a8,8,0,0,1,10.6,9.06A88.07,88.07,0,0,0,209.14,150.33,8,8,0,0,1,216.77,153Zm-19.39,14.88c-1.79.09-3.59.14-5.38.14A104.11,104.11,0,0,1,88,64c0-1.79,0-3.59.14-5.38A80,80,0,1,0,197.38,167.86Z"/></svg>';
-    function cur(){const a=document.documentElement.getAttribute('data-theme');return a||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');}
-    function set(t){document.documentElement.setAttribute('data-theme',t);knob.innerHTML=t==='dark'?MOON:SUN;if(typeof refreshLogo==='function')refreshLogo();}
-    set('light');btn.onclick=()=>set(cur()==='dark'?'light':'dark');})();
+  (function(){ // 主題偏好：light/dark/system，存 localStorage；system 跟隨作業系統且即時更新。控制入口＝偏好設定頁（topbar toggle 已移除）
+    const mq=matchMedia('(prefers-color-scheme:dark)');
+    const resolve=p=>p==='system'?(mq.matches?'dark':'light'):p; // system → 解析成當下系統的具體值（讓 data-theme 永遠具體，curTheme/元件配色才正確）
+    window.__applyThemePref=function(pref,persist){
+      window.__themePref=pref;
+      if(persist){try{localStorage.setItem('ds-theme',pref);}catch(e){}}
+      document.documentElement.setAttribute('data-theme',resolve(pref));
+      if(typeof refreshLogo==='function')refreshLogo();
+    };
+    let saved; try{saved=localStorage.getItem('ds-theme');}catch(e){}
+    window.__applyThemePref((saved==='light'||saved==='dark'||saved==='system')?saved:'system',false); // 無選擇 → 預設跟隨系統
+    mq.addEventListener('change',()=>{ if(window.__themePref==='system') window.__applyThemePref('system',false); }); // 系統深淺切換時即時反映
+  })();
+  (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} window.__shaderPref=(s==='off')?'off':'on'; })(); // 漸層偏好：存 localStorage，無選擇 → 預設動態(on)；initHeroShader 會讀取
 
   /* ===== 右緣本頁目錄（滑到右緣浮出 → 點擊 scroll 到段落；含當前段落高亮）===== */
   const tocDock=document.getElementById('tocDock'), tocPanel=document.getElementById('tocPanel');
