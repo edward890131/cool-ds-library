@@ -3256,9 +3256,17 @@
   /* Guideline 精修 mockup 內容（色票分類＋字體）*/
   .hm-dgcat{display:flex;align-items:center;gap:14px;margin-top:12px;}
   .hm-dgcat-l{width:74px;flex:0 0 auto;font-size:13px;color:var(--ghmut);}
-  .hm-dgrow{display:flex;gap:6px;flex-wrap:wrap;}
-  .hm-dgsw{width:30px;height:24px;border-radius:6px;border:1px solid var(--ghline2);flex:0 0 auto;}
+  .hm-dgrow{display:flex;gap:6px;flex:1;} /* 撐滿主區寬，避免右側留白 */
+  .hm-dgsw{flex:1;min-width:0;height:26px;border-radius:6px;border:1px solid var(--ghline2);} /* 色票平均撐滿整列寬 */
   .hm-dgtype{display:flex;align-items:baseline;gap:16px;margin-top:12px;color:var(--ghtext);}
+  /* 品牌 Brand（填內容高度、對齊真實 guideline 頁）*/
+  .hm-dgbrand{display:flex;align-items:center;gap:30px;margin-top:12px;flex-wrap:wrap;}
+  .hm-dglogos{display:flex;gap:10px;}
+  .hm-dglogo{width:66px;height:38px;border-radius:7px;border:1px solid var(--ghline2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:.04em;}
+  .hm-dglogo.lt{background:#fff;color:#141417;} .hm-dglogo.dk{background:#141417;color:#fff;}
+  .hm-dgroles{display:flex;gap:20px;}
+  .hm-dgrole{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ghmut);}
+  .hm-dgrole-sw{width:26px;height:26px;border-radius:6px;border:1px solid var(--ghline2);flex:0 0 auto;}
   .gd-chiprow{display:flex;gap:6px;flex-wrap:wrap;}
   .gd-chip{font-family:var(--font-mono);font-size:var(--fs-h12);border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 9px;color:var(--muted);}
   .gd-chip.on{background:var(--accent);color:var(--primary-on);border-color:transparent;}
@@ -9485,6 +9493,10 @@ function buildScheduleChart(view){
       +'<div class="hm-eyebrow">Review · 出貨前確認</div>'
       +'<div class="hm-headrow"><div class="hm-h1">Design Guideline</div></div>'
       +'<p class="hm-lede">依<b>當前 token 與選定元件</b>組成的設計指南預覽——匯出前的最後確認關。在 Design Token 調值、需求匯總 勾元件，這頁即時反映。</p>'
+      +'<div class="hm-rule"></div>'
+      +'<div class="hm-sec-t">品牌 Brand</div><div class="hm-sec-d">logo 與主色角色</div>'
+      +'<div class="hm-dgbrand"><div class="hm-dglogos"><span class="hm-dglogo lt">GOONS</span><span class="hm-dglogo dk">GOONS</span></div>'
+      +'<div class="hm-dgroles"><div class="hm-dgrole"><span class="hm-dgrole-sw" style="background:#141417"></span>主色</div><div class="hm-dgrole"><span class="hm-dgrole-sw" style="background:#EA580C"></span>副色</div><div class="hm-dgrole"><span class="hm-dgrole-sw" style="background:#9BA0AA"></span>中性</div></div></div>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-sec-t">色彩 Color</div><div class="hm-sec-d">品牌主色、中性與狀態色階</div>'
       +'<div class="hm-dgcat"><span class="hm-dgcat-l">Primary</span><div class="hm-dgrow">'+dgChips(BRD.map(r=>r[1]))+'</div></div>'
