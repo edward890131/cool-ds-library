@@ -5,7 +5,7 @@
 > 這份是「**介面層**」說明 —— 你會看到什麼、該怎麼反應。
 > 不講原理（在 `README.md` / `framework/FRAMEWORK-WORKFLOW.md`）、不講 skill 內部（在 `skills/ds-studio-flow/SKILL.md`）。
 
-**🔗 先看成品**：母元件庫展示網站 → **https://cool-ds-library.vercel.app/**
+**🔗 先看成品**：母元件庫展示網站 → **[cool-ds-library.vercel.app](https://cool-ds-library.vercel.app/)**
 > 不用裝任何東西、點進去就能逛所有元件、token、狀態矩陣。想給客戶或同事看「我們有哪些料」，直接丟這個網址。
 
 **這版跟舊框架最大的差別**：選元件、調 token、換 logo 都**在網站上做**（取代舊版純文字清單）。往下會標 ★ 的那步就是。
