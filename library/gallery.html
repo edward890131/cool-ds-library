@@ -3033,6 +3033,12 @@
   /* 漸層縮圖：化簡首屏 hero（中央 title/副標/CTA 條） */
   .pt-hero{align-items:center;justify-content:center;gap:6px;padding:0 12%;}
   .pt-grad-on{background:radial-gradient(120% 130% at 28% 18%,#ff816e 0%,#F3B8AC 42%,#DEB4E1 82%);}
+  /* 經典＝原珊瑚暖色；主色＝品牌黑階石墨（明→暗，有明度落差不死黑）；輔助色＝品牌橘階（淺橘→焦橘）；三者皆同色系多明度 stop */
+  .pt-grad-classic{background:radial-gradient(120% 130% at 28% 18%,#ff816e 0%,#F3B8AC 42%,#DEB4E1 82%);}
+  .pt-grad-primary{background:radial-gradient(120% 130% at 28% 18%,#A4A4A6 0%,#454548 46%,#18181B 88%);}
+  .pt-grad-primary .pt-hcta{background:rgba(255,255,255,.85);}   /* 石墨底太暗，CTA 改亮色才看得到 */
+  .pt-grad-secondary{background:radial-gradient(120% 130% at 28% 18%,#F7BC9E 0%,#EE7638 46%,#C74B0A 86%);}
+  .pt-grad-classic-static{background:linear-gradient(150deg,#ff9d84 0%,#F3B8AC 48%,#e2b6dd 100%);}  /* 經典靜態＝珊瑚平塗（不流動）*/
   .pt-grad-off{background:linear-gradient(150deg,#f6dcd4,#ecdcef);}
   .pt-hb{height:6px;border-radius:3px;background:rgba(255,255,255,.92);}
   .pt-hb1{width:64%;height:8px;} .pt-hb2{width:44%;background:rgba(255,255,255,.7);}
@@ -9232,6 +9238,11 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v7', date:'2026-07-24', title:'背景漸層品牌化', items:[
+      {tag:'add', t:'背景漸層新增「主色流動」「輔色流動」：以當前主／副錨點色（--c-brand-500／--c-brand2-500）即時展成三個明度 stop（淺→基準→深），滑順不單調；改了 token 色號漸層也跟著變'},
+      {tag:'improve', t:'偏好設定「背景漸層」改為四選項：經典流動／經典靜態／主色流動／輔色流動；縮圖對應各模式實際配色'},
+      {tag:'fix', t:'底層靜態漸層改為跟著當前模式上色（主色→石墨、輔色→橘），修正動態平面旋轉後角落漏出不相干珊瑚色帶的問題'},
+    ]},
     {v:'v6', date:'2026-07-24', title:'互動預覽與程式碼 · 版型偏好', items:[
       {tag:'add', t:'元件頁新增「互動預覽與程式碼」：左邊調控制項（風格／尺寸／內容，甚至直接改文字）→ 中間即時預覽（可 hover、按下試）→ 右邊同步顯示對應程式碼（行號＋語法高亮＋一鍵複製）'},
       {tag:'add', t:'偏好設定新增「互動預覽版型」：水平（控制項＋預覽在左、程式碼在右，可拖拉調寬）／垂直（由上而下堆疊）；手機僅能垂直，水平選項停用並提示'},
@@ -9710,10 +9721,43 @@ function buildScheduleChart(view){
       if(window.__sgUnmount){try{window.__sgUnmount();}catch(e){}window.__sgUnmount=null;}   // 換頁重渲染：先卸掉上一份，避免殘留 WebGL context
       const host=view.querySelector('#gdHeroShader');const hero=view.querySelector('#gdHero');
       if(!host||!hero)return;
-      const URLSTR='https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23ff816e&color2=%23F3B8AC&color3=%23DEB4E1&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=2.4&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.8&uFrequency=5.5&uSpeed=0.2&uStrength=4&uTime=0&wireframe=false';   // Yuu 2026-07-23 重調版（color1 #ff816e／uStrength 4／uDensity 1.8／pixelDensity 2.4／uSpeed 0.4）
-      let root=null,shaderOn=(window.__shaderPref!=='off'),mounted=false,loading=false,failed=false;   // 開關偏好存 window.__shaderPref，跨換頁保留；toggle 已移到側邊選單（renderNav）
+      // 三色 stop 依模式決定：經典＝原手調珊瑚（固定）；主色／輔助色＝掛載時即時讀「當前 token 主/副錨點色」（改 token 就跟著變）
+      const cssVar=(n,f)=>{const v=getComputedStyle(document.documentElement).getPropertyValue(n).trim();return v||f;};
+      // hex 明度混色工具：把單一錨點色展成三個 stop（淺→基準→深），確保明度落差夠→滑順；深端刻意不到純黑，避免 city 環境反射打在大片死黑上結塊出色帶
+      const h2r=h=>{h=h.replace('#','').trim();if(h.length===3)h=h.split('').map(c=>c+c).join('');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];};
+      const r2h=a=>'#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+      const mix=(hex,t,amt)=>{const a=h2r(hex),b=h2r(t);if(a.some(isNaN))return hex;return r2h(a.map((v,i)=>v+(b[i]-v)*amt));};
+      const fromBase=b=>[mix(b,'#FFFFFF',0.60),mix(b,'#FFFFFF',0.18),mix(b,'#000000',0.15)]; // 淺(混白 60%)→中(混白 18%)→深(混黑 15%，不到純黑)
+      const triad=(mode)=>{
+        if(mode==='primary')  return fromBase(cssVar('--c-brand-500','#1C1C20'));   // 主錨點 --c-brand-500（改它整條主色漸層跟著變）
+        if(mode==='secondary')return fromBase(cssVar('--c-brand2-500','#EA580C'));  // 副錨點 --c-brand2-500
+        return ['#ff816e','#F3B8AC','#DEB4E1'];   // classic（Yuu 2026-07-23 手調暖色）
+      };
+      // 基底參數固定（brightness/uStrength/pixelDensity…同原版），只換 color1/2/3
+      const buildURL=(mode)=>{const c=triad(mode).map(h=>'%23'+h.replace('#',''));
+        return 'https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1='+c[0]+'&color2='+c[1]+'&color3='+c[2]+'&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=2.4&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.8&uFrequency=5.5&uSpeed=0.2&uStrength=4&uTime=0&wireframe=false';};
+      // 模式：classic 經典流動／static 經典靜態／primary 主色流動／secondary 輔色流動。colorKey＝shader 取色用（經典兩態都用珊瑚色）
+      const colorKey=m=>(m==='primary'||m==='secondary')?m:'classic';
+      // 依當前模式把底層靜態漸層 .gd-hero-bg 重新上色：動態平面旋轉後角落會露出底層，同色才不會漏出不相干的橘/珊瑚
+      const heroBg=hero.querySelector('.gd-hero-bg');
+      const applyHeroBg=(m)=>{if(!heroBg)return;
+        if(m==='primary'||m==='secondary'){const t=triad(m);heroBg.style.background='radial-gradient(90% 80% at 22% 12%, '+t[0]+' 0%, '+t[1]+' 42%, '+t[2]+' 78%), '+t[2];}
+        else heroBg.style.background='';};   // classic/static→還原 CSS 預設（經典珊瑚）
+      let root=null,Rref=null,SGref=null,domCreateRoot=null;   // 快取載入的 React／SG／createRoot：換色模式時可同步重建 root（免重新 import→無感切換）
+      const initMode=window.__shaderMode||'classic';
+      let curMode=colorKey(initMode);
+      let shaderOn=(initMode!=='static'),mounted=false,loading=false,failed=false;   // static＝經典靜態（不掛 shader，只顯示底層珊瑚）；其餘皆掛 shader
       const unmount=()=>{if(root){try{root.unmount();}catch(e){}root=null;}mounted=false;};
       window.__sgUnmount=unmount;
+      const fresh=()=>{   // 用快取 refs 建 root 並以 curMode 三色繪製（換色＝卸舊重建同 host）
+        if(!Rref||!SGref||!domCreateRoot)return;
+        if(root){try{root.unmount();}catch(e){}}
+        root=domCreateRoot(host);
+        root.render(Rref.createElement(SGref.ShaderGradientCanvas,
+          {style:{position:'absolute',inset:'0',width:'100%',height:'100%',pointerEvents:'none'}},
+          Rref.createElement(SGref.ShaderGradient,{control:'query',urlString:buildURL(curMode)})));
+        mounted=true;
+      };
       async function mount(){
         if(mounted||loading||failed)return;loading=true;
         try{
@@ -9722,21 +9766,23 @@ function buildScheduleChart(view){
             import('https://esm.sh/react-dom@19/client?deps=react@19'),
             import('https://esm.sh/@shadergradient/react@2?deps=react@19,react-dom@19')   // @shadergradient/react@2 依賴 R3F v9，需 React 19，版本要一致否則 reconciler 內部對不上
           ]);
-          const React=reactMod.default||reactMod;const createRoot=domMod.createRoot;
+          Rref=reactMod.default||reactMod;SGref=SG;domCreateRoot=domMod.createRoot;
           loading=false;
-          if(!shaderOn){return;}                     // 載入期間被切成「原本」就別掛
-          root=createRoot(host);
-          root.render(React.createElement(SG.ShaderGradientCanvas,
-            {style:{position:'absolute',inset:'0',width:'100%',height:'100%',pointerEvents:'none'}},
-            React.createElement(SG.ShaderGradient,{control:'query',urlString:URLSTR})));
-          mounted=true;
+          if(!shaderOn){return;}                     // 載入期間被切成「靜態」就別掛
+          fresh();
           requestAnimationFrame(()=>hero.classList.add('shader-on'));   // 掛好再淡入，避開空白閃爍
-        }catch(e){failed=true;loading=false;window.__shaderFailed=true;hero.classList.remove('shader-on');console.warn('[hero-shader] ShaderGradient 載入失敗，退回靜態漸層',e);}   // toggle 永遠保留在側欄（不因載入失敗移除）
+        }catch(e){failed=true;loading=false;window.__shaderFailed=true;hero.classList.remove('shader-on');console.warn('[hero-shader] ShaderGradient 載入失敗，退回靜態漸層',e);}
       }
-      // 側邊選單 toggle 呼叫這支切換（掛/卸並淡入淡出）；此函式每次 renderGuide 重掛時覆寫成綁定當前 host
-      window.__shaderApply=(on)=>{shaderOn=!!on;window.__shaderPref=on?'on':'off';
-        if(on){if(!mounted)mount();else hero.classList.add('shader-on');}
-        else{hero.classList.remove('shader-on');unmount();}};
+      // 偏好設定呼叫這支切換：傳模式字串（classic/static/primary/secondary）；此函式每次 renderGuide 重掛時覆寫成綁定當前 host
+      window.__shaderApply=(mode)=>{mode=mode||'classic';window.__shaderMode=mode;
+        applyHeroBg(mode);                           // 先把底層靜態層改成當前模式的色
+        const on=mode!=='static';shaderOn=on;
+        if(!on){hero.classList.remove('shader-on');unmount();return;}   // 經典靜態＝只顯示底層珊瑚、不掛 shader
+        const ck=colorKey(mode),changed=(ck!==curMode);curMode=ck;
+        if(!mounted){mount();return;}                // 從靜態切回→首次掛載
+        if(changed)fresh();                          // 換色→重建 root（import 已快取，瞬間完成）
+        hero.classList.add('shader-on');};
+      applyHeroBg(initMode);                          // 初次載入先設底層色（primary/secondary→石墨/橘；經典兩態→珊瑚）
       if(shaderOn)mount();
     })();
     // 首屏 hero 兩顆 CTA：主要＝編輯 Token（solid primary）、次要＝瀏覽元件（solid secondary：淺色近白底／深色近黑底，凸顯於漸層上）；都用 library mkBtn 原子，不手拼 class
@@ -10290,9 +10336,11 @@ function buildScheduleChart(view){
       {k:'dark',name:'深色',thumb:'<div class="pt pt-dark">'+ptPage+'</div>'},
       {k:'system',name:'跟隨系統',thumb:'<div class="pt pt-light">'+ptPage+'</div><div class="pt pt-dark pt-split">'+ptPage+'</div>'},
     ];
-    const GRAD=[ // 縮圖＝化簡首屏 hero（動態＝鮮豔漸層／靜態＝平塗）
-      {k:'on',name:'動態',thumb:'<div class="pt pt-hero pt-grad-on">'+ptHero+'</div>'},
-      {k:'off',name:'靜態',thumb:'<div class="pt pt-hero pt-grad-off">'+ptHero+'</div>'},
+    const GRAD=[ // 縮圖＝化簡首屏 hero；經典流動/靜態＝珊瑚暖色（動/不動）、主色/輔色流動＝依當前 token 錨點色即時生成
+      {k:'classic',name:'經典流動',thumb:'<div class="pt pt-hero pt-grad-classic">'+ptHero+'</div>'},
+      {k:'static',name:'經典靜態',thumb:'<div class="pt pt-hero pt-grad-classic-static">'+ptHero+'</div>'},
+      {k:'primary',name:'主色流動',thumb:'<div class="pt pt-hero pt-grad-primary">'+ptHero+'</div>'},
+      {k:'secondary',name:'輔色流動',thumb:'<div class="pt pt-hero pt-grad-secondary">'+ptHero+'</div>'},
     ];
     const plA='<div class="pl-a"><span class="pl-seg"></span><span class="pl-seg"></span><span class="pl-btn"></span></div>'; // 控制項條＋預覽鈕
     const plB='<div class="pl-b"><i></i><i></i><i></i><i></i></div>'; // 程式碼行（含語法色）
@@ -10301,7 +10349,7 @@ function buildScheduleChart(view){
       {k:'v',name:'垂直排列',thumb:'<div class="pt pt-lay pt-lay-v">'+plA+plB+'</div>'},
     ];
     const curTheme=window.__themePref||'system';
-    const curGrad=(window.__shaderPref==='off')?'off':'on';
+    const curGrad=window.__shaderMode||'classic';
     const curLay=(window.__liveLayoutPref==='v')?'v':'h';
     const isMobile=window.matchMedia('(max-width:767px)').matches; // 手機：水平版型無法呈現（版面已強制單欄）
     const effLay=isMobile?'v':curLay;                              // 手機一律以垂直為當前選中
@@ -10316,7 +10364,7 @@ function buildScheduleChart(view){
         <div class="pref-cards" id="prefTheme">${THEME.map(o=>card(o,o.k===curTheme)).join('')}</div>
       </section>
       <section class="block pref-sec">
-        <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。</p></div>
+        <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。主色／輔助色會依當前 Design Token 的主／副色即時生成，改了 token 色號漸層也跟著變。</p></div>
         <div class="pref-cards" id="prefGrad">${GRAD.map(o=>card(o,o.k===curGrad)).join('')}</div>
       </section>
       <section class="block pref-sec">
@@ -10328,10 +10376,10 @@ function buildScheduleChart(view){
       window.__applyThemePref(c.dataset.k,true);
       view.querySelectorAll('#prefTheme .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
     });
-    view.querySelectorAll('#prefGrad .pref-card').forEach(c=>c.onclick=()=>{ // 漸層：記偏好＋持久化；在 guide 頁即時套用
-      const on=c.dataset.k==='on'; window.__shaderPref=on?'on':'off';
-      try{localStorage.setItem('ds-shader',window.__shaderPref);}catch(e){}
-      if(current==='guide' && window.__shaderApply)window.__shaderApply(on);
+    view.querySelectorAll('#prefGrad .pref-card').forEach(c=>c.onclick=()=>{ // 漸層：記模式偏好＋持久化；在 guide 頁即時套用（classic/primary/secondary/off）
+      const mode=c.dataset.k; window.__shaderMode=mode;
+      try{localStorage.setItem('ds-shader',mode);}catch(e){}
+      if(current==='guide' && window.__shaderApply)window.__shaderApply(mode);
       view.querySelectorAll('#prefGrad .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
     });
     view.querySelectorAll('#prefLay .pref-card').forEach(c=>c.onclick=()=>{ // 互動預覽版型：記偏好＋持久化（元件頁下次載入即套用）
@@ -10426,7 +10474,9 @@ function buildScheduleChart(view){
     window.__applyThemePref((saved==='light'||saved==='dark'||saved==='system')?saved:'system',false); // 無選擇 → 預設跟隨系統
     mq.addEventListener('change',()=>{ if(window.__themePref==='system') window.__applyThemePref('system',false); }); // 系統深淺切換時即時反映
   })();
-  (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} window.__shaderPref=(s==='off')?'off':'on'; })(); // 漸層偏好：存 localStorage，無選擇 → 預設動態(on)；initHeroShader 會讀取
+  (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} // 漸層模式偏好：存 localStorage，無選擇→預設經典；舊值 on→classic、off 維持；initHeroShader 會讀取
+    const map={on:'classic',off:'static',classic:'classic',static:'static',primary:'primary',secondary:'secondary'};
+    window.__shaderMode=map[s]||'classic'; })();
   (function(){ let s; try{s=localStorage.getItem('ds-livelayout');}catch(e){} window.__liveLayoutPref=(s==='v')?'v':'h'; })(); // 互動預覽版型：存 localStorage，無選擇 → 預設水平(h)；applyLiveLayout 會讀取
 
   /* ===== 右緣本頁目錄（滑到右緣浮出 → 點擊 scroll 到段落；含當前段落高亮）===== */
