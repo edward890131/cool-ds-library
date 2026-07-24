@@ -9230,59 +9230,26 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
-    {v:'v12', date:'2026-07-23', title:'副色編輯復原＋Guideline 色票手機四欄', items:[
-      {tag:'fix', t:'Design Token 頁「Brand 副色」群組復原（改名品牌橘後群組索引仍指舊名「品牌藍」導致不顯示 → 現可正常編輯輔助色）'},
-      {tag:'improve', t:'Design Guideline 色票手機版改為一列四等分（色塊等比縮放）'},
-      {tag:'improve', t:'上手指南 FAQ 補充：元件級 token 綁定、改主色/副色，並把首屏隱藏互動（背景網格、mockup 游標、手機下拉重整、mockup 配色反轉）寫進操作小技巧'},
+    {v:'v6', date:'2026-07-24', title:'互動預覽與程式碼 · 版型偏好', items:[
+      {tag:'add', t:'元件頁新增「互動預覽與程式碼」：左邊調控制項（風格／尺寸／內容，甚至直接改文字）→ 中間即時預覽（可 hover、按下試）→ 右邊同步顯示對應程式碼（行號＋語法高亮＋一鍵複製）'},
+      {tag:'add', t:'偏好設定新增「互動預覽版型」：水平（控制項＋預覽在左、程式碼在右，可拖拉調寬）／垂直（由上而下堆疊）；手機僅能垂直，水平選項停用並提示'},
+      {tag:'add', t:'版本紀錄改為可展開/收合（預設只展開最新一筆），以 ＋／− 指示'},
+      {tag:'improve', t:'互動段落更名並移到「變數與 Token」下方；程式碼區配色改與其他面板一致的灰'},
+      {tag:'fix', t:'偏好設定卡片手機版統一尺寸、兩兩並排（修正第三張落單被撐滿版）'},
     ]},
-    {v:'v11', date:'2026-07-23', title:'Guideline 手機版修正＋下拉位移動效', items:[
-      {tag:'fix', t:'Design Guideline 手機版寬度爆版修正（字級尺標表與色彩用途表改為堆疊/去固定欄寬）'},
-      {tag:'improve', t:'下拉重新整理改為內容跟著往下位移，loader 顯示在 header 與內容之間讓出的空間'},
+    {v:'v5', date:'2026-07-23', title:'上手指南首屏視覺 · 品牌副色', items:[
+      {tag:'add', t:'上手指南新增情境首屏 hero：多色暖漸層（還原參考站 mesh 質感）、標題＋說明置中、mockup 輪播、兩顆 CTA（編輯 Token／瀏覽元件）'},
+      {tag:'add', t:'首屏背景滑鼠互動（游標滑過透出網格線）、mockup 游標 CTA（「在 GitHub 查看完整流程」跟隨游標）'},
+      {tag:'improve', t:'首屏漸層多輪精修統整：獨立模糊層讓色塊無縫融合、加入鮮艷高彩度 pop、暖色置頂並與下段背景無縫銜接（消除斷層）'},
+      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步）；深色主題底色整組加深，配紙質磨砂後更好讀'},
+      {tag:'improve', t:'全站疊加紙質磨砂顆粒材質，提升整體質感'},
+      {tag:'fix', t:'手機版首屏漸層露白邊、mockup 爆版等多項修正（邊距改綁 token 對齊 hero 出血）'},
     ]},
-    {v:'v10', date:'2026-07-23', title:'下拉重新整理＋手機白邊修正', items:[
-      {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現圓圈 loader，放手過閾值即重新整理'},
-      {tag:'fix', t:'手機版首屏漸層頂部白邊修正（主內容區上邊距改用 token，對齊 hero 出血）'},
-    ]},
-    {v:'v9', date:'2026-07-23', title:'首屏漸層融合＋互動細修', items:[
-      {tag:'improve', t:'漸層改用獨立層＋filter:blur，各彩色色塊無縫融合、更柔和'},
-      {tag:'improve', t:'背景網格更淡更密、加入延遲拖尾（rAF lerp）跟隨滑鼠'},
-      {tag:'improve', t:'mockup 游標按鈕移除陰影，改淺色白底／深色黑底'},
-      {tag:'fix', t:'mockup 陰影 y／blur 收小＋hero 底部留白加大，漸層與下段銜接不再突兀'},
-      {tag:'fix', t:'手機版漸層左右露白邊修正（主內容區側邊距改用 token，對齊 hero 出血）'},
-    ]},
-    {v:'v8', date:'2026-07-23', title:'首屏視覺升級：鮮艷漸層＋網格互動＋游標 CTA', items:[
-      {tag:'add', t:'首屏漸層最上層加入鮮艷高彩度色（洋紅／橘／紫紅 pop），淺色也更豐富飽和'},
-      {tag:'add', t:'背景滑鼠互動：游標滑過時透出網格線（參考 cula.tech），增加動態感'},
-      {tag:'improve', t:'標題 Cool-DS-Library 放大加粗（更顯眼）；描述改為品牌化專業文案'},
-      {tag:'improve', t:'首屏漸層專屬紙質磨砂加強，質感更明顯'},
-      {tag:'fix', t:'首屏漸層底色改用與下段相同的背景色，消除銜接斷層'},
-      {tag:'improve', t:'深色主題底色再加深一階（surface token）'},
-      {tag:'improve', t:'mockup 互動改為：游標移入時變成「在 GitHub 查看完整流程」按鈕跟隨（不再放大/模糊），點擊另開'},
-    ]},
-    {v:'v7', date:'2026-07-23', title:'漸層柔化 · 深色底色加深 · 手機 mockup', items:[
-      {tag:'improve', t:'首屏淺色漸層調淡柔化：移除偏髒的褐/紫調，改乾淨的珊瑚／橘漸層'},
-      {tag:'improve', t:'深色主題底色整組加深（surface token：canvas #060608、surface #0C0C0E…），配磨砂後文字更好讀'},
-      {tag:'improve', t:'深色磨砂顆粒略降（screen .2），兼顧質感與易讀'},
-      {tag:'improve', t:'手機版 mockup 收窄置中（300px）、外框 padding 等比縮小'},
-    ]},
-    {v:'v6', date:'2026-07-23', title:'首屏文案/對比/材質微調', items:[
-      {tag:'improve', t:'首屏標題精簡為「Cool-DS-Library」；說明文字改白色、移除加粗（灰字在暖底看不清）'},
-      {tag:'improve', t:'首屏淺色漸層頂部加深，白色標題/說明對比更清楚'},
-      {tag:'improve', t:'mockup 外框改為帶 padding 的半透明磨砂框（比照參考站），內層才是螢幕'},
-      {tag:'improve', t:'全站紙質磨砂材質加強、更明顯（覆蓋所有頁面背景）'},
-    ]},
-    {v:'v5', date:'2026-07-22', title:'首屏漸層/互動精修 · 全站紙質材質', items:[
-      {tag:'improve', t:'首屏漸層上下顛倒：暖色移到頂、底部沉回底色，hero 底緣無縫接下一段（去除斷差）'},
-      {tag:'improve', t:'首屏「瀏覽元件」改實心次要（淺色近白底／深色近黑底），凸顯於漸層之上'},
-      {tag:'add', t:'首屏 mockup 加回 hover 互動：內容放大＋背景 blur 罩層，中央浮出「GitHub 查看完整流程」外連鈕'},
-      {tag:'fix', t:'首屏 mockup 手機版改用 GitHub 手機網頁單欄版型，不再爆版／擠壓'},
-      {tag:'add', t:'全站背景疊一層紙質磨砂顆粒材質（fixed noise overlay），提升質感'},
-      {tag:'improve', t:'專案模式進站頁也改為上手指南首屏（與母庫一致）'},
-    ]},
-    {v:'v4', date:'2026-07-22', title:'品牌副色改橘 · 上手指南首屏', items:[
-      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步換色）；主色維持中性近黑，橘作副色與情境點綴'},
-      {tag:'add', t:'上手指南新增情境首屏 hero：多色暖漸層（還原參考站 mesh 質感）、標題＋說明置中、簡單方形 mockup 外框（GitHub 桌機畫面、手機裁切）、兩顆 CTA（編輯 Token／瀏覽元件）'},
-      {tag:'improve', t:'母元件庫預設進站頁改為上手指南首屏（專案模式維持需求匯總）'},
+    {v:'v4', date:'2026-07-23', title:'手機體驗與細修', items:[
+      {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現 loader，放手過閾值即重整'},
+      {tag:'improve', t:'Design Guideline 色票手機版改一列四等分；下拉重整改為內容往下位移、loader 顯示於讓出的空間'},
+      {tag:'improve', t:'上手指南 FAQ 補充操作小技巧（元件級 token 綁定、改主色/副色、首屏隱藏互動）'},
+      {tag:'fix', t:'Design Guideline 手機版寬度爆版修正；Design Token「Brand 副色」群組改名後編輯復原'},
     ]},
     {v:'v3', date:'2026-07-22', title:'元件級 Token 綁定 · 上手指南更新', items:[
       {tag:'add', t:'每顆元件新增「變數與 Token」段落：可把該元件的圓角／間距／字級換綁成同類別的其他 token（專案層編輯，不動共用母庫；母庫頁僅預覽）'},
