@@ -2970,9 +2970,9 @@
   .pref-card.sel .pref-thumb{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent);}
   .pref-cardfoot{display:flex;align-items:center;gap:var(--sp-2);}
   .pref-cardname{font-size:var(--fs-h10);font-weight:600;color:var(--ink);}
-  .pref-check{margin-left:auto;width:18px;height:18px;border-radius:var(--r-pill);background:var(--accent);color:var(--primary-on);display:none;align-items:center;justify-content:center;flex:0 0 auto;}
+  .pref-check{position:absolute;right:8px;bottom:8px;z-index:2;width:22px;height:22px;border-radius:var(--r-pill);background:var(--accent);color:var(--primary-on);display:none;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.28);} /* 疊在縮圖右下角 */
   .pref-card.sel .pref-check{display:inline-flex;}
-  .pref-check svg{width:12px;height:12px;}
+  .pref-check svg{width:13px;height:13px;}
   /* 縮圖：我們頁面的化簡（topbar 圓點＋側欄列＋內容列） */
   .pt{position:absolute;inset:0;display:flex;flex-direction:column;}
   .pt-top{height:15%;min-height:11px;display:flex;align-items:center;gap:3px;padding:0 7px;}
@@ -10112,7 +10112,7 @@ function buildScheduleChart(view){
     ];
     const curTheme=window.__themePref||'system';
     const curGrad=(window.__shaderPref==='off')?'off':'on';
-    const card=(o,sel)=>'<button class="pref-card'+(sel?' sel':'')+'" type="button" data-k="'+o.k+'"><div class="pref-thumb">'+o.thumb+'</div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span><span class="pref-check">'+CHK+'</span></div></button>';
+    const card=(o,sel)=>'<button class="pref-card'+(sel?' sel':'')+'" type="button" data-k="'+o.k+'"><div class="pref-thumb">'+o.thumb+'<span class="pref-check">'+CHK+'</span></div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span></div></button>';
     view.innerHTML=`
       <div class="sum-top"><div class="sum-head"><p class="eyebrow">Preferences · 偏好設定</p><h1>偏好設定</h1></div></div>
       <p class="lede">個人化這個介面的外觀。你的選擇會記在這台裝置，重新整理後仍會保留。</p>
