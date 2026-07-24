@@ -3047,7 +3047,12 @@
   .pt-lay .pl-b i{display:block;height:4px;border-radius:2px;}
   .pt-lay .pl-b i:nth-child(1){width:82%;background:#7ee787;} .pt-lay .pl-b i:nth-child(2){width:58%;background:#a5d6ff;margin-left:9px;} .pt-lay .pl-b i:nth-child(3){width:66%;background:#ffa657;} .pt-lay .pl-b i:nth-child(4){width:44%;background:#7ee787;}
   .pt-lay-h .pl-div{flex:0 0 2px;align-self:stretch;background:#D3D6DE;border-radius:1px;}
-  @media(max-width:560px){.pref-card{flex:1 1 44%;min-width:130px;}}
+  /* 停用態（如手機的水平排列不可選）＋手機備註 */
+  .pref-card.pref-disabled{opacity:.45;cursor:not-allowed;}
+  .pref-card.pref-disabled:hover .pref-thumb{border-color:var(--line-strong);}
+  .pref-note{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:var(--fs-h11);margin:var(--sp-4) 0 0;}
+  /* 手機：改 2 欄 grid，卡片尺寸一致、兩兩並排往下接（原本 flex-grow 讓落單第三張撐滿）*/
+  @media(max-width:767px){.pref-cards{display:grid;grid-template-columns:1fr 1fr;} .pref-card{flex:none;min-width:0;}}
 
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
   .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
@@ -3243,7 +3248,7 @@
   /* ===== 版本更新紀錄頁（Changelog 時間軸）===== */
   .cl-tl{display:flex;flex-direction:column;}
   .cl-entry{display:grid;grid-template-columns:132px 1fr;gap:var(--sp-7);padding:var(--sp-7) 0;border-top:1px solid var(--line);}
-  .cl-entry:first-child{border-top:0;padding-top:var(--sp-5);}
+  .cl-entry:first-child{border-top:0;} /* 只去掉最上一條分隔線，上 padding 與其他筆一致（sp-7）*/
   .cl-meta{display:flex;flex-direction:column;gap:var(--sp-2);position:sticky;top:var(--sp-4);align-self:start;}
   .cl-ver{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:700;color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:2px 10px;letter-spacing:-.01em;}
   .cl-date{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
@@ -3259,6 +3264,15 @@
   .cl-src{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h12);padding:1px 7px;border-radius:var(--r-pill);}
   .cl-src-manual{color:var(--muted);background:var(--panel-2);border:1px solid var(--line-strong);}
   .cl-src-figma{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 12%,transparent);}
+  /* 版本紀錄展開/收合：點標題列 toggle，chevron 旋轉、收合時隱藏列表 */
+  .cl-head{display:flex;align-items:center;gap:var(--sp-3);width:100%;background:none;border:0;padding:0;margin:0 0 var(--sp-4);cursor:pointer;text-align:left;font-family:inherit;color:inherit;}
+  .cl-head .cl-title{margin:0;flex:1;}
+  .cl-toggle{flex:0 0 auto;width:20px;height:20px;color:var(--muted);display:flex;align-items:center;justify-content:center;}
+  .cl-toggle svg{width:100%;height:100%;display:block;}
+  .cl-toggle .cl-tg-plus{display:none;} .cl-toggle .cl-tg-minus{display:flex;} /* 展開＝顯示「−」（點了收合）*/
+  .cl-entry.collapsed .cl-toggle .cl-tg-plus{display:flex;} .cl-entry.collapsed .cl-toggle .cl-tg-minus{display:none;} /* 收合＝顯示「＋」（點了展開）*/
+  .cl-entry.collapsed .cl-head{margin-bottom:0;}
+  .cl-entry.collapsed .cl-list{display:none;}
   @media(max-width:767px){.cl-entry{grid-template-columns:1fr;gap:var(--sp-3);padding:var(--sp-6) 0;} .cl-meta{position:static;flex-direction:row;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}}
   .gd-sec{margin:var(--sp-8) 0;}
   .gd-sec-h{display:flex;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-5);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);flex-wrap:wrap;}  /* 對齊統一段標題：2px ink 底線（已移除副標）*/
@@ -3828,6 +3842,7 @@
   /* ===== 共用建構器（給 button 以外的元件）===== */
   const ICON_CHECK='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const ICON_MINUS='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"/></svg>';
+  const ICON_PLUS='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>';
   const ICON_CARET='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const ICON_CLOSE='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
   /* x-circle（fill）：灰底圓 + 鏤空 ×，給輸入框清除用 */
@@ -9215,59 +9230,26 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
-    {v:'v12', date:'2026-07-23', title:'副色編輯復原＋Guideline 色票手機四欄', items:[
-      {tag:'fix', t:'Design Token 頁「Brand 副色」群組復原（改名品牌橘後群組索引仍指舊名「品牌藍」導致不顯示 → 現可正常編輯輔助色）'},
-      {tag:'improve', t:'Design Guideline 色票手機版改為一列四等分（色塊等比縮放）'},
-      {tag:'improve', t:'上手指南 FAQ 補充：元件級 token 綁定、改主色/副色，並把首屏隱藏互動（背景網格、mockup 游標、手機下拉重整、mockup 配色反轉）寫進操作小技巧'},
+    {v:'v6', date:'2026-07-24', title:'互動預覽與程式碼 · 版型偏好', items:[
+      {tag:'add', t:'元件頁新增「互動預覽與程式碼」：左邊調控制項（風格／尺寸／內容，甚至直接改文字）→ 中間即時預覽（可 hover、按下試）→ 右邊同步顯示對應程式碼（行號＋語法高亮＋一鍵複製）'},
+      {tag:'add', t:'偏好設定新增「互動預覽版型」：水平（控制項＋預覽在左、程式碼在右，可拖拉調寬）／垂直（由上而下堆疊）；手機僅能垂直，水平選項停用並提示'},
+      {tag:'add', t:'版本紀錄改為可展開/收合（預設只展開最新一筆），以 ＋／− 指示'},
+      {tag:'improve', t:'互動段落更名並移到「變數與 Token」下方；程式碼區配色改與其他面板一致的灰'},
+      {tag:'fix', t:'偏好設定卡片手機版統一尺寸、兩兩並排（修正第三張落單被撐滿版）'},
     ]},
-    {v:'v11', date:'2026-07-23', title:'Guideline 手機版修正＋下拉位移動效', items:[
-      {tag:'fix', t:'Design Guideline 手機版寬度爆版修正（字級尺標表與色彩用途表改為堆疊/去固定欄寬）'},
-      {tag:'improve', t:'下拉重新整理改為內容跟著往下位移，loader 顯示在 header 與內容之間讓出的空間'},
+    {v:'v5', date:'2026-07-23', title:'上手指南首屏視覺 · 品牌副色', items:[
+      {tag:'add', t:'上手指南新增情境首屏 hero：多色暖漸層（還原參考站 mesh 質感）、標題＋說明置中、mockup 輪播、兩顆 CTA（編輯 Token／瀏覽元件）'},
+      {tag:'add', t:'首屏背景滑鼠互動（游標滑過透出網格線）、mockup 游標 CTA（「在 GitHub 查看完整流程」跟隨游標）'},
+      {tag:'improve', t:'首屏漸層多輪精修統整：獨立模糊層讓色塊無縫融合、加入鮮艷高彩度 pop、暖色置頂並與下段背景無縫銜接（消除斷層）'},
+      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步）；深色主題底色整組加深，配紙質磨砂後更好讀'},
+      {tag:'improve', t:'全站疊加紙質磨砂顆粒材質，提升整體質感'},
+      {tag:'fix', t:'手機版首屏漸層露白邊、mockup 爆版等多項修正（邊距改綁 token 對齊 hero 出血）'},
     ]},
-    {v:'v10', date:'2026-07-23', title:'下拉重新整理＋手機白邊修正', items:[
-      {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現圓圈 loader，放手過閾值即重新整理'},
-      {tag:'fix', t:'手機版首屏漸層頂部白邊修正（主內容區上邊距改用 token，對齊 hero 出血）'},
-    ]},
-    {v:'v9', date:'2026-07-23', title:'首屏漸層融合＋互動細修', items:[
-      {tag:'improve', t:'漸層改用獨立層＋filter:blur，各彩色色塊無縫融合、更柔和'},
-      {tag:'improve', t:'背景網格更淡更密、加入延遲拖尾（rAF lerp）跟隨滑鼠'},
-      {tag:'improve', t:'mockup 游標按鈕移除陰影，改淺色白底／深色黑底'},
-      {tag:'fix', t:'mockup 陰影 y／blur 收小＋hero 底部留白加大，漸層與下段銜接不再突兀'},
-      {tag:'fix', t:'手機版漸層左右露白邊修正（主內容區側邊距改用 token，對齊 hero 出血）'},
-    ]},
-    {v:'v8', date:'2026-07-23', title:'首屏視覺升級：鮮艷漸層＋網格互動＋游標 CTA', items:[
-      {tag:'add', t:'首屏漸層最上層加入鮮艷高彩度色（洋紅／橘／紫紅 pop），淺色也更豐富飽和'},
-      {tag:'add', t:'背景滑鼠互動：游標滑過時透出網格線（參考 cula.tech），增加動態感'},
-      {tag:'improve', t:'標題 Cool-DS-Library 放大加粗（更顯眼）；描述改為品牌化專業文案'},
-      {tag:'improve', t:'首屏漸層專屬紙質磨砂加強，質感更明顯'},
-      {tag:'fix', t:'首屏漸層底色改用與下段相同的背景色，消除銜接斷層'},
-      {tag:'improve', t:'深色主題底色再加深一階（surface token）'},
-      {tag:'improve', t:'mockup 互動改為：游標移入時變成「在 GitHub 查看完整流程」按鈕跟隨（不再放大/模糊），點擊另開'},
-    ]},
-    {v:'v7', date:'2026-07-23', title:'漸層柔化 · 深色底色加深 · 手機 mockup', items:[
-      {tag:'improve', t:'首屏淺色漸層調淡柔化：移除偏髒的褐/紫調，改乾淨的珊瑚／橘漸層'},
-      {tag:'improve', t:'深色主題底色整組加深（surface token：canvas #060608、surface #0C0C0E…），配磨砂後文字更好讀'},
-      {tag:'improve', t:'深色磨砂顆粒略降（screen .2），兼顧質感與易讀'},
-      {tag:'improve', t:'手機版 mockup 收窄置中（300px）、外框 padding 等比縮小'},
-    ]},
-    {v:'v6', date:'2026-07-23', title:'首屏文案/對比/材質微調', items:[
-      {tag:'improve', t:'首屏標題精簡為「Cool-DS-Library」；說明文字改白色、移除加粗（灰字在暖底看不清）'},
-      {tag:'improve', t:'首屏淺色漸層頂部加深，白色標題/說明對比更清楚'},
-      {tag:'improve', t:'mockup 外框改為帶 padding 的半透明磨砂框（比照參考站），內層才是螢幕'},
-      {tag:'improve', t:'全站紙質磨砂材質加強、更明顯（覆蓋所有頁面背景）'},
-    ]},
-    {v:'v5', date:'2026-07-22', title:'首屏漸層/互動精修 · 全站紙質材質', items:[
-      {tag:'improve', t:'首屏漸層上下顛倒：暖色移到頂、底部沉回底色，hero 底緣無縫接下一段（去除斷差）'},
-      {tag:'improve', t:'首屏「瀏覽元件」改實心次要（淺色近白底／深色近黑底），凸顯於漸層之上'},
-      {tag:'add', t:'首屏 mockup 加回 hover 互動：內容放大＋背景 blur 罩層，中央浮出「GitHub 查看完整流程」外連鈕'},
-      {tag:'fix', t:'首屏 mockup 手機版改用 GitHub 手機網頁單欄版型，不再爆版／擠壓'},
-      {tag:'add', t:'全站背景疊一層紙質磨砂顆粒材質（fixed noise overlay），提升質感'},
-      {tag:'improve', t:'專案模式進站頁也改為上手指南首屏（與母庫一致）'},
-    ]},
-    {v:'v4', date:'2026-07-22', title:'品牌副色改橘 · 上手指南首屏', items:[
-      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步換色）；主色維持中性近黑，橘作副色與情境點綴'},
-      {tag:'add', t:'上手指南新增情境首屏 hero：多色暖漸層（還原參考站 mesh 質感）、標題＋說明置中、簡單方形 mockup 外框（GitHub 桌機畫面、手機裁切）、兩顆 CTA（編輯 Token／瀏覽元件）'},
-      {tag:'improve', t:'母元件庫預設進站頁改為上手指南首屏（專案模式維持需求匯總）'},
+    {v:'v4', date:'2026-07-23', title:'手機體驗與細修', items:[
+      {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現 loader，放手過閾值即重整'},
+      {tag:'improve', t:'Design Guideline 色票手機版改一列四等分；下拉重整改為內容往下位移、loader 顯示於讓出的空間'},
+      {tag:'improve', t:'上手指南 FAQ 補充操作小技巧（元件級 token 綁定、改主色/副色、首屏隱藏互動）'},
+      {tag:'fix', t:'Design Guideline 手機版寬度爆版修正；Design Token「Brand 副色」群組改名後編輯復原'},
     ]},
     {v:'v3', date:'2026-07-22', title:'元件級 Token 綁定 · 上手指南更新', items:[
       {tag:'add', t:'每顆元件新增「變數與 Token」段落：可把該元件的圓角／間距／字級換綁成同類別的其他 token（專案層編輯，不動共用母庫；母庫頁僅預覽）'},
@@ -9318,10 +9300,11 @@ function buildScheduleChart(view){
       +'<p class="lede">'+lede+'</p><div class="head-rule"></div>';
     if(!data.length){ h+='<p class="sub" style="padding:var(--sp-6) 0;">目前還沒有任何調整紀錄。在 Design Token 調值或勾選元件、按右上「儲存並更新」，或從 Figma 同步後，就會記錄在這裡。</p>'; view.innerHTML=h; return; }
     h+='<div class="cl-tl">';
-    data.forEach(r=>{
-      h+='<section class="cl-entry"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
+    data.forEach((r,i)=>{
+      const open=i===0; // 預設只展開最新（第一筆），其餘收合
+      h+='<section class="cl-entry'+(open?'':' collapsed')+'"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
         +(r.src?'<span class="cl-src cl-src-'+r.src+'">'+(r.src==='figma'?'Figma':'手動')+'</span>':'')+'</div>'
-        +'<div class="cl-body"><h2 class="cl-title">'+r.title+'</h2><ul class="cl-list">';
+        +'<div class="cl-body"><button class="cl-head" type="button" aria-expanded="'+(open?'true':'false')+'"><h2 class="cl-title">'+r.title+'</h2><span class="cl-toggle"><span class="cl-tg-plus">'+ICON_PLUS+'</span><span class="cl-tg-minus">'+ICON_MINUS+'</span></span></button><ul class="cl-list">';
       r.items.forEach(it=>{
         if(it.tag){const t=TAG[it.tag]||TAG.add;h+='<li><span class="cl-tag '+t[1]+'">'+t[0]+'</span><span class="cl-txt">'+it.t+'</span></li>';}
         else{h+='<li><span class="cl-dot"></span><span class="cl-txt">'+it.t+'</span></li>';}
@@ -9330,6 +9313,7 @@ function buildScheduleChart(view){
     });
     h+='</div>';
     view.innerHTML=h;
+    view.querySelectorAll('.cl-head').forEach(btn=>btn.onclick=()=>{const e=btn.closest('.cl-entry');const c=e.classList.toggle('collapsed');btn.setAttribute('aria-expanded',String(!c));}); // 點標題列展開/收合
   }
 
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
@@ -10317,7 +10301,10 @@ function buildScheduleChart(view){
     const curTheme=window.__themePref||'system';
     const curGrad=(window.__shaderPref==='off')?'off':'on';
     const curLay=(window.__liveLayoutPref==='v')?'v':'h';
+    const isMobile=window.matchMedia('(max-width:767px)').matches; // 手機：水平版型無法呈現（版面已強制單欄）
+    const effLay=isMobile?'v':curLay;                              // 手機一律以垂直為當前選中
     const card=(o,sel)=>'<button class="pref-card'+(sel?' sel':'')+'" type="button" data-k="'+o.k+'"><div class="pref-thumb">'+o.thumb+'<span class="pref-check">'+CHK+'</span></div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span></div></button>';
+    const layCard=(o)=>{const disabled=isMobile&&o.k==='h';return '<button class="pref-card'+(o.k===effLay?' sel':'')+(disabled?' pref-disabled':'')+'" type="button" data-k="'+o.k+'"'+(disabled?' disabled':'')+'><div class="pref-thumb">'+o.thumb+'<span class="pref-check">'+CHK+'</span></div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span></div></button>';};
     view.innerHTML=`
       <div class="sum-top"><div class="sum-head"><p class="eyebrow">Preferences · 偏好設定</p><h1>偏好設定</h1></div></div>
       <p class="lede">個人化這個介面的外觀。你的選擇會記在這台裝置，重新整理後仍會保留。</p>
@@ -10332,7 +10319,8 @@ function buildScheduleChart(view){
       </section>
       <section class="block pref-sec">
         <div class="pref-sec-h"><h2>互動預覽版型</h2><p>元件頁「互動預覽與程式碼」的排列方式。水平＝控制項與預覽在左、程式碼在右（可拖拉調寬）；垂直＝由上而下堆疊。</p></div>
-        <div class="pref-cards" id="prefLay">${LAY.map(o=>card(o,o.k===curLay)).join('')}</div>
+        <div class="pref-cards" id="prefLay">${LAY.map(layCard).join('')}</div>
+        ${isMobile?'<p class="pref-note">📱 手機上無法水平顯示，僅能垂直排列。</p>':''}
       </section>`;
     view.querySelectorAll('#prefTheme .pref-card').forEach(c=>c.onclick=()=>{ // 主題：套用＋持久化＋更新選中態
       window.__applyThemePref(c.dataset.k,true);
@@ -10345,6 +10333,7 @@ function buildScheduleChart(view){
       view.querySelectorAll('#prefGrad .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
     });
     view.querySelectorAll('#prefLay .pref-card').forEach(c=>c.onclick=()=>{ // 互動預覽版型：記偏好＋持久化（元件頁下次載入即套用）
+      if(c.classList.contains('pref-disabled'))return; // 手機的水平排列不可選
       window.__liveLayoutPref=c.dataset.k==='v'?'v':'h';
       try{localStorage.setItem('ds-livelayout',window.__liveLayoutPref);}catch(e){}
       view.querySelectorAll('#prefLay .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
