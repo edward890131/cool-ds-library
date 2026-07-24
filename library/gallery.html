@@ -3243,12 +3243,15 @@
   .gd-navcard{position:relative;cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;}
   .gd-navcard:hover{border-color:var(--accent);transform:translateY(-3px);background:var(--panel);box-shadow:0 12px 26px -14px color-mix(in srgb,var(--ink) 32%,transparent);}
   .gd-navcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .gd-navcard-arrow{position:absolute;top:var(--sp-4);right:var(--sp-4);width:20px;height:20px;color:var(--accent);opacity:0;transform:translate(-4px,4px);transition:opacity .18s ease,transform .18s ease;pointer-events:none;}
+  .gd-navcard-arrow{position:absolute;top:var(--sp-4);right:var(--sp-4);width:20px;height:20px;color:var(--accent);transition:transform .18s ease;pointer-events:none;} /* 固定顯示（不再 hover 才出現）*/
   .gd-navcard-arrow svg{width:100%;height:100%;display:block;}
-  .gd-navcard:hover .gd-navcard-arrow,.gd-navcard:focus-visible .gd-navcard-arrow{opacity:1;transform:translate(0,0);}
-  /* 03 核心頁卡片內嵌 mockup（用首屏精修版，JS 等比縮放到卡寬；包一層 .gd-devices 供 --gh* 變數）*/
-  .gd-navcard-mock{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r-xs);overflow:hidden;border:1px solid var(--line);margin-bottom:var(--sp-4);background:#0d1117;}
+  .gd-navcard:hover .gd-navcard-arrow,.gd-navcard:focus-visible .gd-navcard-arrow{transform:translate(2px,-2px);} /* hover 微移保留回饋 */
+  /* 03 核心頁卡片內嵌 mockup（用首屏精修版，JS 等比縮放到卡寬；包一層 .gd-devices 供 --gh* 變數）；放在說明文字下方 */
+  .gd-navcard-mock{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);margin-top:var(--sp-5);background:#0d1117;}
   .gd-navcard-mock .gd-devices{position:absolute;top:0;left:0;margin:0;width:1040px;transform-origin:top left;pointer-events:none;}
+  /* 深色模式：mockup 示意改淺色（覆寫 gh 變數與底色，避免深底 mockup 融進深色頁）*/
+  :root[data-theme="dark"] .gd-navcard-mock{background:#fff;}
+  :root[data-theme="dark"] .gd-navcard-mock .gd-devices{--ghbg:#fff;--ghsub:#f6f8fa;--ghline:#d1d9e0;--ghline2:#d1d9e0;--ghtext:#1f2328;--ghmut:#59636e;--ghfaint:#818b98;--ghlink:#0969da;--ghgreen:#1f883d;--ghfolder:#0969da;}
   /* Guideline 精修 mockup 內容（色票分類＋字體）*/
   .hm-dgcat{display:flex;align-items:center;gap:14px;margin-top:12px;}
   .hm-dgcat-l{width:74px;flex:0 0 auto;font-size:13px;color:var(--ghmut);}
@@ -9259,9 +9262,9 @@ function buildScheduleChart(view){
       <section class="gd-sec">
         <div class="gd-sec-h"><span class="gd-sec-n">03</span><h2 class="gd-sec-t">核心頁面</h2></div>
         <div class="gd-cards">
-          <div class="gd-card gd-navcard" data-nav="tokens" role="link" tabindex="0"><div class="gd-navcard-mock" data-mock="token"></div><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">TOKEN</div><h3>Design Token</h3><p>改顏色、字級、圓角、間距的地方。改了整站<b>即時套用</b>，可隨時 reset。</p></div>
-          <div class="gd-card gd-navcard" data-nav="guideline" role="link" tabindex="0"><div class="gd-navcard-mock" data-mock="guideline"></div><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">GUIDELINE</div><h3>Design Guideline</h3><p>把「目前 token ＋ 選定元件」的整體效果攤成一頁。<b>交付前最後確認</b>看這裡。</p></div>
-          <div class="gd-card gd-navcard" data-nav="summary" role="link" tabindex="0"><div class="gd-navcard-mock" data-mock="summary"></div><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">SUMMARY</div><h3>需求匯總</h3><p>勾這個專案<b>要哪些元件</b>、每顆要哪些狀態樣式。交付清單從這來。</p></div>
+          <div class="gd-card gd-navcard" data-nav="tokens" role="link" tabindex="0"><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">TOKEN</div><h3>Design Token</h3><p>改顏色、字級、圓角、間距的地方。改了整站<b>即時套用</b>，可隨時 reset。</p><div class="gd-navcard-mock" data-mock="token"></div></div>
+          <div class="gd-card gd-navcard" data-nav="guideline" role="link" tabindex="0"><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">GUIDELINE</div><h3>Design Guideline</h3><p>把「目前 token ＋ 選定元件」的整體效果攤成一頁。<b>交付前最後確認</b>看這裡。</p><div class="gd-navcard-mock" data-mock="guideline"></div></div>
+          <div class="gd-card gd-navcard" data-nav="summary" role="link" tabindex="0"><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">SUMMARY</div><h3>需求匯總</h3><p>勾這個專案<b>要哪些元件</b>、每顆要哪些狀態樣式。交付清單從這來。</p><div class="gd-navcard-mock" data-mock="summary"></div></div>
         </div>
       </section>
 
@@ -9497,6 +9500,7 @@ function buildScheduleChart(view){
     const SLIDE_DATA=[
       {d:ghHTML,m:ghmHTML,url:'https://github.com/edward890131/cool-ds-library',pill:'在 GitHub 查看完整流程',icon:ICON_GITHUB,native:680},
       {d:tokenHTML,m:tokenHTML,url:'https://cool-ds-library.vercel.app/#tokens',pill:'開啟 Design Token 頁',icon:O.link,native:1040},
+      {d:guidelineHTML,m:guidelineHTML,url:'https://cool-ds-library.vercel.app/#guideline',pill:'開啟 Design Guideline 頁',icon:O.link,native:1040},
       {d:summaryHTML,m:summaryHTML,url:'https://cool-ds-library.vercel.app/#summary',pill:'開啟需求匯總頁',icon:O.link,native:1040}
     ];
     const stage=view.querySelector('#gdCaroStage');
