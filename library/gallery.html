@@ -3047,7 +3047,12 @@
   .pt-lay .pl-b i{display:block;height:4px;border-radius:2px;}
   .pt-lay .pl-b i:nth-child(1){width:82%;background:#7ee787;} .pt-lay .pl-b i:nth-child(2){width:58%;background:#a5d6ff;margin-left:9px;} .pt-lay .pl-b i:nth-child(3){width:66%;background:#ffa657;} .pt-lay .pl-b i:nth-child(4){width:44%;background:#7ee787;}
   .pt-lay-h .pl-div{flex:0 0 2px;align-self:stretch;background:#D3D6DE;border-radius:1px;}
-  @media(max-width:560px){.pref-card{flex:1 1 44%;min-width:130px;}}
+  /* 停用態（如手機的水平排列不可選）＋手機備註 */
+  .pref-card.pref-disabled{opacity:.45;cursor:not-allowed;}
+  .pref-card.pref-disabled:hover .pref-thumb{border-color:var(--line-strong);}
+  .pref-note{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:var(--fs-h11);margin:var(--sp-4) 0 0;}
+  /* 手機：改 2 欄 grid，卡片尺寸一致、兩兩並排往下接（原本 flex-grow 讓落單第三張撐滿）*/
+  @media(max-width:767px){.pref-cards{display:grid;grid-template-columns:1fr 1fr;} .pref-card{flex:none;min-width:0;}}
 
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
   .gd-carousel{position:relative;width:min(70%,1200px);margin:0 auto;}   /* 電腦版佔 70%、上限 1200px */
@@ -3259,6 +3264,14 @@
   .cl-src{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h12);padding:1px 7px;border-radius:var(--r-pill);}
   .cl-src-manual{color:var(--muted);background:var(--panel-2);border:1px solid var(--line-strong);}
   .cl-src-figma{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 12%,transparent);}
+  /* 版本紀錄展開/收合：點標題列 toggle，chevron 旋轉、收合時隱藏列表 */
+  .cl-head{display:flex;align-items:center;gap:var(--sp-3);width:100%;background:none;border:0;padding:0;margin:0 0 var(--sp-4);cursor:pointer;text-align:left;font-family:inherit;color:inherit;}
+  .cl-head .cl-title{margin:0;flex:1;}
+  .cl-chevron{flex:0 0 auto;width:18px;height:18px;color:var(--muted);transition:transform .2s;display:flex;}
+  .cl-chevron svg{width:100%;height:100%;}
+  .cl-entry.collapsed .cl-head{margin-bottom:0;}
+  .cl-entry.collapsed .cl-chevron{transform:rotate(-90deg);}
+  .cl-entry.collapsed .cl-list{display:none;}
   @media(max-width:767px){.cl-entry{grid-template-columns:1fr;gap:var(--sp-3);padding:var(--sp-6) 0;} .cl-meta{position:static;flex-direction:row;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}}
   .gd-sec{margin:var(--sp-8) 0;}
   .gd-sec-h{display:flex;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-5);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);flex-wrap:wrap;}  /* 對齊統一段標題：2px ink 底線（已移除副標）*/
@@ -9318,10 +9331,11 @@ function buildScheduleChart(view){
       +'<p class="lede">'+lede+'</p><div class="head-rule"></div>';
     if(!data.length){ h+='<p class="sub" style="padding:var(--sp-6) 0;">目前還沒有任何調整紀錄。在 Design Token 調值或勾選元件、按右上「儲存並更新」，或從 Figma 同步後，就會記錄在這裡。</p>'; view.innerHTML=h; return; }
     h+='<div class="cl-tl">';
-    data.forEach(r=>{
-      h+='<section class="cl-entry"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
+    data.forEach((r,i)=>{
+      const open=i===0; // 預設只展開最新（第一筆），其餘收合
+      h+='<section class="cl-entry'+(open?'':' collapsed')+'"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
         +(r.src?'<span class="cl-src cl-src-'+r.src+'">'+(r.src==='figma'?'Figma':'手動')+'</span>':'')+'</div>'
-        +'<div class="cl-body"><h2 class="cl-title">'+r.title+'</h2><ul class="cl-list">';
+        +'<div class="cl-body"><button class="cl-head" type="button" aria-expanded="'+(open?'true':'false')+'"><h2 class="cl-title">'+r.title+'</h2><span class="cl-chevron">'+ICON_CARET+'</span></button><ul class="cl-list">';
       r.items.forEach(it=>{
         if(it.tag){const t=TAG[it.tag]||TAG.add;h+='<li><span class="cl-tag '+t[1]+'">'+t[0]+'</span><span class="cl-txt">'+it.t+'</span></li>';}
         else{h+='<li><span class="cl-dot"></span><span class="cl-txt">'+it.t+'</span></li>';}
@@ -9330,6 +9344,7 @@ function buildScheduleChart(view){
     });
     h+='</div>';
     view.innerHTML=h;
+    view.querySelectorAll('.cl-head').forEach(btn=>btn.onclick=()=>{const e=btn.closest('.cl-entry');const c=e.classList.toggle('collapsed');btn.setAttribute('aria-expanded',String(!c));}); // 點標題列展開/收合
   }
 
   /* ── 上手指南 教學頁（Batch B）：圖文搭配、schematic 插圖、深淺色自動跟隨 ── */
@@ -10317,7 +10332,10 @@ function buildScheduleChart(view){
     const curTheme=window.__themePref||'system';
     const curGrad=(window.__shaderPref==='off')?'off':'on';
     const curLay=(window.__liveLayoutPref==='v')?'v':'h';
+    const isMobile=window.matchMedia('(max-width:767px)').matches; // 手機：水平版型無法呈現（版面已強制單欄）
+    const effLay=isMobile?'v':curLay;                              // 手機一律以垂直為當前選中
     const card=(o,sel)=>'<button class="pref-card'+(sel?' sel':'')+'" type="button" data-k="'+o.k+'"><div class="pref-thumb">'+o.thumb+'<span class="pref-check">'+CHK+'</span></div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span></div></button>';
+    const layCard=(o)=>{const disabled=isMobile&&o.k==='h';return '<button class="pref-card'+(o.k===effLay?' sel':'')+(disabled?' pref-disabled':'')+'" type="button" data-k="'+o.k+'"'+(disabled?' disabled':'')+'><div class="pref-thumb">'+o.thumb+'<span class="pref-check">'+CHK+'</span></div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span></div></button>';};
     view.innerHTML=`
       <div class="sum-top"><div class="sum-head"><p class="eyebrow">Preferences · 偏好設定</p><h1>偏好設定</h1></div></div>
       <p class="lede">個人化這個介面的外觀。你的選擇會記在這台裝置，重新整理後仍會保留。</p>
@@ -10332,7 +10350,8 @@ function buildScheduleChart(view){
       </section>
       <section class="block pref-sec">
         <div class="pref-sec-h"><h2>互動預覽版型</h2><p>元件頁「互動預覽與程式碼」的排列方式。水平＝控制項與預覽在左、程式碼在右（可拖拉調寬）；垂直＝由上而下堆疊。</p></div>
-        <div class="pref-cards" id="prefLay">${LAY.map(o=>card(o,o.k===curLay)).join('')}</div>
+        <div class="pref-cards" id="prefLay">${LAY.map(layCard).join('')}</div>
+        ${isMobile?'<p class="pref-note">📱 手機上無法水平顯示，僅能垂直排列。</p>':''}
       </section>`;
     view.querySelectorAll('#prefTheme .pref-card').forEach(c=>c.onclick=()=>{ // 主題：套用＋持久化＋更新選中態
       window.__applyThemePref(c.dataset.k,true);
@@ -10345,6 +10364,7 @@ function buildScheduleChart(view){
       view.querySelectorAll('#prefGrad .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
     });
     view.querySelectorAll('#prefLay .pref-card').forEach(c=>c.onclick=()=>{ // 互動預覽版型：記偏好＋持久化（元件頁下次載入即套用）
+      if(c.classList.contains('pref-disabled'))return; // 手機的水平排列不可選
       window.__liveLayoutPref=c.dataset.k==='v'?'v':'h';
       try{localStorage.setItem('ds-livelayout',window.__liveLayoutPref);}catch(e){}
       view.querySelectorAll('#prefLay .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
