@@ -5,7 +5,7 @@
 > 給同事：**把這個 repo 的 GitHub 網址丟給 Claude Code，說「依 ds-studio 幫我跑一個新專案」即可**，Claude 會照下方七步依序帶你走完。
 
 **🔰 第一次用 → 先讀 [QUICKSTART.md](QUICKSTART.md)**（手把手的新手上手教學，這份 README 只講架構）。
-**🔗 先看成品** → 母元件庫展示網站 **https://cool-ds-library.vercel.app/**（不用裝任何東西、點進去就能逛）。
+**🔗 先看成品** → 母元件庫展示網站 **[cool-ds-library.vercel.app](https://cool-ds-library.vercel.app/)**（不用裝任何東西、點進去就能逛）。
 
 ---
 
