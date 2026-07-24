@@ -3180,7 +3180,7 @@
   .gm-ctags .tg.off{opacity:.4;}
   /* 07 版本存檔：對話框疊在暗化視窗上 */
   .gm-stage7{position:relative;}
-  .gm-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 34%,transparent);z-index:2;border-radius:var(--r-md);}
+  .gm-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 34%,transparent);z-index:2;border-radius:var(--r-sm);} /* 對齊 gm-win 的 --r-sm，避免暗化層圓角比窗大、四角露出白邊 */
   .gm-dlg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:min(88%,320px);background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-md);box-shadow:0 24px 60px -20px rgba(0,0,0,.5);overflow:hidden;}
   .gm-dlg-h{padding:11px 13px;border-bottom:1px solid var(--line);}
   .gm-dlg-t{font-size:var(--fs-h9);font-weight:600;color:var(--ink);}
@@ -3246,6 +3246,15 @@
   .gd-navcard-arrow{position:absolute;top:var(--sp-4);right:var(--sp-4);width:20px;height:20px;color:var(--accent);opacity:0;transform:translate(-4px,4px);transition:opacity .18s ease,transform .18s ease;pointer-events:none;}
   .gd-navcard-arrow svg{width:100%;height:100%;display:block;}
   .gd-navcard:hover .gd-navcard-arrow,.gd-navcard:focus-visible .gd-navcard-arrow{opacity:1;transform:translate(0,0);}
+  /* 03 核心頁卡片內嵌 mockup（用首屏精修版，JS 等比縮放到卡寬；包一層 .gd-devices 供 --gh* 變數）*/
+  .gd-navcard-mock{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r-xs);overflow:hidden;border:1px solid var(--line);margin-bottom:var(--sp-4);background:#0d1117;}
+  .gd-navcard-mock .gd-devices{position:absolute;top:0;left:0;margin:0;width:1040px;transform-origin:top left;pointer-events:none;}
+  /* Guideline 精修 mockup 內容（色票分類＋字體）*/
+  .hm-dgcat{display:flex;align-items:center;gap:14px;margin-top:12px;}
+  .hm-dgcat-l{width:74px;flex:0 0 auto;font-size:13px;color:var(--ghmut);}
+  .hm-dgrow{display:flex;gap:6px;flex-wrap:wrap;}
+  .hm-dgsw{width:30px;height:24px;border-radius:6px;border:1px solid var(--ghline2);flex:0 0 auto;}
+  .hm-dgtype{display:flex;align-items:baseline;gap:16px;margin-top:12px;color:var(--ghtext);}
   .gd-chiprow{display:flex;gap:6px;flex-wrap:wrap;}
   .gd-chip{font-family:var(--font-mono);font-size:var(--fs-h12);border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 9px;color:var(--muted);}
   .gd-chip.on{background:var(--accent);color:var(--primary-on);border-color:transparent;}
@@ -9250,9 +9259,9 @@ function buildScheduleChart(view){
       <section class="gd-sec">
         <div class="gd-sec-h"><span class="gd-sec-n">03</span><h2 class="gd-sec-t">核心頁面</h2></div>
         <div class="gd-cards">
-          <div class="gd-card gd-navcard" data-nav="tokens" role="link" tabindex="0"><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">TOKEN</div><h3>Design Token</h3><p>改顏色、字級、圓角、間距的地方。改了整站<b>即時套用</b>，可隨時 reset。</p></div>
-          <div class="gd-card gd-navcard" data-nav="guideline" role="link" tabindex="0"><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">GUIDELINE</div><h3>Design Guideline</h3><p>把「目前 token ＋ 選定元件」的整體效果攤成一頁。<b>交付前最後確認</b>看這裡。</p></div>
-          <div class="gd-card gd-navcard" data-nav="summary" role="link" tabindex="0"><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">SUMMARY</div><h3>需求匯總</h3><p>勾這個專案<b>要哪些元件</b>、每顆要哪些狀態樣式。交付清單從這來。</p></div>
+          <div class="gd-card gd-navcard" data-nav="tokens" role="link" tabindex="0"><div class="gd-navcard-mock" data-mock="token"></div><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">TOKEN</div><h3>Design Token</h3><p>改顏色、字級、圓角、間距的地方。改了整站<b>即時套用</b>，可隨時 reset。</p></div>
+          <div class="gd-card gd-navcard" data-nav="guideline" role="link" tabindex="0"><div class="gd-navcard-mock" data-mock="guideline"></div><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">GUIDELINE</div><h3>Design Guideline</h3><p>把「目前 token ＋ 選定元件」的整體效果攤成一頁。<b>交付前最後確認</b>看這裡。</p></div>
+          <div class="gd-card gd-navcard" data-nav="summary" role="link" tabindex="0"><div class="gd-navcard-mock" data-mock="summary"></div><span class="gd-navcard-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span><div class="gd-card-ic">SUMMARY</div><h3>需求匯總</h3><p>勾這個專案<b>要哪些元件</b>、每顆要哪些狀態樣式。交付清單從這來。</p></div>
         </div>
       </section>
 
@@ -9433,17 +9442,17 @@ function buildScheduleChart(view){
       +'</div>';
     // ── 另兩張輪播 mockup：高還原「我們網站」的 Design Token 頁與需求匯總頁（1040 native，隨 gh 深淺變數）──
     const hmBar=(u)=>'<div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url"><span class="gd-gh-lock">🔒</span>'+u+'</span></div>';
-    const hmTop='<div class="hm-top"><span class="hm-burger">☰</span><span class="hm-brand">GOONS</span><span class="hm-brandsub">cool-ds-library</span><span class="hm-divider"></span><span class="hm-theme"></span><span class="hm-pill">📖 上手指南</span><span class="hm-sp"></span><span class="hm-tbtn">'+O.mark+'Github</span><span class="hm-tbtn solid">匯出（下載）</span></div>';
-    const hmSide=(act)=>'<div class="hm-side">'
-      +'<div class="hm-nav'+(act==='guide'?' on':'')+'">📖 上手指南</div>'
-      +'<div class="hm-sep"></div><div class="hm-nav'+(act==='tokens'?' on':'')+'">🎨 Design Token</div>'
+    const hmTop='<div class="hm-top"><span class="hm-burger">☰</span><span class="hm-brand">GOONS</span><span class="hm-brandsub">cool-ds-library</span><span class="hm-divider"></span><span class="hm-pill">📖 上手指南</span><span class="hm-sp"></span><span class="hm-tbtn">'+O.mark+'Github</span><span class="hm-tbtn solid">匯出（下載）</span></div>'; // 深淺色 toggle 已移到偏好設定頁，topbar 不再有
+    const hmSide=(act)=>'<div class="hm-side">' // 對齊現行側欄：無上手指南（在 topbar）、末端加偏好設定
+      +'<div class="hm-nav'+(act==='tokens'?' on':'')+'">🎨 Design Token</div>'
       +'<div class="hm-sep"></div><div class="hm-nav'+(act==='guideline'?' on':'')+'">📐 Design Guideline</div>'
       +'<div class="hm-sep"></div><div class="hm-nav'+(act==='summary'?' on':'')+'">📋 需求匯總</div>'
       +'<div class="hm-navg">🧱 Basic 基本<span class="n">18</span><span class="cv">›</span></div>'
       +'<div class="hm-navg">🍀 Complex 複雜<span class="n">12</span><span class="cv">›</span></div>'
       +'<div class="hm-navg">🗂 Card 卡片<span class="n">4</span><span class="cv">›</span></div>'
       +'<div class="hm-navg">📊 Table & Chart 表格圖表<span class="n">5</span><span class="cv">›</span></div>'
-      +'<div class="hm-navg">🗒 版本紀錄</div></div>';
+      +'<div class="hm-sep"></div><div class="hm-nav'+(act==='changelog'?' on':'')+'">🗒 版本紀錄</div>'
+      +'<div class="hm-sep"></div><div class="hm-nav'+(act==='settings'?' on':'')+'">⚙️ 偏好設定</div></div>';
     const CK2='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0L3.22 8.28a.75.75 0 0 1 1.06-1.06L7 9.94l5.72-5.72a.75.75 0 0 1 1.06 0Z"/></svg>';
     const tokRow=(nm,hex,lab)=>'<div class="hm-tokrow"><span class="hm-tokname">'+nm+(lab?'<span class="lab">'+lab+'</span>':'')+'</span><span class="hm-toksw" style="background:'+hex+'"></span><span class="hm-tokhex">'+hex+'</span></div>';
     const NEU=[['--c-neutral-0','#FFFFFF'],['--c-neutral-50','#FAFAFA'],['--c-neutral-100','#F4F5F7'],['--c-neutral-200','#ECEEF2'],['--c-neutral-300','#DFE1E7'],['--c-neutral-400','#C9CDD6'],['--c-neutral-500','#9BA0AA']];
@@ -9466,6 +9475,22 @@ function buildScheduleChart(view){
       +'<div class="hm-actions"><span class="hm-aitoggle">✦ AI 建議產出<span class="sw"></span></span><span class="hm-selall"><span class="ck">'+CK2+'</span>全選</span><span class="hm-total">已選 <b>39</b>/39 個元件 · 共 <b>860</b> 個變體將建立</span></div>'
       +catCard('🧱 Basic 基本','18 / 18')+catCard('🍀 Complex 複雜','12 / 12')+catCard('🗂 Card 卡片','4 / 4')+catCard('📊 Table & Chart 表格圖表','5 / 5')+'</div>';
     const summaryHTML='<div class="hm">'+hmBar('cool-ds-library.vercel.app')+hmTop+'<div class="hm-body">'+hmSide('summary')+summaryMain+'</div></div>';
+    // Design Guideline 精修 mockup（新做，供 03 核心頁卡片用）：色票分類＋字體示意
+    const dgChips=arr=>arr.map(c=>'<span class="hm-dgsw" style="background:'+c+'"></span>').join('');
+    const guidelineMain='<div class="hm-main">'
+      +'<div class="hm-eyebrow">Review · 出貨前確認</div>'
+      +'<div class="hm-headrow"><div class="hm-h1">Design Guideline</div></div>'
+      +'<p class="hm-lede">依<b>當前 token 與選定元件</b>組成的設計指南預覽——匯出前的最後確認關。在 Design Token 調值、需求匯總 勾元件，這頁即時反映。</p>'
+      +'<div class="hm-rule"></div>'
+      +'<div class="hm-sec-t">色彩 Color</div><div class="hm-sec-d">品牌主色、中性與狀態色階</div>'
+      +'<div class="hm-dgcat"><span class="hm-dgcat-l">Primary</span><div class="hm-dgrow">'+dgChips(BRD.map(r=>r[1]))+'</div></div>'
+      +'<div class="hm-dgcat"><span class="hm-dgcat-l">Neutral</span><div class="hm-dgrow">'+dgChips(NEU.map(r=>r[1]))+'</div></div>'
+      +'<div class="hm-dgcat"><span class="hm-dgcat-l">Status</span><div class="hm-dgrow">'+dgChips(['#10B981','#F59E0B','#EF4444','#3B82F6'])+'</div></div>'
+      +'<div class="hm-rule"></div>'
+      +'<div class="hm-sec-t">字體 Typography</div><div class="hm-sec-d">Geist Sans · 中英數一致</div>'
+      +'<div class="hm-dgtype"><span style="font-size:28px;font-weight:700">Aa 果思</span><span style="font-size:15px;color:var(--ghmut)">Design Guideline 0123456789</span></div>'
+      +'</div>';
+    const guidelineHTML='<div class="hm">'+hmBar('cool-ds-library.vercel.app')+hmTop+'<div class="hm-body">'+hmSide('guideline')+guidelineMain+'</div></div>';
     // 首屏 mockup 輪播：3 張＝GitHub repo／Design Token 頁／需求匯總頁；一次只呈現一張、每 5 秒前後輪播（淡切）；
     //   桌機內容固定 1040 native 由 JS 依螢幕寬 scale＝等比縮放（鎖比例不拉扁）；active 卡＝自訂游標＋點擊開對應連結
     // native＝每張桌機內容的設計寬（github 較密設 680，token/summary 頁面設 1040）
@@ -9523,6 +9548,15 @@ function buildScheduleChart(view){
       window.__caroRO.observe(stage);
       startAuto();
     }
+    // 03 核心頁三張卡片：嵌入對應精修 mockup（token／guideline／summary），等比縮放到卡片寬
+    const CARD_MOCK={token:tokenHTML,guideline:guidelineHTML,summary:summaryHTML};
+    const cardMocks=[...view.querySelectorAll('.gd-navcard-mock')];
+    cardMocks.forEach(box=>{const k=box.dataset.mock;if(CARD_MOCK[k])box.innerHTML='<div class="gd-devices">'+CARD_MOCK[k]+'</div>';}); // 包 .gd-devices 供 --gh* 變數（固定深色）
+    const fitCardMocks=()=>{cardMocks.forEach(box=>{const d=box.querySelector('.gd-devices');if(d)d.style.transform='scale('+(box.clientWidth/1040)+')';});};
+    fitCardMocks();requestAnimationFrame(fitCardMocks);setTimeout(fitCardMocks,180);
+    if(window.__cardMockRO)window.__cardMockRO.disconnect();
+    window.__cardMockRO=new ResizeObserver(()=>fitCardMocks());
+    cardMocks.forEach(box=>window.__cardMockRO.observe(box));
     // 首屏 mockup 配色 toggle：直接控制深/淺（深色模式＝預設無 class；淺色模式＝加 .gd-dev-light），active 即 mockup 當前配色
     const devs=view.querySelector('.gd-hero-mock .gd-devices');
     view.querySelectorAll('#gdMockToggle .gd-mt-seg').forEach(seg=>{
