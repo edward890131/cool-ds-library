@@ -3038,7 +3038,7 @@
   .hm-sp{flex:1;}
   .hm-tbtn{font-size:12px;color:var(--ghtext);border:1px solid var(--ghline2);border-radius:7px;padding:5px 11px;display:inline-flex;align-items:center;gap:5px;}
   .hm-tbtn.solid{background:var(--ghtext);color:var(--ghbg);border-color:var(--ghtext);}   /* 主要動作：深頁→白鈕、淺頁→深鈕（隨 mockup 深淺反轉，比照真站）*/
-  .hm-body{display:flex;}
+  .hm-body{display:flex;min-height:575px;} /* 較矮的 mockup（如需求匯總）也撐到填滿輪播框，避免窗比框矮、下方露底看似側欄斷掉 */
   .hm-side{width:212px;flex:0 0 212px;border-right:1px solid var(--ghline);padding:12px 12px;display:flex;flex-direction:column;gap:1px;}
   .hm-nav{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-family:var(--font-mono);font-size:13.5px;color:var(--ghtext);}
   .hm-nav.on{background:var(--ghsub);font-weight:600;}
@@ -3181,7 +3181,7 @@
   /* 07 版本存檔：對話框疊在暗化視窗上 */
   .gm-stage7{position:relative;}
   .gm-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 34%,transparent);z-index:2;border-radius:var(--r-sm);} /* 對齊 gm-win 的 --r-sm，避免暗化層圓角比窗大、四角露出白邊 */
-  .gm-dlg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:min(88%,320px);background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-md);box-shadow:0 24px 60px -20px rgba(0,0,0,.5);overflow:hidden;}
+  .gm-dlg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:min(88%,320px);background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:0 24px 60px -20px rgba(0,0,0,.5);overflow:hidden;} /* 圓角對齊外層窗 --r-sm */
   .gm-dlg-h{padding:11px 13px;border-bottom:1px solid var(--line);}
   .gm-dlg-t{font-size:var(--fs-h9);font-weight:600;color:var(--ink);}
   .gm-dlg-sub{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);margin-top:3px;}
@@ -3256,8 +3256,8 @@
   /* Guideline 精修 mockup 內容（色票分類＋字體）*/
   .hm-dgcat{display:flex;align-items:center;gap:14px;margin-top:12px;}
   .hm-dgcat-l{width:74px;flex:0 0 auto;font-size:13px;color:var(--ghmut);}
-  .hm-dgrow{display:flex;gap:6px;flex:1;} /* 撐滿主區寬，避免右側留白 */
-  .hm-dgsw{flex:1;min-width:0;height:26px;border-radius:6px;border:1px solid var(--ghline2);} /* 色票平均撐滿整列寬 */
+  .hm-dgrow{display:flex;gap:8px;flex:1;min-width:0;} /* 撐滿主區寬 */
+  .hm-dgsw{flex:1 1 0;min-width:0;max-width:56px;aspect-ratio:1;border-radius:8px;border:1px solid var(--ghline2);} /* 正方形色票（對齊網站 .dgc-chip），最大 56、平均分佈靠左 */
   .hm-dgtype{display:flex;align-items:baseline;gap:16px;margin-top:12px;color:var(--ghtext);}
   /* 品牌 Brand（填內容高度、對齊真實 guideline 頁）*/
   .hm-dgbrand{display:flex;align-items:center;gap:30px;margin-top:12px;flex-wrap:wrap;}
