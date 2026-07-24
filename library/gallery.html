@@ -2963,8 +2963,9 @@
   .pref-sec-h h2{font-size:var(--fs-h8);font-weight:600;margin:0;letter-spacing:-.01em;}
   .pref-sec-h p{color:var(--muted);font-size:var(--fs-h11);margin:5px 0 0;}
   .pref-cards{display:flex;gap:var(--sp-5);flex-wrap:wrap;}
-  .pref-card{flex:0 1 232px;min-width:170px;display:flex;flex-direction:column;gap:var(--sp-3);background:transparent;border:none;padding:0;cursor:pointer;text-align:left;font-family:inherit;}
-  .pref-thumb{position:relative;aspect-ratio:16/10;border-radius:var(--r-md);overflow:hidden;border:2px solid var(--line-strong);transition:border-color .15s,box-shadow .15s;}
+  .pref-card{flex:0 1 232px;min-width:170px;align-self:flex-start;display:flex;flex-direction:column;gap:var(--sp-3);background:transparent;border:none;padding:0;cursor:pointer;text-align:left;font-family:inherit;}
+  .pref-thumb{position:relative;border-radius:var(--r-md);overflow:hidden;border:2px solid var(--line-strong);transition:border-color .15s,box-shadow .15s;}
+  .pref-thumb::before{content:"";display:block;padding-top:62.5%;} /* 16:10 撐高（比 aspect-ratio 穩：不受 flex 拉伸影響，縮圖才不會塌成 0）*/
   .pref-card:hover .pref-thumb{border-color:var(--muted);}
   .pref-card.sel .pref-thumb{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent);}
   .pref-cardfoot{display:flex;align-items:center;gap:var(--sp-2);}
