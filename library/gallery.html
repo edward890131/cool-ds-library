@@ -3248,7 +3248,7 @@
   /* ===== 版本更新紀錄頁（Changelog 時間軸）===== */
   .cl-tl{display:flex;flex-direction:column;}
   .cl-entry{display:grid;grid-template-columns:132px 1fr;gap:var(--sp-7);padding:var(--sp-7) 0;border-top:1px solid var(--line);}
-  .cl-entry:first-child{border-top:0;padding-top:var(--sp-5);}
+  .cl-entry:first-child{border-top:0;} /* 只去掉最上一條分隔線，上 padding 與其他筆一致（sp-7）*/
   .cl-meta{display:flex;flex-direction:column;gap:var(--sp-2);position:sticky;top:var(--sp-4);align-self:start;}
   .cl-ver{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:700;color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:2px 10px;letter-spacing:-.01em;}
   .cl-date{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
@@ -3267,10 +3267,11 @@
   /* 版本紀錄展開/收合：點標題列 toggle，chevron 旋轉、收合時隱藏列表 */
   .cl-head{display:flex;align-items:center;gap:var(--sp-3);width:100%;background:none;border:0;padding:0;margin:0 0 var(--sp-4);cursor:pointer;text-align:left;font-family:inherit;color:inherit;}
   .cl-head .cl-title{margin:0;flex:1;}
-  .cl-chevron{flex:0 0 auto;width:18px;height:18px;color:var(--muted);transition:transform .2s;display:flex;}
-  .cl-chevron svg{width:100%;height:100%;}
+  .cl-toggle{flex:0 0 auto;width:20px;height:20px;color:var(--muted);display:flex;align-items:center;justify-content:center;}
+  .cl-toggle svg{width:100%;height:100%;display:block;}
+  .cl-toggle .cl-tg-plus{display:none;} .cl-toggle .cl-tg-minus{display:flex;} /* 展開＝顯示「−」（點了收合）*/
+  .cl-entry.collapsed .cl-toggle .cl-tg-plus{display:flex;} .cl-entry.collapsed .cl-toggle .cl-tg-minus{display:none;} /* 收合＝顯示「＋」（點了展開）*/
   .cl-entry.collapsed .cl-head{margin-bottom:0;}
-  .cl-entry.collapsed .cl-chevron{transform:rotate(-90deg);}
   .cl-entry.collapsed .cl-list{display:none;}
   @media(max-width:767px){.cl-entry{grid-template-columns:1fr;gap:var(--sp-3);padding:var(--sp-6) 0;} .cl-meta{position:static;flex-direction:row;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}}
   .gd-sec{margin:var(--sp-8) 0;}
@@ -3841,6 +3842,7 @@
   /* ===== 共用建構器（給 button 以外的元件）===== */
   const ICON_CHECK='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const ICON_MINUS='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"/></svg>';
+  const ICON_PLUS='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>';
   const ICON_CARET='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const ICON_CLOSE='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
   /* x-circle（fill）：灰底圓 + 鏤空 ×，給輸入框清除用 */
@@ -9335,7 +9337,7 @@ function buildScheduleChart(view){
       const open=i===0; // 預設只展開最新（第一筆），其餘收合
       h+='<section class="cl-entry'+(open?'':' collapsed')+'"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
         +(r.src?'<span class="cl-src cl-src-'+r.src+'">'+(r.src==='figma'?'Figma':'手動')+'</span>':'')+'</div>'
-        +'<div class="cl-body"><button class="cl-head" type="button" aria-expanded="'+(open?'true':'false')+'"><h2 class="cl-title">'+r.title+'</h2><span class="cl-chevron">'+ICON_CARET+'</span></button><ul class="cl-list">';
+        +'<div class="cl-body"><button class="cl-head" type="button" aria-expanded="'+(open?'true':'false')+'"><h2 class="cl-title">'+r.title+'</h2><span class="cl-toggle"><span class="cl-tg-plus">'+ICON_PLUS+'</span><span class="cl-tg-minus">'+ICON_MINUS+'</span></span></button><ul class="cl-list">';
       r.items.forEach(it=>{
         if(it.tag){const t=TAG[it.tag]||TAG.add;h+='<li><span class="cl-tag '+t[1]+'">'+t[0]+'</span><span class="cl-txt">'+it.t+'</span></li>';}
         else{h+='<li><span class="cl-dot"></span><span class="cl-txt">'+it.t+'</span></li>';}
