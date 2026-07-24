@@ -467,6 +467,37 @@
   .live-stage{background:var(--panel);border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:var(--sp-8);display:flex;justify-content:center;align-items:center;min-height:118px;}
   .live-note{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);margin:var(--sp-5) 0 var(--sp-3);}
   .live-free{display:flex;gap:var(--sp-5);flex-wrap:wrap;align-items:flex-end;}
+  /* Demo：可編輯文字 + 同步輸出程式碼（偷 Storybook Controls 的字串 arg + code snippet）*/
+  .ctl-text{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:var(--sp-2) var(--sp-3);min-width:150px;outline:none;}
+  .ctl-text:focus{border-color:var(--accent);}
+  /* 互動預覽版型（全站偏好）：垂直＝堆疊（.livewrap 預設流）／水平＝左右（可拖拉分隔線）；class-based 讓 button 與所有元件共用 */
+  .lay-resizer{display:none;}
+  .livewrap.lay-h{--code-w:33.333%;display:grid;grid-template-columns:minmax(200px,1fr) 8px clamp(200px,var(--code-w),70%);gap:var(--sp-6);grid-template-areas:"ctl rez code" "stage rez code" "note note note" "free free free";}
+  .livewrap.lay-h>.ctl-row{grid-area:ctl;margin-bottom:0;}
+  .livewrap.lay-h>.live-stage{grid-area:stage;}
+  .livewrap.lay-h>.live-code{grid-area:code;margin-top:0;}
+  .livewrap.lay-h>.lay-resizer{display:flex;grid-area:rez;align-items:center;justify-content:center;cursor:col-resize;touch-action:none;}
+  .livewrap.lay-h>.lay-resizer::before{content:"";width:1px;height:100%;background:var(--line);transition:background .12s;}
+  .livewrap.lay-h>.lay-resizer:hover::before,.livewrap.lay-h>.lay-resizer.dragging::before{background:var(--line-strong);}
+  .livewrap.lay-h>.live-note{grid-area:note;}
+  .livewrap.lay-h>.live-free{grid-area:free;}
+  @media(max-width:767px){.livewrap.lay-h{grid-template-columns:1fr;grid-template-areas:"ctl" "stage" "code" "note" "free";}.livewrap.lay-h>.lay-resizer{display:none;}}
+  /* 程式碼區＝工程師視角編輯器：行號 gutter + HTML 語法高亮；背景用面板灰 var(--panel-2) 與其他區塊一致（不再用近黑 #0d1117）*/
+  .live-code{margin-top:var(--sp-5);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;display:flex;flex-direction:column;--code-bg:var(--panel-2);--syn-tag:#116329;--syn-attr:#953800;--syn-str:#0a3069;--syn-punct:#57606a;--syn-txt:#1f2328;background:var(--code-bg);}
+  .code-inner{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;}
+  .code-head{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);background:var(--code-bg);flex:0 0 auto;}
+  .code-chip{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.06em;color:var(--syn-punct);}
+  .code-body{display:flex;flex:1 1 auto;min-height:0;overflow-x:auto;}
+  .code-gutter{flex:0 0 auto;display:flex;flex-direction:column;padding:var(--sp-4) var(--sp-3);text-align:right;user-select:none;color:var(--syn-punct);opacity:.5;font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;border-right:1px solid var(--line);}
+  .code-pre{margin:0;padding:var(--sp-4);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;color:var(--syn-txt);white-space:pre;}
+  .tk-tag{color:var(--syn-tag);font-weight:700;}.tk-attr{color:var(--syn-attr);}.tk-str{color:var(--syn-str);}.tk-punct{color:var(--syn-punct);}.tk-txt{color:var(--syn-txt);}
+  /* 水平版型：段落高度＝左側（控制項＋預覽）決定；程式碼過高則內部捲動（.code-inner 絕對定位、不撐大版面）*/
+  .livewrap.lay-h>.live-code{position:relative;}
+  .livewrap.lay-h>.live-code>.code-inner{position:absolute;inset:0;}
+  .livewrap.lay-h .code-body{overflow-y:auto;}
+  @media(prefers-color-scheme:dark){.live-code{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}}
+  :root[data-theme="dark"] .live-code{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}
+  :root[data-theme="light"] .live-code{--code-bg:var(--panel-2);--syn-tag:#116329;--syn-attr:#953800;--syn-str:#0a3069;--syn-punct:#57606a;--syn-txt:#1f2328;}
   /* live 可輸入欄位（裸 input 嵌在 .field 容器內，hover/focus 為真）*/
   .field.live-field{cursor:text;}
   .field .bare{border:none;background:transparent;outline:none;flex:1;min-width:40px;font:inherit;color:var(--ink);padding:0;}
@@ -1685,7 +1716,7 @@
   .mdl-leg-t{font-family:var(--font-sans);font-size:var(--fs-h11);font-weight:600;color:var(--ink);}
   .mdl-leg-d{font-family:var(--font-sans);font-size:var(--fs-h11);color:var(--muted);line-height:1.5;margin-top:2px;}
 
-  /* ---- 實際互動 Live：overlay 限縮在 stage 內、不遮全頁，且預設就開啟 ---- */
+  /* ---- 互動預覽與程式碼：overlay 限縮在 stage 內、不遮全頁，且預設就開啟 ---- */
   .mdl-live-root{position:relative;width:100%;min-height:380px;border-radius:var(--r-sm);
     display:flex;align-items:center;justify-content:center;}
   /* 關閉對話框後才出現的「重新開啟」按鈕 */
@@ -1767,7 +1798,7 @@
   .drw-navico{display:inline-flex;width:20px;height:20px;flex:0 0 auto;}
   .drw-foot{display:flex;justify-content:flex-end;gap:var(--sp-3);padding:var(--sp-2);border-top:1px solid var(--line);}
 
-  /* ---- 實際互動 Live：overlay 限縮在 stage 內、不遮全頁 ---- */
+  /* ---- 互動預覽與程式碼：overlay 限縮在 stage 內、不遮全頁 ---- */
   .drw-live-stage{position:relative;width:100%;min-height:320px;border-radius:var(--r-sm);overflow:hidden;
     background:var(--panel-2);display:flex;align-items:center;justify-content:center;}
   .drw-live-backdrop{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 42%,transparent);
@@ -1886,7 +1917,7 @@
   .stp-vstep:last-child .stp-labels{padding-bottom:0;}
   .stp-vertical.stp-dot .stp-labels{padding-top:0;}
 
-  /* ---- 實際互動 Live ---- */
+  /* ---- 互動預覽與程式碼 ---- */
   .stp-live-wrap{display:flex;flex-direction:column;gap:var(--sp-5);width:100%;}
   .stp-live-stage{display:flex;}
   .stp-live-ctl{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
@@ -3005,6 +3036,17 @@
   .pt-hb1{width:64%;height:8px;} .pt-hb2{width:44%;background:rgba(255,255,255,.7);}
   .pt-hcta{margin-top:3px;width:30%;height:9px;border-radius:4px;background:rgba(28,28,32,.82);}
   .pt-grad-off .pt-hb{background:rgba(60,50,60,.55);} .pt-grad-off .pt-hb2{background:rgba(60,50,60,.4);} .pt-grad-off .pt-hcta{background:rgba(60,50,60,.7);}
+  /* 互動預覽版型縮圖（精細）：左塊＝控制項條＋預覽鈕、暗塊＝程式碼行（語法色）；水平＝左右+分隔線、垂直＝上下堆疊 */
+  .pt-lay{background:#fff;padding:9px;gap:7px;}
+  .pt-lay-h{flex-direction:row;} .pt-lay-v{flex-direction:column;}
+  .pt-lay .pl-a{flex:1;border-radius:5px;background:#EDEFF3;border:1px solid #E4E6EC;display:flex;flex-direction:column;gap:5px;padding:9px;justify-content:center;}
+  .pt-lay .pl-a .pl-seg{height:5px;border-radius:3px;background:#C7CCD6;} .pt-lay .pl-a .pl-seg:nth-child(1){width:72%;} .pt-lay .pl-a .pl-seg:nth-child(2){width:50%;}
+  .pt-lay .pl-a .pl-btn{width:40%;height:12px;border-radius:4px;background:#1C1C20;margin-top:3px;}
+  .pt-lay .pl-b{border-radius:5px;background:#2E313A;display:flex;flex-direction:column;gap:4px;padding:9px;justify-content:center;} /* 程式碼區＝中深灰（非近黑）*/
+  .pt-lay-h .pl-b{flex:0 0 34%;} .pt-lay-v .pl-b{flex:0 0 42%;}
+  .pt-lay .pl-b i{display:block;height:4px;border-radius:2px;}
+  .pt-lay .pl-b i:nth-child(1){width:82%;background:#7ee787;} .pt-lay .pl-b i:nth-child(2){width:58%;background:#a5d6ff;margin-left:9px;} .pt-lay .pl-b i:nth-child(3){width:66%;background:#ffa657;} .pt-lay .pl-b i:nth-child(4){width:44%;background:#7ee787;}
+  .pt-lay-h .pl-div{flex:0 0 2px;align-self:stretch;background:#D3D6DE;border-radius:1px;}
   @media(max-width:560px){.pref-card{flex:1 1 44%;min-width:130px;}}
 
   /* ── 首屏 mockup 輪播（aiwork 風垂直堆疊：前卡在下、後方卡從上緣露出；每 5 秒由後往前替換最上方；無箭頭無圓點）── */
@@ -3159,6 +3201,12 @@
   .gm-mxc.rl{justify-content:flex-start;padding-left:9px;}
   .gm-bind{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--ink);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-xs);padding:4px 8px;}
   .gm-bind .gm-bind-k{color:var(--muted);} .gm-bind .gm-bind-v{margin-left:auto;color:var(--accent);font-weight:600;}
+  /* 04 mockup：互動預覽與程式碼（左預覽／右程式碼＝水平版型示意）*/
+  .gm-live{display:flex;gap:8px;align-items:stretch;min-height:56px;}
+  .gm-live-l{flex:1;display:flex;align-items:center;justify-content:center;background:var(--panel-2);border:1px dashed var(--line-strong);border-radius:var(--r-xs);padding:10px;}
+  .gm-live-c{flex:0 0 42%;background:#2E313A;border-radius:var(--r-xs);padding:9px 10px;display:flex;flex-direction:column;gap:5px;justify-content:center;}
+  .gm-live-c i{display:block;height:4px;border-radius:2px;}
+  .gm-live-c i:nth-child(1){width:82%;background:#7ee787;} .gm-live-c i:nth-child(2){width:56%;background:#a5d6ff;margin-left:12px;} .gm-live-c i:nth-child(3){width:38%;background:#7ee787;}
   /* 05 數值編輯：L1/L2 tab＋色票列＋數值欄 */
   .gm-tabs{display:flex;gap:6px;}
   .gm-tab{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 10px;}
@@ -3584,7 +3632,7 @@
   const ICON_GITHUB='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
 
   const active={}; for(const k in AXES) active[k]=new Set(AXES[k]);
-  const live={variant:'solid',intent:'primary',size:'m',lead:false,trail:false,iconOnly:false,disabled:false};
+  const live={variant:'solid',intent:'primary',size:'m',lead:false,trail:false,iconOnly:false,disabled:false,text:'',layout:'a',tab:'ctl'};
 
   /* ===== 中央複雜度 store：各元件轉盤的選擇集中在此、跨切頁持久，供「複雜度確認」總覽彙整 ===== */
   const DIAL_SPECS={
@@ -3690,10 +3738,12 @@
     </div>
     <section class="block"><h2><span class="bh-t">State × Intent 矩陣</span><span class="bh-d">每個 variant 一塊；列＝狀態、欄＝意圖，尺寸固定 m。停用狀態帶 <code>disabled</code>。此區為靜態呈現。</span></h2>
       <div class="panels" id="matrix"></div></section>
-    <section class="block"><h2><span class="bh-t">實際互動 Live</span><span class="bh-d">這區是<b>真的可以操作</b>的按鈕——滑鼠移上去會切到 hover、按住會切到 pressed。調參數看即時效果。</span></h2>
-      <div class="livewrap">
+    <section class="block"><h2><span class="bh-t">互動預覽與程式碼</span><span class="bh-d">這區是<b>真的可以操作</b>的按鈕——滑鼠移上去會切到 hover、按住會切到 pressed。調參數看即時效果與對應程式碼。</span></h2>
+      <div class="livewrap" id="liveWrap">
         <div class="ctl-row" id="liveCtl"></div>
         <div class="live-stage" id="liveStage"></div>
+        <div class="lay-resizer" id="layResizer" title="拖曳調整程式碼寬度"></div>
+        <div class="live-code" id="liveCode"></div>
         <p class="live-note">↓ 這排直接用滑鼠試 hover / 按下（solid・soft・outline・text，皆 primary）</p>
         <div class="live-free" id="liveFree"></div>
       </div></section>
@@ -3756,10 +3806,23 @@
     const checks=document.createElement('div');checks.className='checks';
     [['lead','leading icon'],['trail','trailing icon'],['iconOnly','icon only'],['disabled','disabled']].forEach(([key,lab])=>{const l=document.createElement('label');l.className='chk';const i=document.createElement('input');i.type='checkbox';i.checked=live[key];i.onchange=()=>{live[key]=i.checked;renderLive();};l.append(i,document.createTextNode(lab));checks.appendChild(l);});
     c.appendChild(checks);ctl.appendChild(c);
-    const stage=document.getElementById('liveStage');stage.innerHTML='';
-    stage.appendChild(mkBtn({variant:live.variant,intent:live.intent,size:live.size,lead:live.lead,trail:live.trail,iconOnly:live.iconOnly,disabled:live.disabled,isLive:true}));
+    // Demo：可編輯文字（偷 Storybook Controls 的字串 arg）——打字即時反映到預覽與程式碼；用 paintLive 局部重繪避免輸入框失焦
+    const tc=document.createElement('div');tc.className='ctl';tc.innerHTML=`<span class="lab">文字</span>`;
+    const ti=document.createElement('input');ti.type='text';ti.className='ctl-text';ti.placeholder=LABEL[live.intent];ti.value=live.text||'';
+    ti.oninput=()=>{live.text=ti.value;paintLive();};tc.appendChild(ti);ctl.appendChild(tc);
+    // 程式碼區用共用面板 makeCodePanel + liveMarkup（序列化預覽節點）；文字輸入即時反映到預覽與程式碼
+    const codeHost=document.getElementById('liveCode');let cp=null;
+    function paintLive(){
+      const stage=document.getElementById('liveStage');stage.innerHTML='';
+      const b=mkBtn({variant:live.variant,intent:live.intent,size:live.size,lead:live.lead,trail:live.trail,iconOnly:live.iconOnly,disabled:live.disabled,isLive:true});
+      if(!live.iconOnly&&live.text&&live.text.trim()){const sp=b.querySelector('span');if(sp)sp.textContent=live.text.trim();}
+      stage.appendChild(b);
+      if(codeHost){ if(!cp)cp=makeCodePanel(codeHost,'Button · HTML'); cp.set(liveMarkup(b)); }
+    }
+    paintLive();
     const free=document.getElementById('liveFree');free.innerHTML='';
     ['solid','soft','outline','text'].forEach(v=>free.appendChild(mkBtn({variant:v,intent:'primary',size:'m',isLive:true})));
+    applyLiveLayout(document.getElementById('liveWrap'),document.getElementById('layResizer')); // 版型吃全站偏好（垂直／水平）
   }
 
   /* ===== 共用建構器（給 button 以外的元件）===== */
@@ -3822,7 +3885,62 @@
     ensureVarTokenSection(host);   // 專案模式：把變數篩選器包進「變數與 Token」段落（含尚未有綁定卡的頁面）
   }
 
-  /* ---- 共用：實際互動 Live 控制面板（segmented 控制 + boolean 勾選 + 即時預覽）---- */
+  /* ===== 共用：互動預覽版型（垂直／水平）＋程式碼區＋語法高亮（button 與所有元件共用）===== */
+  function liveLayoutPref(){return window.__liveLayoutPref==='v'?'v':'h';} // 全站偏好，預設水平(h)
+  const escHTML=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // 迷你 HTML 語法高亮（自包含、不引外部 lib）：tag / 屬性名 / 字串 / 標點 / 文字各上色
+  function hlAttrs(s){let out='';const re=/(\s+)|([\w:-]+)(?:(=)("[^"]*"|'[^']*'))?/g;let m;while((m=re.exec(s))){if(m[1]){out+=m[1];continue;}if(m[2]){out+=`<span class="tk-attr">${escHTML(m[2])}</span>`;if(m[3])out+=`<span class="tk-punct">=</span><span class="tk-str">${escHTML(m[4])}</span>`;}}return out;}
+  function hlTag(tag){const mm=tag.match(/^<(\/?)([A-Za-z][\w-]*)([\s\S]*?)(\/?)>$/);if(!mm)return `<span class="tk-punct">${escHTML(tag)}</span>`;const sl=mm[1],nm=mm[2],at=mm[3],sc=mm[4];return `<span class="tk-punct">&lt;${sl}</span><span class="tk-tag">${escHTML(nm)}</span>${hlAttrs(at)}<span class="tk-punct">${sc?' /':''}&gt;</span>`;}
+  function hlLine(line){let out='',last=0,m;const re=/<\/?[A-Za-z][^>]*>/g;while((m=re.exec(line))){if(m.index>last)out+=`<span class="tk-txt">${escHTML(line.slice(last,m.index))}</span>`;out+=hlTag(m[0]);last=re.lastIndex;}if(last<line.length)out+=`<span class="tk-txt">${escHTML(line.slice(last))}</span>`;return out||'&nbsp;';}
+  // 把渲染後的 DOM 節點序列化成乾淨多行 HTML（給程式碼區顯示；SVG 內縮成 …、去掉 live/is-off/st-default 噪音 class）
+  function liveMarkup(node){
+    function ser(el,d){
+      if(el.nodeType===3){const t=el.textContent.replace(/\s+/g,' ').trim();return t?'  '.repeat(d)+t:'';}
+      if(el.nodeType!==1)return '';
+      const tag=el.tagName.toLowerCase(),pad='  '.repeat(d);
+      const cls=(el.getAttribute('class')||'').split(/\s+/).filter(c=>c&&c!=='live'&&c!=='is-off'&&c!=='st-default').join(' ');
+      if(tag==='svg')return `${pad}<svg${cls?` class="${cls}"`:''}>…</svg>`;
+      const at=[];if(cls)at.push(`class="${cls}"`);
+      ['type','name','placeholder','aria-label','aria-current','role','href','disabled','checked'].forEach(a=>{if(el.hasAttribute(a)){const v=el.getAttribute(a);at.push(v===''?a:`${a}="${v}"`);}});
+      const open=`<${tag}${at.length?' '+at.join(' '):''}>`;
+      if(tag==='input'||tag==='img'||tag==='br'||tag==='hr')return pad+open.replace(/>$/,' />');
+      if(el.childNodes.length===1&&el.childNodes[0].nodeType===3){return pad+open+el.textContent.replace(/\s+/g,' ').trim()+`</${tag}>`;}
+      const kids=[...el.childNodes].map(k=>ser(k,d+1)).filter(Boolean);
+      if(!kids.length)return pad+open+`</${tag}>`;
+      return pad+open+'\n'+kids.join('\n')+'\n'+pad+`</${tag}>`;
+    }
+    return ser(node,0);
+  }
+  // 建立「程式碼區」面板（populate host）：chip 標籤 + 複製鈕（library mkBtn 原子）+ 行號 gutter + 高亮；回傳 { set(raw) }
+  function makeCodePanel(host,chipText){
+    host.classList.add('live-code');host.innerHTML='';
+    const head=ce('div','code-head');
+    const chip=ce('span','code-chip');chip.textContent=chipText||'HTML';
+    const copy=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});copy.type='button';copy.querySelector('span').textContent='複製';
+    head.append(chip,copy);
+    const bodyEl=ce('div','code-body');const gutter=ce('div','code-gutter');const pre=ce('pre','code-pre');
+    bodyEl.append(gutter,pre);
+    const inner=ce('div','code-inner');inner.append(head,bodyEl);host.append(inner); // 包一層供水平版型絕對定位（高度不撐大版面）
+    let raw='';
+    copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(raw);const s=copy.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1200);};
+    return {set(r){raw=r;const lines=r.split('\n');gutter.innerHTML=lines.map((_,i)=>`<span>${i+1}</span>`).join('');pre.innerHTML=lines.map(hlLine).join('\n');}};
+  }
+  // 套用版型到 livewrap；水平時掛拖拉分隔線（預設 code 1/3、最小 200px、左欄也保留 200px）
+  function applyLiveLayout(wrap,resizer){
+    if(!wrap)return; const lay=liveLayoutPref();
+    wrap.classList.remove('lay-v','lay-h');wrap.classList.add(lay==='v'?'lay-v':'lay-h');
+    if(resizer&&!resizer.dataset.wired){resizer.dataset.wired='1';
+      const onMove=e=>{const r=wrap.getBoundingClientRect(),cs=getComputedStyle(wrap);
+        const padL=parseFloat(cs.paddingLeft)||0,padR=parseFloat(cs.paddingRight)||0,gap=parseFloat(cs.columnGap)||0;
+        const inner=r.width-padL-padR,rightEdge=r.right-padR;
+        let w=rightEdge-e.clientX;const max=Math.max(200,inner-200-8-gap*2);
+        w=Math.max(200,Math.min(w,max));wrap.style.setProperty('--code-w',w+'px');};
+      const onUp=()=>{document.removeEventListener('pointermove',onMove);document.removeEventListener('pointerup',onUp);resizer.classList.remove('dragging');document.body.style.userSelect='';};
+      resizer.addEventListener('pointerdown',e=>{e.preventDefault();resizer.classList.add('dragging');document.body.style.userSelect='none';document.addEventListener('pointermove',onMove);document.addEventListener('pointerup',onUp);});
+    }
+  }
+
+  /* ---- 共用：互動預覽與程式碼 控制面板（segmented 控制 + boolean 勾選 + 即時預覽）---- */
   function mountLive(host,cfg){
     const state=Object.assign({},cfg.initial||{});
     // 篩選器連動：cfg.gate=元件 id → 讀 DIAL_SPECS[id].axes（完整軸值）＋ CHOICE[id].active（目前勾選），
@@ -3831,7 +3949,8 @@
     const wrap=ce('div','livewrap');
     const ctlRow=ce('div','ctl-row');
     const stage=ce('div','live-stage');
-    function rerender(){stage.innerHTML='';stage.appendChild(cfg.render(state));}
+    let cp=null; // 程式碼面板參照（非摘要卡才建）
+    function rerender(){stage.innerHTML='';const n=cfg.render(state);stage.appendChild(n);if(cp&&n&&n.nodeType===1)cp.set(liveMarkup(n));}
     const segRefs=[]; // 供篩選器連動時更新各 seg 選項 disabled
     (cfg.segs||[]).forEach(s=>{
       const c=ce('div','ctl');c.innerHTML=`<span class="lab">${s.label}</span>`;
@@ -3849,9 +3968,16 @@
       c.appendChild(checks);ctlRow.appendChild(c);}
     if(ctlRow.children.length)wrap.appendChild(ctlRow);
     wrap.appendChild(stage);
+    const inSummary=!!host.closest('.sc-live,.sumcard'); // 摘要卡維持精簡：不加程式碼區與版型
+    let resizer=null;
+    if(!inSummary){
+      resizer=ce('div','lay-resizer');resizer.title='拖曳調整程式碼寬度';wrap.appendChild(resizer);
+      const codeEl=ce('div','live-code');cp=makeCodePanel(codeEl,cfg.codeLabel||((cfg.gate||'HTML')+' · HTML'));wrap.appendChild(codeEl);
+    }
     if(cfg.free){if(cfg.note){const n=ce('p','live-note');n.innerHTML=cfg.note;wrap.appendChild(n);}
       const f=ce('div','live-free');cfg.free().forEach(nd=>f.appendChild(nd));wrap.appendChild(f);}
     host.appendChild(wrap);
+    if(!inSummary)applyLiveLayout(wrap,resizer);
     // 依篩選器 active 停用未勾軸值選項；若目前選中的值被停用，改跳到第一個仍啟用值
     function syncActive(){ if(!gActive){rerender();return;}
       segRefs.forEach(({key,btns})=>{ const set=gActive[key], full=gAxes&&gAxes[key]; if(!set||!full)return;
@@ -3988,7 +4114,7 @@
       ['error + hint',()=>{const w=ce('div','fieldwrap');w.innerHTML='<span class="fl">帳號</span>';w.appendChild(inputEl('outline','error'));const h=ce('span','fh err');h.textContent='此帳號不存在';w.appendChild(h);return w;}],
     ];
     demos.forEach(([cap,fn])=>{const it=ce('div','demo-item');it.appendChild(fn());const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
-    const sl=section(body,'實際互動 Live','用控制項調 variant／內容，下面即時預覽——欄位可真的打字、滑過看 hover、點一下看 focus。');
+    const sl=section(body,'互動預覽與程式碼','用控制項調 variant／內容，下面即時預覽——欄位可真的打字、滑過看 hover、點一下看 focus。');
     LIVE.input(sl);
 
     /* ===== input 家族其餘子元件 ===== */
@@ -4099,7 +4225,7 @@
       p.appendChild(matrixPanel({badge:'checkbox',name:'核取方塊',rows:ss,cols:cs,rowLab:s=>labHTML(Z[s][0],Z[s][1]),colLab:c=>labHTML('尺寸 '+c,c),cell:(s,c)=>cbxEl(s,c),mincol:110})); }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State × Size 矩陣','列＝狀態、欄＝size。');p=panelsIn(sec);renderM();
-    const sl=section(body,'實際互動 Live','調 size／狀態，下面預覽可真的點擊勾選。');
+    const sl=section(body,'互動預覽與程式碼','調 size／狀態，下面預覽可真的點擊勾選。');
     LIVE.checkbox(sl);
   }
   function buildCheckbox(view){
@@ -4119,7 +4245,7 @@
       p.appendChild(matrixPanel({badge:'radio',name:'單選鈕',rows:ss,cols:cs,rowLab:s=>labHTML(Z[s][0],Z[s][1]),colLab:c=>labHTML('尺寸 '+c,c),cell:(s,c)=>rdoEl(s,c),mincol:110})); }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State × Size 矩陣','列＝狀態、欄＝size。');p=panelsIn(sec);renderM();
-    const sl=section(body,'實際互動 Live','調 size／狀態，下面群組可真的單選。');
+    const sl=section(body,'互動預覽與程式碼','調 size／狀態，下面群組可真的單選。');
     LIVE.radio(sl);
   }
   function buildRadio(view){
@@ -4159,7 +4285,7 @@
         cell:(s,o)=>tagEl(v,o.i,s,o.cn),mincol:120}))); }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State × (Intent·Corner) 矩陣','每個 variant 一塊；列＝狀態、欄＝intent × 圓角。');p=panelsIn(sec);renderM();
-    const sl=section(body,'實際互動 Live','調 variant／corner／intent／feature，下面即時預覽（removable 可點 × 移除）。');
+    const sl=section(body,'互動預覽與程式碼','調 variant／corner／intent／feature，下面即時預覽（removable 可點 × 移除）。');
     LIVE.tag(sl);
   }
 
@@ -4204,7 +4330,7 @@
         rowLab:s=>labHTML(Z[s][0],Z[s][1]),colLab:v=>labHTML(VZ[v],v),cell:(s,v)=>tabCell(v,s,sz),mincol:150}))); }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State × Variant 矩陣','列＝狀態、欄＝三個 variant（底線／容器／藥丸）並排對照。size 有 <b>標準 m／小 s</b> 兩級——轉盤勾 size 會各出一張對照表。');p=panelsIn(sec);renderM();
-    const sl=section(body,'實際互動 Live','切 variant／內容零件，下面分頁列可真的點擊切換選中。');
+    const sl=section(body,'互動預覽與程式碼','切 variant／內容零件，下面分頁列可真的點擊切換選中。');
     LIVE.tab(sl);
 
     /* ===== tab-item 內容零件 ===== */
@@ -4225,7 +4351,7 @@
     [['關 off','off'],['開 on','on'],['停用（關）','disabled-off'],['停用（開）','disabled-on']].forEach(([cap,st])=>{
       const it=ce('div','demo-item');it.appendChild(switchEl(st));const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd2.appendChild(it);});
     body.appendChild(rd2);
-    const sl2=section(body,'Toggle 實際互動 Live','點開關可真的切換；勾 disabled 看停用態。');
+    const sl2=section(body,'Toggle 互動預覽與程式碼','點開關可真的切換；勾 disabled 看停用態。');
     mountLive(sl2,{initial:{on:false,disabled:false},bools:[{key:'disabled',label:'disabled'}],
       render:st=>{const row=ce('div','switchrow');const sw=ce('button',`switch${st.on?' on':''}${st.disabled?' st-disabled':''}`);
         const lab=ce('span','switch-label');lab.textContent=st.on?'開啟':'關閉';
@@ -4298,7 +4424,7 @@
     ];
     demos.forEach(([cap,fn])=>{const it=ce('div','demo-item');it.appendChild(fn());const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
 
-    const sl=section(body,'實際互動 Live','切 <b>單選／多選</b>、variant、label／hint／searchable，下面下拉可真的點開、選項、關閉。多選勾選不關、選項成 chip。');
+    const sl=section(body,'互動預覽與程式碼','切 <b>單選／多選</b>、variant、label／hint／searchable，下面下拉可真的點開、選項、關閉。多選勾選不關、選項成 chip。');
     LIVE.dropdown(sl);
   }
 
@@ -4350,7 +4476,7 @@
      ['多字自動換行',()=>{const t=ttEl('top','m',true);t.querySelector('span').textContent='較長的輔助說明會在最大寬度內自動折行';return t;}]
     ].forEach(([cap,fn])=>{const it=ce('div','demo-item');it.appendChild(fn());const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
     fs.appendChild(rd);
-    const sl=section(body,'實際互動 Live','切方向／尺寸、勾箭頭，把滑鼠移到按鈕上會真的依 placement 浮出 tooltip。');
+    const sl=section(body,'互動預覽與程式碼','切方向／尺寸、勾箭頭，把滑鼠移到按鈕上會真的依 placement 浮出 tooltip。');
     LIVE.tooltip(sl);
   }
 
@@ -4449,8 +4575,8 @@
       showRect(ORDER[carIdx%ORDER.length]);carIdx++; }
     cb.onchange=()=>{ if(cb.checked){carIdx=0;tick();carTimer=setInterval(tick,3000);}
       else{clearInterval(carTimer);carTimer=null;stage.innerHTML='';} };
-    /* ===== 實際互動 Live ===== */
-    const sl=section(body,'實際互動 Live','切 variant／intent、勾 feature，下面即時預覽。close × 可點掉再自動復原；auto-dismiss 開啟後 3 秒直接消失再復原（示意循環）。');
+    /* ===== 互動預覽與程式碼 ===== */
+    const sl=section(body,'互動預覽與程式碼','切 variant／intent、勾 feature，下面即時預覽。close × 可點掉再自動復原；auto-dismiss 開啟後 3 秒直接消失再復原（示意循環）。');
     LIVE.notification(sl);
   }
 
@@ -4534,7 +4660,7 @@ function skelMedia(anim){
       const it=ce('div','demo-item');it.appendChild(node);
       const c=ce('div','cap');c.innerHTML=`<b>${cap}</b><br>${note}`;it.appendChild(c);rd2.appendChild(it);});
     body.appendChild(rd2);
-    const sl=section(body,'實際互動 Live','切 shape／size／動畫類型即時預覽；勾「組合卡片」改看頭像卡結構（動畫類型同步套用）。');
+    const sl=section(body,'互動預覽與程式碼','切 shape／size／動畫類型即時預覽；勾「組合卡片」改看頭像卡結構（動畫類型同步套用）。');
     LIVE.skeleton(sl);
   }
 
@@ -4621,7 +4747,7 @@ function skelMedia(anim){
     const f4=ce('div','demo-item');f4.style.minWidth='240px';f4.appendChild(screenDemo());
     const c4=ce('div','cap');c4.innerHTML='<b>full-screen 全螢幕遮罩置中</b>';f4.appendChild(c4);rdF.appendChild(f4);
     sf.appendChild(rdF);
-    const sl=section(body,'實際互動 Live','切 variant／size／intent、勾旗標，下面即時重繪（動畫持續播放）。');
+    const sl=section(body,'互動預覽與程式碼','切 variant／size／intent、勾旗標，下面即時重繪（動畫持續播放）。');
     LIVE.loader(sl);
   }
 
@@ -4695,7 +4821,7 @@ function skelMedia(anim){
     const cap2=ce('div','mn-ocap');cap2.innerHTML='<b>vertical sidebar</b> · 垂直';
     c2.append(cap2,mnBar('vertical','m',{items:['總覽','訂單','顧客','設定'],activeIndex:1,icon:true}));
     orow.append(c1,c2);os.appendChild(orow);
-    const sl=section(body,'實際互動 Live','切 variant（水平／垂直）、尺寸，勾 with-icon；點任一項即切換 active（aria-current=page 隨之移動）。');
+    const sl=section(body,'互動預覽與程式碼','切 variant（水平／垂直）、尺寸，勾 with-icon；點任一項即切換 active（aria-current=page 隨之移動）。');
     LIVE.menu(sl);
   }
 
@@ -4786,7 +4912,7 @@ function skelMedia(anim){
      ['danger 危險',()=>amItem('刪除',{icon:ICON_CLOSE,danger:true})]
     ].forEach(([cap,fn])=>{const it=ce('div','demo-item');it.appendChild(fn());const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
     is.appendChild(rd);
-    const sl=section(body,'實際互動 Live','點 trigger 切換展開／收合、切 variant 與 size；展開時第一項自動聚焦。');
+    const sl=section(body,'互動預覽與程式碼','點 trigger 切換展開／收合、切 variant 與 size；展開時第一項自動聚焦。');
     LIVE['action-menu'](sl);
   }
 
@@ -4868,7 +4994,7 @@ function skelMedia(anim){
     sts.appendChild(rd);
     const sec=section(body,'Separator × 展開模式矩陣','列＝三種分隔符、欄＝標準／省略中段；每列為一條完整麵包屑（末項自動 current）。');
     p=panelsIn(sec);renderM();
-    const sl=section(body,'實際互動 Live','切換分隔符與層數（3／5 層）、勾選 collapsed 省略中段，即時預覽整條麵包屑。');
+    const sl=section(body,'互動預覽與程式碼','切換分隔符與層數（3／5 層）、勾選 collapsed 省略中段，即時預覽整條麵包屑。');
     LIVE.breadcrumb(sl);
   }
 
@@ -4954,7 +5080,7 @@ function skelMedia(anim){
      ['prev-next 前後翻頁（total 10 · current 3）',()=>pgBar('prev-next','m',{total:10,current:3})]
     ].forEach(([cap,fn])=>{const it=ce('div','demo-item');it.appendChild(fn());const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
     vs.appendChild(rd);
-    const sl=section(body,'實際互動 Live','切 variant／尺寸；數字頁碼點頁碼或箭頭會真的翻頁，前後翻頁到首尾頁時箭頭自動停用。');
+    const sl=section(body,'互動預覽與程式碼','切 variant／尺寸；數字頁碼點頁碼或箭頭會真的翻頁，前後翻頁到首尾頁時箭頭自動停用。');
     LIVE.pagination(sl);
   }
 
@@ -5128,7 +5254,7 @@ function skelMedia(anim){
     us.appendChild(rd);
 
     /* Live */
-    const sl=section(body,'實際互動 Live','切尺寸／色調／icon，即時看 render 結果。');
+    const sl=section(body,'互動預覽與程式碼','切尺寸／色調／icon，即時看 render 結果。');
     LIVE.icon(sl);
   }
 
@@ -5236,7 +5362,7 @@ function skelMedia(anim){
       cell:(v,s)=>{ if(v!=='delta')return prMetricEl(s,MFEAT[v]);
         const w=ce('div','pr-mstack');w.append(prMetricEl(s,{trend:'up'}),prMetricEl(s,{trend:'down'}));return w; },
       mincol:170}));
-    const sl=section(body,'實際互動 Live','上段切價格 variant／size、下段切數值 metric／trend／size，各自附 quick row 並排對照。');
+    const sl=section(body,'互動預覽與程式碼','上段切價格 variant／size、下段切數值 metric／trend／size，各自附 quick row 並排對照。');
     LIVE.price(sl);
   }
 
@@ -5317,7 +5443,7 @@ function skelMedia(anim){
       const it=ce('div','demo-item');const el=imEl('rounded','default','l',{src:IM_POOL[0],alt:'示意圖',ratio:r});it.appendChild(el);
       const c=ce('div','cap');c.innerHTML='<b>'+r+'</b><br>'+zhr;it.appendChild(c);rrow.appendChild(it);});
     rs.appendChild(rrow);
-    const sl=section(body,'實際互動 Live','切形狀／狀態／尺寸即時預覽；circular 自動改用人像圖，切到 loading／error 看佔位與 fallback。');
+    const sl=section(body,'互動預覽與程式碼','切形狀／狀態／尺寸即時預覽；circular 自動改用人像圖，切到 loading／error 看佔位與 fallback。');
     LIVE.image(sl);
   }
 
@@ -5403,8 +5529,8 @@ function skelMedia(anim){
     const sec=section(body,'Device 陳列','整條頁首 bar 上下堆疊呈現（不擠壓）。每條同時含導覽（Menu）與搜尋（Search）；行動版導覽收進漢堡鈕。');
     const holder=ce('div');sec.appendChild(holder);p=holder;renderM();
 
-    // 實際互動 Live
-    const sl=section(body,'實際互動 Live','切換<b>電腦版／行動版</b>，勾選各內容元素即時預覽；導覽與搜尋可同時勾選並存。按鈕／圖示鈕滑過即見 hover。');
+    // 互動預覽與程式碼
+    const sl=section(body,'互動預覽與程式碼','切換<b>電腦版／行動版</b>，勾選各內容元素即時預覽；導覽與搜尋可同時勾選並存。按鈕／圖示鈕滑過即見 hover。');
     mountLive(sl,{
       initial:{device:'desktop',nav:true,search:true,bell:true,avatar:true,login:true},
       segs:[{key:'device',label:'Device',options:['desktop','mobile'],labels:['電腦版','行動版']}],
@@ -5569,7 +5695,7 @@ function skelMedia(anim){
     mountDial(body,{axes,zh,active,onRender:renderM});
     holder=ce('div','ftr-holder');body.appendChild(holder);renderM();
 
-    const sl=section(body,'實際互動 Live','切 variant（多欄／單列／極簡）與 device（電腦版／行動版），勾選社群 icon、語言與回到頂部按鈕，下面即時預覽整條頁尾。');
+    const sl=section(body,'互動預覽與程式碼','切 variant（多欄／單列／極簡）與 device（電腦版／行動版），勾選社群 icon、語言與回到頂部按鈕，下面即時預覽整條頁尾。');
     mountLive(sl,{
       initial:{variant:'rich',device:'desktop',social:true,language:true,backTop:true},
       segs:[{key:'variant',label:'Variant',options:['rich','simple','minimal'],labels:['多欄 rich','單列 simple','極簡 minimal']},
@@ -5666,8 +5792,8 @@ function skelMedia(anim){
      ['帶麵包屑式 eyebrow',()=>schHead({align:'left',size:'l',eyebrow:'breadcrumb',title:'出貨明細',subText:'第 8342 號訂單的逐項出貨紀錄'})]
     ].forEach(([cap,fn])=>{const d=ce('div','sch-demo');const c=ce('div','sch-demo-cap');c.textContent=cap;d.append(c,fn());list.appendChild(d);});
     cs.appendChild(list);
-    /* 實際互動 Live */
-    const sl=section(body,'實際互動 Live','切換對齊與尺寸，勾選要顯示的元素（eyebrow 小標／副標／右側動作／計數 badge／底部分隔線），下面即時預覽。');
+    /* 互動預覽與程式碼 */
+    const sl=section(body,'互動預覽與程式碼','切換對齊與尺寸，勾選要顯示的元素（eyebrow 小標／副標／右側動作／計數 badge／底部分隔線），下面即時預覽。');
     mountLive(sl,{
       initial:{align:'left',size:'m',eyebrow:true,subtitle:true,action:true,count:false,divider:false},
       segs:[
@@ -5914,8 +6040,8 @@ function skelMedia(anim){
     ],{divider:true}));
     bs.appendChild(bwrap);
 
-    // ---- 實際互動 Live：每個 slot 一個開關，全部對應樣式；hover 為真實滑過、disabled 用勾選（比照其他頁面）----
-    const sl=section(body,'實際互動 Live','切 Leading（無／圖示／勾選框），勾選右側 trailing 各 slot；滑鼠移上去看 hover、勾 disabled 停用、點勾選框 leading 切換勾選並轉已選。每個開關都對應一個可見樣式。');
+    // ---- 互動預覽與程式碼：每個 slot 一個開關，全部對應樣式；hover 為真實滑過、disabled 用勾選（比照其他頁面）----
+    const sl=section(body,'互動預覽與程式碼','切 Leading（無／圖示／勾選框），勾選右側 trailing 各 slot；滑鼠移上去看 hover、勾 disabled 停用、點勾選框 leading 切換勾選並轉已選。每個開關都對應一個可見樣式。');
     mountLive(sl,{
       initial:{leading:'checkbox',desc:false,tag:true,info:false,meta:false,amount:false,action:false,caret:true,disabled:false},
       segs:[
@@ -6011,8 +6137,8 @@ function skelMedia(anim){
     exp.appendChild(lstSelCard('radio','selected',{expand:true}));
     scs.appendChild(exp);
 
-    // ---- 實際互動 Live：兩類各自 scoped，控制項只顯示對該類有效者（無空轉開關）----
-    const sl=section(body,'實際互動 Live','雙欄／巢狀與選項卡各自的互動 playground；控制項只出現對該類有效的選項，每個開關都對應一個可見樣式。');
+    // ---- 互動預覽與程式碼：兩類各自 scoped，控制項只顯示對該類有效者（無空轉開關）----
+    const sl=section(body,'互動預覽與程式碼','雙欄／巢狀與選項卡各自的互動 playground；控制項只出現對該類有效的選項，每個開關都對應一個可見樣式。');
     // 雙欄／巢狀
     const l1=ce('div','lst-live-block');const c1=ce('div','lst-live-cap');c1.innerHTML='<b>雙欄／巢狀 Nested</b>';l1.appendChild(c1);sl.appendChild(l1);
     mountLive(l1,{
@@ -6176,7 +6302,7 @@ function skelMedia(anim){
     });
     acc.appendChild(arow);
 
-    const sl=section(body,'實際互動 Live','切 variant 與 indicator（chevron 箭頭或加減號指示）、勾 with-icon（左側前置圖示）與 multiple（允許多項同時展開，取消則為單開手風琴）；點各項 header 展開／收合，帶往下展開＋淡入動畫。');
+    const sl=section(body,'互動預覽與程式碼','切 variant 與 indicator（chevron 箭頭或加減號指示）、勾 with-icon（左側前置圖示）與 multiple（允許多項同時展開，取消則為單開手風琴）；點各項 header 展開／收合，帶往下展開＋淡入動畫。');
     mountLive(sl,{
       initial:{variant:'bordered',indicator:'chevron',icon:false,multiple:false},
       segs:[
@@ -6380,7 +6506,7 @@ function skelMedia(anim){
     const ls=section(body,'浮層結構','對話框是一個疊在頁面之上的層級：底層頁面內容被 backdrop 遮罩壓暗，卡片置中浮於最上層，點擊遮罩空白處可關閉。');
     ls.appendChild(mdlLayerDemo());
 
-    const sl=section(body,'實際互動 Live','popup 與 modal 各自一段 playground，控制項只出現對該 kind 有效的選項、每個開關都對應可見差異。對話框<b>預設就開啟</b>在舞台內（遮罩限縮於舞台、不遮全頁）；點 ×、取消或遮罩空白處可關閉，關閉後按「重新開啟對話框」再叫出。');
+    const sl=section(body,'互動預覽與程式碼','popup 與 modal 各自一段 playground，控制項只出現對該 kind 有效的選項、每個開關都對應可見差異。對話框<b>預設就開啟</b>在舞台內（遮罩限縮於舞台、不遮全頁）；點 ×、取消或遮罩空白處可關閉，關閉後按「重新開啟對話框」再叫出。');
 
     /* 共用舞台：root＋重開鈕＋overlay；sheet=true 時（modal 行動版）轉 bottom sheet 版型 */
     function mdlLiveStage(kind,opts,sheet){
@@ -6553,7 +6679,7 @@ function skelMedia(anim){
     p=panelsIn(sec);renderM();
     const sts=section(body,'內容結構','抽屜由三段組成：header（標題 ＋ 關閉）、body（導覽列表）、footer（動作按鈕，可選）。');
     sts.appendChild(drwStructure());
-    const sl=section(body,'實際互動 Live','預設即顯示已開啟的抽屜：面板為浮動式、距舞台上下左右內縮 24px；導覽列表放入 9 個項目、內容超過面板高度，於面板內部捲動。點關閉 × 或 backdrop 收回後，再點「開啟抽屜」可重新滑入。切 Side／Size，勾 header／backdrop／footer。');
+    const sl=section(body,'互動預覽與程式碼','預設即顯示已開啟的抽屜：面板為浮動式、距舞台上下左右內縮 24px；導覽列表放入 9 個項目、內容超過面板高度，於面板內部捲動。點關閉 × 或 backdrop 收回後，再點「開啟抽屜」可重新滑入。切 Side／Size，勾 header／backdrop／footer。');
     mountLive(sl,{
       initial:{side:'left',size:'m',header:true,backdrop:true,footer:false},
       segs:[
@@ -6737,8 +6863,8 @@ function skelMedia(anim){
     c3.append(cap3,b3);
     det.append(c1,c2,c3);ds.appendChild(det);
 
-    // ---- 實際互動 Live ----
-    const sl=section(body,'實際互動 Live','切 Variant 與 Position 看浮動列型態與落點；勾選項依型態生效——選取列可展開「更多動作」、FAB 可「展開子項」。');
+    // ---- 互動預覽與程式碼 ----
+    const sl=section(body,'互動預覽與程式碼','切 Variant 與 Position 看浮動列型態與落點；勾選項依型態生效——選取列可展開「更多動作」、FAB 可「展開子項」。');
     mountLive(sl,{
       initial:{variant:'selection',position:'bottom-center',more:false,expanded:false},
       segs:[
@@ -6854,7 +6980,7 @@ function skelMedia(anim){
     ].forEach(([cap,fn])=>{const it=ce('div','demo-item');it.appendChild(fn());const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
     ss.appendChild(rd);
 
-    const sl=section(body,'實際互動 Live','按「上一步／下一步」移動 current，走過的步驟自動變 done；切換方向（水平／垂直）與樣式（編號／圓點／圖示），勾 description 顯示每步副標。');
+    const sl=section(body,'互動預覽與程式碼','按「上一步／下一步」移動 current，走過的步驟自動變 done；切換方向（水平／垂直）與樣式（編號／圓點／圖示），勾 description 顯示每步副標。');
     mountLive(sl,{
       initial:{orientation:'horizontal',variant:'numbered',description:false,idx:1},
       segs:[
@@ -6937,7 +7063,7 @@ function skelMedia(anim){
       srow.appendChild(cell);
     });
     stt.appendChild(srow);
-    const sl=section(body,'實際互動 Live','點 ＋／− 調整數量（範圍 1–10），到邊界對應鈕自動停用；切 variant／size、勾 disabled。');
+    const sl=section(body,'互動預覽與程式碼','點 ＋／− 調整數量（範圍 1–10），到邊界對應鈕自動停用；切 variant／size、勾 disabled。');
     mountLive(sl,{
       initial:{variant:'outline',size:'m',disabled:false},
       segs:[{key:'variant',label:'Variant',options:['outline','pill','plain'],labels:['外框','膠囊','極簡']},
@@ -7014,7 +7140,7 @@ function skelMedia(anim){
       crow.appendChild(cell);
     });
     cs.appendChild(crow);
-    const sl=section(body,'實際互動 Live','切 size／intent，勾 label（標題＋%）／gradient（漸層填充）；滑桿就在勾選項右側即時調整進度。進度條長度為區域的 50%。');
+    const sl=section(body,'互動預覽與程式碼','切 size／intent，勾 label（標題＋%）／gradient（漸層填充）；滑桿就在勾選項右側即時調整進度。進度條長度為區域的 50%。');
     // 自訂 Live（非 mountLive）：滑桿要跟勾選項同列，故手刻控制列＝seg×2 ＋（勾選項＋滑桿同一 ctl）
     const st={size:'m',intent:'primary',label:true,gradient:false,value:60};
     const wrap=ce('div','livewrap');
@@ -7145,7 +7271,7 @@ function skelMedia(anim){
     shell.appendChild(row);ss.appendChild(shell);
 
     /* Live：seg 切 variant；bools 開關各 slot＋disabled，每個勾選都對應可見變化 */
-    const sl=section(body,'實際互動 Live','切換容器型態，勾選開關各個 slot（媒體圖／角標／描述／動作鈕）與停用；整卡支援真實 hover——移上去看陰影／邊框／底色加深。');
+    const sl=section(body,'互動預覽與程式碼','切換容器型態，勾選開關各個 slot（媒體圖／角標／描述／動作鈕）與停用；整卡支援真實 hover——移上去看陰影／邊框／底色加深。');
     mountLive(sl,{
       initial:{variant:'elevated',size:'m',media:true,badge:true,description:true,actions:true,disabled:false},
       segs:[{key:'variant',label:'Variant',options:['elevated','outlined','filled'],labels:['浮起','外框','填色']},{key:'size',label:'Size',options:['m','s']}],
@@ -7298,7 +7424,7 @@ function buildProductCard(view){
 
   /* Live：seg 切 variant；勾選項切內容旗標；愛心可真點擊收藏 */
   let pcdWished=false;                                           // 收藏狀態跨 render 保留
-  const sl=section(body,'實際互動 Live','切 variant，勾選角標／評分／收藏／折扣價／售完即時重組卡片；愛心可點（切換收藏、轉紅實心），售完時整卡灰階、按鈕與愛心停用。');
+  const sl=section(body,'互動預覽與程式碼','切 variant，勾選角標／評分／收藏／折扣價／售完即時重組卡片；愛心可點（切換收藏、轉紅實心），售完時整卡灰階、按鈕與愛心停用。');
   mountLive(sl,{
     initial:{variant:'vertical',size:'m',badge:true,rating:true,wishlist:true,discount:false,soldout:false},
     segs:[{key:'variant',label:'Variant',options:['vertical','horizontal','minimal'],labels:['直式','橫式','精簡']},{key:'size',label:'Size',options:['m','s']}],
@@ -7408,7 +7534,7 @@ function buildProductCard(view){
     CAT_DATA.forEach((d,i)=>{grid.appendChild(catTile('icon',i===3?'active':'default',{data:d,count:true,desc:false,arrow:true,live:true}));});
     gs.appendChild(grid);
     /* Live */
-    const sl=section(body,'實際互動 Live','切磚型、勾數量／描述／箭頭／選中即時預覽；hover 為真實互動、可與選中疊加。');
+    const sl=section(body,'互動預覽與程式碼','切磚型、勾數量／描述／箭頭／選中即時預覽；hover 為真實互動、可與選中疊加。');
     mountLive(sl,{
       initial:{variant:'icon',size:'m',count:true,description:false,arrow:true,active:false},
       segs:[{key:'variant',label:'Variant',options:['icon','image','gradient'],labels:['圖示磚','圖片磚','漸層磚']},{key:'size',label:'Size',options:['m','s']}],
@@ -7500,8 +7626,8 @@ function buildArticleCard(view){
   rd.appendChild(artCard('horizontal','default',{live:true,more:true}));
   rd.appendChild(artCard('overlay','default',{live:true}));
   sc.appendChild(rd);
-  // ---- 實際互動 Live ----
-  const sl=section(body,'實際互動 Live','切版式並開關內容 slot 即時預覽；整張卡吃真實 hover（浮起＋封面微放大＋標題轉主色）。');
+  // ---- 互動預覽與程式碼 ----
+  const sl=section(body,'互動預覽與程式碼','切版式並開關內容 slot 即時預覽；整張卡吃真實 hover（浮起＋封面微放大＋標題轉主色）。');
   mountLive(sl,{
     initial:{variant:'vertical',size:'m',category:true,excerpt:true,author:true,meta:true},
     segs:[{key:'variant',label:'Variant',options:['vertical','horizontal','overlay'],labels:['直式','橫式','疊字']},{key:'size',label:'Size',options:['m','s']}],
@@ -7701,8 +7827,8 @@ function buildArticleCard(view){
     demo.appendChild(tblTable('bordered','comfortable',{checkbox:true,sortable:true,footer:true,pager:true,live:true,selected:[1]}));
     sc.appendChild(demo);
 
-    // ---- 實際互動 Live：segs＝variant/density；每個開關都對應可見樣式 ----
-    const sl=section(body,'實際互動 Live','切 variant／density，勾選各 feature：checkbox 勾選欄、sortable 排序表頭、stripe 斑馬紋（bordered／plain 上疊加；striped 本身已含）、footer 總計列、selected 選取列示意。點列可切換選取（勾選框與全選框連動）、點表頭排序。');
+    // ---- 互動預覽與程式碼：segs＝variant/density；每個開關都對應可見樣式 ----
+    const sl=section(body,'互動預覽與程式碼','切 variant／density，勾選各 feature：checkbox 勾選欄、sortable 排序表頭、stripe 斑馬紋（bordered／plain 上疊加；striped 本身已含）、footer 總計列、selected 選取列示意。點列可切換選取（勾選框與全選框連動）、點表頭排序。');
     mountLive(sl,{
       initial:{variant:'bordered',density:'comfortable',checkbox:true,sortable:true,stripe:false,footer:true,selrow:true},
       segs:[
@@ -8028,7 +8154,7 @@ function buildArticleCard(view){
     cs.appendChild(dash);
 
     /* Live：seg 切 variant／size；bools 依 variant scoped 顯示（隱藏非當前圖型的選項，避免空轉開關） */
-    const sl=section(body,'實際互動 Live','切圖型與尺寸；勾選項會隨圖型切換只留對應選項——折線控面積填充／格線／<b>X 軸月份</b>／<b>Y 軸數值</b>，長條控第二系列／數值標／<b>X 軸星期</b>／<b>Y 軸數量</b>，甜甜圈控中央數字／圖例，統計數字控趨勢／單位。<b>滑鼠移到折線／長條上</b>會顯示該點 tooltip 數值，折線端點只在 hover 時出現。');
+    const sl=section(body,'互動預覽與程式碼','切圖型與尺寸；勾選項會隨圖型切換只留對應選項——折線控面積填充／格線／<b>X 軸月份</b>／<b>Y 軸數值</b>，長條控第二系列／數值標／<b>X 軸星期</b>／<b>Y 軸數量</b>，甜甜圈控中央數字／圖例，統計數字控趨勢／單位。<b>滑鼠移到折線／長條上</b>會顯示該點 tooltip 數值，折線端點只在 hover 時出現。');
     mountLive(sl,{
       initial:{variant:'line',size:'m',
         statTrend:true,statUnit:false,
@@ -8226,8 +8352,8 @@ function buildTreeView(view){
   });
   sw.appendChild(grid);
 
-  /* ---- 實際互動 Live ---- */
-  const sl=section(body,'實際互動 Live','切換 variant 與內容開關，即時重畫整棵樹；點箭頭展開／收合、點列選取、勾選樹點 cbx 多選皆為真實互動。');
+  /* ---- 互動預覽與程式碼 ---- */
+  const sl=section(body,'互動預覽與程式碼','切換 variant 與內容開關，即時重畫整棵樹；點箭頭展開／收合、點列選取、勾選樹點 cbx 多選皆為真實互動。');
   mountLive(sl,{
     initial:{variant:'lines',showIcon:true,showCount:true,defaultOpen:true},
     segs:[{key:'variant',label:'Variant',options:['lines','plain','checkbox'],labels:['lines 連接線','plain 無線','checkbox 勾選樹']}],
@@ -8463,7 +8589,7 @@ function buildScheduleChart(view){
   sw.appendChild(rd);
 
   /* Live：segs 切 variant／size；勾選項依 variant 條件顯示（避免空轉開關） */
-  const sl=section(body,'實際互動 Live','切 variant／size 即時重組；勾選項隨 variant 切換——甘特圖：進度填色／週末標記／今日線；週排程：時段標籤／事件細節；時間軸：狀態 tag／連接線。');
+  const sl=section(body,'互動預覽與程式碼','切 variant／size 即時重組；勾選項隨 variant 切換——甘特圖：進度填色／週末標記／今日線；週排程：時段標籤／事件細節；時間軸：狀態 tag／連接線。');
   const GNT_BOOL_OWNER=['gantt','gantt','gantt','week','week','timeline','timeline']; // 勾選項 ↔ 所屬 variant（與 bools 順序一致）
   mountLive(sl,{
     initial:{variant:'gantt',size:'m',prog:true,wkend:true,today:true,times:true,detail:true,tags:true,line:true},
@@ -8706,7 +8832,7 @@ function buildScheduleChart(view){
 
     /* Live：segs=variant/size；bools 依 variant 動態換（month：今日/事件/週數；range：區間文字；time：24 小時/間隔 30 分）
        比照 Progress 頁前例手刻控制列（mountLive 的 bools 建一次就固定，無法跟著 variant 換） */
-    const sl=section(body,'實際互動 Live','切 variant／size；勾選項會跟著 variant 換組。月曆點日真的可選取、‹ › 真的可切月（切走再切回，今日圈只在 2026 年 7 月出現）；區間點兩下選起訖；時間清單點時段選中。');
+    const sl=section(body,'互動預覽與程式碼','切 variant／size；勾選項會跟著 variant 換組。月曆點日真的可選取、‹ › 真的可切月（切走再切回，今日圈只在 2026 年 7 月出現）；區間點兩下選起訖；時間清單點時段選中。');
     const st={variant:'month',size:'m',today:true,events:true,weeknum:false,rangeText:true,h24:true,step30:true};
     const wrap=ce('div','livewrap');
     const ctlRow=ce('div','ctl-row');
@@ -9297,7 +9423,7 @@ function buildScheduleChart(view){
               <li>每顆元件頁都攤開它<b>完整的複雜度</b>：一個<b>規格矩陣</b>把所有變化列出來。</li>
               <li>下面的 <b>變數與 Token</b> 段：左邊<b>變數篩選器</b>＝這顆的「軸」（風格 / 意圖 / 狀態 / 尺寸），勾掉不要的，矩陣與變體數即時縮減。</li>
               <li>同一段還有 <b>Token 綁定</b>：把這顆元件的<b>圓角 / 間距 / 字級</b>換綁成同類別的其他 token（例：padding 從 <code>--sp-3</code> 換 <code>--sp-4</code>）。只影響<b>這個專案的這顆元件</b>、不動共用母庫。</li>
-              <li>還有一區 <b>Live</b> 是真的能滑鼠 hover、按下去試的。</li>
+              <li>緊接著是 <b>互動預覽與程式碼</b>：左邊調參數（風格 / 尺寸 / 內容，甚至直接改文字），中間即時預覽（可滑鼠 hover、按下去試），右邊<b>同步顯示對應程式碼</b>、一鍵複製給工程師。排列方式（<b>水平 / 垂直</b>）可到 <b>偏好設定</b> 頁切換。</li>
             </ul>
             <div class="gd-note">心法：指著任何一格，決定「這個專案要不要保留」。</div>
           </div>
@@ -9674,7 +9800,10 @@ function buildScheduleChart(view){
         +'<div class="gm-lb">變數與 TOKEN · 綁定</div>'
         +'<div class="gm-bind"><span class="gm-bind-k">圓角</span>--r-md<span class="gm-bind-v">→ --r-sm ▾</span></div>'
         +'<div class="gm-bind"><span class="gm-bind-k">間距</span>--sp-3<span class="gm-bind-v">→ --sp-4 ▾</span></div>'
+        +'<div class="gm-lb">互動預覽與程式碼</div>'   // 新功能示意：左預覽、右程式碼（水平版型＝預設）
+        +'<div class="gm-live"><div class="gm-live-l" id="gdRich04Prev"></div><div class="gm-live-c"><i></i><i></i><i></i></div></div>'
       +'</div></div>';
+      const pv4=r04.querySelector('#gdRich04Prev');if(pv4)pv4.appendChild(mkBtn({variant:'solid',intent:'primary',size:'s'}));
       const mx4=r04.querySelector('#gdRich04Mx');
       if(mx4){ // 表格：左上角＋欄標題(intent)＋每列 variant 標題＋mkBtn 格
         mx4.appendChild(ce('div','gm-mxc cnr'));
@@ -10007,7 +10136,7 @@ function buildScheduleChart(view){
       const selN=g.ids.filter(id=>SUMSEL.has(id)).length;const n=sec.querySelector('.sumcat-n');if(n)n.textContent=selN+' / '+g.ids.length;});}
 
     /* Live 掛載：Basic 走 LIVE[id] 共用 registry；Complex 以後的 live demo 藏在各自 buildX 的
-       「實際互動 Live」段 → 離屏跑一次 build、抽出該段搬進卡片（DOM 純 closure、可安全搬移）。 */
+       「互動預覽與程式碼」段 → 離屏跑一次 build、抽出該段搬進卡片（DOM 純 closure、可安全搬移）。 */
     function mountSummaryLive(id,host){
       if(LIVE[id]){LIVE[id](host);return;}
       if(BUILD[id]){
@@ -10015,7 +10144,7 @@ function buildScheduleChart(view){
         tmp.style.cssText='position:absolute;left:-99999px;top:0;width:820px;pointer-events:none;';
         document.body.appendChild(tmp);let moved=false;
         try{ BUILD[id](tmp);
-          const live=[...tmp.querySelectorAll('section.block')].find(s=>{const h=s.querySelector(':scope>h2');return h&&/實際[互操][動作] Live/.test(h.textContent);});
+          const live=[...tmp.querySelectorAll('section.block')].find(s=>{const h=s.querySelector(':scope>h2');return h&&(/互動預覽與程式碼|實際[互操][動作] Live/.test(h.textContent)||s.querySelector('.livewrap'));});
           if(live){const h2=live.querySelector(':scope>h2');if(h2)h2.remove();const sub=live.querySelector(':scope>.sub');if(sub)sub.remove();live.classList.remove('block');host.appendChild(live);moved=true;}
         }catch(e){console.warn('summary live extract fail:',id,e);}
         finally{tmp.remove();}
@@ -10126,8 +10255,10 @@ function buildScheduleChart(view){
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='settings'){renderSettings(view);}
     else if(id==='tokens'){renderTokens(view);}
-    else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');}
-    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);} // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
+    else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');
+      const vt=view.querySelector('#sec-vartoken'),liveSec=view.querySelector('#liveWrap')&&view.querySelector('#liveWrap').closest('section.block');if(vt&&liveSec)vt.after(liveSec);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
+    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id); // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
+      const vt=view.querySelector('#sec-vartoken'),liveSec=[...view.querySelectorAll('section.block')].find(s=>s.querySelector('.livewrap'));if(vt&&liveSec&&liveSec!==vt)vt.after(liveSec);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
@@ -10177,8 +10308,15 @@ function buildScheduleChart(view){
       {k:'on',name:'動態',thumb:'<div class="pt pt-hero pt-grad-on">'+ptHero+'</div>'},
       {k:'off',name:'靜態',thumb:'<div class="pt pt-hero pt-grad-off">'+ptHero+'</div>'},
     ];
+    const plA='<div class="pl-a"><span class="pl-seg"></span><span class="pl-seg"></span><span class="pl-btn"></span></div>'; // 控制項條＋預覽鈕
+    const plB='<div class="pl-b"><i></i><i></i><i></i><i></i></div>'; // 程式碼行（含語法色）
+    const LAY=[ // 縮圖＝互動預覽排列（精細化：左＝控制項/預覽、右/下＝程式碼；水平左右、垂直上下堆疊）
+      {k:'h',name:'水平排列',thumb:'<div class="pt pt-lay pt-lay-h">'+plA+'<span class="pl-div"></span>'+plB+'</div>'},
+      {k:'v',name:'垂直排列',thumb:'<div class="pt pt-lay pt-lay-v">'+plA+plB+'</div>'},
+    ];
     const curTheme=window.__themePref||'system';
     const curGrad=(window.__shaderPref==='off')?'off':'on';
+    const curLay=(window.__liveLayoutPref==='v')?'v':'h';
     const card=(o,sel)=>'<button class="pref-card'+(sel?' sel':'')+'" type="button" data-k="'+o.k+'"><div class="pref-thumb">'+o.thumb+'<span class="pref-check">'+CHK+'</span></div><div class="pref-cardfoot"><span class="pref-cardname">'+o.name+'</span></div></button>';
     view.innerHTML=`
       <div class="sum-top"><div class="sum-head"><p class="eyebrow">Preferences · 偏好設定</p><h1>偏好設定</h1></div></div>
@@ -10191,6 +10329,10 @@ function buildScheduleChart(view){
       <section class="block pref-sec">
         <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。</p></div>
         <div class="pref-cards" id="prefGrad">${GRAD.map(o=>card(o,o.k===curGrad)).join('')}</div>
+      </section>
+      <section class="block pref-sec">
+        <div class="pref-sec-h"><h2>互動預覽版型</h2><p>元件頁「互動預覽與程式碼」的排列方式。水平＝控制項與預覽在左、程式碼在右（可拖拉調寬）；垂直＝由上而下堆疊。</p></div>
+        <div class="pref-cards" id="prefLay">${LAY.map(o=>card(o,o.k===curLay)).join('')}</div>
       </section>`;
     view.querySelectorAll('#prefTheme .pref-card').forEach(c=>c.onclick=()=>{ // 主題：套用＋持久化＋更新選中態
       window.__applyThemePref(c.dataset.k,true);
@@ -10201,6 +10343,11 @@ function buildScheduleChart(view){
       try{localStorage.setItem('ds-shader',window.__shaderPref);}catch(e){}
       if(current==='guide' && window.__shaderApply)window.__shaderApply(on);
       view.querySelectorAll('#prefGrad .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
+    });
+    view.querySelectorAll('#prefLay .pref-card').forEach(c=>c.onclick=()=>{ // 互動預覽版型：記偏好＋持久化（元件頁下次載入即套用）
+      window.__liveLayoutPref=c.dataset.k==='v'?'v':'h';
+      try{localStorage.setItem('ds-livelayout',window.__liveLayoutPref);}catch(e){}
+      view.querySelectorAll('#prefLay .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
     });
   }
   function renderNav(){const host=document.getElementById('sidebar');host.innerHTML='';
@@ -10289,6 +10436,7 @@ function buildScheduleChart(view){
     mq.addEventListener('change',()=>{ if(window.__themePref==='system') window.__applyThemePref('system',false); }); // 系統深淺切換時即時反映
   })();
   (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} window.__shaderPref=(s==='off')?'off':'on'; })(); // 漸層偏好：存 localStorage，無選擇 → 預設動態(on)；initHeroShader 會讀取
+  (function(){ let s; try{s=localStorage.getItem('ds-livelayout');}catch(e){} window.__liveLayoutPref=(s==='v')?'v':'h'; })(); // 互動預覽版型：存 localStorage，無選擇 → 預設水平(h)；applyLiveLayout 會讀取
 
   /* ===== 右緣本頁目錄（滑到右緣浮出 → 點擊 scroll 到段落；含當前段落高亮）===== */
   const tocDock=document.getElementById('tocDock'), tocPanel=document.getElementById('tocPanel');
