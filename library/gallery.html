@@ -4038,6 +4038,35 @@
     const sel=m[1].trim().replace(/\s*,\s*/g,',\n');
     const decls=m[2].split(';').map(d=>d.trim()).filter(Boolean).map(d=>'  '+d+';');
     return sel+' {\n'+decls.join('\n')+'\n}'; }
+  // 把 componentCss 的扁平 CSS 轉成較 SCSS 風格（純顯示用）：同元素的 modifier／state／pseudo 用 & 巢狀、後代選擇器降一層；
+  // @media 與逗號多選擇器保持平放（仍是合法 SCSS）；layout 屬性加 // 註記提醒「佈局由使用端決定」。因為只顯示不編譯，轉換有瑕疵也不影響 app。
+  function scssify(flat){
+    const LAYOUT=/^(position|top|right|bottom|left|inset|inset-block|inset-inline|margin|margin-top|margin-right|margin-bottom|margin-left|float|z-index)\s*:/;
+    const note=l=>{const t=l.trim();return LAYOUT.test(t)?l.replace(/;\s*$/,'; // 佈局，可由使用端覆寫'):l;};
+    const declLines=body=>body.split('\n').map(l=>l.trim()).filter(Boolean).map(note);
+    let head=''; const rules=[], flats=[];
+    flat.split('\n\n').forEach(b=>{ if(!b.trim())return; const s=b.trimStart();
+      if((s.startsWith('/*')&&s.includes(':root'))||s.startsWith(':root')){head=head?head+'\n\n'+b:b;return;} // token 區保持原樣
+      if(s.startsWith('@media')){flats.push(b);return;}                                                      // 響應式平放
+      const m=b.match(/^([\s\S]*?)\s*\{\n([\s\S]*)\n\}\s*$/); if(!m){flats.push(b);return;}
+      const sel=m[1].trim(); if(sel.includes(',')){flats.push(b);return;}                                    // 逗號多選擇器平放
+      const cm=sel.match(/^\.([-\w]+)/); if(!cm){flats.push(b);return;}
+      const base='.'+cm[1], rem=sel.slice(base.length);
+      const key = rem==='' ? '' : (/^\s/.test(rem) ? rem.trim() : '&'+rem);   // 有前導空白＝後代（降一層）；否則＝同元素複合（&）
+      rules.push({base,key,body:m[2]});
+    });
+    const groups=new Map();
+    rules.forEach(r=>{ if(!groups.has(r.base))groups.set(r.base,{root:[],kids:[]}); const g=groups.get(r.base);
+      if(r.key==='')g.root.push(r.body); else g.kids.push(r); });
+    const emit=(base,g)=>{ const inner=[];
+      g.root.forEach(b=>declLines(b).forEach(l=>inner.push(l)));
+      g.kids.forEach(k=>{ inner.push(k.key+' {'); declLines(k.body).forEach(l=>inner.push('  '+l)); inner.push('}'); });
+      return base+' {\n'+inner.map(l=>'  '+l).join('\n')+'\n}'; };
+    const parts=[]; if(head)parts.push(head);
+    groups.forEach((g,base)=>parts.push(emit(base,g)));
+    flats.forEach(f=>parts.push(f));
+    return parts.join('\n\n');
+  }
   function componentCss(renderFn,axes){
     // 推導「這顆元件自己的 prefix」：來自 root＋『最大的第一層子』（依子孫數）的非工具 class 及其字首字段。
     // 用最大子而非全部子：input 的主角是 .field（原子但最大）、modal 的 .btn 只是觸發鈕（不最大）→ 精準區分自己 vs 巢狀。
@@ -4084,11 +4113,14 @@
     const cs=getComputedStyle(document.documentElement);
     const real=toks.filter(t=>cs.getPropertyValue(t).trim());        // 只列 :root 上解得出值的全域 token（濾掉 --fill 等元件內區域變數）
     const head=real.length?('/* 用到的 Token（當前值）*/\n:root {\n'+real.map(t=>'  '+t+': '+cs.getPropertyValue(t).trim()+';').join('\n')+'\n}\n\n'):'';
-    return head+body||'/* 找不到對應樣式 */';
+    const out=head+body; return out?scssify(out):'/* 找不到對應樣式 */';   // 轉成 SCSS 風格（巢狀＋layout 註記）再輸出
   }
   // CSS 語法高亮（逐行；配合 makeCodePanel 的行號渲染）
   function hlCss(line){ if(!line.trim())return '&nbsp;'; const t=line.trim();
     if(t.startsWith('/*')||t.endsWith('*/')||t.startsWith('*'))return `<span class="tk-comment">${escHTML(line)}</span>`;
+    if(t.startsWith('//'))return `<span class="tk-comment">${escHTML(line)}</span>`;            // SCSS 整行註解
+    const ci=line.indexOf(' // ');                                                                // 行尾 SCSS 註解（如 layout 標註）→ 拆開，程式碼段照常高亮、註解段轉灰
+    if(ci>=0)return hlCss(line.slice(0,ci))+`<span class="tk-comment">${escHTML(line.slice(ci))}</span>`;
     const dm=line.match(/^(\s*)([-\w]+)(\s*):(\s*)(.+?)(;?)\s*$/);    // 宣告 prop: value;
     if(dm&&!/[{}]/.test(dm[5])){ const val=escHTML(dm[5])
         .replace(/(--[\w-]+)/g,'<span class="tk-var">$1</span>')
@@ -4105,7 +4137,7 @@
     const head=ce('div','code-head');
     const tabs=ce('div','code-tabs seg');   // HTML／CSS 分頁：重用 .seg 分段控制
     const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab';tabH.textContent='HTML';tabH.setAttribute('aria-pressed','true');
-    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';tabC.setAttribute('aria-pressed','false');
+    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='SCSS';tabC.setAttribute('aria-pressed','false');
     tabs.append(tabH,tabC);
     const actions=ce('div','code-actions');
     let exp=null;
@@ -4146,7 +4178,7 @@
   function codeColumn(lang,raw,hl){
     const col=ce('div','code-col');col.dataset.lang=lang;
     const ch=ce('div','code-col-head');
-    const lab=ce('span','col-lang');lab.textContent=lang.toUpperCase();
+    const lab=ce('span','col-lang');lab.textContent=lang==='css'?'SCSS':lang.toUpperCase();
     const copy=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});copy.type='button';copy.querySelector('span').textContent='複製';
     copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(raw);const s=copy.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1200);};
     ch.append(lab,copy);
@@ -4159,7 +4191,7 @@
     const wrap=ce('div','live-code code-dual');
     const tabs=ce('div','code-tabs code-dual-tabs seg');   // 只在小網顯示；重用 .seg 分段控制
     const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab';tabH.textContent='HTML';
-    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';
+    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='SCSS';
     tabs.append(tabH,tabC);
     const cols=ce('div','code-cols');
     const colH=codeColumn('html',html,hlLine);
@@ -9500,6 +9532,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v11', date:'2026-07-27', title:'元件程式碼區改用 SCSS 風格呈現', items:[
+      {tag:'improve', t:'元件「互動預覽與程式碼」的 CSS 分頁改成 SCSS：同元素的 variant／state／pseudo 用 & 巢狀、後代選擇器降一層，讀起來就是工程端會寫的樣子；分頁與展開 modal、雙欄一併同步'},
+      {tag:'improve', t:'寫死的佈局屬性（position／margin／inset／z-index／float）自動加註「// 佈局，可由使用端覆寫」，提醒寬高定位交給使用端；套 class 即得元件樣式的原則不變'},
+    ]},
     {v:'v10', date:'2026-07-27', title:'Design Token 頁：輸出 SCSS 樣式包', items:[
       {tag:'add', t:'Token 頁新增「輸出 · 樣式包（SCSS）」：把當前 token 產成比照工程慣例的樣式包——_variables.scss（token）＋_breakpoints.scss（斷點變數＋mixin）＋_font.scss（字體）＋layout.scss（reset）＋README（Nuxt 引入與套 class 教學），每檔可複製／下載，或一鍵「全部下載」'},
       {tag:'add', t:'layout.scss reset 保留 focus-visible：清各瀏覽器原生樣式差異、統一基準，但鍵盤操作仍看得到焦點外框（不無條件 outline:none）'},
