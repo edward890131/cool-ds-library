@@ -934,7 +934,8 @@
   .tabbar.tab-slide{position:relative;}
   .tabbar.tab-slide .tabi{position:relative;z-index:1;}
   .tab-ind{position:absolute;left:0;top:0;z-index:0;opacity:0;pointer-events:none;transform:translateX(0);
-    transition:transform .25s cubic-bezier(.22,1,.36,1),width .25s cubic-bezier(.22,1,.36,1),opacity .2s ease;}
+    will-change:transform,width;backface-visibility:hidden;-webkit-backface-visibility:hidden;   /* 穩定合成層，避免 iOS 重繪閃爍 */
+    transition:transform .25s cubic-bezier(.22,1,.36,1),width .25s cubic-bezier(.22,1,.36,1);}   /* opacity 不做過渡：由 JS 在字型 ready 後瞬間顯示，避免用 fallback 字寬定位後跳位 */
   .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.08);}
   .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;box-shadow:none;}  /* 白底改由滑動 pill 提供 */
   .tabbar.tab-slide.v-line .tab-ind{top:auto;bottom:-1px;height:2px;background:var(--accent);}
@@ -1628,11 +1629,16 @@
   /* body 外層：grid 0fr→1fr 做「往下展開」動畫，收合時整塊裁切隱藏 */
   .cps-body-wrap{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows var(--cps-dur) var(--cps-ease);}
   .cps-panel.is-open .cps-body-wrap,.cps-panel.st-expanded .cps-body-wrap{grid-template-rows:1fr;}
-  /* body 內容：段落文字；opacity＋輕微 blur 搭配外層展開動畫做「聚焦淡入」（收合時模糊淡出） */
-  .cps-body{padding:0 var(--sp-4);color:var(--muted);font-size:var(--fs-h10);line-height:1.6;min-height:0;overflow:hidden;opacity:0;filter:blur(2px);transition:opacity var(--cps-dur) var(--cps-ease),filter var(--cps-dur) var(--cps-ease);}
+  /* body 內容：段落文字；opacity 搭配外層展開動畫做淡入淡出 */
+  .cps-body{padding:0 var(--sp-4);color:var(--muted);font-size:var(--fs-h10);line-height:1.6;min-height:0;overflow:hidden;opacity:0;transition:opacity var(--cps-dur) var(--cps-ease);}
   /* 底部留白改由 ::after 提供：padding-bottom 直接寫在 grid item 上會在收合（0fr）時殘留 16px 高度 */
   .cps-body::after{content:'';display:block;height:12px;}
-  .cps-panel.is-open .cps-body,.cps-panel.st-expanded .cps-body{opacity:1;filter:blur(0);}
+  .cps-panel.is-open .cps-body,.cps-panel.st-expanded .cps-body{opacity:1;}
+  /* blur「聚焦淡入」只在桌機（精準指標）啟用：iOS Safari 對 filter:blur 動畫＋height 動畫會重繪閃爍，觸控裝置改用純 opacity 淡入不加 blur */
+  @media(hover:hover) and (pointer:fine){
+    .cps-body{filter:blur(2px);transition:opacity var(--cps-dur) var(--cps-ease),filter var(--cps-dur) var(--cps-ease);}
+    .cps-panel.is-open .cps-body,.cps-panel.st-expanded .cps-body{filter:blur(0);}
+  }
   @media(prefers-reduced-motion:reduce){.cps-caret,.cps-body-wrap,.cps-body{transition:none!important;}.cps-body{filter:none;}}
 
   /* ---- variant 風格 ---- */
@@ -3573,12 +3579,17 @@
   .gd-faq-caret{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h6);line-height:1;font-weight:400;transition:transform var(--faq-dur) var(--faq-ease);}
   .gd-faq-item.collapsed .gd-faq-caret::before{content:"+";}       /* 收合＝＋ */
   .gd-faq-item:not(.collapsed) .gd-faq-caret::before{content:"\2212";}  /* 展開＝−（減號 U+2212） */
-  /* 展開容器：grid 0fr→1fr 平滑推開（免 JS 量高度）；內層裁切＋opacity/blur「聚焦淡入」（比照 Collapse 元件的手風琴手法） */
+  /* 展開容器：grid 0fr→1fr 平滑推開（免 JS 量高度）；內層裁切＋opacity 淡入（比照 Collapse 元件的手風琴手法） */
   .gd-faq-a{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows var(--faq-dur) var(--faq-ease);}
   .gd-faq-item:not(.collapsed) .gd-faq-a{grid-template-rows:1fr;}
-  .gd-faq-a-inner{min-height:0;overflow:hidden;font-size:var(--fs-h10);color:var(--muted);line-height:1.7;padding:0 var(--sp-5);opacity:0;filter:blur(2px);transition:opacity var(--faq-dur) var(--faq-ease),filter var(--faq-dur) var(--faq-ease);}
-  .gd-faq-item:not(.collapsed) .gd-faq-a-inner{opacity:1;filter:blur(0);}
+  .gd-faq-a-inner{min-height:0;overflow:hidden;font-size:var(--fs-h10);color:var(--muted);line-height:1.7;padding:0 var(--sp-5);opacity:0;transition:opacity var(--faq-dur) var(--faq-ease);}
+  .gd-faq-item:not(.collapsed) .gd-faq-a-inner{opacity:1;}
   .gd-faq-a-inner::after{content:'';display:block;height:var(--sp-4);}  /* 底部留白：寫在內層避免收合(0fr)殘留高度 */
+  /* blur「聚焦淡入」只在桌機（精準指標）啟用：iOS Safari 對 filter:blur 動畫會重繪閃爍，觸控裝置改用純 opacity 淡入 */
+  @media(hover:hover) and (pointer:fine){
+    .gd-faq-a-inner{filter:blur(2px);transition:opacity var(--faq-dur) var(--faq-ease),filter var(--faq-dur) var(--faq-ease);}
+    .gd-faq-item:not(.collapsed) .gd-faq-a-inner{filter:blur(0);}
+  }
   @media(prefers-reduced-motion:reduce){.gd-faq-caret,.gd-faq-a,.gd-faq-a-inner{transition:none!important;}.gd-faq-a-inner{filter:none;}}
   /* spec 矩陣示意（用真 library 按鈕原子）*/
   .gd-specmx{display:flex;flex-direction:column;gap:8px;}
@@ -4564,10 +4575,12 @@
   function tabBarLive(v,opts){opts=opts||{};const slide=(v==='pill'||v==='line');  // 只有軌道型 variant 套滑動指示器
     const bar=ce('div',`tabbar v-${v}${slide?' tab-slide':''}`);
     let ind=null;if(slide){ind=ce('span','tab-ind');bar.appendChild(ind);}
-    // 把指示器滑到 .st-active：x/width inline 寫入，靠 CSS 補間；animate=false 時 snap（首次掛載／寬度變動）
-    function placeInd(animate){if(!ind)return;const act=bar.querySelector('.tabi.st-active');if(!act){ind.style.opacity='0';return;}
+    // 字型未載入完成前，tab 寬度會用 fallback 字算 → 定位會偏；ready 前不顯示指示器，避免「閃一下（錯位）→跳掉（字型到位後重定位）」
+    let fontsReady=!(document.fonts&&document.fonts.ready);
+    // 把指示器滑到 .st-active：x/width inline 寫入，靠 CSS 補間；animate=false 時 snap（首次掛載／字型或寬度變動）
+    function placeInd(animate){if(!ind)return;const act=bar.querySelector('.tabi.st-active');if(!act||act.offsetParent===null){ind.style.opacity='0';return;}
       if(!animate)ind.style.transition='none';
-      ind.style.transform='translateX('+act.offsetLeft+'px)';ind.style.width=act.offsetWidth+'px';ind.style.opacity='1';
+      ind.style.transform='translateX('+act.offsetLeft+'px)';ind.style.width=act.offsetWidth+'px';ind.style.opacity=fontsReady?'1':'0';
       if(!animate){void ind.offsetWidth;ind.style.transition='';}}
     [['總覽',12],['明細',4],['設定',null]].forEach(([t,n],i)=>{const ti=ce('button',`tabi sz-${opts.size||'m'}`+(i===0?' st-active':''));
       if(opts.icon)ti.insertAdjacentHTML('beforeend',`<span class="ticon">${TAB_ICONS[i]}</span>`);
@@ -4575,7 +4588,9 @@
       if(opts.count&&n!=null)ti.insertAdjacentHTML('beforeend',`<span class="tcount">${n}</span>`);
       ti.onclick=()=>{bar.querySelectorAll('.tabi').forEach(x=>x.classList.remove('st-active'));ti.classList.add('st-active');if(slide)placeInd(true);};
       bar.appendChild(ti);});
-    if(slide){requestAnimationFrame(()=>placeInd(false));if(window.ResizeObserver){const ro=new ResizeObserver(()=>placeInd(false));ro.observe(bar);}}
+    if(slide){requestAnimationFrame(()=>placeInd(false));
+      if(!fontsReady)document.fonts.ready.then(()=>{fontsReady=true;placeInd(false);}).catch(()=>{});   // 字型到位後以正確字寬重定位並顯示
+      if(window.ResizeObserver){const ro=new ResizeObserver(()=>placeInd(false));ro.observe(bar);}}
     return bar;}
   function buildTab(view){
     const body=viewScaffold(view,{eyebrow:'L3 Family · Tab',title:'Tab 分頁',
@@ -11112,6 +11127,7 @@ function buildScheduleChart(view){
      靠 data-seg 幾何快取：新 seg 先落在上一版 active 位置再滑到新位置，重建也有滑動感。*/
   (function initSegPill(){
     const lastGeo={};                                  // key＝seg 的 data-seg；存上次 active 的 {l,t,w,h}，供重建型 seg 續接滑動
+    let fontsReady=!(document.fonts&&document.fonts.ready);  // 字型 ready 前不顯示 pill，避免用 fallback 字寬定位後跳位（手機首載）
     function pillOf(seg){
       let p=seg.querySelector(':scope>.seg-pill');
       if(!p){p=document.createElement('span');p.className='seg-pill';p.setAttribute('aria-hidden','true');seg.insertBefore(p,seg.firstChild);}
@@ -11122,7 +11138,7 @@ function buildScheduleChart(view){
       if(!act||act.offsetParent===null)return null;     // 無 active 或 seg 隱藏（如桌機下隱藏的雙欄小網 tab）
       return {l:act.offsetLeft,t:act.offsetTop,w:act.offsetWidth,h:act.offsetHeight};
     }
-    function apply(p,g){p.style.opacity='1';p.style.width=g.w+'px';p.style.height=g.h+'px';p.style.transform='translate('+g.l+'px,'+g.t+'px)';}
+    function apply(p,g){p.style.opacity=fontsReady?'1':'0';p.style.width=g.w+'px';p.style.height=g.h+'px';p.style.transform='translate('+g.l+'px,'+g.t+'px)';}
     // 把 pill 滑到 active 按鈕位置；animate=false 時暫停 transition 直接 snap（首次掛載／resize）
     function place(seg,animate){
       if(!seg||!seg.isConnected)return;
@@ -11151,7 +11167,7 @@ function buildScheduleChart(view){
     const boot=()=>{obs.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed']});requestAnimationFrame(()=>placeAll(false));};
     if(document.body)boot();else document.addEventListener('DOMContentLoaded',boot);
     let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>placeAll(false),120);}); // 版位變動 → 重新對齊（無動畫）
-    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>placeAll(false)).catch(()=>{}); // 字型載入後按鈕寬可能改變
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{fontsReady=true;placeAll(false);}).catch(()=>{}); // 字型載入後以正確字寬重定位並顯示
   })();
 
   /* ===== 下拉重新整理（手機觸控 pull-to-refresh）：.main 捲到頂再下拉 → 圓圈 loader → 放手過閾值 reload ===== */
