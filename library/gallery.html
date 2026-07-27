@@ -304,20 +304,24 @@
   }
 
   /* 類別間以淺灰細線分隔；類別標題與頁籤標題同字級/字重/顏色 */
-  .nav-group{border-top:1px solid var(--line);margin-top:var(--sp-2);padding-top:var(--sp-2);margin-bottom:2px;flex:0 0 auto;} /* flex:0 0 auto：側欄內容溢出出現捲軸時不被 flex 壓縮 */
+  .nav-group{--ng-ease:cubic-bezier(.22,1,.36,1);--ng-dur:250ms;border-top:1px solid var(--line);margin-top:var(--sp-2);padding-top:var(--sp-2);margin-bottom:2px;flex:0 0 auto;} /* flex:0 0 auto：側欄內容溢出出現捲軸時不被 flex 壓縮 */
   .nav-sep{height:1px;background:var(--line);margin:var(--sp-2) 6px;flex:0 0 auto;} /* 需求匯總/Design Token 間分隔線；flex:0 0 auto：空 div 在側欄溢出時會被壓成 0px 消失，鎖住不壓縮 */
   .nav-group .gh{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;background:transparent;border:none;cursor:pointer;
     font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;color:var(--muted);
     padding:var(--sp-2);border-radius:var(--r-sm);transition:.12s;}
   .nav-group .gh:hover{background:var(--canvas);}
   .nav-group .gh .gh-n{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;min-width:13px;text-align:center;flex:0 0 auto;} /* 計數在 chevron 左邊、無底色 */
-  .nav-group .gh .gh-caret{display:inline-flex;transition:transform .18s;color:var(--faint);flex:0 0 auto;} /* 計數＋chevron 靠標題右側，標題靠左 */
+  .nav-group .gh .gh-caret{display:inline-flex;transition:transform var(--ng-dur) var(--ng-ease);color:var(--faint);flex:0 0 auto;} /* 計數＋chevron 靠標題右側，標題靠左 */
   .nav-group .gh .gh-caret svg{width:13px;height:13px;display:block;}
   .nav-group .gh .gh-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .nav-group.collapsed .gh .gh-caret{transform:rotate(-90deg);}
-  .nav-group.collapsed .ng-items{display:none;}
-  .ng-items{position:relative;padding-left:var(--sp-5);} /* 展開內層往內縮（24） */
-  .ng-items::before{content:'';position:absolute;left:14px;top:1px;bottom:1px;width:1px;background:var(--line);}
+  /* 群組展開/收合：內容手風琴平滑推開（比照 Collapse／FAQ 手法），取代即時 display:none */
+  .ng-items{display:grid;grid-template-rows:1fr;overflow:hidden;transition:grid-template-rows var(--ng-dur) var(--ng-ease);}
+  .nav-group.collapsed .ng-items{grid-template-rows:0fr;}
+  .ng-inner{position:relative;padding-left:var(--sp-5);min-height:0;overflow:hidden;opacity:1;transition:opacity var(--ng-dur) var(--ng-ease);} /* 展開內層往內縮（24）；min-height:0＋overflow 供 0fr 裁切 */
+  .ng-inner::before{content:'';position:absolute;left:14px;top:1px;bottom:1px;width:1px;background:var(--line);}
+  .nav-group.collapsed .ng-inner{opacity:0;}
+  @media(prefers-reduced-motion:reduce){.ng-items,.ng-inner,.nav-group .gh .gh-caret{transition:none!important;}}
   .nav-item{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;border:none;background:transparent;
     color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;padding:var(--sp-2);border-radius:var(--r-sm);cursor:pointer;transition:.12s;}
   .nav-item:hover{background:var(--canvas);}
@@ -3350,15 +3354,26 @@
   .cl-src{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h12);padding:1px 7px;border-radius:var(--r-pill);}
   .cl-src-manual{color:var(--muted);background:var(--panel-2);border:1px solid var(--line-strong);}
   .cl-src-figma{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 12%,transparent);}
-  /* 版本紀錄展開/收合：點標題列 toggle，chevron 旋轉、收合時隱藏列表 */
-  .cl-head{display:flex;align-items:center;gap:var(--sp-3);width:100%;background:none;border:0;padding:0;margin:0 0 var(--sp-4);cursor:pointer;text-align:left;font-family:inherit;color:inherit;}
+  /* 版本紀錄展開/收合：點標題列 toggle，內容手風琴平滑推開（比照 Collapse／FAQ 手法） */
+  .cl-entry{--cl-ease:cubic-bezier(.22,1,.36,1);--cl-dur:250ms;}
+  .cl-head{display:flex;align-items:center;gap:var(--sp-3);width:100%;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left;font-family:inherit;color:inherit;}
   .cl-head .cl-title{margin:0;flex:1;}
   .cl-toggle{flex:0 0 auto;width:20px;height:20px;color:var(--muted);display:flex;align-items:center;justify-content:center;}
   .cl-toggle svg{width:100%;height:100%;display:block;}
   .cl-toggle .cl-tg-plus{display:none;} .cl-toggle .cl-tg-minus{display:flex;} /* 展開＝顯示「−」（點了收合）*/
   .cl-entry.collapsed .cl-toggle .cl-tg-plus{display:flex;} .cl-entry.collapsed .cl-toggle .cl-tg-minus{display:none;} /* 收合＝顯示「＋」（點了展開）*/
-  .cl-entry.collapsed .cl-head{margin-bottom:0;}
-  .cl-entry.collapsed .cl-list{display:none;}
+  /* 動畫外層：grid rows 1fr→0fr 平滑收合（免 JS 量高度）；內層裁切＋opacity 淡入 */
+  .cl-anim{display:grid;grid-template-rows:1fr;overflow:hidden;transition:grid-template-rows var(--cl-dur) var(--cl-ease);}
+  .cl-entry.collapsed .cl-anim{grid-template-rows:0fr;}
+  .cl-list{min-height:0;overflow:hidden;opacity:1;transition:opacity var(--cl-dur) var(--cl-ease);}
+  .cl-list::before{content:'';display:block;height:var(--sp-4);} /* 標題↔列表間距寫成內層 content（非 padding），收合(0fr)時一起裁掉、不殘留間距 */
+  .cl-entry.collapsed .cl-list{opacity:0;}
+  /* blur「聚焦淡入」只在桌機（精準指標）啟用：iOS Safari 對 filter:blur 動畫會重繪閃爍 */
+  @media(hover:hover) and (pointer:fine){
+    .cl-list{filter:blur(2px);transition:opacity var(--cl-dur) var(--cl-ease),filter var(--cl-dur) var(--cl-ease);}
+    .cl-entry:not(.collapsed) .cl-list{filter:blur(0);}
+  }
+  @media(prefers-reduced-motion:reduce){.cl-anim,.cl-list{transition:none!important;}.cl-list{filter:none;}}
   @media(max-width:767px){.cl-entry{grid-template-columns:1fr;gap:var(--sp-3);padding:var(--sp-6) 0;} .cl-meta{position:static;flex-direction:row;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}}
   .gd-sec{margin:var(--sp-8) 0;}
   .gd-sec-h{display:flex;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-5);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);flex-wrap:wrap;}  /* 對齊統一段標題：2px ink 底線（已移除副標）*/
@@ -9620,12 +9635,12 @@ function buildScheduleChart(view){
       const open=i===0; // 預設只展開最新（第一筆），其餘收合
       h+='<section class="cl-entry'+(open?'':' collapsed')+'"><div class="cl-meta"><span class="cl-ver">'+r.v+'</span><time class="cl-date">'+r.date+'</time>'
         +(r.src?'<span class="cl-src cl-src-'+r.src+'">'+(r.src==='figma'?'Figma':'手動')+'</span>':'')+'</div>'
-        +'<div class="cl-body"><button class="cl-head" type="button" aria-expanded="'+(open?'true':'false')+'"><h2 class="cl-title">'+r.title+'</h2><span class="cl-toggle"><span class="cl-tg-plus">'+ICON_PLUS+'</span><span class="cl-tg-minus">'+ICON_MINUS+'</span></span></button><ul class="cl-list">';
+        +'<div class="cl-body"><button class="cl-head" type="button" aria-expanded="'+(open?'true':'false')+'"><h2 class="cl-title">'+r.title+'</h2><span class="cl-toggle"><span class="cl-tg-plus">'+ICON_PLUS+'</span><span class="cl-tg-minus">'+ICON_MINUS+'</span></span></button><div class="cl-anim"><ul class="cl-list">';
       r.items.forEach(it=>{
         if(it.tag){const t=TAG[it.tag]||TAG.add;h+='<li><span class="cl-tag '+t[1]+'">'+t[0]+'</span><span class="cl-txt">'+it.t+'</span></li>';}
         else{h+='<li><span class="cl-dot"></span><span class="cl-txt">'+it.t+'</span></li>';}
       });
-      h+='</ul></div></section>';
+      h+='</ul></div></div></section>';
     });
     h+='</div>';
     view.innerHTML=h;
@@ -10840,10 +10855,11 @@ function buildScheduleChart(view){
       const head=document.createElement('button');head.className='gh';
       head.innerHTML=`<span class="gh-t">${g.emoji?g.emoji+' ':''}${g.group}</span><span class="gh-n">${g.items.length}</span><span class="gh-caret">${ICON_CARET}</span>`;
       head.onclick=()=>grp.classList.toggle('collapsed');
-      const list=document.createElement('div');list.className='ng-items';
+      const list=document.createElement('div');list.className='ng-items';       // 動畫外層：grid rows 1fr／0fr
+      const inner=document.createElement('div');inner.className='ng-inner';      // 內層：裁切＋opacity＋承載縮排直線
       g.items.forEach(it=>{const b=document.createElement('button');b.className='nav-item';b.dataset.id=it.id;b.setAttribute('aria-current',it.id===current);
-        b.innerHTML=`<span class="nm">${it.name}</span>`;b.onclick=()=>renderView(it.id);list.appendChild(b);}); // 2026-07-16 移除綠點製作狀態
-      grp.append(head,list);host.appendChild(grp);});
+        b.innerHTML=`<span class="nm">${it.name}</span>`;b.onclick=()=>renderView(it.id);inner.appendChild(b);}); // 2026-07-16 移除綠點製作狀態
+      list.appendChild(inner);grp.append(head,list);host.appendChild(grp);});
     host.appendChild(ce('div','nav-sep')); // Table 群組 ↔ 版本紀錄／更新紀錄 分隔線
     const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
     clpin.innerHTML=`<span>🗒 ${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
