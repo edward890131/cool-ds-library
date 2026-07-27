@@ -9538,65 +9538,34 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
-    {v:'v14', date:'2026-07-27', title:'Token 頁補齊：字體群組 · Elevation 標題', items:[
-      {tag:'add', t:'Design Token 頁 L1 新增「Font Family 字體」群組（唯讀對照）：顯示 --font-sans／--font-mono，與程式碼區 _font.scss 對齊；不重複寫進 _variables.scss'},
-      {tag:'fix', t:'Elevation 群組標題「6 階」更正為「5 階」（實際為 sm／md／lg／xl／2xl 共 5 顆）'},
+    {v:'v7', date:'2026-07-27', title:'Design Token 頁與 SCSS 樣式包工程化', items:[
+      {tag:'add', t:'Token 頁新增「輸出 · 樣式包（SCSS）」：把當前 token 產成比照工程慣例的樣式包——_variables.scss（token）＋_breakpoints.scss（斷點變數＋mixin）＋_font.scss（字體）＋layout.scss（reset，保留 focus-visible）＋README（Nuxt 引入與套 class 教學），每檔可複製／下載或一鍵「全部下載」'},
+      {tag:'improve', t:'元件「互動預覽與程式碼」的 CSS 分頁改成 SCSS 風格：同元素的 variant／state／pseudo 用 & 巢狀、後代選擇器降一層；寫死的佈局屬性（position／margin／inset…）自動加註「可由使用端覆寫」'},
+      {tag:'improve', t:'元件 SCSS 移除最上方多餘的 :root token 傾印區——token 已由 Design Token 頁／_variables.scss 全域提供（@use 引入），元件只留自己的樣式、直接 var(--token) 取用（元件的 :root[data-theme] 主題規則仍保留）'},
+      {tag:'improve', t:'樣式包輸出區優化：加卡片標題 header、檔名分頁手機可橫向捲動、程式碼補語法高亮並加高；右上角「複製此頁 CSS」改為「查看程式碼 SCSS」點擊平滑滾動到程式碼段'},
+      {tag:'improve', t:'裝置斷點統一為 480／768／1024／1920：L1 token（--bp-*）與輸出的 _breakpoints.scss（$breakpoint-*）對齊同一組'},
+      {tag:'fix', t:'Design Token 頁補齊：L1 新增「Font Family 字體」群組對照 _font.scss（不重複寫進 _variables.scss）；Elevation 群組標題「6 階」更正為「5 階」'},
     ]},
-    {v:'v13', date:'2026-07-27', title:'元件 SCSS 移除多餘的 :root token 區', items:[
-      {tag:'improve', t:'元件程式碼的 SCSS 不再於最上方傾印「用到的 Token（當前值）」的 :root 區——token 已由 Design Token 頁／輸出的 _variables.scss 全域提供（@use 引入），元件只留自己的樣式、直接 var(--token) 取用，避免重複與把當前值寫死（元件本身的 :root[data-theme] 主題規則仍保留）'},
+    {v:'v6', date:'2026-07-27', title:'互動預覽 CSS 分頁 · 微動效（tab 滑動／3D／手風琴）', items:[
+      {tag:'add', t:'元件頁「互動預覽與程式碼」新增 CSS 分頁：HTML／CSS 一鍵切換各自複製，CSS 直接從實際樣式表撈出（改樣式即時反映）；複合元件只顯示自己的樣式、排除內部原子'},
+      {tag:'add', t:'程式碼區新增「展開」鈕：開大版 modal，大網 HTML｜CSS 左右雙欄並排、小網 tab 切換，各自可複製'},
+      {tag:'add', t:'全站分段控制（tab）改成滑動指示器：切換時白色 pill 平滑滑到目標（transitions.dev「tabs sliding」手法），互動預覽、HTML／CSS 分頁、展開 modal、圖表切換全部同步；Tab 元件本體 pill／line 變體也一起'},
+      {tag:'add', t:'上手指南首屏 mockup 加上 3D 傾斜：滑鼠移動時朝游標立體傾斜（±8°）＋游標光暈；桌機專屬、尊重「減少動態」設定'},
+      {tag:'improve', t:'Collapse 摺疊與 FAQ 常見問題改用手風琴平滑展開：ease-out-quint 緩動、內容聚焦淡入、指示箭頭垂直翻轉（v 壓成一線再翻成 ^）'},
     ]},
-    {v:'v12', date:'2026-07-27', title:'樣式包輸出區優化 · 斷點統一', items:[
-      {tag:'improve', t:'Token 頁「輸出 · 樣式包」加卡片標題 header，檔名分頁移到 header 以下；分頁列在手機可橫向捲動，看得到後面的檔案'},
-      {tag:'fix', t:'輸出區的程式碼補上語法高亮（原本缺 --syn-* 變數定義所以沒顏色）：token/選擇器/值/註解比照元件頁上色加粗；程式碼區加高'},
-      {tag:'improve', t:'Design Token 頁右上角「複製此頁 CSS」改為「查看程式碼 SCSS」，點擊平滑滾動到下方樣式包程式碼段'},
-      {tag:'improve', t:'裝置斷點數值統一為 480／768／1024／1920：L1 token（--bp-*）與輸出的 _breakpoints.scss（$breakpoint-*）對齊同一組'},
-    ]},
-    {v:'v11', date:'2026-07-27', title:'元件程式碼區改用 SCSS 風格呈現', items:[
-      {tag:'improve', t:'元件「互動預覽與程式碼」的 CSS 分頁改成 SCSS：同元素的 variant／state／pseudo 用 & 巢狀、後代選擇器降一層，讀起來就是工程端會寫的樣子；分頁與展開 modal、雙欄一併同步'},
-      {tag:'improve', t:'寫死的佈局屬性（position／margin／inset／z-index／float）自動加註「// 佈局，可由使用端覆寫」，提醒寬高定位交給使用端；套 class 即得元件樣式的原則不變'},
-    ]},
-    {v:'v10', date:'2026-07-27', title:'Design Token 頁：輸出 SCSS 樣式包', items:[
-      {tag:'add', t:'Token 頁新增「輸出 · 樣式包（SCSS）」：把當前 token 產成比照工程慣例的樣式包——_variables.scss（token）＋_breakpoints.scss（斷點變數＋mixin）＋_font.scss（字體）＋layout.scss（reset）＋README（Nuxt 引入與套 class 教學），每檔可複製／下載，或一鍵「全部下載」'},
-      {tag:'add', t:'layout.scss reset 保留 focus-visible：清各瀏覽器原生樣式差異、統一基準，但鍵盤操作仍看得到焦點外框（不無條件 outline:none）'},
-    ]},
-    {v:'v9', date:'2026-07-27', title:'互動微動效升級（tab 滑動／3D 傾斜／手風琴）', items:[
-      {tag:'add', t:'全站分段控制（tab）改成滑動指示器：切換時白色 pill 平滑滑到目標選項（transitions.dev「tabs sliding」手法），互動預覽篩選、HTML／CSS 分頁、展開 modal 分頁、圖表切換全部同步；連整塊重建的篩選也有滑動感'},
-      {tag:'add', t:'Tab 分頁元件本體加上滑動指示器：pill 變體白底藥丸、line 變體底部 ink bar 都會平滑滑到選中分頁；contained（獨立框）維持即時填色'},
-      {tag:'add', t:'上手指南首屏 mockup 加上 3D 傾斜：滑鼠移動時卡片朝游標方向立體傾斜（±8°）＋游標光暈，離開緩緩回正；桌機專屬、尊重「減少動態」設定'},
-      {tag:'improve', t:'Collapse 摺疊展開精緻化：緩動改用 ease-out-quint 曲線、內容加輕微 blur「聚焦淡入」、指示箭頭改用垂直翻轉（v 壓成一線再翻成 ^）'},
-      {tag:'improve', t:'上手指南 FAQ 常見問題改用平滑展開：由原本直接顯示／隱藏改成高度滑順推開＋內容聚焦淡入（同 Collapse 手風琴手法）'},
-    ]},
-    {v:'v8', date:'2026-07-27', title:'互動預覽與程式碼加上 CSS 分頁', items:[
-      {tag:'add', t:'元件頁「互動預覽與程式碼」新增 CSS 分頁：HTML／CSS 一鍵切換、各自複製；CSS 直接從實際樣式表撈出，零脫鉤（改樣式即時反映）'},
-      {tag:'add', t:'CSS 分頁列出該元件的所有變體規則（含 hover/focus/停用等狀態），並在最上方附「用到的 Token（當前值）」清單'},
-      {tag:'improve', t:'複合元件（卡片／彈窗／表格…）的 CSS 只顯示自己的樣式，自動排除內部巢狀的 button／tag 等原子；CSS 分頁加上語法高亮'},
-      {tag:'add', t:'程式碼區複製鈕旁新增「展開」鈕：開啟大版 modal（library 元件，≤1224px，標題＝「元件名 的程式碼」）；大網 HTML｜CSS 左右雙欄並排、小網用 tab 切換，各自可複製；×／Esc／點遮罩皆可關閉'},
-    ]},
-    {v:'v7', date:'2026-07-24', title:'背景漸層品牌化', items:[
-      {tag:'add', t:'背景漸層新增「主色流動」「輔色流動」：以當前主／副錨點色（--c-brand-500／--c-brand2-500）即時展成三個明度 stop（淺→基準→深），滑順不單調；改了 token 色號漸層也跟著變'},
-      {tag:'improve', t:'偏好設定「背景漸層」改為四選項：經典流動／經典靜態／主色流動／輔色流動；縮圖對應各模式實際配色'},
-      {tag:'fix', t:'底層靜態漸層改為跟著當前模式上色（主色→石墨、輔色→橘），修正動態平面旋轉後角落漏出不相干珊瑚色帶的問題'},
-    ]},
-    {v:'v6', date:'2026-07-24', title:'互動預覽與程式碼 · 版型偏好', items:[
+    {v:'v5', date:'2026-07-24', title:'互動預覽與程式碼 · 版型偏好 · 背景漸層品牌化', items:[
       {tag:'add', t:'元件頁新增「互動預覽與程式碼」：左邊調控制項（風格／尺寸／內容，甚至直接改文字）→ 中間即時預覽（可 hover、按下試）→ 右邊同步顯示對應程式碼（行號＋語法高亮＋一鍵複製）'},
-      {tag:'add', t:'偏好設定新增「互動預覽版型」：水平（控制項＋預覽在左、程式碼在右，可拖拉調寬）／垂直（由上而下堆疊）；手機僅能垂直，水平選項停用並提示'},
-      {tag:'add', t:'版本紀錄改為可展開/收合（預設只展開最新一筆），以 ＋／− 指示'},
-      {tag:'improve', t:'互動段落更名並移到「變數與 Token」下方；程式碼區配色改與其他面板一致的灰'},
-      {tag:'fix', t:'偏好設定卡片手機版統一尺寸、兩兩並排（修正第三張落單被撐滿版）'},
+      {tag:'add', t:'偏好設定新增「互動預覽版型」：水平（可拖拉調寬）／垂直堆疊；手機僅能垂直'},
+      {tag:'add', t:'版本紀錄改為可展開／收合（預設只展開最新一筆），以 ＋／− 指示'},
+      {tag:'add', t:'背景漸層新增「主色流動」「輔色流動」：以當前主／副錨點色即時展成三個明度 stop，改 token 色號漸層也跟著變；偏好設定背景漸層改四選項'},
+      {tag:'fix', t:'底層靜態漸層改為跟著當前模式上色（修正動態旋轉後角落漏出不相干珊瑚色帶）；偏好設定卡片手機統一尺寸兩兩並排'},
     ]},
-    {v:'v5', date:'2026-07-23', title:'上手指南首屏視覺 · 品牌副色', items:[
+    {v:'v4', date:'2026-07-23', title:'上手指南首屏視覺 · 品牌副色 · 手機細修', items:[
       {tag:'add', t:'上手指南新增情境首屏 hero：多色暖漸層（還原參考站 mesh 質感）、標題＋說明置中、mockup 輪播、兩顆 CTA（編輯 Token／瀏覽元件）'},
-      {tag:'add', t:'首屏背景滑鼠互動（游標滑過透出網格線）、mockup 游標 CTA（「在 GitHub 查看完整流程」跟隨游標）'},
-      {tag:'improve', t:'首屏漸層多輪精修統整：獨立模糊層讓色塊無縫融合、加入鮮艷高彩度 pop、暖色置頂並與下段背景無縫銜接（消除斷層）'},
-      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步）；深色主題底色整組加深，配紙質磨砂後更好讀'},
-      {tag:'improve', t:'全站疊加紙質磨砂顆粒材質，提升整體質感'},
-      {tag:'fix', t:'手機版首屏漸層露白邊、mockup 爆版等多項修正（邊距改綁 token 對齊 hero 出血）'},
-    ]},
-    {v:'v4', date:'2026-07-23', title:'手機體驗與細修', items:[
-      {tag:'add', t:'手機下拉重新整理（pull-to-refresh）：捲到頂再下拉出現 loader，放手過閾值即重整'},
-      {tag:'improve', t:'Design Guideline 色票手機版改一列四等分；下拉重整改為內容往下位移、loader 顯示於讓出的空間'},
-      {tag:'improve', t:'上手指南 FAQ 補充操作小技巧（元件級 token 綁定、改主色/副色、首屏隱藏互動）'},
-      {tag:'fix', t:'Design Guideline 手機版寬度爆版修正；Design Token「Brand 副色」群組改名後編輯復原'},
+      {tag:'add', t:'首屏背景滑鼠互動（游標滑過透出網格線）、mockup 游標跟隨 CTA；手機下拉重新整理（pull-to-refresh，捲到頂再下拉過閾值即重整）'},
+      {tag:'improve', t:'品牌副色（--c-brand2）由藍改橘（#EA580C，9 階同步）；深色主題底色整組加深、全站疊加紙質磨砂顆粒提升質感'},
+      {tag:'improve', t:'首屏漸層多輪精修：獨立模糊層讓色塊無縫融合、加入高彩度 pop、暖色置頂與下段背景無縫銜接'},
+      {tag:'fix', t:'手機版多項修正（首屏漸層露白邊、mockup 爆版、Design Guideline 寬度爆版與色票改一列四等分）'},
     ]},
     {v:'v3', date:'2026-07-22', title:'元件級 Token 綁定 · 上手指南更新', items:[
       {tag:'add', t:'每顆元件新增「變數與 Token」段落：可把該元件的圓角／間距／字級換綁成同類別的其他 token（專案層編輯，不動共用母庫；母庫頁僅預覽）'},
