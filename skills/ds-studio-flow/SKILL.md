@@ -40,7 +40,7 @@ description: Goons DS Studio 主控 skill。串起七步工作流——Phase 0 �
 | 3 | 網站選取 | 設計師在 gallery 上調整 | — |
 | 4 | 匯出 | `tokens.export.json`＋`components.export.json`＋`selection.state.json` | — |
 | 5 | build＋套 token | 實際 token 檔／套用 | HARD：Gate 2 commit gate |
-| 6 | 寫進 Figma | Figma 檔＋Variables＋Component sets | HARD：Gate 4.5 instance-required |
+| 6 | 寫進 Figma | Figma 檔＋Variables＋Component sets＋**Icon 圖庫（65 顆）** | HARD：Gate 4.5 instance-required＋圖庫數量對齊 |
 | 7 | 雙向同步 | drift 差異四分類清單 | 設計師 confirm 才寫回 |
 
 步驟主動、鐵則被動。每一步做完先回報、等設計師確認再進下一步——尤其 1→2、4→5、5→6 這三個交棒點。
@@ -198,13 +198,41 @@ node library/tools/studio-server.js          # 啟本地 server（:8899）
   - 判斷法照 figma-rules `variants-policy.decision-test`；禁把可切換的軸畫成獨立不相干節點。
   - 網站的「篩選項／樣式切換」就是這裡的 variant／boolean，維持「codebase 怎麼組合、Figma 就怎麼組合」。
 - **鐵則 4 — token 綁定**：所有色／間距／字級／圓角／陰影綁 Variables（對應 `tokens.export.json`），禁寫死。Q7 要 dark 就建雙 mode collection。
+- **鐵則 4.1 — 建立 ≠ 套用（style／variable 一定要綁回 node，別漏）**：建了 style／variable 只是把它「存進檔案」，component 的 node **不會自動指向它**；要逐 node 呼叫對應 setter 綁上去，否則 node 還是留著 raw 值、style 面板顯示「未使用」——**這就是「有建 style 但 component 沒套到」的破口**。對照表：
+  | 要綁的東西 | 建立 | node 綁定（缺這步就是 raw 值） |
+  |---|---|---|
+  | **文字（字體／字級／行高／字距一包）** | `createTextStyle()` | `await node.setTextStyleIdAsync(style.id)` —— **不要**只設 `node.fontName`／`node.fontSize`／`lineHeight` 就收工 |
+  | **顏色（fill／stroke）** | color variable 或 paint style | `node.setBoundVariable('fills', v)`／`await node.setFillStyleIdAsync(id)`——不要留 hex |
+  | **圓角／間距／尺寸（數值）** | float variable | `node.setBoundVariable('topLeftRadius'／'itemSpacing'／… , v)` |
+  | **陰影／模糊** | `createEffectStyle()` | `await node.setEffectStyleIdAsync(id)` |
+  - **判準**：文字類型（H1／Body／Caption…）用 **text style**（composite，一包封裝），不要拆成 fontSize variable 各綁；純數值（radius／spacing）走 variable。
+  - **綁完自己抽驗**：`node.textStyleId`、`fillStyleId`、`boundVariables` 有值＝綁成功；空字串／無 key＝沒綁上（見 Gate 4.5 綁定稽核）。
 - **鐵則 5 — 原子重用**：複合元件（header／footer／modal）內部的 button／input／menu／icon 一律 INSTANCE_SWAP 到既有原子；沒有就先建原子再組裝，禁 inline 重畫 primitive。
 - **logo**：以 Variables／component 承載，Figma 端鎖寬高度等比（對齊網站三處行為）。
 - **命名**：schema-id（機器讀）/ figma-master / variant-property（Figma 原生慣例 `Prop=value`）三層分開，照 figma-rules `naming`。
 
-**Gate 4.5 — instance-required（HARD）**：push 完檢查每顆選定元件在 Figma 都有 main component + 至少一個 instance demo（複合元件內部原子是 instance 非 detached）。復用框架 Gate 4.5。
+### Icon 圖庫批次寫入（HARD，別漏）
 
-**push Figma 慢（10–20 分）**，動工前先跟設計師講一聲、給預估。
+registry 的 `icon` 那顆只有 `size × tone` 軸、示意圖案固定一顆 —— 它是 **Icon 用法示意 component**，**不是圖庫**。網站 Icon 頁那整套 Phosphor 子集（65 顆）另有正本：
+
+1. **先產正本**：`node sync/build-icon-catalog.mjs` → 生 `library/icons.catalog.json`（自動抽自 gallery `icLibrary()`；gallery 改過就重跑）。這是這一步的**唯一來源**，不要臨場從 gallery 手抄。
+2. **先盤點再建**：`search_design_system` / scan Components page，比對 catalog 的 `name`；**已存在的同名 icon 不重建**，只補缺的（沿用「找不到 ≠ 不存在，先 scan 再動工」）。
+3. **逐顆建成獨立 icon component**：每顆 catalog icon 建一顆 main component——
+   - 統一畫布 **24×24**（viewBox 256 → scale 到 24；fill-based，無 stroke 換算問題）。
+   - `fill` 綁 **`semantic.icon.default`**，不寫死色值（鐵則 4）；currentColor 交給 variable。
+   - 命名三層：schema-id `icon.<name>` / figma-master `Icon/<群組>/<name>` / 依 catalog 的 7 組（通用介面／工作／資料操作／購物／社群溝通／旅遊生活／品牌社群）歸頁。
+4. **整理成 Icon 專頁**：按 7 組分區陳列（對齊網站 Icon 頁的分類與顆數）。
+5. **這 65 顆用「一顆一 component」，不要塞成單一 Icon 的 65 個 `Glyph` variant**（component set 會爆肥、切換慢）。示意 component 與圖庫 component 分工並存。
+
+**Gate 4.5 — instance-required（HARD）**：push 完檢查每顆選定元件在 Figma 都有 main component + 至少一個 instance demo（複合元件內部原子是 instance 非 detached）。復用框架 Gate 4.5。**外加圖庫檢查**：catalog 的 65 顆（或盤點後應補的數量）在 Figma 都有對應 main component，數量對得上才算過——這就是「同事只看到少數幾顆」要防的破口。
+
+**Gate 4.5 綁定稽核 — style/variable 真的套上去了嗎（HARD，防「有建沒套」）**：push 完**用屬性查驗、不用截圖**逐一確認（呼應根 CLAUDE.md 鐵則 9）：
+- 每顆 component `findAll` 出文字 node → 每個 `textStyleId` 都**非空**（沒綁的會是 `""`，代表還是 raw 字級）。
+- 有底色／描邊的 node → `fillStyleId`／`boundVariables.fills` 有值，沒有 hex 硬填。
+- **反向查**：列出這次建的所有 text style／paint style／effect style，逐一看 consumers／usage——**任何一個「未使用（0 usages）」＝有 node 沒綁上，退回補綁**，不是「建好就算過」。
+- 全綁上、0 個未使用 style，才算過關。
+
+**push Figma 慢（10–20 分）**，圖庫 65 顆逐顆建會更久，動工前先跟設計師講一聲、給預估。
 
 ---
 
@@ -216,6 +244,7 @@ node library/tools/studio-server.js          # 啟本地 server（:8899）
 
 ```bash
 node sync/extract-base-tokens.mjs          # 一次性：抽 gallery base token（:root 改了才重跑）
+node sync/build-icon-catalog.mjs           # 抽 gallery icLibrary() → library/icons.catalog.json（icon 增減才重跑）
 node sync/build-component-spec.mjs <name>  # 從 registry 自動生 code 端元件指紋
 # 請 Claude 用 Figma MCP 拉兩份 snapshot 到 projects/<name>/sync/（prompt 見 SYNC_PROMPTS.md）
 node sync/check-token-drift.mjs <name>     # → drift 報告（token 軌，code 為正本）

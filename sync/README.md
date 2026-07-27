@@ -19,6 +19,7 @@
 | `token-adapter.mjs` | 把 code 端（base＋專案 override）與 Figma snapshot 都 normalize 成中性 schema（三 collection：Primitives／Theme／Device）。**最需維護的一支**——token 命名規則在此。 |
 | `check-token-drift.mjs` | Token 軌主腳本。讀 base＋`tokens.export.json`＋`figma-snapshot.json` → 出 drift 報告。 |
 | `build-component-spec.mjs` | 🆕 從 `component-registry.json` **自動生** code 端元件指紋（不用手填，永遠跟 library 同步）。 |
+| `build-icon-catalog.mjs` | 🆕 從 `library/gallery.html` 的 `icLibrary()` **自動抽** 65 顆 Phosphor 子集 → `library/icons.catalog.json`（Step 6「Icon 圖庫批次寫入」的來源正本）。gallery icon 增減才重跑。 |
 | `check-component-drift.mjs` | Component 軌主腳本。逐軸比對 spec 與 `figma-component-snapshot.json`。 |
 | `bump-version.mjs` | Figma 改動吃回專案後，記一筆專案元件庫版本（`source: figma`）→ 網站進站會跳「版本已更新」。 |
 | `SYNC_PROMPTS.md` | 給 Claude 拉 snapshot 的 prompt 手冊。 |
