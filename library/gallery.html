@@ -10231,6 +10231,7 @@ function buildScheduleChart(view){
     const OV=window.__tokOverrides||(window.__tokOverrides={});
     ['root','dark','desktop','tablet','mobile'].forEach(k=>OV[k]=OV[k]||{}); // root=全寬(色彩/L2 light) · dark=L2 dark · desktop/tablet/mobile=響應式尺寸
     const layer=window.__tokLayer||(window.__tokLayer='l1');
+    let refreshExport=null,exportRaf=0;   // 由下方 buildExportSection 掛上：改 token 後即時重繪匯出區 code（rAF 合併，避免拖曳色票每幀重算）
     function apply(){const blk=o=>Object.entries(o).map(([k,v])=>k+':'+v+';').join('');const has=o=>Object.keys(o).length>0;
       let css='';
       if(has(OV.root))css+=':root{'+blk(OV.root)+'}';                                            // 全寬（色彩、L2 light）
@@ -10238,7 +10239,8 @@ function buildScheduleChart(view){
       if(has(OV.desktop))css+='@media(min-width:1024px){:root{'+blk(OV.desktop)+'}}';             // 響應式各 tier 用互斥區間，避免外洩
       if(has(OV.tablet))css+='@media(min-width:768px) and (max-width:1023px){:root{'+blk(OV.tablet)+'}}';
       if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
-      ovr.textContent=css;}
+      ovr.textContent=css;
+      if(refreshExport){cancelAnimationFrame(exportRaf);exportRaf=requestAnimationFrame(refreshExport);}}  // token 改動 → 下方 _variables.scss code 同步更新
     apply();
     view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="btn v-soft i-secondary sz-s st-default live" id="tokCopy"><span>查看程式碼 SCSS</span></button></div>
       <p class="lede">依 <b>DS Framework L1 Primitive → L2 Semantic</b> 架構、以 <b>v0 視覺</b> 為種子的預設 token。<b>L1</b> 純值來源、<b>L2</b> 角色組合（含 light/dark）、<b>框架索引</b> 是唯讀的框架完整定義對照。L1/L2 每列可即時手調、層層往下傳全站。</p>
@@ -10572,10 +10574,12 @@ function buildScheduleChart(view){
       codeWrap.append(gutter,pre);
       let cur=0;
       const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      function paint(){const f=files[cur];const lines=f.get().replace(/\n$/,'').split('\n');
+      function paint(keepScroll){const f=files[cur];const lines=f.get().replace(/\n$/,'').split('\n');
+        const st=codeWrap.scrollTop;
         gutter.textContent=lines.map((_,i)=>i+1).join('\n');
         pre.innerHTML=lines.map(l=>f.lang==='scss'?hlCss(l):(esc(l)||'&nbsp;')).join('\n');
-        codeWrap.scrollTop=0;}
+        codeWrap.scrollTop=keepScroll?st:0;}                                     // 切分頁歸零；改 token 即時刷新時保留捲動位置
+      refreshExport=()=>{if(cur===0)paint(true);};                              // 只有 _variables.scss（files[0]）吃 token 值；其餘檔案靜態、不需刷新
       files.forEach((f,i)=>{const b=ce('button','code-tab');b.type='button';b.textContent=f.name;b.setAttribute('aria-pressed',i===0?'true':'false');
         b.onclick=()=>{cur=i;[...tabs.querySelectorAll(':scope>button')].forEach((x,j)=>x.setAttribute('aria-pressed',j===i?'true':'false'));paint();};tabs.appendChild(b);}); // 只選 button：.seg-pill 也是 tabs 子元素，用 children 會位移一格
       copyBtn.onclick=()=>{navigator.clipboard.writeText(files[cur].get()).then(()=>{const s=copyBtn.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1400);});};
