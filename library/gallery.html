@@ -490,7 +490,7 @@
   .code-actions{display:inline-flex;align-items:center;gap:var(--sp-2);flex:0 0 auto;}  /* 展開＋複製並排 */
   /* 展開 modal 的雙欄程式碼：大網 HTML｜CSS 並排、小網（≤767px）改 tab 切換 */
   .code-dual.live-code{display:flex;flex-direction:column;height:100%;min-height:0;background:transparent;border:0;overflow:visible;} /* 容器透明→欄間露出 modal 白底 */
-  .code-dual>.code-dual-tabs{display:none;}               /* 大網不顯示 tab（雙欄並排）；用 >  提高 specificity 蓋過 .code-tabs 基礎樣式 */
+  .code-dual>.code-dual-tabs{display:none;}               /* 大網不顯示 tab（雙欄並排）*/
   .code-cols{display:flex;flex:1 1 auto;min-height:0;gap:var(--sp-6);} /* HTML／CSS 兩欄間白色 margin */
   .code-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;min-height:0;background:var(--code-bg);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;} /* 各自一塊灰底盒 */
   .code-col-head{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-4);border-bottom:1px solid var(--line);background:var(--code-bg);flex:0 0 auto;} /* 上下 padding 加大讓複製鈕有空間 */
@@ -498,10 +498,7 @@
   .code-col .code-body{overflow:auto;}
   .code-dual .code-pre,.code-dual .code-gutter{font-size:var(--fs-h10);}  /* 展開檢視程式碼字級放大（14px）*/
   @media(max-width:767px){
-    /* 小網 tab：改用與 .sum-tabs/.stab 一致的分段控制樣式（sans、14px、panel pill＋accent），取代原本的迷你 mono 文字 */
-    .code-dual>.code-dual-tabs{display:inline-flex;align-self:flex-start;gap:2px;padding:3px;margin:0 0 var(--sp-4);border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);}
-    .code-dual-tabs .code-tab{height:34px;padding:0 var(--sp-5);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;letter-spacing:normal;color:var(--muted);background:transparent;border-radius:var(--r-sm);}
-    .code-dual-tabs .code-tab.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 3px color-mix(in srgb,var(--ink) 10%,transparent);}
+    .code-dual>.code-dual-tabs{display:inline-flex;align-self:flex-start;margin:0 0 var(--sp-4);} /* 小網顯示 tab（樣式由 .seg 提供）＋與下方欄間距 */
     .code-col{display:none;}
     .code-col.active{display:flex;}
     .code-col-head .col-lang{display:none;}               /* tab 已標示語言，col-head 只留複製 */
@@ -513,11 +510,7 @@
   .tk-tag{color:var(--syn-tag);font-weight:700;}.tk-attr{color:var(--syn-attr);}.tk-str{color:var(--syn-str);}.tk-punct{color:var(--syn-punct);}.tk-txt{color:var(--syn-txt);}
   /* CSS 分頁的語法色（複用同一組 --syn-*）：選擇器＝tag 綠、屬性＝attr 橘、var(--token)＝str 藍加粗、註解＝灰斜體 */
   .tk-sel{color:var(--syn-tag);}.tk-prop{color:var(--syn-attr);}.tk-val{color:var(--syn-txt);}.tk-var{color:var(--syn-str);font-weight:600;}.tk-comment{color:var(--syn-punct);font-style:italic;}
-  /* 程式碼區 HTML／CSS 分頁切換（放 code-head 左側，取代原本 chip 標籤）*/
-  .code-tabs{display:inline-flex;gap:2px;}
-  .code-tab{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.04em;color:var(--syn-punct);background:transparent;border:0;border-radius:var(--r-sm);padding:3px 10px;cursor:pointer;transition:color .12s,background .12s;}
-  .code-tab:hover{color:var(--syn-txt);}
-  .code-tab.on{color:var(--syn-txt);background:color-mix(in srgb,var(--syn-txt) 10%,transparent);}
+  /* 程式碼區 HTML／CSS 分頁切換：直接重用站上的 .seg 分段控制（container＝.code-tabs.seg、按鈕用 aria-pressed），與互動預覽的 Variant/Intent/Size 完全一致 */
   /* 水平版型：段落高度＝左側（控制項＋預覽）決定；程式碼過高則內部捲動（.code-inner 絕對定位、不撐大版面）*/
   .livewrap.lay-h>.live-code{position:relative;}
   .livewrap.lay-h>.live-code>.code-inner{position:absolute;inset:0;}
@@ -4055,9 +4048,9 @@
     const title=opts.title||((chipText||'').replace(/\s*·\s*HTML\s*$/i,''))||'程式碼';
     host.classList.add('live-code');host.innerHTML='';
     const head=ce('div','code-head');
-    const tabs=ce('div','code-tabs');   // HTML／CSS 分頁（取代原本 chip）
-    const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab on';tabH.textContent='HTML';
-    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';
+    const tabs=ce('div','code-tabs seg');   // HTML／CSS 分頁：重用 .seg 分段控制
+    const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab';tabH.textContent='HTML';tabH.setAttribute('aria-pressed','true');
+    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';tabC.setAttribute('aria-pressed','false');
     tabs.append(tabH,tabC);
     const actions=ce('div','code-actions');
     let exp=null;
@@ -4078,7 +4071,7 @@
     function paint(){const raw=cur(),hl=active==='css'?hlCss:hlLine,lines=raw.split('\n');
       gutter.innerHTML=lines.map((_,i)=>`<span>${i+1}</span>`).join('');pre.innerHTML=lines.map(hl).join('\n');}
     function ensureCss(){if(cssRaw==null&&cssProvider){try{cssRaw=cssProvider();}catch(e){cssRaw='/* CSS 產生失敗 */';}}}
-    function activate(t){active=t;tabH.classList.toggle('on',t==='html');tabC.classList.toggle('on',t==='css');if(t==='css')ensureCss();bodyEl.scrollTop=0;paint();}
+    function activate(t){active=t;tabH.setAttribute('aria-pressed',t==='html');tabC.setAttribute('aria-pressed',t==='css');if(t==='css')ensureCss();bodyEl.scrollTop=0;paint();}
     tabH.onclick=()=>activate('html');tabC.onclick=()=>activate('css');
     copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(cur());const s=copy.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1200);};
     return {
@@ -4109,7 +4102,7 @@
   // 雙欄程式碼：大網 HTML｜CSS 並排、小網用 tab 切換（≤767px）；複用 .live-code 的配色與 .code-body 樣式
   function buildDualCode(html,cssRaw,active){
     const wrap=ce('div','live-code code-dual');
-    const tabs=ce('div','code-tabs code-dual-tabs');   // 只在小網顯示
+    const tabs=ce('div','code-tabs code-dual-tabs seg');   // 只在小網顯示；重用 .seg 分段控制
     const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab';tabH.textContent='HTML';
     const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';
     tabs.append(tabH,tabC);
@@ -4118,7 +4111,7 @@
     const colC=codeColumn('css',cssRaw,hlCss);
     cols.append(colH,colC);                              // 兩欄各自灰底盒、中間白色 margin（不放分隔線）
     wrap.append(tabs,cols);
-    const showTab=t=>{const css=t==='css';tabH.classList.toggle('on',!css);tabC.classList.toggle('on',css);
+    const showTab=t=>{const css=t==='css';tabH.setAttribute('aria-pressed',!css);tabC.setAttribute('aria-pressed',css);
       colH.classList.toggle('active',!css);colC.classList.toggle('active',css);};
     tabH.onclick=()=>showTab('html');tabC.onclick=()=>showTab('css');
     showTab(active==='css'?'css':'html');               // 小網初始分頁沿用來源
