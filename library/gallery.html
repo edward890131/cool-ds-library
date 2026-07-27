@@ -9314,6 +9314,9 @@ function buildScheduleChart(view){
     {g:'Spacing 間距（v0 校準）',kind:'text',resp:true,note:'依 v0.app 量測校準：base 較緊、補 6px 階（v0 最常用 gap）；響應式大間距在 tablet/mobile 再收緊。',
      rows:[['--sp-0'],['--sp-1'],['--sp-2','6 · v0 gap'],['--sp-3'],['--sp-4','12 · v0 pad'],['--sp-5'],['--sp-6'],['--sp-7'],['--sp-8'],['--sp-9']],
      def:{'--sp-0':['0px','0px','0px'],'--sp-1':['4px','4px','4px'],'--sp-2':['6px','6px','6px'],'--sp-3':['8px','8px','8px'],'--sp-4':['12px','12px','12px'],'--sp-5':['16px','16px','12px'],'--sp-6':['24px','20px','16px'],'--sp-7':['32px','28px','24px'],'--sp-8':['48px','40px','32px'],'--sp-9':['64px','56px','48px']}},
+    {g:'Font Family 字體',kind:'ref',note:'Latin 走 Geist／Geist Mono；中文（CJK）走系統字 per-character fallback。實際輸出見程式碼區 _font.scss（唯讀對照，非在此編輯）。',
+     rows:[['--font-sans','sans'],['--font-mono','mono']],
+     def:{'--font-sans':"'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', system-ui, sans-serif",'--font-mono':"'Geist Mono', ui-monospace, 'SF Mono', Menlo, 'PingFang TC', 'Noto Sans TC', monospace"}},
     {g:'Typography 複合樣式（text style）',kind:'typo',sample:true,note:'＝ Figma text style：每階字級（隨 device）＋字重＋行高（中/英）綁一包；左側即時預覽用 .ty-h* 渲染。右上切換 device 改字級欄。',
      rows:['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10','h11','h12'],
      sz:{h1:['64px','52px','40px'],h2:['56px','46px','36px'],h3:['48px','40px','32px'],h4:['40px','34px','28px'],h5:['32px','28px','24px'],h6:['24px','22px','20px'],h7:['20px','20px','20px'],h8:['18px','18px','18px'],h9:['16px','16px','16px'],h10:['14px','14px','14px'],h11:['12px','12px','12px'],h12:['10px','10px','10px']},
@@ -9330,7 +9333,7 @@ function buildScheduleChart(view){
     {g:'Line Height 行高',kind:'text',
      rows:[['--lh-tight'],['--lh-snug'],['--lh-normal'],['--lh-relaxed']],
      def:{'--lh-tight':'1.2','--lh-snug':'1.35','--lh-normal':'1.5','--lh-relaxed':'1.6'}},
-    {g:'Elevation 陰影（6 階）',kind:'shadow',note:'左側示意 box 套用實際陰影；暗色模式另有加深版（見框架索引）。',
+    {g:'Elevation 陰影（5 階）',kind:'shadow',note:'左側示意 box 套用實際陰影；暗色模式另有加深版（見框架索引）。',
      rows:[['--e-sm'],['--e-md'],['--e-lg'],['--e-xl'],['--e-2xl']],
      def:{'--e-sm':'0 1px 2px 0 rgba(0,0,0,.05)','--e-md':'0 4px 6px -1px rgba(0,0,0,.10),0 2px 4px -2px rgba(0,0,0,.10)','--e-lg':'0 10px 15px -3px rgba(0,0,0,.10),0 4px 6px -4px rgba(0,0,0,.10)','--e-xl':'0 20px 25px -5px rgba(0,0,0,.10),0 8px 10px -6px rgba(0,0,0,.10)','--e-2xl':'0 25px 50px -12px rgba(0,0,0,.25)'}},
     {g:'Motion 動態',kind:'text',
@@ -9389,7 +9392,7 @@ function buildScheduleChart(view){
      rows:[['h1','48px · 700 · 1.15','重點應用'],['h2','36px · 700 · 1.2','頁面主標'],['h3','28px · 600 · 1.25','區塊主標'],['h4','24px · 600 · 1.3','區塊主標'],['h5','20px · 600 · 1.4','區塊主標'],['h6','18px · 500 · 1.4','區塊次標'],['h7','16px · 500 · 1.5','區塊次標'],['h8','14px · 400 · 1.5','內文/按鈕'],['h9','12px · 400 · 1.5','內文/按鈕'],['h10','10px · 400 · 1.4','輔助']]},
     {t:'Typography · font-family / letter-spacing',note:'框架宣告含 letter-spacing（base 未給值）；本專案字距見 L1 複合樣式分頁。',
      rows:[['sans-zh','（專案填，如 Noto Sans TC）'],['sans-en','（專案填，如 Inter）'],['mono','（專案填，如 JetBrains Mono）'],['letter-spacing','（L0 宣告 / base 未定值）']]},
-    {t:'Elevation 陰影（6 階）',note:'含 light/dark 兩模式（dark 通常加深或改 glow）。',
+    {t:'Elevation 陰影（5 階）',note:'含 light/dark 兩模式（dark 通常加深或改 glow）。',
      rows:[['none','none'],['sm','0 1px 2px 0 rgba(0,0,0,.05)'],['md','0 4px 6px -1px rgba(0,0,0,.10) …'],['lg','0 10px 15px -3px rgba(0,0,0,.10) …'],['xl','0 20px 25px -5px rgba(0,0,0,.10) …'],['2xl','0 25px 50px -12px rgba(0,0,0,.25)']]},
     {t:'Motion 動態',
      rows:[['duration.fast','150ms'],['duration.default','300ms'],['duration.slow','500ms'],['easing.default','cubic-bezier(.4,0,.2,1)','standard'],['easing.in','cubic-bezier(.4,0,1,1)','accelerate'],['easing.out','cubic-bezier(0,0,.2,1)','decelerate'],['easing.spring','cubic-bezier(.34,1.56,.64,1)']]},
@@ -9535,6 +9538,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v14', date:'2026-07-27', title:'Token 頁補齊：字體群組 · Elevation 標題', items:[
+      {tag:'add', t:'Design Token 頁 L1 新增「Font Family 字體」群組（唯讀對照）：顯示 --font-sans／--font-mono，與程式碼區 _font.scss 對齊；不重複寫進 _variables.scss'},
+      {tag:'fix', t:'Elevation 群組標題「6 階」更正為「5 階」（實際為 sm／md／lg／xl／2xl 共 5 顆）'},
+    ]},
     {v:'v13', date:'2026-07-27', title:'元件 SCSS 移除多餘的 :root token 區', items:[
       {tag:'improve', t:'元件程式碼的 SCSS 不再於最上方傾印「用到的 Token（當前值）」的 :root 區——token 已由 Design Token 頁／輸出的 _variables.scss 全域提供（@use 引入），元件只留自己的樣式、直接 var(--token) 取用，避免重複與把當前值寫死（元件本身的 :root[data-theme] 主題規則仍保留）'},
     ]},
@@ -10290,9 +10297,9 @@ function buildScheduleChart(view){
       bodyEl.className='tok-cardgrid'; // 牌卡由左至右排列、寬度不夠再往下
       const TOK_L1_SECTIONS=[
         {t:'色彩 Color',d:'品牌、中性與狀態色階',g:['Neutral 中性色階','Brand 主色（9 階）','Brand 副色（9 階）','Feedback 狀態色（各 9 階）']},
-        {t:'文字 Typography',d:'字級、字重、行高、字距',g:['Typography 複合樣式（text style）','Letter Spacing 字距（中／英）','Font Weight 字重','Line Height 行高']},
+        {t:'文字 Typography',d:'字體、字級、字重、行高、字距',g:['Font Family 字體','Typography 複合樣式（text style）','Letter Spacing 字距（中／英）','Font Weight 字重','Line Height 行高']},
         {t:'間距與尺寸 Spacing & Sizing',d:'間距、圓角、容器、斷點、網格',g:['Spacing 間距（v0 校準）','Radius 圓角（9 階）','Container 容器','Breakpoints 裝置斷點','Grid 網格（per device）']},
-        {t:'效果 Effect',d:'陰影與動態',g:['Elevation 陰影（6 階）','Motion 動態']},
+        {t:'效果 Effect',d:'陰影與動態',g:['Elevation 陰影（5 階）','Motion 動態']},
       ];
       const renderL1Group=gr=>{
         const box=ce('div','tok-group');
