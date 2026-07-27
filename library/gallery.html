@@ -4115,11 +4115,8 @@
       }
     }
     const body=blocks.join('\n\n');
-    const ts=new Set(),toks=[]; body.replace(/var\((--[\w-]+)/g,(_,t)=>{if(!ts.has(t)){ts.add(t);toks.push(t);}return _;}); // 撈用到的 token（首次出現序）
-    const cs=getComputedStyle(document.documentElement);
-    const real=toks.filter(t=>cs.getPropertyValue(t).trim());        // 只列 :root 上解得出值的全域 token（濾掉 --fill 等元件內區域變數）
-    const head=real.length?('/* 用到的 Token（當前值）*/\n:root {\n'+real.map(t=>'  '+t+': '+cs.getPropertyValue(t).trim()+';').join('\n')+'\n}\n\n'):'';
-    const out=head+body; return out?scssify(out):'/* 找不到對應樣式 */';   // 轉成 SCSS 風格（巢狀＋layout 註記）再輸出
+    // 不再輸出 :root token 區：token 已由 Design Token 頁／輸出的 _variables.scss 全域提供（@use 引入），元件只留自己的樣式、直接 var(--token) 取用，避免重複＋把當前值寫死
+    return body?scssify(body):'/* 找不到對應樣式 */';   // 轉成 SCSS 風格（巢狀＋layout 註記）再輸出
   }
   // CSS 語法高亮（逐行；配合 makeCodePanel 的行號渲染）
   function hlCss(line){ if(!line.trim())return '&nbsp;'; const t=line.trim();
@@ -9538,6 +9535,9 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v13', date:'2026-07-27', title:'元件 SCSS 移除多餘的 :root token 區', items:[
+      {tag:'improve', t:'元件程式碼的 SCSS 不再於最上方傾印「用到的 Token（當前值）」的 :root 區——token 已由 Design Token 頁／輸出的 _variables.scss 全域提供（@use 引入），元件只留自己的樣式、直接 var(--token) 取用，避免重複與把當前值寫死（元件本身的 :root[data-theme] 主題規則仍保留）'},
+    ]},
     {v:'v12', date:'2026-07-27', title:'樣式包輸出區優化 · 斷點統一', items:[
       {tag:'improve', t:'Token 頁「輸出 · 樣式包」加卡片標題 header，檔名分頁移到 header 以下；分頁列在手機可橫向捲動，看得到後面的檔案'},
       {tag:'fix', t:'輸出區的程式碼補上語法高亮（原本缺 --syn-* 變數定義所以沒顏色）：token/選擇器/值/註解比照元件頁上色加粗；程式碼區加高'},
