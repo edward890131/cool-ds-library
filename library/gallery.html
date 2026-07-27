@@ -457,10 +457,14 @@
   .ctl-row{display:flex;flex-wrap:wrap;gap:var(--sp-5) var(--sp-7);align-items:flex-start;margin-bottom:var(--sp-6);}
   .ctl{display:flex;flex-direction:column;gap:var(--sp-3);}
   .ctl .lab{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);}
-  .seg{display:inline-flex;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:3px;gap:2px;}
-  .seg button{border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h11);padding:var(--sp-2) var(--sp-4);border-radius:var(--r-sm);cursor:pointer;transition:.12s;}
-  .seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.07);}
-  .seg button:disabled,.seg button.is-off{opacity:.32;cursor:not-allowed;box-shadow:none;} /* 篩選器未勾的軸值→Live 對應選項停用 */
+  .seg{position:relative;display:inline-flex;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:3px;gap:2px;}
+  /* 滑動 pill：跟著 aria-pressed 的按鈕平滑移動（位置/寬高由 JS inline 寫入），取代原本各按鈕自帶的底色方塊；絕對定位＝不佔 flex 版位 */
+  .seg-pill{position:absolute;top:0;left:0;z-index:0;width:0;height:0;border-radius:var(--r-sm);background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.07);transform:translate(0,0);pointer-events:none;
+    transition:transform .25s cubic-bezier(.22,1,.36,1),width .25s cubic-bezier(.22,1,.36,1),height .25s cubic-bezier(.22,1,.36,1);}
+  .seg button{position:relative;z-index:1;border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h11);padding:var(--sp-2) var(--sp-4);border-radius:var(--r-sm);cursor:pointer;transition:color .2s cubic-bezier(.22,1,.36,1);}
+  .seg button[aria-pressed="true"]{color:var(--ink);}  /* 底色改由 .seg-pill 提供（滑動指示器） */
+  .seg button:disabled,.seg button.is-off{opacity:.32;cursor:not-allowed;} /* 篩選器未勾的軸值→Live 對應選項停用 */
+  @media(prefers-reduced-motion:reduce){.seg-pill{transition:none!important;}}
   .checks{display:flex;gap:var(--sp-5);flex-wrap:wrap;padding-top:2px;}
   .chk{display:inline-flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h11);color:var(--muted);cursor:pointer;font-family:var(--font-mono);}
   .chk input{accent-color:var(--accent);width:15px;height:15px;}
@@ -1602,20 +1606,23 @@
   .cps-title{flex:1 1 auto;font-size:var(--cps-fs,var(--fs-h10));font-weight:600;line-height:1.3;color:var(--ink);}
   .cps-lead{display:inline-flex;width:18px;height:18px;flex:0 0 auto;color:var(--muted);}
   .cps-lead svg{width:100%;height:100%;}
-  .cps-caret{display:inline-flex;width:18px;height:18px;flex:0 0 auto;color:var(--muted);transition:transform .2s ease;}
+  /* 手風琴展開緩動：比照 transitions.dev「accordion」的 ease-out-quint 曲線＋250ms，收放更順滑 */
+  .cps-panel{--cps-ease:cubic-bezier(.22,1,.36,1);--cps-dur:250ms;}
+  .cps-caret{display:inline-flex;width:18px;height:18px;flex:0 0 auto;color:var(--muted);transform-origin:center;transition:transform var(--cps-dur) var(--cps-ease);}
   .cps-caret svg{width:100%;height:100%;}
-  /* 展開時 caret 旋轉 180°（下箭頭轉成上箭頭） */
-  .cps-panel.st-expanded .cps-caret,.cps-panel.is-open .cps-caret{transform:rotate(180deg);}
-  /* 加減指示模式：icon 直接換成＋／−，不做旋轉 */
+  /* 展開時 caret 垂直翻轉（scaleY(-1)）：下箭頭「v」壓過一條水平線再翻成上箭頭「^」，動起來像形變而非旋轉掃動（transitions.dev 手法） */
+  .cps-panel.st-expanded .cps-caret,.cps-panel.is-open .cps-caret{transform:scaleY(-1);}
+  /* 加減指示模式：icon 直接換成＋／−，不做翻轉 */
   .cps-panel.ind-pm .cps-caret{transform:none;}
   /* body 外層：grid 0fr→1fr 做「往下展開」動畫，收合時整塊裁切隱藏 */
-  .cps-body-wrap{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .24s ease;}
+  .cps-body-wrap{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows var(--cps-dur) var(--cps-ease);}
   .cps-panel.is-open .cps-body-wrap,.cps-panel.st-expanded .cps-body-wrap{grid-template-rows:1fr;}
-  /* body 內容：段落文字；opacity 搭配外層展開動畫做淡入淡出 */
-  .cps-body{padding:0 var(--sp-4);color:var(--muted);font-size:var(--fs-h10);line-height:1.6;min-height:0;overflow:hidden;opacity:0;transition:opacity .24s ease;}
+  /* body 內容：段落文字；opacity＋輕微 blur 搭配外層展開動畫做「聚焦淡入」（收合時模糊淡出） */
+  .cps-body{padding:0 var(--sp-4);color:var(--muted);font-size:var(--fs-h10);line-height:1.6;min-height:0;overflow:hidden;opacity:0;filter:blur(2px);transition:opacity var(--cps-dur) var(--cps-ease),filter var(--cps-dur) var(--cps-ease);}
   /* 底部留白改由 ::after 提供：padding-bottom 直接寫在 grid item 上會在收合（0fr）時殘留 16px 高度 */
   .cps-body::after{content:'';display:block;height:12px;}
-  .cps-panel.is-open .cps-body,.cps-panel.st-expanded .cps-body{opacity:1;}
+  .cps-panel.is-open .cps-body,.cps-panel.st-expanded .cps-body{opacity:1;filter:blur(0);}
+  @media(prefers-reduced-motion:reduce){.cps-caret,.cps-body-wrap,.cps-body{transition:none!important;}.cps-body{filter:none;}}
 
   /* ---- variant 風格 ---- */
   /* bordered 外框：有外框 + 圓角 */
@@ -2986,7 +2993,20 @@
   .gd-hero-mock{position:relative;z-index:3;margin-top:clamp(28px,4vw,52px);display:flex;flex-direction:column;align-items:center;justify-content:center;}
   .gd-hero-mock .gd-devices{margin:0;width:100%;display:flex;justify-content:center;}
   /* mockup 卡片（已移除半透明外框）：直接就是螢幕，圓角＋柔和落地陰影（aiwork 風堆疊卡）*/
-  .gd-hero-frame{position:relative;width:100%;border-radius:12px;}
+  /* 3D 傾斜（transitions.dev「3d tilt」）：外層 .gd-caro-slide 追游標寫入 --tilt-* 變數（外層不變形，卡片不會把邊緣從游標下抽走），
+     內層卡片依 rotateX/Y 朝游標傾斜；離開緩緩回正。hero 卡很大，角度刻意收斂到 9°＝細膩不誇張 */
+  .gd-hero-frame{position:relative;width:100%;border-radius:12px;
+    transform:perspective(var(--tilt-persp,1100px)) rotateX(var(--tilt-rx,0deg)) rotateY(var(--tilt-ry,0deg));
+    transform-style:preserve-3d;transition:transform var(--tilt-return,900ms) cubic-bezier(.22,1,.36,1);will-change:transform;}
+  .gd-hero-frame.is-tilting{transition:transform var(--tilt-follow,180ms) cubic-bezier(.22,1,.36,1);}  /* 移動中：短促跟隨，1:1 貼游標 */
+  /* 游標光暈 glare：疊在螢幕之上、自訂游標之下（z-index:2＜cursor 的 7）；螢幕混色＝滑過處提亮，離開淡出 */
+  .gd-hero-glare{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;border-radius:12px;mix-blend-mode:screen;
+    background:radial-gradient(circle 220px at var(--tilt-gx,50%) var(--tilt-gy,50%),rgba(255,255,255,.42),rgba(255,255,255,.05) 54%,rgba(255,255,255,0) 84%),
+      radial-gradient(circle 460px at var(--tilt-gx,50%) var(--tilt-gy,50%),rgba(255,255,255,.18),rgba(255,255,255,0) 78%);
+    transition:opacity .3s cubic-bezier(.22,1,.36,1);}
+  .gd-caro-slide.is-active .gd-hero-frame.is-hover .gd-hero-glare{opacity:.28;}
+  @media(prefers-reduced-motion:reduce){.gd-hero-frame{transform:none!important;transition:none!important;}.gd-hero-glare{display:none;}}
+  @media(max-width:767px){.gd-hero-frame{transform:none!important;}.gd-hero-glare{display:none;}}  /* 手機：不傾斜（單欄、觸控） */
   .gd-hero-screen{position:relative;overflow:hidden;border-radius:12px;background:var(--ghbg);max-height:420px;
     box-shadow:0 1px 3px rgba(0,0,0,.14);}   /* 螢幕：裁切內容、hover 目標之容器 */
   .gd-caro-slide.is-active .gd-hero-screen{box-shadow:0 24px 54px -26px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.14);}  /* 最上方主卡加深落地陰影 */
@@ -3845,7 +3865,7 @@
       ax.appendChild(list);host.appendChild(ax);}}
 
   /* ---- live ---- */
-  function seg(key,opts){const s=document.createElement('div');s.className='seg';const gate=active[key];opts.forEach(o=>{const b=document.createElement('button');b.textContent=o;const on=!gate||gate.has(o);b.disabled=!on;b.classList.toggle('is-off',!on);b.setAttribute('aria-pressed',live[key]===o);b.onclick=()=>{if(b.disabled)return;live[key]=o;renderLive();};s.appendChild(b);});return s;}
+  function seg(key,opts){const s=document.createElement('div');s.className='seg';s.dataset.seg='btn-'+key;const gate=active[key];opts.forEach(o=>{const b=document.createElement('button');b.textContent=o;const on=!gate||gate.has(o);b.disabled=!on;b.classList.toggle('is-off',!on);b.setAttribute('aria-pressed',live[key]===o);b.onclick=()=>{if(b.disabled)return;live[key]=o;renderLive();};s.appendChild(b);});return s;}
   function renderLive(){
     ['variant','intent','size'].forEach(k=>{if(active[k]&&!active[k].has(live[k])){const f=AXES[k].find(v=>active[k].has(v));if(f)live[k]=f;}}); // 篩選器連動：選中值被篩掉就跳到第一個啟用值
     const ctl=document.getElementById('liveCtl');ctl.innerHTML='';
@@ -9432,6 +9452,11 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v9', date:'2026-07-27', title:'互動微動效升級（tab 滑動／3D 傾斜／手風琴）', items:[
+      {tag:'add', t:'全站分段控制（tab）改成滑動指示器：切換時白色 pill 平滑滑到目標選項（transitions.dev「tabs sliding」手法），互動預覽篩選、HTML／CSS 分頁、展開 modal 分頁、圖表切換全部同步；連整塊重建的篩選也有滑動感'},
+      {tag:'add', t:'上手指南首屏 mockup 加上 3D 傾斜：滑鼠移動時卡片朝游標方向立體傾斜（±8°）＋游標光暈，離開緩緩回正；桌機專屬、尊重「減少動態」設定'},
+      {tag:'improve', t:'Collapse 摺疊展開精緻化：緩動改用 ease-out-quint 曲線、內容加輕微 blur「聚焦淡入」、指示箭頭改用垂直翻轉（v 壓成一線再翻成 ^）'},
+    ]},
     {v:'v8', date:'2026-07-27', title:'互動預覽與程式碼加上 CSS 分頁', items:[
       {tag:'add', t:'元件頁「互動預覽與程式碼」新增 CSS 分頁：HTML／CSS 一鍵切換、各自複製；CSS 直接從實際樣式表撈出，零脫鉤（改樣式即時反映）'},
       {tag:'add', t:'CSS 分頁列出該元件的所有變體規則（含 hover/focus/停用等狀態），並在最上方附「用到的 Token（當前值）」清單'},
@@ -9859,7 +9884,8 @@ function buildScheduleChart(view){
         pill.insertAdjacentHTML('afterbegin',sd.icon);
         pill.style.pointerEvents='none';
         cur.appendChild(pill);
-        frame.append(scr,cur);
+        const glare=ce('div','gd-hero-glare');   // 3D 傾斜的游標光暈層（螢幕之上、游標之下）
+        frame.append(scr,glare,cur);
         slide.appendChild(frame);
         stage.appendChild(slide);
         frames.push({slide,frame,cur,url:sd.url,native:sd.native});
@@ -9869,13 +9895,25 @@ function buildScheduleChart(view){
         frames.forEach(f=>{const g=f.frame.querySelector('.gd-gh');const s=f.frame.querySelector('.gd-hero-screen');
           if(g&&s)g.style.transform=mob?'':'scale('+(s.clientWidth/f.native)+')';});};
       let active=0;
+      // 3D 傾斜：僅桌機（hover 裝置）＋非「減少動態」啟用；游標與傾斜都以外層 slide rect 量測（slide 不變形→傾斜時邊界不抖）
+      const canTilt=window.matchMedia('(hover:hover)').matches && !window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      const clamp01=v=>v<0?0:v>1?1:v;
+      const resetTilt=f=>{f.frame.classList.remove('is-tilting','is-hover');f.frame.style.setProperty('--tilt-rx','0deg');f.frame.style.setProperty('--tilt-ry','0deg');};
       const setActive=(n)=>{active=((n%SLIDES)+SLIDES)%SLIDES;
-        frames.forEach((f,i)=>f.slide.classList.toggle('is-active',i===active));};
+        frames.forEach((f,i)=>{f.slide.classList.toggle('is-active',i===active);if(i!==active)resetTilt(f);});};  // 切走的卡回正，避免殘留傾斜
       frames.forEach((f,i)=>{
-        f.frame.addEventListener('mouseenter',()=>{if(i===active)f.frame.classList.add('cur-on');});
-        f.frame.addEventListener('mouseleave',()=>f.frame.classList.remove('cur-on'));
-        f.frame.addEventListener('mousemove',e=>{if(i!==active)return;const r=f.frame.getBoundingClientRect();
-          f.cur.style.transform='translate('+(e.clientX-r.left)+'px,'+(e.clientY-r.top)+'px) translate(-50%,-50%)';});
+        f.frame.addEventListener('mouseenter',()=>{if(i===active){f.frame.classList.add('cur-on');if(canTilt)f.frame.classList.add('is-hover');}});
+        f.frame.addEventListener('mouseleave',()=>{f.frame.classList.remove('cur-on');if(canTilt)resetTilt(f);});
+        f.frame.addEventListener('mousemove',e=>{if(i!==active)return;const r=f.slide.getBoundingClientRect();
+          const lx=e.clientX-r.left, ly=e.clientY-r.top;
+          f.cur.style.transform='translate('+lx+'px,'+ly+'px) translate(-50%,-50%)';
+          if(canTilt){const px=clamp01(lx/r.width), py=clamp01(ly/r.height), MAX=16;   // 傾斜幅度：±8°，大卡上立體感明確又不暈
+            f.frame.classList.add('is-tilting');
+            f.frame.style.setProperty('--tilt-ry',((px-.5)*MAX).toFixed(2)+'deg');
+            f.frame.style.setProperty('--tilt-rx',((.5-py)*MAX).toFixed(2)+'deg');
+            f.frame.style.setProperty('--tilt-gx',(px*100).toFixed(1)+'%');
+            f.frame.style.setProperty('--tilt-gy',(py*100).toFixed(1)+'%');}
+        });
         f.frame.addEventListener('click',()=>{if(i===active)window.open(f.url,'_blank','noopener');});
       });
       // 自動輪播（每 5 秒）：timer 存 window，換頁重跑先清；hover 暫停
@@ -11035,6 +11073,57 @@ function buildScheduleChart(view){
     }).catch(()=>{}).finally(()=>{ boot(); window.__dsBaseline=dsSnap(); dsVersionPopup(); });
   })();
   window.addEventListener('hashchange',()=>{const id=hashId()||'guide';if(id!==current){current=id;renderNav();renderView(id);}});
+
+  /* ===== .seg 分段控制：滑動 pill（全站 tab 共用滑動指示器） =====
+     站上所有 tab 都是 .seg（互動預覽篩選／HTML-CSS 分頁／展開 modal 分頁／圖表切換…）。
+     這裡用「單一全域 MutationObserver」讓每個 .seg 內生一顆 .seg-pill，跟著 aria-pressed 的按鈕平滑滑動——
+     不必逐一改各 tab 的切換程式，改一處＝全站同步。做法比照 transitions.dev「tabs sliding」：
+     pill 的 transform/width/height 由此處 inline 寫入，靠 CSS transition 補間。
+     多數 seg 是「原地切換 aria-pressed」→ 直接滑；少數重建型（button 頁篩選走 renderLive 整塊重建）
+     靠 data-seg 幾何快取：新 seg 先落在上一版 active 位置再滑到新位置，重建也有滑動感。*/
+  (function initSegPill(){
+    const lastGeo={};                                  // key＝seg 的 data-seg；存上次 active 的 {l,t,w,h}，供重建型 seg 續接滑動
+    function pillOf(seg){
+      let p=seg.querySelector(':scope>.seg-pill');
+      if(!p){p=document.createElement('span');p.className='seg-pill';p.setAttribute('aria-hidden','true');seg.insertBefore(p,seg.firstChild);}
+      return p;
+    }
+    function measure(seg){
+      const act=seg.querySelector(':scope>button[aria-pressed="true"]');
+      if(!act||act.offsetParent===null)return null;     // 無 active 或 seg 隱藏（如桌機下隱藏的雙欄小網 tab）
+      return {l:act.offsetLeft,t:act.offsetTop,w:act.offsetWidth,h:act.offsetHeight};
+    }
+    function apply(p,g){p.style.opacity='1';p.style.width=g.w+'px';p.style.height=g.h+'px';p.style.transform='translate('+g.l+'px,'+g.t+'px)';}
+    // 把 pill 滑到 active 按鈕位置；animate=false 時暫停 transition 直接 snap（首次掛載／resize）
+    function place(seg,animate){
+      if(!seg||!seg.isConnected)return;
+      const p=pillOf(seg), g=measure(seg);
+      if(!g){p.style.opacity='0';return;}
+      const key=seg.dataset.seg; if(key)lastGeo[key]=g;
+      if(!animate){p.style.transition='none';apply(p,g);void p.offsetWidth;p.style.transition='';}
+      else apply(p,g);
+    }
+    const placeAll=animate=>document.querySelectorAll('.seg').forEach(s=>place(s,animate));
+    const obs=new MutationObserver(muts=>{
+      const inplace=new Set(), fresh=new Set();
+      for(const m of muts){
+        if(m.type==='attributes'){const par=m.target.parentElement;if(par&&par.classList.contains('seg'))inplace.add(par);}
+        else if(m.type==='childList')m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;
+          if(n.classList&&n.classList.contains('seg'))fresh.add(n);
+          n.querySelectorAll&&n.querySelectorAll('.seg').forEach(s=>fresh.add(s));});
+      }
+      // 新掛載的 seg：有快取（重建型）→ 先落舊位置再滑到新位置；無快取（首見）→ snap
+      fresh.forEach(s=>{const key=s.dataset.seg, prev=key&&lastGeo[key];const p=pillOf(s);
+        if(prev){p.style.transition='none';apply(p,prev);void p.offsetWidth;p.style.transition='';requestAnimationFrame(()=>place(s,true));}
+        else requestAnimationFrame(()=>place(s,false));});
+      // 既有 seg 的 aria-pressed 改變 → 原地滑動（跳過剛新建的，避免重複）
+      inplace.forEach(s=>{if(!fresh.has(s))requestAnimationFrame(()=>place(s,true));});
+    });
+    const boot=()=>{obs.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed']});requestAnimationFrame(()=>placeAll(false));};
+    if(document.body)boot();else document.addEventListener('DOMContentLoaded',boot);
+    let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>placeAll(false),120);}); // 版位變動 → 重新對齊（無動畫）
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>placeAll(false)).catch(()=>{}); // 字型載入後按鈕寬可能改變
+  })();
 
   /* ===== 下拉重新整理（手機觸控 pull-to-refresh）：.main 捲到頂再下拉 → 圓圈 loader → 放手過閾值 reload ===== */
   (function(){
