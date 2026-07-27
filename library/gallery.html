@@ -511,14 +511,20 @@
   .code-body{display:flex;flex:1 1 auto;min-height:0;overflow-x:auto;}
   .code-gutter{flex:0 0 auto;display:flex;flex-direction:column;padding:var(--sp-4) var(--sp-3);text-align:right;user-select:none;color:var(--syn-punct);opacity:.5;font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;border-right:1px solid var(--line);}
   .code-pre{margin:0;padding:var(--sp-4);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;color:var(--syn-txt);white-space:pre;}
-  /* Token 頁「輸出 · 樣式包」：檔名分頁＋程式碼檢視＋下載 */
-  .tokexp{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--panel);}
-  .tokexp-bar{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap;padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);}
-  .tokexp-acts{display:inline-flex;gap:var(--sp-2);margin-left:auto;}
-  .tokexp-code{display:flex;max-height:440px;overflow:auto;background:var(--code-bg);}
+  /* Token 頁「輸出 · 樣式包」：header（標題＋動作）＋檔名分頁（手機可橫捲）＋程式碼檢視 */
+  .tokexp{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--panel);
+    --code-bg:var(--panel-2);--syn-tag:#116329;--syn-attr:#953800;--syn-str:#0a3069;--syn-punct:#57606a;--syn-txt:#1f2328;} /* 語法色比照 .live-code，讓 hlCss 上色生效（原本沒定義→程式碼沒顏色）*/
+  .tokexp-head{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);background:var(--panel-2);border-bottom:1px solid var(--line);} /* 卡片標題列（比照 .tok-gh）*/
+  .tokexp-title{font-size:var(--fs-h10);font-weight:600;color:var(--ink);}
+  .tokexp-acts{display:inline-flex;gap:var(--sp-2);margin-left:auto;flex:0 0 auto;}
+  .tokexp-bar{padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch;} /* 檔名分頁列：超出寬度可橫向捲動（手機看得到後面）*/
+  .tokexp-bar .code-tabs{width:max-content;}  /* seg 不被壓縮、超出就由 .tokexp-bar 捲動 */
+  .tokexp-code{display:flex;max-height:600px;overflow:auto;background:var(--code-bg);}  /* 加高 */
   .tokexp-code .code-gutter{display:block;flex-direction:initial;white-space:pre;}   /* 用 textContent＋\n 排行號 → 覆寫成 block+pre 才與 code-pre 對齊 */
   .tokexp-code .code-pre{flex:1 1 auto;}
-  @media(max-width:767px){.tokexp-acts{margin-left:0;width:100%;}.tokexp-bar{gap:var(--sp-2);}}
+  @media(max-width:767px){.tokexp-head{flex-wrap:wrap;}.tokexp-acts{margin-left:0;width:100%;}}
+  @media(prefers-color-scheme:dark){.tokexp{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}}
+  :root[data-theme="dark"] .tokexp{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}
   .tk-tag{color:var(--syn-tag);font-weight:700;}.tk-attr{color:var(--syn-attr);}.tk-str{color:var(--syn-str);}.tk-punct{color:var(--syn-punct);}.tk-txt{color:var(--syn-txt);}
   /* CSS 分頁的語法色（複用同一組 --syn-*）：選擇器＝tag 綠、屬性＝attr 橘、var(--token)＝str 藍加粗、註解＝灰斜體 */
   .tk-sel{color:var(--syn-tag);}.tk-prop{color:var(--syn-attr);}.tk-val{color:var(--syn-txt);}.tk-var{color:var(--syn-str);font-weight:600;}.tk-comment{color:var(--syn-punct);font-style:italic;}
@@ -9335,7 +9341,7 @@ function buildScheduleChart(view){
      def:{'--dur-fast':'150ms','--dur-default':'300ms','--dur-slow':'500ms','--ease-standard':'cubic-bezier(.4,0,.2,1)','--ease-spring':'cubic-bezier(.34,1.56,.64,1)'}},
     {g:'Breakpoints 裝置斷點',kind:'ref',note:'響應式 device mode 分界：Desktop ≥1024／Tablet 768–1023／Mobile <768（字級/間距/圓角/容器隨此變）。',
      rows:[['--bp-mobile','mobile'],['--bp-tablet','tablet'],['--bp-desktop','desktop'],['--bp-wide','wide']],
-     def:{'--bp-mobile':'360px','--bp-tablet':'768px','--bp-desktop':'1024px','--bp-wide':'1920px'}},
+     def:{'--bp-mobile':'480px','--bp-tablet':'768px','--bp-desktop':'1024px','--bp-wide':'1920px'}},
     {g:'Grid 網格（per device）',kind:'ref',note:'各裝置欄數 · gutter · margin（框架值，設計參考）。',
      rows:[['grid-mobile','mobile'],['grid-tablet','tablet'],['grid-desktop','desktop'],['grid-wide','wide']],
      def:{'grid-mobile':'4 欄 · gutter 16 · margin 16','grid-tablet':'8 欄 · gutter 24 · margin 24','grid-desktop':'12 欄 · gutter 32 · margin 64','grid-wide':'12 欄 · gutter 32 · margin 96（≥1920）'}}
@@ -9532,6 +9538,12 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v12', date:'2026-07-27', title:'樣式包輸出區優化 · 斷點統一', items:[
+      {tag:'improve', t:'Token 頁「輸出 · 樣式包」加卡片標題 header，檔名分頁移到 header 以下；分頁列在手機可橫向捲動，看得到後面的檔案'},
+      {tag:'fix', t:'輸出區的程式碼補上語法高亮（原本缺 --syn-* 變數定義所以沒顏色）：token/選擇器/值/註解比照元件頁上色加粗；程式碼區加高'},
+      {tag:'improve', t:'Design Token 頁右上角「複製此頁 CSS」改為「查看程式碼 SCSS」，點擊平滑滾動到下方樣式包程式碼段'},
+      {tag:'improve', t:'裝置斷點數值統一為 480／768／1024／1920：L1 token（--bp-*）與輸出的 _breakpoints.scss（$breakpoint-*）對齊同一組'},
+    ]},
     {v:'v11', date:'2026-07-27', title:'元件程式碼區改用 SCSS 風格呈現', items:[
       {tag:'improve', t:'元件「互動預覽與程式碼」的 CSS 分頁改成 SCSS：同元素的 variant／state／pseudo 用 & 巢狀、後代選擇器降一層，讀起來就是工程端會寫的樣子；分頁與展開 modal、雙欄一併同步'},
       {tag:'improve', t:'寫死的佈局屬性（position／margin／inset／z-index／float）自動加註「// 佈局，可由使用端覆寫」，提醒寬高定位交給使用端；套 class 即得元件樣式的原則不變'},
@@ -10236,7 +10248,7 @@ function buildScheduleChart(view){
       if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
       ovr.textContent=css;}
     apply();
-    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="btn v-soft i-secondary sz-s st-default live" id="tokCopy"><span>複製此頁 CSS</span></button></div>
+    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="btn v-soft i-secondary sz-s st-default live" id="tokCopy"><span>查看程式碼 SCSS</span></button></div>
       <p class="lede">依 <b>DS Framework L1 Primitive → L2 Semantic</b> 架構、以 <b>v0 視覺</b> 為種子的預設 token。<b>L1</b> 純值來源、<b>L2</b> 角色組合（含 light/dark）、<b>框架索引</b> 是唯讀的框架完整定義對照。L1/L2 每列可即時手調、層層往下傳全站。</p>
       <div class="head-rule"></div>
       <div class="tok-lead">
@@ -10466,7 +10478,7 @@ function buildScheduleChart(view){
       return '/* Design Token（v0 種子；含 light/dark 與響應式 device mode）*/\n:root{\n'+base+l+'}\n'+
         ':root[data-theme="dark"]{\n'+d+'}\n@media(max-width:1023px){:root{\n'+tab+'}}\n@media(max-width:767px){:root{\n'+mob+'}}\n';
     }
-    document.getElementById('tokCopy').onclick=()=>{navigator.clipboard.writeText(buildCSS()).then(()=>{const s=document.getElementById('tokCopy').querySelector('span');s.textContent='已複製 ✓';setTimeout(()=>s.textContent='複製此頁 CSS',1500);});};
+    document.getElementById('tokCopy').onclick=()=>{const t=document.getElementById('scssExport');if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}; // 滾動到下方「輸出 · 樣式包」程式碼段
 
     /* ── 輸出 · 樣式包（SCSS）：把當前 token 產成比照 @ec/styles 的檔案，開發端 @use 引入直接套用 ── */
     (function buildExportSection(){
@@ -10475,7 +10487,7 @@ function buildScheduleChart(view){
       const HD=t=>'/* ============================================================\n   Goons DS · '+t+'\n   由 Design Token 頁輸出 · 命名為 source of truth\n   ============================================================ */\n\n';
       // _breakpoints.scss：對齊 token RWD 分層（mobile <768 / tablet 768–1023 / desktop ≥1024），mixin API 比照同事既有慣例
       const F_BP=HD('_breakpoints.scss｜斷點變數與 mixin')+
-        '$breakpoint-sm: 480px;   // 小網\n$breakpoint-md: 768px;   // 平板（token tablet 起點）\n$breakpoint-lg: 1024px;  // 桌機（token desktop 起點）\n$breakpoint-xl: 1440px;  // 大網\n\n'+
+        '$breakpoint-sm: 480px;   // 小網\n$breakpoint-md: 768px;   // 平板（token tablet 起點）\n$breakpoint-lg: 1024px;  // 桌機（token desktop 起點）\n$breakpoint-xl: 1920px;  // 大網（token wide）\n\n'+
         '@mixin breakpoint-up($bp) {\n'+
         '  @if $bp == sm { @media (min-width: $breakpoint-sm) { @content; } }\n'+
         '  @else if $bp == md { @media (min-width: $breakpoint-md) { @content; } }\n'+
@@ -10554,7 +10566,8 @@ function buildScheduleChart(view){
         {name:'README.md',lang:'md',get:()=>F_README},
       ];
       const sec=section(view,'輸出 · 樣式包（SCSS）','把目前的 token 產成比照 @ec/styles 的樣式包（_variables／_breakpoints／_font／layout reset／README），開發端 @use 引入、直接以 var(--token) 取用與套 class。');
-      const box=ce('div','tokexp');
+      const box=ce('div','tokexp');box.id='scssExport';   // 供右上「查看程式碼 SCSS」滾動定位
+      const head=ce('div','tokexp-head');const headTitle=ce('span','tokexp-title');headTitle.textContent='樣式包檔案（點分頁切換）';  // 卡片標題列
       const bar=ce('div','tokexp-bar');
       const tabs=ce('div','code-tabs seg');   // 檔名分頁（重用站上 .seg 滑動分段控制）
       const acts=ce('div','tokexp-acts');
@@ -10576,7 +10589,9 @@ function buildScheduleChart(view){
       copyBtn.onclick=()=>{navigator.clipboard.writeText(files[cur].get()).then(()=>{const s=copyBtn.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1400);});};
       dlBtn.onclick=()=>dsDownloadText(files[cur].name,files[cur].get());
       dlAll.onclick=()=>{files.forEach((f,i)=>setTimeout(()=>dsDownloadText(f.name,f.get()),i*140));const s=dlAll.querySelector('span');const o=s.textContent;s.textContent='已下載 ✓';setTimeout(()=>s.textContent=o,1600);}; // 逐檔錯開下載，避免瀏覽器擋多檔
-      bar.append(tabs,acts);box.append(bar,codeWrap);sec.appendChild(box);
+      head.append(headTitle,acts);   // header：標題 + 動作按鈕
+      bar.appendChild(tabs);          // tab 列在 header 以下
+      box.append(head,bar,codeWrap);sec.appendChild(box);
       paint();
     })();
   }
