@@ -487,10 +487,35 @@
   .code-inner{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;}
   .code-head{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);background:var(--code-bg);flex:0 0 auto;}
   .code-chip{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.06em;color:var(--syn-punct);}
+  .code-actions{display:inline-flex;align-items:center;gap:var(--sp-2);flex:0 0 auto;}  /* 展開＋複製並排 */
+  /* 展開 modal 的雙欄程式碼：大網 HTML｜CSS 並排、小網（≤767px）改 tab 切換 */
+  .code-dual.live-code{display:flex;flex-direction:column;height:100%;min-height:0;background:transparent;border:0;overflow:visible;} /* 容器透明→欄間露出 modal 白底 */
+  .code-dual>.code-dual-tabs{display:none;}               /* 大網不顯示 tab（雙欄並排）；用 >  提高 specificity 蓋過 .code-tabs 基礎樣式 */
+  .code-cols{display:flex;flex:1 1 auto;min-height:0;gap:var(--sp-6);} /* HTML／CSS 兩欄間白色 margin */
+  .code-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;min-height:0;background:var(--code-bg);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;} /* 各自一塊灰底盒 */
+  .code-col-head{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-4);border-bottom:1px solid var(--line);background:var(--code-bg);flex:0 0 auto;} /* 上下 padding 加大讓複製鈕有空間 */
+  .col-lang{font-family:var(--font-mono);font-size:var(--fs-h10);letter-spacing:.06em;color:var(--syn-punct);font-weight:600;} /* HTML／CSS 標籤放大 */
+  .code-col .code-body{overflow:auto;}
+  .code-dual .code-pre,.code-dual .code-gutter{font-size:var(--fs-h10);}  /* 展開檢視程式碼字級放大（14px）*/
+  @media(max-width:767px){
+    .code-dual>.code-dual-tabs{display:flex;gap:2px;padding:var(--sp-2) var(--sp-4);border-bottom:1px solid var(--line);}
+    .code-cols>.code-divider{display:none;}
+    .code-col{display:none;}
+    .code-col.active{display:flex;}
+    .code-col-head .col-lang{display:none;}               /* tab 已標示語言，col-head 只留複製 */
+    .code-col-head{justify-content:flex-end;}
+  }
   .code-body{display:flex;flex:1 1 auto;min-height:0;overflow-x:auto;}
   .code-gutter{flex:0 0 auto;display:flex;flex-direction:column;padding:var(--sp-4) var(--sp-3);text-align:right;user-select:none;color:var(--syn-punct);opacity:.5;font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;border-right:1px solid var(--line);}
   .code-pre{margin:0;padding:var(--sp-4);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;color:var(--syn-txt);white-space:pre;}
   .tk-tag{color:var(--syn-tag);font-weight:700;}.tk-attr{color:var(--syn-attr);}.tk-str{color:var(--syn-str);}.tk-punct{color:var(--syn-punct);}.tk-txt{color:var(--syn-txt);}
+  /* CSS 分頁的語法色（複用同一組 --syn-*）：選擇器＝tag 綠、屬性＝attr 橘、var(--token)＝str 藍加粗、註解＝灰斜體 */
+  .tk-sel{color:var(--syn-tag);}.tk-prop{color:var(--syn-attr);}.tk-val{color:var(--syn-txt);}.tk-var{color:var(--syn-str);font-weight:600;}.tk-comment{color:var(--syn-punct);font-style:italic;}
+  /* 程式碼區 HTML／CSS 分頁切換（放 code-head 左側，取代原本 chip 標籤）*/
+  .code-tabs{display:inline-flex;gap:2px;}
+  .code-tab{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.04em;color:var(--syn-punct);background:transparent;border:0;border-radius:var(--r-sm);padding:3px 10px;cursor:pointer;transition:color .12s,background .12s;}
+  .code-tab:hover{color:var(--syn-txt);}
+  .code-tab.on{color:var(--syn-txt);background:color-mix(in srgb,var(--syn-txt) 10%,transparent);}
   /* 水平版型：段落高度＝左側（控制項＋預覽）決定；程式碼過高則內部捲動（.code-inner 絕對定位、不撐大版面）*/
   .livewrap.lay-h>.live-code{position:relative;}
   .livewrap.lay-h>.live-code>.code-inner{position:absolute;inset:0;}
@@ -1731,6 +1756,13 @@
   .mdl-overlay .mdl-card{animation:mdl-pop .16s ease-out;max-height:100%;}
   @keyframes mdl-fade{from{opacity:0;}to{opacity:1;}}
   @keyframes mdl-pop{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
+  /* 展開檢視程式碼：全頁 fixed overlay（非舞台內 absolute）＋大版 modal 填滿高度、程式碼內部捲動 */
+  .mdl-overlay.mdl-fixed{position:fixed;inset:0;z-index:1000;border-radius:0;padding:clamp(16px,4vw,48px);}
+  .mdl-code-modal{width:100%;height:min(88vh,900px);}
+  .mdl-code-content{flex:1 1 auto;min-height:0;padding:var(--sp-4) var(--sp-5) var(--sp-5);overflow:hidden;}
+  .mdl-code-content>div{height:100%;}                                   /* codeHost 撐滿 */
+  .mdl-code-content .live-code{height:100%;margin-top:0;}
+  .mdl-code-content .live-code .code-body{overflow-y:auto;}             /* 程式碼過高→內部捲動 */
   /* ---- 行動版 bottom sheet：貼齊舞台底部、全寬、上緣圓角（下緣不圓）、最高 95%（示意 95vh）、由下往上滑入 ---- */
   .mdl-overlay.mdl-sheet-ov{align-items:flex-end;padding:var(--sp-5) 0 0;overflow:hidden;}
   .mdl-overlay .mdl-card.mdl-sheet{max-width:none;width:100%;max-height:95%;
@@ -3839,7 +3871,13 @@
       const b=mkBtn({variant:live.variant,intent:live.intent,size:live.size,lead:live.lead,trail:live.trail,iconOnly:live.iconOnly,disabled:live.disabled,isLive:true});
       if(!live.iconOnly&&live.text&&live.text.trim()){const sp=b.querySelector('span');if(sp)sp.textContent=live.text.trim();}
       stage.appendChild(b);
-      if(codeHost){ if(!cp)cp=makeCodePanel(codeHost,'Button · HTML'); cp.set(liveMarkup(b)); }
+      if(codeHost){ if(!cp){cp=makeCodePanel(codeHost,'Button · HTML');
+        // CSS 分頁：用 mkBtn 列舉 variant/intent/size＋各 bool 撈出整顆 button 的樣式
+        cp.setCssProvider(()=>componentCss(
+          st=>mkBtn(Object.assign({variant:'solid',intent:'primary',size:'m',isLive:true},st)),
+          [{key:'variant',options:AXES.variant},{key:'intent',options:AXES.intent},{key:'size',options:AXES.size},
+           {key:'lead',options:[true,false]},{key:'trail',options:[true,false]},{key:'iconOnly',options:[true,false]},{key:'disabled',options:[true,false]}]));
+      } cp.set(liveMarkup(b)); }
     }
     paintLive();
     const free=document.getElementById('liveFree');free.innerHTML='';
@@ -3853,6 +3891,7 @@
   const ICON_PLUS='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>';
   const ICON_CARET='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const ICON_CLOSE='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
+  const ICON_EXPAND='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M144,40a8,8,0,0,1,8-8h56a8,8,0,0,1,8,8V96a8,8,0,0,1-16,0V59.31l-42.34,42.35a8,8,0,0,1-11.32-11.32L188.69,48H152A8,8,0,0,1,144,40ZM101.66,154.34a8,8,0,0,0-11.32,0L48,196.69V160a8,8,0,0,0-16,0v56a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16H59.31l42.35-42.34A8,8,0,0,0,101.66,154.34ZM208,152a8,8,0,0,0-8,8v36.69l-42.34-42.35a8,8,0,0,0-11.32,11.32L196.69,208H160a8,8,0,0,0,0,16h56a8,8,0,0,0,8-8V160A8,8,0,0,0,208,152ZM40,104a8,8,0,0,0,8-8V59.31l42.34,42.35a8,8,0,0,0,11.32-11.32L67.31,48H104a8,8,0,0,0,0-16H48a8,8,0,0,0-8,8V96A8,8,0,0,0,40,104Z"/></svg>';
   /* x-circle（fill）：灰底圓 + 鏤空 ×，給輸入框清除用 */
   const ICON_XCIRCLE='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.13,104.13,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
   const ICON_SEARCH='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>';
@@ -3934,19 +3973,176 @@
     }
     return ser(node,0);
   }
-  // 建立「程式碼區」面板（populate host）：chip 標籤 + 複製鈕（library mkBtn 原子）+ 行號 gutter + 高亮；回傳 { set(raw) }
-  function makeCodePanel(host,chipText){
+  /* ---- 共用：從實際樣式表撈「這顆元件用到的所有變體 CSS」----
+     做法：用元件自己的建構器列舉各軸選項渲染 → 聯集所有出現過的 class（精準，不摻別元件的 v-line/i-brand）
+     → 比對 <style> 裡選擇器命中這些 class 的規則 → 撈出來。來源＝同一份 <style>，零脫鉤（改樣式即時反映）。*/
+  function collectClasses(node,set){ if(!node||node.nodeType!==1)return;
+    const add=el=>{(el.getAttribute('class')||'').split(/\s+/).forEach(c=>{if(c)set.add(c);});};
+    add(node); node.querySelectorAll('*').forEach(add); }
+  const CSS_UTIL=new Set(['live','is-off','st-default']);           // 純運行期 class，不拿來配對（否則會撈到不相干全域規則）
+  const ATOM_SET=new Set(['btn','tg','chip','field','cbx','rdo','switch']); // 會被複合元件巢狀取用的原子 base（＋前綴 im-/pr- 為 image/price）
+  const clsList=el=>((el&&el.getAttribute&&el.getAttribute('class'))||'').split(/\s+/).filter(Boolean);
+  const isAtomCls=c=>ATOM_SET.has(c)||/^(im|pr)-/.test(c);          // 是否為「原子元件」的 base
+  const isUtilCls=c=>/^(v|i|sz|st|is|live)-/.test(c)||CSS_UTIL.has(c); // 變體/狀態/運行期工具 class（不拿來當自己的 prefix）
+  function fmtRule(txt){ const m=txt.match(/^([^{]+)\{([\s\S]*)\}\s*$/); if(!m)return txt;   // 把單行 cssText 攤成多行（每宣告一行）好讀
+    const sel=m[1].trim().replace(/\s*,\s*/g,',\n');
+    const decls=m[2].split(';').map(d=>d.trim()).filter(Boolean).map(d=>'  '+d+';');
+    return sel+' {\n'+decls.join('\n')+'\n}'; }
+  function componentCss(renderFn,axes){
+    // 推導「這顆元件自己的 prefix」：來自 root＋『最大的第一層子』（依子孫數）的非工具 class 及其字首字段。
+    // 用最大子而非全部子：input 的主角是 .field（原子但最大）、modal 的 .btn 只是觸發鈕（不最大）→ 精準區分自己 vs 巢狀。
+    const ownP=new Set(),stem=c=>c.split('-')[0];
+    const addStems=el=>{ if(el)clsList(el).forEach(c=>{if(!isUtilCls(c)){ownP.add(c);ownP.add(stem(c));}}); };
+    let first=null; try{first=renderFn({});}catch(e){}
+    if(first&&first.nodeType===1){ addStems(first);
+      let best=null,bestN=-1; for(const ch of first.children){ if(ch.nodeType!==1)continue; const n=ch.querySelectorAll('*').length; if(n>bestN){bestN=n;best=ch;} }
+      addStems(best); }
+    const sharesOwn=c=>[...ownP].some(p=>c===p||c.startsWith(p+'-'));
+    const foreignAtom=c=>isAtomCls(c)&&!sharesOwn(c);               // 外來原子 base（例：卡片/彈窗內的 .btn；但 button 頁自己的 .btn 不算）
+    const ownable=c=>!isUtilCls(c)&&!foreignAtom(c);               // 這個 class 是否算「自己的」
+    const skipChild=cs=>cs.length>0&&cs.some(isAtomCls)&&!cs.some(ownable); // 純外來原子子樹（如單純的 .btn / .im-box）→ 整棵略過
+    const set=new Set();
+    // 逐元素收 class：外來原子 base 不收；若這個元素本身是外來原子（如 .btn.mdl-reopen），連它的變體/工具 class（v-solid…）也不收（那是原子的樣式），只留自家 namespace（.mdl-reopen）
+    const addFrom=cs=>{ const foreignEl=cs.some(foreignAtom);
+      cs.forEach(c=>{ if(foreignAtom(c))return; if(foreignEl&&isUtilCls(c))return; set.add(c); }); };
+    const collect=root=>{ if(!root||root.nodeType!==1)return;
+      addFrom(clsList(root));                                        // root 一定算自己
+      (function walk(el){ for(const ch of el.children){ if(ch.nodeType!==1)continue;
+        const cs=clsList(ch); if(skipChild(cs))continue;
+        addFrom(cs); walk(ch); } })(root); };
+    const run=ov=>{ try{const n=renderFn(ov||{}); if(n&&n.nodeType===1)collect(n);}catch(e){} };
+    run({}); (axes||[]).forEach(a=>(a.options||[]).forEach(o=>run({[a.key]:o})));  // 初始＋每軸每選項各渲染一次
+    const union=new Set([...set].filter(c=>!CSS_UTIL.has(c)&&!/live-(stage|root)/.test(c))); // 濾掉純運行期＋ live 展示外殼 class
+    if(!union.size)return '/* 找不到對應樣式 */';
+    // 一條規則只在「它某段選擇器裡的『結構 class』全屬於這顆元件」時才收：
+    // 結構 class＝濾掉狀態(st-*)與運行期(live…)後剩的 class；例 .v-solid.st-hover→{v-solid}⊆聯集✓、.cbx.st-hover→{cbx}✗、.row-demo .btn→{row-demo,btn}✗
+    const hit=sel=>sel.split(',').some(part=>{
+      const cl=(part.match(/\.[-\w]+/g)||[]).map(c=>c.slice(1)).filter(c=>!/^st-/.test(c)&&!CSS_UTIL.has(c));
+      return cl.length&&cl.every(c=>union.has(c));
+    });
+    const blocks=[],seen=new Set();
+    for(const sheet of document.styleSheets){ let rules; try{rules=sheet.cssRules;}catch(e){continue;} if(!rules)continue;
+      for(const r of rules){
+        if(r.type===1){ if(hit(r.selectorText)&&!seen.has(r.cssText)){seen.add(r.cssText);blocks.push(fmtRule(r.cssText));} }
+        else if(r.type===4){ const seg=['@media '+r.conditionText+' {']; // 響應式：內部命中的規則包在 @media 內
+          for(const x of r.cssRules){ if(x.type===1&&hit(x.selectorText)&&!seen.has(x.cssText)){seen.add(x.cssText);seg.push(fmtRule(x.cssText).split('\n').map(l=>'  '+l).join('\n'));} }
+          if(seg.length>1){seg.push('}');blocks.push(seg.join('\n'));} }
+      }
+    }
+    const body=blocks.join('\n\n');
+    const ts=new Set(),toks=[]; body.replace(/var\((--[\w-]+)/g,(_,t)=>{if(!ts.has(t)){ts.add(t);toks.push(t);}return _;}); // 撈用到的 token（首次出現序）
+    const cs=getComputedStyle(document.documentElement);
+    const real=toks.filter(t=>cs.getPropertyValue(t).trim());        // 只列 :root 上解得出值的全域 token（濾掉 --fill 等元件內區域變數）
+    const head=real.length?('/* 用到的 Token（當前值）*/\n:root {\n'+real.map(t=>'  '+t+': '+cs.getPropertyValue(t).trim()+';').join('\n')+'\n}\n\n'):'';
+    return head+body||'/* 找不到對應樣式 */';
+  }
+  // CSS 語法高亮（逐行；配合 makeCodePanel 的行號渲染）
+  function hlCss(line){ if(!line.trim())return '&nbsp;'; const t=line.trim();
+    if(t.startsWith('/*')||t.endsWith('*/')||t.startsWith('*'))return `<span class="tk-comment">${escHTML(line)}</span>`;
+    const dm=line.match(/^(\s*)([-\w]+)(\s*):(\s*)(.+?)(;?)\s*$/);    // 宣告 prop: value;
+    if(dm&&!/[{}]/.test(dm[5])){ const val=escHTML(dm[5])
+        .replace(/(--[\w-]+)/g,'<span class="tk-var">$1</span>')
+        .replace(/(#[0-9a-fA-F]{3,8})\b/g,'<span class="tk-str">$1</span>');
+      return `${dm[1]}<span class="tk-prop">${escHTML(dm[2])}</span><span class="tk-punct">:</span>${dm[4]}<span class="tk-val">${val}</span><span class="tk-punct">${dm[6]}</span>`; }
+    return `<span class="tk-sel">${escHTML(line)}</span>`;            // 選擇器／大括號行
+  }
+  // 建立「程式碼區」面板（populate host）：HTML／CSS 分頁 + 展開/複製鈕（library mkBtn 原子）+ 行號 gutter + 高亮；回傳 { set(html), setCssProvider(fn), setTab(t) }
+  // opts.title＝展開 modal 標題；opts.expandable=false＝不顯示展開鈕（modal 內部面板用，避免遞迴）
+  function makeCodePanel(host,chipText,opts){
+    opts=opts||{};
+    const title=opts.title||((chipText||'').replace(/\s*·\s*HTML\s*$/i,''))||'程式碼';
     host.classList.add('live-code');host.innerHTML='';
     const head=ce('div','code-head');
-    const chip=ce('span','code-chip');chip.textContent=chipText||'HTML';
+    const tabs=ce('div','code-tabs');   // HTML／CSS 分頁（取代原本 chip）
+    const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab on';tabH.textContent='HTML';
+    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';
+    tabs.append(tabH,tabC);
+    const actions=ce('div','code-actions');
+    let exp=null;
+    if(opts.expandable!==false){        // 展開鈕：icon-only，開大 modal 看程式碼（複用 mkBtn 原子）
+      exp=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});exp.type='button';
+      exp.classList.add('icon-only');exp.innerHTML=ICON_EXPAND;exp.title='展開檢視';exp.setAttribute('aria-label','展開檢視');
+      exp.onclick=()=>openCodeModal({title:componentName(current)+'的程式碼',html:htmlRaw,cssProvider,active});   // 標題＝當前元件名＋的程式碼；傳當前 HTML＋CSS 產生器＋當前分頁
+      actions.append(exp);
+    }
     const copy=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});copy.type='button';copy.querySelector('span').textContent='複製';
-    head.append(chip,copy);
+    actions.append(copy);
+    head.append(tabs,actions);
     const bodyEl=ce('div','code-body');const gutter=ce('div','code-gutter');const pre=ce('pre','code-pre');
     bodyEl.append(gutter,pre);
     const inner=ce('div','code-inner');inner.append(head,bodyEl);host.append(inner); // 包一層供水平版型絕對定位（高度不撐大版面）
-    let raw='';
+    let htmlRaw='',cssRaw=null,cssProvider=null,active='html';   // cssRaw lazy：切到 CSS 分頁才產生並快取（各變體固定、不隨切換控制項改）
+    const cur=()=>active==='css'?(cssRaw!=null?cssRaw:''):htmlRaw;
+    function paint(){const raw=cur(),hl=active==='css'?hlCss:hlLine,lines=raw.split('\n');
+      gutter.innerHTML=lines.map((_,i)=>`<span>${i+1}</span>`).join('');pre.innerHTML=lines.map(hl).join('\n');}
+    function ensureCss(){if(cssRaw==null&&cssProvider){try{cssRaw=cssProvider();}catch(e){cssRaw='/* CSS 產生失敗 */';}}}
+    function activate(t){active=t;tabH.classList.toggle('on',t==='html');tabC.classList.toggle('on',t==='css');if(t==='css')ensureCss();bodyEl.scrollTop=0;paint();}
+    tabH.onclick=()=>activate('html');tabC.onclick=()=>activate('css');
+    copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(cur());const s=copy.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1200);};
+    return {
+      set(r){htmlRaw=r;if(active==='html')paint();},                       // 相容舊呼叫：設 HTML（切換控制項時每次更新）
+      setCssProvider(fn){cssProvider=fn;cssRaw=null;if(active==='css'){ensureCss();paint();}},  // 設 CSS 產生器（lazy，只在看 CSS 分頁時執行）
+      setTab(t){activate(t==='css'?'css':'html');}                          // 外部指定分頁（展開 modal 沿用來源分頁）
+    };
+  }
+  const prettyName=s=>String(s||'').split(/[-_\s]+/).filter(Boolean).map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ')||'程式碼'; // input→Input、product-card→Product Card
+  // 元件顯示名稱：以當前頁 id 查 NAV（含中英，如「Product Card 商品卡」）；查不到退回 DIAL_SPECS.label 或字首正名
+  function componentName(id){
+    for(const g of NAV){const it=(g.items||[]).find(x=>x.id===id);if(it&&it.name)return it.name;}
+    if(typeof DIAL_SPECS!=='undefined'&&DIAL_SPECS[id]&&DIAL_SPECS[id].label)return DIAL_SPECS[id].label;
+    return prettyName(id);
+  }
+  // 一欄程式碼（行號＋高亮＋複製）：dual 版的單欄與 tab 內容共用
+  function codeColumn(lang,raw,hl){
+    const col=ce('div','code-col');col.dataset.lang=lang;
+    const ch=ce('div','code-col-head');
+    const lab=ce('span','col-lang');lab.textContent=lang.toUpperCase();
+    const copy=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});copy.type='button';copy.querySelector('span').textContent='複製';
     copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(raw);const s=copy.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1200);};
-    return {set(r){raw=r;const lines=r.split('\n');gutter.innerHTML=lines.map((_,i)=>`<span>${i+1}</span>`).join('');pre.innerHTML=lines.map(hlLine).join('\n');}};
+    ch.append(lab,copy);
+    const body=ce('div','code-body');const g=ce('div','code-gutter');const pre=ce('pre','code-pre');
+    const lines=(raw||'').split('\n');g.innerHTML=lines.map((_,i)=>`<span>${i+1}</span>`).join('');pre.innerHTML=lines.map(hl).join('\n');
+    body.append(g,pre);col.append(ch,body);return col;
+  }
+  // 雙欄程式碼：大網 HTML｜CSS 並排、小網用 tab 切換（≤767px）；複用 .live-code 的配色與 .code-body 樣式
+  function buildDualCode(html,cssRaw,active){
+    const wrap=ce('div','live-code code-dual');
+    const tabs=ce('div','code-tabs code-dual-tabs');   // 只在小網顯示
+    const tabH=document.createElement('button');tabH.type='button';tabH.className='code-tab';tabH.textContent='HTML';
+    const tabC=document.createElement('button');tabC.type='button';tabC.className='code-tab';tabC.textContent='CSS';
+    tabs.append(tabH,tabC);
+    const cols=ce('div','code-cols');
+    const colH=codeColumn('html',html,hlLine);
+    const colC=codeColumn('css',cssRaw,hlCss);
+    cols.append(colH,colC);                              // 兩欄各自灰底盒、中間白色 margin（不放分隔線）
+    wrap.append(tabs,cols);
+    const showTab=t=>{const css=t==='css';tabH.classList.toggle('on',!css);tabC.classList.toggle('on',css);
+      colH.classList.toggle('active',!css);colC.classList.toggle('active',css);};
+    tabH.onclick=()=>showTab('html');tabC.onclick=()=>showTab('css');
+    showTab(active==='css'?'css':'html');               // 小網初始分頁沿用來源
+    return wrap;
+  }
+  // 展開檢視：用 library 大版 modal（mdl-larger 1224px）＋現成 mdlClose ×；內容為雙欄程式碼（大網並排／小網 tab）
+  function openCodeModal(o){
+    o=o||{};
+    const overlay=ce('div','mdl-overlay mdl-fixed');
+    const card=ce('div','mdl-card mdl-kind-modal mdl-larger mdl-code-modal');
+    const mhead=ce('div','mdl-mhead');
+    const ht=ce('div','mdl-mhead-txt');const t=ce('div','mdl-title');t.textContent=o.title||'程式碼';ht.appendChild(t);
+    mhead.appendChild(ht);
+    const x=mdlClose(false);mhead.appendChild(x);       // 複用 modal 的關閉 ×
+    card.appendChild(mhead);
+    const content=ce('div','mdl-content mdl-code-content');
+    let cssRaw='';if(o.cssProvider){try{cssRaw=o.cssProvider();}catch(e){cssRaw='/* CSS 產生失敗 */';}}
+    content.appendChild(buildDualCode(o.html||'',cssRaw,o.active));
+    card.appendChild(content);
+    overlay.appendChild(card);
+    const prevOverflow=document.body.style.overflow;
+    const close=()=>{overlay.remove();document.removeEventListener('keydown',onKey);document.body.style.overflow=prevOverflow;};
+    const onKey=e=>{if(e.key==='Escape')close();};
+    x.onclick=close;overlay.addEventListener('click',e=>{if(e.target===overlay)close();}); // × / 遮罩空白 / Esc 皆可關閉
+    document.addEventListener('keydown',onKey);
+    document.body.style.overflow='hidden';document.body.appendChild(overlay);
   }
   // 套用版型到 livewrap；水平時掛拖拉分隔線（預設 code 1/3、最小 200px、左欄也保留 200px）
   function applyLiveLayout(wrap,resizer){
@@ -3996,6 +4192,9 @@
     if(!inSummary){
       resizer=ce('div','lay-resizer');resizer.title='拖曳調整程式碼寬度';wrap.appendChild(resizer);
       const codeEl=ce('div','live-code');cp=makeCodePanel(codeEl,cfg.codeLabel||((cfg.gate||'HTML')+' · HTML'));wrap.appendChild(codeEl);
+      // CSS 分頁：用 cfg.render 列舉各軸（segs＋bools）變體撈出整顆元件的樣式
+      const cssAxes=[...(cfg.segs||[]).map(s=>({key:s.key,options:s.options})),...(cfg.bools||[]).map(b=>({key:b.key,options:[true,false]}))];
+      cp.setCssProvider(()=>componentCss(st=>cfg.render(Object.assign({},cfg.initial||{},st)),cssAxes));
     }
     if(cfg.free){if(cfg.note){const n=ce('p','live-note');n.innerHTML=cfg.note;wrap.appendChild(n);}
       const f=ce('div','live-free');cfg.free().forEach(nd=>f.appendChild(nd));wrap.appendChild(f);}
@@ -9238,6 +9437,12 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v8', date:'2026-07-27', title:'互動預覽與程式碼加上 CSS 分頁', items:[
+      {tag:'add', t:'元件頁「互動預覽與程式碼」新增 CSS 分頁：HTML／CSS 一鍵切換、各自複製；CSS 直接從實際樣式表撈出，零脫鉤（改樣式即時反映）'},
+      {tag:'add', t:'CSS 分頁列出該元件的所有變體規則（含 hover/focus/停用等狀態），並在最上方附「用到的 Token（當前值）」清單'},
+      {tag:'improve', t:'複合元件（卡片／彈窗／表格…）的 CSS 只顯示自己的樣式，自動排除內部巢狀的 button／tag 等原子；CSS 分頁加上語法高亮'},
+      {tag:'add', t:'程式碼區複製鈕旁新增「展開」鈕：開啟大版 modal（library 元件，≤1224px，標題＝「元件名 的程式碼」）；大網 HTML｜CSS 左右雙欄並排、小網用 tab 切換，各自可複製；×／Esc／點遮罩皆可關閉'},
+    ]},
     {v:'v7', date:'2026-07-24', title:'背景漸層品牌化', items:[
       {tag:'add', t:'背景漸層新增「主色流動」「輔色流動」：以當前主／副錨點色（--c-brand-500／--c-brand2-500）即時展成三個明度 stop（淺→基準→深），滑順不單調；改了 token 色號漸層也跟著變'},
       {tag:'improve', t:'偏好設定「背景漸層」改為四選項：經典流動／經典靜態／主色流動／輔色流動；縮圖對應各模式實際配色'},
