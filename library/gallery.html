@@ -929,6 +929,17 @@
   .tabi.sz-s .tcount{min-width:16px;height:16px;padding:0 var(--sp-1);font-size:var(--fs-h12);}
   .tabi.st-active .tcount{background:var(--i-primary-tint);color:var(--accent);}
   .v-contained .tabi.st-active .tcount{background:color-mix(in srgb,var(--primary-on) 24%,transparent);color:var(--primary-on);}
+  /* ---- 滑動指示器（互動 pill／line tabbar）：單一 .tab-ind 跟著 .st-active 滑動（transitions.dev「tabs sliding」），x/width 由 JS inline 寫入；
+     只用於 pill（軌道型白底藥丸）與 line（底部 ink bar）；contained 為獨立框＋間距、維持即時填色不套滑動 ---- */
+  .tabbar.tab-slide{position:relative;}
+  .tabbar.tab-slide .tabi{position:relative;z-index:1;}
+  .tab-ind{position:absolute;left:0;top:0;z-index:0;opacity:0;pointer-events:none;transform:translateX(0);
+    transition:transform .25s cubic-bezier(.22,1,.36,1),width .25s cubic-bezier(.22,1,.36,1),opacity .2s ease;}
+  .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.08);}
+  .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;box-shadow:none;}  /* 白底改由滑動 pill 提供 */
+  .tabbar.tab-slide.v-line .tab-ind{top:auto;bottom:-1px;height:2px;background:var(--accent);}
+  .tabbar.tab-slide.v-line .tabi.st-active{box-shadow:none;}  /* 底線改由滑動 ink bar 提供 */
+  @media(prefers-reduced-motion:reduce){.tab-ind{transition:none!important;}}
 
   /* ===== toggle 開關（tab 家族 atom）===== */
   .switchrow{display:inline-flex;align-items:center;gap:11px;}
@@ -3556,14 +3567,19 @@
   .gd-ghm-fn{color:var(--ghtext);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .gd-ghm-ft{color:var(--ghmut);flex:0 0 auto;font-size:11px;}
   .gd-faq{display:flex;flex-direction:column;gap:var(--sp-3);}
-  .gd-faq-item{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;}
+  .gd-faq-item{--faq-ease:cubic-bezier(.22,1,.36,1);--faq-dur:250ms;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;}
   .gd-faq-q{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-weight:600;font-size:var(--fs-h9);color:var(--ink);padding:var(--sp-4) var(--sp-5);font-family:var(--font-sans);}
   .gd-faq-q:hover{color:var(--accent);}
-  .gd-faq-caret{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h6);line-height:1;font-weight:400;}
+  .gd-faq-caret{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h6);line-height:1;font-weight:400;transition:transform var(--faq-dur) var(--faq-ease);}
   .gd-faq-item.collapsed .gd-faq-caret::before{content:"+";}       /* 收合＝＋ */
-  .gd-faq-item:not(.collapsed) .gd-faq-caret::before{content:"\2212";}  /* 展開＝−（減號 U+2212）*/
-  .gd-faq-a{font-size:var(--fs-h10);color:var(--muted);line-height:1.7;padding:0 var(--sp-5) var(--sp-4);}
-  .gd-faq-item.collapsed .gd-faq-a{display:none;}
+  .gd-faq-item:not(.collapsed) .gd-faq-caret::before{content:"\2212";}  /* 展開＝−（減號 U+2212） */
+  /* 展開容器：grid 0fr→1fr 平滑推開（免 JS 量高度）；內層裁切＋opacity/blur「聚焦淡入」（比照 Collapse 元件的手風琴手法） */
+  .gd-faq-a{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows var(--faq-dur) var(--faq-ease);}
+  .gd-faq-item:not(.collapsed) .gd-faq-a{grid-template-rows:1fr;}
+  .gd-faq-a-inner{min-height:0;overflow:hidden;font-size:var(--fs-h10);color:var(--muted);line-height:1.7;padding:0 var(--sp-5);opacity:0;filter:blur(2px);transition:opacity var(--faq-dur) var(--faq-ease),filter var(--faq-dur) var(--faq-ease);}
+  .gd-faq-item:not(.collapsed) .gd-faq-a-inner{opacity:1;filter:blur(0);}
+  .gd-faq-a-inner::after{content:'';display:block;height:var(--sp-4);}  /* 底部留白：寫在內層避免收合(0fr)殘留高度 */
+  @media(prefers-reduced-motion:reduce){.gd-faq-caret,.gd-faq-a,.gd-faq-a-inner{transition:none!important;}.gd-faq-a-inner{filter:none;}}
   /* spec 矩陣示意（用真 library 按鈕原子）*/
   .gd-specmx{display:flex;flex-direction:column;gap:8px;}
   .gd-mxrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -4545,13 +4561,22 @@
   function switchEl(state){const on=state==='on'||state==='disabled-on';const dis=state.indexOf('disabled')===0;
     return ce('div',`switch${on?' on':''}${dis?' st-disabled':''}`);}
   /* ---- tab 容器 Live：3 個分頁 + 內容零件開關（icon／count）+ size ---- */
-  function tabBarLive(v,opts){opts=opts||{};const bar=ce('div',`tabbar v-${v}`);
+  function tabBarLive(v,opts){opts=opts||{};const slide=(v==='pill'||v==='line');  // 只有軌道型 variant 套滑動指示器
+    const bar=ce('div',`tabbar v-${v}${slide?' tab-slide':''}`);
+    let ind=null;if(slide){ind=ce('span','tab-ind');bar.appendChild(ind);}
+    // 把指示器滑到 .st-active：x/width inline 寫入，靠 CSS 補間；animate=false 時 snap（首次掛載／寬度變動）
+    function placeInd(animate){if(!ind)return;const act=bar.querySelector('.tabi.st-active');if(!act){ind.style.opacity='0';return;}
+      if(!animate)ind.style.transition='none';
+      ind.style.transform='translateX('+act.offsetLeft+'px)';ind.style.width=act.offsetWidth+'px';ind.style.opacity='1';
+      if(!animate){void ind.offsetWidth;ind.style.transition='';}}
     [['總覽',12],['明細',4],['設定',null]].forEach(([t,n],i)=>{const ti=ce('button',`tabi sz-${opts.size||'m'}`+(i===0?' st-active':''));
       if(opts.icon)ti.insertAdjacentHTML('beforeend',`<span class="ticon">${TAB_ICONS[i]}</span>`);
       ti.insertAdjacentHTML('beforeend',`<span>${t}</span>`);
       if(opts.count&&n!=null)ti.insertAdjacentHTML('beforeend',`<span class="tcount">${n}</span>`);
-      ti.onclick=()=>{bar.querySelectorAll('.tabi').forEach(x=>x.classList.remove('st-active'));ti.classList.add('st-active');};
-      bar.appendChild(ti);});return bar;}
+      ti.onclick=()=>{bar.querySelectorAll('.tabi').forEach(x=>x.classList.remove('st-active'));ti.classList.add('st-active');if(slide)placeInd(true);};
+      bar.appendChild(ti);});
+    if(slide){requestAnimationFrame(()=>placeInd(false));if(window.ResizeObserver){const ro=new ResizeObserver(()=>placeInd(false));ro.observe(bar);}}
+    return bar;}
   function buildTab(view){
     const body=viewScaffold(view,{eyebrow:'L3 Family · Tab',title:'Tab 分頁',
       lede:'Tab 家族：<b>分頁容器 tab、分頁項 tab-item、開關 toggle</b>。容器決定排版與 variant（<b>line 底線／contained 容器／pill 藥丸</b>）；tab-item 是被 INSTANCE_SWAP 進去的原子（可帶 leading icon／count badge）；toggle 則是家族內的二元開關 atom。',
@@ -9454,8 +9479,10 @@ function buildScheduleChart(view){
   const CHANGELOG_DATA=[
     {v:'v9', date:'2026-07-27', title:'互動微動效升級（tab 滑動／3D 傾斜／手風琴）', items:[
       {tag:'add', t:'全站分段控制（tab）改成滑動指示器：切換時白色 pill 平滑滑到目標選項（transitions.dev「tabs sliding」手法），互動預覽篩選、HTML／CSS 分頁、展開 modal 分頁、圖表切換全部同步；連整塊重建的篩選也有滑動感'},
+      {tag:'add', t:'Tab 分頁元件本體加上滑動指示器：pill 變體白底藥丸、line 變體底部 ink bar 都會平滑滑到選中分頁；contained（獨立框）維持即時填色'},
       {tag:'add', t:'上手指南首屏 mockup 加上 3D 傾斜：滑鼠移動時卡片朝游標方向立體傾斜（±8°）＋游標光暈，離開緩緩回正；桌機專屬、尊重「減少動態」設定'},
       {tag:'improve', t:'Collapse 摺疊展開精緻化：緩動改用 ease-out-quint 曲線、內容加輕微 blur「聚焦淡入」、指示箭頭改用垂直翻轉（v 壓成一線再翻成 ^）'},
+      {tag:'improve', t:'上手指南 FAQ 常見問題改用平滑展開：由原本直接顯示／隱藏改成高度滑順推開＋內容聚焦淡入（同 Collapse 手風琴手法）'},
     ]},
     {v:'v8', date:'2026-07-27', title:'互動預覽與程式碼加上 CSS 分頁', items:[
       {tag:'add', t:'元件頁「互動預覽與程式碼」新增 CSS 分頁：HTML／CSS 一鍵切換、各自複製；CSS 直接從實際樣式表撈出，零脫鉤（改樣式即時反映）'},
@@ -10036,6 +10063,8 @@ function buildScheduleChart(view){
     }
     // FAQ 展開收合（＋／− 由 CSS ::before 依 collapsed 狀態切換，JS 只負責 toggle）
     view.querySelectorAll('#gdFaq .gd-faq-item').forEach(it=>{
+      const a=it.querySelector('.gd-faq-a');  // 把答案內容包進 .gd-faq-a-inner，供 grid 0fr→1fr 平滑展開
+      if(a&&!a.querySelector('.gd-faq-a-inner')){const inner=document.createElement('div');inner.className='gd-faq-a-inner';while(a.firstChild)inner.appendChild(a.firstChild);a.appendChild(inner);}
       const q=it.querySelector('.gd-faq-q');if(q)q.onclick=()=>it.classList.toggle('collapsed');
     });
     // 核心頁面三張導覽牌卡：點擊（或 Enter/Space）跳到對應頁
