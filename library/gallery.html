@@ -511,6 +511,14 @@
   .code-body{display:flex;flex:1 1 auto;min-height:0;overflow-x:auto;}
   .code-gutter{flex:0 0 auto;display:flex;flex-direction:column;padding:var(--sp-4) var(--sp-3);text-align:right;user-select:none;color:var(--syn-punct);opacity:.5;font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;border-right:1px solid var(--line);}
   .code-pre{margin:0;padding:var(--sp-4);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.7;color:var(--syn-txt);white-space:pre;}
+  /* Token 頁「輸出 · 樣式包」：檔名分頁＋程式碼檢視＋下載 */
+  .tokexp{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--panel);}
+  .tokexp-bar{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap;padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);}
+  .tokexp-acts{display:inline-flex;gap:var(--sp-2);margin-left:auto;}
+  .tokexp-code{display:flex;max-height:440px;overflow:auto;background:var(--code-bg);}
+  .tokexp-code .code-gutter{display:block;flex-direction:initial;white-space:pre;}   /* 用 textContent＋\n 排行號 → 覆寫成 block+pre 才與 code-pre 對齊 */
+  .tokexp-code .code-pre{flex:1 1 auto;}
+  @media(max-width:767px){.tokexp-acts{margin-left:0;width:100%;}.tokexp-bar{gap:var(--sp-2);}}
   .tk-tag{color:var(--syn-tag);font-weight:700;}.tk-attr{color:var(--syn-attr);}.tk-str{color:var(--syn-str);}.tk-punct{color:var(--syn-punct);}.tk-txt{color:var(--syn-txt);}
   /* CSS 分頁的語法色（複用同一組 --syn-*）：選擇器＝tag 綠、屬性＝attr 橘、var(--token)＝str 藍加粗、註解＝灰斜體 */
   .tk-sel{color:var(--syn-tag);}.tk-prop{color:var(--syn-attr);}.tk-val{color:var(--syn-txt);}.tk-var{color:var(--syn-str);font-weight:600;}.tk-comment{color:var(--syn-punct);font-style:italic;}
@@ -9492,6 +9500,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v10', date:'2026-07-27', title:'Design Token 頁：輸出 SCSS 樣式包', items:[
+      {tag:'add', t:'Token 頁新增「輸出 · 樣式包（SCSS）」：把當前 token 產成比照工程慣例的樣式包——_variables.scss（token）＋_breakpoints.scss（斷點變數＋mixin）＋_font.scss（字體）＋layout.scss（reset）＋README（Nuxt 引入與套 class 教學），每檔可複製／下載，或一鍵「全部下載」'},
+      {tag:'add', t:'layout.scss reset 保留 focus-visible：清各瀏覽器原生樣式差異、統一基準，但鍵盤操作仍看得到焦點外框（不無條件 outline:none）'},
+    ]},
     {v:'v9', date:'2026-07-27', title:'互動微動效升級（tab 滑動／3D 傾斜／手風琴）', items:[
       {tag:'add', t:'全站分段控制（tab）改成滑動指示器：切換時白色 pill 平滑滑到目標選項（transitions.dev「tabs sliding」手法），互動預覽篩選、HTML／CSS 分頁、展開 modal 分頁、圖表切換全部同步；連整塊重建的篩選也有滑動感'},
       {tag:'add', t:'Tab 分頁元件本體加上滑動指示器：pill 變體白底藥丸、line 變體底部 ink bar 都會平滑滑到選中分頁；contained（獨立框）維持即時填色'},
@@ -10419,6 +10431,118 @@ function buildScheduleChart(view){
         ':root[data-theme="dark"]{\n'+d+'}\n@media(max-width:1023px){:root{\n'+tab+'}}\n@media(max-width:767px){:root{\n'+mob+'}}\n';
     }
     document.getElementById('tokCopy').onclick=()=>{navigator.clipboard.writeText(buildCSS()).then(()=>{const s=document.getElementById('tokCopy').querySelector('span');s.textContent='已複製 ✓';setTimeout(()=>s.textContent='複製此頁 CSS',1500);});};
+
+    /* ── 輸出 · 樣式包（SCSS）：把當前 token 產成比照 @ec/styles 的檔案，開發端 @use 引入直接套用 ── */
+    (function buildExportSection(){
+      const SANS="'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', system-ui, sans-serif";
+      const MONO="'Geist Mono', ui-monospace, 'SF Mono', Menlo, 'PingFang TC', 'Noto Sans TC', monospace";
+      const HD=t=>'/* ============================================================\n   Goons DS · '+t+'\n   由 Design Token 頁輸出 · 命名為 source of truth\n   ============================================================ */\n\n';
+      // _breakpoints.scss：對齊 token RWD 分層（mobile <768 / tablet 768–1023 / desktop ≥1024），mixin API 比照同事既有慣例
+      const F_BP=HD('_breakpoints.scss｜斷點變數與 mixin')+
+        '$breakpoint-sm: 480px;   // 小網\n$breakpoint-md: 768px;   // 平板（token tablet 起點）\n$breakpoint-lg: 1024px;  // 桌機（token desktop 起點）\n$breakpoint-xl: 1440px;  // 大網\n\n'+
+        '@mixin breakpoint-up($bp) {\n'+
+        '  @if $bp == sm { @media (min-width: $breakpoint-sm) { @content; } }\n'+
+        '  @else if $bp == md { @media (min-width: $breakpoint-md) { @content; } }\n'+
+        '  @else if $bp == lg { @media (min-width: $breakpoint-lg) { @content; } }\n'+
+        '  @else if $bp == xl { @media (min-width: $breakpoint-xl) { @content; } }\n'+
+        '  @else { @warn "Unsupported breakpoint: #{$bp}"; }\n}\n\n'+
+        '@mixin breakpoint-down($bp) {\n'+
+        '  @if $bp == sm { @media (max-width: $breakpoint-sm - 1px) { @content; } }\n'+
+        '  @else if $bp == md { @media (max-width: $breakpoint-md - 1px) { @content; } }\n'+
+        '  @else if $bp == lg { @media (max-width: $breakpoint-lg - 1px) { @content; } }\n'+
+        '  @else if $bp == xl { @media (max-width: $breakpoint-xl - 1px) { @content; } }\n'+
+        '  @else { @warn "Unsupported breakpoint: #{$bp}"; }\n}\n';
+      // _font.scss：Latin 走 Geist / Geist Mono（Google Fonts），中文 CJK 走系統字 per-character fallback
+      const F_FONT=HD('_font.scss｜字體設定')+
+        "@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');\n\n"+
+        ':root {\n  --font-sans: '+SANS+';\n  --font-mono: '+MONO+';\n}\n\nbody {\n  font-family: var(--font-sans);\n  -webkit-font-smoothing: antialiased;\n}\n';
+      // layout.scss：reset —— 清各瀏覽器原生樣式差異；保留 focus-visible（鍵盤操作仍看得到焦點，a11y）
+      const F_LAYOUT=HD('layout.scss｜reset（清原生樣式、統一各瀏覽器基準）')+
+        '*, *::before, *::after { box-sizing: border-box; }\n* { word-wrap: break-word; }\n\n'+
+        'html, body { margin: 0; padding: 0; }\nbody { width: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }\nmain { margin: 0; padding: 0; }\np { margin: 0; }\nh1, h2, h3, h4, h5, h6 { margin: 0; font-size: inherit; font-weight: inherit; }\nul, ol { list-style: none; margin: 0; padding: 0; }\na { color: inherit; text-decoration: none; }\nbutton { border: 0; background: none; font: inherit; cursor: pointer; }\nimg, svg, video { display: block; max-width: 100%; }\n\n'+
+        '/* 焦點：滑鼠點擊不顯外框，鍵盤操作（focus-visible）保留外框 —— 不無條件 outline:none（a11y） */\n:focus:not(:focus-visible) { outline: none; }\n:focus-visible { outline: 2px solid var(--s-action-primary, currentColor); outline-offset: 2px; }\n\n'+
+        '/* IE 輸入框原生 X / 眼睛 */\n::-ms-clear, ::-ms-reveal { display: none; }\n/* Safari 輸入框原生外觀 */\ninput, textarea { -webkit-appearance: none; appearance: none; }\n\n'+
+        '/* 捲軸（webkit）*/\n::-webkit-scrollbar { width: 4px; height: 4px; }\n::-webkit-scrollbar-track { background: none; }\n::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, .2); border-radius: 15px; transition: .3s; }\n::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, .4); }\n';
+      const BT='```';
+      const F_README=[
+        '# Goons DS · 樣式包（@goons/styles）',
+        '',
+        '由 Design Token 頁輸出的全站共用樣式包。token 命名為 **source of truth**，開發端直接以 `var(--token)` 取用。',
+        '',
+        '| 檔案 | 內容 |',
+        '|---|---|',
+        '| `_variables.scss` | 設計 token（L1 純值 → L2 語意；含 light/dark 與響應式）|',
+        '| `_breakpoints.scss` | 斷點變數 `$breakpoint-*` ＋ `breakpoint-up/down` mixin |',
+        '| `_font.scss` | 字體 import ＋ `--font-sans/mono` |',
+        '| `layout.scss` | reset：清各瀏覽器原生樣式、統一基準（保留 focus-visible）|',
+        '',
+        '## 使用方式（Nuxt）',
+        '',
+        '### 1. 引入 reset 與字體',
+        BT+'ts',
+        'export default defineNuxtConfig({',
+        "  css: ['@goons/styles/layout.scss', '@goons/styles/_font.scss'],",
+        '})',
+        BT,
+        '',
+        '### 2. 讓變數與 mixin 全域可用',
+        BT+'ts',
+        'export default defineNuxtConfig({',
+        '  vite: { css: { preprocessorOptions: { scss: {',
+        '    additionalData: `',
+        '      @use "@goons/styles/_variables.scss" as *;',
+        '      @use "@goons/styles/_breakpoints.scss" as *;',
+        '    `,',
+        '  } } } },',
+        '})',
+        BT,
+        '',
+        '### 3. 元件套用',
+        '元件只要**套 class、照基本 HTML 結構**就有樣式；寬高、定位等「佈局」屬性留給使用端決定：',
+        BT+'html',
+        '<button class="btn v-solid i-primary sz-m"><span>送出</span></button>',
+        BT,
+        BT+'scss',
+        '.some-layout {',
+        '  .btn { width: 100%; }              // 佈局（寬高/定位）由使用端寫',
+        '  @include breakpoint-up(md) { ... } // 斷點用 mixin',
+        '}',
+        BT,
+      ].join('\n')+'\n';
+      // files：_variables 每次現算（反映當前 token 編輯），其餘為靜態內容
+      const files=[
+        {name:'_variables.scss',lang:'scss',get:()=>HD('_variables.scss｜設計 token（L1 純值 → L2 語意；含 light/dark 與響應式）')+buildCSS()},
+        {name:'_breakpoints.scss',lang:'scss',get:()=>F_BP},
+        {name:'_font.scss',lang:'scss',get:()=>F_FONT},
+        {name:'layout.scss',lang:'scss',get:()=>F_LAYOUT},
+        {name:'README.md',lang:'md',get:()=>F_README},
+      ];
+      const sec=section(view,'輸出 · 樣式包（SCSS）','把目前的 token 產成比照 @ec/styles 的樣式包（_variables／_breakpoints／_font／layout reset／README），開發端 @use 引入、直接以 var(--token) 取用與套 class。');
+      const box=ce('div','tokexp');
+      const bar=ce('div','tokexp-bar');
+      const tabs=ce('div','code-tabs seg');   // 檔名分頁（重用站上 .seg 滑動分段控制）
+      const acts=ce('div','tokexp-acts');
+      const copyBtn=ce('button','btn v-soft i-secondary sz-s st-default live');copyBtn.type='button';copyBtn.innerHTML='<span>複製此檔</span>';
+      const dlBtn=ce('button','btn v-soft i-secondary sz-s st-default live');dlBtn.type='button';dlBtn.innerHTML='<span>下載此檔</span>';
+      const dlAll=ce('button','btn v-solid i-primary sz-s st-default live');dlAll.type='button';dlAll.innerHTML='<span>全部下載</span>';
+      acts.append(copyBtn,dlBtn,dlAll);
+      const codeWrap=ce('div','tokexp-code');
+      const gutter=ce('div','code-gutter');const pre=ce('pre','code-pre');
+      codeWrap.append(gutter,pre);
+      let cur=0;
+      const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      function paint(){const f=files[cur];const lines=f.get().replace(/\n$/,'').split('\n');
+        gutter.textContent=lines.map((_,i)=>i+1).join('\n');
+        pre.innerHTML=lines.map(l=>f.lang==='scss'?hlCss(l):(esc(l)||'&nbsp;')).join('\n');
+        codeWrap.scrollTop=0;}
+      files.forEach((f,i)=>{const b=ce('button','code-tab');b.type='button';b.textContent=f.name;b.setAttribute('aria-pressed',i===0?'true':'false');
+        b.onclick=()=>{cur=i;[...tabs.querySelectorAll(':scope>button')].forEach((x,j)=>x.setAttribute('aria-pressed',j===i?'true':'false'));paint();};tabs.appendChild(b);}); // 只選 button：.seg-pill 也是 tabs 子元素，用 children 會位移一格
+      copyBtn.onclick=()=>{navigator.clipboard.writeText(files[cur].get()).then(()=>{const s=copyBtn.querySelector('span');const o=s.textContent;s.textContent='已複製 ✓';setTimeout(()=>s.textContent=o,1400);});};
+      dlBtn.onclick=()=>dsDownloadText(files[cur].name,files[cur].get());
+      dlAll.onclick=()=>{files.forEach((f,i)=>setTimeout(()=>dsDownloadText(f.name,f.get()),i*140));const s=dlAll.querySelector('span');const o=s.textContent;s.textContent='已下載 ✓';setTimeout(()=>s.textContent=o,1600);}; // 逐檔錯開下載，避免瀏覽器擋多檔
+      bar.append(tabs,acts);box.append(bar,codeWrap);sec.appendChild(box);
+      paint();
+    })();
   }
 
   function renderSummary(view){
@@ -10973,6 +11097,7 @@ function buildScheduleChart(view){
     return {tokens:{overrides:window.__tokOverrides||{},logo,disabled,bindings},components:comp,state};
   }
   function dsDownload(name,obj){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+  function dsDownloadText(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);} // 純文字檔下載（.scss / .md）
   /* ── 專案元件庫版本化（Phase F）：CTA＝儲存並更新 vN、防呆彈窗、進站版本比對；只動專案層、不碰共用引擎 ── */
   function dsVerKey(){return 'dsv:'+(window.__dsProject||'');}
   function dsToast(msg){const b=document.getElementById('dsExportBtn');if(!b)return;const s=b.querySelector('span');const o=s.dataset.o||s.textContent;s.textContent=msg;setTimeout(()=>{s.textContent=o;},1800);}
