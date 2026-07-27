@@ -219,7 +219,7 @@
   *{box-sizing:border-box}
   /* 全域：所有表單控制項繼承 DS 字體（消除瀏覽器預設 Arial，全站數字/文字一致用 Geist）。個別元件另設 mono 者仍優先。 */
   input,button,select,textarea,optgroup{font-family:inherit;}
-  html,body{margin:0;height:100%;}
+  html,body{margin:0;height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;} /* 關掉 iOS Safari 文字自動放大：否則長內容（如 CSS 欄）字級會被吹大、跟短內容不一致 */
   body{background:var(--canvas);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.5;overflow:hidden;} /* app-shell：document 不捲，捲動交給 sidebar / main */
   /* 全站紙質磨砂材質：fixed 覆蓋整個 viewport 的 SVG fractalNoise 顆粒，soft-light 混色疊在所有背景上，pointer-events:none 不擋互動 */
   body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
@@ -498,8 +498,10 @@
   .code-col .code-body{overflow:auto;}
   .code-dual .code-pre,.code-dual .code-gutter{font-size:var(--fs-h10);}  /* 展開檢視程式碼字級放大（14px）*/
   @media(max-width:767px){
-    .code-dual>.code-dual-tabs{display:flex;gap:2px;padding:var(--sp-2) var(--sp-4);border-bottom:1px solid var(--line);}
-    .code-cols>.code-divider{display:none;}
+    /* 小網 tab：改用與 .sum-tabs/.stab 一致的分段控制樣式（sans、14px、panel pill＋accent），取代原本的迷你 mono 文字 */
+    .code-dual>.code-dual-tabs{display:inline-flex;align-self:flex-start;gap:2px;padding:3px;margin:0 0 var(--sp-4);border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);}
+    .code-dual-tabs .code-tab{height:34px;padding:0 var(--sp-5);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;letter-spacing:normal;color:var(--muted);background:transparent;border-radius:var(--r-sm);}
+    .code-dual-tabs .code-tab.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 3px color-mix(in srgb,var(--ink) 10%,transparent);}
     .code-col{display:none;}
     .code-col.active{display:flex;}
     .code-col-head .col-lang{display:none;}               /* tab 已標示語言，col-head 只留複製 */
