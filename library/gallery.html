@@ -529,6 +529,7 @@
   @media(max-width:767px){.tokexp-head{flex-wrap:wrap;}.tokexp-acts{margin-left:0;width:100%;}}
   @media(prefers-color-scheme:dark){.tokexp{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}}
   :root[data-theme="dark"] .tokexp{--code-bg:#26262B;--syn-tag:#7ee787;--syn-attr:#ffa657;--syn-str:#a5d6ff;--syn-punct:#8b949e;--syn-txt:#e6edf3;}
+  :root[data-theme="light"] .tokexp{--code-bg:var(--panel-2);--syn-tag:#116329;--syn-attr:#953800;--syn-str:#0a3069;--syn-punct:#57606a;--syn-txt:#1f2328;} /* 手動切淺色時奪回淺底，蓋過 OS 深色的 @media（比照 .live-code line 上方，先前漏補這層）*/
   .tk-tag{color:var(--syn-tag);font-weight:700;}.tk-attr{color:var(--syn-attr);}.tk-str{color:var(--syn-str);}.tk-punct{color:var(--syn-punct);}.tk-txt{color:var(--syn-txt);}
   /* CSS 分頁的語法色（複用同一組 --syn-*）：選擇器＝tag 綠、屬性＝attr 橘、var(--token)＝str 藍加粗、註解＝灰斜體 */
   .tk-sel{color:var(--syn-tag);}.tk-prop{color:var(--syn-attr);}.tk-val{color:var(--syn-txt);}.tk-var{color:var(--syn-str);font-weight:600;}.tk-comment{color:var(--syn-punct);font-style:italic;}
