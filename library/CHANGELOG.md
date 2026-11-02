@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-02（二）　Tab pill 選中態加強＋元件頁段落統一順序
+
+- **Tab pill 選中態**：原本選中片＝`--panel`、軌道＝`--panel-2`，明度幾乎相同（深色甚至片比軌道暗）→ 兩種主題都看不出選中。改為元件內變數 `--pill-track／--pill-ind／--pill-ind-edge`：淺色＝白片浮在 `--panel-3` 灰軌、深色＝`--i-sec-fill-p` 亮片浮在 `--panel-2` 暗軌；皆加 `--line-strong` 描邊＋`--e-md` 陰影、選中字改 `--ink`。靜態 `.st-active` 與滑動 `.tab-ind` 同步。
+- **段落順序**：新增 `reorderSections(view)`，在 `renderView` 渲染後集中重排為「互動預覽與程式碼 → 變數與 Token → 矩陣 → 其餘（維持原相對順序）」，取代原本 button／BUILD 兩處各自的 `vt.after(liveSec)`。只搬主要那一段，子元件段落（如 tab 頁的 Toggle 互動預覽）留在原位。
+- ✅ Playwright：39 頁逐一確認順序（logo 無段落略過）、0 console error；pill 深淺截圖確認。
+
 ## 2026-11-02　元件接上字重／行高／陰影／動態 token（修「Token 頁調了元件不會變」）
 
 - **症狀**：同事試用回報部分元件樣式調不動。稽核發現 Token 頁可編輯的 Font Weight／Line Height／Elevation／Motion 四類，元件 CSS 引用數皆為 **0**——值全寫死，調 token 無效。

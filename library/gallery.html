@@ -924,7 +924,9 @@
   /* ===== tab ===== */
   .tabbar{display:inline-flex;align-items:stretch;gap:2px;}
   .tabbar.v-line{gap:0;border-bottom:1px solid var(--line);}
-  .tabbar.v-contained{gap:var(--sp-2);} .tabbar.v-pill{gap:var(--sp-1);background:var(--panel-2);padding:var(--sp-1);border-radius:var(--r-pill);}
+  .tabbar.v-contained{gap:var(--sp-2);} .tabbar.v-pill{--pill-track:var(--panel-3);--pill-ind:var(--panel);--pill-ind-edge:var(--line-strong);gap:var(--sp-1);background:var(--pill-track);padding:var(--sp-1);border-radius:var(--r-pill);}
+  /* pill 指示器：與軌道拉開明度差（淺＝白片浮在灰軌；深＝亮一階的片浮在暗軌），＋描邊＋陰影，深淺皆明顯 */
+  :root[data-theme="dark"] .tabbar.v-pill{--pill-track:var(--panel-2);--pill-ind:var(--i-sec-fill-p);--pill-ind-edge:var(--line-strong);}
   .tabi{display:inline-flex;align-items:center;gap:var(--tab-gap,var(--sp-2));height:38px;padding:0 var(--tab-pad-x,var(--sp-5));font-size:var(--tab-fs,var(--fs-h11));font-weight:var(--fw-semibold);
     color:var(--muted);cursor:pointer;border:1px solid transparent;background:transparent;font-family:var(--font-sans);transition:var(--dur-fast);white-space:nowrap;}
   .v-line .tabi{border-radius:0;margin-bottom:-1px;box-shadow:inset 0 -2px 0 transparent;}
@@ -935,7 +937,7 @@
   .v-contained .tabi.st-active{background:var(--accent);color:var(--primary-on);border-color:var(--accent);}
   .v-pill .tabi{border-radius:var(--tab-radius,var(--r-pill));}
   .v-pill .tabi.st-hover{color:var(--ink);}
-  .v-pill .tabi.st-active{background:var(--panel);color:var(--accent);box-shadow:var(--e-sm);}
+  .v-pill .tabi.st-active{background:var(--pill-ind);color:var(--ink);border-color:var(--pill-ind-edge);box-shadow:var(--e-md);}
   .tabi.st-disabled{opacity:.4;cursor:not-allowed;}
   /* size：sz-m 為標準（base 值），sz-s 較小 */
   .tabi.sz-s{height:30px;padding:0 var(--sp-4);font-size:var(--tab-fs,var(--fs-h11));gap:var(--sp-1);}
@@ -955,8 +957,8 @@
   .tab-ind{position:absolute;left:0;top:0;z-index:0;opacity:0;pointer-events:none;transform:translateX(0);
     will-change:transform,width;backface-visibility:hidden;-webkit-backface-visibility:hidden;   /* 穩定合成層，避免 iOS 重繪閃爍 */
     transition:transform var(--dur-default) cubic-bezier(.22,1,.36,1),width var(--dur-default) cubic-bezier(.22,1,.36,1);}   /* opacity 不做過渡：由 JS 在字型 ready 後瞬間顯示，避免用 fallback 字寬定位後跳位 */
-  .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--panel);box-shadow:var(--e-sm);}
-  .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;box-shadow:none;}  /* 白底改由滑動 pill 提供 */
+  .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--pill-ind);border:1px solid var(--pill-ind-edge);box-sizing:border-box;box-shadow:var(--e-md);}
+  .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;border-color:transparent;box-shadow:none;}  /* 白底改由滑動 pill 提供 */
   .tabbar.tab-slide.v-line .tab-ind{top:auto;bottom:-1px;height:2px;background:var(--accent);}
   .tabbar.tab-slide.v-line .tabi.st-active{box-shadow:none;}  /* 底線改由滑動 ink bar 提供 */
   @media(prefers-reduced-motion:reduce){.tab-ind{transition:none!important;}}
@@ -10725,6 +10727,20 @@ function buildScheduleChart(view){
   /* URL hash 記住當前檢視：重新整理／深連結會停在原元件頁，不跳回匯出需求 */
   function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog'||h==='settings')return h;
     const ids=NAV.flatMap(g=>g.items).map(x=>x.id);return ids.includes(h)?h:null;}
+  /* 元件頁段落統一順序：互動預覽與程式碼 → 變數與 Token → State × Variant 矩陣 → 其餘（維持原相對順序）。
+     各元件 BUILD 自行決定 append 順序，這裡在渲染後集中重排，避免逐頁改。只搬「主要」那一段（第一個互動預覽／第一個矩陣），
+     子元件自己的段落（如 tab 頁的 Toggle 互動預覽）留在原位，跟它的矩陣待在一起。 */
+  function reorderSections(view){
+    const vt=view.querySelector('#sec-vartoken');
+    const host=vt?vt.parentElement:(view.querySelector('section.block')||{}).parentElement; if(!host)return;
+    const blocks=[...host.children].filter(el=>el.matches('section.block')); if(blocks.length<2)return;
+    const title=s=>(s.querySelector(':scope > h2 .bh-t')||{}).textContent||'';
+    const live=blocks.find(s=>/^互動預覽與程式碼/.test(title(s)))||blocks.find(s=>s.querySelector('.livewrap,#liveWrap'));
+    const mtx=blocks.find(s=>s!==live&&/矩陣/.test(title(s)));
+    const head=[live,vt,mtx].filter(Boolean);
+    const mark=document.createComment('');host.insertBefore(mark,blocks[0]); // 錨在原本第一段的位置（第一段本身也可能被搬）
+    head.forEach(s=>host.insertBefore(s,mark));mark.remove();
+  }
   function renderView(id){
     LIVE_REFRESH.clear(); // 換頁清掉舊 Live 篩選器連動註冊，避免累積
     current=id;const view=document.getElementById('view');
@@ -10736,10 +10752,8 @@ function buildScheduleChart(view){
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='settings'){renderSettings(view);}
     else if(id==='tokens'){renderTokens(view);}
-    else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');
-      const vt=view.querySelector('#sec-vartoken'),liveSec=view.querySelector('#liveWrap')&&view.querySelector('#liveWrap').closest('section.block');if(vt&&liveSec)vt.after(liveSec);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
-    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id); // 集中掛綁定卡：有定義 TOKEN_SLOTS 的元件自動出現，無則 renderBindPanel 內部 early-return
-      const vt=view.querySelector('#sec-vartoken'),liveSec=[...view.querySelectorAll('section.block')].find(s=>s.querySelector('.livewrap'));if(vt&&liveSec&&liveSec!==vt)vt.after(liveSec);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
+    else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');reorderSections(view);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
+    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);reorderSections(view);} // 集中掛綁定卡（無 TOKEN_SLOTS 則 early-return）＋統一段落順序
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
     if(window.innerWidth<=900)document.getElementById('shell').classList.remove('nav-open'); // 窄螢幕選完自動收起
