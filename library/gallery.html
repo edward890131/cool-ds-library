@@ -970,9 +970,10 @@
   .switchrow{display:inline-flex;align-items:center;gap:11px;}
   .switch{position:relative;width:44px;height:24px;border-radius:999px;background:var(--line-strong);cursor:pointer;
     transition:background var(--dur-fast);flex:0 0 auto;box-sizing:border-box;border:none;padding:0;}
-  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:#fff;
-    box-shadow:var(--e-sm);transition:transform var(--dur-fast);}
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:var(--c-neutral-0);
+    box-shadow:var(--e-sm);transition:transform var(--dur-fast),background var(--dur-fast);}
   .switch.on{background:var(--accent);}
+  .switch.on::after{background:var(--primary-on);}   /* 開啟＝--accent 軌道＋--primary-on 圓鈕（同 checkbox 勾／tab 選中的模式對比色）：淺＝黑軌白鈕、深＝亮軌深鈕 */
   .switch.on::after{transform:translateX(20px);}
   .switch.st-disabled{opacity:.4;cursor:not-allowed;}
   .switch-label{font-size:13.5px;color:var(--ink);font-weight:var(--fw-medium);}
@@ -4271,7 +4272,8 @@
     const ctlRow=ce('div','ctl-row');
     const stage=ce('div','live-stage');
     let cp=null; // 程式碼面板參照（非摘要卡才建）
-    function rerender(){stage.innerHTML='';const n=cfg.render(state);stage.appendChild(n);if(cp&&n&&n.nodeType===1)cp.set(liveMarkup(n));}
+    const syncCode=()=>{const n=stage.firstElementChild;if(cp&&n)cp.set(liveMarkup(n));}; // 預覽內自行改 DOM（如點開關）後呼叫，程式碼區跟著同步、不重建節點（保留過渡動態）
+    function rerender(){stage.innerHTML='';const n=cfg.render(state,syncCode);stage.appendChild(n);if(cp&&n&&n.nodeType===1)cp.set(liveMarkup(n));}
     const segRefs=[]; // 供篩選器連動時更新各 seg 選項 disabled
     (cfg.segs||[]).forEach(s=>{
       const c=ce('div','ctl');c.innerHTML=`<span class="lab">${s.label}</span>`;
@@ -4690,9 +4692,9 @@
     body.appendChild(rd2);
     const sl2=section(body,'Toggle 互動預覽與程式碼','點開關可真的切換；勾 disabled 看停用態。');
     mountLive(sl2,{initial:{on:false,disabled:false},bools:[{key:'disabled',label:'disabled'}],
-      render:st=>{const row=ce('div','switchrow');const sw=ce('button',`switch${st.on?' on':''}${st.disabled?' st-disabled':''}`);
+      render:(st,sync)=>{const row=ce('div','switchrow');const sw=ce('button',`switch${st.on?' on':''}${st.disabled?' st-disabled':''}`);
         const lab=ce('span','switch-label');lab.textContent=st.on?'開啟':'關閉';
-        if(!st.disabled)sw.onclick=()=>{st.on=!st.on;sw.classList.toggle('on',st.on);lab.textContent=st.on?'開啟':'關閉';};
+        if(!st.disabled)sw.onclick=()=>{st.on=!st.on;sw.classList.toggle('on',st.on);lab.textContent=st.on?'開啟':'關閉';if(sync)sync();};
         row.append(sw,lab);return row;}});
   }
 

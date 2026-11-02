@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-02（四）　Toggle 開啟態改用模式對比色＋互動預覽程式碼同步
+
+- **症狀**：深色模式開啟態＝`--accent`（亮灰）軌道＋寫死 `#fff` 圓鈕，白鈕糊在亮軌上；淺色則是黑軌白鈕。兩模式邏輯不一致。
+- **修正**：開啟態圓鈕改 `--primary-on`（同 checkbox 勾、tab 選中的模式對比色）→ 淺＝黑軌白鈕、深＝亮軌深鈕；關閉態圓鈕 `#fff` 改綁 `--c-neutral-0`。
+- **程式碼同步**：Toggle 互動預覽點擊後只改 DOM、程式碼區仍顯示初始 `class="switch"`／「關閉」。`mountLive` 的 `cfg.render(state, sync)` 新增第二參數 `sync`，預覽內自行改 DOM 後呼叫即同步程式碼區（不重建節點，保留切換動態）；toggle 已接上。
+- ✅ Playwright：深淺 × 開關四態計算色正確、點擊後程式碼區同步為 `switch on`／開啟，0 console error。
+
 ## 2026-11-02（三）　Tab pill 改回單一 token 做法＋變數與 Token 左右並排
 
 - **Tab pill 修正上一版**：上一版在淺色加了白片＋描邊＋陰影、深色另寫 `[data-theme=dark]` 覆寫，兩模式做法不一致。改為與 line／contained 同一套：選中＝`--accent` 底＋`--primary-on` 字，深淺由 token 自動切換；移除 `--pill-*` 元件變數、主題覆寫、描邊與陰影。軌道回 `--panel-2`。count badge 選中態沿用 contained 規則。
