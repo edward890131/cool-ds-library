@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-02（三）　Tab pill 改回單一 token 做法＋變數與 Token 左右並排
+
+- **Tab pill 修正上一版**：上一版在淺色加了白片＋描邊＋陰影、深色另寫 `[data-theme=dark]` 覆寫，兩模式做法不一致。改為與 line／contained 同一套：選中＝`--accent` 底＋`--primary-on` 字，深淺由 token 自動切換；移除 `--pill-*` 元件變數、主題覆寫、描邊與陰影。軌道回 `--panel-2`。count badge 選中態沿用 contained 規則。
+- **變數與 Token 段落**：變數篩選器（左）＋ Token 綁定（右）改 grid 左右並排；只有一張卡（selector／icon 無綁定槽）時佔滿整列；≤1023px 改回上下。
+- ✅ Playwright：深淺截圖確認 pill 選中態、段落並排，0 console error。
+
 ## 2026-11-02（二）　Tab pill 選中態加強＋元件頁段落統一順序
 
 - **Tab pill 選中態**：原本選中片＝`--panel`、軌道＝`--panel-2`，明度幾乎相同（深色甚至片比軌道暗）→ 兩種主題都看不出選中。改為元件內變數 `--pill-track／--pill-ind／--pill-ind-edge`：淺色＝白片浮在 `--panel-3` 灰軌、深色＝`--i-sec-fill-p` 亮片浮在 `--panel-2` 暗軌；皆加 `--line-strong` 描邊＋`--e-md` 陰影、選中字改 `--ink`。靜態 `.st-active` 與滑動 `.tab-ind` 同步。

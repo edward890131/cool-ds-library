@@ -920,13 +920,16 @@
   .dcard-body .bindrows .field.dd{width:100%;min-width:0;}          /* dropdown trigger 也填滿欄寬、蓋掉 220px 固定下限 */
   .dcard.bind-dcard.bind-readonly .bindrows{opacity:.55;pointer-events:none;}  /* 母庫唯讀：換綁欄位 dim＋不可互動（標題列仍可收合）*/
   .dcard-body .bindrows .fl code{margin-left:var(--sp-2);}
+  /* 「變數與 Token」段落：變數篩選器（左）＋ Token 綁定（右）左右並排；只有一張卡（無綁定槽的元件）時佔滿整列；平板以下改回上下 */
+  #sec-vartoken{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--sp-5);align-items:start;}
+  #sec-vartoken > h2{grid-column:1 / -1;}
+  #sec-vartoken > .dcard:only-of-type{grid-column:1 / -1;}
+  @media(max-width:1023px){#sec-vartoken{grid-template-columns:minmax(0,1fr);}}
 
   /* ===== tab ===== */
   .tabbar{display:inline-flex;align-items:stretch;gap:2px;}
   .tabbar.v-line{gap:0;border-bottom:1px solid var(--line);}
-  .tabbar.v-contained{gap:var(--sp-2);} .tabbar.v-pill{--pill-track:var(--panel-3);--pill-ind:var(--panel);--pill-ind-edge:var(--line-strong);gap:var(--sp-1);background:var(--pill-track);padding:var(--sp-1);border-radius:var(--r-pill);}
-  /* pill 指示器：與軌道拉開明度差（淺＝白片浮在灰軌；深＝亮一階的片浮在暗軌），＋描邊＋陰影，深淺皆明顯 */
-  :root[data-theme="dark"] .tabbar.v-pill{--pill-track:var(--panel-2);--pill-ind:var(--i-sec-fill-p);--pill-ind-edge:var(--line-strong);}
+  .tabbar.v-contained{gap:var(--sp-2);} .tabbar.v-pill{gap:var(--sp-1);background:var(--panel-2);padding:var(--sp-1);border-radius:var(--r-pill);}
   .tabi{display:inline-flex;align-items:center;gap:var(--tab-gap,var(--sp-2));height:38px;padding:0 var(--tab-pad-x,var(--sp-5));font-size:var(--tab-fs,var(--fs-h11));font-weight:var(--fw-semibold);
     color:var(--muted);cursor:pointer;border:1px solid transparent;background:transparent;font-family:var(--font-sans);transition:var(--dur-fast);white-space:nowrap;}
   .v-line .tabi{border-radius:0;margin-bottom:-1px;box-shadow:inset 0 -2px 0 transparent;}
@@ -937,7 +940,7 @@
   .v-contained .tabi.st-active{background:var(--accent);color:var(--primary-on);border-color:var(--accent);}
   .v-pill .tabi{border-radius:var(--tab-radius,var(--r-pill));}
   .v-pill .tabi.st-hover{color:var(--ink);}
-  .v-pill .tabi.st-active{background:var(--pill-ind);color:var(--ink);border-color:var(--pill-ind-edge);box-shadow:var(--e-md);}
+  .v-pill .tabi.st-active{background:var(--accent);color:var(--primary-on);}   /* 與 line／contained 同一套：選中＝--accent 模式對比色，深淺由 token 自動切換、不另寫主題覆寫 */
   .tabi.st-disabled{opacity:.4;cursor:not-allowed;}
   /* size：sz-m 為標準（base 值），sz-s 較小 */
   .tabi.sz-s{height:30px;padding:0 var(--sp-4);font-size:var(--tab-fs,var(--fs-h11));gap:var(--sp-1);}
@@ -949,7 +952,7 @@
     background:var(--panel-2);color:var(--muted);font-size:11px;font-weight:var(--fw-semibold);font-family:var(--font-mono);box-sizing:border-box;}
   .tabi.sz-s .tcount{min-width:16px;height:16px;padding:0 var(--sp-1);font-size:var(--fs-h12);}
   .tabi.st-active .tcount{background:var(--i-primary-tint);color:var(--accent);}
-  .v-contained .tabi.st-active .tcount{background:color-mix(in srgb,var(--primary-on) 24%,transparent);color:var(--primary-on);}
+  .v-contained .tabi.st-active .tcount,.v-pill .tabi.st-active .tcount{background:color-mix(in srgb,var(--primary-on) 24%,transparent);color:var(--primary-on);}
   /* ---- 滑動指示器（互動 pill／line tabbar）：單一 .tab-ind 跟著 .st-active 滑動（transitions.dev「tabs sliding」），x/width 由 JS inline 寫入；
      只用於 pill（軌道型白底藥丸）與 line（底部 ink bar）；contained 為獨立框＋間距、維持即時填色不套滑動 ---- */
   .tabbar.tab-slide{position:relative;}
@@ -957,8 +960,8 @@
   .tab-ind{position:absolute;left:0;top:0;z-index:0;opacity:0;pointer-events:none;transform:translateX(0);
     will-change:transform,width;backface-visibility:hidden;-webkit-backface-visibility:hidden;   /* 穩定合成層，避免 iOS 重繪閃爍 */
     transition:transform var(--dur-default) cubic-bezier(.22,1,.36,1),width var(--dur-default) cubic-bezier(.22,1,.36,1);}   /* opacity 不做過渡：由 JS 在字型 ready 後瞬間顯示，避免用 fallback 字寬定位後跳位 */
-  .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--pill-ind);border:1px solid var(--pill-ind-edge);box-sizing:border-box;box-shadow:var(--e-md);}
-  .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;border-color:transparent;box-shadow:none;}  /* 白底改由滑動 pill 提供 */
+  .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--accent);}
+  .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;}  /* 底色改由滑動 pill 提供；字色沿用 st-active 的 --primary-on */  /* 白底改由滑動 pill 提供 */
   .tabbar.tab-slide.v-line .tab-ind{top:auto;bottom:-1px;height:2px;background:var(--accent);}
   .tabbar.tab-slide.v-line .tabi.st-active{box-shadow:none;}  /* 底線改由滑動 ink bar 提供 */
   @media(prefers-reduced-motion:reduce){.tab-ind{transition:none!important;}}
