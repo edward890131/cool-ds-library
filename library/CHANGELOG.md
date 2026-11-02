@@ -6,6 +6,17 @@
 
 ---
 
+## 2026-11-02　元件接上字重／行高／陰影／動態 token（修「Token 頁調了元件不會變」）
+
+- **症狀**：同事試用回報部分元件樣式調不動。稽核發現 Token 頁可編輯的 Font Weight／Line Height／Elevation／Motion 四類，元件 CSS 引用數皆為 **0**——值全寫死，調 token 無效。
+- **修正**（僅元件 CSS：`.btn` 區＋input → calendar 區段，網站外殼 UI 不動）：
+  - 字重 88 處：`500/600/700` → `var(--fw-medium/semibold/bold)`（值相同，零視覺差）
+  - 行高 41 處：依最近值對映 `--lh-tight/snug/normal/relaxed`；`line-height:1`（單行置中結構用）保留
+  - 陰影 35 處：依 blur 對映 `--e-sm`（≤4）／`--e-md`（≤14）／`--e-lg`（≤28）／`--e-xl`；focus ring、inset 底線保留。附帶：深色模式自動吃加深版陰影
+  - 動態 84 處：`≤.2s` → `--dur-fast`、`.22–.35s` → `--dur-default`；`.06s` 按壓微動保留
+- ✅ Playwright：改 `--fw-semibold`／`--dur-fast`／`--e-*` 後 button、notification 計算值即時跟隨，0 console error。
+- 待辦（稽核其餘項）：元件尺寸 token（按鈕／輸入高度）、零星寫死字級與顏色、擴充元件 Token 綁定槽。
+
 ## 2026-07-17（二十二）　甘特直欄格線捲動消失＝絕對層丟格：改 in-flow cell 根治
 
 - **症狀**：甘特右滑後內文的直欄格線消失（表頭的線正常）。決定性線索：表頭線畫在 in-flow 的 `.gnt-g-hcell`（不掉），內文線畫在 `.gnt-g-bg`（`position:absolute` 背景層）→ **絕對定位層的 1px 線在橫向捲動時被 GPU 合成器丟格**（同層的實色週末底不會掉，所以灰底還在、線沒了）。
