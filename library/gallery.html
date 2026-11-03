@@ -2834,6 +2834,63 @@
 /* ---- showcase／Live 舞台 ---- */
 .cal-show{display:flex;flex-wrap:wrap;gap:var(--sp-6);align-items:flex-start;}
 .cal-live-stage{display:flex;justify-content:flex-start;}
+  /* ===== alert 提示橫幅（前綴 al-）===== 頁內常駐、不自動消失的提示；意圖色綁 --s-feedback-*（深淺自動切換） */
+  .al{--al-c:var(--s-feedback-info);display:flex;align-items:flex-start;gap:var(--al-gap,var(--sp-3));width:100%;max-width:560px;box-sizing:border-box;
+    padding:var(--al-pad,var(--sp-4));border-radius:var(--al-radius,var(--r-md));border:1px solid transparent;font-family:var(--font-sans);color:var(--ink);text-align:left;}
+  .al-i-info{--al-c:var(--s-feedback-info);} .al-i-success{--al-c:var(--s-feedback-success);}
+  .al-i-warning{--al-c:var(--s-feedback-warning);} .al-i-error{--al-c:var(--s-feedback-error);}
+  .al-v-soft{background:color-mix(in srgb,var(--al-c) 10%,var(--panel));border-color:color-mix(in srgb,var(--al-c) 30%,transparent);}
+  .al-v-outline{background:var(--panel);border-color:color-mix(in srgb,var(--al-c) 60%,var(--line));}
+  .al-v-accent{background:var(--panel);border-color:var(--line);border-left:3px solid var(--al-c);}
+  .al-ico{flex:0 0 auto;display:inline-flex;width:20px;height:20px;color:var(--al-c);margin-top:1px;}
+  .al-ico svg{width:100%;height:100%;display:block;}
+  .al-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:var(--sp-1);}
+  .al-title{font-size:var(--al-title-fs,var(--fs-h10));font-weight:var(--fw-semibold);line-height:var(--lh-snug);}
+  .al-desc{font-size:var(--fs-h11);line-height:var(--lh-normal);color:var(--muted);}
+  .al-body:not(:has(.al-title)) .al-desc{color:var(--ink);font-size:var(--fs-h10);}   /* 只有說明時，說明就是主文字 */
+  .al-actions{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-2);}
+  .al-close{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin:-4px -6px 0 0;padding:0;border:0;border-radius:var(--r-sm);
+    background:transparent;color:var(--muted);cursor:pointer;transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .al-close:hover{background:color-mix(in srgb,var(--al-c) 12%,transparent);color:var(--ink);}
+  .al-close svg{width:14px;height:14px;}
+  .al-close:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .al.al-out{animation:al-out calc(var(--dur-fast) * .93) var(--ease-in) forwards;}
+  .al.al-in{animation:al-in var(--dur-default) var(--ease-out) both;}
+  @keyframes al-out{to{opacity:0;transform:translateY(-4px);}}
+  @keyframes al-in{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .al-stack{display:flex;flex-direction:column;gap:var(--sp-3);width:100%;max-width:560px;}
+
+  /* ===== popover 氣泡卡（前綴 pop-）===== 可放互動內容的浮層；定位用獨立 translate，開合動畫用 transform，兩者不互相覆蓋 */
+  .pop{position:relative;width:var(--pop-w,280px);max-width:calc(100vw - 32px);box-sizing:border-box;background:var(--panel);border:1px solid var(--line);
+    border-radius:var(--pop-radius,var(--r-md));box-shadow:var(--e-lg);font-family:var(--font-sans);color:var(--ink);text-align:left;}
+  .pop.sz-s{--pop-w:220px;} .pop.sz-m{--pop-w:280px;} .pop.sz-l{--pop-w:340px;}
+  .pop{padding:0;height:auto;}   /* 歸零裸 .sz-* 撞名漏進來的按鈕 padding／height */
+  .pop-head{display:flex;align-items:center;gap:var(--sp-2);padding:var(--pop-pad,var(--sp-4)) var(--pop-pad,var(--sp-4)) 0;}
+  .pop-title{flex:1;min-width:0;font-size:var(--pop-title-fs,var(--fs-h10));font-weight:var(--fw-semibold);}
+  .pop-x{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin:-4px -6px -4px 0;padding:0;border:0;border-radius:var(--r-sm);background:transparent;color:var(--muted);cursor:pointer;
+    transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .pop-x:hover{background:var(--panel-2);color:var(--ink);} .pop-x svg{width:14px;height:14px;}
+  .pop-x:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .pop-body{display:flex;flex-direction:column;gap:var(--pop-gap,var(--sp-3));padding:var(--pop-pad,var(--sp-4));font-size:var(--fs-h11);color:var(--muted);}
+  .pop-foot{display:flex;justify-content:flex-end;gap:var(--sp-2);padding:var(--sp-3) var(--pop-pad,var(--sp-4));border-top:1px solid var(--line);}
+  .pop-arrow{position:absolute;width:10px;height:10px;background:var(--panel);border:1px solid var(--line);transform:rotate(45deg);}
+  .pop-p-bottom .pop-arrow{top:-6px;left:calc(50% - 5px);border-right:0;border-bottom:0;}
+  .pop-p-top .pop-arrow{bottom:-6px;left:calc(50% - 5px);border-left:0;border-top:0;}
+  .pop-p-left .pop-arrow{right:-6px;top:calc(50% - 5px);border-left:0;border-bottom:0;}
+  .pop-p-right .pop-arrow{left:-6px;top:calc(50% - 5px);border-right:0;border-top:0;}
+  /* 浮出：相對 trigger 定位（.pop-wrap），從 trigger 所在方向縮放展開 */
+  .pop-wrap{position:relative;display:inline-flex;}
+  .pop-float{position:absolute;z-index:30;opacity:0;visibility:hidden;pointer-events:none;transform:scale(.95);
+    transition:opacity calc(var(--dur-fast) * .73) var(--ease-in),transform calc(var(--dur-fast) * .73) var(--ease-in),visibility 0s linear calc(var(--dur-fast) * .73);}
+  .pop-float.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:none;
+    transition:opacity calc(var(--dur-fast) * 1.07) var(--ease-out),transform calc(var(--dur-default) * .73) var(--ease-out),visibility 0s;}
+  .pop-float.pop-p-bottom{top:calc(100% + 10px);left:50%;translate:-50% 0;transform-origin:top center;}
+  .pop-float.pop-p-top{bottom:calc(100% + 10px);left:50%;translate:-50% 0;transform-origin:bottom center;}
+  .pop-float.pop-p-left{right:calc(100% + 10px);top:50%;translate:0 -50%;transform-origin:center right;}
+  .pop-float.pop-p-right{left:calc(100% + 10px);top:50%;translate:0 -50%;transform-origin:center left;}
+  .pop-live-stage{position:relative;display:flex;align-items:center;justify-content:center;width:100%;min-height:340px;padding:var(--sp-6);box-sizing:border-box;}
+  @media (prefers-reduced-motion:reduce){.pop-float,.al.al-out,.al.al-in{transition:none !important;animation:none !important;}}
+
   /* ===== Motion v1（2026-11-03「元件動態對照」採用項 · 第一批）=====
      只作用在 .live（互動 demo），矩陣靜態格不受影響；時長／曲線一律取 motion token。 */
   /* Button：outline／soft／text hover＝底色由左掃入；有右側 icon 時箭頭前推 */
@@ -3942,10 +3999,10 @@
       {id:'field',name:'Field 表單欄位',st:'planned',pr:'P1',note:'欄位容器＋表單版面＋錯誤摘要，把多個欄位排成表單；6／7 套有。'},
     ]},
     {group:'Feedback & Overlay 回饋與浮層',emoji:'💬',items:[
-      {id:'alert',name:'Alert 提示橫幅',st:'planned',pr:'P1',note:'頁內、不自動消失的提示；notification 文件已在引用它；7／7 套有。'},
+      {id:'alert',name:'Alert 提示橫幅',st:'ready'},
       {id:'notification',name:'Notification 通知',st:'ready'},
       {id:'tooltip',name:'Tooltip 提示',st:'ready'},
-      {id:'popover',name:'Popover 氣泡卡',st:'planned',pr:'P1',note:'可放互動內容的浮層；tooltip 文件已在引用它；7／7 套有。'},
+      {id:'popover',name:'Popover 氣泡卡',st:'ready'},
       {id:'hover-card',name:'Hover Card 資訊卡',st:'planned',pr:'P2',note:'滑過人名、連結時顯示的小卡；4／7 套有。'},
       {id:'modal',name:'Modal 對話框',st:'ready'},
       {id:'drawer',name:'Drawer 抽屜',st:'ready'},
@@ -4019,6 +4076,8 @@
     tag:{label:'Tag 標籤',order:['variant','corner','intent','state'],
       axes:{variant:['solid','outline','soft'],corner:['round','rect'],intent:['brand','brand2','neutral','danger','success','warning','info'],state:['default','hover','disabled']},
       zh:{variant:{solid:'實心',outline:'外框',soft:'柔色'},corner:{round:'圓角',rect:'方角'},intent:{brand:'品牌',brand2:'輔助',neutral:'中性',danger:'危險',success:'成功',warning:'警告',info:'資訊'},state:{default:'預設',hover:'滑過',disabled:'停用'},axisName:{variant:'Variant 風格',corner:'Corner 圓角',intent:'Intent 意圖',state:'State 狀態'}}},
+    alert:{label:'Alert 提示橫幅',order:['variant','intent'],axes:{variant:['soft','outline','accent'],intent:['info','success','warning','error']},zh:{variant:{soft:'柔色',outline:'外框',accent:'左側色條'},intent:{info:'資訊',success:'成功',warning:'警告',error:'錯誤'},axisName:{variant:'Variant 風格',intent:'Intent 意圖'}}},
+    popover:{label:'Popover 氣泡卡',order:['placement','size'],axes:{placement:['bottom','top','left','right'],size:['s','m','l']},zh:{placement:{bottom:'下方',top:'上方',left:'左側',right:'右側'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{placement:'Placement 方向',size:'Size 尺寸'}}},
     toggle:{label:'Toggle 開關',order:['state'],axes:{state:['off','on','disabled-off','disabled-on']},zh:{state:{off:'關',on:'開','disabled-off':'停用（關）','disabled-on':'停用（開）'},axisName:{state:'State 狀態'}}},
     tab:{label:'Tab 分頁',order:['variant','state','size'],
       axes:{variant:['line','contained','pill'],state:['default','hover','active','disabled'],size:['m','s']},
@@ -4947,6 +5006,139 @@
         row.append(sw,lab);return row;}});
   }
 
+  /* ==================== ALERT 提示橫幅 ==================== */
+  /* 頁內常駐提示（不自動消失）：表單錯誤摘要、帳號到期、權限不足。與 notification（暫時浮出的 toast）分工。icon 沿用 notification 的 NT_ICON。 */
+  const AL_TEXT={info:['有新版本可用','重新整理即可套用最新的元件與 token。'],success:['專案已同步到 Figma','12 個元件、48 個 token 已更新。'],
+    warning:['方案將於 3 天後到期','到期後專案會轉為唯讀，記得續約。'],error:['有 2 個欄位需要修正','請檢查 Email 與手機號碼的格式。']};
+  const AL_ACT={info:'重新整理',success:'查看變更',warning:'立即續約',error:'前往修正'};
+  function alEl(variant,intent,o){o=o||{};
+    const a=ce('div',`al al-v-${variant} al-i-${intent}`);a.setAttribute('role',intent==='error'||intent==='warning'?'alert':'status');
+    if(o.icon!==false){const ic=ce('span','al-ico');ic.innerHTML=NT_ICON[intent];a.appendChild(ic);}
+    const bd=ce('div','al-body');const [t,d]=AL_TEXT[intent];
+    if(o.title!==false){const ti=ce('div','al-title');ti.textContent=t;bd.appendChild(ti);}
+    if(o.desc!==false){const ds=ce('div','al-desc');ds.textContent=d;bd.appendChild(ds);}
+    if(o.action){const ac=ce('div','al-actions');const b=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:!!o.live});b.querySelector('span').textContent=AL_ACT[intent];ac.appendChild(b);bd.appendChild(ac);}
+    a.appendChild(bd);
+    if(o.close){const x=ce('button','al-close');x.type='button';x.setAttribute('aria-label','關閉提示');x.innerHTML=ICON_CLOSE;a.appendChild(x);
+      if(o.live)x.onclick=()=>{ /* 關閉＝淡出後高度收合；示意：約 1 秒後復原 */
+        if(a.classList.contains('al-out'))return;a.classList.remove('al-in');a.classList.add('al-out');
+        afterAnim(a,()=>{a.dataset.slideHide='1';slideToggle(a,false);setTimeout(()=>{a.classList.remove('al-out');delete a.dataset.slideHide;a.style.display='flex';slideToggle(a,true);a.classList.add('al-in');},1000);});};}
+    return a;}
+  LIVE.alert=(host)=>mountLive(host,{gate:'alert',
+    initial:{variant:'soft',intent:'warning',icon:true,title:true,desc:true,action:true,close:true},
+    segs:[{key:'variant',label:'Variant',options:['soft','outline','accent'],labels:['柔色','外框','左側色條']},
+          {key:'intent',label:'Intent',options:['info','success','warning','error'],labels:['資訊','成功','警告','錯誤']}],
+    bools:[{key:'icon',label:'icon 圖示'},{key:'title',label:'title 標題'},{key:'desc',label:'description 說明'},{key:'action',label:'action 動作鈕'},{key:'close',label:'close 可關閉'}],
+    boolLabel:'Content',
+    render:st=>{const a=alEl(st.variant,st.intent,{icon:st.icon,title:st.title,desc:st.desc,action:st.action,close:st.close,live:true});a.classList.add('al-in');return a;},
+    note:'關閉後會先淡出、再把高度收掉（下方內容平滑往上補），約 1 秒後自動復原方便反覆觀看。實際產品裡關閉狀態應依需求記住（例如本次登入期間不再顯示）。'
+  });
+  function buildAlert(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Alert',title:'Alert 提示橫幅',
+      lede:'放在頁面內容中、<b>不會自動消失</b>的提示：表單錯誤摘要、帳號到期、權限不足、系統公告。和 <a href="#notification">notification</a>（暫時浮出、會自己消失的 toast）分工。三種 variant × 四種 intent（<b>3 × 4 = 12</b>），意圖色綁語意 token <code>--s-feedback-*</code>，深淺模式自動切換。',
+      specRows:[['axes','<code>variant × intent</code>'],['formula','<code>3 × 4 = 12</code>'],['token-policy','<code>semantic.*.feedback.*</code>'],['features','icon / title / description / action / close']]});
+    const VN={soft:['柔色','soft'],outline:['外框','outline'],accent:['左側色條','accent']};
+    const IN={info:['資訊','info'],success:['成功','success'],warning:['警告','warning'],error:['錯誤','error']};
+    const axes=DIAL_SPECS.alert.axes, zh=DIAL_SPECS.alert.zh, active=CHOICE.alert.active;
+    let p;
+    function renderM(){ if(!p)return; p.innerHTML='';
+      const vs=axes.variant.filter(v=>active.variant.has(v)), is=axes.intent.filter(v=>active.intent.has(v));
+      p.appendChild(matrixPanel({badge:'content · icon＋title＋description',name:'Variant × Intent',rows:is,cols:vs,
+        rowLab:i=>labHTML(IN[i][0],IN[i][1]),colLab:v=>labHTML(VN[v][0],VN[v][1]),
+        cell:(i,v)=>alEl(v,i,{close:true}),mincol:300})); }
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'Variant × Intent 矩陣','列＝四種 intent、欄＝三種 variant。soft 適合一般頁面；outline 用在白底卡片內；accent（左側色條）適合長文或文件頁，不搶版面。');
+    p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','內容開關走 boolean property（鐵則 3）。只有說明時，說明會升為主文字；需要使用者處理才加 action。');
+    const st=ce('div','al-stack');
+    [['只有說明',{title:false}],['標題＋說明',{}],['＋動作鈕',{action:true}],['＋可關閉',{action:true,close:true}],['無圖示（較次要）',{icon:false}]]
+      .forEach(([cap,o])=>{const it=ce('div','demo-item');it.style.width='100%';it.appendChild(alEl('soft','info',o));const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);st.appendChild(it);});
+    cs.appendChild(st);
+    const us=section(body,'什麼時候用','和相近元件的分工。');
+    const ul=ce('div','row-demo');ul.style.cssText='display:block;font-size:13px;line-height:1.7;color:var(--muted);';
+    ul.innerHTML='<b style="color:var(--ink)">用 Alert</b>：需要使用者看到、而且在處理前都應該留著的訊息（表單錯誤摘要、帳號到期、權限不足、維護公告）。<br>'
+      +'<b style="color:var(--ink)">改用 Notification</b>：操作完成的回饋（已儲存、已複製），幾秒後自己消失即可。<br>'
+      +'<b style="color:var(--ink)">改用 Modal</b>：必須先決定才能繼續（刪除確認）。';
+    us.appendChild(ul);
+    const sl=section(body,'互動預覽與程式碼','切 variant／intent、勾內容開關；按 × 看關閉時的淡出與高度收合。');
+    LIVE.alert(sl);
+  }
+
+  /* ==================== POPOVER 氣泡卡 ==================== */
+  /* 點擊觸發、可放互動內容（勾選、按鈕、連結）的浮層。tooltip 只放純文字；需要互動就用 popover。內容取用既有原子：selector 的 .cbx、button 的 mkBtn（鐵則 5）。 */
+  function popBodyHTML(){
+    const row=(lb,on)=>`<span class="optrow"><span class="cbx sz-s${on?' st-checked':''}">${on?ICON_CHECK:''}</span><span class="oplab">${lb}</span></span>`;
+    return row('有現貨',true)+row('免運費',false)+row('4 星以上',true);}
+  function popEl(placement,size,o){o=o||{};
+    const pp=ce('div',`pop pop-p-${placement} sz-${size}`);pp.setAttribute('role','dialog');pp.setAttribute('aria-label','篩選條件');
+    if(o.arrow!==false)pp.appendChild(ce('span','pop-arrow'));
+    if(o.header!==false){const hd=ce('div','pop-head');const t=ce('div','pop-title');t.textContent='篩選條件';hd.appendChild(t);
+      if(o.close!==false){const x=ce('button','pop-x');x.type='button';x.setAttribute('aria-label','關閉');x.innerHTML=ICON_CLOSE;hd.appendChild(x);}pp.appendChild(hd);}
+    const bd=ce('div','pop-body');bd.innerHTML=popBodyHTML();pp.appendChild(bd);
+    if(o.live)bd.querySelectorAll('.optrow').forEach(r=>{r.style.cursor='pointer';r.onclick=()=>{const c=r.querySelector('.cbx');const on=c.classList.toggle('st-checked');c.innerHTML=on?ICON_CHECK:'';};});
+    if(o.footer!==false){const ft=ce('div','pop-foot');
+      const c=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:!!o.live});c.querySelector('span').textContent='清除';
+      const k=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:!!o.live});k.querySelector('span').textContent='套用';
+      c.dataset.popClose='1';k.dataset.popClose='1';ft.append(c,k);pp.appendChild(ft);}
+    return pp;}
+  /* 互動：點 trigger 開合；點外面、按 Esc、按 ×／套用 關閉；開啟時 focus 第一個可操作元素、關閉時 focus 回 trigger */
+  function popLive(placement,size,o,syncCode){
+    const stage=ce('div','pop-live-stage');const wrap=ce('div','pop-wrap');
+    const trg=mkBtn({variant:'outline',intent:'secondary',size:'m',isLive:true,trail:true});trg.querySelector('span').textContent='篩選';
+    trg.setAttribute('aria-haspopup','dialog');trg.setAttribute('aria-expanded','false');
+    const pp=popEl(placement,size,Object.assign({live:true},o));pp.classList.add('pop-float');
+    wrap.append(trg,pp);stage.appendChild(wrap);
+    const set=v=>{pp.classList.toggle('is-open',v);trg.setAttribute('aria-expanded',v?'true':'false');
+      if(v){const f=pp.querySelector('.optrow,button');if(f&&f.focus)setTimeout(()=>{(pp.querySelector('button')||trg).focus({preventScroll:true});},40);}
+      if(syncCode)syncCode();};
+    trg.onclick=e=>{e.stopPropagation();set(!pp.classList.contains('is-open'));};
+    pp.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('.pop-x,[data-pop-close]');if(b){set(false);trg.focus({preventScroll:true});}});
+    const outside=e=>{if(!stage.isConnected){document.removeEventListener('click',outside);document.removeEventListener('keydown',esc);return;}if(!wrap.contains(e.target))set(false);};
+    const esc=e=>{if(e.key==='Escape'&&pp.classList.contains('is-open')){set(false);trg.focus({preventScroll:true});}};
+    document.addEventListener('click',outside);document.addEventListener('keydown',esc);
+    if(o.open!==false)pp.classList.add('is-open'); // 預設開啟（不跑動畫），一進頁就看得到
+    return stage;}
+  LIVE.popover=(host)=>mountLive(host,{gate:'popover',
+    initial:{placement:'bottom',size:'m',arrow:true,header:true,footer:true,close:true},
+    segs:[{key:'placement',label:'Placement',options:['bottom','top','left','right'],labels:['下方','上方','左側','右側']},
+          {key:'size',label:'Size',options:['s','m','l'],labels:['小 s','標準 m','大 l']}],
+    bools:[{key:'arrow',label:'arrow 箭頭'},{key:'header',label:'header 標題列'},{key:'close',label:'close ×'},{key:'footer',label:'footer 動作列'}],
+    boolLabel:'Content',
+    render:(st,syncCode)=>popLive(st.placement,st.size,{arrow:st.arrow,header:st.header,close:st.close,footer:st.footer},syncCode),
+    note:'點「篩選」開合，從按鈕所在的方向縮放展開；點外面、按 Esc、按 × 或「套用」都會關閉，關閉後焦點回到按鈕。'
+  });
+  function buildPopover(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Popover',title:'Popover 氣泡卡',
+      lede:'點擊觸發、貼齊觸發點的浮層，<b>可以放互動內容</b>（勾選、按鈕、連結、表單）。和 <a href="#tooltip">tooltip</a>（滑過才出現、只有純文字）、<a href="#modal">modal</a>（擋住整頁、必須先處理）分工。四向 placement × 三級 size（<b>4 × 3 = 12</b>）。',
+      specRows:[['axes','<code>placement × size</code>'],['formula','<code>4 × 3 = 12</code>'],['token-policy','<code>semantic.*.popover.*</code>'],['features','arrow / header / close / footer']]});
+    const PZ={bottom:['下方','bottom'],top:['上方','top'],left:['左側','left'],right:['右側','right']};
+    const SZN={s:['小','s · 220'],m:['標準','m · 280'],l:['大','l · 340']};
+    const axes=DIAL_SPECS.popover.axes, zh=DIAL_SPECS.popover.zh, active=CHOICE.popover.active;
+    let p;
+    function renderM(){ if(!p)return; p.innerHTML='';
+      const ps=axes.placement.filter(v=>active.placement.has(v)), ss=axes.size.filter(v=>active.size.has(v));
+      p.appendChild(matrixPanel({badge:'content · header＋body＋footer',name:'Placement × Size（箭頭指向 trigger）',rows:ps,cols:ss,
+        rowLab:pl=>labHTML(PZ[pl][0],PZ[pl][1]),colLab:sz=>labHTML(SZN[sz][0],SZN[sz][1]),
+        cell:(pl,sz)=>popEl(pl,sz,{}),mincol:360})); }
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'Placement × Size 矩陣','列＝四個浮出方向（箭頭在靠近 trigger 的那一側）、欄＝三級寬度。');
+    p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','header、close、footer、arrow 都是內容開關（boolean property）；沒有 footer 時，勾選即時生效。');
+    const rd=ce('div','row-demo');
+    [['完整',{}],['無 footer（即時生效）',{footer:false}],['無 header',{header:false}],['無箭頭',{arrow:false}]]
+      .forEach(([cap,o])=>{const it=ce('div','demo-item');it.appendChild(popEl('bottom','s',o));const c=ce('div','cap');c.innerHTML=`<b>${cap}</b>`;it.appendChild(c);rd.appendChild(it);});
+    cs.appendChild(rd);
+    const us=section(body,'什麼時候用','和相近元件的分工。');
+    const ul=ce('div','row-demo');ul.style.cssText='display:block;font-size:13px;line-height:1.7;color:var(--muted);';
+    ul.innerHTML='<b style="color:var(--ink)">用 Popover</b>：跟某個按鈕直接相關、需要操作的少量內容（篩選、分享、快速設定、日期選擇）。<br>'
+      +'<b style="color:var(--ink)">改用 Tooltip</b>：只是補一句說明文字，不需要點。<br>'
+      +'<b style="color:var(--ink)">改用 Action Menu</b>：一串動作清單，選了就執行。<br>'
+      +'<b style="color:var(--ink)">改用 Modal／Drawer</b>：內容多到需要捲動，或必須先處理才能繼續。';
+    us.appendChild(ul);
+    const sl=section(body,'互動預覽與程式碼','點「篩選」實際開合；切 placement 看展開方向、切 size 看寬度。');
+    LIVE.popover(sl);
+  }
+
   /* ---- DROPDOWN 下拉 ---- */
   function ddEl(variant,state,multi){const f=ce('div',`field dd v-${variant}${multi?' multi':''} st-${state}`);
     const b=ce('span','dd-body');
@@ -5035,11 +5227,11 @@
     bools:[{key:'arrow',label:'with-arrow 箭頭'}],
     boolLabel:'Feature',
     render:st=>{const box=ce('div','tt-live-box');box.appendChild(ttTrigger(st.placement,st.size,st.arrow));return box;},
-    note:'tooltip 只承載純文字；需要按鈕／連結等互動內容時，請改用 popover。'
+    note:'tooltip 只承載純文字；需要按鈕／連結等互動內容時，請改用 <a href="#popover">popover</a>。'
   });
   function buildTooltip(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Tooltip',title:'Tooltip 提示',
-      lede:'滑過或聚焦時浮出的<b>純文字</b>輔助說明。單一 variant（<b>solid 深底白字</b>），只有 <b>placement 四向 × size 兩級（1 × 4 × 2 = 8）</b>；純展示、不可互動、不放任何可點元素——需要互動內容請改用 popover。',
+      lede:'滑過或聚焦時浮出的<b>純文字</b>輔助說明。單一 variant（<b>solid 深底白字</b>），只有 <b>placement 四向 × size 兩級（1 × 4 × 2 = 8）</b>；純展示、不可互動、不放任何可點元素——需要互動內容請改用 <a href="#popover">popover</a>。',
       specRows:[['axes','<code>variant × placement × size</code>'],['formula','<code>1 × 4 × 2 = 8</code>'],['token-policy','<code>semantic.*.tooltip.*</code>'],['features','with-arrow / placement-auto']]});
     const PZ={top:['上方','top'],bottom:['下方','bottom'],left:['左側','left'],right:['右側','right']};
     const SZN={s:['小','s'],m:['標準','m']};
@@ -5331,7 +5523,7 @@ function skelMedia(anim){
         cell:(v,s)=>loaderEl(v,'neutral',s,{}),mincol:140})); }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'Variant × Size 矩陣','列＝三種樣式、欄＝三個尺寸。動畫持續播放；此矩陣統一用中性色。');p=panelsIn(sec);renderM();
-    const si=section(body,'Intent 意圖','loader 只有中性／品牌兩色；不承載 success／warning／error（那是 alert 的事）。以標準 m 尺寸對照。');
+    const si=section(body,'Intent 意圖','loader 只有中性／品牌兩色；不承載 success／warning／error（那是 <a href="#alert">alert</a> 的事）。以標準 m 尺寸對照。');
     const rdI=ce('div','row-demo');rdI.style.marginBottom='16px';
     [['circular','旋轉圈'],['dots','跳動點'],['bar','進度條']].forEach(([v,zhn])=>{
       [['neutral','中性'],['primary','品牌']].forEach(([it,zhi])=>{
@@ -9581,7 +9773,7 @@ function buildScheduleChart(view){
     wrap.appendChild(note);
     view.appendChild(wrap);
   }
-  const BUILD={toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar};
+  const BUILD={alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar};
 
   /* ===== 複雜度確認總覽 ===== */
   function choiceReport(){
@@ -11373,6 +11565,10 @@ function buildScheduleChart(view){
                   {slot:'--nt-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-3'},
                   {slot:'--nt-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h10'}],
     tooltip:[{slot:'--tt-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    alert:[{slot:'--al-radius',label:'圓角 radius',cat:'radius',def:'--r-md'},{slot:'--al-pad',label:'內距 padding',cat:'spacing',def:'--sp-4'},
+           {slot:'--al-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-3'},{slot:'--al-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h10'}],
+    popover:[{slot:'--pop-radius',label:'圓角 radius',cat:'radius',def:'--r-md'},{slot:'--pop-pad',label:'內距 padding',cat:'spacing',def:'--sp-4'},
+             {slot:'--pop-gap',label:'內容間距 gap',cat:'spacing',def:'--sp-3'},{slot:'--pop-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h10'}],
     skeleton:[{slot:'--sk-radius',label:'圓角 radius（文字／矩形）',cat:'radius',def:'--r-sm'}],
     loader:[{slot:'--ld-gap',label:'圖文間距 gap',cat:'spacing',def:'--sp-3'}],
     tag:[{slot:'--tg-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-3'},

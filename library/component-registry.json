@@ -6,10 +6,10 @@
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
       "total": 72,
-      "ready": 40,
-      "planned": 32,
-      "withAxes": 38,
-      "noAxes": 34
+      "ready": 42,
+      "planned": 30,
+      "withAxes": 40,
+      "noAxes": 32
     }
   },
   "groups": [
@@ -1154,11 +1154,54 @@
         {
           "id": "alert",
           "name": "Alert 提示橫幅",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": "alert",
-          "axes": null,
-          "priority": "P1",
-          "note": "頁內、不自動消失的提示；notification 文件已在引用它；7／7 套有。"
+          "axes": {
+            "order": [
+              "variant",
+              "intent"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 風格",
+                "options": [
+                  {
+                    "value": "soft",
+                    "zh": "柔色"
+                  },
+                  {
+                    "value": "outline",
+                    "zh": "外框"
+                  },
+                  {
+                    "value": "accent",
+                    "zh": "左側色條"
+                  }
+                ]
+              },
+              "intent": {
+                "axisName": "Intent 意圖",
+                "options": [
+                  {
+                    "value": "info",
+                    "zh": "資訊"
+                  },
+                  {
+                    "value": "success",
+                    "zh": "成功"
+                  },
+                  {
+                    "value": "warning",
+                    "zh": "警告"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "notification",
@@ -1267,11 +1310,54 @@
         {
           "id": "popover",
           "name": "Popover 氣泡卡",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "可放互動內容的浮層；tooltip 文件已在引用它；7／7 套有。"
+          "axes": {
+            "order": [
+              "placement",
+              "size"
+            ],
+            "by": {
+              "placement": {
+                "axisName": "Placement 方向",
+                "options": [
+                  {
+                    "value": "bottom",
+                    "zh": "下方"
+                  },
+                  {
+                    "value": "top",
+                    "zh": "上方"
+                  },
+                  {
+                    "value": "left",
+                    "zh": "左側"
+                  },
+                  {
+                    "value": "right",
+                    "zh": "右側"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "hover-card",

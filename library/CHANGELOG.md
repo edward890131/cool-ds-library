@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-03（四）　新增 Alert 提示橫幅、Popover 氣泡卡（P1，規劃中 → 完成）
+
+依差距分析優先處理「文件已在引用、元件卻不存在」的兩顆。
+- **Alert 提示橫幅**（Feedback & Overlay）：頁內常駐、不自動消失的提示。`variant`（soft／outline／accent 左側色條）× `intent`（info／success／warning／error）＝12；內容 boolean：icon／title／description／action／close。意圖色綁 `--s-feedback-*`（不沿用 notification 寫死的 hex），深淺自動切換。關閉＝淡出後高度收合（示意 1 秒後復原）。附「什麼時候用」與 notification／modal 分工。TOKEN_SLOTS：radius／pad／gap／title-fs。
+- **Popover 氣泡卡**（Feedback & Overlay）：點擊觸發、可放互動內容的浮層。`placement`（bottom／top／left／right）× `size`（s 220／m 280／l 340）＝12；內容 boolean：arrow／header／close／footer。內容取用既有原子（selector 的 `.cbx`、`mkBtn`，鐵則 5）。互動：從 trigger 方向縮放展開；點外面、Esc、×、套用皆關閉；開啟 focus 進 popover、關閉 focus 回 trigger；`aria-haspopup`／`aria-expanded`／`role=dialog`。定位用獨立 `translate`、動畫用 `transform`，互不覆蓋。TOKEN_SLOTS 同上。
+- **文件引用改為連結**：tooltip 頁「改用 popover」、loader 頁「那是 alert 的事」改為可點連結；新頁 lede 也互相連到 tooltip／modal／notification。
+- registry 重生：42 ready＋30 planned；alert `l0Ref: alert`，popover 無同名 L0。
+- ✅ Playwright：兩頁段落順序、矩陣各 12 格、綁定槽各 4、Alert 關閉收合與復原、深淺意圖色跟隨 token、Popover 外點／Esc／套用關閉與焦點回收、右側 placement 位置與 transform-origin；全站 78 頁無空頁、需求匯總 42 顆、0 console error。
+
 ## 2026-11-03（三）　分類重整為 8 組＋32 顆規劃中元件＋toggle 升格
 
 - **分類**：側欄與 registry 由 Basic／Complex／Card／Table & Chart 4 組，改為依用途的 8 組：General 基礎、Layout 版面、Navigation 導覽、Form 表單、Feedback & Overlay 回饋與浮層、Data Display 資料展示、Card 卡片、Table & Chart 表格圖表。**元件 id 全部不變**，sync 腳本只認 id 不受影響。
