@@ -6,6 +6,19 @@
 
 ---
 
+## 2026-11-03　Motion v1：元件動態對照採用項（第一批）
+
+依「元件動態對照」頁的評審結果，第一批套用 CSS 為主的項目；只作用在 `.live` 互動 demo，矩陣靜態格不變。時長／曲線一律取 motion token。
+- **Token**：`--ease-out` 改 `cubic-bezier(.22,1,.36,1)`、`--ease-in` 改 `cubic-bezier(.55,0,1,.45)`（框架原值 `0,0,.2,1`／`.4,0,1,1`，兩者原本無元件引用）；新增 `--dur-hover-delay:250ms`；Token 頁 Motion 群組補上這三列。
+- **Button**：outline／soft／text 的 hover 底色由左掃入（`::before` scaleX）；有右側 icon（`mkBtn` 的 `trail`，新增 `.has-trail`）時箭頭前推 3px。不採用光澤掃過。
+- **Toggle**：圓鈕 `--ease-spring` 到位、按住拉長、底色稍慢跟上。
+- **Checkbox／Radio**：勾勾由左往右揭開（實心 icon，改用 clip-path 而非描邊動畫）；單選點改 transform scale 彈出（原本動 width／height）；按下微縮。
+- **Tooltip**：停留 `--dur-hover-delay` 才出現、從箭頭方向微放大；離開立刻以 `--ease-in` 收；鍵盤 focus 也會顯示。
+- **Card 家族**（card／product-card／article-card／category-tile）：hover 統一上浮 2px（原本 3px／無）、按下壓回 scale .985（內部按鈕按下時不觸發）、封面圖慢速放大；category-tile 圖示 spring 微浮。
+- **Image**：圖片 `load` 後加 `.is-loaded`，由模糊、微放大轉清晰。
+- 全部尊重 `prefers-reduced-motion`。
+- ✅ Playwright：填色掃入、toggle 按壓拉長與切換、勾勾動畫、tooltip 延遲（120ms 未顯示／620ms 已顯示）、商品卡上浮 2px、圖片 blur-up（本機 data URI 驗證；Unsplash 圖在測試環境無網路）、Token 頁三列，0 console error。
+
 ## 2026-11-02（四）　Toggle 開啟態改用模式對比色＋互動預覽程式碼同步
 
 - **症狀**：深色模式開啟態＝`--accent`（亮灰）軌道＋寫死 `#fff` 圓鈕，白鈕糊在亮軌上；淺色則是黑軌白鈕。兩模式邏輯不一致。

@@ -57,9 +57,10 @@
     --e-lg:0 10px 15px -3px rgba(0,0,0,.10),0 4px 6px -4px rgba(0,0,0,.10);
     --e-xl:0 20px 25px -5px rgba(0,0,0,.10),0 8px 10px -6px rgba(0,0,0,.10);
     --e-2xl:0 25px 50px -12px rgba(0,0,0,.25);
-    --dur-fast:150ms; --dur-default:300ms; --dur-slow:500ms;
-    --ease-standard:cubic-bezier(.4,0,.2,1); --ease-in:cubic-bezier(.4,0,1,1);
-    --ease-out:cubic-bezier(0,0,.2,1); --ease-spring:cubic-bezier(.34,1.56,.64,1);
+    --dur-fast:150ms; --dur-default:300ms; --dur-slow:500ms; --dur-hover-delay:250ms;
+    /* ease-in／ease-out 依「元件動態對照」採用值調整（框架原值 .4,0,1,1／0,0,.2,1）：進場快起慢收、退場慢起快走 */
+    --ease-standard:cubic-bezier(.4,0,.2,1); --ease-in:cubic-bezier(.55,0,1,.45);
+    --ease-out:cubic-bezier(.22,1,.36,1); --ease-spring:cubic-bezier(.34,1.56,.64,1);
 
     /* ── L2 Semantic（角色 → primitive；LIGHT）── */
     --s-surface-canvas:var(--c-neutral-50); --s-surface-1:var(--c-neutral-0);
@@ -2831,6 +2832,63 @@
 /* ---- showcase／Live 舞台 ---- */
 .cal-show{display:flex;flex-wrap:wrap;gap:var(--sp-6);align-items:flex-start;}
 .cal-live-stage{display:flex;justify-content:flex-start;}
+  /* ===== Motion v1（2026-11-03「元件動態對照」採用項 · 第一批）=====
+     只作用在 .live（互動 demo），矩陣靜態格不受影響；時長／曲線一律取 motion token。 */
+  /* Button：outline／soft／text hover＝底色由左掃入；有右側 icon 時箭頭前推 */
+  .btn.live{position:relative;isolation:isolate;overflow:hidden;}
+  .btn.live::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+    background:var(--tint);transform:scaleX(0);transform-origin:right;transition:transform var(--dur-default) var(--ease-out);}
+  .btn.v-soft.live::before{background:var(--tint2);}
+  .btn.v-solid.live::before{display:none;}
+  .v-outline.live:hover:not(:disabled),.v-text.live:hover:not(:disabled){background:transparent;}
+  .v-soft.live:hover:not(:disabled){background:var(--tint);}
+  .btn.live:hover:not(:disabled)::before{transform:scaleX(1);transform-origin:left;}
+  .btn.live:active:not(:disabled)::before{background:var(--tint2);}
+  .btn.has-trail > svg:last-child{transition:transform var(--dur-default) var(--ease-out);}
+  .btn.has-trail.live:hover:not(:disabled) > svg:last-child{transform:translateX(3px);}
+  /* Toggle：圓鈕 spring 到位、按住拉長、底色稍慢跟上 */
+  .switch{transition:background calc(var(--dur-fast) * 1.33) var(--ease-out);}
+  .switch::after{transition:transform var(--dur-default) var(--ease-spring),width var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);}
+  .switch:not(.st-disabled):active::after{width:25px;}
+  .switch.on:not(.st-disabled):active::after{transform:translateX(15px);}
+  /* Checkbox：勾勾由左往右揭開（實心 icon 用 clip-path）；Radio：圓點 scale 彈出；按下微縮 */
+  .livewrap .cbx.st-checked svg{animation:cbx-reveal var(--dur-default) var(--ease-out) both;}
+  @keyframes cbx-reveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}
+  .rdo .dot{width:50%;height:50%;transform:scale(0);transition:transform calc(var(--dur-fast) * .9) var(--ease-in);}
+  .rdo.st-checked .dot{transform:scale(1);transition:transform var(--dur-default) var(--ease-spring);}
+  .cbx,.rdo{transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);}
+  .optrow:active .cbx:not(.st-disabled),.optrow:active .rdo:not(.st-disabled),.livewrap .cbx:active:not(.st-disabled),.livewrap .rdo:active:not(.st-disabled){transform:scale(.9);}
+  /* Tooltip：停留 --dur-hover-delay 才出現、微放大淡入；離開立刻用 ease-in 收 */
+  .tt-tip.tt-float{transition:opacity calc(var(--dur-fast) * .66) var(--ease-in),transform calc(var(--dur-fast) * .66) var(--ease-in);}
+  .tt-tip.tt-fp-top{transform:translateX(-50%) translateY(4px) scale(.96);transform-origin:bottom center;}
+  .tt-tip.tt-fp-bottom{transform:translateX(-50%) translateY(-4px) scale(.96);transform-origin:top center;}
+  .tt-tip.tt-fp-left{transform:translateY(-50%) translateX(4px) scale(.96);transform-origin:right center;}
+  .tt-tip.tt-fp-right{transform:translateY(-50%) translateX(-4px) scale(.96);transform-origin:left center;}
+  .tt-trigwrap:hover .tt-tip.tt-float,.tt-trigwrap:focus-within .tt-tip.tt-float{opacity:1;
+    transition:opacity var(--dur-fast) var(--ease-out) var(--dur-hover-delay),transform calc(var(--dur-fast) * 1.33) var(--ease-out) var(--dur-hover-delay);}
+  .tt-trigwrap:hover .tt-tip.tt-fp-top,.tt-trigwrap:focus-within .tt-tip.tt-fp-top{transform:translateX(-50%) translateY(0) scale(1);}
+  .tt-trigwrap:hover .tt-tip.tt-fp-bottom,.tt-trigwrap:focus-within .tt-tip.tt-fp-bottom{transform:translateX(-50%) translateY(0) scale(1);}
+  .tt-trigwrap:hover .tt-tip.tt-fp-left,.tt-trigwrap:focus-within .tt-tip.tt-fp-left{transform:translateY(-50%) translateX(0) scale(1);}
+  .tt-trigwrap:hover .tt-tip.tt-fp-right,.tt-trigwrap:focus-within .tt-tip.tt-fp-right{transform:translateY(-50%) translateX(0) scale(1);}
+  /* Card 家族（card／product-card／article-card／category-tile）：上浮 2px 減速、按下壓回、圖片慢速放大 */
+  .crd.live,.pcd-card.live,.art-card.live,.cat-tile.live{transition:transform var(--dur-default) var(--ease-out),box-shadow var(--dur-default) var(--ease-out),border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out),filter var(--dur-fast) var(--ease-out);}
+  .crd.live:hover:not(.is-disabled),.pcd-card.live:hover:not(.is-soldout),.art-card.live:hover,.cat-tile.live:hover{transform:translateY(-2px);}
+  .crd.live:active:not(.is-disabled):not(:has(button:active)),.pcd-card.live:active:not(.is-soldout):not(:has(button:active)),
+  .art-card.live:active:not(:has(button:active)),.cat-tile.live:active:not(:has(button:active)){
+    transform:translateY(0) scale(.985);box-shadow:var(--e-sm);transition-duration:calc(var(--dur-fast) * .66);}
+  .crd-media .im-img,.pcd-thumb .im-img,.art-cover .im-img{transition:transform calc(var(--dur-slow) * 1.2) var(--ease-out);}
+  .crd.live:hover:not(.is-disabled) .crd-media .im-img,.pcd-card.live:hover:not(.is-soldout) .pcd-thumb .im-img,.art-card.live:hover .art-cover .im-img{transform:scale(1.04);}
+  .cat-circle{transition:transform var(--dur-default) var(--ease-spring),background var(--dur-fast) var(--ease-out);}
+  .cat-icon.live:hover .cat-circle{transform:translateY(-2px) scale(1.06);}
+  .cat-arrow{transition:transform var(--dur-default) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  /* Image：載入完成後由模糊、微放大轉清晰（JS 在 load 時加 .is-loaded） */
+  .im-img.is-loaded{animation:im-reveal calc(var(--dur-slow) * 1.2) var(--ease-out) both;}
+  @keyframes im-reveal{from{opacity:0;filter:blur(12px);transform:scale(1.04);}to{opacity:1;filter:none;transform:none;}}
+  @media (prefers-reduced-motion:reduce){
+    .btn.live::before,.btn.has-trail > svg,.switch,.switch::after,.cbx,.rdo,.rdo .dot,.tt-tip.tt-float,.crd.live,.pcd-card.live,.art-card.live,.cat-tile.live,.cat-circle,.cat-arrow,.crd-media .im-img,.pcd-thumb .im-img,.art-cover .im-img{transition:none !important;}
+    .livewrap .cbx.st-checked svg,.im-img.is-loaded{animation:none !important;}
+  }
+
   /* ===== Logo 品牌資產頁 ===== */
   .lp-logo{display:inline-flex;align-items:center;color:var(--ink);}
   .lp-logo.lp-lg svg,.lp-logo.lp-lg img{width:72px;height:auto;display:block;}
@@ -3846,7 +3904,7 @@
     let state=o.state||'default'; const disabled=o.disabled||state==='disabled';
     if(disabled && state==='default') state='disabled';
     const b=document.createElement('button');
-    b.className=`btn v-${variant} i-${intent} sz-${size} st-${state}${iconOnly?' icon-only':''}${isLive?' live':''}`;
+    b.className=`btn v-${variant} i-${intent} sz-${size} st-${state}${iconOnly?' icon-only':''}${trail&&!iconOnly?' has-trail':''}${isLive?' live':''}`;
     if(disabled) b.disabled=true;
     let html='';
     if(iconOnly){html=ICON_PENCIL;b.setAttribute('aria-label',LABEL[intent]);}
@@ -9356,8 +9414,8 @@ function buildScheduleChart(view){
      rows:[['--e-sm'],['--e-md'],['--e-lg'],['--e-xl'],['--e-2xl']],
      def:{'--e-sm':'0 1px 2px 0 rgba(0,0,0,.05)','--e-md':'0 4px 6px -1px rgba(0,0,0,.10),0 2px 4px -2px rgba(0,0,0,.10)','--e-lg':'0 10px 15px -3px rgba(0,0,0,.10),0 4px 6px -4px rgba(0,0,0,.10)','--e-xl':'0 20px 25px -5px rgba(0,0,0,.10),0 8px 10px -6px rgba(0,0,0,.10)','--e-2xl':'0 25px 50px -12px rgba(0,0,0,.25)'}},
     {g:'Motion 動態',kind:'text',
-     rows:[['--dur-fast'],['--dur-default'],['--dur-slow'],['--ease-standard'],['--ease-spring']],
-     def:{'--dur-fast':'150ms','--dur-default':'300ms','--dur-slow':'500ms','--ease-standard':'cubic-bezier(.4,0,.2,1)','--ease-spring':'cubic-bezier(.34,1.56,.64,1)'}},
+     rows:[['--dur-fast'],['--dur-default'],['--dur-slow'],['--dur-hover-delay','hover 延遲'],['--ease-standard'],['--ease-out','進場'],['--ease-in','退場'],['--ease-spring']],
+     def:{'--dur-fast':'150ms','--dur-default':'300ms','--dur-slow':'500ms','--dur-hover-delay':'250ms','--ease-standard':'cubic-bezier(.4,0,.2,1)','--ease-out':'cubic-bezier(.22,1,.36,1)','--ease-in':'cubic-bezier(.55,0,1,.45)','--ease-spring':'cubic-bezier(.34,1.56,.64,1)'}},
     {g:'Breakpoints 裝置斷點',kind:'ref',note:'響應式 device mode 分界：Desktop ≥1024／Tablet 768–1023／Mobile <768（字級/間距/圓角/容器隨此變）。',
      rows:[['--bp-mobile','mobile'],['--bp-tablet','tablet'],['--bp-desktop','desktop'],['--bp-wide','wide']],
      def:{'--bp-mobile':'480px','--bp-tablet':'768px','--bp-desktop':'1024px','--bp-wide':'1920px'}},
@@ -10730,6 +10788,8 @@ function buildScheduleChart(view){
   /* ===== 檢視切換 ===== */
   let current='summary';
   /* URL hash 記住當前檢視：重新整理／深連結會停在原元件頁，不跳回匯出需求 */
+  /* Motion v1：圖片載入完成 → 加 .is-loaded 播 blur-up（load 不冒泡，用捕獲階段） */
+  document.addEventListener('load',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('im-img'))t.classList.add('is-loaded');},true);
   function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog'||h==='settings')return h;
     const ids=NAV.flatMap(g=>g.items).map(x=>x.id);return ids.includes(h)?h:null;}
   /* 元件頁段落統一順序：互動預覽與程式碼 → 變數與 Token → State × Variant 矩陣 → 其餘（維持原相對順序）。
