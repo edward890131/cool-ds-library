@@ -11,18 +11,19 @@
 
 | 分組 | ready | planned | 合計 |
 |---|---|---|---|
-| General 基礎 | 4（button／icon／avatar／logo） | 5 | 9 |
-| Layout 版面 | 6（stack／app-shell／header／footer／section-head／floating-line） | 2 | 8 |
-| Navigation 導覽 | 6（tab／menu／action-menu／breadcrumb／pagination／step） | 4 | 10 |
-| Form 表單 | 8（input／dropdown／selector／toggle／segmented／slider／quantity／field） | 7 | 15 |
-| Feedback & Overlay 回饋與浮層 | 10（alert／notification／tooltip／popover／modal／drawer／progress／loader／skeleton／empty） | 1 | 11 |
-| Data Display 資料展示 | 6（tag／price／image／list／list-item／collapse） | 3 | 9 |
+| General 基礎 | 9（button／button-group／icon／avatar／logo／typography／link／kbd／divider） | 0 | 9 |
+| Layout 版面 | 8（stack／app-shell／header／footer／section-head／floating-line／splitter／scroll-area） | 0 | 8 |
+| Navigation 導覽 | 8（tab／menu／action-menu／context-menu／breadcrumb／pagination／step／command） | 2 | 10 |
+| Form 表單 | 11（input／dropdown／selector／toggle／segmented／slider／quantity／field／number-input／date-picker／dropzone） | 4 | 15 |
+| Feedback & Overlay 回饋與浮層 | 11（alert／notification／tooltip／popover／hover-card／modal／drawer／progress／loader／skeleton／empty） | 0 | 11 |
+| Data Display 資料展示 | 9（tag／price／image／list／list-item／collapse／descriptions／rating／carousel） | 0 | 9 |
 | Card 卡片 | 4 | 0 | 4 |
-| Table & Chart 表格圖表 | 5 | 1（table-toolbar） | 6 |
-| **合計** | **49** | **23** | **72** |
+| Table & Chart 表格圖表 | 6（含 table-toolbar） | 0 | 6 |
+| **合計** | **66** | **6** | **72** |
 
 - **toggle 升格**：原本收在 tab 頁，改為獨立元件頁（`buildToggle`），補 `DIAL_SPECS.toggle`（state 4 值），會進需求匯總與匯出。
 - **P1 全部完成**（2026-11-03）：alert、popover、avatar、segmented、slider、field、stack、app-shell、empty。剩餘 23 顆為 P2／P3。
+- **P2 全部完成**（2026-11-03）：button-group、typography、link、kbd、divider、descriptions、splitter、scroll-area、number-input、rating、carousel、hover-card、context-menu、command、date-picker、dropzone、table-toolbar（17 顆）。剩餘 6 顆皆為 P3。
 - **l0Ref**：比對改為只認 L0 的 `- id:` 條目。新元件命中 alert、cascader、date-picker、time-picker、typography（typography 在 L0 屬 foundation，非元件，僅軟參考）。
 
 ### 2026-07-17 初版（Phase B）

@@ -6,6 +6,33 @@
 
 ---
 
+## 2026-11-03（七）　P2 元件全部完成（17 顆，規劃中 → 完成）
+
+每顆都有變數篩選、矩陣、「什麼時候用」、互動預覽與程式碼；內部一律取用既有原子（鐵則 5）。
+- **第一批**
+  - **Button Group**（General）：`variant`（outline／soft／split）× `size`＝9；取用 Button，相鄰圓角歸零、外框重疊；icon／icon-only／toggle。
+  - **Typography**（General）：`kind`（heading／body／caption／code）× `tone`＝12；level 直接套 `.ty-h1～h12` text style；truncate。
+  - **Link**（General）：`variant`（inline／standalone）× `state`＝10；半透明底線 hover 轉實色、箭頭前推、external 圖示。
+  - **Kbd**（General）：`variant` × `size`＝4；mac／win 符號切換；按鍵測試區按下時鍵帽壓平。
+  - **Divider**（General）：`orientation` × `variant`（solid／dashed／strong）＝6；可帶文字。
+  - **Descriptions**（Data Display）：`layout` × `columns`＝6；dl／dt／dd 語意結構，狀態取用 Tag，可複製，手機自動單欄。
+- **第二批**
+  - **Splitter**（Layout）：`orientation` × `handle`（line／grip）＝4；拖曳（20%～80%）、方向鍵（Shift 一次 10%）、Home／End、雙擊／Enter 還原（有過渡）；`role=separator`＋aria-value*。
+  - **Scroll Area**（Layout）：`orientation` × `scrollbar`（always／hover）＝4；細捲軸、邊緣漸層提示「還有內容」；內容取用 list-item。
+  - **Number Input**（Form）：`variant`（stacked／plain）× `state`＝8；取用 field 外框；↑↓（Shift ×10）、Home／End、超出範圍即時標紅、離開時夾回並輕晃；`role=spinbutton`。
+  - **Rating**（Data Display）：`size` × `state`（default／readonly／disabled）＝9；半顆星、hover 預覽、點選 spring 彈一下、再點同分清除、鍵盤調整；星色綁 `--warn`。
+  - **Carousel**（Data Display）：`arrows`（inside／outside）× `indicator`（dots／number）＝4；箭頭取用 Button；拖曳跟手（超過 20% 或甩得夠快換頁）、loop／autoplay（滑過或聚焦暫停）、方向鍵。
+  - **Hover Card**（Feedback & Overlay）：`placement` × `size`＝12；卡片與浮層定位沿用 popover，內容取用 avatar／button；`--dur-hover-delay` 後才出現、離開有 150ms 緩衝可移進卡片、Tab 聚焦也會開、Esc 關閉。
+- **第三批**
+  - **Context Menu**（Navigation）：`variant`（default／with-icon／with-shortcut）× `size`＝9；面板取用 action-menu、快捷鍵取用 kbd；從游標位置展開、靠邊自動反向並換展開原點；Shift＋F10、↑↓、Enter、Esc（焦點回原區塊）。
+  - **Command**（Navigation）：`state`（default／results／empty）× `size`＝6；搜的是元件庫自己的側欄清單，命中字標色、無結果取用 empty；↑↓／Enter／Esc，⌘K 重新開啟；combobox＋aria-activedescendant。
+  - **Date Picker**（Form）：`variant`（single／range）× `state`＝10；欄位取用 field、浮層沿用 popover、內容直接取用 calendar（`calMonthEl` 新增 `onPick` 回呼與 `selY／selM`）；開啟時焦點跳到今天，Esc／點外面關閉。
+  - **Dropzone**（Form）：`state`（default／dragover／uploading／done／error）× `size`＝10；進度取用 progress、移除取用 button；真的可拖曳／選檔，超過 10 MB 直接標錯；附「加入範例檔」模擬上傳。
+  - **Table Toolbar**（Table & Chart）：`mode`（default／filtered／bulk）× `size`＝6；搜尋取用 field、篩選 chip 取用 tag；搜尋與篩選即時套用到下方 table，勾選列切換成批次操作（匯出／刪除／取消選取）。
+- TOKEN_SLOTS：descriptions、splitter、scroll-area、carousel、command、dropzone、table-toolbar 補綁定槽。
+- registry 重生：66 ready＋6 planned（P2 清空，剩 P3）；需求匯總 66 顆、1101 個變體。
+- ✅ Playwright：17 頁段落順序、互動（splitter 鍵盤／拖曳／還原、number-input 夾值、rating 點選與鍵盤、carousel 箭頭／拖曳換頁、hover-card 延遲與緩衝、context-menu 右鍵靠邊反向與鍵盤、command 篩選與選取、date-picker 選日回填、dropzone 進度／錯誤／移除、table-toolbar 篩選→批次刪除）、深淺截圖；全站 78 頁無空頁、390px 無橫向捲動、0 console error。
+
 ## 2026-11-03（六）　頭像改取用 Avatar 原子、站上 .seg 改用 Segmented 規格、群組 hover 調整
 
 - **Avatar 群組 hover**：滑過只往上位移 2px，拿掉 `z-index`，疊放順序不變。
