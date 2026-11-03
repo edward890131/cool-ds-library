@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-03（十三）　metric-card 長條圓角對齊 chart
+
+- metric-card 的週長條／每日長條原本用 `rx:6`／`rx:1.2` 四角圓，和 chart 元件不一致；改用 chart 同一支 `chtxBarTop`＋`--r-xs`（只有頂端圓角、底部貼齊基準線）。折線版的重點欄底色也改用 `--r-xs`。
+
 ## 2026-11-03（十二）　Card 新增 5 種牌卡（牌卡提案第二版進庫）
 
 - **person-card 照片人物卡**：`state`（default／added）× `size`（m／s）＝4；boolean `tags`（照片左上的磨砂標籤）。加入成員 → 已加入。

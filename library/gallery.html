@@ -12672,9 +12672,9 @@ function buildScheduleChart(view){
     const colW=40,els=[];let band=null;
     if(m.kind==='daily'){let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
       for(let w=0;w<8;w++)for(let d=0;d<7;d++){const v=Math.min(m.w[w]*(.55+rnd()*.9),hi),x=w*colW+4+d*(colW-8)/7;
-        const r=mk('rect',{x:x.toFixed(1),width:((colW-8)/7-1.6).toFixed(1),y:Y(v).toFixed(1),height:(90-Y(v)).toFixed(1),rx:1.2},'b');r.dataset.w=w;els.push(r);}}
-    else if(m.kind==='weekly'){m.w.forEach((v,w)=>{const r=mk('rect',{x:w*colW+5,width:colW-10,y:Y(v).toFixed(1),height:(90-Y(v)).toFixed(1),rx:6},'b');r.dataset.w=w;els.push(r);});}
-    else{band=mk('rect',{y:0,height:96,width:colW-6,rx:6},'mtc-band');
+        const bw=(colW-8)/7-1.6,r=mk('path',{d:chtxBarTop(+x.toFixed(1),+Y(v).toFixed(1),bw,90-Y(v),chtxR())},'b');r.dataset.w=w;els.push(r);}}
+    else if(m.kind==='weekly'){m.w.forEach((v,w)=>{const r=mk('path',{d:chtxBarTop(w*colW+5,+Y(v).toFixed(1),colW-10,90-Y(v),chtxR())},'b');r.dataset.w=w;els.push(r);});}
+    else{band=mk('rect',{y:0,height:96,width:colW-6,rx:chtxR()},'mtc-band');
       const pts=m.w.map((v,w)=>[w*colW+colW/2,Y(v)]);let d='M'+pts[0];for(let i=1;i<8;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i],mx=(x0+x1)/2;d+=` C${mx},${y0} ${mx},${y1} ${x1},${y1}`;}
       mk('path',{d,'vector-effect':'non-scaling-stroke'},'mtc-path');
       pts.forEach(([x,y],w)=>{const e=mk('ellipse',{cx:x,cy:y.toFixed(1),rx:3,ry:3.2},'mtc-dot');e.dataset.w=w;els.push(e);});}
