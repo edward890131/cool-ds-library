@@ -5,10 +5,10 @@
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 72,
-      "ready": 66,
+      "total": 77,
+      "ready": 71,
       "planned": 6,
-      "withAxes": 64,
+      "withAxes": 69,
       "noAxes": 8
     }
   },
@@ -3191,6 +3191,220 @@
                   {
                     "value": "s",
                     "zh": "精簡 s"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "person-card",
+          "name": "Person Card 照片人物卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "state",
+              "size"
+            ],
+            "by": {
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "added",
+                    "zh": "已加入"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "s",
+                    "zh": "精簡 s"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "profile-card",
+          "name": "Profile Card 品牌檔案卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "cover",
+              "state"
+            ],
+            "by": {
+              "cover": {
+                "axisName": "Cover 封面",
+                "options": [
+                  {
+                    "value": "graphic",
+                    "zh": "圖形"
+                  },
+                  {
+                    "value": "image",
+                    "zh": "照片"
+                  },
+                  {
+                    "value": "color",
+                    "zh": "純色"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "following",
+                    "zh": "追蹤中"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "metric-card",
+          "name": "Metric Card 指標週卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "chart",
+              "tone"
+            ],
+            "by": {
+              "chart": {
+                "axisName": "Chart 圖型",
+                "options": [
+                  {
+                    "value": "daily-bar",
+                    "zh": "每日長條"
+                  },
+                  {
+                    "value": "weekly-bar",
+                    "zh": "每週長條"
+                  },
+                  {
+                    "value": "line",
+                    "zh": "折線"
+                  }
+                ]
+              },
+              "tone": {
+                "axisName": "Tone 色調",
+                "options": [
+                  {
+                    "value": "brand",
+                    "zh": "品牌橘"
+                  },
+                  {
+                    "value": "info",
+                    "zh": "資訊藍"
+                  },
+                  {
+                    "value": "success",
+                    "zh": "成功綠"
+                  },
+                  {
+                    "value": "violet",
+                    "zh": "紫"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "invite-card",
+          "name": "Invite Card 邀請協作卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "layout",
+              "members"
+            ],
+            "by": {
+              "layout": {
+                "axisName": "Layout 版型",
+                "options": [
+                  {
+                    "value": "card",
+                    "zh": "頁內卡片"
+                  },
+                  {
+                    "value": "modal",
+                    "zh": "對話框"
+                  }
+                ]
+              },
+              "members": {
+                "axisName": "Members 成員",
+                "options": [
+                  {
+                    "value": "empty",
+                    "zh": "空"
+                  },
+                  {
+                    "value": "list",
+                    "zh": "成員清單"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "widget-card",
+          "name": "Widget Card 小工具卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "kind"
+            ],
+            "by": {
+              "kind": {
+                "axisName": "Kind 種類",
+                "options": [
+                  {
+                    "value": "message",
+                    "zh": "訊息"
+                  },
+                  {
+                    "value": "todo",
+                    "zh": "今日待辦"
+                  },
+                  {
+                    "value": "group",
+                    "zh": "群組訊息"
+                  },
+                  {
+                    "value": "welcome",
+                    "zh": "歡迎回來"
+                  },
+                  {
+                    "value": "date",
+                    "zh": "日期"
                   }
                 ]
               }

@@ -6,6 +6,18 @@
 
 ---
 
+## 2026-11-03（十二）　Card 新增 5 種牌卡（牌卡提案第二版進庫）
+
+- **person-card 照片人物卡**：`state`（default／added）× `size`（m／s）＝4；boolean `tags`（照片左上的磨砂標籤）。加入成員 → 已加入。
+- **profile-card 品牌檔案卡**：`cover`（graphic／image／color）× `state`（default／following）＝6；boolean `verified`。追蹤者數字逐位滾動（顯示完整數字，+1 才看得出變化）。
+- **metric-card 指標週卡**：`chart`（daily-bar／weekly-bar／line）× `tone`（brand／info／success／violet）＝12；點週次切換、平均值滾動，平均線數值滑過才出現；附 Walking／Active calories／Sleep／Weight 範例。
+- **invite-card 邀請協作卡**：`layout`（card／modal）× `members`（empty／list）＝4；email 驗證（錯誤輕晃）、新成員滑入標 Invited、權限選單（取用 action-menu 項目，↑↓／Enter／Esc）、複製連結、全部移除後顯示 empty。
+- **widget-card 小工具卡**：`kind`（message／todo／group／welcome／date）＝5；附參考圖版面的 Bento 組合。
+- 原子擴充：`avtEl` 可帶自訂照片（`o.src`）；Tag 新增 `.tg-frost`（壓在照片上的磨砂標籤）。新增 Phosphor icon：caret-right、link、seal-check（fill）、person-simple-walk、fire、gauge、chat-centered-text。
+- 示範照片：原檔在 `library/assets/photos/`，頁面內以壓縮 data URI 嵌入（約 51KB）。
+- 元件內容維持提案的英文；registry 重生 71 ready＋6 planned；需求匯總 1150 個變體；首頁元件牆多 5 格。
+- ✅ Playwright：5 頁段落順序、矩陣、互動、深淺、390px；全站 84 頁無空頁、0 console error。
+
 ## 2026-11-03（十一）　Chart 新增 9 種圖型（提案定案 → 進庫）
 
 - **chart variant 擴充為 14 種 × m／s＝28**：原有 stat／line／curve／bar／donut，新增 spark（趨勢小圖卡）、brush（刷選縮放折線）、area-stack（堆疊面積）、bar-stack（堆疊長條）、combo（長條＋折線，預設上下分開、可切雙軸）、bar-rank（橫向排名）、gauge（儀表）、funnel（漏斗）、heatmap（熱力圖）。頁面依「基礎／趨勢／組成／比較／進度與分布」分組顯示，DIAL_SPECS 仍是唯一來源。

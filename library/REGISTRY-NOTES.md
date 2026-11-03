@@ -17,13 +17,14 @@
 | Form 表單 | 11（input／dropdown／selector／toggle／segmented／slider／quantity／field／number-input／date-picker／dropzone） | 4 | 15 |
 | Feedback & Overlay 回饋與浮層 | 11（alert／notification／tooltip／popover／hover-card／modal／drawer／progress／loader／skeleton／empty） | 0 | 11 |
 | Data Display 資料展示 | 9（tag／price／image／list／list-item／collapse／descriptions／rating／carousel） | 0 | 9 |
-| Card 卡片 | 4 | 0 | 4 |
+| Card 卡片 | 9（card／product-card／category-tile／article-card／person-card／profile-card／metric-card／invite-card／widget-card） | 0 | 9 |
 | Table & Chart 表格圖表 | 6（含 table-toolbar） | 0 | 6 |
-| **合計** | **66** | **6** | **72** |
+| **合計** | **71** | **6** | **77** |
 
 - **toggle 升格**：原本收在 tab 頁，改為獨立元件頁（`buildToggle`），補 `DIAL_SPECS.toggle`（state 4 值），會進需求匯總與匯出。
 - **P1 全部完成**（2026-11-03）：alert、popover、avatar、segmented、slider、field、stack、app-shell、empty。剩餘 23 顆為 P2／P3。
 - **P2 全部完成**（2026-11-03）：button-group、typography、link、kbd、divider、descriptions、splitter、scroll-area、number-input、rating、carousel、hover-card、context-menu、command、date-picker、dropzone、table-toolbar（17 顆）。剩餘 6 顆皆為 P3。
+- **牌卡第二版進庫**（2026-11-03）：person-card、profile-card、metric-card、invite-card、widget-card（library-first，無 L0 對應）。boolean property：person-card `tags`、profile-card `verified`（記在 DIAL_SPECS `bools`，registry 腳本尚未輸出此欄）。
 - **l0Ref**：比對改為只認 L0 的 `- id:` 條目。新元件命中 alert、cascader、date-picker、time-picker、typography（typography 在 L0 屬 foundation，非元件，僅軟參考）。
 
 ### 2026-07-17 初版（Phase B）
