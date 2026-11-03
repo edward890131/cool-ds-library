@@ -3398,21 +3398,33 @@
   @media (max-width:1023px){html[data-frost] .shell.nav-drawer .sidebar,html[data-frost] .sidebar{backdrop-filter:blur(var(--frost-blur));}}
 
   /* 偏好設定：磨砂滑桿＋即時預覽 */
-  .pref-frost{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--sp-6);align-items:center;}
-  .pref-frost-prev{position:relative;height:150px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);background:var(--s-surface-canvas);}
-  .pref-frost-prev .pfb{position:absolute;inset:-20%;filter:blur(24px);opacity:min(1,calc(var(--pf) * 2.5));
+  .pref-frost{display:grid;grid-template-columns:240px minmax(0,340px);justify-content:start;gap:var(--sp-6);align-items:center;}
+  .pref-frost-prev{position:relative;height:136px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);background:var(--s-surface-canvas);}
+  .pref-frost-prev .pfb{position:absolute;inset:-20%;filter:blur(24px);opacity:min(1,calc(var(--pf) * 2.5));transition:opacity var(--dur-default) var(--ease-out);
     background:radial-gradient(40% 40% at 20% 30%,color-mix(in srgb,var(--accent2) 60%,transparent),transparent 70%),radial-gradient(40% 40% at 80% 70%,color-mix(in srgb,var(--c-info-500) 50%,transparent),transparent 70%);}
-  .pref-frost-prev .pfp{position:absolute;inset:20px 28px;border-radius:var(--r-sm);border:1px solid var(--s-border-1);
+  .pref-frost-prev .pfp{position:absolute;inset:18px 24px;border-radius:var(--r-sm);border:1px solid var(--s-border-1);
     background:color-mix(in srgb,var(--s-surface-1) calc(100% - var(--pf) * 58%),transparent);backdrop-filter:blur(calc(var(--pf) * 28px));-webkit-backdrop-filter:blur(calc(var(--pf) * 28px));
     display:flex;flex-direction:column;gap:8px;padding:14px;}
   .pref-frost-prev .pfp i{display:block;height:7px;border-radius:4px;background:var(--s-border-2);} .pref-frost-prev .pfp i:first-child{width:40%;height:9px;background:var(--s-text-3);}
   .pref-frost-prev .pfp i:nth-child(2){width:80%;} .pref-frost-prev .pfp i:nth-child(3){width:64%;}
-  .pref-frost-ctl{display:flex;flex-direction:column;gap:var(--sp-3);}
-  .pref-frost-ctl .pf-row{display:flex;align-items:center;justify-content:space-between;font-size:var(--fs-h11);color:var(--muted);}
-  .pref-frost-ctl output{font-family:var(--font-mono);color:var(--ink);font-variant-numeric:tabular-nums;}
-  .pref-frost-ctl input[type=range]{width:100%;accent-color:var(--accent);}
-  .pref-frost-ctl .pf-presets{display:flex;gap:var(--sp-2);flex-wrap:wrap;}
-  @media (max-width:640px){.pref-frost{grid-template-columns:1fr;}}
+  .pref-frost-ctl{display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
+  .pref-frost-ctl .sgm{align-self:stretch;}
+  /* 填充式滑桿：整條就是控制項——左側標籤、右側數值、填色＝目前值、邊緣一條握把；底下是原生 range（鍵盤與螢幕閱讀器照常） */
+  .fsl{position:relative;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);height:40px;padding:0 var(--sp-3);box-sizing:border-box;
+    border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;font-size:var(--fs-h10);color:var(--muted);user-select:none;
+    transition:border-color var(--dur-fast) var(--ease-out);}
+  .fsl:hover{border-color:var(--line-strong);}
+  .fsl:focus-within{outline:2px solid var(--accent);outline-offset:2px;}
+  .fsl-fill{position:absolute;inset:0 auto 0 0;width:var(--p,0%);background:color-mix(in srgb,var(--ink) 9%,var(--panel-2));transition:width var(--dur-fast) var(--ease-out);}
+  .fsl-fill::after{content:"";position:absolute;right:5px;top:50%;width:3px;height:16px;margin-top:-8px;border-radius:2px;background:var(--faint);transition:background var(--dur-fast) var(--ease-out);}
+  .fsl:hover .fsl-fill::after,.fsl.is-drag .fsl-fill::after{background:var(--ink);}
+  .fsl.is-drag .fsl-fill{transition:none;}
+  .fsl-ticks{position:absolute;inset:0 var(--sp-3);display:flex;justify-content:space-between;align-items:center;pointer-events:none;}
+  .fsl-ticks i{width:1px;height:8px;background:var(--line-strong);opacity:.8;} .fsl-ticks i:first-child,.fsl-ticks i:last-child{opacity:0;}
+  .fsl-lb,.fsl-val{position:relative;z-index:1;pointer-events:none;white-space:nowrap;}
+  .fsl-val{font-family:var(--font-mono);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .fsl input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;}
+  @media (max-width:640px){.pref-frost{grid-template-columns:minmax(0,1fr);}}
 
   /* topbar：搜尋入口＋深淺色切換 */
   .ss-trig{display:inline-flex;align-items:center;gap:var(--sp-2);width:min(340px,32vw);height:34px;padding:0 6px 0 10px;box-sizing:border-box;border:1px solid var(--line-strong);border-radius:var(--r-sm);
@@ -4466,6 +4478,113 @@
     .dgt-row .dgt-cs,.dgt-row .dgt-cu{grid-column:1/-1;}
     .dgt-fcrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
     .dg-sp-lb{width:88px;}
+  }
+  /* ==================== 開新專案流程（#start）==================== */
+  .flw{display:flex;flex-direction:column;gap:var(--sp-5);margin-top:var(--sp-6);max-width:960px;min-width:0;}
+  .flw-topact{display:inline-flex;gap:var(--sp-2);}
+  .flw-prog{min-width:0;}
+  .flw-prog .stp-horizontal .stp-labels{max-width:96px;}
+  .flw-jump{cursor:pointer;border-radius:var(--r-sm);transition:opacity var(--dur-fast) var(--ease-standard);}
+  .flw-jump:hover{opacity:.75;}
+  .flw-jump:focus-visible{outline:2px solid var(--accent);outline-offset:var(--sp-1);}
+  .flw-cur{display:none;font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--ink);}
+  .flw-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-6);display:flex;flex-direction:column;gap:var(--sp-6);min-width:0;}
+  .flw-body{display:flex;flex-direction:column;gap:var(--sp-5);min-width:0;}
+  .flw-body.flw-in{animation:flw-in var(--dur-default) var(--ease-out) both;}
+  @keyframes flw-in{from{opacity:0;transform:translateY(var(--sp-2));}to{opacity:1;transform:none;}}
+  .flw-nav{display:flex;align-items:center;gap:var(--sp-3);border-top:1px solid var(--line);padding-top:var(--sp-5);}
+  .flw-sh{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-st{margin:0;font-size:var(--fs-h7);font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink);}
+  .flw-sd{margin:calc(var(--sp-3) * -1) 0 0;color:var(--muted);font-size:var(--fs-h10);max-width:62ch;}
+  .flw-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5) var(--sp-6);}
+  .flw-grid .fld{max-width:none;}
+  .flw-span{grid-column:1 / -1;}
+  .flw-fld .fld-ctl{align-items:flex-start;}
+  .flw-fld .fld-ctl > .ddwrap,.flw-fld .fld-ctl > .drz,.flw-fld .fld-ctl > .flw-color{width:100%;}
+  .flw-ta{min-width:0;}
+  .flw-color{max-width:280px;}
+  .flw-chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .flw-chip{cursor:pointer;height:auto;min-height:28px;padding:0 var(--sp-4);font-size:var(--fs-h11);border-width:1px;border-style:solid;
+    transition:background var(--dur-fast) var(--ease-standard),color var(--dur-fast) var(--ease-standard),border-color var(--dur-fast) var(--ease-standard);}
+  .flw-chip:hover{filter:brightness(.97);}
+  .flw-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .flw-note{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-note.is-err{color:var(--i-danger);}
+  .flw-inline{display:inline-flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-gap{margin:0;}
+  /* AI 插槽：虛線框＋「AI 之後接上」標籤＋固定規則 fallback */
+  .flw-ai{border:1px dashed var(--line-strong);border-radius:var(--r-md);padding:var(--sp-4) var(--sp-5);background:var(--panel-2);display:flex;flex-direction:column;gap:var(--sp-2);}
+  .flw-ai-hd{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-ai-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .flw-ai-d{margin:0;font-size:var(--fs-h11);color:var(--muted);}
+  .flw-ai-fb{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-ai-fl{font-size:var(--fs-h11);color:var(--faint);}
+  .flw-ai-badge{flex:0 0 auto;}
+  .flw-ai-badge svg{width:12px;height:12px;}
+  /* 提案 */
+  .flw-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5);}
+  .flw-panel{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;background:var(--panel);}
+  .flw-ph{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);display:flex;align-items:center;gap:var(--sp-2);}
+  .flw-cnt{font-weight:var(--fw-regular);color:var(--faint);font-size:var(--fs-h11);}
+  .flw-scale{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .flw-scrow{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:var(--sp-3);}
+  .flw-scl{font-size:var(--fs-h11);color:var(--muted);min-width:3em;}
+  .flw-scbar{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line);}
+  .flw-sw{height:var(--sp-7);display:block;}
+  .flw-sw.is-anchor{box-shadow:inset 0 0 0 2px var(--panel);}
+  .flw-why,.flw-comp,.flw-checks,.flw-files{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .flw-why li{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:var(--sp-1) var(--sp-3);padding:var(--sp-3) 0;border-top:1px solid var(--line);font-size:var(--fs-h11);}
+  .flw-why li:first-child{border-top:0;padding-top:0;}
+  .flw-why li:last-child{padding-bottom:0;}
+  .flw-why code{font-family:var(--font-mono);color:var(--ink);overflow-wrap:anywhere;}
+  .flw-why-v{color:var(--ink);text-align:right;overflow-wrap:anywhere;}
+  .flw-why-r{grid-column:1 / -1;color:var(--muted);}
+  .flw-preview{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-4);border-radius:var(--r-md);background:var(--panel-2);}
+  .flw-preview + .flw-note,.flw-note + .flw-preview{margin-top:calc(var(--sp-2) * -1);}
+  .flw-comp{max-height:420px;overflow:auto;}
+  .flw-comp li{display:flex;flex-direction:column;gap:2px;padding:var(--sp-3) 0;border-top:1px solid var(--line);}
+  .flw-comp li:first-child{border-top:0;padding-top:0;}
+  .flw-cn{font-size:var(--fs-h10);color:var(--ink);font-weight:var(--fw-medium);}
+  .flw-cr{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-apply{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  /* 調整 */
+  .flw-jumps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-4);}
+  .flw-jumpcard{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);align-items:flex-start;background:var(--panel-2);}
+  .flw-jt{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .flw-jd{margin:0;font-size:var(--fs-h11);color:var(--muted);flex:1;}
+  /* 匯出 */
+  .flw-ck{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px var(--sp-3);align-items:start;padding:var(--sp-3) 0;border-top:1px solid var(--line);}
+  .flw-ck:first-child{border-top:0;padding-top:0;}
+  .flw-ck-ic{grid-row:span 2;display:inline-flex;width:18px;height:18px;}
+  .flw-ck-ic svg{width:18px;height:18px;}
+  .flw-ck.is-pass .flw-ck-ic{color:var(--s-feedback-success);}
+  .flw-ck.is-warn .flw-ck-ic{color:var(--s-feedback-warning);}
+  .flw-ck.is-fail .flw-ck-ic{color:var(--s-feedback-error);}
+  .flw-ck-t{font-size:var(--fs-h10);color:var(--ink);}
+  .flw-ck-d{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-files li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:var(--sp-3);align-items:center;padding:var(--sp-3) 0;border-top:1px solid var(--line);color:var(--muted);}
+  .flw-files li:first-child{border-top:0;padding-top:0;}
+  .flw-files li > svg{width:18px;height:18px;grid-row:span 2;}
+  .flw-files li > .btn{grid-column:3;grid-row:1 / span 2;}
+  .flw-fn{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);overflow-wrap:anywhere;}
+  .flw-fd{grid-column:2;font-size:var(--fs-h11);color:var(--muted);}
+  .flw-readme{margin:0;padding:var(--sp-4);border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:var(--lh-relaxed);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;}
+  .flw-panel > .btn{align-self:flex-start;}
+  /* 其他頁的「專案進行中」膠囊 */
+  .flw-pill{position:fixed;right:var(--sp-5);bottom:var(--sp-5);z-index:40;display:flex;align-items:center;gap:var(--sp-3);
+    padding:var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);border-radius:var(--r-pill);background:var(--panel);border:1px solid var(--line-strong);box-shadow:var(--e-lg);
+    max-width:calc(100vw - var(--sp-5) * 2);animation:flw-pill-in var(--dur-default) var(--ease-out) both;}
+  .flw-pill[hidden]{display:none;}
+  .flw-pill-t{font-size:var(--fs-h11);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  @keyframes flw-pill-in{from{opacity:0;transform:translateY(var(--sp-3));}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.flw-body.flw-in,.flw-pill{animation:none;} .flw-jump,.flw-chip{transition:none;}}
+  @media (max-width:767px){
+    .flw-card{padding:var(--sp-5);gap:var(--sp-5);}
+    .flw-grid,.flw-cols,.flw-jumps{grid-template-columns:minmax(0,1fr);}
+    .flw-prog .stp-labels{display:none;}
+    .flw-prog .stp-horizontal .stp-conn{margin-top:var(--sp-5);min-width:var(--sp-2);}
+    .flw-cur{display:block;margin-top:calc(var(--sp-3) * -1);}
+    .flw-pill{right:var(--sp-4);bottom:var(--sp-4);}
   }
 </style>
 
@@ -12879,7 +12998,7 @@ function buildScheduleChart(view){
   function afterAnim(el,cb){const cs=getComputedStyle(el);const ms=(parseFloat(cs.animationDuration)||0)*1000+(parseFloat(cs.animationDelay)||0)*1000;ms>0?setTimeout(cb,ms+20):cb();}
   /* Motion v1：圖片載入完成 → 加 .is-loaded 播 blur-up（load 不冒泡，用捕獲階段） */
   document.addEventListener('load',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('im-img'))t.classList.add('is-loaded');},true);
-  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog'||h==='settings')return h;
+  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='start')return h;if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog'||h==='settings')return h;
     const ids=NAV.flatMap(g=>g.items).map(x=>x.id);return ids.includes(h)?h:null;}
   /* 元件頁段落統一順序：互動預覽與程式碼 → 變數與 Token → State × Variant 矩陣 → 其餘（維持原相對順序）。
      各元件 BUILD 自行決定 append 順序，這裡在渲染後集中重排，避免逐頁改。只搬「主要」那一段（第一個互動預覽／第一個矩陣），
@@ -12905,6 +13024,7 @@ function buildScheduleChart(view){
     else if(id==='changelog'){renderChangelog(view);}
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='settings'){renderSettings(view);}
+    else if(id==='start'){renderStart(view);}
     else if(id==='tokens'){renderTokens(view);}
     else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');reorderSections(view);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
     else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);reorderSections(view);} // 集中掛綁定卡（無 TOKEN_SLOTS 則 early-return）＋統一段落順序
@@ -12980,8 +13100,9 @@ function buildScheduleChart(view){
       <section class="block pref-sec">
         <div class="pref-sec-h"><h2>磨砂材質</h2><p>網站外框（頁面底色、頂部列、側欄、區塊面板、浮層）變成半透明磨砂，後面透出依 Design Token 主／副色生成的漸層。元件預覽維持原本的實心底色，和匯出結果一致。深淺色請用右上角的切換。</p></div>
         <div class="pref-frost"><div class="pref-frost-prev" id="pfPrev" aria-hidden="true"><div class="pfb"></div><div class="pfp"><i></i><i></i><i></i></div></div>
-          <div class="pref-frost-ctl"><div class="pf-row"><label for="pfRange">磨砂程度</label><output id="pfOut" for="pfRange"></output></div>
-            <input type="range" id="pfRange" min="0" max="100" step="5"><div class="pf-presets" id="pfPre"></div></div></div>
+          <div class="pref-frost-ctl"><div class="fsl" id="pfSl"><span class="fsl-fill"></span><span class="fsl-ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              <label class="fsl-lb" for="pfRange">磨砂程度</label><output class="fsl-val" id="pfOut" for="pfRange"></output><input type="range" id="pfRange" min="0" max="100" step="5"></div>
+            <div id="pfPre"></div></div></div>
       </section>
       <section class="block pref-sec">
         <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。主色／輔助色會依當前 Design Token 的主／副色即時生成，改了 token 色號漸層也跟著變。</p></div>
@@ -12992,12 +13113,16 @@ function buildScheduleChart(view){
         <div class="pref-cards" id="prefLay">${LAY.map(layCard).join('')}</div>
         ${isMobile?'<p class="pref-note">📱 手機上無法水平顯示，僅能垂直排列。</p>':''}
       </section>`;
-    (function(){ // 磨砂：滑桿即時套用＋持久化；四個快速值取用 Button 原子
-      const rg=view.querySelector('#pfRange'),out=view.querySelector('#pfOut'),pv=view.querySelector('#pfPrev'),pre=view.querySelector('#pfPre');
-      const set=(v,persist)=>{rg.value=v;out.textContent=v+'%';pv.style.setProperty('--pf',String(v/100));window.__applyFrost(v,persist);
-        pre.querySelectorAll('.btn').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===+v)));};
-      [[0,'關閉'],[30,'輕'],[60,'中'],[100,'重']].forEach(([v,l])=>{const b=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});b.querySelector('span').textContent=l+' '+v+'%';b.dataset.v=v;b.onclick=()=>set(v,true);pre.appendChild(b);});
-      rg.addEventListener('input',()=>set(rg.value,false));rg.addEventListener('change',()=>set(rg.value,true));set(window.__frost||0,false);
+    (function(){ // 磨砂：填充式滑桿即時套用＋持久化；快速值取用 Segmented 原子（自訂值時都不選）
+      const rg=view.querySelector('#pfRange'),out=view.querySelector('#pfOut'),pv=view.querySelector('#pfPrev'),pre=view.querySelector('#pfPre'),sl=view.querySelector('#pfSl');
+      const P=[0,30,60,100];let lastIdx=null;
+      const seg=idx=>{lastIdx=idx;const g=sgmEl('soft','m',{live:true,full:true,label:'磨砂快速值',items:['關閉','輕','中','重'],active:idx<0?-1:idx,onChange:i=>set(P[i],true,true)});
+        if(idx<0){const b=g.querySelector('.sgm-it');if(b)b.tabIndex=0;}pre.replaceChildren(g);};
+      const set=(v,persist,fromSeg)=>{v=+v;rg.value=v;out.textContent=v+'%';sl.style.setProperty('--p',v+'%');pv.style.setProperty('--pf',String(v/100));window.__applyFrost(v,persist);
+        const idx=P.indexOf(v);if(!fromSeg&&idx!==lastIdx)seg(idx);else if(fromSeg)lastIdx=idx;};
+      rg.addEventListener('input',()=>set(rg.value,false));rg.addEventListener('change',()=>set(rg.value,true));
+      rg.addEventListener('pointerdown',()=>sl.classList.add('is-drag'));['pointerup','pointercancel','blur'].forEach(t=>rg.addEventListener(t,()=>sl.classList.remove('is-drag')));
+      set(window.__frost||0,false);
     })();
     view.querySelectorAll('#prefGrad .pref-card').forEach(c=>c.onclick=()=>{ // 漸層：記模式偏好＋持久化；在 guide 頁即時套用（classic/primary/secondary/off）
       const mode=c.dataset.k; window.__shaderMode=mode;
@@ -13134,7 +13259,7 @@ function buildScheduleChart(view){
     price:'價格 金額',image:'圖片 img 照片',rating:'評分 星星 star',carousel:'輪播 banner',list:'清單 列表','list-item':'清單項目 列',collapse:'折疊 accordion 手風琴',
     descriptions:'資料清單 屬性 key value',card:'卡片',  'product-card':'商品卡 商品','category-tile':'分類',  'article-card':'文章卡 部落格',table:'表格 資料表 datagrid',
     'table-toolbar':'篩選 批次 filter','tree-view':'樹狀 tree 資料夾',calendar:'日曆 行事曆',chart:'圖表 統計 graph','schedule-chart':'排程 甘特 gantt'};
-  const SS_PAGES=[['guide','上手指南','指南 教學 開始 guide'],['tokens','Design Token','變數 顏色 色票 間距 token variables'],['guideline','Design Guideline','規範 設計指南 guideline'],
+  const SS_PAGES=[['start','開始新專案','專案 新專案 匯入 流程 精靈 start wizard onboarding'],['guide','上手指南','指南 教學 guide'],['tokens','Design Token','變數 顏色 色票 間距 token variables'],['guideline','Design Guideline','規範 設計指南 guideline'],
     ['summary','需求匯總','匯出 選取 export summary'],['changelog','更新紀錄','版本 changelog release'],['settings','偏好設定','設定 磨砂 深色 主題 settings preferences']];
   let SS_TOK=null;
   function ssTokens(){if(SS_TOK)return SS_TOK;const set=new Set();
@@ -13567,6 +13692,444 @@ function buildScheduleChart(view){
     if(p.components&&Array.isArray(p.components.selected)){SUMSEL.clear();p.components.selected.forEach(id=>SUMSEL.add(id));}
     if(p.components&&p.components.axes){Object.entries(p.components.axes).forEach(([id,ax])=>{if(CHOICE[id])Object.entries(ax).forEach(([k,vals])=>{if(CHOICE[id].active[k]&&Array.isArray(vals))CHOICE[id].active[k]=new Set(vals);});});}
   }
+  /* ===== 開新專案流程（#start）：網站版 ds-studio-flow 原型（無 AI）=====
+     對應 skills/ds-studio-flow：Step 1 Phase 0 訪談 → Step 2 提案 → Step 3 網站選取 → Step 4 匯出。
+     標「AI 之後接上」的地方目前都走固定規則（deterministic fallback），整條流程現在就能跑完。
+     草稿存 localStorage（ds-flow-draft:v1，try/catch）；上傳的檔案只留在這個分頁的記憶體，不存內容。 */
+  const FLW_KEY='ds-flow-draft:v1';
+  const FLW_STEPS=[
+    {label:'基本資料',desc:'專案與品牌'},
+    {label:'匯入資料',desc:'CI／PRD'},
+    {label:'品牌問卷',desc:'色彩與調性'},
+    {label:'提案',desc:'Token 與元件'},
+    {label:'調整',desc:'在網站上改'},
+    {label:'匯出',desc:'專案檔案'},
+  ];
+  const FLW_INDUSTRY=[
+    {value:'ecommerce',label:'電商／零售'},{value:'saas',label:'SaaS／後台工具'},{value:'finance',label:'金融／保險'},
+    {value:'media',label:'內容／媒體'},{value:'public',label:'醫療／公部門'},{value:'education',label:'教育'},{value:'other',label:'其他'}];
+  const FLW_PLATFORM=[['web','Web'],['app','App'],['both','兩者']];
+  const FLW_FONT=[['default','預設'],['hei','黑體'],['ming','明體']];
+  const FLW_FONT_MD={default:'預設（Geist＋系統黑體）',hei:'黑體優先（Noto Sans TC／PingFang TC）',ming:'明體／襯線（Noto Serif TC）'};
+  const FLW_DENSITY=[['comfortable','舒適'],['compact','緊湊']];
+  const FLW_RADIUS=[['sharp','銳利'],['soft','柔和'],['round','圓潤']];
+  const FLW_DARK=[['now','立即建'],['later','之後補'],['none','不需要']];
+  const FLW_TONES=['專業','溫暖','活潑','簡約','高級','科技','自然','親切','可靠','大膽'];
+  const FLW_MIN_COMP=5;
+  /* 元件建議規則表：每條＝[元件 id, 一句理由]；依平台、產業疊加，最後只留 DIAL_SPECS 有的 id */
+  const FLW_RULES={
+    base:[['button','所有流程的主要動作都需要'],['input','表單與搜尋的基本輸入'],['field','欄位標籤、提示與錯誤訊息的外框'],['dropdown','選項多於 5 個時的選擇'],
+      ['checkbox','多選與同意條款'],['radio','少量互斥選項'],['toggle','即時生效的開關設定'],['tag','狀態與分類標記'],['icon','全站圖示'],
+      ['tooltip','補充說明不佔版面'],['alert','頁內常駐提示'],['notification','操作完成後的回饋'],['modal','需要使用者確認的對話'],['loader','載入中狀態'],['empty','沒有資料時的畫面']],
+    web:[['header','網站頁首與主導覽'],['footer','網站頁尾資訊'],['breadcrumb','多層頁面的位置提示'],['pagination','列表分頁'],['tab','同頁內容切換'],['menu','導覽與下拉選單'],['popover','點擊後的浮出內容'],['link','文字連結']],
+    app:[['tab','App 底部或頁內分頁'],['list','App 常見的清單版面'],['list-item','清單的單列資訊'],['drawer','App 側邊或底部抽屜'],['segmented','少量檢視方式切換'],['floating-line','固定在底部的主要動作列'],['avatar','會員與個人資料']],
+    ecommerce:[['product-card','商品列表的主要單位'],['price','售價、折扣與數值'],['quantity','購物車數量'],['carousel','首頁主視覺輪播'],['category-tile','分類入口'],['rating','商品評價'],['image','商品圖'],['step','結帳流程進度']],
+    saas:[['table','資料管理的核心'],['table-toolbar','表格的篩選與批次操作'],['chart','儀表板數據'],['date-picker','日期篩選與設定'],['descriptions','詳細頁的欄位清單'],['tree-view','階層資料'],['app-shell','後台框架'],['command','進階使用者的快速指令'],['dropzone','檔案匯入']],
+    finance:[['chart','走勢與資產配置'],['price','金額與百分比'],['table','交易明細'],['descriptions','帳戶資料'],['step','開戶與申請流程'],['progress','目標與進度'],['date-picker','查詢區間']],
+    media:[['article-card','文章列表'],['image','內容圖片'],['carousel','精選內容'],['section-head','區段標題與更多連結'],['avatar','作者資訊']],
+    public:[['step','申辦流程分步'],['date-picker','預約日期'],['dropzone','上傳證明文件'],['descriptions','申請資料確認'],['collapse','常見問題']],
+    education:[['progress','學習進度'],['step','課程章節'],['card','課程卡'],['list','課程清單'],['calendar','課表與行事曆'],['avatar','講師與學員']],
+    other:[['card','通用內容卡'],['list','通用清單']],
+  };
+  const FLW_SAMPLE={brand:'果思咖啡',industry:'ecommerce',platform:'both',primary:'#2F6B4F',secondary:'#E0A458',font:'hei',tone:['溫暖','自然','親切'],density:'comfortable',radius:'round',
+    text:'果思咖啡品牌規範（範例）\n主色：森林綠 #2F6B4F\n輔色：焦糖 #E0A458\n調性：溫暖、自然、親切\n產品：線上咖啡豆訂閱與門市點餐 App'};
+  const FLW_FILES=[];
+  window.__flwResumed=false;  // 「已接續上次的草稿」每次載入只提示一次  // 本分頁記憶體中的檔案（File 物件不進 localStorage）
+
+  function flwBlank(){return {v:1,active:false,step:0,max:0,
+    info:{brand:'',name:'',nameTouched:false,industry:'',platform:'web',figma:''},
+    src:{files:[],text:'',url:'',extracted:null},
+    q:{primary:'',secondary:'',font:'default',tone:[],density:'comfortable',radius:'soft',dark:'later'},
+    proposal:null,applied:false,snap:null,created:new Date().toISOString(),updated:null};}
+  function flwLoad(){try{const r=localStorage.getItem(FLW_KEY);if(!r)return null;const d=JSON.parse(r);if(!d||d.v!==1)return null;
+      const b=flwBlank();return Object.assign(b,d,{info:Object.assign(b.info,d.info||{}),src:Object.assign(b.src,d.src||{}),q:Object.assign(b.q,d.q||{})});}catch(e){return null;}}
+  function flwSave(){FLW.updated=new Date().toISOString();try{localStorage.setItem(FLW_KEY,JSON.stringify(FLW));}catch(e){}}
+  let FLW=flwLoad()||flwBlank();
+
+  /* ---- 色彩工具（只做計算，不寫死任何樣式） ---- */
+  const flwHex=v=>{v=String(v||'').trim();if(/^#?[0-9a-f]{3}$/i.test(v)){v=v.replace('#','');v='#'+v.split('').map(c=>c+c).join('');}
+    if(/^#?[0-9a-f]{6}$/i.test(v))return ('#'+v.replace('#','')).toUpperCase();return null;};
+  const flwRgb=h=>{const x=flwHex(h);if(!x){const m=String(h||'').match(/rgba?\(([^)]+)\)/);if(!m)return null;return m[1].split(',').slice(0,3).map(n=>parseFloat(n));}
+    return [1,3,5].map(i=>parseInt(x.slice(i,i+2),16));};
+  const flwMix=(hex,to,amt)=>{const a=flwRgb(hex),b=flwRgb(to);return '#'+a.map((v,i)=>Math.round(v+(b[i]-v)*amt).toString(16).padStart(2,'0')).join('').toUpperCase();};
+  const flwLum=c=>{const a=flwRgb(c);if(!a)return 0;const f=v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);};return 0.2126*f(a[0])+0.7152*f(a[1])+0.0722*f(a[2]);};
+  const flwContrast=(a,b)=>{const x=flwLum(a),y=flwLum(b);return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05);};
+  const flwPrim=n=>{const v=getComputedStyle(document.documentElement).getPropertyValue(n).trim();return v;};
+  /* 9 階色階：500＝錨點；淺端混白、深端混黑（同 gallery 既有 brand 色階的明度走向） */
+  function flwScale(prefix,anchor){const W=flwPrim('--c-neutral-0')||'#FFFFFF',K='#000000';const o={};
+    [[100,.86],[200,.68],[300,.46],[400,.22]].forEach(([s,t])=>o[`--c-${prefix}-${s}`]=flwMix(anchor,W,t));
+    o[`--c-${prefix}-500`]=flwHex(anchor);
+    [[600,.16],[700,.32],[800,.48],[900,.64]].forEach(([s,t])=>o[`--c-${prefix}-${s}`]=flwMix(anchor,K,t));
+    return o;}
+  const flwEsc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const flwSlug=s=>String(s||'').trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9㐀-鿿_-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const flwToday=()=>{const d=new Date();return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');};
+  const flwDefaultName=()=>(flwSlug(FLW.info.brand)||'project')+'-'+flwToday();
+  const flwLabelOf=(list,k)=>{const f=list.find(x=>(x.value||x[0])===k);return f?(f.label||f[1]):(k||'');};
+
+  /* ---- 提案（固定規則；之後換 AI） ---- */
+  function flwBuildProposal(){
+    const q=FLW.q,info=FLW.info;const root={},desktop={},why=[];
+    const p=flwHex(q.primary);
+    Object.assign(root,flwScale('brand',p));why.push({k:'--c-brand-100 … 900',v:p,r:'主色錨點放在 500，其他 8 階依明度自動推出'});
+    const W=flwPrim('--c-neutral-0')||'#FFFFFF';
+    if(flwContrast(p,W)<4.5){root['--primary-on']='var(--c-neutral-900)';why.push({k:'--primary-on',v:'var(--c-neutral-900)',r:'主色偏亮，按鈕上的字改用深色才看得清楚'});}
+    const s=flwHex(q.secondary);
+    if(s){Object.assign(root,flwScale('brand2',s));why.push({k:'--c-brand2-100 … 900',v:s,r:'副色錨點放在 500，用於點綴與次要強調'});
+      if(flwContrast(s,W)<4.5){root['--accent2-on']='var(--c-neutral-900)';why.push({k:'--accent2-on',v:'var(--c-neutral-900)',r:'副色偏亮，副色底上的字改用深色'});}}
+    if(q.font==='hei'){root['--font-sans']="'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif";why.push({k:'--font-sans',v:'黑體優先',r:'字體偏好選了黑體'});}
+    if(q.font==='ming'){root['--font-sans']="'Noto Serif TC','Songti TC','PMingLiU',serif";why.push({k:'--font-sans',v:'明體',r:'字體偏好選了明體（襯線）'});}
+    if(q.radius==='sharp'){Object.assign(root,{'--r-sm':'2px','--r-md':'4px','--r-lg':'6px','--r-xl':'8px'});why.push({k:'--r-sm／md／lg／xl',v:'2／4／6／8px',r:'圓角感選了銳利'});}
+    if(q.radius==='round'){Object.assign(root,{'--r-sm':'8px','--r-md':'12px','--r-lg':'16px','--r-xl':'20px'});why.push({k:'--r-sm／md／lg／xl',v:'8／12／16／20px',r:'圓角感選了圓潤'});}
+    if(q.density==='compact'){Object.assign(desktop,{'--sp-5':'12px','--sp-6':'20px','--sp-7':'28px'});why.push({k:'--sp-5／6／7（Desktop）',v:'12／20／28px',r:'密度選了緊湊；平板與手機本來就比較緊，不另外改'});}
+    if(why.length===1&&!s)why.push({k:'其他 token',v:'沿用預設',r:'問卷沒有特別指定的項目，維持元件庫預設值'});
+    /* 元件 */
+    const picks=new Map();const add=list=>(list||[]).forEach(([id,r])=>{if(DIAL_SPECS[id]&&!picks.has(id))picks.set(id,r);});
+    add(FLW_RULES.base);
+    if(info.platform==='web'||info.platform==='both')add(FLW_RULES.web);
+    if(info.platform==='app'||info.platform==='both')add(FLW_RULES.app);
+    add(FLW_RULES[info.industry]||FLW_RULES.other);
+    const selected=[...picks.keys()];
+    return {project:info.name,generatedBy:'website-flow · 固定規則（AI 之後接上）',createdAt:new Date().toISOString(),
+      tokens:{overrides:{root,dark:{},desktop,tablet:{},mobile:{}},logo:{light:null,dark:null}},
+      components:{selected,axes:{}},reasons:{tokens:why,components:selected.map(id=>({id,r:picks.get(id)}))}};
+  }
+  function flwApplyProposal(){
+    const P=FLW.proposal;if(!P)return;
+    window.__tokOverrides=JSON.parse(JSON.stringify(P.tokens.overrides));applyTokOverrides();  // 同 applyProposal：寫 window.__tokOverrides → 全站重新上色
+    SUMSEL.clear();P.components.selected.forEach(id=>SUMSEL.add(id));                       // 需求匯總的勾選
+    FLW.applied=true;flwSnapSave();
+  }
+  /* 目前網站狀態快照（token＋勾選＋軸）：使用者在 Design Token／需求匯總調整後，重整也能接續 */
+  function flwSnapSave(){if(!FLW.active||!FLW.applied)return;const axes={};
+    [...SUMSEL].forEach(id=>{const c=CHOICE[id];if(!c)return;axes[id]={};Object.keys(c.active).forEach(k=>axes[id][k]=[...c.active[k]]);});
+    FLW.snap={ov:JSON.parse(JSON.stringify(window.__tokOverrides||{})),sel:[...SUMSEL],axes};flwSave();}
+  function flwSnapRestore(){const s=FLW.snap;if(!s)return;
+    window.__tokOverrides=Object.assign({root:{},dark:{},desktop:{},tablet:{},mobile:{}},s.ov||{});applyTokOverrides();
+    if(Array.isArray(s.sel)){SUMSEL.clear();s.sel.forEach(id=>{if(DIAL_SPECS[id])SUMSEL.add(id);});}
+    Object.entries(s.axes||{}).forEach(([id,ax])=>{const c=CHOICE[id];if(!c)return;Object.entries(ax).forEach(([k,v])=>{if(c.active[k]&&Array.isArray(v)&&v.length)c.active[k]=new Set(v);});});}
+
+  /* ---- 匯出檔內容 ---- */
+  function flwInterviewMD(){const i=FLW.info,q=FLW.q,s=FLW.src,d=new Date().toISOString().slice(0,10);
+    const files=s.files.length?s.files.map(f=>'`'+f.name+'`').join('、'):'（無）';
+    const hasCI=s.files.length||s.text.trim()||s.url.trim();
+    return `# Opening Interview — ${i.name}
+Date: ${d}
+Source: Goons DS Studio 網站「開新專案」流程（無 AI 原型；標 assumed-default 的項目請在 Claude Code 跑 Step 5 前確認）
+
+Q0 Project folder:
+  - Path: projects/${i.name}/
+  - Created-by: website-flow（請手動建資料夾並放入匯出檔）
+  - Cwd-warning-triggered: no
+
+Q1 CI:
+  - Status: ${hasCI?'provided':'pending'}
+  - Source: 檔案 ${files}${s.url.trim()?'；連結 '+s.url.trim():''}${s.text.trim()?'；貼上文字（見文末附錄）':''}
+  - Extracted: ${s.extracted?s.extracted:'（尚未萃取；AI 之後接上）'}
+  - Note: 視覺判讀為 v0.1-provisional
+
+Q2 Spec / PRD:
+  - Type: ${s.files.length||s.text.trim()?'spec':'pending'}
+  - Location: 同 Q1 匯入資料
+  - Assumed defaults: 元件 scope 由網站規則表依平台（${flwLabelOf(FLW_PLATFORM,i.platform)}）＋產業（${flwLabelOf(FLW_INDUSTRY,i.industry)}）推出
+
+Q3 Brand visual (confirmed):
+  - Brand: ${i.brand}
+  - Industry: ${flwLabelOf(FLW_INDUSTRY,i.industry)}
+  - Source: designer-input（網站問卷）
+  - Color: primary ${q.primary}${q.secondary?' / secondary '+q.secondary:''}
+  - Typography: ${FLW_FONT_MD[q.font]||q.font}
+  - Mood: ${q.tone.length?q.tone.join('、'):'（未指定）'}
+  - Density: ${flwLabelOf(FLW_DENSITY,q.density)}
+  - Radius: ${flwLabelOf(FLW_RADIUS,q.radius)}
+
+Q4 Path:
+  - Choice: path-1-figma-direct（assumed-default）
+
+Q5 Dev stack:
+  - Source: pending-fe（網站流程不問設計師技術選型）
+
+Q6 Figma DS file:
+  - ${i.figma.trim()?'Existing: '+i.figma.trim():'沒有 → 開新檔；Q6a 工作空間 / Q6b 檔名（預設 `'+i.brand+' - DS - <成員> - '+d+'`）待 Claude Code 確認'}
+
+Q7 Dark mode:
+  - Choice: ${flwLabelOf(FLW_DARK,q.dark)}
+
+Q8 WF / 頁面架構:
+  - Status: pending
+
+Q9 Responsive:
+  - Platform: ${flwLabelOf(FLW_PLATFORM,i.platform)}
+  - Breakpoints: 360 / 768 / 1024 / 1280（assumed-default）
+${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n':''}`;}
+  function flwReadme(){const n=FLW.info.name;return `# ${n} — 交棒說明
+
+這些檔案是在 Goons DS Studio 網站「開新專案」流程產生的。
+
+1. 在 repo 建資料夾 \`projects/${n}/\`，把下載的檔案全部放進去：
+   - opening-interview.md、proposal.json
+   - tokens.export.json、components.export.json、selection.state.json
+2. 在 Claude Code 開這個 repo，說：「依 ds-studio-flow 從 Step 5 接續 ${n}」。
+3. Claude 會先讀 opening-interview.md 跟你確認標了 assumed-default 的項目，再 build、寫 Figma。
+
+之後想再調整：開 \`gallery.html?project=${n}\`（需 studio server），網站會載入 selection.state.json 接續。
+`;}
+  /* 匯出前檢查（固定規則；之後換 AI） */
+  function flwChecks(){const out=[];const W=flwPrim('--c-neutral-0')||'#FFFFFF';
+    const OV=window.__tokOverrides||{};const root=OV.root||{};
+    const rv=v=>{v=String(v||'');const m=v.match(/^var\((--[^)]+)\)$/);return m?flwPrim(m[1]):v;};
+    const p500=rv(root['--c-brand-500'])||flwPrim('--c-brand-500');const onL=root['--primary-on']?rv(root['--primary-on']):W;
+    const c1=flwContrast(p500,onL);out.push({ok:c1>=4.5,lv:c1>=4.5?'pass':(c1>=3?'warn':'fail'),t:'主色與按鈕文字對比（淺色）',d:c1.toFixed(2)+':1，需 4.5:1 以上'});
+    const probe=ce('span');probe.style.cssText='position:absolute;visibility:hidden;color:var(--primary-on);background:var(--accent);';document.body.appendChild(probe);
+    const cs=getComputedStyle(probe);const c2=flwContrast(cs.backgroundColor,cs.color);probe.remove();
+    if(document.documentElement.getAttribute('data-theme')==='dark')out.push({ok:c2>=4.5,lv:c2>=4.5?'pass':(c2>=3?'warn':'fail'),t:'主色與按鈕文字對比（深色）',d:c2.toFixed(2)+':1，需 4.5:1 以上'});
+    const s500=rv(root['--c-brand2-500'])||flwPrim('--c-brand2-500');const onS=root['--accent2-on']?rv(root['--accent2-on']):W;const c3=flwContrast(s500,onS);
+    out.push({ok:c3>=3,lv:c3>=4.5?'pass':(c3>=3?'warn':'fail'),t:'副色與上方文字對比',d:c3.toFixed(2)+':1，小字建議 4.5:1、至少 3:1'});
+    const n=SUMSEL.size;out.push({ok:n>=FLW_MIN_COMP,lv:n>=FLW_MIN_COMP?'pass':'fail',t:'已選元件數',d:'目前 '+n+' 個，至少要 '+FLW_MIN_COMP+' 個'});
+    out.push({ok:SUMSEL.has('button'),lv:SUMSEL.has('button')?'pass':'warn',t:'包含 Button',d:SUMSEL.has('button')?'已選':'幾乎所有產品都需要按鈕，確認是否真的不要'});
+    return out;}
+  function flwDownloadAll(){flwSnapSave();const p=dsBuildExport();const n=FLW.info.name;
+    const jobs=[()=>dsDownloadText('opening-interview.md',flwInterviewMD()),()=>dsDownload('proposal.json',FLW.proposal),
+      ()=>dsDownload('tokens.export.json',p.tokens),()=>dsDownload('components.export.json',p.components),()=>dsDownload('selection.state.json',p.state),
+      ()=>dsDownloadText('README.md',flwReadme())];
+    jobs.forEach((j,i)=>setTimeout(j,i*300));  // 間隔下載，避免瀏覽器擋多檔
+    return n;}
+
+  /* ---- 共用 UI 小工具（全部用既有原子） ---- */
+  function flwBtn(variant,intent,text,size){const b=mkBtn({variant,intent,size:size||'m',isLive:true});b.type='button';b.querySelector('span').textContent=text;return b;}
+  function flwAiBadge(){const t=tagEl('soft','brand2','default','round');t.classList.add('flw-ai-badge');t.innerHTML=ICON_SPARK+'<span>AI 之後接上</span>';return t;}
+  function flwAiSlot(title,desc,fallback){const w=ce('div','flw-ai');const hd=ce('div','flw-ai-hd');const t=ce('span','flw-ai-t');t.textContent=title;hd.append(t,flwAiBadge());
+    const d=ce('p','flw-ai-d');d.textContent=desc;w.append(hd,d);if(fallback){const r=ce('div','flw-ai-fb');const l=ce('span','flw-ai-fl');l.textContent='目前先用：';r.append(l,fallback);w.appendChild(r);}return w;}
+  function flwField(label,o){o=o||{};const f=fldEl('vertical','default',{live:true,label,placeholder:o.placeholder||'',value:o.value||'',required:o.required,optional:o.optional});
+    const inp=f.querySelector('input');if(o.type)inp.type=o.type;if(o.hint){const m=ce('div','fld-msg flw-hint');m.textContent=o.hint;f.querySelector('.fld-ctl').appendChild(m);}
+    if(o.onInput)inp.addEventListener('input',()=>{flwSetErr(f,null);o.onInput(inp.value);});return {f,inp};}
+  function flwSetErr(f,msg){const box=f.querySelector('.fld-box');let m=f.querySelector('.fld-msg.is-err');
+    if(!msg){if(box)box.classList.remove('st-error');if(m)m.remove();f.querySelectorAll('.flw-hint').forEach(h=>h.hidden=false);return;}
+    if(box)box.classList.add('st-error');f.querySelectorAll('.flw-hint').forEach(h=>h.hidden=true);
+    if(!m){m=ce('div','fld-msg is-err');f.querySelector('.fld-ctl').appendChild(m);}m.innerHTML=`<span class="fld-msg-ic">${NT_IC_ERROR}</span><span>${flwEsc(msg)}</span>`;}
+  function flwWrapField(label,ctl,o){o=o||{};const f=ce('div','fld fld-vertical st-default flw-fld');const lb=ce('span','fld-label');
+    lb.innerHTML=flwEsc(label)+(o.required?'<span class="req" aria-hidden="true">*</span>':'')+(o.optional?'<span class="fld-opt">選填</span>':'');
+    const c=ce('div','fld-ctl');c.appendChild(ctl);if(o.hint){const m=ce('div','fld-msg flw-hint');m.textContent=o.hint;c.appendChild(m);}f.append(lb,c);return f;}
+  function flwSeg(pairs,cur,onChange,label){const i0=Math.max(0,pairs.findIndex(p=>p[0]===cur));
+    return sgmEl('soft','m',{live:true,items:pairs.map(p=>p[1]),active:i0,label,onChange:i=>onChange(pairs[i][0])});}
+  function flwColor(val,onChange,ph){const ctl=ce('div','tok-ctl flw-color');const cp=document.createElement('input');cp.type='color';cp.className='tok-sw-btn';cp.setAttribute('aria-label','選色');
+    const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.placeholder=ph||'#2F6B4F';tx.value=val||'';tx.setAttribute('aria-label','色碼');tx.spellcheck=false;
+    const sync=()=>{const h=flwHex(tx.value);if(h)cp.value=h.toLowerCase();};sync();
+    cp.oninput=()=>{tx.value=cp.value.toUpperCase();onChange(tx.value);};tx.oninput=()=>{sync();onChange(tx.value.trim());};
+    ctl.append(cp,tx);ctl.__set=v=>{tx.value=v||'';sync();};return ctl;}
+  function flwAlert(intent,title,desc){const a=alEl('soft',intent,{});const t=a.querySelector('.al-title'),d=a.querySelector('.al-desc');if(t)t.textContent=title;if(d){if(desc)d.textContent=desc;else d.remove();}return a;}
+
+  /* ---- 主畫面 ---- */
+  function renderStart(view){
+    const resumed=FLW.active&&FLW.updated;
+    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Start · 開新專案</p><h1>開始一個設計系統專案</h1></div><span id="flwTopAct" class="flw-topact"></span></div>
+      <p class="lede">六個步驟：填專案資料、匯入品牌資料、回答問卷、看提案、到網站上調整，最後匯出專案檔交給 Claude Code 接手。進度會自動存在這台電腦的瀏覽器。</p>
+      <div class="head-rule"></div>
+      <div class="flw" id="flw"><div class="flw-prog" id="flwProg"></div><div class="flw-cur" id="flwCur" aria-live="polite"></div>
+        <div class="flw-card" id="flwCard"><div class="flw-body" id="flwBody"></div><div class="flw-nav" id="flwNav"></div></div></div>`;
+    if(!FLW.active){FLW.active=true;flwSave();}
+    const top=document.getElementById('flwTopAct');
+    const rst=flwBtn('soft','secondary','重新開始','s');rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
+      onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();renderStart(view);}});
+    top.appendChild(rst);
+    if(resumed&&FLW.step>0&&!window.__flwResumed){window.__flwResumed=true;const card=document.getElementById('flwCard');const a=flwAlert('info','已接續上次的草稿','停在「'+FLW_STEPS[FLW.step].label+'」，可以按上方步驟回去修改。');a.classList.add('flw-resume');card.parentNode.insertBefore(a,card);}
+    flwRenderStep(false);
+  }
+  function flwRenderProg(){const host=document.getElementById('flwProg');if(!host)return;host.innerHTML='';
+    const steps=FLW_STEPS.map((s,i)=>({label:s.label,description:s.desc,state:i<FLW.step?'done':(i===FLW.step?'current':(i<=FLW.max?'done':'todo'))}));
+    const st=stpStepper('horizontal','numbered',steps);host.appendChild(st);
+    [...st.querySelectorAll('.stp-step')].forEach((el,i)=>{if(i<=FLW.max&&i!==FLW.step){el.classList.add('flw-jump');el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','回到步驟 '+(i+1)+' '+FLW_STEPS[i].label);
+      const go=()=>{flwGo(i);};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};}
+      if(i===FLW.step)el.setAttribute('aria-current','step');});
+    const cur=document.getElementById('flwCur');if(cur)cur.textContent='步驟 '+(FLW.step+1)+' / '+FLW_STEPS.length+' · '+FLW_STEPS[FLW.step].label;}
+  function flwGo(i){if(i>FLW.max||i<0||i>=FLW_STEPS.length)return;FLW.step=i;flwSave();flwRenderStep(true);}
+  function flwRenderStep(anim){
+    flwRenderProg();const body=document.getElementById('flwBody'),nav=document.getElementById('flwNav');if(!body)return;
+    if(anim){const ra=document.querySelector('.flw-resume');if(ra)ra.remove();}
+    body.innerHTML='';nav.innerHTML='';
+    const ctx={valid:()=>true};
+    [flwS1,flwS2,flwS3,flwS4,flwS5,flwS6][FLW.step](body,ctx);
+    if(anim){body.classList.remove('flw-in');void body.offsetWidth;body.classList.add('flw-in');}
+    const back=flwBtn('outline','secondary','上一步');back.disabled=FLW.step===0;back.onclick=()=>flwGo(FLW.step-1);
+    nav.appendChild(back);nav.appendChild(ce('div','spacer'));
+    if(FLW.step<FLW_STEPS.length-1){const next=flwBtn('solid','primary',ctx.nextText||'下一步');next.classList.add('has-trail');next.insertAdjacentHTML('beforeend',ICON_ARROW);
+      next.onclick=()=>{if(!ctx.valid())return;if(ctx.onNext)ctx.onNext();FLW.step++;FLW.max=Math.max(FLW.max,FLW.step);flwSave();flwRenderStep(true);
+        const m=document.querySelector('.main');if(m)m.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});};
+      nav.appendChild(next);}
+  }
+  function flwStepHead(body,title,desc,badge){const h=ce('div','flw-sh');const t=ce('h2','flw-st');t.textContent=title;h.appendChild(t);if(badge)h.appendChild(flwAiBadge());body.appendChild(h);
+    if(desc){const d=ce('p','flw-sd');d.innerHTML=desc;body.appendChild(d);}}
+
+  /* Step 1 專案基本資料 */
+  function flwS1(body,ctx){const i=FLW.info;
+    flwStepHead(body,'專案基本資料','先決定專案叫什麼、給誰用。專案名稱會變成 <code>projects/&lt;名稱&gt;/</code> 資料夾名。');
+    const g=ce('div','flw-grid');body.appendChild(g);
+    const name=flwField('專案名稱',{required:true,value:i.name||flwDefaultName(),hint:'預設「品牌-日期」，只能用英數、中文、- 和 _',onInput:v=>{i.name=v.trim();i.nameTouched=true;flwSave();}});
+    const brand=flwField('品牌名',{required:true,value:i.brand,placeholder:'例如：果思咖啡',onInput:v=>{i.brand=v.trim();if(!i.nameTouched){i.name=flwDefaultName();name.inp.value=i.name;flwSetErr(name.f,null);}flwSave();}});
+    if(!i.name){i.name=flwDefaultName();}
+    const ind=ddField('outline',{options:FLW_INDUSTRY,value:i.industry||null,placeholder:'請選擇產業',onChange:v=>{i.industry=v;flwSetErr(indF,null);flwSave();}});
+    const indF=flwWrapField('產業',ind,{required:true,hint:'用來推薦常用元件'});
+    const plat=flwWrapField('平台',flwSeg(FLW_PLATFORM,i.platform,v=>{i.platform=v;flwSave();},'平台'),{required:true});
+    const fig=flwField('Figma 檔',{optional:true,value:i.figma,placeholder:'貼上 Figma 檔案連結',hint:'沒有的話之後由 Claude Code 開新檔',onInput:v=>{i.figma=v;flwSave();}});
+    g.append(brand.f,name.f,indF,plat,fig.f);
+    flwSave();
+    ctx.valid=()=>{let ok=true;
+      if(!i.brand){flwSetErr(brand.f,'請填品牌名');ok=false;}
+      if(!i.name||!/^[a-z0-9㐀-鿿_-]+$/i.test(i.name)){flwSetErr(name.f,'名稱只能用英數、中文、- 和 _，不能有空白');ok=false;}
+      if(!i.industry){flwSetErr(indF,'請選擇產業');ok=false;}
+      return ok;};
+  }
+  /* Step 2 匯入資料 */
+  function flwS2(body,ctx){const s=FLW.src;
+    flwStepHead(body,'匯入資料','有 CI 品牌規範、PRD 或規格書就放進來。沒有也可以先跳過，下一步直接填問卷。');
+    const g=ce('div','flw-grid');body.appendChild(g);
+    /* Dropzone：沿用 drzEl 結構＋drzFile 列表；檔案只留在記憶體、不上傳 */
+    const dz=drzEl('default','m',{});const a=dz.querySelector('.drz-area'),ul=dz.querySelector('.drz-files');const h=dz.querySelector('.drz-hint');if(h)h.textContent='PDF、圖片、文件皆可 · 只留在這個分頁，不會上傳';
+    const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.hidden=true;dz.appendChild(inp);
+    const draw=()=>{ul.innerHTML='';s.files.forEach((f,k)=>{const li=drzFile(f.name,f.size,'done',100,{live:true});const m=li.querySelector('.drz-fm');
+        const inMem=FLW_FILES.some(x=>x.name===f.name&&x.size===f.size);if(m)m.textContent=drzSize(f.size)+(inMem?' · 已讀入':' · 只剩紀錄（重新整理後檔案內容不保留）');
+        li.querySelector('.btn').onclick=()=>{s.files.splice(k,1);const j=FLW_FILES.findIndex(x=>x.name===f.name&&x.size===f.size);if(j>=0)FLW_FILES.splice(j,1);flwSave();draw();};ul.appendChild(li);});};
+    const addFiles=list=>{[...list].forEach(f=>{if(s.files.some(x=>x.name===f.name&&x.size===f.size))return;FLW_FILES.push(f);s.files.push({name:f.name,size:f.size,type:f.type||''});});flwSave();draw();};
+    a.addEventListener('click',()=>inp.click());a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();}});
+    inp.addEventListener('change',()=>{addFiles(inp.files);inp.value='';});
+    let depth=0;const over=v=>{dz.classList.toggle('drz-st-dragover',v);dz.classList.toggle('drz-st-default',!v);};
+    a.addEventListener('dragenter',e=>{e.preventDefault();depth++;over(true);});a.addEventListener('dragover',e=>e.preventDefault());
+    a.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;over(false);}});
+    a.addEventListener('drop',e=>{e.preventDefault();depth=0;over(false);if(e.dataTransfer)addFiles(e.dataTransfer.files);});
+    draw();
+    const dzF=flwWrapField('CI／PRD 檔案',dz,{optional:true});dzF.classList.add('flw-span');
+    const ta=document.createElement('textarea');ta.className='tarea v-outline flw-ta';ta.rows=5;ta.placeholder='貼上品牌規範、需求說明或任何文字。內含色碼（例如 #2F6B4F）會自動帶到問卷。';ta.value=s.text;
+    ta.oninput=()=>{s.text=ta.value;flwSave();};
+    const taF=flwWrapField('貼上文字',ta,{optional:true});taF.classList.add('flw-span');
+    const url=flwField('參考連結',{optional:true,type:'url',value:s.url,placeholder:'https://',hint:'品牌官網、Notion、雲端資料夾等',onInput:v=>{s.url=v;flwSave();}});url.f.classList.add('flw-span');
+    g.append(dzF,taF,url.f);
+    const fill=flwBtn('outline','primary','填入範例','s');
+    fill.onclick=()=>{const S=FLW_SAMPLE;s.text=S.text;ta.value=S.text;if(!FLW.info.brand)FLW.info.brand=S.brand;if(!FLW.info.industry)FLW.info.industry=S.industry;
+      Object.assign(FLW.q,{primary:S.primary,secondary:S.secondary,font:S.font,tone:S.tone.slice(),density:S.density,radius:S.radius});
+      s.extracted='範例資料：主色 '+S.primary+'、副色 '+S.secondary+'、調性 '+S.tone.join('／');flwSave();msg.textContent='已填入範例品牌資料，下一步可以直接看到答案。';};
+    const msg=ce('span','flw-note');msg.setAttribute('aria-live','polite');
+    const fb=ce('span','flw-inline');fb.append(fill,msg);
+    body.appendChild(flwAiSlot('從資料自動萃取品牌錨點','之後會由 AI 讀上傳的 CI／PRD，自動抓出主色、副色、字體與調性，再讓你確認。',fb));
+    ctx.onNext=()=>{const hx=(s.text.match(/#[0-9a-f]{6}\b|#[0-9a-f]{3}\b/ig)||[]).map(flwHex).filter(Boolean);
+      if(hx.length&&!FLW.q.primary){FLW.q.primary=hx[0];if(hx[1]&&!FLW.q.secondary)FLW.q.secondary=hx[1];
+        s.extracted=(s.extracted?s.extracted+'；':'')+'從貼上文字抓到色碼 '+hx.slice(0,2).join('、');}
+      flwSave();};
+  }
+  /* Step 3 品牌問卷（Phase 0 精簡版：Q3 品牌視覺＋Q7 深色） */
+  function flwS3(body,ctx){const q=FLW.q;
+    flwStepHead(body,'品牌問卷','精簡版 Phase 0 訪談。<b>主色一定要有</b>——沒有品牌色錨點，流程不會往下走。');
+    if(FLW.src.extracted){const a=flwAlert('info','已從匯入資料帶入答案',FLW.src.extracted+'。請確認或修改。');a.classList.add('flw-gap');body.appendChild(a);}
+    const g=ce('div','flw-grid');body.appendChild(g);
+    const pc=flwColor(q.primary,v=>{q.primary=v;flwSetErr(pF,null);flwSave();});
+    const pF=flwWrapField('主色',pc,{required:true,hint:'品牌最主要的顏色，會用在主要按鈕與選中狀態'});
+    const sc=flwColor(q.secondary,v=>{q.secondary=v;flwSetErr(sF,null);flwSave();},'#E0A458');
+    const sF=flwWrapField('副色',sc,{optional:true,hint:'點綴與次要強調；沒有就維持預設'});
+    const fF=flwWrapField('字體偏好',flwSeg(FLW_FONT,q.font,v=>{q.font=v;flwSave();},'字體偏好'),{hint:'預設＝Geist 英文＋系統黑體；明體適合文藝、高級感品牌'});
+    const tone=ce('div','flw-chips');tone.setAttribute('role','group');tone.setAttribute('aria-label','調性關鍵字');
+    FLW_TONES.forEach(t=>{const on=q.tone.includes(t);const c=tagEl(on?'solid':'outline',on?'brand':'neutral','default','round');c.querySelector('span').textContent=t;
+      c.classList.add('flw-chip');c.setAttribute('role','button');c.tabIndex=0;c.setAttribute('aria-pressed',on?'true':'false');
+      const tg=()=>{const k=q.tone.indexOf(t);if(k>=0)q.tone.splice(k,1);else q.tone.push(t);const n=k<0;
+        c.classList.toggle('v-solid',n);c.classList.toggle('v-outline',!n);c.classList.toggle('i-brand',n);c.classList.toggle('i-neutral',!n);c.setAttribute('aria-pressed',n?'true':'false');flwSave();};
+      c.onclick=tg;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}};tone.appendChild(c);});
+    const tF=flwWrapField('調性關鍵字',tone,{optional:true,hint:'可多選，會寫進訪談紀錄給設計判斷用'});tF.classList.add('flw-span');
+    const dF=flwWrapField('密度',flwSeg(FLW_DENSITY,q.density,v=>{q.density=v;flwSave();},'密度'));
+    const rF=flwWrapField('圓角感',flwSeg(FLW_RADIUS,q.radius,v=>{q.radius=v;flwSave();},'圓角感'));
+    const kF=flwWrapField('深色模式',flwSeg(FLW_DARK,q.dark,v=>{q.dark=v;flwSave();},'深色模式'),{hint:'選「之後補」會先預留 dark 的位置'});
+    g.append(pF,sF,fF,dF,rF,kF,tF);
+    ctx.valid=()=>{let ok=true;if(!flwHex(q.primary)){flwSetErr(pF,q.primary?'色碼格式不對，請用 #RRGGBB':'請先給一個主色（品牌錨點）才能繼續');ok=false;}
+      if(q.secondary&&!flwHex(q.secondary)){flwSetErr(sF,'色碼格式不對，請用 #RRGGBB，或清空');ok=false;}
+      if(ok){q.primary=flwHex(q.primary);if(q.secondary)q.secondary=flwHex(q.secondary);}return ok;};
+    ctx.onNext=()=>{FLW.proposal=flwBuildProposal();FLW.applied=false;flwSave();};
+  }
+  /* Step 4 提案 */
+  function flwS4(body,ctx){
+    if(!FLW.proposal)FLW.proposal=flwBuildProposal();const P=FLW.proposal;
+    flwStepHead(body,'提案','依你的答案推出的初始 token 與元件清單。按「套用到網站」後整個網站會換成這套樣子。',true);
+    body.appendChild(flwAiSlot('AI 依 CI／PRD 擬提案','之後會由 AI 讀匯入資料判斷色階、字級與需要的元件；現在先用固定規則。',(()=>{const s=ce('span','flw-note');s.textContent='固定規則：色階依錨點推算、元件依平台＋產業對照表。';return s;})()));
+    const cols=ce('div','flw-cols');body.appendChild(cols);
+    /* (a) Token */
+    const tk=ce('section','flw-panel');tk.innerHTML='<h3 class="flw-ph">Token 提案</h3>';
+    const sc=ce('div','flw-scale');const R=P.tokens.overrides.root;
+    [['brand','主色'],['brand2','副色']].forEach(([k,lab])=>{if(!R['--c-'+k+'-500'])return;const row=ce('div','flw-scrow');const l=ce('span','flw-scl');l.textContent=lab;row.appendChild(l);
+      const bar=ce('div','flw-scbar');[100,200,300,400,500,600,700,800,900].forEach(n=>{const c=ce('span','flw-sw');c.style.background='var(--c-'+k+'-'+n+')';c.title=n+' '+R['--c-'+k+'-'+n];if(n===500)c.classList.add('is-anchor');bar.appendChild(c);});
+      row.appendChild(bar);sc.appendChild(row);});
+    tk.appendChild(sc);
+    const ul=ce('ul','flw-why');P.reasons.tokens.forEach(t=>{const li=ce('li');li.innerHTML=`<code>${flwEsc(t.k)}</code><span class="flw-why-v">${flwEsc(t.v)}</span><span class="flw-why-r">${flwEsc(t.r)}</span>`;ul.appendChild(li);});
+    tk.appendChild(ul);
+    const pv=ce('div','flw-preview');pv.append(flwBtn('solid','primary','主要按鈕','s'),flwBtn('outline','primary','次要按鈕','s'));
+    const t1=tagEl('solid','brand','default','round');t1.querySelector('span').textContent='主色標籤';const t2=tagEl('soft','brand2','default','round');t2.querySelector('span').textContent='副色標籤';pv.append(t1,t2);
+    const pvl=ce('p','flw-note');pvl.textContent='預覽：套用後這裡和整個網站會一起換色。';tk.append(pvl,pv);
+    /* (b) 元件 */
+    const cp=ce('section','flw-panel');cp.innerHTML=`<h3 class="flw-ph">建議元件 <span class="flw-cnt">${P.components.selected.length} 個</span></h3>`;
+    const cl=ce('ul','flw-comp');P.reasons.components.forEach(c=>{const li=ce('li');const sp=DIAL_SPECS[c.id];li.innerHTML=`<span class="flw-cn">${flwEsc(sp?sp.label:c.id)}</span><span class="flw-cr">${flwEsc(c.r)}</span>`;cl.appendChild(li);});
+    cp.appendChild(cl);cols.append(tk,cp);
+    const act=ce('div','flw-apply');const st=ce('span','flw-note');st.setAttribute('aria-live','polite');
+    const ap=flwBtn('solid','primary',FLW.applied?'重新套用提案':'套用到網站');
+    const regen=flwBtn('outline','secondary','依問卷重算');
+    regen.onclick=()=>{FLW.proposal=flwBuildProposal();FLW.applied=false;flwSave();flwRenderStep(false);};
+    const upd=()=>{st.textContent=FLW.applied?'已套用：token 已換、需求匯總已勾選 '+SUMSEL.size+' 個元件。':'還沒套用，按下後才會改到網站。';};
+    ap.onclick=()=>{flwApplyProposal();ap.querySelector('span').textContent='重新套用提案';st.classList.remove('is-err');upd();};
+    act.append(ap,regen,st);body.appendChild(act);upd();
+    ctx.valid=()=>{if(!FLW.applied){st.textContent='請先按「套用到網站」，下一步要在網站上調整。';st.classList.add('is-err');return false;}return true;};
+  }
+  /* Step 5 調整 */
+  function flwS5(body){
+    flwStepHead(body,'到網站上調整','提案只是起點。現在到下面三個頁面改到滿意，改完回來這裡匯出。離開這頁時右下角會有「回到流程」可以按。');
+    const L=[['tokens','Design Token','改主色、副色的九階色號、字級、間距、圓角，整站即時套用。'],
+             ['summary','需求匯總','勾選要產出的元件；回各元件頁用「變數篩選器」挑要的樣式。'],
+             ['guideline','Design Guideline','把目前的 token 與元件整頁攤開，匯出前最後看一次。']];
+    const g=ce('div','flw-jumps');L.forEach(([id,t,d])=>{const c=ce('div','flw-jumpcard');const h=ce('div','flw-jt');h.textContent=t;const p=ce('p','flw-jd');p.textContent=d;
+      const b=flwBtn('outline','primary','前往 '+t,'s');b.onclick=()=>{flwSnapSave();renderView(id);};c.append(h,p,b);g.appendChild(c);});
+    body.appendChild(g);
+    const n=ce('p','flw-note');n.textContent='目前已勾選 '+SUMSEL.size+' 個元件。你的調整會自動記在這份草稿裡。';body.appendChild(n);
+  }
+  /* Step 6 匯出 */
+  function flwS6(body){flwSnapSave();
+    flwStepHead(body,'匯出專案檔','下載這 6 個檔案，放進 repo 的 <code>projects/'+flwEsc(FLW.info.name)+'/</code>，再交給 Claude Code。');
+    /* 檢查 */
+    const ck=ce('section','flw-panel');ck.innerHTML='<h3 class="flw-ph">匯出前檢查</h3>';
+    const list=ce('ul','flw-checks');const res=flwChecks();
+    res.forEach(r=>{const li=ce('li','flw-ck is-'+r.lv);li.innerHTML=`<span class="flw-ck-ic">${r.lv==='pass'?NT_ICON.success:(r.lv==='warn'?NT_ICON.warning:NT_ICON.error)}</span><span class="flw-ck-t">${flwEsc(r.t)}</span><span class="flw-ck-d">${flwEsc(r.d)}</span>`;list.appendChild(li);});
+    ck.appendChild(list);
+    const fails=res.filter(r=>r.lv==='fail').length;
+    body.appendChild(flwAiSlot('匯出前 AI 檢查','之後會由 AI 檢查色彩可讀性、元件是否漏選、與 PRD 是否對得上；現在先跑固定規則。',(()=>{const s=ce('span','flw-note');s.textContent='固定規則：主色／副色對比、至少 '+FLW_MIN_COMP+' 個元件、包含 Button。';return s;})()));
+    body.appendChild(ck);
+    if(fails)body.appendChild(flwAlert('warning','有 '+fails+' 項沒過','還是可以匯出，但建議先回「調整」修好。'));
+    /* 檔案 */
+    const fp=ce('section','flw-panel');fp.innerHTML='<h3 class="flw-ph">檔案</h3>';
+    const p=()=>dsBuildExport();
+    const F=[['opening-interview.md','訪談紀錄（Phase 0）',()=>dsDownloadText('opening-interview.md',flwInterviewMD())],
+      ['proposal.json','初始提案（token＋元件）',()=>dsDownload('proposal.json',FLW.proposal)],
+      ['tokens.export.json','最終 token',()=>dsDownload('tokens.export.json',p().tokens)],
+      ['components.export.json','最終元件與樣式軸',()=>dsDownload('components.export.json',p().components)],
+      ['selection.state.json','網站完整狀態（續編用）',()=>dsDownload('selection.state.json',p().state)],
+      ['README.md','交棒說明',()=>dsDownloadText('README.md',flwReadme())]];
+    const fl=ce('ul','flw-files');F.forEach(([n,d,fn])=>{const li=ce('li');li.innerHTML=IC_FILE;const t=ce('span','flw-fn');t.textContent=n;const s=ce('span','flw-fd');s.textContent=d;
+      const b=flwBtn('text','primary','下載','s');b.onclick=fn;li.append(t,s,b);fl.appendChild(li);});
+    fp.appendChild(fl);
+    const all=flwBtn('solid','primary','全部下載（6 個檔）');const done=ce('span','flw-note');done.setAttribute('aria-live','polite');
+    all.onclick=()=>{flwDownloadAll();done.textContent='已開始下載。瀏覽器若詢問「允許下載多個檔案」請按允許。';};
+    const row=ce('div','flw-apply');row.append(all,done);fp.appendChild(row);
+    body.appendChild(fp);
+    /* README */
+    const rd=ce('section','flw-panel');rd.innerHTML='<h3 class="flw-ph">接下來在 Claude Code</h3>';
+    const pre=ce('pre','flw-readme');pre.textContent=flwReadme();rd.appendChild(pre);
+    const cpb=flwBtn('soft','secondary','複製說明','s');cpb.onclick=()=>{try{navigator.clipboard.writeText(flwReadme()).then(()=>{cpb.querySelector('span').textContent='已複製';},()=>{});}catch(e){}};
+    rd.appendChild(cpb);body.appendChild(rd);
+  }
+
+  /* ---- 其他頁面上的「專案進行中」小膠囊（固定右下角，不動 topbar） ---- */
+  function flwPill(){let el=document.getElementById('flwPill');const id=(location.hash||'').replace(/^#/,'');
+    const show=FLW.active&&FLW.step>0&&id!=='start';
+    if(!show){if(el)el.hidden=true;return;}
+    if(!el){el=ce('div','flw-pill');el.id='flwPill';el.setAttribute('role','status');const t=ce('span','flw-pill-t');const b=flwBtn('solid','primary','回到流程','s');
+      b.onclick=()=>{flwSnapSave();renderView('start');};el.append(t,b);document.body.appendChild(el);}
+    el.querySelector('.flw-pill-t').textContent='專案進行中 · '+(FLW.info.name||'未命名');el.hidden=false;}
+  window.addEventListener('hashchange',()=>{flwSnapSave();flwPill();});
+  window.addEventListener('pagehide',()=>flwSnapSave());
+  /* 進站接續：有進行中的草稿且不是 ?project= 專案模式 → 還原上次的 token／勾選（boot 之前執行） */
+  if(FLW.active&&FLW.applied&&!new URLSearchParams(location.search).get('project')){try{flwSnapRestore();}catch(e){}}
+  setTimeout(flwPill,0);
   /* 重整／深連結：從 hash 還原檢視；有 ?project= 則先抓 proposal/state 再渲染 */
   (function studioInit(){
     const proj=new URLSearchParams(location.search).get('project');
