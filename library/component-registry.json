@@ -1,18 +1,20 @@
 {
   "meta": {
-    "version": "0.1.0",
-    "generated": "2026-07-17",
+    "version": "0.2.0",
+    "generated": "2026-11-03",
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 39,
-      "withAxes": 37,
-      "noAxes": 2
+      "total": 72,
+      "ready": 40,
+      "planned": 32,
+      "withAxes": 38,
+      "noAxes": 34
     }
   },
   "groups": [
     {
-      "group": "Basic 基本",
+      "group": "General 基礎",
       "emoji": "🧱",
       "items": [
         {
@@ -108,55 +110,64 @@
           }
         },
         {
-          "id": "input",
-          "name": "Input 輸入框",
+          "id": "button-group",
+          "name": "Button Group 按鈕組",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "相連的操作按鈕、主按鈕加下拉；4／7 套元件庫有。"
+        },
+        {
+          "id": "icon",
+          "name": "Icon 圖示",
           "status": "ready",
-          "l0Ref": "input",
+          "l0Ref": "icon",
           "axes": {
             "order": [
-              "variant",
-              "state"
+              "size",
+              "tone"
             ],
             "by": {
-              "variant": {
-                "axisName": "Variant 風格",
+              "size": {
+                "axisName": "Size 尺寸",
                 "options": [
                   {
-                    "value": "outline",
-                    "zh": "外框"
+                    "value": "s",
+                    "zh": "16 s"
                   },
                   {
-                    "value": "filled",
-                    "zh": "實填"
+                    "value": "m",
+                    "zh": "20 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "24 l"
+                  },
+                  {
+                    "value": "xl",
+                    "zh": "32 xl"
                   }
                 ]
               },
-              "state": {
-                "axisName": "State 狀態",
+              "tone": {
+                "axisName": "Tone 色調",
                 "options": [
                   {
                     "value": "default",
                     "zh": "預設"
                   },
                   {
-                    "value": "hover",
-                    "zh": "滑過"
+                    "value": "primary",
+                    "zh": "主要"
                   },
                   {
-                    "value": "focus",
-                    "zh": "聚焦"
+                    "value": "secondary",
+                    "zh": "次要"
                   },
                   {
-                    "value": "filled-value",
-                    "zh": "已填值"
-                  },
-                  {
-                    "value": "disabled",
-                    "zh": "停用"
-                  },
-                  {
-                    "value": "error",
-                    "zh": "錯誤"
+                    "value": "danger",
+                    "zh": "危險"
                   }
                 ]
               }
@@ -164,91 +175,270 @@
           }
         },
         {
-          "id": "dropdown",
-          "name": "Dropdown 下拉",
-          "status": "ready",
-          "l0Ref": "dropdown",
-          "axes": {
-            "order": [
-              "variant",
-              "type",
-              "state"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 風格",
-                "options": [
-                  {
-                    "value": "outline",
-                    "zh": "外框"
-                  },
-                  {
-                    "value": "filled",
-                    "zh": "實填"
-                  }
-                ]
-              },
-              "type": {
-                "axisName": "Type 型態",
-                "options": [
-                  {
-                    "value": "single",
-                    "zh": "單選"
-                  },
-                  {
-                    "value": "multi",
-                    "zh": "多選"
-                  }
-                ]
-              },
-              "state": {
-                "axisName": "State 狀態",
-                "options": [
-                  {
-                    "value": "default",
-                    "zh": "預設"
-                  },
-                  {
-                    "value": "hover",
-                    "zh": "滑過"
-                  },
-                  {
-                    "value": "focus",
-                    "zh": "聚焦"
-                  },
-                  {
-                    "value": "selected",
-                    "zh": "已選"
-                  },
-                  {
-                    "value": "open",
-                    "zh": "展開"
-                  },
-                  {
-                    "value": "disabled",
-                    "zh": "停用"
-                  },
-                  {
-                    "value": "error",
-                    "zh": "錯誤"
-                  }
-                ]
-              }
-            }
-          }
+          "id": "typography",
+          "name": "Typography 文字",
+          "status": "planned",
+          "l0Ref": "typography",
+          "axes": null,
+          "priority": "P2",
+          "note": "Heading／Text 元件，直接取用 .ty-h* 與字級 token；6／7 套有。"
         },
         {
-          "id": "selector",
-          "name": "Selector 選擇",
+          "id": "link",
+          "name": "Link 連結",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "文字連結的預設、hover、visited、外部連結；4／7 套有。"
+        },
+        {
+          "id": "kbd",
+          "name": "Kbd 快捷鍵",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "快捷鍵標示，供 Command、Tooltip 取用；4／7 套有。"
+        },
+        {
+          "id": "divider",
+          "name": "Divider 分隔線",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "水平／垂直、可帶文字；網站到處在用但沒有元件化；6／7 套有。"
+        },
+        {
+          "id": "avatar",
+          "name": "Avatar 頭像",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "size × 圖片／縮寫，含群組疊放；7／7 套有。散在 skeleton 與範例，照鐵則 5 先建原子。"
+        },
+        {
+          "id": "logo",
+          "name": "Logo 品牌標誌",
           "status": "ready",
           "l0Ref": null,
           "axes": null,
-          "composes": [
-            "checkbox",
-            "radio"
+          "kind": "brand-asset",
+          "note": "專案級可替換品牌資產。淺／深主題各一顆，依當前主題自動切換、單邊 fallback。同步替換三處：網站 topbar / library header / library footer。鎖寬度、高度等比。存於專案狀態、bake 時以 data URI inline。",
+          "targets": [
+            "site-topbar(.brand-logo)",
+            "library-header(hdrLogo)",
+            "library-footer(ftrLogo)"
           ],
-          "note": "複合選擇族：內部用 checkbox（含 indeterminate 半選）與 radio；軸定義見 subComponents。"
+          "themes": [
+            "light",
+            "dark"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Layout 版面",
+      "emoji": "📐",
+      "items": [
+        {
+          "id": "stack",
+          "name": "Stack 版面排列",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "Stack／Inline／Grid 排版容器，gap 只能選 --sp-*，對應 Figma auto layout；6／7 套有。"
         },
+        {
+          "id": "app-shell",
+          "name": "App Shell 應用程式框架",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "頂欄＋側欄導覽＋內容區，後台類專案骨架；6／7 套有。"
+        },
+        {
+          "id": "splitter",
+          "name": "Splitter 分割面板",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "可拖曳調整的分割面板；4／7 套有。"
+        },
+        {
+          "id": "scroll-area",
+          "name": "Scroll Area 捲動區",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "自訂捲軸區；4／7 套有。"
+        },
+        {
+          "id": "header",
+          "name": "Header 頁首",
+          "status": "ready",
+          "l0Ref": "header",
+          "axes": {
+            "order": [
+              "device"
+            ],
+            "by": {
+              "device": {
+                "axisName": "Device 裝置",
+                "options": [
+                  {
+                    "value": "desktop",
+                    "zh": "電腦版"
+                  },
+                  {
+                    "value": "mobile",
+                    "zh": "行動版"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "footer",
+          "name": "Footer 頁尾",
+          "status": "ready",
+          "l0Ref": "footer",
+          "axes": {
+            "order": [
+              "variant",
+              "device"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "rich",
+                    "zh": "多欄"
+                  },
+                  {
+                    "value": "simple",
+                    "zh": "單列"
+                  },
+                  {
+                    "value": "minimal",
+                    "zh": "極簡"
+                  }
+                ]
+              },
+              "device": {
+                "axisName": "Device 裝置",
+                "options": [
+                  {
+                    "value": "desktop",
+                    "zh": "電腦版"
+                  },
+                  {
+                    "value": "mobile",
+                    "zh": "行動版"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "section-head",
+          "name": "Section Head 區段標題",
+          "status": "ready",
+          "l0Ref": "section-head",
+          "axes": {
+            "order": [
+              "align",
+              "size"
+            ],
+            "by": {
+              "align": {
+                "axisName": "Align 對齊",
+                "options": [
+                  {
+                    "value": "left",
+                    "zh": "靠左"
+                  },
+                  {
+                    "value": "center",
+                    "zh": "置中"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "floating-line",
+          "name": "Floating Line 浮動列",
+          "status": "ready",
+          "l0Ref": "floating-line",
+          "axes": {
+            "order": [
+              "variant",
+              "position"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "selection",
+                    "zh": "選取列"
+                  },
+                  {
+                    "value": "toolbar",
+                    "zh": "工具列"
+                  },
+                  {
+                    "value": "fab",
+                    "zh": "浮動鈕"
+                  }
+                ]
+              },
+              "position": {
+                "axisName": "Position 位置",
+                "options": [
+                  {
+                    "value": "bottom-center",
+                    "zh": "底部置中"
+                  },
+                  {
+                    "value": "bottom-right",
+                    "zh": "底部靠右"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group": "Navigation 導覽",
+      "emoji": "🧭",
+      "items": [
         {
           "id": "tab",
           "name": "Tab 分頁",
@@ -460,6 +650,15 @@
           }
         },
         {
+          "id": "context-menu",
+          "name": "Context Menu 右鍵選單",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "右鍵觸發的動作選單，可沿用 action-menu；3／7 套有。"
+        },
+        {
           "id": "breadcrumb",
           "name": "Breadcrumb 麵包屑",
           "status": "ready",
@@ -554,6 +753,412 @@
               }
             }
           }
+        },
+        {
+          "id": "step",
+          "name": "Step 步驟",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "orientation",
+              "variant"
+            ],
+            "by": {
+              "orientation": {
+                "axisName": "Orientation 方向",
+                "options": [
+                  {
+                    "value": "horizontal",
+                    "zh": "水平"
+                  },
+                  {
+                    "value": "vertical",
+                    "zh": "垂直"
+                  }
+                ]
+              },
+              "variant": {
+                "axisName": "Variant 樣式",
+                "options": [
+                  {
+                    "value": "numbered",
+                    "zh": "編號"
+                  },
+                  {
+                    "value": "dotted",
+                    "zh": "圓點"
+                  },
+                  {
+                    "value": "icon",
+                    "zh": "圖示"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "command",
+          "name": "Command 指令面板",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "⌘K 搜尋與指令面板，元件庫網站自己也需要；2／7 套有。"
+        },
+        {
+          "id": "tour",
+          "name": "Tour 新手導覽",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P3",
+          "note": "逐步導覽提示，可用在上手指南；3／7 套有。"
+        },
+        {
+          "id": "menubar",
+          "name": "Menubar 選單列",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P3",
+          "note": "桌面 App 式選單列，工具型產品才需要；2／7 套有。"
+        }
+      ]
+    },
+    {
+      "group": "Form 表單",
+      "emoji": "✍️",
+      "items": [
+        {
+          "id": "input",
+          "name": "Input 輸入框",
+          "status": "ready",
+          "l0Ref": "input",
+          "axes": {
+            "order": [
+              "variant",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 風格",
+                "options": [
+                  {
+                    "value": "outline",
+                    "zh": "外框"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "實填"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "filled-value",
+                    "zh": "已填值"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "number-input",
+          "name": "Number Input 數字欄位",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "帶單位與上下調整的數字欄位（quantity 是電商計數器）；3／7 套有。"
+        },
+        {
+          "id": "dropdown",
+          "name": "Dropdown 下拉",
+          "status": "ready",
+          "l0Ref": "dropdown",
+          "axes": {
+            "order": [
+              "variant",
+              "type",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 風格",
+                "options": [
+                  {
+                    "value": "outline",
+                    "zh": "外框"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "實填"
+                  }
+                ]
+              },
+              "type": {
+                "axisName": "Type 型態",
+                "options": [
+                  {
+                    "value": "single",
+                    "zh": "單選"
+                  },
+                  {
+                    "value": "multi",
+                    "zh": "多選"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "selected",
+                    "zh": "已選"
+                  },
+                  {
+                    "value": "open",
+                    "zh": "展開"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "selector",
+          "name": "Selector 選擇",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "composes": [
+            "checkbox",
+            "radio"
+          ],
+          "note": "複合選擇族：內部用 checkbox（含 indeterminate 半選）與 radio；軸定義見 subComponents。"
+        },
+        {
+          "id": "toggle",
+          "name": "Toggle 開關",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "state"
+            ],
+            "by": {
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "off",
+                    "zh": "關"
+                  },
+                  {
+                    "value": "on",
+                    "zh": "開"
+                  },
+                  {
+                    "value": "disabled-off",
+                    "zh": "停用（關）"
+                  },
+                  {
+                    "value": "disabled-on",
+                    "zh": "停用（開）"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "segmented",
+          "name": "Segmented 分段控制",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "網站控制面板到處在用 .seg 卻沒收進元件庫；與 tab pill 共用滑動指示器；7／7 套有。"
+        },
+        {
+          "id": "slider",
+          "name": "Slider 滑桿",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "單值與區間兩種，價格篩選需要；7／7 套有。"
+        },
+        {
+          "id": "date-picker",
+          "name": "Date Picker 日期選擇",
+          "status": "planned",
+          "l0Ref": "date-picker",
+          "axes": null,
+          "priority": "P2",
+          "note": "calendar＋input＋popover 組成的日期欄位；4／7 套有。"
+        },
+        {
+          "id": "time-picker",
+          "name": "Time Picker 時間選擇",
+          "status": "planned",
+          "l0Ref": "time-picker",
+          "axes": null,
+          "priority": "P3",
+          "note": "時段預約等表單需要時再補；3／7 套有。"
+        },
+        {
+          "id": "cascader",
+          "name": "Cascader 多層選擇",
+          "status": "planned",
+          "l0Ref": "cascader",
+          "axes": null,
+          "priority": "P3",
+          "note": "地址（縣市→區）等多層選擇；2／7 套有。"
+        },
+        {
+          "id": "tree-select",
+          "name": "Tree Select 樹狀選擇",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P3",
+          "note": "tree-view＋dropdown 的組合；2／7 套有。"
+        },
+        {
+          "id": "color-picker",
+          "name": "Color Picker 選色器",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P3",
+          "note": "讓使用者自訂顏色時才需要；3／7 套有。"
+        },
+        {
+          "id": "dropzone",
+          "name": "Dropzone 檔案上傳",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "拖曳上傳區＋上傳進度（input · file 只有欄位）；5／7 套有。"
+        },
+        {
+          "id": "quantity",
+          "name": "Quantity 商品計數",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "outline",
+                    "zh": "外框"
+                  },
+                  {
+                    "value": "pill",
+                    "zh": "膠囊"
+                  },
+                  {
+                    "value": "plain",
+                    "zh": "極簡"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "field",
+          "name": "Field 表單欄位",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "欄位容器＋表單版面＋錯誤摘要，把多個欄位排成表單；6／7 套有。"
+        }
+      ]
+    },
+    {
+      "group": "Feedback & Overlay 回饋與浮層",
+      "emoji": "💬",
+      "items": [
+        {
+          "id": "alert",
+          "name": "Alert 提示橫幅",
+          "status": "planned",
+          "l0Ref": "alert",
+          "axes": null,
+          "priority": "P1",
+          "note": "頁內、不自動消失的提示；notification 文件已在引用它；7／7 套有。"
         },
         {
           "id": "notification",
@@ -660,30 +1265,92 @@
           }
         },
         {
-          "id": "skeleton",
-          "name": "Skeleton 骨架",
+          "id": "popover",
+          "name": "Popover 氣泡卡",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "可放互動內容的浮層；tooltip 文件已在引用它；7／7 套有。"
+        },
+        {
+          "id": "hover-card",
+          "name": "Hover Card 資訊卡",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "滑過人名、連結時顯示的小卡；4／7 套有。"
+        },
+        {
+          "id": "modal",
+          "name": "Modal 對話框",
           "status": "ready",
-          "l0Ref": "skeleton",
+          "l0Ref": "modal",
           "axes": {
             "order": [
-              "variant",
+              "kind",
+              "variant"
+            ],
+            "by": {
+              "kind": {
+                "axisName": "Kind 大小",
+                "options": [
+                  {
+                    "value": "popup",
+                    "zh": "小彈窗 popup"
+                  },
+                  {
+                    "value": "modal",
+                    "zh": "大視窗 modal"
+                  }
+                ]
+              },
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "normal",
+                    "zh": "一般 popup"
+                  },
+                  {
+                    "value": "illustration",
+                    "zh": "警示 popup"
+                  },
+                  {
+                    "value": "regular",
+                    "zh": "標準 modal"
+                  },
+                  {
+                    "value": "larger",
+                    "zh": "大版 modal"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "drawer",
+          "name": "Drawer 抽屜",
+          "status": "ready",
+          "l0Ref": "drawer",
+          "axes": {
+            "order": [
+              "side",
               "size"
             ],
             "by": {
-              "variant": {
-                "axisName": "Shape 形狀",
+              "side": {
+                "axisName": "Side 方向",
                 "options": [
                   {
-                    "value": "text",
-                    "zh": "文字列"
+                    "value": "left",
+                    "zh": "左側"
                   },
                   {
-                    "value": "rectangle",
-                    "zh": "矩形"
-                  },
-                  {
-                    "value": "circle",
-                    "zh": "圓形"
+                    "value": "right",
+                    "zh": "右側"
                   }
                 ]
               },
@@ -692,15 +1359,63 @@
                 "options": [
                   {
                     "value": "s",
-                    "zh": "小 s"
+                    "zh": "窄 s"
                   },
                   {
                     "value": "m",
-                    "zh": "中 m"
+                    "zh": "標準 m"
                   },
                   {
                     "value": "l",
-                    "zh": "大 l"
+                    "zh": "寬 l"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "progress",
+          "name": "Progress 進度條",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "bar",
+                    "zh": "基本"
+                  },
+                  {
+                    "value": "label",
+                    "zh": "帶百分比"
+                  },
+                  {
+                    "value": "gradient",
+                    "zh": "漸層"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "細 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "粗 l"
                   }
                 ]
               }
@@ -755,6 +1470,69 @@
             }
           }
         },
+        {
+          "id": "skeleton",
+          "name": "Skeleton 骨架",
+          "status": "ready",
+          "l0Ref": "skeleton",
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Shape 形狀",
+                "options": [
+                  {
+                    "value": "text",
+                    "zh": "文字列"
+                  },
+                  {
+                    "value": "rectangle",
+                    "zh": "矩形"
+                  },
+                  {
+                    "value": "circle",
+                    "zh": "圓形"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "中 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "empty",
+          "name": "Empty 空狀態",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P1",
+          "note": "列表、表格、搜尋無結果時的空狀態；4／7 套有，但每個專案都會遇到。"
+        }
+      ]
+    },
+    {
+      "group": "Data Display 資料展示",
+      "emoji": "🗂",
+      "items": [
         {
           "id": "tag",
           "name": "Tag 標籤",
@@ -845,62 +1623,6 @@
                   {
                     "value": "disabled",
                     "zh": "停用"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "icon",
-          "name": "Icon 圖示",
-          "status": "ready",
-          "l0Ref": "icon",
-          "axes": {
-            "order": [
-              "size",
-              "tone"
-            ],
-            "by": {
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "16 s"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "20 m"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "24 l"
-                  },
-                  {
-                    "value": "xl",
-                    "zh": "32 xl"
-                  }
-                ]
-              },
-              "tone": {
-                "axisName": "Tone 色調",
-                "options": [
-                  {
-                    "value": "default",
-                    "zh": "預設"
-                  },
-                  {
-                    "value": "primary",
-                    "zh": "主要"
-                  },
-                  {
-                    "value": "secondary",
-                    "zh": "次要"
-                  },
-                  {
-                    "value": "danger",
-                    "zh": "危險"
                   }
                 ]
               }
@@ -1052,138 +1774,22 @@
           }
         },
         {
-          "id": "logo",
-          "name": "Logo 品牌標誌",
-          "status": "ready",
+          "id": "rating",
+          "name": "Rating 評分",
+          "status": "planned",
           "l0Ref": null,
           "axes": null,
-          "kind": "brand-asset",
-          "note": "專案級可替換品牌資產。淺／深主題各一顆，依當前主題自動切換、單邊 fallback。同步替換三處：網站 topbar / library header / library footer。鎖寬度、高度等比。存於專案狀態、bake 時以 data URI inline。",
-          "targets": [
-            "site-topbar(.brand-logo)",
-            "library-header(hdrLogo)",
-            "library-footer(ftrLogo)"
-          ],
-          "themes": [
-            "light",
-            "dark"
-          ]
-        }
-      ]
-    },
-    {
-      "group": "Complex 複雜",
-      "emoji": "🧩",
-      "items": [
-        {
-          "id": "header",
-          "name": "Header 頁首",
-          "status": "ready",
-          "l0Ref": "header",
-          "axes": {
-            "order": [
-              "device"
-            ],
-            "by": {
-              "device": {
-                "axisName": "Device 裝置",
-                "options": [
-                  {
-                    "value": "desktop",
-                    "zh": "電腦版"
-                  },
-                  {
-                    "value": "mobile",
-                    "zh": "行動版"
-                  }
-                ]
-              }
-            }
-          }
+          "priority": "P2",
+          "note": "product-card 裡已有星星，抽成獨立元件；3／7 套有。"
         },
         {
-          "id": "footer",
-          "name": "Footer 頁尾",
-          "status": "ready",
-          "l0Ref": "footer",
-          "axes": {
-            "order": [
-              "variant",
-              "device"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "rich",
-                    "zh": "多欄"
-                  },
-                  {
-                    "value": "simple",
-                    "zh": "單列"
-                  },
-                  {
-                    "value": "minimal",
-                    "zh": "極簡"
-                  }
-                ]
-              },
-              "device": {
-                "axisName": "Device 裝置",
-                "options": [
-                  {
-                    "value": "desktop",
-                    "zh": "電腦版"
-                  },
-                  {
-                    "value": "mobile",
-                    "zh": "行動版"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "section-head",
-          "name": "Section Head 區段標題",
-          "status": "ready",
-          "l0Ref": "section-head",
-          "axes": {
-            "order": [
-              "align",
-              "size"
-            ],
-            "by": {
-              "align": {
-                "axisName": "Align 對齊",
-                "options": [
-                  {
-                    "value": "left",
-                    "zh": "靠左"
-                  },
-                  {
-                    "value": "center",
-                    "zh": "置中"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "m",
-                    "zh": "標準 m"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "大 l"
-                  }
-                ]
-              }
-            }
-          }
+          "id": "carousel",
+          "name": "Carousel 輪播",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "商品圖、Banner；上手指南頁已有自用輪播可整理；3／7 套有。"
         },
         {
           "id": "list",
@@ -1342,286 +1948,19 @@
           }
         },
         {
-          "id": "modal",
-          "name": "Modal 對話框",
-          "status": "ready",
-          "l0Ref": "modal",
-          "axes": {
-            "order": [
-              "kind",
-              "variant"
-            ],
-            "by": {
-              "kind": {
-                "axisName": "Kind 大小",
-                "options": [
-                  {
-                    "value": "popup",
-                    "zh": "小彈窗 popup"
-                  },
-                  {
-                    "value": "modal",
-                    "zh": "大視窗 modal"
-                  }
-                ]
-              },
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "normal",
-                    "zh": "一般 popup"
-                  },
-                  {
-                    "value": "illustration",
-                    "zh": "警示 popup"
-                  },
-                  {
-                    "value": "regular",
-                    "zh": "標準 modal"
-                  },
-                  {
-                    "value": "larger",
-                    "zh": "大版 modal"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "drawer",
-          "name": "Drawer 抽屜",
-          "status": "ready",
-          "l0Ref": "drawer",
-          "axes": {
-            "order": [
-              "side",
-              "size"
-            ],
-            "by": {
-              "side": {
-                "axisName": "Side 方向",
-                "options": [
-                  {
-                    "value": "left",
-                    "zh": "左側"
-                  },
-                  {
-                    "value": "right",
-                    "zh": "右側"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "窄 s"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "標準 m"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "寬 l"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "floating-line",
-          "name": "Floating Line 浮動列",
-          "status": "ready",
-          "l0Ref": "floating-line",
-          "axes": {
-            "order": [
-              "variant",
-              "position"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "selection",
-                    "zh": "選取列"
-                  },
-                  {
-                    "value": "toolbar",
-                    "zh": "工具列"
-                  },
-                  {
-                    "value": "fab",
-                    "zh": "浮動鈕"
-                  }
-                ]
-              },
-              "position": {
-                "axisName": "Position 位置",
-                "options": [
-                  {
-                    "value": "bottom-center",
-                    "zh": "底部置中"
-                  },
-                  {
-                    "value": "bottom-right",
-                    "zh": "底部靠右"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "step",
-          "name": "Step 步驟",
-          "status": "ready",
+          "id": "descriptions",
+          "name": "Descriptions 資料清單",
+          "status": "planned",
           "l0Ref": null,
-          "axes": {
-            "order": [
-              "orientation",
-              "variant"
-            ],
-            "by": {
-              "orientation": {
-                "axisName": "Orientation 方向",
-                "options": [
-                  {
-                    "value": "horizontal",
-                    "zh": "水平"
-                  },
-                  {
-                    "value": "vertical",
-                    "zh": "垂直"
-                  }
-                ]
-              },
-              "variant": {
-                "axisName": "Variant 樣式",
-                "options": [
-                  {
-                    "value": "numbered",
-                    "zh": "編號"
-                  },
-                  {
-                    "value": "dotted",
-                    "zh": "圓點"
-                  },
-                  {
-                    "value": "icon",
-                    "zh": "圖示"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "quantity",
-          "name": "Quantity 商品計數",
-          "status": "ready",
-          "l0Ref": null,
-          "axes": {
-            "order": [
-              "variant",
-              "size"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "outline",
-                    "zh": "外框"
-                  },
-                  {
-                    "value": "pill",
-                    "zh": "膠囊"
-                  },
-                  {
-                    "value": "plain",
-                    "zh": "極簡"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "小 s"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "標準 m"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "大 l"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "progress",
-          "name": "Progress 進度條",
-          "status": "ready",
-          "l0Ref": null,
-          "axes": {
-            "order": [
-              "variant",
-              "size"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "bar",
-                    "zh": "基本"
-                  },
-                  {
-                    "value": "label",
-                    "zh": "帶百分比"
-                  },
-                  {
-                    "value": "gradient",
-                    "zh": "漸層"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "s",
-                    "zh": "細 s"
-                  },
-                  {
-                    "value": "m",
-                    "zh": "標準 m"
-                  },
-                  {
-                    "value": "l",
-                    "zh": "粗 l"
-                  }
-                ]
-              }
-            }
-          }
+          "axes": null,
+          "priority": "P2",
+          "note": "訂單、帳號資訊這類鍵值對；4／7 套有。"
         }
       ]
     },
     {
       "group": "Card 卡片",
-      "emoji": "🗂️",
+      "emoji": "🃏",
       "items": [
         {
           "id": "card",
@@ -1922,6 +2261,107 @@
           }
         },
         {
+          "id": "table-toolbar",
+          "name": "Table Toolbar 表格工具列",
+          "status": "planned",
+          "l0Ref": null,
+          "axes": null,
+          "priority": "P2",
+          "note": "篩選 chip＋批次操作列，後台列表必備；Polaris、Carbon 有。"
+        },
+        {
+          "id": "tree-view",
+          "name": "Tree View 樹狀",
+          "status": "ready",
+          "l0Ref": "tree-view",
+          "axes": {
+            "order": [
+              "variant",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "lines",
+                    "zh": "連接線"
+                  },
+                  {
+                    "value": "plain",
+                    "zh": "無線"
+                  },
+                  {
+                    "value": "checkbox",
+                    "zh": "勾選樹"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  },
+                  {
+                    "value": "selected",
+                    "zh": "選取"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "calendar",
+          "name": "Calendar 日曆／時間",
+          "status": "ready",
+          "l0Ref": "calendar",
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "month",
+                    "zh": "月曆"
+                  },
+                  {
+                    "value": "range",
+                    "zh": "區間"
+                  },
+                  {
+                    "value": "time",
+                    "zh": "時間"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "m",
+                    "zh": "M"
+                  },
+                  {
+                    "value": "s",
+                    "zh": "S"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
           "id": "chart",
           "name": "Chart 圖表",
           "status": "ready",
@@ -1974,54 +2414,6 @@
           }
         },
         {
-          "id": "tree-view",
-          "name": "Tree View 樹狀",
-          "status": "ready",
-          "l0Ref": "tree-view",
-          "axes": {
-            "order": [
-              "variant",
-              "state"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "lines",
-                    "zh": "連接線"
-                  },
-                  {
-                    "value": "plain",
-                    "zh": "無線"
-                  },
-                  {
-                    "value": "checkbox",
-                    "zh": "勾選樹"
-                  }
-                ]
-              },
-              "state": {
-                "axisName": "State 狀態",
-                "options": [
-                  {
-                    "value": "default",
-                    "zh": "預設"
-                  },
-                  {
-                    "value": "hover",
-                    "zh": "滑過"
-                  },
-                  {
-                    "value": "selected",
-                    "zh": "選取"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
           "id": "schedule-chart",
           "name": "Schedule Chart 排程圖",
           "status": "ready",
@@ -2059,50 +2451,6 @@
                   {
                     "value": "s",
                     "zh": "精簡"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "calendar",
-          "name": "Calendar 日曆／時間",
-          "status": "ready",
-          "l0Ref": "calendar",
-          "axes": {
-            "order": [
-              "variant",
-              "size"
-            ],
-            "by": {
-              "variant": {
-                "axisName": "Variant 型態",
-                "options": [
-                  {
-                    "value": "month",
-                    "zh": "月曆"
-                  },
-                  {
-                    "value": "range",
-                    "zh": "區間"
-                  },
-                  {
-                    "value": "time",
-                    "zh": "時間"
-                  }
-                ]
-              },
-              "size": {
-                "axisName": "Size 尺寸",
-                "options": [
-                  {
-                    "value": "m",
-                    "zh": "M"
-                  },
-                  {
-                    "value": "s",
-                    "zh": "S"
                   }
                 ]
               }

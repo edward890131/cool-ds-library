@@ -5,6 +5,28 @@
 
 ## 盤點結果
 
+### 2026-11-03 分類重整（依用途 8 組，參考 Ant Design／Carbon）
+
+元件 id 全部不變，只改 `group`；sync 腳本只認 id，不受影響。新增元件依「7 套元件庫差距分析」以 `status: planned` 列入（附 `priority` P1–P3 與 `note`），側欄點進去顯示佔位頁。
+
+| 分組 | ready | planned | 合計 |
+|---|---|---|---|
+| General 基礎 | 3（button／icon／logo） | 6 | 9 |
+| Layout 版面 | 4（header／footer／section-head／floating-line） | 4 | 8 |
+| Navigation 導覽 | 6（tab／menu／action-menu／breadcrumb／pagination／step） | 4 | 10 |
+| Form 表單 | 5（input／dropdown／selector／toggle／quantity） | 10 | 15 |
+| Feedback & Overlay 回饋與浮層 | 7（notification／tooltip／modal／drawer／progress／loader／skeleton） | 4 | 11 |
+| Data Display 資料展示 | 6（tag／price／image／list／list-item／collapse） | 3 | 9 |
+| Card 卡片 | 4 | 0 | 4 |
+| Table & Chart 表格圖表 | 5 | 1（table-toolbar） | 6 |
+| **合計** | **40** | **32** | **72** |
+
+- **toggle 升格**：原本收在 tab 頁，改為獨立元件頁（`buildToggle`），補 `DIAL_SPECS.toggle`（state 4 值），會進需求匯總與匯出。
+- **P1 規劃中**：avatar、stack、app-shell、segmented、slider、field、alert、popover、empty。
+- **l0Ref**：比對改為只認 L0 的 `- id:` 條目。新元件命中 alert、cascader、date-picker、time-picker、typography（typography 在 L0 屬 foundation，非元件，僅軟參考）。
+
+### 2026-07-17 初版（Phase B）
+
 | 分組 | 項目數 |
 |---|---|
 | Basic 基本 | 18（含新增 logo） |
@@ -23,5 +45,6 @@
 
 ## 未來維護
 
-- library 新增／改名元件 → 重跑 `scratchpad/build_registry.js`（或等 Phase D 把它移進 repo `library/tools/`）重生本檔。
+- library 新增／改名元件 → `node library/tools/build-registry.js` 重生本檔（2026-11-03 起路徑改為相對 repo）。
+- 規劃中元件完成時：補 `DIAL_SPECS`（軸）、NAV 的 `st` 改 `ready`、重跑腳本。
 - 新增元件請補 `DIAL_SPECS`（軸）＋ `NAV`（分組），registry 會自動帶出。

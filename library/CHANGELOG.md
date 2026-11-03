@@ -6,6 +6,23 @@
 
 ---
 
+## 2026-11-03（三）　分類重整為 8 組＋32 顆規劃中元件＋toggle 升格
+
+- **分類**：側欄與 registry 由 Basic／Complex／Card／Table & Chart 4 組，改為依用途的 8 組：General 基礎、Layout 版面、Navigation 導覽、Form 表單、Feedback & Overlay 回饋與浮層、Data Display 資料展示、Card 卡片、Table & Chart 表格圖表。**元件 id 全部不變**，sync 腳本只認 id 不受影響。
+- **規劃中元件 32 顆**：依「7 套元件庫差距分析」以 `st:'planned'` 列入 NAV（附優先級 P1–P3 與理由）。側欄字色淡＋優先級 pill，群組數字顯示「已完成／全部」；點進去顯示佔位頁。不會進需求匯總與匯出。
+- **toggle 升格**：從 tab 頁拆出為獨立元件頁 `buildToggle`（變數篩選＋狀態矩陣＋互動預覽），補 `DIAL_SPECS.toggle`，進需求匯總（40 顆）。tab 頁留一行指引。
+- **registry**：`library/tools/build-registry.js` 改為相對 repo 路徑（原本寫死本機絕對路徑）、logo／selector 依 id 查找（不依群組名）、輸出 planned 的 `priority`／`note`、`meta.counts` 加 ready／planned；L0 比對改為只認 `- id:` 條目。重生 `component-registry.json`（v0.2.0，72 項＝40 ready＋32 planned），既有 39 項內容逐欄比對無變動。`REGISTRY-NOTES.md` 同步。
+- ✅ Playwright：78 頁逐一開啟無空頁、8 組與 32 顆規劃中正確、toggle 頁段落順序、需求匯總 8 組／40 顆、0 console error、390px 無橫捲。
+
+## 2026-11-03（二）　Motion v1 第二、三批＋Button 按壓
+
+- **Button 按壓**：靜態 pressed 與 live :active 由下移 1px 改為 `scale(.97)`。
+- **浮層**：Dropdown（從觸發框縮放展開、收合更快；全站 ddField 共用）、Action Menu（常駐掛載、從觸發鈕角落展開、項目依序淡入、程式碼區同步）、Modal（進場加大、關閉先播退場再移除）、Drawer（開減速／關加速；可拖曳關閉、反向阻尼、拖不夠遠 spring 彈回）、Toast（從上方落入不回彈、關閉加速淡出、可往右滑掉）、Menu（單一 hover 指示器跟著滑動）。
+- **內容**：文字滾換（程式碼面板等 4 處「已複製」）、圖示交叉替換（密碼眼睛）、Skeleton→內容（組合卡片加「模擬載入完成」）、Tag／多選 chip 移除縮小淡出、Step（連接線填滿→節點變色打勾→下一步微彈）、Progress（減速到達、不加閃光）、Chart（長條依序長出、hover 其餘淡化、折線描繪）、Tree view（高度展開收合）、Breadcrumb（「…」可點擊展開）、List（新增 removable：刪除淡出後收合、新增淡入；巢狀子列高度展開）、List Item（尾端動作鈕 hover／focus 才滑入）、Table（排序 FLIP 重排）、Floating Line（出現時從下方彈上，用獨立 translate 保留置中）、Schedule（排程條 clip-path 揭開不壓扁文字、逐列接續、hover 浮起）。
+- **不採用**：數字切換、Input 聚焦、Pagination 指示器、Calendar 換月、Header 捲動收合、Button 光澤掃過。
+- 共用 helper：`afterAnim`、`afterTransition`、`swapText`、`swapIcon`、`slideToggle`、`flipFirst/flipPlay`；全部尊重 `prefers-reduced-motion`。
+- ✅ Playwright：逐項驗證（Drawer 小拖彈回／大拖關閉、Toast 滑掉後復原、Table 排序 2/5 列移動、List 收合時間軸 124→12→0px、Chart hover 12/21 淡化等），0 console error。
+
 ## 2026-11-03　Motion v1：元件動態對照採用項（第一批）
 
 依「元件動態對照」頁的評審結果，第一批套用 CSS 為主的項目；只作用在 `.live` 互動 demo，矩陣靜態格不變。時長／曲線一律取 motion token。
