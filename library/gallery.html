@@ -2542,6 +2542,9 @@
 .cht-card-t{font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--muted);letter-spacing:.02em;}
 /* 卡內圖表撐滿卡寬（donut 例外：維持固定圓徑不變形拉伸） */
 .cht-card .cht-box{width:100%;}
+.cht-box.cht-line,.cht-box.cht-curve,.cht-box.cht-bar{width:100%;align-items:stretch;}
+.cht-fluid{width:100%;min-width:0;} .cht-fluid .cht-plot{display:block;width:100%;}
+.cht-box.cht-sz-m .cht-fluid .cht-plot svg,.cht-box.cht-sz-s .cht-fluid .cht-plot svg{width:100%;height:auto;max-width:none;} /* 覆蓋舊的固定 300／380px */
 .cht-card .cht-plot{width:100%;}
 .cht-card .cht-line svg,.cht-card .cht-curve svg,.cht-card .cht-bar svg{width:100%;}
 .cht-card .cht-donut svg{width:110px;}
@@ -11223,6 +11226,11 @@ function buildArticleCard(view){
      size 決定預設配置（m 標準＝完整配置、s 精簡＝sparkline 式簡配），o 可逐項覆寫（Live 用）：
      stat {title,trend,unit}／line {area,grid,xaxis,yaxis,interactive}／bar {series2,vals,xaxis,yaxis,interactive}／donut {center,legend}
      圖表加寬（m 340／s 170）；o.interactive 開 hover tooltip＋端點；o.xaxis/o.yaxis 控座標軸類別／數值 */
+  /* RWD：line／curve／bar 依容器實際寬度重畫（和進階 9 型一樣伸縮；viewBox 寬＝實際像素，文字與線條不變形） */
+  function chtFluid(mk,base){const host=ce('div','cht-fluid');let w0=0;
+    const draw=w=>{host.replaceChildren(mk(Object.assign({},base,{w})));};draw(base.w);
+    if(window.ResizeObserver)new ResizeObserver(()=>{const w=Math.round(host.clientWidth);if(w>=80&&Math.abs(w-w0)>1){w0=w;draw(w);}}).observe(host);
+    return host;}
   function chtChart(variant,size,o){
     o=o||{};
     if(CHTX[variant])return chtxChart(variant,size,o); // 進階 9 型（見下方 CHTX）
@@ -11235,19 +11243,19 @@ function buildArticleCard(view){
         unit:o.unit
       }));
     }else if(variant==='line'){
-      box.appendChild(chtLineNode({w:s?170:340,h:s?76:150,
+      box.appendChild(chtFluid(chtLineNode,{w:s?170:340,h:s?76:150,
         area:o.area===undefined?true:o.area,
         grid:o.grid===undefined?!s:o.grid,
         grad:!!o.grad,
         xaxis:!!o.xaxis,yaxis:!!o.yaxis,interactive:!!o.interactive}));
     }else if(variant==='curve'){ // 曲線＝折線的平滑版（Catmull-Rom），選項沿用 line
-      box.appendChild(chtLineNode({w:s?170:340,h:s?76:150,smooth:true,
+      box.appendChild(chtFluid(chtLineNode,{w:s?170:340,h:s?76:150,smooth:true,
         area:o.area===undefined?true:o.area,
         grid:o.grid===undefined?!s:o.grid,
         grad:!!o.grad,
         xaxis:!!o.xaxis,yaxis:!!o.yaxis,interactive:!!o.interactive}));
     }else if(variant==='bar'){
-      box.appendChild(chtBarNode({w:s?170:340,h:s?76:150,
+      box.appendChild(chtFluid(chtBarNode,{w:s?170:340,h:s?76:150,
         series2:o.series2===undefined?!s:o.series2,
         vals:!!o.vals,xaxis:!!o.xaxis,yaxis:!!o.yaxis,interactive:!!o.interactive}));
     }else{ // donut

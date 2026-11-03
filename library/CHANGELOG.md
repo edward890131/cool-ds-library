@@ -8,6 +8,8 @@
 
 ## 2026-11-03（十三）　metric-card 長條圓角對齊 chart
 
+- chart 的 line／curve／bar 原本寫死 300／340／380px 寬，現在和進階 9 型一樣依容器寬度重畫（ResizeObserver；viewBox 寬＝實際像素，文字與線條不被拉伸），互動預覽、Dashboard 示意、矩陣格都會跟著伸縮。
+
 - metric-card 的週長條／每日長條原本用 `rx:6`／`rx:1.2` 四角圓，和 chart 元件不一致；改用 chart 同一支 `chtxBarTop`＋`--r-xs`（只有頂端圓角、底部貼齊基準線）。折線版的重點欄底色也改用 `--r-xs`。
 
 ## 2026-11-03（十二）　Card 新增 5 種牌卡（牌卡提案第二版進庫）
