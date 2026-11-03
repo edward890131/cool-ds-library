@@ -6,10 +6,10 @@
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
       "total": 72,
-      "ready": 42,
-      "planned": 30,
-      "withAxes": 40,
-      "noAxes": 32
+      "ready": 49,
+      "planned": 23,
+      "withAxes": 47,
+      "noAxes": 25
     }
   },
   "groups": [
@@ -213,11 +213,72 @@
         {
           "id": "avatar",
           "name": "Avatar 頭像",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "size × 圖片／縮寫，含群組疊放；7／7 套有。散在 skeleton 與範例，照鐵則 5 先建原子。"
+          "axes": {
+            "order": [
+              "size",
+              "shape",
+              "content"
+            ],
+            "by": {
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "xs",
+                    "zh": "極小 xs"
+                  },
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  },
+                  {
+                    "value": "xl",
+                    "zh": "特大 xl"
+                  }
+                ]
+              },
+              "shape": {
+                "axisName": "Shape 形狀",
+                "options": [
+                  {
+                    "value": "circle",
+                    "zh": "圓形"
+                  },
+                  {
+                    "value": "rounded",
+                    "zh": "圓角方"
+                  }
+                ]
+              },
+              "content": {
+                "axisName": "Content 內容",
+                "options": [
+                  {
+                    "value": "image",
+                    "zh": "照片"
+                  },
+                  {
+                    "value": "initials",
+                    "zh": "縮寫"
+                  },
+                  {
+                    "value": "icon",
+                    "zh": "圖示"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "logo",
@@ -246,20 +307,98 @@
         {
           "id": "stack",
           "name": "Stack 版面排列",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "Stack／Inline／Grid 排版容器，gap 只能選 --sp-*，對應 Figma auto layout；6／7 套有。"
+          "axes": {
+            "order": [
+              "direction",
+              "gap"
+            ],
+            "by": {
+              "direction": {
+                "axisName": "Direction 方向",
+                "options": [
+                  {
+                    "value": "vertical",
+                    "zh": "Stack 直排"
+                  },
+                  {
+                    "value": "horizontal",
+                    "zh": "Inline 橫排"
+                  },
+                  {
+                    "value": "grid",
+                    "zh": "Grid 格狀"
+                  }
+                ]
+              },
+              "gap": {
+                "axisName": "Gap 間距",
+                "options": [
+                  {
+                    "value": "sp-2",
+                    "zh": "sp-2 · 6"
+                  },
+                  {
+                    "value": "sp-3",
+                    "zh": "sp-3 · 8"
+                  },
+                  {
+                    "value": "sp-4",
+                    "zh": "sp-4 · 12"
+                  },
+                  {
+                    "value": "sp-5",
+                    "zh": "sp-5 · 16"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "app-shell",
           "name": "App Shell 應用程式框架",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "頂欄＋側欄導覽＋內容區，後台類專案骨架；6／7 套有。"
+          "axes": {
+            "order": [
+              "layout",
+              "device"
+            ],
+            "by": {
+              "layout": {
+                "axisName": "Layout 版面",
+                "options": [
+                  {
+                    "value": "side",
+                    "zh": "側欄"
+                  },
+                  {
+                    "value": "top",
+                    "zh": "頂欄"
+                  },
+                  {
+                    "value": "side-top",
+                    "zh": "側欄＋頂欄"
+                  }
+                ]
+              },
+              "device": {
+                "axisName": "Device 裝置",
+                "options": [
+                  {
+                    "value": "desktop",
+                    "zh": "電腦版"
+                  },
+                  {
+                    "value": "mobile",
+                    "zh": "行動版"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "splitter",
@@ -1019,20 +1158,104 @@
         {
           "id": "segmented",
           "name": "Segmented 分段控制",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "網站控制面板到處在用 .seg 卻沒收進元件庫；與 tab pill 共用滑動指示器；7／7 套有。"
+          "axes": {
+            "order": [
+              "variant",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 風格",
+                "options": [
+                  {
+                    "value": "soft",
+                    "zh": "柔色軌道"
+                  },
+                  {
+                    "value": "outline",
+                    "zh": "外框"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "slider",
           "name": "Slider 滑桿",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "單值與區間兩種，價格篩選需要；7／7 套有。"
+          "axes": {
+            "order": [
+              "type",
+              "size",
+              "state"
+            ],
+            "by": {
+              "type": {
+                "axisName": "Type 型態",
+                "options": [
+                  {
+                    "value": "single",
+                    "zh": "單值"
+                  },
+                  {
+                    "value": "range",
+                    "zh": "區間"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "細 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  }
+                ]
+              }
+            }
+          }
         },
         {
           "id": "date-picker",
@@ -1139,11 +1362,50 @@
         {
           "id": "field",
           "name": "Field 表單欄位",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "欄位容器＋表單版面＋錯誤摘要，把多個欄位排成表單；6／7 套有。"
+          "axes": {
+            "order": [
+              "layout",
+              "state"
+            ],
+            "by": {
+              "layout": {
+                "axisName": "Layout 版面",
+                "options": [
+                  {
+                    "value": "vertical",
+                    "zh": "標籤在上"
+                  },
+                  {
+                    "value": "horizontal",
+                    "zh": "標籤在左"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "已填值"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  }
+                ]
+              }
+            }
+          }
         }
       ]
     },
@@ -1607,11 +1869,50 @@
         {
           "id": "empty",
           "name": "Empty 空狀態",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
-          "priority": "P1",
-          "note": "列表、表格、搜尋無結果時的空狀態；4／7 套有，但每個專案都會遇到。"
+          "axes": {
+            "order": [
+              "kind",
+              "size"
+            ],
+            "by": {
+              "kind": {
+                "axisName": "Kind 情境",
+                "options": [
+                  {
+                    "value": "first",
+                    "zh": "首次使用"
+                  },
+                  {
+                    "value": "search",
+                    "zh": "搜尋無結果"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "載入失敗"
+                  },
+                  {
+                    "value": "permission",
+                    "zh": "無權限"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  }
+                ]
+              }
+            }
+          }
         }
       ]
     },

@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-11-03（五）　P1 元件全部完成：Avatar、Segmented、Slider、Field、Stack、App Shell、Empty
+
+依差距分析 P1 清單一次補齊 7 顆（規劃中 → 完成），每顆都有變數篩選、矩陣、內容軸、「什麼時候用」、互動預覽與程式碼。
+- **Avatar 頭像**（General）：`size`（xs 20～xl 64）× `shape`（circle／rounded）× `content`（image／initials／icon）＝30；在線狀態點（online／away／busy／offline，外圈 --panel 描邊）、群組疊放＋N。照片用內嵌 SVG（不依賴網路）。
+- **Segmented 分段控制**（Form）：`variant`（soft／outline）× `size`（s／m）＝4；單一滑動指示器，選中＝`--accent`＋`--primary-on`（與 tab pill 同一套）；`role=radiogroup`、方向鍵切換、roving tabindex；ResizeObserver 在字型載入後重新量測。
+- **Slider 滑桿**（Form）：`type`（single／range）× `size` × `state`＝16；拖曳（pointer capture）、點軌道跳值（只有這時才用 --ease-out 過渡）、鍵盤（方向鍵／PageUp／PageDown／Home／End）、`role=slider` 與 aria-value*；區間兩端不交叉；拖曳時顯示數值提示。
+- **Field 表單欄位**（Form）：`layout`（vertical／horizontal）× `state`（default／filled／error／disabled）＝8；label＋控制項（取用 input 原子）＋提示／錯誤（帶圖示，不只靠紅色）＋字數；互動預覽是完整表單：送出驗證、錯誤摘要（取用 alert，可點欄位名跳過去）、焦點移到第一個錯誤欄、修正即時清除、成功提示；aria-invalid／aria-describedby。
+- **Stack 版面排列**（Layout）：`direction`（Stack／Inline／Grid）× `gap`（sp-2～sp-5）＝12；gap 只接受 --sp-* token，align／justify／wrap；附「對應 Figma auto layout」對照。
+- **App Shell 應用程式框架**（Layout）：`layout`（side／top／side-top）× `device`（desktop／mobile）＝6；內部取用 menu／avatar／button 原子（鐵則 5）；電腦版側欄收合（寬度動畫、只留圖示）、行動版抽屜＋遮罩。
+- **Empty 空狀態**（Feedback & Overlay）：`kind`（first／search／error／permission）× `size`（s 卡片內／m 整頁）＝8；icon／title／description／主次動作；內容逐行淡入；附放在列表裡的情境示範。
+- TOKEN_SLOTS：avatar、segmented、field、app-shell、empty 各補綁定槽；slider／stack 以 token 本身為軸，不另設。
+- registry 重生：49 ready＋23 planned（P1 清空，剩 P2／P3）；需求匯總 49 顆。
+- ✅ Playwright：7 頁段落順序與矩陣格數（30／4／16／8／12／6／8）、Segmented 指示器位移與鍵盤、Slider 拖曳／鍵盤／不交叉、Field 送出 3 錯→修正→成功、Stack 程式碼 var(--sp-3)、App Shell 收合 58px／行動版抽屜開關、深淺截圖，0 console error。
+
 ## 2026-11-03（四）　新增 Alert 提示橫幅、Popover 氣泡卡（P1，規劃中 → 完成）
 
 依差距分析優先處理「文件已在引用、元件卻不存在」的兩顆。

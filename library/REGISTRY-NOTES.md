@@ -11,18 +11,18 @@
 
 | 分組 | ready | planned | 合計 |
 |---|---|---|---|
-| General 基礎 | 3（button／icon／logo） | 6 | 9 |
-| Layout 版面 | 4（header／footer／section-head／floating-line） | 4 | 8 |
+| General 基礎 | 4（button／icon／avatar／logo） | 5 | 9 |
+| Layout 版面 | 6（stack／app-shell／header／footer／section-head／floating-line） | 2 | 8 |
 | Navigation 導覽 | 6（tab／menu／action-menu／breadcrumb／pagination／step） | 4 | 10 |
-| Form 表單 | 5（input／dropdown／selector／toggle／quantity） | 10 | 15 |
-| Feedback & Overlay 回饋與浮層 | 9（alert／notification／tooltip／popover／modal／drawer／progress／loader／skeleton） | 2 | 11 |
+| Form 表單 | 8（input／dropdown／selector／toggle／segmented／slider／quantity／field） | 7 | 15 |
+| Feedback & Overlay 回饋與浮層 | 10（alert／notification／tooltip／popover／modal／drawer／progress／loader／skeleton／empty） | 1 | 11 |
 | Data Display 資料展示 | 6（tag／price／image／list／list-item／collapse） | 3 | 9 |
 | Card 卡片 | 4 | 0 | 4 |
 | Table & Chart 表格圖表 | 5 | 1（table-toolbar） | 6 |
-| **合計** | **42** | **30** | **72** |
+| **合計** | **49** | **23** | **72** |
 
 - **toggle 升格**：原本收在 tab 頁，改為獨立元件頁（`buildToggle`），補 `DIAL_SPECS.toggle`（state 4 值），會進需求匯總與匯出。
-- **P1 規劃中**：avatar、stack、app-shell、segmented、slider、field、empty（alert、popover 已於 2026-11-03 完成）。
+- **P1 全部完成**（2026-11-03）：alert、popover、avatar、segmented、slider、field、stack、app-shell、empty。剩餘 23 顆為 P2／P3。
 - **l0Ref**：比對改為只認 L0 的 `- id:` 條目。新元件命中 alert、cascader、date-picker、time-picker、typography（typography 在 L0 屬 foundation，非元件，僅軟參考）。
 
 ### 2026-07-17 初版（Phase B）
