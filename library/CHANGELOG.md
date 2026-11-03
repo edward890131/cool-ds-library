@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-03（十六）　側欄圖示改用 Phosphor
+
+- 側欄、需求匯總分類、上手指南按鈕與上手指南裡的仿側欄示意，原本用 emoji，改成 Phosphor regular 線條圖示（16px、`--muted`，滑過或目前頁轉 `--ink`）：首頁 house-simple、Design Token palette、Design Guideline ruler、需求匯總 clipboard-text、上手指南 book-open-text、General shapes、Layout layout、Navigation compass、Form textbox、Feedback & Overlay chat-circle-dots、Data Display rows、Card cards、Table & Chart chart-bar、版本紀錄 clock-counter-clockwise、偏好設定 gear-six。NAV 每組新增 `ic` 欄位（emoji 欄位保留供舊資料相容）。
+
 ## 2026-11-03（十五）　首頁改版：hero 版型、牌卡圖表試玩、瀑布流元件牆、會動的卡片與圖表
 
 - **Hero**：參考 designsystems.surf 的結構（不沿用品牌與文案）——靠左大標、最後一個詞輪流打字（換主色／改圓角／調字重／變密度，減少動態時靜止）、CTA 在左、說明在右，下方細線＋各分類元件數。「新」標籤連到 person-card。
