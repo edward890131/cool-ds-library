@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-03（十七）　首頁第三輪：玩玩看左右版面＋更多選項、元件牆不縮放、會動的卡片與圖表加快
+
+- **玩玩看**：左側固定的操作面板（約 320px，手機收合為「更多選項」）＋右側預覽。選項：主色／副色（色票＋自訂）、底色染色與強度、預覽單獨切深淺、圓角（0–24px，等比例套到所有 `--r-*`）、外框粗細、陰影層級、字體（Geist／系統黑體／明體）、字重、字級比例、間距密度、動態速度（`--dur-*` 倍率）。即時列出改了哪些 token，可重設、可「複製 CSS 變數」。預覽精簡為 4 個元件（表單＋按鈕、profile-card、堆疊面積圖、metric-card）；只寫在預覽容器，不動 `:root`。
+- **元件牆**：拿掉格子下的名稱與說明；元件用原尺寸、不縮放（放不下就裁切）；卡片類只留 metric-card，其餘換成日期選擇、下拉選單、指令面板、通知、標籤、分頁籤、頭像群組、儀表、滑桿、評分、進度、步驟、分頁、表格工具列。滑過格子時游標旁跟著「查看 ○○ →」的按鈕樣式標籤（只在滑鼠／筆，觸控不顯示；鍵盤聚焦時顯示在格內）。
+- **會動的卡片與圖表**：拿掉說明文字；每 1.2–2 秒換一次狀態、各卡錯開，動態加量（十字準線掃過、長條重排、儀表擺針、頭像散開等）；離開畫面／滑過／聚焦／切分頁暫停，減少動態時不自動播放。
+
 ## 2026-11-03（十六）　側欄圖示改用 Phosphor
 
 - 側欄、需求匯總分類、上手指南按鈕與上手指南裡的仿側欄示意，原本用 emoji，改成 Phosphor regular 線條圖示（16px、`--muted`，滑過或目前頁轉 `--ink`）：首頁 house-simple、Design Token palette、Design Guideline ruler、需求匯總 clipboard-text、上手指南 book-open-text、General shapes、Layout layout、Navigation compass、Form textbox、Feedback & Overlay chat-circle-dots、Data Display rows、Card cards、Table & Chart chart-bar、版本紀錄 clock-counter-clockwise、偏好設定 gear-six。NAV 每組新增 `ic` 欄位（emoji 欄位保留供舊資料相容）。
