@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-03（十四）　開新專案改成大 popup、表單改用元件庫元件、Dropdown 外點收合
+
+- **開始新專案改在一個大 Modal 內完成**（取用 Modal 元件的開合動態）：960px、最高 90vh，標題列＋步驟條與「上一步／下一步」固定，只有內容捲動；手機為全螢幕。`#start` 會在目前頁面上開啟，× 與 Esc 關閉並保留草稿，點遮罩不會丟失內容；首頁按鈕、搜尋、右下角「回到流程」都會開它；焦點鎖在視窗內、關閉後回到原按鈕。
+- **表單全部改用元件庫元件**：Field（label／hint／錯誤）、Dropdown、Segmented、Tag、Dropzone、textarea；兩欄 label、控制項、提示對齊，控制項一律 36px 高，間距走 `--sp-*`。第一步的「上一步」用 disabled 樣式。
+- **Dropdown 元件修正（全站）**：原本只能點觸發器才收合；改為展開時監聽外點、Esc、焦點離開，關閉後移除監聽。觸發器可聚焦（combobox／listbox、aria-expanded），↑↓ Home End 移動、Enter 選取、Esc 回到觸發器。
+- **topbar 在 1024／768px 不再橫向超出**：1199px 以下藏起頂部的「此為母元件庫…」（側欄底部仍有），899px 以下搜尋框縮成圖示。
+
 ## 2026-11-03（十三）　metric-card 長條圓角對齊 chart
 
 - chart 的 line／curve／bar 原本寫死 300／340／380px 寬，現在和進階 9 型一樣依容器寬度重畫（ResizeObserver；viewBox 寬＝實際像素，文字與線條不被拉伸），互動預覽、Dashboard 示意、矩陣格都會跟著伸縮。

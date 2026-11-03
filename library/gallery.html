@@ -873,6 +873,8 @@
     border-radius:var(--ddmenu-radius,var(--r-sm));box-shadow:var(--e-xl);padding:var(--sp-1);max-height:240px;overflow-y:auto;}
   .ddopt{display:flex;align-items:center;gap:var(--ddopt-gap,var(--sp-3));padding:var(--sp-3) var(--ddopt-pad-x,var(--sp-4));border-radius:var(--r-sm);font-size:var(--ddopt-fs,var(--fs-h11));color:var(--ink);cursor:pointer;}
   .ddopt:hover{background:var(--i-primary-tint);color:var(--accent);}
+  .ddopt:focus{outline:none;} .ddopt:focus-visible{background:var(--i-primary-tint);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);}
+  .field.dd:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .ddopt.sel{color:var(--accent);font-weight:var(--fw-semibold);}
   .ddsearch{width:100%;box-sizing:border-box;height:34px;padding:0 var(--sp-3);margin-bottom:var(--sp-1);border:1px solid var(--i-sec-edge);
     border-radius:var(--r-sm);background:var(--panel-2);color:var(--ink);font-size:var(--fs-h11);outline:none;}
@@ -3603,7 +3605,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ss-trig .kbd-grp{flex:0 0 auto;} .ss-trig .kbd{min-width:0;padding:0 6px;font-family:var(--font-sans);letter-spacing:.02em;}
   .topbar .theme-toggle{margin-left:var(--sp-2);}
   .theme-toggle .knob svg{transition:opacity var(--dur-fast) var(--ease-out);}
-  @media (max-width:767px){.ss-trig{width:36px;padding:0;justify-content:center;} .ss-trig > span,.ss-trig .kbd-grp{display:none;}}
+  @media (max-width:899px){.ss-trig{width:36px;padding:0;justify-content:center;} .ss-trig > span,.ss-trig .kbd-grp{display:none;}}
 
   /* 搜尋面板：取用 Command 元件（.cmd）＋遮罩 */
   .ss-ovl{position:fixed;inset:0;z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px;box-sizing:border-box;
@@ -3910,6 +3912,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ds-badge-proj{font-weight:600;font-size:var(--fs-h11);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ds-badge-proj.full{max-width:none;overflow:visible;} /* 母庫提示文案完整呈現、不截斷 */
   @media(max-width:900px){.ds-badge-proj,.ds-badge-lbl{display:none;}}
+  @media(max-width:1199px){.ds-badge-proj.full{display:none;} .ss-trig{width:min(260px,26vw);}} /* 1024 附近 topbar 放不下母庫提示：先藏提示文案（側欄底部仍有同一句） */
   .ds-badge .gh-topbar{margin-right:var(--sp-2);}                       /* GitHub 入口與 CTA 間距 */
   @media(max-width:767px){.gh-topbar{display:none;}}                    /* 手機 topbar 空間有限，隱藏 GitHub 入口 */
   .theme-toggle-left{margin-left:var(--sp-4);}
@@ -4647,56 +4650,87 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .dgt-fcrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
     .dg-sp-lb{width:88px;}
   }
-  /* ==================== 開新專案流程（#start）==================== */
-  .flw{display:flex;flex-direction:column;gap:var(--sp-5);margin-top:var(--sp-6);max-width:960px;min-width:0;}
-  .flw-topact{display:inline-flex;gap:var(--sp-2);}
+  /* ==================== 開新專案流程（#start · flow2：大型 Modal）==================== */
+  /* 外框＝library Modal（.mdl-overlay.mdl-fixed ＋ .mdl-card.mdl-kind-modal）：header 固定（標題＋stepper）、body 內部捲動、footer 固定（上一步／下一步）。
+     間距一律走 4px 格線的 --sp-1/3/4/5/6/7；控制項高度統一 36px（= .field 原子高度）。 */
+  .flw-ovl{z-index:1000;}
+  .flw-ovl .mdl-card.flw-m{max-width:960px;width:100%;max-height:90vh;max-height:90dvh;}
+  .flw-m{--flw-ctl-h:36px;}
+  .flw-m:focus{outline:none;}
+  .flw-m .flw-hd{flex:0 0 auto;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-5) var(--sp-6) var(--sp-5);border-bottom:1px solid var(--line);background:var(--panel);}
+  .flw-m .mdl-mhead{padding:0;align-items:center;}
+  .flw-hd-act{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;}
+  .flw-hd-act .mdl-close{margin:0;}
   .flw-prog{min-width:0;}
   .flw-prog .stp-horizontal .stp-labels{max-width:96px;}
   .flw-jump{cursor:pointer;border-radius:var(--r-sm);transition:opacity var(--dur-fast) var(--ease-standard);}
   .flw-jump:hover{opacity:.75;}
   .flw-jump:focus-visible{outline:2px solid var(--accent);outline-offset:var(--sp-1);}
-  .flw-cur{display:none;font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--ink);}
-  .flw-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-6);display:flex;flex-direction:column;gap:var(--sp-6);min-width:0;}
-  .flw-body{display:flex;flex-direction:column;gap:var(--sp-5);min-width:0;}
-  .flw-body.flw-in{animation:flw-in var(--dur-default) var(--ease-out) both;}
-  @keyframes flw-in{from{opacity:0;transform:translateY(var(--sp-2));}to{opacity:1;transform:none;}}
-  .flw-nav{display:flex;align-items:center;gap:var(--sp-3);border-top:1px solid var(--line);padding-top:var(--sp-5);}
-  .flw-sh{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
-  .flw-st{margin:0;font-size:var(--fs-h7);font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink);}
-  .flw-sd{margin:calc(var(--sp-3) * -1) 0 0;color:var(--muted);font-size:var(--fs-h10);max-width:62ch;}
-  .flw-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5) var(--sp-6);}
-  .flw-grid .fld{max-width:none;}
+  .flw-m .mdl-content.flw-body{flex:1 1 auto;min-height:0;gap:var(--sp-6);padding:var(--sp-6);overscroll-behavior:contain;}
+  .flw-body.flw-in > *{animation:flw-in var(--dur-default) var(--ease-out) both;}
+  @keyframes flw-in{from{opacity:0;transform:translateY(var(--sp-1));}to{opacity:1;transform:none;}}
+  .flw-m .mdl-foot.flw-nav{flex:0 0 auto;align-items:center;justify-content:flex-start;gap:var(--sp-3);padding:var(--sp-4) var(--sp-6);border-top:1px solid var(--line);background:var(--panel);}
+  .flw-nav .spacer{flex:1 1 auto;}
+  .flw-count{font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  /* 步驟標題 */
+  .flw-sh{display:flex;flex-direction:column;gap:var(--sp-1);}
+  .flw-sh-t{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-st{margin:0;font-size:var(--fs-h8);font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink);}
+  .flw-sd{margin:0;color:var(--muted);font-size:var(--fs-h10);line-height:var(--lh-normal);max-width:68ch;}
+  .flw-sd code{font-family:var(--font-mono);font-size:.92em;}
+  /* 表單格線：兩欄；每個 Field 用 subgrid 佔 3 列（標籤／控制項／提示），兩欄的標籤、控制項、提示各自對齊同一條基線 */
+  .flw-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--sp-6);row-gap:var(--sp-5);align-items:start;}
+  .flw-form > .fld{max-width:none;grid-row:span 3;display:grid;grid-template-rows:subgrid;row-gap:var(--sp-3);align-content:start;}
+  .flw-form > .fld > .fld-ctl{display:contents;}
+  .flw-form > .fld > .fld-label{align-self:end;min-height:20px;}
+  .flw-form > .fld .fld-msg{margin-top:calc(var(--sp-1) * -1);}
+  .flw-form > .fld .fld-msg:empty{display:none;}
   .flw-span{grid-column:1 / -1;}
-  .flw-fld .fld-ctl{align-items:flex-start;}
-  .flw-fld .fld-ctl > .ddwrap,.flw-fld .fld-ctl > .drz,.flw-fld .fld-ctl > .flw-color{width:100%;}
-  .flw-ta{min-width:0;}
-  .flw-color{max-width:280px;}
-  .flw-chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
-  .flw-chip{cursor:pointer;height:auto;min-height:28px;padding:0 var(--sp-4);font-size:var(--fs-h11);border-width:1px;border-style:solid;
+  /* 控制項：全部撐滿欄寬、高度統一 */
+  .flw-form .field,.flw-form .ddwrap{width:100%;min-width:0;box-sizing:border-box;}
+  .flw-form .field:not(.multi){height:var(--flw-ctl-h);}
+  .flw-form .ddwrap{display:block;}
+  .flw-form .field.dd:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .flw-form .sgm{height:var(--flw-ctl-h);}
+  .flw-form .sgm-sz-m .sgm-it{height:calc(var(--flw-ctl-h) - 8px);}
+  .flw-form textarea.tarea{display:block;width:100%;min-width:0;box-sizing:border-box;resize:vertical;min-height:112px;font:inherit;font-size:var(--fs-h10);outline:none;}
+  .flw-form textarea.tarea::placeholder{color:var(--faint);}
+  .flw-form textarea.tarea:hover{border-color:var(--muted);}
+  .flw-form textarea.tarea:focus{border-color:var(--accent);}
+  .flw-form textarea.tarea.st-error{border-color:var(--i-danger);}
+  .flw-form .drz{max-width:none;}
+  /* 色彩輸入：.field 外框＋Design Token 頁同款色票鈕（.tok-sw-btn）＋等寬色碼 */
+  .flw-color{padding-left:var(--sp-1);gap:var(--sp-3);}
+  .flw-color .tok-sw-btn{width:40px;height:calc(var(--flw-ctl-h) - 10px);}
+  .flw-color .bare{font-family:var(--font-mono);font-size:var(--fs-h11);text-transform:uppercase;}
+  .flw-color .bare::placeholder{text-transform:none;}
+  /* 調性 chips：Tag 原子當 toggle button */
+  .flw-chips{display:flex;flex-wrap:wrap;gap:var(--sp-3);}
+  .flw-chip{cursor:pointer;height:28px;padding:0 var(--sp-4);font-size:var(--fs-h11);font-family:var(--font-sans);border-width:1px;border-style:solid;
     transition:background var(--dur-fast) var(--ease-standard),color var(--dur-fast) var(--ease-standard),border-color var(--dur-fast) var(--ease-standard);}
   .flw-chip:hover{filter:brightness(.97);}
   .flw-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .flw-note{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-note{font-size:var(--fs-h11);color:var(--muted);line-height:var(--lh-normal);}
   .flw-note.is-err{color:var(--i-danger);}
-  .flw-inline{display:inline-flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
-  .flw-gap{margin:0;}
-  /* AI 插槽：虛線框＋「AI 之後接上」標籤＋固定規則 fallback */
-  .flw-ai{border:1px dashed var(--line-strong);border-radius:var(--r-md);padding:var(--sp-4) var(--sp-5);background:var(--panel-2);display:flex;flex-direction:column;gap:var(--sp-2);}
+  .flw-inline{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-m .al{max-width:none;}
+  /* AI 插槽 */
+  .flw-ai{border:1px dashed var(--line-strong);border-radius:var(--r-md);padding:var(--sp-4) var(--sp-5);background:var(--panel-2);display:flex;flex-direction:column;gap:var(--sp-3);}
   .flw-ai-hd{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
   .flw-ai-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
-  .flw-ai-d{margin:0;font-size:var(--fs-h11);color:var(--muted);}
+  .flw-ai-d{margin:0;font-size:var(--fs-h11);color:var(--muted);line-height:var(--lh-normal);}
   .flw-ai-fb{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
   .flw-ai-fl{font-size:var(--fs-h11);color:var(--faint);}
   .flw-ai-badge{flex:0 0 auto;}
   .flw-ai-badge svg{width:12px;height:12px;}
   /* 提案 */
-  .flw-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5);}
+  .flw-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5);align-items:start;}
   .flw-panel{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;background:var(--panel);}
-  .flw-ph{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);display:flex;align-items:center;gap:var(--sp-2);}
+  .flw-ph{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);display:flex;align-items:center;gap:var(--sp-3);}
   .flw-cnt{font-weight:var(--fw-regular);color:var(--faint);font-size:var(--fs-h11);}
   .flw-scale{display:flex;flex-direction:column;gap:var(--sp-3);}
-  .flw-scrow{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:var(--sp-3);}
-  .flw-scl{font-size:var(--fs-h11);color:var(--muted);min-width:3em;}
+  .flw-scrow{display:grid;grid-template-columns:3em minmax(0,1fr);align-items:center;gap:var(--sp-3);}
+  .flw-scl{font-size:var(--fs-h11);color:var(--muted);}
   .flw-scbar{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line);}
   .flw-sw{height:var(--sp-7);display:block;}
   .flw-sw.is-anchor{box-shadow:inset 0 0 0 2px var(--panel);}
@@ -4708,20 +4742,20 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .flw-why-v{color:var(--ink);text-align:right;overflow-wrap:anywhere;}
   .flw-why-r{grid-column:1 / -1;color:var(--muted);}
   .flw-preview{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-4);border-radius:var(--r-md);background:var(--panel-2);}
-  .flw-preview + .flw-note,.flw-note + .flw-preview{margin-top:calc(var(--sp-2) * -1);}
   .flw-comp{max-height:420px;overflow:auto;}
-  .flw-comp li{display:flex;flex-direction:column;gap:2px;padding:var(--sp-3) 0;border-top:1px solid var(--line);}
+  .flw-comp li{display:flex;flex-direction:column;gap:var(--sp-1);padding:var(--sp-3) 0;border-top:1px solid var(--line);}
   .flw-comp li:first-child{border-top:0;padding-top:0;}
   .flw-cn{font-size:var(--fs-h10);color:var(--ink);font-weight:var(--fw-medium);}
   .flw-cr{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-stack{display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;}
   .flw-apply{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
   /* 調整 */
   .flw-jumps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-4);}
   .flw-jumpcard{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);align-items:flex-start;background:var(--panel-2);}
   .flw-jt{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
-  .flw-jd{margin:0;font-size:var(--fs-h11);color:var(--muted);flex:1;}
+  .flw-jd{margin:0;font-size:var(--fs-h11);color:var(--muted);flex:1;line-height:var(--lh-normal);}
   /* 匯出 */
-  .flw-ck{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px var(--sp-3);align-items:start;padding:var(--sp-3) 0;border-top:1px solid var(--line);}
+  .flw-ck{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-1) var(--sp-3);align-items:start;padding:var(--sp-3) 0;border-top:1px solid var(--line);}
   .flw-ck:first-child{border-top:0;padding-top:0;}
   .flw-ck-ic{grid-row:span 2;display:inline-flex;width:18px;height:18px;}
   .flw-ck-ic svg{width:18px;height:18px;}
@@ -4738,22 +4772,31 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .flw-fd{grid-column:2;font-size:var(--fs-h11);color:var(--muted);}
   .flw-readme{margin:0;padding:var(--sp-4);border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:var(--lh-relaxed);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;}
   .flw-panel > .btn{align-self:flex-start;}
-  /* 其他頁的「專案進行中」膠囊 */
+  /* 「專案進行中」膠囊（modal 關閉後出現，點了重開） */
   .flw-pill{position:fixed;right:var(--sp-5);bottom:var(--sp-5);z-index:40;display:flex;align-items:center;gap:var(--sp-3);
-    padding:var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);border-radius:var(--r-pill);background:var(--panel);border:1px solid var(--line-strong);box-shadow:var(--e-lg);
-    max-width:calc(100vw - var(--sp-5) * 2);animation:flw-pill-in var(--dur-default) var(--ease-out) both;}
+    padding:var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-4);border-radius:var(--r-pill);background:var(--panel);border:1px solid var(--line-strong);box-shadow:var(--e-lg);
+    max-width:calc(100vw - var(--sp-5) * 2);box-sizing:border-box;animation:flw-pill-in var(--dur-default) var(--ease-out) both;}
   .flw-pill[hidden]{display:none;}
   .flw-pill-t{font-size:var(--fs-h11);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  .flw-pill .btn{flex:0 0 auto;}
   @keyframes flw-pill-in{from{opacity:0;transform:translateY(var(--sp-3));}to{opacity:1;transform:none;}}
-  @media (prefers-reduced-motion:reduce){.flw-body.flw-in,.flw-pill{animation:none;} .flw-jump,.flw-chip{transition:none;}}
-  @media (max-width:767px){
-    .flw-card{padding:var(--sp-5);gap:var(--sp-5);}
-    .flw-grid,.flw-cols,.flw-jumps{grid-template-columns:minmax(0,1fr);}
-    .flw-prog .stp-labels{display:none;}
-    .flw-prog .stp-horizontal .stp-conn{margin-top:var(--sp-5);min-width:var(--sp-2);}
-    .flw-cur{display:block;margin-top:calc(var(--sp-3) * -1);}
-    .flw-pill{right:var(--sp-4);bottom:var(--sp-4);}
+  @media (prefers-reduced-motion:reduce){.flw-body.flw-in > *,.flw-pill{animation:none;} .flw-jump,.flw-chip{transition:none;}}
+  @media (max-width:1023px){
+    .flw-jumps{grid-template-columns:minmax(0,1fr);}
   }
+  @media (max-width:767px){
+    /* 手機：滿版 sheet（同 Modal 的 bottom sheet 走向），header／footer 仍固定 */
+    .flw-ovl.mdl-fixed{padding:0;align-items:stretch;}
+    .flw-ovl .mdl-card.flw-m{max-width:none;max-height:none;height:100%;height:100dvh;border-radius:0;border:0;}
+    .flw-m .flw-hd{padding:var(--sp-4) var(--sp-5);gap:var(--sp-4);}
+    .flw-m .mdl-content.flw-body{padding:var(--sp-5);gap:var(--sp-5);}
+    .flw-m .mdl-foot.flw-nav{padding:var(--sp-3) var(--sp-5);}
+    .flw-form,.flw-cols{grid-template-columns:minmax(0,1fr);}
+    .flw-prog .stp-labels{display:none;}
+    .flw-prog .stp-horizontal .stp-conn{min-width:var(--sp-3);}
+    .flw-pill{right:var(--sp-4);bottom:var(--sp-4);max-width:calc(100vw - var(--sp-4) * 2);}
+  }
+  /* ==================== /開新專案流程 flow2 ==================== */
 
   /* ===== 首頁 Home（hx-）：hero token playground ＋ 元件牆 ＋ 四步流程 ＋ 動態展示 ＋ Figma 同步 ＋ 更新/FAQ =====
      全部取用既有 token；hero 的試玩只在 #hxHero 上覆寫 custom properties，不動 :root */
@@ -7499,21 +7542,40 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       searchInput.oninput=()=>{const q=searchInput.value;[...menu.querySelectorAll('.ddopt')].forEach(el=>{el.style.display=el.textContent.includes(q)?'flex':'none';});};
       menu.appendChild(searchInput);}
     const optEls={};
-    OPTS.forEach(o=>{const it=ce('div','ddopt');
+    OPTS.forEach(o=>{const it=ce('div','ddopt');it.setAttribute('role','option');it.tabIndex=-1;
       if(opts.multi){const box=ce('span','ddcheck');const lab=document.createElement('span');lab.textContent=o.label;it.append(box,lab);}
       else it.textContent=o.label;
       it.onclick=()=>{ if(opts.multi){selected.has(o.value)?selected.delete(o.value):selected.add(o.value);syncMenu();renderTrg();opts.onChange&&opts.onChange([...selected]);}
-        else{selected.clear();selected.add(o.value);renderTrg();toggle(false);opts.onChange&&opts.onChange(o.value);} };
+        else{selected.clear();selected.add(o.value);syncMenu();renderTrg();toggle(false);trg.focus();opts.onChange&&opts.onChange(o.value);} };
       optEls[o.value]=it;menu.appendChild(it);});
     function renderTrg(){bodyEl.innerHTML='';
       if(selected.size===0){const p=ce('span','ph');p.textContent=opts.placeholder||'請選擇…';bodyEl.appendChild(p);return;}
       if(opts.multi){[...selected].forEach(v=>{const chip=ce('span','ddchip');chip.innerHTML=`<span>${labelOf(v)}</span>`;const x=ce('span','x');x.innerHTML=ICON_CLOSE;
         x.onclick=e=>{e.stopPropagation();chip.classList.add('tg-out');afterAnim(chip,()=>{selected.delete(v);syncMenu();renderTrg();opts.onChange&&opts.onChange([...selected]);});};chip.appendChild(x);bodyEl.appendChild(chip);});}
       else{const val=ce('span','val');val.textContent=labelOf([...selected][0]);bodyEl.appendChild(val);}}
-    function syncMenu(){if(!opts.multi)return;OPTS.forEach(o=>{optEls[o.value].classList.toggle('on',selected.has(o.value));optEls[o.value].querySelector('.ddcheck').innerHTML=selected.has(o.value)?ICON_CHECK:'';});}
+    function syncMenu(){OPTS.forEach(o=>{const el=optEls[o.value],on=selected.has(o.value);el.setAttribute('aria-selected',on?'true':'false');
+      if(opts.multi){el.classList.toggle('on',on);el.querySelector('.ddcheck').innerHTML=on?ICON_CHECK:'';}else el.classList.toggle('sel',on);});}
     let open=false;
-    function toggle(v){open=v;menu.classList.toggle('is-open',v);trg.classList.toggle('st-open',v);caret.classList.toggle('up',v);if(v&&searchInput)searchInput.focus();}
+    /* 開合（修正：原本只有 trigger 的 onclick 在切換，沒有任何「外點／Esc／焦點離開」的關閉路徑，trigger 也不能聚焦）。
+       開啟時才在 document 掛 capture 監聽（pointerdown 外點、keydown Esc、focusin 焦點移出），關閉就拆掉，不累積；
+       Esc 用 stopImmediatePropagation，避免同時把外層 modal 一起關掉；關閉後焦點回 trigger。 */
+    const mid='ddm-'+(window.__ddUid=(window.__ddUid||0)+1);
+    menu.id=mid;menu.setAttribute('role','listbox');if(opts.multi)menu.setAttribute('aria-multiselectable','true');
+    trg.tabIndex=0;trg.setAttribute('role','combobox');trg.setAttribute('aria-haspopup','listbox');trg.setAttribute('aria-controls',mid);trg.setAttribute('aria-expanded','false');
+    const visOpts=()=>[...menu.querySelectorAll('.ddopt')].filter(el=>el.style.display!=='none');
+    function onDocDown(e){if(!wrap.isConnected||!wrap.contains(e.target))toggle(false);}
+    function onDocKey(e){if(e.key!=='Escape')return;e.preventDefault();e.stopImmediatePropagation();toggle(false);if(wrap.isConnected)trg.focus();}
+    function onDocFocus(e){if(!wrap.contains(e.target))toggle(false);}
+    function toggle(v,focusOpt){v=!!v;if(v===open)return;open=v;menu.classList.toggle('is-open',v);trg.classList.toggle('st-open',v);caret.classList.toggle('up',v);trg.setAttribute('aria-expanded',v?'true':'false');
+      const m=v?'addEventListener':'removeEventListener';document[m]('pointerdown',onDocDown,true);document[m]('keydown',onDocKey,true);document[m]('focusin',onDocFocus,true);
+      if(v){if(searchInput)searchInput.focus();else if(focusOpt){const l=visOpts();const s=l.find(el=>el.getAttribute('aria-selected')==='true')||l[0];if(s)s.focus();}}}
     trg.onclick=()=>toggle(!open);
+    trg.addEventListener('keydown',e=>{if(e.target!==trg)return;if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown'){e.preventDefault();if(open&&e.key!=='ArrowDown')toggle(false);else toggle(true,true);}});
+    menu.addEventListener('keydown',e=>{const l=visOpts();const i=l.indexOf(document.activeElement);
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=i<0?0:(i+(e.key==='ArrowDown'?1:-1)+l.length)%l.length;if(l[n])l[n].focus();}
+      else if(e.key==='Home'||e.key==='End'){e.preventDefault();const n=e.key==='Home'?l[0]:l[l.length-1];if(n)n.focus();}
+      else if((e.key==='Enter'||e.key===' ')&&i>=0){e.preventDefault();l[i].click();}
+      else if(e.key==='Tab')toggle(false);});
     renderTrg();syncMenu();wrap.append(trg,menu);return wrap;}
   function buildDropdown(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Dropdown',title:'Dropdown 下拉',
@@ -14727,6 +14789,8 @@ function buildScheduleChart(view){
     head.forEach(s=>host.insertBefore(s,mark));mark.remove();
   }
   function renderView(id){
+    if(id==='start'){flwRoute();return;}  // 開新專案流程＝大型 modal，開在目前頁面上（深連結開在首頁上）
+    window.__flwBg=id;
     LIVE_REFRESH.clear(); // 換頁清掉舊 Live 篩選器連動註冊，避免累積
     current=id;const view=document.getElementById('view');
     if(hashId()!==id)location.hash=id; // 寫入 hash 供重整後還原
@@ -14737,7 +14801,6 @@ function buildScheduleChart(view){
     else if(id==='changelog'){renderChangelog(view);}
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='settings'){renderSettings(view);}
-    else if(id==='start'){renderStart(view);}
     else if(id==='tokens'){renderTokens(view);}
     else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');reorderSections(view);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
     else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);reorderSections(view);} // 集中掛綁定卡（無 TOKEN_SLOTS 則 early-return）＋統一段落順序
@@ -15422,7 +15485,7 @@ function buildScheduleChart(view){
     if(p.components&&Array.isArray(p.components.selected)){SUMSEL.clear();p.components.selected.forEach(id=>SUMSEL.add(id));}
     if(p.components&&p.components.axes){Object.entries(p.components.axes).forEach(([id,ax])=>{if(CHOICE[id])Object.entries(ax).forEach(([k,vals])=>{if(CHOICE[id].active[k]&&Array.isArray(vals))CHOICE[id].active[k]=new Set(vals);});});}
   }
-  /* ===== 開新專案流程（#start）：網站版 ds-studio-flow 原型（無 AI）=====
+  /* ===== 開新專案流程（#start · flow2）：網站版 ds-studio-flow 原型（無 AI），整條流程跑在 library 大版 Modal 裡 =====
      對應 skills/ds-studio-flow：Step 1 Phase 0 訪談 → Step 2 提案 → Step 3 網站選取 → Step 4 匯出。
      標「AI 之後接上」的地方目前都走固定規則（deterministic fallback），整條流程現在就能跑完。
      草稿存 localStorage（ds-flow-draft:v1，try/catch）；上傳的檔案只留在這個分頁的記憶體，不存內容。 */
@@ -15464,7 +15527,6 @@ function buildScheduleChart(view){
   const FLW_SAMPLE={brand:'果思咖啡',industry:'ecommerce',platform:'both',primary:'#2F6B4F',secondary:'#E0A458',font:'hei',tone:['溫暖','自然','親切'],density:'comfortable',radius:'round',
     text:'果思咖啡品牌規範（範例）\n主色：森林綠 #2F6B4F\n輔色：焦糖 #E0A458\n調性：溫暖、自然、親切\n產品：線上咖啡豆訂閱與門市點餐 App'};
   const FLW_FILES=[];
-  window.__flwResumed=false;  // 「已接續上次的草稿」每次載入只提示一次  // 本分頁記憶體中的檔案（File 物件不進 localStorage）
 
   function flwBlank(){return {v:1,active:false,step:0,max:0,
     info:{brand:'',name:'',nameTouched:false,industry:'',platform:'web',figma:''},
@@ -15625,82 +15687,148 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
     jobs.forEach((j,i)=>setTimeout(j,i*300));  // 間隔下載，避免瀏覽器擋多檔
     return n;}
 
-  /* ---- 共用 UI 小工具（全部用既有原子） ---- */
-  function flwBtn(variant,intent,text,size){const b=mkBtn({variant,intent,size:size||'m',isLive:true});b.type='button';b.querySelector('span').textContent=text;return b;}
+  /* ---- 共用 UI 小工具（全部用既有原子：mkBtn／fldEl／ddField／sgmEl／tagEl／drzEl／alEl／stpStepper／Modal） ---- */
+  let FLW_UID=0;
+  function flwBtn(variant,intent,text,size,o){o=o||{};const b=mkBtn({variant,intent,size:size||'m',isLive:true,disabled:!!o.disabled});b.type='button';b.querySelector('span').textContent=text;return b;}
   function flwAiBadge(){const t=tagEl('soft','brand2','default','round');t.classList.add('flw-ai-badge');t.innerHTML=ICON_SPARK+'<span>AI 之後接上</span>';return t;}
   function flwAiSlot(title,desc,fallback){const w=ce('div','flw-ai');const hd=ce('div','flw-ai-hd');const t=ce('span','flw-ai-t');t.textContent=title;hd.append(t,flwAiBadge());
     const d=ce('p','flw-ai-d');d.textContent=desc;w.append(hd,d);if(fallback){const r=ce('div','flw-ai-fb');const l=ce('span','flw-ai-fl');l.textContent='目前先用：';r.append(l,fallback);w.appendChild(r);}return w;}
-  function flwField(label,o){o=o||{};const f=fldEl('vertical','default',{live:true,label,placeholder:o.placeholder||'',value:o.value||'',required:o.required,optional:o.optional});
-    const inp=f.querySelector('input');if(o.type)inp.type=o.type;if(o.hint){const m=ce('div','fld-msg flw-hint');m.textContent=o.hint;f.querySelector('.fld-ctl').appendChild(m);}
-    if(o.onInput)inp.addEventListener('input',()=>{flwSetErr(f,null);o.onInput(inp.value);});return {f,inp};}
-  function flwSetErr(f,msg){const box=f.querySelector('.fld-box');let m=f.querySelector('.fld-msg.is-err');
-    if(!msg){if(box)box.classList.remove('st-error');if(m)m.remove();f.querySelectorAll('.flw-hint').forEach(h=>h.hidden=false);return;}
-    if(box)box.classList.add('st-error');f.querySelectorAll('.flw-hint').forEach(h=>h.hidden=true);
-    if(!m){m=ce('div','fld-msg is-err');f.querySelector('.fld-ctl').appendChild(m);}m.innerHTML=`<span class="fld-msg-ic">${NT_IC_ERROR}</span><span>${flwEsc(msg)}</span>`;}
-  function flwWrapField(label,ctl,o){o=o||{};const f=ce('div','fld fld-vertical st-default flw-fld');const lb=ce('span','fld-label');
+  const flwLabelable=el=>el&&/^(INPUT|TEXTAREA|BUTTON|SELECT)$/.test(el.tagName);
+  /* Field 外框（同 fldEl 結構：.fld > .fld-label ＋ .fld-ctl > 控制項 ＋ .fld-msg）。
+     o.focus＝要接 label／aria 的元素；o.box＝出錯時加 st-error 的外框；o.group＝群組型控制項（segmented／chips／dropzone）用 aria-labelledby */
+  function flwFld(label,ctl,o){o=o||{};const id='flw-f'+(++FLW_UID);const fe=o.focus||ctl;
+    const f=ce('div','fld fld-vertical st-default');
+    const lb=ce(!o.group&&flwLabelable(fe)?'label':'span','fld-label');lb.id=id+'-l';
     lb.innerHTML=flwEsc(label)+(o.required?'<span class="req" aria-hidden="true">*</span>':'')+(o.optional?'<span class="fld-opt">選填</span>':'');
-    const c=ce('div','fld-ctl');c.appendChild(ctl);if(o.hint){const m=ce('div','fld-msg flw-hint');m.textContent=o.hint;c.appendChild(m);}f.append(lb,c);return f;}
-  function flwSeg(pairs,cur,onChange,label){const i0=Math.max(0,pairs.findIndex(p=>p[0]===cur));
-    return sgmEl('soft','m',{live:true,items:pairs.map(p=>p[1]),active:i0,label,onChange:i=>onChange(pairs[i][0])});}
-  function flwColor(val,onChange,ph){const ctl=ce('div','tok-ctl flw-color');const cp=document.createElement('input');cp.type='color';cp.className='tok-sw-btn';cp.setAttribute('aria-label','選色');
-    const tx=document.createElement('input');tx.type='text';tx.className='tok-hex';tx.placeholder=ph||'#2F6B4F';tx.value=val||'';tx.setAttribute('aria-label','色碼');tx.spellcheck=false;
+    const c=ce('div','fld-ctl');c.appendChild(ctl);
+    const m=ce('div','fld-msg');m.id=id+'-m';if(o.hint)m.textContent=o.hint;c.appendChild(m);
+    if(o.group)ctl.setAttribute('aria-labelledby',lb.id),ctl.removeAttribute('aria-label');
+    else if(flwLabelable(fe)){if(!fe.id)fe.id=id+'-c';lb.htmlFor=fe.id;}
+    else{fe.setAttribute('aria-labelledby',lb.id);lb.addEventListener('click',()=>fe.focus());}
+    if(o.required&&!o.group)fe.setAttribute('aria-required','true');
+    fe.setAttribute('aria-describedby',m.id);
+    f.append(lb,c);f.__hint=o.hint||'';f.__box=o.box||null;f.__focus=fe;if(o.span)f.classList.add('flw-span');
+    return f;}
+  /* 文字欄位：直接用 Field 原子 fldEl（live＝真 input） */
+  function flwText(label,o){o=o||{};const f=fldEl('vertical','default',{live:true,label,placeholder:o.placeholder||'',value:o.value||'',required:o.required,optional:o.optional,hint:o.hint});
+    const inp=f.querySelector('input'),box=f.querySelector('.fld-box');box.classList.add('live-field');if(o.type)inp.type=o.type;inp.spellcheck=false;inp.autocomplete='off';
+    if(o.required){inp.required=false;inp.setAttribute('aria-required','true');}
+    let m=f.querySelector('.fld-msg');if(!m){m=ce('div','fld-msg');m.id='fld-msg-'+(++FLD_ID);inp.setAttribute('aria-describedby',m.id);f.querySelector('.fld-ctl').appendChild(m);}
+    box.addEventListener('mousedown',e=>{if(e.target===box){e.preventDefault();inp.focus();}});
+    f.__hint=o.hint||'';f.__box=box;f.__focus=inp;if(o.span)f.classList.add('flw-span');
+    inp.addEventListener('input',()=>{flwSetErr(f,null);if(o.onInput)o.onInput(inp.value);});return {f,inp};}
+  function flwSetErr(f,msg){if(!f)return;const m=f.querySelector('.fld-msg');const box=f.__box,fe=f.__focus;
+    if(!msg){if(box)box.classList.remove('st-error');if(fe)fe.removeAttribute('aria-invalid');if(m){m.className='fld-msg';m.textContent=f.__hint||'';}return;}
+    if(box)box.classList.add('st-error');if(fe)fe.setAttribute('aria-invalid','true');
+    if(m){m.className='fld-msg is-err';m.innerHTML=`<span class="fld-msg-ic">${NT_IC_ERROR}</span><span>${flwEsc(msg)}</span>`;}}
+  /* Segmented 原子（full＝撐滿欄寬，跟 input 同寬同高） */
+  function flwSeg(pairs,cur,onChange){const i0=Math.max(0,pairs.findIndex(p=>p[0]===cur));
+    return sgmEl('soft','m',{live:true,full:true,items:pairs.map(p=>p[1]),active:i0,onChange:i=>onChange(pairs[i][0])});}
+  /* 色彩輸入：.field 外框＋Design Token 頁同款色票鈕（.tok-sw-btn）＋等寬色碼 */
+  function flwColor(val,onChange,ph){const box=ce('div','field v-outline live-field flw-color');
+    const cp=document.createElement('input');cp.type='color';cp.className='tok-sw-btn';cp.setAttribute('aria-label','開啟選色器');
+    const tx=document.createElement('input');tx.type='text';tx.className='bare';tx.placeholder=ph||'#2F6B4F';tx.value=val||'';tx.spellcheck=false;tx.autocomplete='off';tx.maxLength=7;
     const sync=()=>{const h=flwHex(tx.value);if(h)cp.value=h.toLowerCase();};sync();
     cp.oninput=()=>{tx.value=cp.value.toUpperCase();onChange(tx.value);};tx.oninput=()=>{sync();onChange(tx.value.trim());};
-    ctl.append(cp,tx);ctl.__set=v=>{tx.value=v||'';sync();};return ctl;}
+    box.addEventListener('mousedown',e=>{if(e.target===box){e.preventDefault();tx.focus();}});
+    box.append(cp,tx);box.__text=tx;return box;}
   function flwAlert(intent,title,desc){const a=alEl('soft',intent,{});const t=a.querySelector('.al-title'),d=a.querySelector('.al-desc');if(t)t.textContent=title;if(d){if(desc)d.textContent=desc;else d.remove();}return a;}
+  function flwStepHead(body,title,desc,badge){const h=ce('div','flw-sh');const r=ce('div','flw-sh-t');const t=ce('h2','flw-st');t.id='flwStepTitle';t.textContent=title;r.appendChild(t);if(badge)r.appendChild(flwAiBadge());h.appendChild(r);
+    if(desc){const d=ce('p','flw-sd');d.innerHTML=desc;h.appendChild(d);}body.appendChild(h);}
 
-  /* ---- 主畫面 ---- */
-  function renderStart(view){
-    const resumed=FLW.active&&FLW.updated;
-    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Start · 開新專案</p><h1>開始一個設計系統專案</h1></div><span id="flwTopAct" class="flw-topact"></span></div>
-      <p class="lede">六個步驟：填專案資料、匯入品牌資料、回答問卷、看提案、到網站上調整，最後匯出專案檔交給 Claude Code 接手。進度會自動存在這台電腦的瀏覽器。</p>
-      <div class="head-rule"></div>
-      <div class="flw" id="flw"><div class="flw-prog" id="flwProg"></div><div class="flw-cur" id="flwCur" aria-live="polite"></div>
-        <div class="flw-card" id="flwCard"><div class="flw-body" id="flwBody"></div><div class="flw-nav" id="flwNav"></div></div></div>`;
+  /* ---- 外框：library Modal（大版）。#start 深連結＝在首頁上開；關閉（× / Esc）保留草稿並還焦點；點遮罩不關、不丟資料 ---- */
+  let FLW_UI=null;
+  function flwFocusables(root){return [...root.querySelectorAll('button:not([disabled]),input:not([disabled]):not([type=hidden]),textarea:not([disabled]),select:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')]
+    .filter(el=>!el.hidden&&el.getClientRects().length);}
+  function flwKey(e){const U=FLW_UI;if(!U)return;
+    if(document.querySelector('.ds-ovl'))return;                      // 上層確認框（重新開始）優先處理自己的鍵盤
+    if(e.key==='Escape'){e.preventDefault();flwClose();return;}
+    if(e.key==='Tab'){const f=flwFocusables(U.card);if(!f.length)return;const a=f[0],z=f[f.length-1],cur=document.activeElement;
+      if(!U.card.contains(cur)){e.preventDefault();(e.shiftKey?z:a).focus();return;}
+      if(e.shiftKey&&(cur===a||cur===U.card)){e.preventDefault();z.focus();}
+      else if(!e.shiftKey&&cur===z){e.preventDefault();a.focus();}}}
+  function flwOpen(){
+    if(FLW_UI)return;
     if(!FLW.active){FLW.active=true;flwSave();}
-    const top=document.getElementById('flwTopAct');
-    const rst=flwBtn('soft','secondary','重新開始','s');rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
-      onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();renderStart(view);}});
-    top.appendChild(rst);
-    if(resumed&&FLW.step>0&&!window.__flwResumed){window.__flwResumed=true;const card=document.getElementById('flwCard');const a=flwAlert('info','已接續上次的草稿','停在「'+FLW_STEPS[FLW.step].label+'」，可以按上方步驟回去修改。');a.classList.add('flw-resume');card.parentNode.insertBefore(a,card);}
+    const ret=document.activeElement;
+    const ovl=ce('div','mdl-overlay mdl-fixed flw-ovl');
+    const card=ce('div','mdl-card mdl-kind-modal mdl-larger flw-m');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');
+    card.setAttribute('aria-labelledby','flwTitle');card.setAttribute('aria-describedby','flwSub');card.tabIndex=-1;
+    const hd=ce('div','flw-hd');const mh=ce('div','mdl-mhead');const ht=ce('div','mdl-mhead-txt');
+    ht.innerHTML='<div class="mdl-title" id="flwTitle">開始新專案</div><div class="mdl-sub" id="flwSub" aria-live="polite"></div>';
+    const act=ce('div','flw-hd-act');const rst=flwBtn('text','secondary','重新開始','s');rst.classList.add('flw-rst');
+    const x=mdlClose(false);x.type='button';x.setAttribute('aria-label','關閉（草稿會保留）');x.title='關閉（草稿會保留）';
+    act.append(rst,x);mh.append(ht,act);
+    const prog=ce('div','flw-prog');hd.append(mh,prog);
+    const body=ce('div','mdl-content flw-body');const nav=ce('div','mdl-foot flw-nav');
+    card.append(hd,body,nav);ovl.appendChild(card);
+    FLW_UI={ovl,card,body,nav,prog,ret,resume:!!(FLW.updated&&FLW.step>0)};
+    rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
+      onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();if(FLW_UI){FLW_UI.resume=false;flwRenderStep(true);}}});
+    x.onclick=()=>flwClose();
+    /* 點遮罩：不關閉（避免誤觸丟掉進度），焦點留在對話框 */
+    ovl.addEventListener('mousedown',e=>{if(e.target===ovl){e.preventDefault();if(!card.contains(document.activeElement))card.focus({preventScroll:true});}});
+    document.addEventListener('keydown',flwKey);
+    document.body.appendChild(ovl);
+    if(location.hash!=='#start')history.replaceState(null,'','#start');
+    flwPill();
     flwRenderStep(false);
+    requestAnimationFrame(()=>{if(FLW_UI&&FLW_UI.card===card){const first=FLW.step===0&&body.querySelector('input.bare');(first||card).focus({preventScroll:true});}});
   }
-  function flwRenderProg(){const host=document.getElementById('flwProg');if(!host)return;host.innerHTML='';
+  function flwClose(o){o=o||{};const U=FLW_UI;if(!U)return;FLW_UI=null;
+    flwSnapSave();flwSave();document.removeEventListener('keydown',flwKey);
+    if(!o.fromHash&&hashId()==='start')history.replaceState(null,'','#'+(window.__flwBg||'home'));
+    U.ovl.classList.add('is-closing');afterAnim(U.ovl,()=>U.ovl.remove());
+    flwPill();
+    if(!o.noFocus){const r=U.ret;const pill=document.querySelector('#flwPill:not([hidden]) .btn');
+      const t=(r&&r.isConnected&&r!==document.body&&!U.ovl.contains(r))?r:pill;if(t)t.focus({preventScroll:true});}
+  }
+  /* 路由：#start 不換頁，在目前頁面（深連結／首次載入＝首頁）上開 modal */
+  function flwRoute(){const v=document.getElementById('view');const bg=window.__flwBg;
+    if(!bg||!v||!v.childElementCount){history.replaceState(null,'','#home');renderView('home');}
+    else{current=bg;renderNav();}
+    flwOpen();}
+
+  function flwRenderProg(){const U=FLW_UI;if(!U)return;const host=U.prog;host.innerHTML='';
     const steps=FLW_STEPS.map((s,i)=>({label:s.label,description:s.desc,state:i<FLW.step?'done':(i===FLW.step?'current':(i<=FLW.max?'done':'todo'))}));
     const st=stpStepper('horizontal','numbered',steps);host.appendChild(st);
     [...st.querySelectorAll('.stp-step')].forEach((el,i)=>{if(i<=FLW.max&&i!==FLW.step){el.classList.add('flw-jump');el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','回到步驟 '+(i+1)+' '+FLW_STEPS[i].label);
       const go=()=>{flwGo(i);};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};}
       if(i===FLW.step)el.setAttribute('aria-current','step');});
-    const cur=document.getElementById('flwCur');if(cur)cur.textContent='步驟 '+(FLW.step+1)+' / '+FLW_STEPS.length+' · '+FLW_STEPS[FLW.step].label;}
+    const sub=document.getElementById('flwSub');if(sub)sub.textContent='步驟 '+(FLW.step+1)+' / '+FLW_STEPS.length+' · '+FLW_STEPS[FLW.step].label;}
   function flwGo(i){if(i>FLW.max||i<0||i>=FLW_STEPS.length)return;FLW.step=i;flwSave();flwRenderStep(true);}
-  function flwRenderStep(anim){
-    flwRenderProg();const body=document.getElementById('flwBody'),nav=document.getElementById('flwNav');if(!body)return;
-    if(anim){const ra=document.querySelector('.flw-resume');if(ra)ra.remove();}
-    body.innerHTML='';nav.innerHTML='';
+  function flwRenderStep(anim){const U=FLW_UI;if(!U)return;
+    flwRenderProg();const body=U.body,nav=U.nav;
+    body.innerHTML='';nav.innerHTML='';body.scrollTop=0;
+    if(U.resume){U.resume=false;body.appendChild(flwAlert('info','已接續上次的草稿','停在「'+FLW_STEPS[FLW.step].label+'」，可以按上方步驟回去修改。'));}
     const ctx={valid:()=>true};
     [flwS1,flwS2,flwS3,flwS4,flwS5,flwS6][FLW.step](body,ctx);
     if(anim){body.classList.remove('flw-in');void body.offsetWidth;body.classList.add('flw-in');}
-    const back=flwBtn('outline','secondary','上一步');back.disabled=FLW.step===0;back.onclick=()=>flwGo(FLW.step-1);
-    nav.appendChild(back);nav.appendChild(ce('div','spacer'));
+    const first=FLW.step===0;
+    const back=flwBtn('outline','secondary','上一步','m',{disabled:first});
+    if(first)back.setAttribute('aria-disabled','true');else back.onclick=()=>flwGo(FLW.step-1);
+    nav.append(back,ce('div','spacer'));
+    const cnt=ce('span','flw-count');cnt.textContent=(FLW.step+1)+' / '+FLW_STEPS.length;nav.appendChild(cnt);
     if(FLW.step<FLW_STEPS.length-1){const next=flwBtn('solid','primary',ctx.nextText||'下一步');next.classList.add('has-trail');next.insertAdjacentHTML('beforeend',ICON_ARROW);
-      next.onclick=()=>{if(!ctx.valid())return;if(ctx.onNext)ctx.onNext();FLW.step++;FLW.max=Math.max(FLW.max,FLW.step);flwSave();flwRenderStep(true);
-        const m=document.querySelector('.main');if(m)m.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});};
+      next.onclick=()=>{if(!ctx.valid()){const bad=body.querySelector('.fld-msg.is-err');const f=bad&&bad.closest('.fld');if(f&&f.__focus)f.__focus.focus();return;}
+        if(ctx.onNext)ctx.onNext();FLW.step++;FLW.max=Math.max(FLW.max,FLW.step);flwSave();flwRenderStep(true);
+        const t=document.getElementById('flwStepTitle');if(t){t.tabIndex=-1;t.focus({preventScroll:true});}};
       nav.appendChild(next);}
+    else{const done=flwBtn('solid','primary','完成');done.onclick=()=>flwClose();nav.appendChild(done);}
   }
-  function flwStepHead(body,title,desc,badge){const h=ce('div','flw-sh');const t=ce('h2','flw-st');t.textContent=title;h.appendChild(t);if(badge)h.appendChild(flwAiBadge());body.appendChild(h);
-    if(desc){const d=ce('p','flw-sd');d.innerHTML=desc;body.appendChild(d);}}
 
   /* Step 1 專案基本資料 */
   function flwS1(body,ctx){const i=FLW.info;
     flwStepHead(body,'專案基本資料','先決定專案叫什麼、給誰用。專案名稱會變成 <code>projects/&lt;名稱&gt;/</code> 資料夾名。');
-    const g=ce('div','flw-grid');body.appendChild(g);
-    const name=flwField('專案名稱',{required:true,value:i.name||flwDefaultName(),hint:'預設「品牌-日期」，只能用英數、中文、- 和 _',onInput:v=>{i.name=v.trim();i.nameTouched=true;flwSave();}});
-    const brand=flwField('品牌名',{required:true,value:i.brand,placeholder:'例如：果思咖啡',onInput:v=>{i.brand=v.trim();if(!i.nameTouched){i.name=flwDefaultName();name.inp.value=i.name;flwSetErr(name.f,null);}flwSave();}});
+    const g=ce('div','flw-form');body.appendChild(g);
     if(!i.name){i.name=flwDefaultName();}
+    const name=flwText('專案名稱',{required:true,value:i.name,hint:'預設「品牌-日期」，只能用英數、中文、- 和 _',onInput:v=>{i.name=v.trim();i.nameTouched=true;flwSave();}});
+    const brand=flwText('品牌名',{required:true,value:i.brand,placeholder:'例如：果思咖啡',hint:'會出現在訪談紀錄與 Figma 檔名',onInput:v=>{i.brand=v.trim();if(!i.nameTouched){i.name=flwDefaultName();name.inp.value=i.name;flwSetErr(name.f,null);}flwSave();}});
     const ind=ddField('outline',{options:FLW_INDUSTRY,value:i.industry||null,placeholder:'請選擇產業',onChange:v=>{i.industry=v;flwSetErr(indF,null);flwSave();}});
-    const indF=flwWrapField('產業',ind,{required:true,hint:'用來推薦常用元件'});
-    const plat=flwWrapField('平台',flwSeg(FLW_PLATFORM,i.platform,v=>{i.platform=v;flwSave();},'平台'),{required:true});
-    const fig=flwField('Figma 檔',{optional:true,value:i.figma,placeholder:'貼上 Figma 檔案連結',hint:'沒有的話之後由 Claude Code 開新檔',onInput:v=>{i.figma=v;flwSave();}});
+    const indTrg=ind.querySelector('.field.dd');
+    const indF=flwFld('產業',ind,{required:true,hint:'用來推薦常用元件',focus:indTrg,box:indTrg});
+    const plat=flwFld('平台',flwSeg(FLW_PLATFORM,i.platform,v=>{i.platform=v;flwSave();}),{required:true,group:true,hint:'決定要不要帶入 App 專用元件'});
+    const fig=flwText('Figma 檔',{optional:true,type:'url',value:i.figma,placeholder:'https://www.figma.com/design/…',hint:'沒有的話之後由 Claude Code 開新檔',onInput:v=>{i.figma=v;flwSave();}});
     g.append(brand.f,name.f,indF,plat,fig.f);
     flwSave();
     ctx.valid=()=>{let ok=true;
@@ -15712,26 +15840,26 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
   /* Step 2 匯入資料 */
   function flwS2(body,ctx){const s=FLW.src;
     flwStepHead(body,'匯入資料','有 CI 品牌規範、PRD 或規格書就放進來。沒有也可以先跳過，下一步直接填問卷。');
-    const g=ce('div','flw-grid');body.appendChild(g);
-    /* Dropzone：沿用 drzEl 結構＋drzFile 列表；檔案只留在記憶體、不上傳 */
+    const g=ce('div','flw-form');body.appendChild(g);
+    /* Dropzone 原子（drzEl 結構＋drzFile 列表，同 drzLive 的拖放／鍵盤接線）；檔案只留在記憶體、不上傳 */
     const dz=drzEl('default','m',{});const a=dz.querySelector('.drz-area'),ul=dz.querySelector('.drz-files');const h=dz.querySelector('.drz-hint');if(h)h.textContent='PDF、圖片、文件皆可 · 只留在這個分頁，不會上傳';
-    const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.hidden=true;dz.appendChild(inp);
+    const inp=document.createElement('input');inp.type='file';inp.multiple=true;inp.hidden=true;inp.setAttribute('aria-hidden','true');dz.appendChild(inp);
     const draw=()=>{ul.innerHTML='';s.files.forEach((f,k)=>{const li=drzFile(f.name,f.size,'done',100,{live:true});const m=li.querySelector('.drz-fm');
         const inMem=FLW_FILES.some(x=>x.name===f.name&&x.size===f.size);if(m)m.textContent=drzSize(f.size)+(inMem?' · 已讀入':' · 只剩紀錄（重新整理後檔案內容不保留）');
-        li.querySelector('.btn').onclick=()=>{s.files.splice(k,1);const j=FLW_FILES.findIndex(x=>x.name===f.name&&x.size===f.size);if(j>=0)FLW_FILES.splice(j,1);flwSave();draw();};ul.appendChild(li);});};
+        li.querySelector('.btn').onclick=()=>{s.files.splice(k,1);const j=FLW_FILES.findIndex(x=>x.name===f.name&&x.size===f.size);if(j>=0)FLW_FILES.splice(j,1);flwSave();draw();a.focus();};ul.appendChild(li);});};
     const addFiles=list=>{[...list].forEach(f=>{if(s.files.some(x=>x.name===f.name&&x.size===f.size))return;FLW_FILES.push(f);s.files.push({name:f.name,size:f.size,type:f.type||''});});flwSave();draw();};
     a.addEventListener('click',()=>inp.click());a.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();inp.click();}});
     inp.addEventListener('change',()=>{addFiles(inp.files);inp.value='';});
-    let depth=0;const over=v=>{dz.classList.toggle('drz-st-dragover',v);dz.classList.toggle('drz-st-default',!v);};
+    let depth=0;const over=v=>{dz.classList.toggle('drz-st-dragover',v);dz.classList.toggle('drz-st-default',!v);const t=a.querySelector('.drz-t');if(t)t.innerHTML=v?'放開以加入':'拖曳檔案到這裡，或 <b>選擇檔案</b>';};
     a.addEventListener('dragenter',e=>{e.preventDefault();depth++;over(true);});a.addEventListener('dragover',e=>e.preventDefault());
     a.addEventListener('dragleave',()=>{if(--depth<=0){depth=0;over(false);}});
     a.addEventListener('drop',e=>{e.preventDefault();depth=0;over(false);if(e.dataTransfer)addFiles(e.dataTransfer.files);});
     draw();
-    const dzF=flwWrapField('CI／PRD 檔案',dz,{optional:true});dzF.classList.add('flw-span');
-    const ta=document.createElement('textarea');ta.className='tarea v-outline flw-ta';ta.rows=5;ta.placeholder='貼上品牌規範、需求說明或任何文字。內含色碼（例如 #2F6B4F）會自動帶到問卷。';ta.value=s.text;
+    const dzF=flwFld('CI／PRD 檔案',dz,{optional:true,group:true,span:true,focus:a});
+    const ta=document.createElement('textarea');ta.className='tarea v-outline';ta.rows=5;ta.placeholder='貼上品牌規範、需求說明或任何文字。內含色碼（例如 #2F6B4F）會自動帶到問卷。';ta.value=s.text;
+    const taF=flwFld('貼上文字',ta,{optional:true,span:true,box:ta,hint:'找到的前兩個色碼會當成主色／副色的預設值'});
     ta.oninput=()=>{s.text=ta.value;flwSave();};
-    const taF=flwWrapField('貼上文字',ta,{optional:true});taF.classList.add('flw-span');
-    const url=flwField('參考連結',{optional:true,type:'url',value:s.url,placeholder:'https://',hint:'品牌官網、Notion、雲端資料夾等',onInput:v=>{s.url=v;flwSave();}});url.f.classList.add('flw-span');
+    const url=flwText('參考連結',{optional:true,type:'url',value:s.url,placeholder:'https://',hint:'品牌官網、Notion、雲端資料夾等',span:true,onInput:v=>{s.url=v;flwSave();}});
     g.append(dzF,taF,url.f);
     const fill=flwBtn('outline','primary','填入範例','s');
     fill.onclick=()=>{const S=FLW_SAMPLE;s.text=S.text;ta.value=S.text;if(!FLW.info.brand)FLW.info.brand=S.brand;if(!FLW.info.industry)FLW.info.industry=S.industry;
@@ -15748,23 +15876,23 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
   /* Step 3 品牌問卷（Phase 0 精簡版：Q3 品牌視覺＋Q7 深色） */
   function flwS3(body,ctx){const q=FLW.q;
     flwStepHead(body,'品牌問卷','精簡版 Phase 0 訪談。<b>主色一定要有</b>——沒有品牌色錨點，流程不會往下走。');
-    if(FLW.src.extracted){const a=flwAlert('info','已從匯入資料帶入答案',FLW.src.extracted+'。請確認或修改。');a.classList.add('flw-gap');body.appendChild(a);}
-    const g=ce('div','flw-grid');body.appendChild(g);
+    if(FLW.src.extracted)body.appendChild(flwAlert('info','已從匯入資料帶入答案',FLW.src.extracted+'。請確認或修改。'));
+    const g=ce('div','flw-form');body.appendChild(g);
     const pc=flwColor(q.primary,v=>{q.primary=v;flwSetErr(pF,null);flwSave();});
-    const pF=flwWrapField('主色',pc,{required:true,hint:'品牌最主要的顏色，會用在主要按鈕與選中狀態'});
+    const pF=flwFld('主色',pc,{required:true,focus:pc.__text,box:pc,hint:'品牌最主要的顏色，用在主要按鈕與選中狀態'});
     const sc=flwColor(q.secondary,v=>{q.secondary=v;flwSetErr(sF,null);flwSave();},'#E0A458');
-    const sF=flwWrapField('副色',sc,{optional:true,hint:'點綴與次要強調；沒有就維持預設'});
-    const fF=flwWrapField('字體偏好',flwSeg(FLW_FONT,q.font,v=>{q.font=v;flwSave();},'字體偏好'),{hint:'預設＝Geist 英文＋系統黑體；明體適合文藝、高級感品牌'});
-    const tone=ce('div','flw-chips');tone.setAttribute('role','group');tone.setAttribute('aria-label','調性關鍵字');
-    FLW_TONES.forEach(t=>{const on=q.tone.includes(t);const c=tagEl(on?'solid':'outline',on?'brand':'neutral','default','round');c.querySelector('span').textContent=t;
-      c.classList.add('flw-chip');c.setAttribute('role','button');c.tabIndex=0;c.setAttribute('aria-pressed',on?'true':'false');
-      const tg=()=>{const k=q.tone.indexOf(t);if(k>=0)q.tone.splice(k,1);else q.tone.push(t);const n=k<0;
+    const sF=flwFld('副色',sc,{optional:true,focus:sc.__text,box:sc,hint:'點綴與次要強調；沒有就維持預設'});
+    const fF=flwFld('字體偏好',flwSeg(FLW_FONT,q.font,v=>{q.font=v;flwSave();}),{group:true,hint:'預設＝Geist 英文＋系統黑體；明體適合文藝、高級感品牌'});
+    const dF=flwFld('密度',flwSeg(FLW_DENSITY,q.density,v=>{q.density=v;flwSave();}),{group:true,hint:'緊湊會縮小桌機版的區塊間距'});
+    const rF=flwFld('圓角感',flwSeg(FLW_RADIUS,q.radius,v=>{q.radius=v;flwSave();}),{group:true,hint:'影響按鈕、輸入框、卡片的圓角'});
+    const kF=flwFld('深色模式',flwSeg(FLW_DARK,q.dark,v=>{q.dark=v;flwSave();}),{group:true,hint:'選「之後補」會先預留 dark 的位置'});
+    const tone=ce('div','flw-chips');tone.setAttribute('role','group');
+    FLW_TONES.forEach(t=>{const on=q.tone.includes(t);const proto=tagEl(on?'solid':'outline',on?'brand':'neutral','default','round');
+      const c=document.createElement('button');c.type='button';c.className=proto.className+' flw-chip';c.innerHTML='<span></span>';c.querySelector('span').textContent=t;c.setAttribute('aria-pressed',on?'true':'false');
+      c.onclick=()=>{const k=q.tone.indexOf(t);if(k>=0)q.tone.splice(k,1);else q.tone.push(t);const n=k<0;
         c.classList.toggle('v-solid',n);c.classList.toggle('v-outline',!n);c.classList.toggle('i-brand',n);c.classList.toggle('i-neutral',!n);c.setAttribute('aria-pressed',n?'true':'false');flwSave();};
-      c.onclick=tg;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}};tone.appendChild(c);});
-    const tF=flwWrapField('調性關鍵字',tone,{optional:true,hint:'可多選，會寫進訪談紀錄給設計判斷用'});tF.classList.add('flw-span');
-    const dF=flwWrapField('密度',flwSeg(FLW_DENSITY,q.density,v=>{q.density=v;flwSave();},'密度'));
-    const rF=flwWrapField('圓角感',flwSeg(FLW_RADIUS,q.radius,v=>{q.radius=v;flwSave();},'圓角感'));
-    const kF=flwWrapField('深色模式',flwSeg(FLW_DARK,q.dark,v=>{q.dark=v;flwSave();},'深色模式'),{hint:'選「之後補」會先預留 dark 的位置'});
+      tone.appendChild(c);});
+    const tF=flwFld('調性關鍵字',tone,{optional:true,group:true,span:true,hint:'可多選，會寫進訪談紀錄給設計判斷用'});
     g.append(pF,sF,fF,dF,rF,kF,tF);
     ctx.valid=()=>{let ok=true;if(!flwHex(q.primary)){flwSetErr(pF,q.primary?'色碼格式不對，請用 #RRGGBB':'請先給一個主色（品牌錨點）才能繼續');ok=false;}
       if(q.secondary&&!flwHex(q.secondary)){flwSetErr(sF,'色碼格式不對，請用 #RRGGBB，或清空');ok=false;}
@@ -15777,7 +15905,6 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
     flwStepHead(body,'提案','依你的答案推出的初始 token 與元件清單。按「套用到網站」後整個網站會換成這套樣子。',true);
     body.appendChild(flwAiSlot('AI 依 CI／PRD 擬提案','之後會由 AI 讀匯入資料判斷色階、字級與需要的元件；現在先用固定規則。',(()=>{const s=ce('span','flw-note');s.textContent='固定規則：色階依錨點推算、元件依平台＋產業對照表。';return s;})()));
     const cols=ce('div','flw-cols');body.appendChild(cols);
-    /* (a) Token */
     const tk=ce('section','flw-panel');tk.innerHTML='<h3 class="flw-ph">Token 提案</h3>';
     const sc=ce('div','flw-scale');const R=P.tokens.overrides.root;
     [['brand','主色'],['brand2','副色']].forEach(([k,lab])=>{if(!R['--c-'+k+'-500'])return;const row=ce('div','flw-scrow');const l=ce('span','flw-scl');l.textContent=lab;row.appendChild(l);
@@ -15789,7 +15916,6 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
     const pv=ce('div','flw-preview');pv.append(flwBtn('solid','primary','主要按鈕','s'),flwBtn('outline','primary','次要按鈕','s'));
     const t1=tagEl('solid','brand','default','round');t1.querySelector('span').textContent='主色標籤';const t2=tagEl('soft','brand2','default','round');t2.querySelector('span').textContent='副色標籤';pv.append(t1,t2);
     const pvl=ce('p','flw-note');pvl.textContent='預覽：套用後這裡和整個網站會一起換色。';tk.append(pvl,pv);
-    /* (b) 元件 */
     const cp=ce('section','flw-panel');cp.innerHTML=`<h3 class="flw-ph">建議元件 <span class="flw-cnt">${P.components.selected.length} 個</span></h3>`;
     const cl=ce('ul','flw-comp');P.reasons.components.forEach(c=>{const li=ce('li');const sp=DIAL_SPECS[c.id];li.innerHTML=`<span class="flw-cn">${flwEsc(sp?sp.label:c.id)}</span><span class="flw-cr">${flwEsc(c.r)}</span>`;cl.appendChild(li);});
     cp.appendChild(cl);cols.append(tk,cp);
@@ -15800,32 +15926,31 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
     const upd=()=>{st.textContent=FLW.applied?'已套用：token 已換、需求匯總已勾選 '+SUMSEL.size+' 個元件。':'還沒套用，按下後才會改到網站。';};
     ap.onclick=()=>{flwApplyProposal();ap.querySelector('span').textContent='重新套用提案';st.classList.remove('is-err');upd();};
     act.append(ap,regen,st);body.appendChild(act);upd();
-    ctx.valid=()=>{if(!FLW.applied){st.textContent='請先按「套用到網站」，下一步要在網站上調整。';st.classList.add('is-err');return false;}return true;};
+    ctx.valid=()=>{if(!FLW.applied){st.textContent='請先按「套用到網站」，下一步要在網站上調整。';st.classList.add('is-err');ap.focus();return false;}return true;};
   }
-  /* Step 5 調整 */
+  /* Step 5 調整：跳去其他頁時先關 modal（草稿保留），右下角膠囊可再打開 */
   function flwS5(body){
-    flwStepHead(body,'到網站上調整','提案只是起點。現在到下面三個頁面改到滿意，改完回來這裡匯出。離開這頁時右下角會有「回到流程」可以按。');
+    flwStepHead(body,'到網站上調整','提案只是起點。到下面三個頁面改到滿意，改完按右下角「回到流程」回來這裡匯出。');
     const L=[['tokens','Design Token','改主色、副色的九階色號、字級、間距、圓角，整站即時套用。'],
              ['summary','需求匯總','勾選要產出的元件；回各元件頁用「變數篩選器」挑要的樣式。'],
              ['guideline','Design Guideline','把目前的 token 與元件整頁攤開，匯出前最後看一次。']];
     const g=ce('div','flw-jumps');L.forEach(([id,t,d])=>{const c=ce('div','flw-jumpcard');const h=ce('div','flw-jt');h.textContent=t;const p=ce('p','flw-jd');p.textContent=d;
-      const b=flwBtn('outline','primary','前往 '+t,'s');b.onclick=()=>{flwSnapSave();renderView(id);};c.append(h,p,b);g.appendChild(c);});
+      const b=flwBtn('outline','primary','前往 '+t,'s');b.onclick=()=>{flwSnapSave();flwClose({noFocus:true});renderView(id);};c.append(h,p,b);g.appendChild(c);});
     body.appendChild(g);
     const n=ce('p','flw-note');n.textContent='目前已勾選 '+SUMSEL.size+' 個元件。你的調整會自動記在這份草稿裡。';body.appendChild(n);
   }
   /* Step 6 匯出 */
   function flwS6(body){flwSnapSave();
     flwStepHead(body,'匯出專案檔','下載這 6 個檔案，放進 repo 的 <code>projects/'+flwEsc(FLW.info.name)+'/</code>，再交給 Claude Code。');
-    /* 檢查 */
     const ck=ce('section','flw-panel');ck.innerHTML='<h3 class="flw-ph">匯出前檢查</h3>';
     const list=ce('ul','flw-checks');const res=flwChecks();
     res.forEach(r=>{const li=ce('li','flw-ck is-'+r.lv);li.innerHTML=`<span class="flw-ck-ic">${r.lv==='pass'?NT_ICON.success:(r.lv==='warn'?NT_ICON.warning:NT_ICON.error)}</span><span class="flw-ck-t">${flwEsc(r.t)}</span><span class="flw-ck-d">${flwEsc(r.d)}</span>`;list.appendChild(li);});
     ck.appendChild(list);
     const fails=res.filter(r=>r.lv==='fail').length;
     body.appendChild(flwAiSlot('匯出前 AI 檢查','之後會由 AI 檢查色彩可讀性、元件是否漏選、與 PRD 是否對得上；現在先跑固定規則。',(()=>{const s=ce('span','flw-note');s.textContent='固定規則：主色／副色對比、至少 '+FLW_MIN_COMP+' 個元件、包含 Button。';return s;})()));
-    body.appendChild(ck);
-    if(fails)body.appendChild(flwAlert('warning','有 '+fails+' 項沒過','還是可以匯出，但建議先回「調整」修好。'));
-    /* 檔案 */
+    const cols=ce('div','flw-cols');body.appendChild(cols);
+    const left=ce('div','flw-stack');left.appendChild(ck);
+    if(fails)left.appendChild(flwAlert('warning','有 '+fails+' 項沒過','還是可以匯出，但建議先回「調整」修好。'));
     const fp=ce('section','flw-panel');fp.innerHTML='<h3 class="flw-ph">檔案</h3>';
     const p=()=>dsBuildExport();
     const F=[['opening-interview.md','訪談紀錄（Phase 0）',()=>dsDownloadText('opening-interview.md',flwInterviewMD())],
@@ -15835,27 +15960,26 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
       ['selection.state.json','網站完整狀態（續編用）',()=>dsDownload('selection.state.json',p().state)],
       ['README.md','交棒說明',()=>dsDownloadText('README.md',flwReadme())]];
     const fl=ce('ul','flw-files');F.forEach(([n,d,fn])=>{const li=ce('li');li.innerHTML=IC_FILE;const t=ce('span','flw-fn');t.textContent=n;const s=ce('span','flw-fd');s.textContent=d;
-      const b=flwBtn('text','primary','下載','s');b.onclick=fn;li.append(t,s,b);fl.appendChild(li);});
+      const b=flwBtn('text','primary','下載','s');b.setAttribute('aria-label','下載 '+n);b.onclick=fn;li.append(t,s,b);fl.appendChild(li);});
     fp.appendChild(fl);
     const all=flwBtn('solid','primary','全部下載（6 個檔）');const done=ce('span','flw-note');done.setAttribute('aria-live','polite');
     all.onclick=()=>{flwDownloadAll();done.textContent='已開始下載。瀏覽器若詢問「允許下載多個檔案」請按允許。';};
     const row=ce('div','flw-apply');row.append(all,done);fp.appendChild(row);
-    body.appendChild(fp);
-    /* README */
+    cols.append(left,fp);
     const rd=ce('section','flw-panel');rd.innerHTML='<h3 class="flw-ph">接下來在 Claude Code</h3>';
     const pre=ce('pre','flw-readme');pre.textContent=flwReadme();rd.appendChild(pre);
     const cpb=flwBtn('soft','secondary','複製說明','s');cpb.onclick=()=>{try{navigator.clipboard.writeText(flwReadme()).then(()=>{cpb.querySelector('span').textContent='已複製';},()=>{});}catch(e){}};
     rd.appendChild(cpb);body.appendChild(rd);
   }
 
-  /* ---- 其他頁面上的「專案進行中」小膠囊（固定右下角，不動 topbar） ---- */
-  function flwPill(){let el=document.getElementById('flwPill');const id=(location.hash||'').replace(/^#/,'');
-    const show=FLW.active&&FLW.step>0&&id!=='start';
+  /* ---- 「專案進行中」膠囊：modal 關著且有進度時固定右下角，點了重開 modal ---- */
+  function flwPill(){let el=document.getElementById('flwPill');
+    const show=FLW.active&&!FLW_UI&&(FLW.step>0||!!FLW.info.brand);
     if(!show){if(el)el.hidden=true;return;}
     if(!el){el=ce('div','flw-pill');el.id='flwPill';el.setAttribute('role','status');const t=ce('span','flw-pill-t');const b=flwBtn('solid','primary','回到流程','s');
-      b.onclick=()=>{flwSnapSave();renderView('start');};el.append(t,b);document.body.appendChild(el);}
+      b.onclick=()=>{flwSnapSave();flwOpen();};el.append(t,b);document.body.appendChild(el);}
     el.querySelector('.flw-pill-t').textContent='專案進行中 · '+(FLW.info.name||'未命名');el.hidden=false;}
-  window.addEventListener('hashchange',()=>{flwSnapSave();flwPill();});
+  window.addEventListener('hashchange',()=>{if(FLW_UI&&hashId()!=='start')flwClose({fromHash:true,noFocus:true});flwSnapSave();flwPill();});
   window.addEventListener('pagehide',()=>flwSnapSave());
   /* 進站接續：有進行中的草稿且不是 ?project= 專案模式 → 還原上次的 token／勾選（boot 之前執行） */
   if(FLW.active&&FLW.applied&&!new URLSearchParams(location.search).get('project')){try{flwSnapRestore();}catch(e){}}
