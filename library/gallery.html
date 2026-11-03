@@ -3372,6 +3372,71 @@
     .cmd-live .cmd.is-in,.drz-file.is-in,.drz-file.is-out,.ttb.is-swap .ttb-mode > *{animation:none !important;}
   }
 
+  /* ===== 網站外框：磨砂偏好、topbar 搜尋（2026-11-03）=====
+     磨砂只是「看站的偏好」：網站外框（頁底、topbar、側欄、區塊面板、浮層）變半透明＋模糊；元件預覽區（.mcell／.live-stage／.row-demo）
+     把 surface token 釘回實心值，元件看起來與匯出結果一致。--frost＝0～1，0 時不掛 data-frost＝與原本完全相同。 */
+  .site-bg{position:fixed;inset:-12%;z-index:0;pointer-events:none;opacity:0;filter:blur(48px);transition:opacity var(--dur-slow) var(--ease-out);
+    background:
+      radial-gradient(38% 34% at 12% 10%,color-mix(in srgb,var(--accent2) 55%,transparent),transparent 70%),
+      radial-gradient(36% 32% at 88% 16%,color-mix(in srgb,var(--c-info-500) 42%,transparent),transparent 70%),
+      radial-gradient(44% 40% at 72% 92%,color-mix(in srgb,var(--c-brand2-300) 48%,transparent),transparent 70%),
+      radial-gradient(34% 30% at 18% 82%,color-mix(in srgb,var(--c-success-500) 30%,transparent),transparent 70%);}
+  html[data-frost] .site-bg{opacity:min(1,calc(var(--frost) * 2.5));}
+  html[data-frost] .shell{position:relative;z-index:1;}
+  html[data-frost]{--frost-a:calc(100% - var(--frost) * 58%);--frost-blur:calc(var(--frost) * 28px);
+    --panel:color-mix(in srgb,var(--s-surface-1) var(--frost-a),transparent);
+    --panel-2:color-mix(in srgb,var(--s-surface-2) var(--frost-a),transparent);
+    --panel-3:color-mix(in srgb,var(--s-surface-3) var(--frost-a),transparent);}
+  html[data-frost] :is(.topbar,.sidebar,.spec,.dial,.livewrap,.vpanel,.ss-panel,.toc-panel){
+    backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));-webkit-backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));}
+  /* 元件預覽區：surface 釘回實心（元件不跟著變） */
+  html[data-frost] :is(.mcell,.live-stage,.row-demo){--panel:var(--s-surface-1);--panel-2:var(--s-surface-2);--panel-3:var(--s-surface-3);}
+  html[data-frost] .mcell{background:var(--s-surface-1);}
+  html[data-frost] .row-demo,html[data-frost] .live-stage{background:var(--s-surface-1);}
+  @media (max-width:1023px){html[data-frost] .shell.nav-drawer .sidebar,html[data-frost] .sidebar{backdrop-filter:blur(var(--frost-blur));}}
+
+  /* 偏好設定：磨砂滑桿＋即時預覽 */
+  .pref-frost{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--sp-6);align-items:center;}
+  .pref-frost-prev{position:relative;height:150px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);background:var(--s-surface-canvas);}
+  .pref-frost-prev .pfb{position:absolute;inset:-20%;filter:blur(24px);opacity:min(1,calc(var(--pf) * 2.5));
+    background:radial-gradient(40% 40% at 20% 30%,color-mix(in srgb,var(--accent2) 60%,transparent),transparent 70%),radial-gradient(40% 40% at 80% 70%,color-mix(in srgb,var(--c-info-500) 50%,transparent),transparent 70%);}
+  .pref-frost-prev .pfp{position:absolute;inset:20px 28px;border-radius:var(--r-sm);border:1px solid var(--s-border-1);
+    background:color-mix(in srgb,var(--s-surface-1) calc(100% - var(--pf) * 58%),transparent);backdrop-filter:blur(calc(var(--pf) * 28px));-webkit-backdrop-filter:blur(calc(var(--pf) * 28px));
+    display:flex;flex-direction:column;gap:8px;padding:14px;}
+  .pref-frost-prev .pfp i{display:block;height:7px;border-radius:4px;background:var(--s-border-2);} .pref-frost-prev .pfp i:first-child{width:40%;height:9px;background:var(--s-text-3);}
+  .pref-frost-prev .pfp i:nth-child(2){width:80%;} .pref-frost-prev .pfp i:nth-child(3){width:64%;}
+  .pref-frost-ctl{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .pref-frost-ctl .pf-row{display:flex;align-items:center;justify-content:space-between;font-size:var(--fs-h11);color:var(--muted);}
+  .pref-frost-ctl output{font-family:var(--font-mono);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .pref-frost-ctl input[type=range]{width:100%;accent-color:var(--accent);}
+  .pref-frost-ctl .pf-presets{display:flex;gap:var(--sp-2);flex-wrap:wrap;}
+  @media (max-width:640px){.pref-frost{grid-template-columns:1fr;}}
+
+  /* topbar：搜尋入口＋深淺色切換 */
+  .ss-trig{display:inline-flex;align-items:center;gap:var(--sp-2);width:min(340px,32vw);height:34px;padding:0 6px 0 10px;box-sizing:border-box;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+    background:var(--panel-2);color:var(--faint);font:inherit;font-size:var(--fs-h11);cursor:pointer;transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);}
+  .ss-trig:hover{border-color:var(--accent);color:var(--muted);}
+  .ss-trig:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .ss-trig > svg{width:15px;height:15px;flex:0 0 auto;} .ss-trig > span{flex:1;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .topbar .theme-toggle{margin-left:var(--sp-2);}
+  .theme-toggle .knob svg{transition:opacity var(--dur-fast) var(--ease-out);}
+  @media (max-width:767px){.ss-trig{width:36px;padding:0;justify-content:center;} .ss-trig > span,.ss-trig .kbd-grp{display:none;}}
+
+  /* 搜尋面板：取用 Command 元件（.cmd）＋遮罩 */
+  .ss-ovl{position:fixed;inset:0;z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px;box-sizing:border-box;
+    background:rgba(0,0,0,.32);animation:ss-fade var(--dur-fast) var(--ease-out);}
+  .ss-ovl.is-out{animation:ss-fade-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
+  .ss-ovl.is-out .cmd{animation:ss-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
+  .ss-ovl .cmd{width:600px;--cmd-h:min(420px,56vh);animation:cmd-in var(--dur-default) var(--ease-out);}
+  .ss-ovl .cmd-it .cmd-tag{font-size:var(--fs-h12);color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:0 6px;}
+  .ss-ovl .cmd-it code{font-family:var(--font-mono);font-size:var(--fs-h11);}
+  @keyframes ss-fade{from{opacity:0;}} @keyframes ss-fade-out{to{opacity:0;}} @keyframes ss-out{to{opacity:0;transform:scale(.98);}}
+  @media (max-width:767px){.ss-ovl{padding:0;align-items:stretch;} .ss-ovl .cmd{width:100%;max-width:none;border-radius:0;display:flex;flex-direction:column;--cmd-h:none;}
+    .ss-ovl .cmd-list{flex:1;max-height:none;} .ss-ovl .cmd-foot{display:none;}}
+  .ss-flash{animation:ss-flash 1.6s var(--ease-out);}
+  @keyframes ss-flash{0%,30%{background:var(--i-primary-tint2);}100%{background:transparent;}}
+  @media (prefers-reduced-motion:reduce){.ss-ovl,.ss-ovl .cmd,.ss-flash{animation:none !important;}}
+
   /* ===== Motion v1（2026-11-03「元件動態對照」採用項 · 第一批）=====
      只作用在 .live（互動 demo），矩陣靜態格不受影響；時長／曲線一律取 motion token。 */
   /* Button：outline／soft／text hover＝底色由左掃入；有右側 icon 時箭頭前推 */
@@ -4401,6 +4466,7 @@
   }
 </style>
 
+<div class="site-bg" aria-hidden="true"></div>
 <div class="shell" id="shell">
   <div class="topbar">
     <button class="hamb" id="hambBtn" aria-label="切換元件選單">
@@ -4409,6 +4475,8 @@
     <div class="brand"><svg class="brand-logo" viewBox="0 0 209 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M104.733 10.4818C102.566 11.349 100.515 12.6797 98.5801 14.4746C96.6451 16.2692 95.0527 18.2959 93.8027 20.5546C92.3928 23.1277 91.4031 26.212 90.8331 29.8079L99.9072 30.4678C100.761 25.684 102.467 22.1385 105.026 19.831C107.684 17.4351 110.161 16.2972 113.84 16.4887C117.519 16.6803 119.577 18.0395 121.398 20.6383C123.218 23.237 123.721 27.0597 122.906 32.1059C122.904 32.1175 122.902 32.1288 122.9 32.1402L131.999 32.8022C132.048 32.4443 132.092 32.0822 132.132 31.7167C132.91 24.497 131.561 18.8608 128.082 14.8073C124.604 10.754 120.295 8.72729 113.773 8.72729C110.169 8.72729 107.618 9.31244 104.733 10.4818ZM59.735 10.4818C57.568 11.349 55.5173 12.6797 53.582 14.4746C51.6468 16.2692 50.054 18.2959 48.804 20.5546C47.8354 22.3226 47.0652 24.3321 46.4929 26.5833L55.6668 27.2505C56.6265 24.0602 58.0802 21.5868 60.0277 19.831C62.6851 17.4351 65.1623 16.2972 68.8418 16.4887C72.5203 16.6803 74.5792 18.0395 76.3996 20.6383C77.8114 22.654 78.4308 25.4056 78.2574 28.8933L87.305 29.5511C87.6135 23.3608 86.2065 18.4463 83.0839 14.8073C79.6053 10.754 75.2969 8.72729 68.7741 8.72729C65.1708 8.72729 62.6189 9.31244 59.735 10.4818ZM4.50813 19.2046C3.59653 20.5817 2.71956 22.18 2.3151 23.3989L11.1863 24.0157C13.653 19.2594 18.6723 16.219 24.0793 16.3564C26.0393 16.4063 28.0306 16.8688 29.6489 17.9687C32.1507 19.6691 32.9742 22.5121 33.3588 25.3576L33.3774 25.392L33.3982 25.4245C33.4866 25.5513 33.6286 25.6336 33.7863 25.6455L41.7678 26.243L41.8049 26.2444L41.8421 26.2435C42.1307 26.2249 42.3501 25.9775 42.3316 25.6904C42.2173 20.9899 40.7876 16.8826 38.1217 14.0743C35.5248 11.3391 32.0475 9.77445 28.3751 9.11318C26.9499 8.85661 25.4957 8.73624 24.0521 8.73624C23.3426 8.73624 22.6356 8.76536 21.9363 8.82153C14.8389 9.39314 8.41631 13.3004 4.50813 19.2046ZM185.892 11.1552C183.416 12.1625 181.446 13.629 179.98 15.5546C178.514 17.4803 177.661 19.549 177.422 21.7609C177.049 25.1974 178.07 28.1103 180.484 30.5002C182.201 32.1987 185.353 33.6306 189.939 34.7956C193.503 35.7038 199.204 36.3348 199.204 41.424C199.154 43.3779 197.514 46.4887 192.951 47.2682C190.053 47.6679 186.473 47.6638 184.13 45.6673C181.666 43.5679 181.418 40.4199 182.387 37.5134C182.385 37.24 182.167 37.0165 181.892 37.0064L175.132 36.5208H175.122H175.113C175.049 36.5208 174.658 36.4506 174.552 36.8104C174.187 38.0494 173.987 41.2442 174.18 42.5906C174.62 45.6553 175.693 48.5982 177.991 50.778C180.666 53.3159 184.756 54.585 190.26 54.585C197.746 54.585 201.753 52.5532 205.341 48.6654C207.332 46.508 208.164 43.6811 208.264 40.8195C208.368 37.8532 207.371 35.2299 205.11 33.1117C201.923 30.125 198.664 28.988 194.445 27.8498C191.289 27.0872 185.048 25.8956 185.794 21.3842C186.222 18.801 189.138 17.4893 191.468 17.1176C195.333 16.5015 201.336 17.8394 201.014 22.8167L201.017 22.8514L201.024 22.8851C201.067 23.0621 201.221 23.196 201.409 23.2095L208.158 23.711L208.167 23.7116C208.258 23.7183 208.632 23.7421 208.745 23.3675C208.896 22.8715 209.092 18.829 206.96 15.5546C204.308 11.4819 197.992 9.64444 194.623 9.64444C190.26 9.64444 188.367 10.1484 185.892 11.1552ZM165.352 10.5616L165.315 10.563C165.07 10.5804 164.869 10.7686 164.84 11.0142L162.374 35.0272L170.701 35.633L173.41 11.1288L173.413 11.1009L173.414 11.0729C173.414 10.7906 173.183 10.5616 172.898 10.5616H165.352ZM139.31 10.5616L139.273 10.563C139.026 10.5804 138.824 10.7702 138.797 11.0172L136.351 33.1349L144.644 33.7384L145.563 24.4899L149.696 34.1054L158.027 34.7115L147.951 10.8714L147.934 10.837C147.846 10.6687 147.67 10.5616 147.477 10.5616H139.31ZM4.54001e-05 35.3526C-0.00364612 37.4226 0.217616 39.4971 0.724972 41.5069C0.81057 41.8461 0.904241 42.1833 1.00668 42.5177C2.25235 46.5953 4.68116 50.1342 8.38376 52.3535C11.6307 54.2996 15.5802 55.2728 20.2311 55.2728C20.4286 55.2728 20.6256 55.2709 20.8227 55.2661C24.4219 55.1876 28.1921 54.4923 31.506 53.0664C34.555 51.7541 37.7282 49.7907 40.1936 47.5972C40.3623 47.4474 40.469 47.2414 40.4951 47.0184L42.3048 31.7583L42.3067 31.7381L42.3083 31.7179C42.3186 31.4306 42.0926 31.1892 41.8037 31.1786L23.6979 30.291H23.6612C23.4037 30.2997 23.1875 30.4951 23.1585 30.7535L22.3881 37.3634L22.3856 37.3854L22.3849 37.4067C22.3766 37.6945 22.6047 37.9341 22.8936 37.9421L32.49 38.2122L31.8803 43.2369L31.7541 43.3357C30.7294 44.124 29.4436 44.942 28.2669 45.4313C23.0761 47.5916 15.4496 47.6928 11.6905 42.8912C9.62968 40.2598 8.48713 35.383 9.7261 29.7078L0.64399 29.3665C0.474195 29.5298 0.194082 31.9595 0.170318 32.2122C0.0711077 33.2575 0.00189119 34.3024 4.54001e-05 35.3526ZM45.5542 31.9282C44.7925 38.9863 46.1375 44.5269 49.5894 48.5499C53.0409 52.573 57.3653 54.585 63.9482 54.585C70.4512 54.585 75.171 52.5629 79.4923 48.5197C83.5797 44.6953 86.0796 39.4779 86.9918 32.8662L77.8375 32.5218C76.9857 37.4177 75.2497 41.0495 72.6292 43.4174C69.9353 45.8515 67.5005 47.0124 63.9413 46.8269C60.3831 46.6414 58.3474 45.2376 56.4506 42.5445C54.6349 39.9649 54.0576 36.335 54.719 31.6537L45.6251 31.3116C45.6002 31.5157 45.5769 31.7211 45.5542 31.9282ZM94.5874 48.5499C98.0393 52.573 102.364 54.585 108.947 54.585C115.449 54.585 120.169 52.5629 124.491 48.5197C128.225 45.0256 130.635 40.3675 131.719 34.5464L122.498 34.1999C121.563 38.2562 119.939 41.3284 117.627 43.4174C114.933 45.8515 112.499 47.0124 108.94 46.8269C105.381 46.6414 103.345 45.2376 101.449 42.5445C99.8571 40.2829 99.2172 37.2139 99.5291 33.3369L90.4522 32.9959C89.9334 39.5476 91.3118 44.7319 94.5874 48.5499ZM134.194 52.6418L134.191 52.6699L134.191 52.6976C134.191 52.98 134.422 53.2093 134.706 53.2093H142.245L142.281 53.2077C142.531 53.1907 142.734 52.9967 142.758 52.7459L144.516 35.0355L136.175 34.7222L134.194 52.6418ZM157.784 52.9166L157.802 52.9516C157.893 53.1099 158.064 53.2093 158.25 53.2093H168.295L168.332 53.2074C168.578 53.1904 168.78 53.0008 168.807 52.7535L170.658 36.0179L162.305 35.7038L161.551 43.048L158.385 35.5566L150.188 35.2487L157.784 52.9166Z"/></svg><span class="divider"></span><span class="brand-title">cool-ds-library</span></div>
     <button class="gd-entry" id="guideBtn" type="button">📖 上手指南</button>
     <div class="spacer"></div>
+    <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
+    <button class="theme-toggle" id="themeBtn" type="button" role="switch" aria-checked="false" aria-label="切換為深色模式"><span class="knob"></span></button>
   </div>
 
   <div class="layout">
@@ -6356,9 +6424,9 @@
     const foot=ce('div','cmd-foot');[[['↑','↓'],'移動'],[['↵'],'開啟'],[['Esc'],'關閉']].forEach(([k,t])=>{const s=ce('span');s.append(kbdEl(k,'s','default'),t);foot.appendChild(s);});c.appendChild(foot);
     const D=cmdData();let act=0,flat=[];
     const draw=()=>{const q=inp.value.trim();list.innerHTML='';flat=[];
-      const grps=q?[['元件',D.comps.filter(x=>(x.label+' '+x.id).toLowerCase().includes(q.toLowerCase())).slice(0,8)]]:[['建議',D.suggest],['最近瀏覽',D.comps.filter(x=>['table','date-picker','modal'].includes(x.id))]];
+      const grps=q?[['元件',D.comps.map(x=>{const b=fzBest(q,x.label,[x.id,SS_ALIAS[x.id]||'']);return b?Object.assign({},x,{_hit:b.hit,_s:b.s}):null;}).filter(Boolean).sort((a,b)=>b._s-a._s).slice(0,8)]]:[['建議',D.suggest],['最近瀏覽',D.comps.filter(x=>['table','date-picker','modal'].includes(x.id))]];
       grps.forEach(([h,its])=>{if(!its.length)return;const g=ce('div','cmd-grp');g.setAttribute('role','group');const hh=ce('div','cmd-grp-h');hh.textContent=h;g.appendChild(hh);
-        its.forEach(x=>{const it=ce('div','cmd-it');it.setAttribute('role','option');it.id=lid+'-'+flat.length;it.innerHTML=x.icon+`<span class="cmd-lb">${cmdHL(x.label,q)}</span>`;
+        its.forEach(x=>{const it=ce('div','cmd-it');it.setAttribute('role','option');it.id=lid+'-'+flat.length;it.innerHTML=x.icon+`<span class="cmd-lb">${x._hit?fzHL(x.label,x._hit):cmdHL(x.label,'')}</span>`;
           if(x.keys)it.appendChild(kbdEl(x.keys,'s','ghost'));else if(x.meta){const m=ce('span','cmd-meta');m.textContent=x.meta;it.appendChild(m);}
           const k=flat.length;it.addEventListener('pointermove',()=>{if(act!==k){act=k;mark();}});it.addEventListener('click',()=>pick(k));
           flat.push({x,el:it});g.appendChild(it);});list.appendChild(g);});
@@ -7487,6 +7555,7 @@ function skelMedia(anim){
   const IC_BED='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></svg>';
   const IC_CAMERA='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,56H180.28L166.65,35.56A8,8,0,0,0,160,32H96a8,8,0,0,0-6.65,3.56L75.71,56H48A24,24,0,0,0,24,80V192a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V80A24,24,0,0,0,208,56Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H80a8,8,0,0,0,6.66-3.56L100.28,48h55.43l13.63,20.44A8,8,0,0,0,176,72h32a8,8,0,0,1,8,8ZM128,88a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,88Zm0,72a28,28,0,1,1,28-28A28,28,0,0,1,128,160Z"/></svg>';
   const IC_COFFEE='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></svg>';
+  const IC_MOON='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></svg>';
   const IC_SUN='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg>';
   const IC_MUSIC='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M210.3,56.34l-80-24A8,8,0,0,0,120,40V148.26A48,48,0,1,0,136,184V98.75l69.7,20.91A8,8,0,0,0,216,112V64A8,8,0,0,0,210.3,56.34ZM88,216a32,32,0,1,1,32-32A32,32,0,0,1,88,216ZM200,101.25l-64-19.2V50.75L200,70Z"/></svg>';
   const IC_FOOD='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></svg>';
@@ -12870,7 +12939,7 @@ function buildScheduleChart(view){
       inView.forEach((el,i)=>{ el.style.setProperty('--rv-d',Math.min(i,5)*70+'ms'); el.classList.add('rv-in'); }); // 首屏內：確定性淡入＋小幅 stagger（上限 5×70ms）
     });
   }
-  function renderSettings(view){ // 偏好設定頁：深淺色（含跟隨系統）＋背景漸層，皆持久化到 localStorage
+  function renderSettings(view){ // 偏好設定頁：磨砂材質＋背景漸層＋互動預覽版型，皆持久化到 localStorage（深淺色已移到 topbar）
     const CHK='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0L3.22 8.28a.75.75 0 0 1 1.06-1.06L7 9.94l5.72-5.72a.75.75 0 0 1 1.06 0Z"/></svg>';
     const ptPage='<div class="pt-top"><span class="pt-dot"></span><span class="pt-dot"></span><span class="pt-dot"></span></div>'+
       '<div class="pt-body"><div class="pt-side"><span></span><span></span><span></span><span></span></div>'+
@@ -12905,8 +12974,10 @@ function buildScheduleChart(view){
       <p class="lede">個人化這個介面的外觀。你的選擇會記在這台裝置，重新整理後仍會保留。</p>
       <div class="head-rule"></div>
       <section class="block pref-sec">
-        <div class="pref-sec-h"><h2>主題</h2><p>選擇介面配色，或跟隨作業系統設定。</p></div>
-        <div class="pref-cards" id="prefTheme">${THEME.map(o=>card(o,o.k===curTheme)).join('')}</div>
+        <div class="pref-sec-h"><h2>磨砂材質</h2><p>網站外框（頁面底色、頂部列、側欄、區塊面板、浮層）變成半透明磨砂，後面透出依 Design Token 主／副色生成的漸層。元件預覽維持原本的實心底色，和匯出結果一致。深淺色請用右上角的切換。</p></div>
+        <div class="pref-frost"><div class="pref-frost-prev" id="pfPrev" aria-hidden="true"><div class="pfb"></div><div class="pfp"><i></i><i></i><i></i></div></div>
+          <div class="pref-frost-ctl"><div class="pf-row"><label for="pfRange">磨砂程度</label><output id="pfOut" for="pfRange"></output></div>
+            <input type="range" id="pfRange" min="0" max="100" step="5"><div class="pf-presets" id="pfPre"></div></div></div>
       </section>
       <section class="block pref-sec">
         <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。主色／輔助色會依當前 Design Token 的主／副色即時生成，改了 token 色號漸層也跟著變。</p></div>
@@ -12917,10 +12988,13 @@ function buildScheduleChart(view){
         <div class="pref-cards" id="prefLay">${LAY.map(layCard).join('')}</div>
         ${isMobile?'<p class="pref-note">📱 手機上無法水平顯示，僅能垂直排列。</p>':''}
       </section>`;
-    view.querySelectorAll('#prefTheme .pref-card').forEach(c=>c.onclick=()=>{ // 主題：套用＋持久化＋更新選中態
-      window.__applyThemePref(c.dataset.k,true);
-      view.querySelectorAll('#prefTheme .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
-    });
+    (function(){ // 磨砂：滑桿即時套用＋持久化；四個快速值取用 Button 原子
+      const rg=view.querySelector('#pfRange'),out=view.querySelector('#pfOut'),pv=view.querySelector('#pfPrev'),pre=view.querySelector('#pfPre');
+      const set=(v,persist)=>{rg.value=v;out.textContent=v+'%';pv.style.setProperty('--pf',String(v/100));window.__applyFrost(v,persist);
+        pre.querySelectorAll('.btn').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.v===+v)));};
+      [[0,'關閉'],[30,'輕'],[60,'中'],[100,'重']].forEach(([v,l])=>{const b=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});b.querySelector('span').textContent=l+' '+v+'%';b.dataset.v=v;b.onclick=()=>set(v,true);pre.appendChild(b);});
+      rg.addEventListener('input',()=>set(rg.value,false));rg.addEventListener('change',()=>set(rg.value,true));set(window.__frost||0,false);
+    })();
     view.querySelectorAll('#prefGrad .pref-card').forEach(c=>c.onclick=()=>{ // 漸層：記模式偏好＋持久化；在 guide 頁即時套用（classic/primary/secondary/off）
       const mode=c.dataset.k; window.__shaderMode=mode;
       try{localStorage.setItem('ds-shader',mode);}catch(e){}
@@ -13009,19 +13083,120 @@ function buildScheduleChart(view){
   { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>{location.hash='guide';}; bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
   document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
-  (function(){ // 主題偏好：light/dark/system，存 localStorage；system 跟隨作業系統且即時更新。控制入口＝偏好設定頁（topbar toggle 已移除）
-    const mq=matchMedia('(prefers-color-scheme:dark)');
-    const resolve=p=>p==='system'?(mq.matches?'dark':'light'):p; // system → 解析成當下系統的具體值（讓 data-theme 永遠具體，curTheme/元件配色才正確）
+  (function(){ // 主題偏好：light／dark，存 localStorage；預設淺色（2026-11-03 拿掉跟隨系統）。控制入口＝topbar 右上角切換
     window.__applyThemePref=function(pref,persist){
-      window.__themePref=pref;
+      pref=pref==='dark'?'dark':'light';window.__themePref=pref;
       if(persist){try{localStorage.setItem('ds-theme',pref);}catch(e){}}
-      document.documentElement.setAttribute('data-theme',resolve(pref));
+      document.documentElement.setAttribute('data-theme',pref);
       if(typeof refreshLogo==='function')refreshLogo();
     };
     let saved; try{saved=localStorage.getItem('ds-theme');}catch(e){}
-    window.__applyThemePref((saved==='light'||saved==='dark'||saved==='system')?saved:'system',false); // 無選擇 → 預設跟隨系統
-    mq.addEventListener('change',()=>{ if(window.__themePref==='system') window.__applyThemePref('system',false); }); // 系統深淺切換時即時反映
+    window.__applyThemePref(saved==='dark'?'dark':'light',false); // 無選擇或舊的 system → 淺色
   })();
+  (function(){ // 磨砂偏好：0～100（預設 0＝實心，與原本相同）；只影響網站外框，元件預覽釘回實心
+    window.__applyFrost=function(v,persist){v=Math.max(0,Math.min(100,Math.round(+v||0)));window.__frost=v;const r=document.documentElement;
+      if(v>0){r.setAttribute('data-frost','');r.style.setProperty('--frost',String(v/100));}else{r.removeAttribute('data-frost');r.style.removeProperty('--frost');}
+      if(persist){try{localStorage.setItem('ds-frost',String(v));}catch(e){}}};
+    let s; try{s=localStorage.getItem('ds-frost');}catch(e){} window.__applyFrost(s==null?0:s,false);
+  })();
+  /* ==================== 網站搜尋：模糊比對（2026-11-03）====================
+     fzMatch(q,text)：① 子字串（開頭／斷詞處加分）② 依序出現的子序列（間隔越少分越高）③ 4 字以上容許 1～2 個錯字（OSA 編輯距離）。
+     回傳 {s:分數, hit:[命中字元位置]}，hit 用來標色。Command 元件與 topbar 搜尋共用。 */
+  function fzDist(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>2)return 9;const d=[];for(let i=0;i<=m;i++){d[i]=[i];}for(let j=0;j<=n;j++)d[0][j]=j;
+    for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){const c=a[i-1]===b[j-1]?0:1;d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+      if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1);}return d[m][n];}
+  function fzMatch(q,t){q=(q||'').toLowerCase().trim();const s=(t||'').toLowerCase();if(!q||!s)return null;const SEP=/[\s\-_/·．.（）()]/;
+    const i=s.indexOf(q);
+    if(i>=0){const st=i===0||SEP.test(s[i-1]);return {s:1000+(st?200:0)-i-(s.length-q.length)*.5,hit:Array.from({length:q.length},(_,k)=>i+k)};}
+    const hit=[];let j=0,gap=0,prev=-1;for(let k=0;k<s.length&&j<q.length;k++){if(s[k]===q[j]){hit.push(k);if(prev>=0)gap+=k-prev-1;prev=k;j++;}}
+    if(j===q.length){const starts=hit.filter(k=>k===0||SEP.test(s[k-1])).length;return {s:500-gap*8+starts*30-hit[0],hit};}
+    if(q.length>=4&&!/[^\x00-\x7f]/.test(q)){const lim=q.length>=7?2:1;let best=9;s.split(SEP).filter(Boolean).forEach(w=>{best=Math.min(best,fzDist(q,w),fzDist(q,w.slice(0,q.length)));});
+      if(best<=lim)return {s:200-best*50,hit:[]};}
+    return null;}
+  function fzHL(txt,hit){const esc=c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]||c);const H=new Set(hit||[]);let out='',open=false;
+    [...txt].forEach((c,i)=>{const on=H.has(i);if(on&&!open){out+='<mark>';open=true;}if(!on&&open){out+='</mark>';open=false;}out+=esc(c);});return out+(open?'</mark>':'');}
+  /* 對一個項目的多個 key 取最高分；只有命中 label 時才回傳 hit（別名命中不標色） */
+  function fzBest(q,label,keys){let best=null;const m=fzMatch(q,label);if(m)best={s:m.s,hit:m.hit};
+    (keys||[]).forEach(k=>{const r=fzMatch(q,k);if(r&&(!best||r.s*.92>best.s))best={s:r.s*.92,hit:[]};});return best;}
+
+  const SS_ALIAS={button:'按鈕 btn','button-group':'按鈕群組 工具列 toolbar',icon:'圖示 icons',typography:'字體 文字 字型 font heading',link:'超連結 連結 anchor',kbd:'快捷鍵 鍵盤 shortcut keyboard',
+    divider:'分隔線 hr separator',avatar:'頭像 大頭貼 profile',logo:'商標 品牌 brand',stack:'排版 間距 auto layout flex grid','app-shell':'框架 版型 layout',splitter:'分割 resizable 面板',
+    'scroll-area':'捲軸 scroll',header:'頁首 導覽列 navbar',footer:'頁尾','section-head':'區塊標題','floating-line':'浮動 客服',tab:'頁籤 分頁 tabs',menu:'選單 側欄 nav sidebar',
+    'action-menu':'更多 動作選單 dropdown menu','context-menu':'右鍵 選單',breadcrumb:'麵包屑 路徑',pagination:'分頁 頁碼',step:'步驟 stepper',command:'指令 搜尋 cmdk palette',
+    input:'輸入框 文字框 textfield search password 密碼','number-input':'數字 number spinbutton',dropdown:'下拉 select 選擇器',selector:'勾選 checkbox radio 單選 複選',toggle:'開關 switch',
+    segmented:'分段 切換',slider:'滑桿 range','date-picker':'日期 datepicker',dropzone:'上傳 upload 檔案 file',quantity:'數量 計數',field:'表單 form 欄位 label',
+    alert:'警示 提示 banner',notification:'通知 toast 訊息 snackbar',tooltip:'提示 說明',popover:'氣泡 浮層','hover-card':'資訊卡 預覽卡',modal:'彈窗 對話框 dialog 視窗',
+    drawer:'抽屜 側邊面板 sheet',progress:'進度條 progressbar',loader:'載入 loading spinner',skeleton:'骨架 載入',empty:'空狀態 無資料 empty state',tag:'標籤 chip badge',
+    price:'價格 金額',image:'圖片 img 照片',rating:'評分 星星 star',carousel:'輪播 banner',list:'清單 列表','list-item':'清單項目 列',collapse:'折疊 accordion 手風琴',
+    descriptions:'資料清單 屬性 key value',card:'卡片',  'product-card':'商品卡 商品','category-tile':'分類',  'article-card':'文章卡 部落格',table:'表格 資料表 datagrid',
+    'table-toolbar':'篩選 批次 filter','tree-view':'樹狀 tree 資料夾',calendar:'日曆 行事曆',chart:'圖表 統計 graph','schedule-chart':'排程 甘特 gantt'};
+  const SS_PAGES=[['guide','上手指南','指南 教學 開始 guide'],['tokens','Design Token','變數 顏色 色票 間距 token variables'],['guideline','Design Guideline','規範 設計指南 guideline'],
+    ['summary','需求匯總','匯出 選取 export summary'],['changelog','更新紀錄','版本 changelog release'],['settings','偏好設定','設定 磨砂 深色 主題 settings preferences']];
+  let SS_TOK=null;
+  function ssTokens(){if(SS_TOK)return SS_TOK;const set=new Set();
+    [...document.styleSheets].forEach(sh=>{let rs;try{rs=sh.cssRules;}catch(e){return;}[...rs].forEach(r=>{if(r.selectorText===':root'&&r.style)for(let i=0;i<r.style.length;i++){const p=r.style[i];if(/^--(c|s|sp|r|fs|fw|lh|e|dur|ease)-/.test(p))set.add(p);}});});
+    return SS_TOK=[...set].sort();}
+  function ssItems(){const it=[];
+    NAV.forEach(g=>g.items.forEach(x=>{const [zh,...en]=x.name.split(' ');const lab=x.name.includes(' ')?(en.join(' ')+' '+zh):x.name;
+      it.push({kind:'comp',key:'c:'+x.id,id:x.id,label:x.name,keys:[x.id,(SS_ALIAS[x.id]||''),lab],meta:g.group.replace(/^[A-Za-z&\s]+/,'')||g.group,planned:x.st==='planned',ic:IC_FILE});}));
+    SS_PAGES.forEach(([id,l,k])=>it.push({kind:'page',key:'p:'+id,id,label:l,keys:[id,k],ic:id==='settings'?ICON_GEAR:ICON_HOUSE}));
+    return it;}
+  function ssGo(x){if(x.kind==='token'){ssRecent(x);location.hash='tokens';setTimeout(()=>{const v=document.getElementById('view');if(!v)return;
+        const hit=[...v.querySelectorAll('code,td,span,div')].find(e=>e.childElementCount===0&&e.textContent.trim()===x.id)||[...v.querySelectorAll('code')].find(e=>e.textContent.includes(x.id));
+        if(hit){const row=hit.closest('tr,.tok-row,.tk-row,li')||hit;row.scrollIntoView({block:'center',behavior:'smooth'});row.classList.remove('ss-flash');void row.offsetWidth;row.classList.add('ss-flash');}},350);return;}
+    ssRecent(x);if(hashId()===x.id){renderView(x.id);}else location.hash=x.id;}
+  function ssRecent(x){try{const a=JSON.parse(localStorage.getItem('ds-search-recent')||'[]').filter(k=>k!==x.key);a.unshift(x.key);localStorage.setItem('ds-search-recent',JSON.stringify(a.slice(0,5)));}catch(e){}}
+  function ssRecentKeys(){try{return JSON.parse(localStorage.getItem('ds-search-recent')||'[]');}catch(e){return [];}}
+
+  let ssOpenEl=null,ssBackFocus=null;
+  function ssOpen(initial){if(ssOpenEl){ssOpenEl.querySelector('input').focus();return;}ssBackFocus=document.activeElement;
+    const ovl=ce('div','ss-ovl');const c=ce('div','cmd ss-panel');c.setAttribute('role','dialog');c.setAttribute('aria-modal','true');c.setAttribute('aria-label','搜尋');
+    const sr=ce('div','cmd-search');sr.innerHTML=ICON_SEARCH;const inp=document.createElement('input');inp.type='text';inp.placeholder='搜尋元件、頁面或 token（例如 按鈕、dtpk、--sp-4）';
+    inp.setAttribute('role','combobox');inp.setAttribute('aria-expanded','true');inp.setAttribute('aria-autocomplete','list');inp.setAttribute('aria-controls','ssList');inp.value=initial||'';
+    const esc=kbdEl(['Esc'],'s','ghost');esc.style.cursor='pointer';esc.onclick=()=>ssClose();sr.append(inp,esc);
+    const list=ce('div','cmd-list');list.id='ssList';list.setAttribute('role','listbox');
+    const foot=ce('div','cmd-foot');[[['↑','↓'],'移動'],[['↵'],'前往'],[['Esc'],'關閉']].forEach(([k,t])=>{const s=ce('span');s.append(kbdEl(k,'s','default'),t);foot.appendChild(s);});
+    const hint=ce('span');hint.style.marginLeft='auto';hint.textContent='支援模糊比對與錯字';foot.appendChild(hint);
+    c.append(sr,list,foot);ovl.appendChild(c);document.body.appendChild(ovl);ssOpenEl=ovl;
+    const ITEMS=ssItems();let flat=[],act=0;
+    const row=(x,hit)=>{const el=ce('div','cmd-it');el.setAttribute('role','option');el.id='ss-o-'+flat.length;
+      el.innerHTML=(x.kind==='token'?'<span style="width:16px;height:16px;border-radius:4px;flex:0 0 auto;background:'+(/^--(c|s)-/.test(x.id)?'var('+x.id+')':'var(--panel-3)')+';border:1px solid var(--line)"></span>':x.ic)
+        +`<span class="cmd-lb">${x.kind==='token'?'<code>'+fzHL(x.label,hit)+'</code>':fzHL(x.label,hit)}</span>`
+        +(x.planned?'<span class="cmd-tag">規劃中</span>':'')+(x.meta?`<span class="cmd-meta">${x.meta}</span>`:'');
+      const k=flat.length;el.addEventListener('pointermove',()=>{if(act!==k){act=k;mark();}});el.addEventListener('click',()=>pick(k));flat.push({x,el});return el;};
+    const grp=(h,rows)=>{if(!rows.length)return;const g=ce('div','cmd-grp');g.setAttribute('role','group');const hh=ce('div','cmd-grp-h');hh.textContent=h;g.appendChild(hh);rows.forEach(([x,hit])=>g.appendChild(row(x,hit)));list.appendChild(g);};
+    const draw=()=>{const q=inp.value.trim();list.innerHTML='';flat=[];
+      if(!q){const rk=ssRecentKeys();const byKey=new Map(ITEMS.map(x=>[x.key,x]));
+        grp('最近搜尋',rk.map(k=>byKey.get(k)).filter(Boolean).map(x=>[x,[]]));
+        grp('常用',['p:guide','p:tokens','p:summary','c:button','c:table'].filter(k=>!rk.includes(k)).map(k=>byKey.get(k)).filter(Boolean).map(x=>[x,[]]));}
+      else{const sc=ITEMS.map(x=>{const b=fzBest(q,x.label,x.keys);return b?[x,b]:null;}).filter(Boolean).sort((a,b)=>b[1].s-a[1].s);
+        const toks=(q.length>=2)?ssTokens().map(t=>{const m=fzMatch(q.replace(/^-*/,''),t);return m&&m.s>=1000?[{kind:'token',key:'t:'+t,id:t,label:t,meta:getComputedStyle(document.documentElement).getPropertyValue(t).trim().slice(0,22)},{s:m.s,hit:fzMatch(q,t)?fzMatch(q,t).hit:[]}]:null;}).filter(Boolean).sort((a,b)=>b[1].s-a[1].s).slice(0,5):[];
+        const comps=sc.filter(r=>r[0].kind==='comp').slice(0,8),pages=sc.filter(r=>r[0].kind==='page').slice(0,4);
+        const G=[['元件',comps],['頁面',pages],['Token',toks]];if(q.startsWith('-'))G.unshift(G.pop());
+        G.forEach(([h,r])=>grp(h,r.map(([x,b])=>[x,b.hit])));
+        if(!flat.length){const e=empEl('search','s',{primary:false,secondary:false});e.querySelector('.emp-title').textContent=`找不到「${q}」`;e.querySelector('.emp-desc').textContent='試試中文或英文名稱，例如「彈窗」或 modal。';list.appendChild(e);}}
+      act=0;mark();};
+    const mark=()=>{flat.forEach((f,i)=>{f.el.classList.toggle('is-active',i===act);f.el.setAttribute('aria-selected',String(i===act));});
+      if(flat[act]){inp.setAttribute('aria-activedescendant',flat[act].el.id);flat[act].el.scrollIntoView({block:'nearest'});}else inp.removeAttribute('aria-activedescendant');};
+    const pick=k=>{const f=flat[k];if(!f)return;ssClose(true);ssGo(f.x);};
+    inp.addEventListener('input',draw);
+    inp.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();if(flat.length){act=(act+1)%flat.length;mark();}}else if(e.key==='ArrowUp'){e.preventDefault();if(flat.length){act=(act-1+flat.length)%flat.length;mark();}}
+      else if(e.key==='Enter'){e.preventDefault();pick(act);}else if(e.key==='Escape'){e.preventDefault();ssClose();}else if(e.key==='Tab'){e.preventDefault();}});
+    ovl.addEventListener('pointerdown',e=>{if(e.target===ovl)ssClose();});
+    draw();setTimeout(()=>inp.focus(),10);}
+  function ssClose(noRestore){const o=ssOpenEl;if(!o)return;ssOpenEl=null;o.classList.add('is-out');afterAnim(o,()=>o.remove());
+    if(!noRestore&&ssBackFocus&&ssBackFocus.focus)ssBackFocus.focus({preventScroll:true});}
+  (function(){const t=document.getElementById('ssTrig');if(t){t.insertAdjacentHTML('afterbegin',ICON_SEARCH);t.appendChild(kbdEl([/Mac|iPhone|iPad/.test(navigator.platform)?'mod':'Ctrl','K'],'s','ghost',{platform:/Mac|iPhone|iPad/.test(navigator.platform)?'mac':'win'}));t.onclick=()=>ssOpen();}
+    document.addEventListener('keydown',e=>{const tg=e.target;const typing=tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.isContentEditable);
+      if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){if(tg&&tg.closest&&tg.closest('.cmd-live'))return;e.preventDefault();ssOpen();}
+      else if(e.key==='/'&&!typing&&!e.metaKey&&!e.ctrlKey){e.preventDefault();ssOpen();}});})();
+
+  /* ==================== topbar 深淺色切換 ==================== */
+  (function(){const b=document.getElementById('themeBtn');if(!b)return;
+    const sync=()=>{const dark=document.documentElement.getAttribute('data-theme')==='dark';b.setAttribute('aria-checked',String(dark));b.setAttribute('aria-label',dark?'切換為淺色模式':'切換為深色模式');
+      b.querySelector('.knob').innerHTML=dark?IC_MOON:IC_SUN;};
+    b.onclick=()=>{window.__applyThemePref(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark',true);sync();};sync();})();
+
   (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} // 漸層模式偏好：存 localStorage，無選擇→預設經典；舊值 on→classic、off 維持；initHeroShader 會讀取
     const map={on:'classic',off:'static',classic:'classic',static:'static',primary:'primary',secondary:'secondary'};
     window.__shaderMode=map[s]||'classic'; })();
