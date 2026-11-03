@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-03（六）　頭像改取用 Avatar 原子、站上 .seg 改用 Segmented 規格、群組 hover 調整
+
+- **Avatar 群組 hover**：滑過只往上位移 2px，拿掉 `z-index`，疊放順序不變。
+- **頭像改取用 Avatar 原子**（鐵則 5）：Header 帳號鈕（原本是 soft 按鈕寫字「楊」→ button 包 `avtEl` s 28px，保留按壓縮放與 focus 外框）；Article Card 作者（原本拿 image 原子縮到 24px → `avtEl` s 縮寫，依作者名固定底色，疊字版保留白色外圈）；Skeleton→內容示範（`--avt-s:40px` 對齊骨架 m 圓，轉場不跳位）。移除未使用的 `.lst-avatar`。Guide 頁模擬 GitHub 畫面的小頭像屬插圖，不動。
+- **站上所有 `.seg` 改用 Segmented 規格**（互動預覽控制列、程式碼 HTML／SCSS 分頁、展開視窗分頁、圖表切換等）：柔色軌道＋`--sgm-radius`、滑動指示器改 `--accent`＋選中字 `--primary-on`（與 tab pill／Segmented 一致，深淺自動對比）、字體改 sans medium、motion token。結構與 aria-pressed 切換邏輯不變（全域 MutationObserver 照舊）。新增方向鍵切換；重建型控制列（如 button 頁）切換後以 `data-seg` 找回新列，焦點不遺失。
+- ✅ Playwright：.seg 深淺計算色（軌道／指示器／選中字）、方向鍵切換與焦點保留、群組 hover translate 0 -2px＋z-index auto、Header／Article／Skeleton 頭像皆為 .avt 且舊 image 頭像 0、全站 78 頁無空頁、0 console error。
+
 ## 2026-11-03（五）　P1 元件全部完成：Avatar、Segmented、Slider、Field、Stack、App Shell、Empty
 
 依差距分析 P1 清單一次補齊 7 顆（規劃中 → 完成），每顆都有變數篩選、矩陣、內容軸、「什麼時候用」、互動預覽與程式碼。

@@ -464,13 +464,17 @@
   .ctl-row{display:flex;flex-wrap:wrap;gap:var(--sp-5) var(--sp-7);align-items:flex-start;margin-bottom:var(--sp-6);}
   .ctl{display:flex;flex-direction:column;gap:var(--sp-3);}
   .ctl .lab{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);}
-  .seg{position:relative;display:inline-flex;background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:3px;gap:2px;}
+  /* 2026-11-03：站上所有 .seg（互動預覽控制、程式碼分頁、圖表切換…）改用 Segmented 元件規格（＝ .sgm-v-soft.sgm-sz-s）：
+     柔色軌道、--accent 滑動指示器＋--primary-on 字、sans 字體、--sgm-radius、motion token。結構與 aria-pressed 切換邏輯不變。 */
+  .seg{position:relative;display:inline-flex;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--sgm-radius,var(--r-md));padding:3px;gap:2px;isolation:isolate;}
   /* 滑動 pill：跟著 aria-pressed 的按鈕平滑移動（位置/寬高由 JS inline 寫入），取代原本各按鈕自帶的底色方塊；絕對定位＝不佔 flex 版位 */
-  .seg-pill{position:absolute;top:0;left:0;z-index:0;width:0;height:0;border-radius:var(--r-sm);background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.07);transform:translate(0,0);pointer-events:none;
-    transition:transform .25s cubic-bezier(.22,1,.36,1),width .25s cubic-bezier(.22,1,.36,1),height .25s cubic-bezier(.22,1,.36,1);}
-  .seg button{position:relative;z-index:1;border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h11);padding:var(--sp-2) var(--sp-4);border-radius:var(--r-sm);cursor:pointer;transition:color .2s cubic-bezier(.22,1,.36,1);}
-  .seg button[aria-pressed="true"]{color:var(--ink);}  /* 底色改由 .seg-pill 提供（滑動指示器） */
-  .seg button:disabled,.seg button.is-off{opacity:.32;cursor:not-allowed;} /* 篩選器未勾的軸值→Live 對應選項停用 */
+  .seg-pill{position:absolute;top:0;left:0;z-index:0;width:0;height:0;border-radius:calc(var(--sgm-radius,var(--r-md)) - 2px);background:var(--accent);transform:translate(0,0);pointer-events:none;
+    transition:transform var(--dur-default) var(--ease-out),width var(--dur-default) var(--ease-out),height var(--dur-default) var(--ease-out);}
+  .seg button{position:relative;z-index:1;border:none;background:transparent;color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h11);font-weight:var(--fw-medium);padding:var(--sp-2) var(--sp-3);border-radius:calc(var(--sgm-radius,var(--r-md)) - 2px);cursor:pointer;white-space:nowrap;transition:color var(--dur-fast) var(--ease-out);}
+  .seg button:hover:not([aria-pressed="true"]):not(:disabled):not(.is-off){color:var(--ink);}
+  .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .seg button[aria-pressed="true"]{color:var(--primary-on);}  /* 底色由 .seg-pill（--accent）提供，字用模式對比色 */
+  .seg button:disabled,.seg button.is-off{opacity:.4;cursor:not-allowed;} /* 篩選器未勾的軸值→Live 對應選項停用 */
   @media(prefers-reduced-motion:reduce){.seg-pill{transition:none!important;}}
   .checks{display:flex;gap:var(--sp-5);flex-wrap:wrap;padding-top:2px;}
   .chk{display:inline-flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h11);color:var(--muted);cursor:pointer;font-family:var(--font-mono);}
@@ -1435,8 +1439,9 @@
   .hdr-bell{position:relative;display:inline-flex;}
   .hdr-badge{position:absolute;top:var(--sp-1);right:var(--sp-1);width:8px;height:8px;border-radius:50%;
     background:var(--i-danger);border:2px solid var(--panel);box-sizing:content-box;pointer-events:none;}
-  /* 頭像＝複用 Button v-soft 原子（soft icon-only 圓鈕），僅覆蓋成圓形 */
-  .hdr-avatar.btn{border-radius:50%;flex:0 0 auto;}
+  /* 頭像＝取用 Avatar 原子，外包一顆 button 當帳號選單的觸發器（2026-11-03）*/
+  .hdr-avatar{flex:0 0 auto;display:inline-flex;padding:2px;border:0;border-radius:var(--r-pill);background:transparent;cursor:pointer;transition:transform calc(var(--dur-fast) * .66) var(--ease-out);}
+  .hdr-avatar:active{transform:scale(.94);} .hdr-avatar:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
   /* 陳列：上下堆疊的整條 bar（不再用擠壓的 2D 矩陣）*/
   .hdr-stack{display:flex;flex-direction:column;gap:var(--sp-6);}
   .hdr-row{display:flex;flex-direction:column;gap:var(--sp-3);}
@@ -1563,9 +1568,7 @@
   .lst-lead{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);}
   .lst-icon{width:20px;height:20px;display:inline-flex;}
   .lst-icon svg{width:100%;height:100%;}
-  /* avatar：accent tint 底 ＋ 首字，圓形 */
-  .lst-avatar{width:36px;height:36px;border-radius:50%;background:var(--i-primary-tint);color:var(--accent);
-    display:inline-flex;align-items:center;justify-content:center;font-size:var(--fs-h10);font-weight:var(--fw-semibold);flex:0 0 auto;}
+  /* （2026-11-03 移除未使用的 .lst-avatar；需要頭像請取用 Avatar 原子） */
   /* body：title ＋ 副描述，min-width:0 讓長文可 ellipsis */
   .lst-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;}
   .lst-title{font-size:var(--lst-title-fs,var(--fs-h10));font-weight:var(--fw-medium);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -2333,10 +2336,10 @@
 .art-excerpt{margin:0;font-size:var(--fs-h11);line-height:var(--lh-relaxed);color:var(--muted);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 
-/* ---- 作者列：圓形頭像（imEl circular）＋作者名＋「·」＋日期＋閱讀時間 ---- */
+/* ---- 作者列：Avatar 原子（s · 縮寫）＋作者名＋「·」＋日期＋閱讀時間 ---- */
 .art-foot{display:flex;align-items:center;gap:var(--sp-3);margin-top:auto;padding-top:var(--sp-1);min-width:0;flex-wrap:wrap;}
 .art-author{display:flex;align-items:center;gap:var(--sp-3);min-width:0;}
-.art-author .im-box{height:24px;width:24px;flex:0 0 auto;} /* 頭像原子縮到 24px（覆寫 im-sz-s 的 40px） */
+.art-author{gap:var(--sp-2);}
 .art-author-name{font-size:var(--fs-h12);font-weight:var(--fw-semibold);color:var(--ink);white-space:nowrap;}
 .art-meta{display:inline-flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h12);color:var(--faint);white-space:nowrap;}
 .art-dot{color:var(--faint);}
@@ -2348,7 +2351,7 @@
 .art-card.v-overlay .art-excerpt{color:rgba(255,255,255,.82);}
 .art-card.v-overlay .art-author-name{color:#fff;}
 .art-card.v-overlay .art-meta,.art-card.v-overlay .art-dot{color:rgba(255,255,255,.72);}
-.art-card.v-overlay .art-author .im-box{border-color:rgba(255,255,255,.4);}
+.art-card.v-overlay .art-author .avt{box-shadow:0 0 0 1.5px rgba(255,255,255,.4);}
 
 /* ---- hover：矩陣用靜態 .is-hover 模擬、Live/showcase 用真實 :hover（.live）---- */
 .art-card.is-hover,.art-card.live:hover{transform:translateY(-3px);
@@ -2913,7 +2916,7 @@
   .avt-grp .avt + .avt{margin-left:calc(var(--avt-s) * -.28);}
   .avt-more{background:var(--panel-2);color:var(--muted);font-size:calc(var(--avt-s) * .34);}
   .livewrap .avt-grp .avt{transition:translate var(--dur-fast) var(--ease-out);}
-  .livewrap .avt-grp .avt:hover{translate:0 -2px;z-index:1;}
+  .livewrap .avt-grp .avt:hover{translate:0 -2px;}   /* 只往上位移，疊放順序不變 */
   .avt-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-5);}
 
   /* ── Segmented 分段控制（sgm-）：選中＝--accent 底＋--primary-on 字（與 tab pill／contained 同一套），單一滑動指示器 ── */
@@ -3180,7 +3183,7 @@
   .sk-load-stack > *{grid-area:1 / 1;}
   .sk-load-stack > :first-child{transition:opacity var(--dur-fast) var(--ease-in);}
   .sk-real{display:flex;align-items:center;gap:var(--sp-4);visibility:hidden;}
-  .sk-real-av{width:40px;height:40px;border-radius:var(--r-pill);background:var(--accent);color:var(--primary-on);display:grid;place-items:center;font-weight:var(--fw-semibold);flex:0 0 auto;}
+  .sk-real-av{--avt-s:40px;}   /* Avatar 原子；尺寸對齊骨架 m 圓（40px），轉場時不跳位 */
   .sk-real-tx{display:flex;flex-direction:column;gap:2px;font-size:var(--fs-h10);} .sk-real-tx span{color:var(--muted);font-size:var(--fs-h11);}
   .sk-load-demo.is-loaded .sk-load-stack > :first-child{opacity:0;}
   .sk-load-demo.is-loaded .sk-real{visibility:visible;}
@@ -5197,7 +5200,7 @@
           {key:'content',label:'Content',options:['image','initials','icon'],labels:['照片','縮寫','圖示']}],
     bools:[{key:'status',label:'status 在線狀態'},{key:'group',label:'group 群組疊放'}],boolLabel:'Feature',
     render:st=>st.group?avtGroup(st.size,6,4):avtEl(st.size,st.shape,st.content,{status:st.status?'online':null}),
-    note:'群組模式只用圓形（疊放時方形會互相切到）；滑過群組裡的頭像會微微浮起。'});
+    note:'群組模式只用圓形（疊放時方形會互相切到）；滑過群組裡的頭像會往上位移，疊放順序不變。'});
   function buildAvatar(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Avatar',title:'Avatar 頭像',
       lede:'代表一個人或帳號的小圖：照片、名字縮寫或預設圖示。五級 size × 兩種 shape × 三種內容（<b>5 × 2 × 3 = 30</b>），另有在線狀態點與群組疊放。list-item、header、評論、成員清單都應該取用這顆原子，不要各自重畫（鐵則 5）。',
@@ -5915,7 +5918,7 @@ function skelMedia(anim){
   /* Motion v1：骨架 → 內容。骨架先淡出，內容（同幾何：頭像＋兩行）從輕微模糊逐行淡入 */
   function skelLoadDemo(anim){
     const w=ce('div','sk-load-demo');const stack=ce('div','sk-load-stack');
-    const real=ce('div','sk-real');real.innerHTML='<span class="sk-real-av">林</span><div class="sk-real-tx"><b>林語晨</b><span>剛剛更新了 Token 綁定</span></div>';
+    const real=ce('div','sk-real');real.innerHTML='<div class="sk-real-tx"><b>林語晨</b><span>剛剛更新了 Token 綁定</span></div>';const av=avtEl('m','circle','initials',{initials:'林'});av.classList.add('sk-real-av');real.prepend(av);
     stack.append(skelCard(anim),real);
     const b=ce('button','btn v-outline i-secondary sz-s live');b.innerHTML='<span>模擬載入完成</span>';
     b.onclick=()=>{const on=w.classList.toggle('is-loaded');swapText(b.querySelector('span'),on?'重新載入':'模擬載入完成');};
@@ -6795,7 +6798,8 @@ function skelMedia(anim){
     b.setAttribute('aria-label','通知');b.innerHTML=HDR_IC_BELL;wrap.appendChild(b);
     if(badge)wrap.appendChild(ce('span','hdr-badge'));return wrap;}
   /* 圓形頭像 */
-  function hdrAvatar(){const b=document.createElement('button');b.className='btn v-soft i-primary sz-s icon-only live hdr-avatar';b.textContent='楊';b.setAttribute('aria-label','帳號');return b;}
+  function hdrAvatar(){const b=document.createElement('button');b.type='button';b.className='hdr-avatar';b.setAttribute('aria-label','帳號選單'); // 2026-11-03：改取用 Avatar 原子
+    b.appendChild(avtEl('s','circle','initials',{initials:'楊',name:'楊鎮瑜'}));return b;}
   /* 右側 actions：鈴鐺 → 頭像 → 登入（登入鈕在頭像右側）*/
   function hdrActions(o){o=o||{};
     const a=ce('div','hdr-actions');
@@ -8929,7 +8933,8 @@ function artCard(variant,state,opts){opts=opts||{};
   if(on('author')||on('meta')){ // 作者列：圓形頭像（imEl circular）＋名字＋「·」＋日期＋閱讀時間
     const row=ce('div','art-foot');
     if(on('author')){const a=ce('div','art-author');
-      a.appendChild(imEl('circular','default','s',{alt:d.author})); // 頭像重用 Image 原子
+      const tone=['accent','brand2','sec'][[...d.author].reduce((n,c)=>n+c.charCodeAt(0),0)%3]; // 同一位作者永遠同色
+      a.appendChild(avtEl('s','circle','initials',{initials:d.author[0],tone,name:d.author})); // 2026-11-03：改取用 Avatar 原子
       const nm=ce('span','art-author-name');nm.textContent=d.author;a.appendChild(nm);row.appendChild(a);}
     if(on('meta')){const m=ce('span','art-meta');
       m.innerHTML=(on('author')?'<span class="art-dot">·</span>':'')+'<span>'+d.date+'</span><span class="art-dot">·</span><span>'+d.read+'</span>';
@@ -12361,6 +12366,14 @@ function buildScheduleChart(view){
      pill 的 transform/width/height 由此處 inline 寫入，靠 CSS transition 補間。
      多數 seg 是「原地切換 aria-pressed」→ 直接滑；少數重建型（button 頁篩選走 renderLive 整塊重建）
      靠 data-seg 幾何快取：新 seg 先落在上一版 active 位置再滑到新位置，重建也有滑動感。*/
+  /* .seg 鍵盤操作（同 Segmented 元件）：左右／上下方向鍵切到相鄰的可用選項並觸發 */
+  document.addEventListener('keydown',e=>{const b=e.target;if(!b||b.tagName!=='BUTTON'||!b.parentElement||!b.parentElement.classList.contains('seg'))return;
+    const d=(e.key==='ArrowRight'||e.key==='ArrowDown')?1:(e.key==='ArrowLeft'||e.key==='ArrowUp')?-1:0;if(!d)return;
+    const bs=[...b.parentElement.querySelectorAll(':scope>button')].filter(x=>!x.disabled&&!x.classList.contains('is-off'));const i=bs.indexOf(b);if(i<0||bs.length<2)return;
+    e.preventDefault();const key=b.parentElement.dataset.seg,ni=(i+d+bs.length)%bs.length,n=bs[ni];n.click();
+    if(n.isConnected){n.focus();return;}
+    /* 重建型控制列（例如 button 頁點選後整塊重繪）：用 data-seg 找回新的那一列，把焦點放回選中項 */
+    const again=key&&document.querySelector('.seg[data-seg="'+key+'"] button[aria-pressed="true"]');if(again)again.focus();});
   (function initSegPill(){
     const lastGeo={};                                  // key＝seg 的 data-seg；存上次 active 的 {l,t,w,h}，供重建型 seg 續接滑動
     let fontsReady=!(document.fonts&&document.fonts.ready);  // 字型 ready 前不顯示 pill，避免用 fallback 字寬定位後跳位（手機首載）
