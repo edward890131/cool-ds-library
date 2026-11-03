@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-03（十一）　Chart 新增 9 種圖型（提案定案 → 進庫）
+
+- **chart variant 擴充為 14 種 × m／s＝28**：原有 stat／line／curve／bar／donut，新增 spark（趨勢小圖卡）、brush（刷選縮放折線）、area-stack（堆疊面積）、bar-stack（堆疊長條）、combo（長條＋折線，預設上下分開、可切雙軸）、bar-rank（橫向排名）、gauge（儀表）、funnel（漏斗）、heatmap（熱力圖）。頁面依「基礎／趨勢／組成／比較／進度與分布」分組顯示，DIAL_SPECS 仍是唯一來源。
+- 互動沿用提案：跟著游標的十字準線提示、圖例開關（其他層補位）、hover 淡化、區間切換變形、方向鍵逐點查看、數字逐位滾動、排名 FLIP 重排、刷選拖曳／把手／鍵盤縮放；reduced-motion 直接到終點。
+- **新 token**：primitive `--c-violet-100…900`；semantic `--s-chart-2`（info）、`--s-chart-3`（success）、`--s-chart-4`（violet），熱力圖色階 `--s-chart-seq-0…5`（brand2）；深淺各自定義，Design Token 頁與 `tokens.base.json` 同步。系列 1 仍是 chart 的 `--accent`（brand2）。門檻與流失只用 feedback token。圓角改用元件庫 token（提案頁的圓角過大已修正）。
+- registry 重生（chart 軸 +9）；需求匯總 1101 → 1119 個變體。
+- ✅ Playwright：28 格矩陣、9 種互動、深淺、390px；全站 79 頁、0 console error。
+
 ## 2026-11-03（十）　新首頁、磨砂滑桿互動
 
 - **新首頁（`#home`，無網址時的預設頁；上手指南仍在 `#guide`）**：

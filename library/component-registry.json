@@ -3416,6 +3416,42 @@
                   {
                     "value": "donut",
                     "zh": "甜甜圈"
+                  },
+                  {
+                    "value": "spark",
+                    "zh": "趨勢小圖卡"
+                  },
+                  {
+                    "value": "brush",
+                    "zh": "刷選縮放折線"
+                  },
+                  {
+                    "value": "area-stack",
+                    "zh": "堆疊面積圖"
+                  },
+                  {
+                    "value": "bar-stack",
+                    "zh": "堆疊長條"
+                  },
+                  {
+                    "value": "combo",
+                    "zh": "長條＋折線組合圖"
+                  },
+                  {
+                    "value": "bar-rank",
+                    "zh": "橫向排名長條"
+                  },
+                  {
+                    "value": "gauge",
+                    "zh": "儀表"
+                  },
+                  {
+                    "value": "funnel",
+                    "zh": "漏斗圖"
+                  },
+                  {
+                    "value": "heatmap",
+                    "zh": "熱力圖"
                   }
                 ]
               },

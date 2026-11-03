@@ -30,6 +30,8 @@
     --c-warning-100:#FEF3C7; --c-warning-200:#FDE68A; --c-warning-300:#FCD34D; --c-warning-400:#FBBF24; --c-warning-500:#F59E0B; --c-warning-600:#D97706; --c-warning-700:#B45309; --c-warning-800:#92400E; --c-warning-900:#78350F;
     --c-error-100:#FEE2E2;   --c-error-200:#FECACA;   --c-error-300:#FCA5A5;   --c-error-400:#F87171;   --c-error-500:#EF4444;   --c-error-600:#DC2626;   --c-error-700:#B91C1C;   --c-error-800:#991B1B;   --c-error-900:#7F1D1D;
     --c-info-100:#DBEAFE;    --c-info-200:#BFDBFE;    --c-info-300:#93C5FD;    --c-info-400:#60A5FA;    --c-info-500:#3B82F6;    --c-info-600:#2563EB;    --c-info-700:#1D4ED8;    --c-info-800:#1E40AF;    --c-info-900:#1E3A8A;
+    /* ── L1 Primitive · Violet 紫（9 階；圖表系列 4 用，2026-11-03 新增）── */
+    --c-violet-100:#EEECFB; --c-violet-200:#DCD8F7; --c-violet-300:#BDB5F1; --c-violet-400:#9085E9; --c-violet-500:#7565DF; --c-violet-600:#6250D6; --c-violet-700:#4F3EB5; --c-violet-800:#3D3190; --c-violet-900:#2C246A;
     /* ── L1 Primitive · Radius 9 階（折衷：md 8 為卡片/輸入框預設；按鈕走 pill＝框架 full）── */
     --r-none:0px; --r-xs:2px; --r-sm:4px; --r-md:8px; --r-lg:10px; --r-xl:16px; --r-2xl:24px; --r-3xl:32px; --r-pill:9999px;
     /* ── L1 Primitive · Spacing（v0 量測校準：base 6/12 較緊、補 6px 階；比原 8-base 緊一階）── */
@@ -87,6 +89,9 @@
     --s-feedback-success-tint2:color-mix(in srgb,var(--s-feedback-success) 24%,transparent);
     --s-feedback-warning-tint2:color-mix(in srgb,var(--s-feedback-warning) 24%,transparent);
     --s-feedback-info-tint2:color-mix(in srgb,var(--s-feedback-info) 24%,transparent);
+    /* ── L2 Semantic · Chart 圖表系列：系列 1＝chart accent（.cht-box scope＝--c-brand2-500），2–4 從 info／success／violet 衍生；seq＝熱力圖單色階（brand2，少→多）── */
+    --s-chart-2:var(--c-info-600); --s-chart-3:var(--c-success-600); --s-chart-4:var(--c-violet-600);
+    --s-chart-seq-0:var(--s-surface-3); --s-chart-seq-1:var(--c-brand2-100); --s-chart-seq-2:var(--c-brand2-300); --s-chart-seq-3:var(--c-brand2-400); --s-chart-seq-4:var(--c-brand2-500); --s-chart-seq-5:var(--c-brand2-700);
 
     /* ── 舊變數別名（→ L2 semantic；元件全數沿用、無需改動）── */
     --canvas:var(--s-surface-canvas); --panel:var(--s-surface-1); --panel-2:var(--s-surface-2); --panel-3:var(--s-surface-3);
@@ -127,6 +132,8 @@
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-400) 16%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-400) 16%,transparent);
     --accent2:var(--c-brand2-400);   /* 深色輔助色提亮，soft/outline 文字才不糊在暗底 */
+    --s-chart-2:var(--c-info-500); --s-chart-3:var(--c-success-500); --s-chart-4:var(--c-violet-400);   /* 圖表系列 2–4：暗底提亮 */
+    --s-chart-seq-1:var(--c-brand2-900); --s-chart-seq-2:var(--c-brand2-800); --s-chart-seq-3:var(--c-brand2-600); --s-chart-seq-4:var(--c-brand2-400); --s-chart-seq-5:var(--c-brand2-300);   /* 熱力色階：暗底反向（少＝深、多＝亮） */
     /* dark elevation：暗底改用更深的陰影撐層次 */
     --e-sm:0 1px 2px 0 rgba(0,0,0,.4);
     --e-md:0 4px 6px -1px rgba(0,0,0,.5),0 2px 4px -2px rgba(0,0,0,.5);
@@ -153,6 +160,8 @@
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-400) 16%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-400) 16%,transparent);
     --accent2:var(--c-brand2-400);   /* 深色輔助色提亮 */
+    --s-chart-2:var(--c-info-500); --s-chart-3:var(--c-success-500); --s-chart-4:var(--c-violet-400);   /* 圖表系列 2–4：暗底提亮 */
+    --s-chart-seq-1:var(--c-brand2-900); --s-chart-seq-2:var(--c-brand2-800); --s-chart-seq-3:var(--c-brand2-600); --s-chart-seq-4:var(--c-brand2-400); --s-chart-seq-5:var(--c-brand2-300);   /* 熱力色階：暗底反向（少＝深、多＝亮） */
     --e-sm:0 1px 2px 0 rgba(0,0,0,.4);
     --e-md:0 4px 6px -1px rgba(0,0,0,.5),0 2px 4px -2px rgba(0,0,0,.5);
     --e-lg:0 10px 15px -3px rgba(0,0,0,.5),0 4px 6px -4px rgba(0,0,0,.5);
@@ -180,6 +189,8 @@
     --s-feedback-success-tint:color-mix(in srgb,var(--c-success-500) 12%,transparent);
     --s-feedback-warning-tint:color-mix(in srgb,var(--c-warning-500) 12%,transparent);
     --accent2:var(--c-brand2-500);   /* ‼ 必補：OS=深色+手動切淺色時，避免洩漏成深色 400 輔助色 */
+    --s-chart-2:var(--c-info-600); --s-chart-3:var(--c-success-600); --s-chart-4:var(--c-violet-600);   /* ‼ 必補：圖表系列色淺色值 */
+    --s-chart-seq-1:var(--c-brand2-100); --s-chart-seq-2:var(--c-brand2-300); --s-chart-seq-3:var(--c-brand2-400); --s-chart-seq-4:var(--c-brand2-500); --s-chart-seq-5:var(--c-brand2-700);
     /* ‼ 必補：淺色 elevation，否則 OS=深色時洩漏成深色重陰影 */
     --e-sm:0 1px 2px 0 rgba(0,0,0,.05);
     --e-md:0 4px 6px -1px rgba(0,0,0,.10),0 2px 4px -2px rgba(0,0,0,.10);
@@ -2538,6 +2549,156 @@
 
 /* --- Live 舞台 --- */
 .cht-live-stage{display:flex;justify-content:center;padding:var(--sp-3) 0;}
+
+/* --- 進階圖表（cht-x，2026-11-03 擴充 9 型：spark／brush／area-stack／bar-stack／combo／bar-rank／gauge／funnel／heatmap）---
+   系列色：1＝--accent（chart scope 內＝--c-brand2-500）、2–4＝--s-chart-2..4；熱力圖色階＝--s-chart-seq-0..5；狀態色只用 --s-feedback-*。
+   圓角只用 --r-xs／--r-sm／--cht-radius；動態只用 --dur-*／--ease-*。 */
+.cht-x{--cs1:var(--accent);--cs2:var(--s-chart-2);--cs3:var(--s-chart-3);--cs4:var(--s-chart-4);
+  display:flex;flex-direction:column;align-items:stretch;gap:var(--cht-gap,var(--sp-3));width:320px;max-width:100%;min-width:0;position:relative;}
+.cht-x.cht-sz-s{width:196px;gap:var(--sp-2);}
+.cht-x.is-live{width:100%;}
+.cht-x .sgm{--accent:var(--s-action-primary);}          /* 卡內切換沿用 Segmented 原子原色（不吃 chart 的品牌橘） */
+.chtx-h{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;min-width:0;}
+.chtx-ht{min-width:0;}
+.chtx-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);line-height:var(--lh-snug);}
+.cht-sz-s .chtx-t{font-size:var(--fs-h11);color:var(--muted);}
+.chtx-sub{font-size:var(--fs-h11);color:var(--muted);line-height:var(--lh-snug);margin-top:2px;}
+.chtx-tools{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
+.chtx-plot{position:relative;width:100%;min-width:0;}
+.chtx-plot svg{display:block;width:100%;max-width:none;overflow:visible;touch-action:pan-y;}
+.chtx-plot svg:focus-visible,.chtx-focus:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-xs);}
+.chtx-ax{font-size:var(--fs-h12);fill:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-axc{font-size:var(--fs-h12);fill:var(--muted);}
+.cht-sz-s .chtx-ax,.cht-sz-s .chtx-axc{font-size:9px;}
+.chtx-gl{stroke:var(--line);stroke-width:1;shape-rendering:crispEdges;}
+.chtx-bl{stroke:var(--line-strong);stroke-width:1;shape-rendering:crispEdges;}
+.chtx-xh{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 3;pointer-events:none;}
+.chtx-dim{transition:opacity var(--dur-fast) var(--ease-out);}
+.chtx-dim.is-dim{opacity:.32;}
+.chtx-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.chtx-hint{font-size:var(--fs-h12);color:var(--muted);}
+/* 圖例：.tg 原子（v-soft／i-neutral）＋色塊；可切換時為 <button>，關閉＝空心色塊＋淡字 */
+.chtx-legend{gap:var(--sp-2);}
+.chtx-lgi{gap:var(--sp-2);font-weight:var(--fw-medium);}
+button.chtx-lgi{cursor:pointer;font-family:var(--font-sans);}
+button.chtx-lgi:hover{background:var(--ttint2);}
+button.chtx-lgi:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.chtx-sw{border-radius:var(--r-xs);width:8px;height:8px;transition:background var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);}
+.chtx-sw.is-ln{width:12px;height:2px;border-radius:var(--r-xs);}
+button.chtx-lgi[aria-pressed="false"]{color:var(--muted);background:transparent;border-color:var(--line-strong);border-style:dashed;}
+button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important;box-shadow:inset 0 0 0 1.5px var(--line-strong);}
+/* tooltip：沿用 .cht-tip 視覺（--ink 底／--canvas 字／--r-sm／--e-md），改成跟游標＋多列 */
+.cht-tip.chtx-tip{left:0;top:0;transform:none;align-items:stretch;display:grid;gap:3px;padding:var(--sp-2) var(--sp-3);min-width:104px;
+  transition:opacity var(--dur-fast) var(--ease-out),transform calc(var(--dur-fast) * .93) var(--ease-out);z-index:8;}
+.chtx-tip .chtx-th{font-size:var(--fs-h12);opacity:.68;margin-bottom:1px;}
+.chtx-tip .chtx-tr{display:grid;grid-template-columns:10px auto auto;align-items:center;justify-content:start;gap:var(--sp-2);}
+.chtx-tip .chtx-tr i{width:10px;height:2px;border-radius:var(--r-xs);}
+.chtx-tip .chtx-tr b{font-size:var(--fs-h11);}
+.chtx-tip .chtx-tr span{font-size:var(--fs-h12);}
+.chtx-tip .chtx-tr.tot{border-top:1px solid color-mix(in srgb,var(--canvas) 20%,transparent);padding-top:4px;margin-top:2px;}
+.chtx-tip .chtx-tr.neg b{color:color-mix(in srgb,var(--s-feedback-error) 65%,var(--canvas));}
+/* 數字逐位滾動 */
+.chtx-roll{display:inline-flex;font-variant-numeric:tabular-nums;line-height:1;overflow:hidden;vertical-align:bottom;}
+.chtx-roll .d{display:inline-block;height:1em;overflow:hidden;}
+.chtx-roll .d>span{display:flex;flex-direction:column;transition:transform calc(var(--dur-slow) * 1.4) var(--ease-out);}
+.chtx-roll .d>span>i{font-style:normal;height:1em;display:block;}
+/* 漲跌標籤：.tg 原子＋箭頭（ICON_ARROW 旋轉） */
+.chtx-delta svg{width:11px;height:11px;}
+.chtx-delta.is-up svg{transform:rotate(-90deg);} .chtx-delta.is-dn svg{transform:rotate(90deg);}
+
+/* spark：KPI 趨勢小圖卡（數字沿用 Number 原子 .pr-metric 字級） */
+.chtx-kpi-top{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;}
+.chtx-kpis{display:grid;gap:var(--sp-4);}
+.chtx-kpis.is-multi{grid-template-columns:repeat(auto-fit,minmax(176px,1fr));}
+.chtx-kpis.is-multi .pr-m-sz-md{font-size:var(--fs-h7);}
+.chtx-kpi{display:grid;gap:var(--sp-1);min-width:0;}
+.chtx-kpis.is-multi .chtx-kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-5) var(--sp-5) var(--sp-4);}
+.chtx-kpi-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);}
+.chtx-kpi .pr-metric{gap:0;}
+.chtx-kpi .pr-numrow{margin-top:var(--sp-1);}
+.chtx-kpi .chtx-plot{margin-top:var(--sp-3);}
+.chtx-kpi.is-live .chtx-plot{cursor:crosshair;}
+.chtx-kpi-x{display:flex;justify-content:space-between;font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+/* brush：總覽條 */
+.chtx-ov svg{cursor:crosshair;}
+.chtx-ov.is-static svg{cursor:default;}
+.chtx-brwin{fill:color-mix(in srgb,var(--cs1) 12%,transparent);stroke:var(--cs1);stroke-width:1;cursor:grab;}
+.chtx-brh{fill:var(--panel);stroke:var(--cs1);stroke-width:1.25;cursor:ew-resize;}
+.chtx-brshade{fill:var(--panel);opacity:.55;pointer-events:none;}
+/* bar-rank：橫向排名（FLIP 換位） */
+.chtx-rk{display:grid;gap:2px;position:relative;--rk-lab:72px;}
+.chtx-rk-axis,.chtx-rk-row{display:grid;grid-template-columns:16px minmax(0,7.5em) minmax(0,1fr);gap:var(--sp-3);}
+.cht-sz-s .chtx-rk-axis,.cht-sz-s .chtx-rk-row{grid-template-columns:12px minmax(0,5.5em) minmax(0,1fr);gap:var(--sp-2);}
+.chtx-rk-axis{font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:2px;}
+.chtx-rk-axis div{position:relative;height:14px;margin-right:var(--rk-lab);}
+.chtx-rk-axis div span{position:absolute;top:0;translate:-50% 0;white-space:nowrap;}
+.chtx-rk-row{align-items:center;min-height:28px;border-radius:var(--r-sm);outline-offset:1px;transition:transform calc(var(--dur-slow) * 1.1) var(--ease-out),background var(--dur-fast) var(--ease-out);}
+.cht-sz-s .chtx-rk-row{min-height:20px;}
+.chtx-rk.is-live .chtx-rk-row:hover,.chtx-rk-row:focus-visible{background:var(--panel-2);}
+.chtx-rk-row:focus-visible{outline:2px solid var(--accent);}
+.chtx-rk-n{font-size:var(--fs-h12);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;}
+.chtx-rk-name{font-size:var(--fs-h11);line-height:var(--lh-snug);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cht-sz-s .chtx-rk-name{font-size:var(--fs-h12);}
+.chtx-rk-bar{position:relative;height:16px;border-left:1px solid var(--line-strong);}
+.cht-sz-s .chtx-rk-bar{height:10px;}
+.chtx-rk-bar i{position:absolute;left:0;top:1px;bottom:1px;width:calc(var(--p,0) * (100% - var(--rk-lab)));background:var(--cs1);border-radius:0 var(--r-xs) var(--r-xs) 0;
+  transition:width calc(var(--dur-slow) * 1.1) var(--ease-out),opacity var(--dur-fast) var(--ease-out);}
+.chtx-rk-bar b{position:absolute;top:50%;translate:0 -50%;left:calc(var(--p,0) * (100% - var(--rk-lab)) + 6px);font-size:var(--fs-h12);font-weight:var(--fw-medium);color:var(--muted);
+  transition:left calc(var(--dur-slow) * 1.1) var(--ease-out);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chtx-rk.no-vals{--rk-lab:8px;} .chtx-rk.no-vals .chtx-rk-bar b{display:none;}
+.chtx-rk.hov .chtx-rk-row:not(:hover):not(:focus-visible) .chtx-rk-bar i{opacity:.35;}
+/* gauge：儀表 */
+.chtx-gauge{display:grid;justify-items:center;gap:var(--sp-3);}
+.chtx-gauge-fig{position:relative;width:100%;max-width:300px;}
+.chtx-gauge-fig svg{display:block;width:100%;overflow:visible;}
+.chtx-gauge-num{position:absolute;left:0;right:0;display:flex;justify-content:center;align-items:baseline;gap:2px;font-size:var(--fs-h5);font-weight:var(--fw-semibold);letter-spacing:-.02em;color:var(--ink);line-height:1;pointer-events:none;}
+.chtx-gauge-num small{font-size:var(--fs-h9);color:var(--muted);font-weight:var(--fw-medium);}
+.cht-sz-s .chtx-gauge-num{font-size:var(--fs-h7);} .cht-sz-s .chtx-gauge-num small{font-size:var(--fs-h11);}
+.chtx-gauge-sub{position:absolute;left:0;right:0;text-align:center;font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-gval{transition:none;}
+.chtx-gfoot{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;justify-content:center;font-size:var(--fs-h11);color:var(--muted);}
+.chtx-gfoot .tg svg{width:12px;height:12px;}
+/* funnel：漏斗 */
+.chtx-fn{display:grid;}
+.chtx-fn-row{display:grid;gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);border-radius:var(--r-sm);outline-offset:1px;transition:background var(--dur-fast) var(--ease-out),opacity var(--dur-fast) var(--ease-out);}
+.cht-sz-s .chtx-fn-row{padding:2px 0;gap:2px;}
+.chtx-fn.is-live .chtx-fn-row:hover,.chtx-fn-row:focus-visible{background:var(--panel-2);}
+.chtx-fn-row:focus-visible{outline:2px solid var(--accent);}
+.chtx-fn-l{display:flex;justify-content:space-between;gap:var(--sp-3);font-size:var(--fs-h11);}
+.cht-sz-s .chtx-fn-l{font-size:var(--fs-h12);}
+.chtx-fn-l b{font-weight:var(--fw-semibold);font-variant-numeric:tabular-nums;}
+.chtx-fn-l span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-fn-bar{position:relative;height:18px;border-left:1px solid var(--line-strong);}
+.cht-sz-s .chtx-fn-bar{height:8px;}
+.chtx-fn-bar .loss{position:absolute;top:1px;bottom:1px;left:calc(var(--p) * 100%);width:calc((var(--pp) - var(--p)) * 100%);border-radius:0 var(--r-xs) var(--r-xs) 0;
+  background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--s-feedback-error) 14%,transparent) 0 4px,transparent 4px 8px);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--s-feedback-error) 40%,transparent);opacity:0;
+  transition:opacity var(--dur-fast) var(--ease-out),left calc(var(--dur-slow) * 1.1) var(--ease-out),width calc(var(--dur-slow) * 1.1) var(--ease-out);}
+.chtx-fn-bar i{position:absolute;left:0;top:1px;bottom:1px;width:calc(var(--p) * 100%);background:var(--cs1);border-radius:0 var(--r-xs) var(--r-xs) 0;transition:width calc(var(--dur-slow) * 1.1) var(--ease-out);}
+.chtx-fn-row.on .loss{opacity:1;}
+.chtx-fn-step{display:flex;align-items:center;gap:var(--sp-1);padding:1px var(--sp-3);font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-fn-step svg{width:10px;height:10px;transform:rotate(90deg);}
+.chtx-fn.hov .chtx-fn-row:not(.on){opacity:.45;}
+/* heatmap：熱力圖 */
+.chtx-hm-cell{transition:fill calc(var(--dur-slow) * .9) var(--ease-out);}
+.chtx-hm-leg{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;justify-content:space-between;font-size:var(--fs-h11);color:var(--muted);}
+.chtx-hm-leg b{color:var(--ink);font-weight:var(--fw-semibold);}
+.chtx-hm-scale{display:inline-flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-hm-scale .bins{display:inline-grid;grid-auto-flow:column;gap:2px;}
+.chtx-hm-scale .bins span{display:grid;gap:2px;justify-items:center;}
+.chtx-hm-scale i{display:inline-block;width:18px;height:10px;border-radius:var(--r-xs);}
+/* Live：版面放寬（手機收 stage 內距）、圖型選單可換行 */
+.cht-live-sec .ctl-row .seg{flex-wrap:wrap;max-width:100%;}
+.cht-live-sec .cht-tile.chtx-live-tile{display:flex;width:100%;max-width:720px;padding:var(--sp-5);box-sizing:border-box;}
+.cht-live-sec .chtx-live-bare{width:100%;max-width:720px;}
+.cht-live-sec .live-stage{min-width:0;padding:var(--sp-6);}
+.cht-live-sec .cht-live-stage{width:100%;min-width:0;}
+.chtx-fn:not(.is-live) .chtx-fn-row{padding:var(--sp-1) 0;}
+.chtx-fn:not(.is-live) .chtx-fn-step{padding:0;}
+@media(max-width:767px){.cht-live-sec .live-stage{padding:var(--sp-4);} .cht-live-sec .cht-tile.chtx-live-tile{padding:var(--sp-4);}}
+.cht-mx-group+.cht-mx-group{margin-top:var(--sp-2);}
+@media (prefers-reduced-motion:reduce){.cht-x *,.cht-x *::before,.cht-x *::after{transition:none !important;animation:none !important;}}
+.cht-sz-s .chtx-rk{--rk-lab:44px;}
   /* ===== Table&Chart group: tree-view ===== */
 /* ==================== Tree View 樹狀（trv- namespace）==================== */
 /* 樹容器：ul 巢狀結構，縮排靠 .trv-children 的 padding-left 疊出 depth */
@@ -5029,7 +5190,7 @@
     'category-tile':{label:'Category Tile 分類磚',order:['variant','state','size'],axes:{variant:['icon','image','gradient'],state:['default','hover','active'],size:['m','s']},zh:{variant:{icon:'圖示磚',image:'圖片磚',gradient:'漸層磚'},state:{default:'預設',hover:'滑過',active:'選中'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 磚型',state:'State 狀態',size:'Size 尺寸'}}},
     'article-card':{label:'Article Card 文章卡',order:['variant','state','size'],axes:{variant:['vertical','horizontal','overlay'],state:['default','hover'],size:['m','s']},zh:{variant:{vertical:'直式',horizontal:'橫式',overlay:'疊字'},state:{default:'預設',hover:'滑過'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 版式',state:'State 狀態',size:'Size 尺寸'}}},
     table:{label:'Table 資料表格',order:['variant','density'],axes:{variant:['bordered','striped','plain'],density:['comfortable','compact']},zh:{variant:{bordered:'格線',striped:'斑馬紋',plain:'簡潔'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{variant:'Variant 型態',density:'Density 密度'}}},
-    chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
+    chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut','spark','brush','area-stack','bar-stack','combo','bar-rank','gauge','funnel','heatmap'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈',spark:'趨勢小圖卡',brush:'刷選縮放折線','area-stack':'堆疊面積圖','bar-stack':'堆疊長條',combo:'長條＋折線組合圖','bar-rank':'橫向排名長條',gauge:'儀表',funnel:'漏斗圖',heatmap:'熱力圖'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
     'tree-view':{label:'Tree View 樹狀',order:['variant','state'],axes:{variant:['lines','plain','checkbox'],state:['default','hover','selected']},zh:{variant:{lines:'連接線',plain:'無線',checkbox:'勾選樹'},state:{default:'預設',hover:'滑過',selected:'選取'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
     'schedule-chart':{label:'Schedule Chart 排程圖',order:['variant','size'],axes:{variant:['gantt','week','timeline'],size:['m','s']},zh:{variant:{gantt:'甘特圖',week:'週排程',timeline:'時間軸'},size:{m:'標準',s:'精簡'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
     calendar:{label:'Calendar 日曆時間',order:['variant','size'],axes:{variant:['month','range','time'],size:['m','s']},zh:{variant:{month:'月曆',range:'區間',time:'時間'},size:{m:'M',s:'S'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}}
@@ -10835,6 +10996,7 @@ function buildArticleCard(view){
      圖表加寬（m 340／s 170）；o.interactive 開 hover tooltip＋端點；o.xaxis/o.yaxis 控座標軸類別／數值 */
   function chtChart(variant,size,o){
     o=o||{};
+    if(CHTX[variant])return chtxChart(variant,size,o); // 進階 9 型（見下方 CHTX）
     const s=size==='s';
     const box=ce('div','cht-box cht-'+variant+' cht-sz-'+size+(o.wide?' cht-wide':''));
     if(variant==='stat'){ // 統計數字卡：直接重用 Number 頁的 prMetricEl 原子（含趨勢 delta）
@@ -10891,39 +11053,447 @@ function buildArticleCard(view){
     });
   }
 
+  /* ==================== Chart 擴充 · 9 種進階圖表（cht-x / chtx-，2026-11-03 設計確認）CHTX:charts-v1 ====================
+     spark KPI 趨勢小圖卡／brush 刷選縮放折線／area-stack 堆疊面積／bar-stack 堆疊長條／combo 長條＋折線／bar-rank 橫向排名／gauge 儀表／funnel 漏斗／heatmap 熱力圖。
+     併入 chart 的 variant 軸（DIAL_SPECS.chart 為矩陣與 registry 的唯一來源）；chtChart(variant,size,o) 自動分派到這裡。
+     矩陣格＝靜態版（固定寬、無互動）；Live（o.live）＝可操作版：十字準線 tooltip、圖例開關、hover 淡化、morph、方向鍵、數字滾動、FLIP 排序、刷選。
+     原子：卡內切換＝sgmEl（Segmented）、圖例／漲跌／狀態＝.tg（Tag）、數字字級＝.pr-metric（Number）、tooltip＝.cht-tip。
+     色彩：系列 1＝--accent（chart scope＝--c-brand2-500）、2–4＝--s-chart-2..4、熱力色階＝--s-chart-seq-0..5、門檻＝--s-feedback-*；動態讀 --dur-*／--ease-out。 */
+  const CHTX={};
+  const CHTX_GROUPS=[
+    {k:'base',t:'基礎',d:'單一數字與單一系列',vs:['stat','line','curve','bar','donut']},
+    {k:'trend',t:'趨勢',d:'看數字隨時間怎麼走：切區間、縮放長時間序列',vs:['spark','brush']},
+    {k:'comp',t:'組成',d:'總數由哪些部分組成、比例怎麼變',vs:['area-stack','bar-stack']},
+    {k:'cmp',t:'比較',d:'多個項目或兩種指標放在一起比',vs:['combo','bar-rank']},
+    {k:'dist',t:'進度與分布',d:'離目標多遠、在哪一步流失、什麼時段最忙',vs:['gauge','funnel','heatmap']}
+  ];
+  const chtxRM=()=>!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const chtxTok=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function chtxMs(n,f){const v=chtxTok(n);let ms=parseFloat(v);if(/[^m]s$/.test(v))ms*=1000;return (isFinite(ms)?ms:300)*(f||1);}
+  let chtxEaseFn=null;
+  function chtxEase(){if(chtxEaseFn)return chtxEaseFn;const m=chtxTok('--ease-out').match(/cubic-bezier\(([^)]+)\)/);
+    const p=m?m[1].split(',').map(Number):[.22,1,.36,1],[x1,y1,x2,y2]=p.length===4&&p.every(isFinite)?p:[.22,1,.36,1];
+    const bz=(a,b,t)=>3*a*t*(1-t)*(1-t)+3*b*t*t*(1-t)+t*t*t;
+    chtxEaseFn=k=>{if(k<=0)return 0;if(k>=1)return 1;let lo=0,hi=1,t=k;for(let i=0;i<22;i++){t=(lo+hi)/2;if(bz(x1,x2,t)<k)lo=t;else hi=t;}return bz(y1,y2,t);};return chtxEaseFn;}
+  function chtxAnim(o,dur,step,done){cancelAnimationFrame(o._raf);if(chtxRM()||!dur){step(1);done&&done();return;}const e=chtxEase(),t0=performance.now();
+    const f=t=>{const k=Math.min(1,(t-t0)/dur);step(e(k));if(k<1)o._raf=requestAnimationFrame(f);else done&&done();};o._raf=requestAnimationFrame(f);}
+  const chtxLerp=(a,b,t)=>a+(b-a)*t, chtxClamp=(v,a,b)=>Math.max(a,Math.min(b,v)), chtxFmt=n=>Math.round(n).toLocaleString('en-US');
+  function chtxNice(x){const e=Math.pow(10,Math.floor(Math.log10(x))),f=x/e;for(const k of [1,1.25,1.5,2,2.5,3,4,5,6,8,10])if(f<=k+1e-9)return k*e;return 10*e;}
+  function chtxScale4(v){const st=chtxNice(v/4);return {max:st*4,step:st};}
+  function chtxRng(seed){return ()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  function chtxSv(t,a){const e=document.createElementNS(SVGNS,t);if(a)for(const k in a)e.setAttribute(k,a[k]);return e;}
+  let chtxUID=0;
+  const chtxBarTop=(x,y,w,h,r)=>{if(h<=0)return '';r=Math.min(r,h,w/2);return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`;};
+  const chtxR=()=>{const v=parseFloat(chtxTok('--r-xs'));return isFinite(v)?v:2;}; // 長條頂端圓角＝--r-xs
+  /* 寬度：靜態（o.w）直接畫；Live 量容器寬（ResizeObserver） */
+  function chtxPlot(host,o,H,onW,cls){const plot=ce('div','chtx-plot'+(cls?' '+cls:''));const svg=chtxSv('svg',{height:H});plot.appendChild(svg);host.appendChild(plot);
+    const set=w=>{svg.setAttribute('viewBox',`0 0 ${w} ${svg.getAttribute('height')}`);svg.setAttribute('width',w);onW(w);};
+    if(o.w)set(o.w);else if(window.ResizeObserver){let w0=0;new ResizeObserver(()=>{const w=Math.round(plot.clientWidth);if(w&&w!==w0){w0=w;set(w);}}).observe(plot);}
+    return {plot,svg};}
+  /* 共用 tooltip（.cht-tip 視覺）：跟游標、貼邊翻面；同步寫 aria-live */
+  function chtxTip(host){const t=ce('div','cht-tip chtx-tip');t.setAttribute('aria-hidden','true');host.appendChild(t);
+    const live=ce('div','chtx-sr');live.setAttribute('aria-live','polite');host.appendChild(live);let on=false;
+    function place(cx,cy){const hr=host.getBoundingClientRect();const x=cx-hr.left,y=cy-hr.top,w=t.offsetWidth,h=t.offsetHeight;
+      let L=x+14;if(L+w>hr.width-4)L=x-14-w;L=chtxClamp(L,4,Math.max(4,hr.width-w-4));let T=y-h-12;if(T<4)T=y+18;T=chtxClamp(T,4,Math.max(4,hr.height-h-4));t.style.transform=`translate(${L}px,${T}px)`;}
+    return {show(cx,cy,head,rows){t.replaceChildren();const txt=[];
+        if(head){const h=ce('div','chtx-th');h.textContent=head;t.appendChild(h);txt.push(head);}
+        rows.forEach(r=>{const d=ce('div','chtx-tr'+(r.cls?' '+r.cls:''));const k=ce('i');if(r.c)k.style.background=r.c;const b=ce('b');b.textContent=r.v;const s=ce('span');s.textContent=r.k||'';d.append(k,b,s);t.appendChild(d);txt.push((r.k||'')+' '+r.v);});
+        live.textContent=txt.join('，');
+        if(!on){t.style.transition='none';place(cx,cy);void t.offsetWidth;t.style.transition='';t.classList.add('on');on=true;}else place(cx,cy);},
+      hide(){t.classList.remove('on');on=false;}};}
+  function chtxKeys(node,label,move){node.setAttribute('tabindex','0');node.setAttribute('role','img');node.setAttribute('aria-label',label);node.classList.add('chtx-focus');
+    node.addEventListener('keydown',e=>{const m={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(!m)return;e.preventDefault();move(m,e.shiftKey);});
+    node.addEventListener('focus',()=>move([0,0]));}
+  /* 圖例：.tg 原子（v-soft／i-neutral）＋系列色塊；onToggle → <button aria-pressed> */
+  function chtxLegend(items,onToggle){const lg=ce('div','cht-legend chtx-legend');
+    lg.items=items.map((it,i)=>{const b=ce(onToggle?'button':'div','tg v-soft c-round i-neutral st-default chtx-lgi');
+      if(onToggle){b.type='button';b.setAttribute('aria-pressed','true');b.onclick=()=>onToggle(i,b);}
+      const sw=ce('span','cht-dot chtx-sw'+(it.line?' is-ln':''));sw.style.background=`var(${it.c})`;const s=ce('span');s.textContent=it.k;b.append(sw,s);lg.appendChild(b);return b;});
+    return lg;}
+  /* 卡內切換：Segmented 原子（soft／s）；靜態版不掛事件 */
+  const chtxSeg=(items,idx,onPick,label,live)=>sgmEl('soft','s',{items,active:idx,live:!!live,label,onChange:onPick});
+  function chtxHead(box,title,sub,size){const h=ce('div','chtx-h');const t=ce('div','chtx-ht');const a=ce('div','chtx-t');a.textContent=title;t.appendChild(a);
+    if(sub&&size!=='s'){const b=ce('div','chtx-sub');b.textContent=sub;t.appendChild(b);}const tools=ce('div','chtx-tools');h.append(t,tools);box.appendChild(h);return tools;}
+  /* 數字逐位滾動 */
+  function chtxSetRoll(r,text){r.setAttribute('aria-label',text);const ch=[...text];
+    if(r.childElementCount!==ch.length){r.innerHTML='';ch.forEach(c=>{if(/\d/.test(c)){const d=ce('span','d');d.setAttribute('aria-hidden','true');const col=ce('span');for(let i=0;i<10;i++){const n=ce('i');n.textContent=i;col.appendChild(n);}d.appendChild(col);r.appendChild(d);}
+      else{const s=ce('span');s.textContent=c;s.setAttribute('aria-hidden','true');r.appendChild(s);}});}
+    [...r.children].forEach((n,i)=>{const c=ch[i];if(n.classList.contains('d')){const col=n.firstChild;col.style.transitionDelay=(i*25)+'ms';col.style.transform=`translateY(${-Number(c)}em)`;}else n.textContent=c;});}
+  function chtxRoll(text){const r=ce('span','chtx-roll');chtxSetRoll(r,text);return r;}
+  const chtxArrow=up=>`<span class="chtx-arw">${ICON_ARROW}</span>`;
+
+  /* --- 共用模擬資料（固定種子：近 455 天每日營收、通路月營收）--- */
+  let CHTX_DATA=null;
+  function chtxData(){if(CHTX_DATA)return CHTX_DATA;const R=chtxRng(20261103),END=new Date(2026,10,3),N=455,DAYS=[];
+    const ev={1109:1.2,1110:1.45,1111:3.1,1112:1.35,1211:1.2,1212:1.75,616:1.15,617:1.4,618:2.35,619:1.25,909:1.35,1010:1.3,1101:1.25,1102:1.22,1103:1.3};
+    const cny0=new Date(2026,1,14),cny1=new Date(2026,1,22);
+    for(let i=0;i<N;i++){const d=new Date(END);d.setDate(END.getDate()-(N-1-i));const dow=d.getDay(),key=(d.getMonth()+1)*100+d.getDate();
+      const base=(34+i/N*11)*[1.13,.94,.97,.98,1,1.04,1.17][dow];let f=ev[key]||1;if(d>=cny0&&d<=cny1)f=.58;
+      const rev=Math.round(base*f*(1+(R()-.5)*.16)*100)*100,aov=1060+R()*110+(f>1.5?70:0);
+      DAYS.push({d,rev,orders:Math.round(rev/aov),ret:(3.3+R()*1.1+(f>2?1.2:0))/100});}
+    const MON=['11月','12月','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月'];
+    const MONF=['2025年11月','2025年12月','2026年1月','2026年2月','2026年3月','2026年4月','2026年5月','2026年6月','2026年7月','2026年8月','2026年9月','2026年10月'];
+    const CH=[{k:'官網',c:'--cs1',v:[528,472,431,356,402,418,436,541,442,431,452,478]},{k:'蝦皮',c:'--cs2',v:[402,350,312,248,288,301,318,422,320,316,333,356]},
+      {k:'momo',c:'--cs3',v:[262,224,176,140,171,178,186,268,184,180,194,208]},{k:'門市',c:'--cs4',v:[288,306,262,231,236,240,246,252,238,236,244,262]}];
+    return CHTX_DATA={DAYS,N,MON,MONF,CH};}
+  const chtxMD=d=>(d.getMonth()+1)+'/'+String(d.getDate()).padStart(2,'0');
+  const chtxYMD=d=>d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
+  const CHTX_WK=['日','一','二','三','四','五','六'];
+
+  /* ════ spark：KPI 趨勢小圖卡 ════ */
+  CHTX.spark=function(box,size,o){const {DAYS,N}=chtxData(),S=size==='s',live=!!o.live,PER=[7,30,90];let pi=1;
+    const T=[{k:'營收',pre:'NT$',key:'rev',show:v=>chtxFmt(v),tf:v=>'NT$ '+chtxFmt(v),good:1},
+      {k:'訂單數',suf:'筆',key:'orders',show:v=>chtxFmt(v),tf:v=>chtxFmt(v)+' 筆',good:1},
+      {k:'退貨率',suf:'%',key:'ret',show:v=>v.toFixed(1),tf:v=>(v*100).toFixed(1)+'%',good:-1,pt:true}].slice(0,live&&!S?3:1);
+    const tip=live?chtxTip(box):null;let note=null;
+    if(live&&!S&&o.period!==false){const top=ce('div','chtx-kpi-top');note=ce('span','chtx-sub');top.append(chtxSeg(['7 天','30 天','90 天'],pi,i=>go(i),'區間',true),note);box.appendChild(top);}
+    const grid=ce('div','chtx-kpis'+(T.length>1?' is-multi':''));box.appendChild(grid);
+    const H=S?30:44,K=120,spark=o.spark!==false;
+    function calc(p){const cur=DAYS.slice(-p),prev=DAYS.slice(-2*p,-p),s=(a,k)=>a.reduce((x,y)=>x+y[k],0);
+      const rv=s(cur,'rev'),pr=s(prev,'rev'),od=s(cur,'orders'),po=s(prev,'orders');
+      const rt=cur.reduce((x,y)=>x+y.ret*y.orders,0)/od*100,prt=prev.reduce((x,y)=>x+y.ret*y.orders,0)/po*100;
+      return {cur,v:[rv,od,rt],d:[(rv/pr-1)*100,(od/po-1)*100,rt-prt]};}
+    const tiles=T.map(t=>{const c=ce('div','chtx-kpi'+(live?' is-live':''));grid.appendChild(c);
+      const hd=ce('div','chtx-kpi-h');const lab=ce('span','pr-metric pr-m-sz-'+(S?'sm':'md'));const ml=ce('span','pr-mlabel');ml.textContent=t.k;lab.appendChild(ml);
+      const chip=ce('span','tg v-soft c-round i-neutral st-default chtx-delta');hd.append(lab,chip);c.appendChild(hd);
+      const m=ce('span','pr-metric pr-m-sz-'+(S?'sm':'md'));const row=ce('span','pr-numrow');const num=ce('span','pr-num');const r=chtxRoll('0');num.appendChild(r);
+      if(t.pre){const u=ce('span','pr-unit');u.textContent=t.pre;row.appendChild(u);}row.appendChild(num);if(t.suf){const u=ce('span','pr-unit');u.textContent=t.suf;row.appendChild(u);}
+      m.appendChild(row);c.appendChild(m);const sub=ce('div','chtx-sub');c.appendChild(sub);
+      const ob={t,c,r,chip,sub,w:0,ys:null,data:null,norm:null,hi:-1};
+      if(spark){const pad={l:3,r:5,t:5,b:5};
+        const P=chtxPlot(c,o.w?{w:o.w-(T.length>1?34:0)}:{},H,w=>{ob.w=w;ob.draw&&ob.draw();});ob.svg=P.svg;
+        const gArea=chtxSv('path',{style:'fill:var(--cs1);fill-opacity:.1'}),gLine=chtxSv('path',{style:'fill:none;stroke:var(--cs1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round'});
+        const gEnd=chtxSv('circle',{r:S?3:3.6,class:'cht-hdot'}),xh=chtxSv('line',{class:'chtx-xh',opacity:0}),hd2=chtxSv('circle',{r:3.6,opacity:0,class:'cht-hdot'});
+        P.svg.append(gArea,gLine,xh,gEnd,hd2);
+        ob.X=i=>pad.l+i/(ob.data.length-1)*(ob.w-pad.l-pad.r);ob.Y=v=>pad.t+(1-v)*(H-pad.t-pad.b);
+        ob.draw=()=>{if(!ob.w||!ob.ys)return;let d='';ob.ys.forEach((v,s)=>{const x=pad.l+s/(K-1)*(ob.w-pad.l-pad.r);d+=(s?'L':'M')+x.toFixed(1)+','+ob.Y(v).toFixed(1);});
+          gLine.setAttribute('d',d);gArea.setAttribute('d',d+`L${ob.w-pad.r},${H}L${pad.l},${H}Z`);gEnd.setAttribute('cx',ob.w-pad.r);gEnd.setAttribute('cy',ob.Y(ob.ys[K-1]));};
+        if(!S){const xl=ce('div','chtx-kpi-x');xl.innerHTML='<span></span><span></span>';c.appendChild(xl);ob.xl=xl;}
+        if(live){const hover=(i,cx,cy)=>{ob.hi=i;const x=ob.X(i),y=ob.Y(ob.norm[i]);xh.setAttribute('x1',x);xh.setAttribute('x2',x);xh.setAttribute('y1',0);xh.setAttribute('y2',H);xh.setAttribute('opacity',1);
+            hd2.setAttribute('cx',x);hd2.setAttribute('cy',y);hd2.setAttribute('opacity',1);const dd=ob.data[i].d,rr=P.svg.getBoundingClientRect();
+            tip.show(cx??rr.left+x,cy??rr.top+y,chtxMD(dd)+'（'+CHTX_WK[dd.getDay()]+'）',[{c:'var(--cs1)',v:t.tf(ob.data[i][t.key]),k:t.k}]);};
+          const leave=()=>{ob.hi=-1;xh.setAttribute('opacity',0);hd2.setAttribute('opacity',0);tip.hide();};
+          P.svg.addEventListener('pointermove',e=>{const rr=P.svg.getBoundingClientRect();const i=chtxClamp(Math.round((e.clientX-rr.left-pad.l)/(rr.width-pad.l-pad.r)*(ob.data.length-1)),0,ob.data.length-1);hover(i,e.clientX,e.clientY);});
+          P.svg.addEventListener('pointerleave',leave);P.svg.addEventListener('blur',leave);
+          chtxKeys(P.svg,t.k+'趨勢小圖，方向鍵逐日查看',(mv,sh)=>{const n=ob.data.length;let i=ob.hi<0?n-1:ob.hi;hover(chtxClamp(i+mv[0]*(sh?7:1),0,n-1));});}
+      }
+      return ob;});
+    const resample=norm=>{const n=norm.length,out=[];for(let s=0;s<K;s++){const x=s/(K-1)*(n-1),a=Math.floor(x),b=Math.min(n-1,a+1);out.push(chtxLerp(norm[a],norm[b],x-a));}return out;};
+    function go(i){pi=i;const p=PER[i],R=calc(p);if(note)note.textContent='對比前 '+p+' 天（'+chtxMD(DAYS[N-2*p].d)+'–'+chtxMD(DAYS[N-p-1].d)+'）';
+      tiles.forEach((ob,ti)=>{const t=ob.t;ob.data=R.cur;const vals=R.cur.map(x=>t.key==='ret'?x.ret*100:x[t.key]),mn=Math.min(...vals),mx=Math.max(...vals);
+        ob.norm=vals.map(v=>.08+(v-mn)/(mx-mn||1)*.84);
+        if(ob.draw){const to=resample(ob.norm),from=ob.ys||to;chtxAnim(ob,ob.ys&&live?chtxMs('--dur-slow',1.2):0,k=>{ob.ys=from.map((v,j)=>chtxLerp(v,to[j],k));ob.draw();});}
+        chtxSetRoll(ob.r,t.show(R.v[ti]));const d=R.d[ti],good=d*t.good>0,flat=Math.abs(d)<.05;
+        ob.chip.className='tg v-soft c-round st-default chtx-delta '+(flat?'i-neutral':good?'i-success':'i-danger')+(flat?'':d>=0?' is-up':' is-dn');
+        ob.chip.innerHTML=(flat?'':chtxArrow())+'<span>'+(flat?'±':d>=0?'+':'−')+Math.abs(d).toFixed(1)+(t.pt?' pt':'%')+'</span>';
+        ob.chip.setAttribute('aria-label',(good?'表現較好':'表現較差')+'，'+(d>=0?'上升 ':'下降 ')+Math.abs(d).toFixed(1)+(t.pt?' 個百分點':'%'));
+        ob.sub.textContent=(t.key==='ret'?'近 '+p+' 天平均':'近 '+p+' 天合計');
+        if(ob.xl){const xs=ob.xl.children;xs[0].textContent=chtxMD(R.cur[0].d);xs[1].textContent=chtxMD(R.cur[R.cur.length-1].d);}});}
+    go(pi);};
+
+  /* ════ brush：刷選縮放折線 ════ */
+  CHTX.brush=function(box,size,o){const {DAYS}=chtxData(),S=size==='s',live=!!o.live,ma=o.ma!==false;
+    const D=DAYS.slice(-365),N=D.length,MA=D.map((x,i)=>{let s=0,c=0;for(let k=Math.max(0,i-6);k<=i;k++){s+=D[k].rev;c++;}return s/c;});
+    const tools=chtxHead(box,'每日營收','2025/11/04–2026/11/03 · 近 365 天',size);const tip=live?chtxTip(box):null;
+    let s=N-90,e=N-1,yMax=0,hi=-1,W=0,tgt=null;const H=S?64:(live?210:132),P=S?{l:4,r:4,t:4,b:4}:{l:40,r:8,t:10,b:22},OH=S?24:(live?58:40),OT=S?3:(live?14:10),OB=OH-(S?3:(live?14:10));
+    let presets=null;const br={},yA={};
+    if(!S){presets=chtxSeg(['30 天','90 天','全部'],1,i=>{const span=[30,90,N][i],s0=s,e0=e;chtxAnim(br,chtxMs('--dur-slow',1.04),k=>{s=chtxLerp(s0,N-span,k);e=chtxLerp(e0,N-1,k);update();});},'範圍',live);tools.appendChild(presets);
+      box.appendChild(chtxLegend(ma?[{k:'每日營收',c:'--line-strong',line:1},{k:'7 日平均',c:'--cs1',line:1}]:[{k:'每日營收',c:'--cs1',line:1}]));}
+    const cid='chtxClip'+(++chtxUID);
+    const gGrid=chtxSv('g'),gX=chtxSv('g'),gData=chtxSv('g',{'clip-path':`url(#${cid})`}),gOv=chtxSv('g'),defs=chtxSv('defs'),clip=chtxSv('clipPath',{id:cid}),clipR=chtxSv('rect');clip.appendChild(clipR);defs.appendChild(clip);
+    const pDaily=chtxSv('path',{style:ma?'fill:none;stroke:var(--line-strong);stroke-width:1.5;stroke-linejoin:round':'fill:none;stroke:var(--cs1);stroke-width:1.75;stroke-linejoin:round'}),
+      pArea=chtxSv('path',{style:'fill:var(--cs1);fill-opacity:.1'}),pMA=chtxSv('path',{style:'fill:none;stroke:var(--cs1);stroke-width:2;stroke-linejoin:round;stroke-linecap:round'});
+    if(ma)gData.append(pArea,pDaily,pMA);else gData.append(pArea,pDaily);
+    const xh=chtxSv('line',{class:'chtx-xh',opacity:0}),d1=chtxSv('circle',{r:3.6,opacity:0,class:'cht-hdot',style:ma?'fill:var(--line-strong)':''}),d2=chtxSv('circle',{r:3.6,opacity:0,class:'cht-hdot'});gOv.append(xh,d1,d2);
+    const onW=w=>{W=w;clipR.setAttribute('x',P.l);clipR.setAttribute('y',0);clipR.setAttribute('width',w-P.l-P.r);clipR.setAttribute('height',H);tgt=null;yMax=0;if(OV.svg)OV.svg.setAttribute('viewBox',`0 0 ${w} ${OH}`),OV.svg.setAttribute('width',w);drawOvStatic();update();};
+    const M=chtxPlot(box,{},H,onW);
+    M.svg.append(defs,gGrid,gX,gData,gOv);
+    const OV={svg:null};const ov=ce('div','chtx-plot chtx-ov'+(live?'':' is-static'));const osv=chtxSv('svg',{height:OH,viewBox:`0 0 ${o.w||300} ${OH}`,width:o.w||300});ov.appendChild(osv);box.appendChild(ov);OV.svg=osv;
+    const oArea=chtxSv('path',{style:'fill:var(--panel-3)'}),oLine=chtxSv('path',{style:'fill:none;stroke:var(--muted);stroke-width:1'}),shL=chtxSv('rect',{class:'chtx-brshade'}),shR=chtxSv('rect',{class:'chtx-brshade'}),
+      win=chtxSv('rect',{class:'chtx-brwin',rx:chtxR()}),hL=chtxSv('rect',{class:'chtx-brh',rx:chtxR(),width:S?4:7,height:S?12:20}),hR=chtxSv('rect',{class:'chtx-brh',rx:chtxR(),width:S?4:7,height:S?12:20}),gEv=chtxSv('g'),gOX=chtxSv('g');
+    osv.append(oArea,oLine,gEv,gOX,shL,shR,win,hL,hR);
+    const X=i=>P.l+(i-s)/(e-s)*(W-P.l-P.r),Y=v=>P.t+(H-P.t-P.b)*(1-v/yMax),OX=i=>P.l+i/(N-1)*(W-P.l-P.r);
+    function targetY(){let m=0;for(let i=Math.max(0,Math.floor(s));i<=Math.min(N-1,Math.ceil(e));i++)m=Math.max(m,D[i].rev);return chtxScale4(m*1.04);}
+    function update(){if(!W)return;const t=targetY();if(!tgt||t.max!==tgt.max){const y0=yMax||t.max;tgt=t;chtxAnim(yA,yMax&&live?chtxMs('--dur-default',1.07):0,k=>{yMax=chtxLerp(y0,t.max,k);draw();});}else draw();drawOv();}
+    function draw(){const ih=H-P.t-P.b;let g='';
+      if(!S)for(let v=0;v<=tgt.max+1;v+=tgt.step){const y=Y(v);if(y<P.t-1)continue;g+=`<line class="${v?'chtx-gl':'chtx-bl'}" x1="${P.l}" x2="${W-P.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"/><text class="chtx-ax" x="${P.l-6}" y="${(y+3.5).toFixed(1)}" text-anchor="end">${v?chtxFmt(v/10000)+'萬':'0'}</text>`;}
+      gGrid.innerHTML=g;
+      const a=Math.max(0,Math.floor(s)-1),b=Math.min(N-1,Math.ceil(e)+1);let dd='',dm='';for(let i=a;i<=b;i++){const x=X(i).toFixed(1);dd+=(i>a?'L':'M')+x+','+Y(D[i].rev).toFixed(1);dm+=(i>a?'L':'M')+x+','+Y(MA[i]).toFixed(1);}
+      pDaily.setAttribute('d',dd);pMA.setAttribute('d',dm);pArea.setAttribute('d',(ma?dm:dd)+`L${X(b).toFixed(1)},${P.t+ih}L${X(a).toFixed(1)},${P.t+ih}Z`);
+      let xt='';if(!S){const span=e-s;let last=-1e9;
+        for(let i=Math.ceil(s);i<=Math.floor(e);i++){const d=D[i].d;let ok,lab;
+          if(span<=50){ok=d.getDay()===1;lab=chtxMD(d);}else if(span<=140){ok=d.getDate()===1||d.getDate()===15;lab=chtxMD(d);}else{ok=d.getDate()===1;lab=d.getMonth()===0?d.getFullYear()+'':(d.getMonth()+1)+'月';}
+          if(!ok)continue;const x=X(i);if(x-last<56||x<P.l+16||x>W-P.r-16)continue;last=x;xt+=`<line class="chtx-gl" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${P.t+ih}" y2="${P.t+ih+4}"/><text class="chtx-ax" x="${x.toFixed(1)}" y="${H-6}" text-anchor="middle">${lab}</text>`;}}
+      gX.innerHTML=xt;if(hi>=0)hover(hi);}
+    function drawOv(){const ow=W-P.l-P.r,mx=Math.max(...D.map(x=>x.rev)),oy=v=>OB-(v/mx)*(OB-OT-2);let d='';D.forEach((x,i)=>{d+=(i?'L':'M')+OX(i).toFixed(1)+','+oy(x.rev).toFixed(1);});
+      oLine.setAttribute('d',d);oArea.setAttribute('d',d+`L${OX(N-1)},${OB}L${OX(0)},${OB}Z`);const x0=OX(s),x1=OX(e),hh=+hL.getAttribute('height');
+      win.setAttribute('x',x0);win.setAttribute('width',Math.max(1,x1-x0));win.setAttribute('y',OT);win.setAttribute('height',OB-OT);
+      shL.setAttribute('x',P.l);shL.setAttribute('width',Math.max(0,x0-P.l));shL.setAttribute('y',OT);shL.setAttribute('height',OB-OT);
+      shR.setAttribute('x',x1);shR.setAttribute('width',Math.max(0,P.l+ow-x1));shR.setAttribute('y',OT);shR.setAttribute('height',OB-OT);
+      const hw=+hL.getAttribute('width');hL.setAttribute('x',x0-hw/2);hR.setAttribute('x',x1-hw/2);hL.setAttribute('y',OT+(OB-OT-hh)/2);hR.setAttribute('y',OT+(OB-OT-hh)/2);}
+    function drawOvStatic(){if(S){gEv.innerHTML=gOX.innerHTML='';return;}let g='';
+      if(live)[['雙 11',new Date(2025,10,11)],['春節',new Date(2026,1,17)],['618',new Date(2026,5,18)]].forEach(([k,d])=>{const i=D.findIndex(x=>x.d.getTime()===d.getTime());if(i<0)return;const x=OX(i);
+        g+=`<line class="chtx-bl" x1="${x}" x2="${x}" y1="${OT-3}" y2="${OT}"/><text class="chtx-axc" x="${x}" y="${OT-5}" text-anchor="middle">${k}</text>`;});gEv.innerHTML=g;
+      let xt='';if(live)for(let i=0;i<N;i++){const d=D[i].d;if(d.getDate()!==1||d.getMonth()%3!==0)continue;const x=OX(i);if(x<P.l+14||x>W-P.r-14)continue;xt+=`<text class="chtx-ax" x="${x}" y="${OH-2}" text-anchor="middle">${d.getMonth()===0?d.getFullYear():(d.getMonth()+1)+'月'}</text>`;}gOX.innerHTML=xt;}
+    function hover(i,cx,cy){if(!live)return;hi=i;const x=X(i);if(x<P.l-1||x>W-P.r+1){leave();return;}xh.setAttribute('x1',x);xh.setAttribute('x2',x);xh.setAttribute('y1',P.t);xh.setAttribute('y2',H-P.b);xh.setAttribute('opacity',1);
+      d1.setAttribute('cx',x);d1.setAttribute('cy',Y(D[i].rev));d1.setAttribute('opacity',1);if(ma){d2.setAttribute('cx',x);d2.setAttribute('cy',Y(MA[i]));d2.setAttribute('opacity',1);}
+      const r=M.svg.getBoundingClientRect(),d=D[i].d,rows=[{c:ma?'var(--line-strong)':'var(--cs1)',v:'NT$ '+chtxFmt(D[i].rev),k:'每日'}];if(ma)rows.push({c:'var(--cs1)',v:'NT$ '+chtxFmt(MA[i]),k:'7 日平均'});
+      tip.show(cx??r.left+x,cy??r.top+Y(ma?MA[i]:D[i].rev),chtxYMD(d)+'（'+CHTX_WK[d.getDay()]+'）',rows);}
+    function leave(){hi=-1;xh.setAttribute('opacity',0);d1.setAttribute('opacity',0);d2.setAttribute('opacity',0);tip&&tip.hide();}
+    if(live){const svg=M.svg;
+      svg.addEventListener('pointermove',ev=>{const r=svg.getBoundingClientRect(),fx=(ev.clientX-r.left-P.l)/(r.width-P.l-P.r);if(fx<0||fx>1){leave();return;}hover(Math.round(s+fx*(e-s)),ev.clientX,ev.clientY);});
+      svg.addEventListener('pointerleave',leave);svg.addEventListener('blur',leave);
+      chtxKeys(svg,'每日營收主圖，方向鍵逐日查看',(m,sh)=>{let i=hi<0?Math.round(e):hi;hover(chtxClamp(i+m[0]*(sh?7:1),Math.ceil(s),Math.floor(e)));});
+      const MIN=7,toI=cx=>{const r=osv.getBoundingClientRect();return chtxClamp((cx-r.left-P.l)/(r.width-P.l-P.r)*(N-1),0,N-1);};
+      const clearPreset=()=>{if(!presets)return;presets.querySelectorAll('.sgm-it').forEach(b=>{b.classList.remove('is-active');b.setAttribute('aria-checked','false');});const ind=presets.querySelector('.sgm-ind');if(ind)ind.style.width='0px';};
+      osv.addEventListener('pointerdown',ev=>{ev.preventDefault();osv.setPointerCapture(ev.pointerId);const i0=toI(ev.clientX),r=osv.getBoundingClientRect(),sc=r.width/W;
+        const xs=OX(s)*sc,xe=OX(e)*sc,lx=ev.clientX-r.left;let mode;
+        if(Math.abs(lx-xs)<10)mode='l';else if(Math.abs(lx-xe)<10)mode='r';else if(lx>xs&&lx<xe)mode='m';else mode='n';
+        const s0=s,e0=e;clearPreset();cancelAnimationFrame(br._raf);win.style.cursor=mode==='m'?'grabbing':'';
+        const mv=m=>{const i=toI(m.clientX);if(mode==='m'){const sp=e0-s0;s=chtxClamp(s0+i-i0,0,N-1-sp);e=s+sp;}else if(mode==='l')s=chtxClamp(i,0,e-MIN);else if(mode==='r')e=chtxClamp(i,s+MIN,N-1);
+          else{const a=Math.min(i0,i),b=Math.max(i0,i);if(b-a<MIN){if(i>=i0){s=chtxClamp(i0,0,N-1-MIN);e=s+MIN;}else{e=chtxClamp(i0,MIN,N-1);s=e-MIN;}}else{s=a;e=b;}}update();};
+        const up=()=>{osv.removeEventListener('pointermove',mv);osv.removeEventListener('pointerup',up);win.style.cursor='';s=Math.round(s);e=Math.round(e);update();};
+        osv.addEventListener('pointermove',mv);osv.addEventListener('pointerup',up);if(mode==='n')mv(ev);});
+      osv.setAttribute('tabindex','0');osv.setAttribute('role','slider');osv.setAttribute('aria-label','選取範圍，左右鍵平移，減號與等號縮放');osv.classList.add('chtx-focus');
+      osv.addEventListener('keydown',ev=>{const sp=e-s,k=ev.shiftKey?7:1;let ds=0,de=0;
+        if(ev.key==='ArrowLeft')ds=de=-k;else if(ev.key==='ArrowRight')ds=de=k;else if(ev.key==='-'||ev.key==='_'){ds=-7;de=7;}else if(ev.key==='='||ev.key==='+'){if(sp-14>=MIN){ds=7;de=-7;}}else return;
+        ev.preventDefault();clearPreset();let ns=s+ds,ne=e+de;if(ds===de){if(ns<0){ne-=ns;ns=0;}if(ne>N-1){ns-=ne-(N-1);ne=N-1;}}else{ns=Math.max(0,ns);ne=Math.min(N-1,ne);}
+        const s0=s,e0=e;chtxAnim(br,chtxMs('--dur-fast',1.47),t=>{s=chtxLerp(s0,ns,t);e=chtxLerp(e0,ne,t);update();});
+        osv.setAttribute('aria-valuetext',chtxYMD(D[Math.round(ns)].d)+' 至 '+chtxYMD(D[Math.round(ne)].d));});
+      const h=ce('div','chtx-hint');h.textContent='拖曳下方選取框平移、拖兩側把手縮放；聚焦後 ← → 平移、− ＝ 縮放';box.appendChild(h);}
+    if(o.w){M.svg.setAttribute('viewBox',`0 0 ${o.w} ${H}`);M.svg.setAttribute('width',o.w);onW(o.w);}};
+
+  /* ════ area-stack：堆疊面積圖 ════ */
+  CHTX['area-stack']=function(box,size,o){const {MON,MONF,CH:ALL}=chtxData(),S=size==='s',live=!!o.live,n=MON.length;
+    const CH=ALL.slice(0,chtxClamp(+o.series||4,2,4));chtxHead(box,'各通路營收','2025/11–2026/10 · 單位：萬元',size);const tip=live?chtxTip(box):null;
+    let wt=CH.map(()=>1),on=CH.map(()=>true),W=0,hi=-1,yMax=0,tk=null;const H=S?72:(live?230:140),P=S?{l:2,r:2,t:4,b:2}:{l:36,r:8,t:10,b:22};
+    if(!S){const tog=live&&o.toggle!==false;box.appendChild(chtxLegend(CH,tog?(i,b)=>{if(on[i]&&on.filter(Boolean).length===1)return;on[i]=!on[i];b.setAttribute('aria-pressed',String(on[i]));go();}:null));}
+    const gG=chtxSv('g'),gM=chtxSv('g'),gO=chtxSv('g'),xh=chtxSv('line',{class:'chtx-xh',opacity:0});gO.appendChild(xh);
+    const dots=CH.map(s=>{const d=chtxSv('circle',{r:3.6,opacity:0,class:'cht-hdot',style:`fill:var(${s.c})`});gO.appendChild(d);return d;});
+    const tot=w=>MON.map((_,i)=>CH.reduce((a,s,j)=>a+s.v[i]*w[j],0));
+    const X=i=>P.l+i*(W-P.l-P.r)/(n-1),Y=v=>P.t+(H-P.t-P.b)*(1-v/yMax);
+    function stack(){const lo=[],up=[];let acc=MON.map(()=>0);CH.forEach((s,j)=>{lo.push(acc.slice());acc=acc.map((a,i)=>a+s.v[i]*wt[j]);up.push(acc.slice());});return {lo,hi:up};}
+    function render(){if(!W)return;const St=stack();let g='';
+      if(!S){for(let v=0;v<=tk.max;v+=tk.step){const y=Y(v);if(y<P.t-1)continue;g+=`<line class="${v?'chtx-gl':'chtx-bl'}" x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}"/><text class="chtx-ax" x="${P.l-6}" y="${y+3.5}" text-anchor="end">${chtxFmt(v)}</text>`;}
+        const every=(W-P.l-P.r)/(n-1)<34?((W-P.l-P.r)/(n-1)<20?3:2):1;MON.forEach((m,i)=>{if(i%every)return;g+=`<text class="chtx-axc" x="${X(i)}" y="${H-7}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${m}</text>`;});}
+      gG.innerHTML=g;let m='';
+      CH.forEach((s,j)=>{if(wt[j]<.001)return;const up=St.hi[j].map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)),dn=St.lo[j].map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).reverse();
+        m+=`<path d="M${up.join('L')}L${dn.join('L')}Z" style="fill:var(${s.c});fill-opacity:${(.22*wt[j]).toFixed(3)}"/><path d="M${up.join('L')}" style="fill:none;stroke:var(${s.c});stroke-width:${S?1.5:2};stroke-linejoin:round;opacity:${wt[j].toFixed(3)}"/>`;});
+      gM.innerHTML=m;if(hi>=0)hover(hi);}
+    function go(){const w0=wt.slice(),w1=on.map(b=>b?1:0),y0=yMax;tk=chtxScale4(Math.max(...tot(w1))*1.02);chtxAnim(go,chtxMs('--dur-slow',1.04),k=>{wt=w0.map((v,j)=>chtxLerp(v,w1[j],k));yMax=chtxLerp(y0,tk.max,k);render();});}
+    function hover(i,cx,cy){hi=i;const St=stack(),x=X(i);xh.setAttribute('x1',x);xh.setAttribute('x2',x);xh.setAttribute('y1',P.t);xh.setAttribute('y2',H-P.b);xh.setAttribute('opacity',1);
+      dots.forEach((d,j)=>{d.setAttribute('cx',x);d.setAttribute('cy',Y(St.hi[j][i]));d.setAttribute('opacity',on[j]?1:0);});
+      const rows=CH.map((s,j)=>({c:`var(${s.c})`,v:chtxFmt(s.v[i])+' 萬',k:s.k,j})).filter(r=>on[r.j]).reverse();rows.push({v:chtxFmt(CH.reduce((a,s,j)=>a+(on[j]?s.v[i]:0),0))+' 萬',k:'合計',cls:'tot'});
+      const r=PL.svg.getBoundingClientRect();tip.show(cx??r.left+x,cy??r.top+Y(St.hi[CH.length-1][i]),MONF[i],rows);}
+    function leave(){hi=-1;xh.setAttribute('opacity',0);dots.forEach(d=>d.setAttribute('opacity',0));tip&&tip.hide();}
+    tk=chtxScale4(Math.max(...tot(wt))*1.02);yMax=tk.max;
+    const PL=chtxPlot(box,o,H,w=>{W=w;render();});PL.svg.append(gG,gM,gO);if(W)render();
+    if(live){const svg=PL.svg;svg.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();hover(chtxClamp(Math.round((e.clientX-r.left-P.l)/(r.width-P.l-P.r)*(n-1)),0,n-1),e.clientX,e.clientY);});
+      svg.addEventListener('pointerleave',leave);svg.addEventListener('blur',leave);chtxKeys(svg,'各通路營收堆疊面積圖，方向鍵逐月查看',m=>hover(chtxClamp((hi<0?n-1:hi)+m[0],0,n-1)));}};
+
+  /* ════ bar-stack：堆疊長條 ════ */
+  CHTX['bar-stack']=function(box,size,o){const S=size==='s',live=!!o.live;const M=['5月','6月','7月','8月','9月','10月'];
+    const SE=[{k:'信用卡',c:'--cs1',v:[6820,7140,6510,6690,6980,7410]},{k:'行動支付',c:'--cs2',v:[3960,4480,4310,4620,5050,5580]},{k:'貨到付款',c:'--cs3',v:[1980,2050,1760,1690,1640,1580]},{k:'ATM 轉帳',c:'--cs4',v:[940,1010,880,860,830,790]}];
+    const TOT=M.map((_,i)=>SE.reduce((a,s)=>a+s.v[i],0)),AM=chtxScale4(Math.max(...TOT));
+    let m=o.scale==='percent'?1:0,W=0,hs=-1,hm=-1;const H=S?72:(live?230:150),P=S?{l:2,r:2,t:4,b:2}:{l:38,r:4,t:16,b:22},rr=chtxR();
+    const tools=chtxHead(box,'每月訂單的付款方式','2026/5–2026/10 · 單位：筆',size);const tip=live?chtxTip(box):null;const st={};
+    if(!S){tools.appendChild(chtxSeg(['筆數','百分比'],m,i=>{const m0=m;chtxAnim(st,chtxMs('--dur-slow',1.12),k=>{m=chtxLerp(m0,i,k);render();});},'刻度',live));box.appendChild(chtxLegend(SE));}
+    const gG=chtxSv('g'),gB=chtxSv('g');const ih=()=>H-P.t-P.b,gw=()=>(W-P.l-P.r)/M.length;
+    function geo(i,j){const base=P.t+ih(),val=k=>chtxLerp(SE[k].v[i]/AM.max,SE[k].v[i]/TOT[i],m)*ih();let y=base;for(let k=0;k<j;k++)y-=val(k);const h=val(j);return {y0:y-h,h};}
+    function render(){if(!W)return;let g='';
+      if(!S){for(let k=0;k<=4;k++){const y=P.t+ih()*(1-k/4);g+=`<line class="${k?'chtx-gl':'chtx-bl'}" x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}"/>`;
+          g+=`<text class="chtx-ax" x="${P.l-6}" y="${y+3.5}" text-anchor="end" opacity="${(1-m).toFixed(2)}">${chtxFmt(AM.step*k)}</text><text class="chtx-ax" x="${P.l-6}" y="${y+3.5}" text-anchor="end" opacity="${m.toFixed(2)}">${25*k}%</text>`;}
+        M.forEach((mm,i)=>{const cx=P.l+gw()*(i+.5);g+=`<text class="chtx-axc" x="${cx}" y="${H-7}" text-anchor="middle">${mm}</text>`;
+          const top=geo(i,SE.length-1);if(W>240)g+=`<text class="chtx-ax" x="${cx}" y="${top.y0-5}" text-anchor="middle" opacity="${(1-m).toFixed(2)}">${(TOT[i]/1000).toFixed(1)}K</text>`;});}
+      gG.innerHTML=g;const bw=Math.min(S?14:24,gw()*.55);let b='';
+      M.forEach((_,i)=>{const cx=P.l+gw()*(i+.5),x=cx-bw/2;SE.forEach((s,j)=>{const q=geo(i,j),gap=j?(S?1:2):0,h=Math.max(0,q.h-gap);const d=j===SE.length-1?chtxBarTop(x,q.y0,bw,h,rr):`M${x},${q.y0+h}V${q.y0}H${x+bw}V${q.y0+h}Z`;
+        b+=`<path class="chtx-dim${hs>=0&&!(hs===j&&hm===i)?' is-dim':''}" data-i="${i}" data-j="${j}" d="${d}" style="fill:var(${s.c})"/>`;});});gB.innerHTML=b;}
+    function pick(i,j,cx,cy){hm=i;hs=j;gB.querySelectorAll('path').forEach(p=>p.classList.toggle('is-dim',!(+p.dataset.i===i&&+p.dataset.j===j)));
+      const q=geo(i,j),r=PL.svg.getBoundingClientRect(),cxx=P.l+gw()*(i+.5);
+      tip.show(cx??r.left+cxx+12,cy??r.top+q.y0+q.h/2,M[i]+' · '+SE[j].k,[{c:`var(${SE[j].c})`,v:chtxFmt(SE[j].v[i])+' 筆',k:'訂單'},{v:(SE[j].v[i]/TOT[i]*100).toFixed(1)+'%',k:'占當月'},{v:chtxFmt(TOT[i])+' 筆',k:'當月合計',cls:'tot'}]);}
+    function leave(){hs=hm=-1;gB.querySelectorAll('path').forEach(p=>p.classList.remove('is-dim'));tip&&tip.hide();}
+    const PL=chtxPlot(box,o,H,w=>{W=w;render();});PL.svg.append(gG,gB);if(W)render();
+    if(live){const svg=PL.svg;svg.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect(),lx=e.clientX-r.left,ly=e.clientY-r.top,i=Math.floor((lx-P.l)/gw());if(i<0||i>=M.length){leave();return;}
+        let j=-1;for(let k=0;k<SE.length;k++){const q=geo(i,k);if(ly>=q.y0-1&&ly<=q.y0+q.h+1){j=k;break;}}if(j<0){if(hs>=0)leave();return;}pick(i,j,e.clientX,e.clientY);});
+      svg.addEventListener('pointerleave',leave);svg.addEventListener('blur',leave);
+      chtxKeys(svg,'付款方式堆疊長條，左右換月份、上下換付款方式',mv=>{let i=hm<0?M.length-1:hm,j=hs<0?0:hs;pick(chtxClamp(i+mv[0],0,M.length-1),chtxClamp(j-mv[1],0,SE.length-1));});}};
+
+  /* ════ combo：長條＋折線組合圖（預設分開；雙軸為選配） ════ */
+  CHTX.combo=function(box,size,o){const {MON,MONF,CH}=chtxData(),S=size==='s',live=!!o.live,n=MON.length;
+    const REV=MON.map((_,i)=>CH.reduce((a,s)=>a+s.v[i],0)),CR=[3.62,3.18,2.94,2.71,2.86,2.92,3.05,3.84,3.01,2.97,3.08,3.26];
+    const RS=chtxScale4(Math.max(...REV)),CS={max:4,step:1};let m=o.layout==='dual'?0:1,W=0,hi=-1;const H=S?84:(live?250:168),P=S?{l:2,r:2,t:4,b:2}:{l:38,r:30,t:12,b:22},GAP=S?8:20,rr=chtxR();
+    const tools=chtxHead(box,'月營收與轉換率','2025/11–2026/10',size);const tip=live?chtxTip(box):null;const st={};
+    if(!S){tools.appendChild(chtxSeg(['分開','雙軸'],m?0:1,i=>{const m0=m,m1=i?0:1;chtxAnim(st,chtxMs('--dur-slow',1.12),k=>{m=chtxLerp(m0,m1,k);render();});},'版面',live));
+      box.appendChild(chtxLegend([{k:'營收（萬元）',c:'--cs1'},{k:'轉換率（%）',c:'--cs2',line:1}]));}
+    const gH=chtxSv('g'),gG=chtxSv('g'),gB=chtxSv('g'),gL=chtxSv('g'),gO=chtxSv('g');
+    const band=chtxSv('rect',{rx:chtxR(),opacity:0,style:`fill:var(--panel-3);transition:opacity var(--dur-fast) var(--ease-out)`});gH.appendChild(band);
+    const dot=chtxSv('circle',{r:3.6,opacity:0,class:'cht-hdot',style:'fill:var(--cs2)'});gO.appendChild(dot);
+    const gw=()=>(W-P.l-P.r)/n,cx=i=>P.l+gw()*(i+.5);
+    function panels(){const full=H-P.t-P.b,h1=(full-GAP)*.55;return {bT:P.t,bB:chtxLerp(P.t+full,P.t+h1,m),lT:chtxLerp(P.t,P.t+h1+GAP,m),lB:P.t+full};}
+    function render(){if(!W)return;const p=panels(),yb=v=>p.bB-(v/RS.max)*(p.bB-p.bT),yl=v=>p.lB-(v/CS.max)*(p.lB-p.lT);let g='';
+      if(!S){for(let k=0;k<=4;k++){const y=yb(RS.step*k);if(m>.5&&k%2)continue;g+=`<line class="${k?'chtx-gl':'chtx-bl'}" x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}"/><text class="chtx-ax" x="${P.l-6}" y="${y+3.5}" text-anchor="end">${chtxFmt(RS.step*k)}</text>`;}
+        for(let k=0;k<=4;k++){const y=yl(CS.step*k);if(m>.5&&k%2)continue;if(m>.02)g+=`<line class="${k?'chtx-gl':'chtx-bl'}" x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}" opacity="${m.toFixed(2)}"/>`;g+=`<text class="chtx-ax" x="${W-P.r+6}" y="${y+3.5}" text-anchor="start">${k}%</text>`;}
+        const every=gw()<20?3:gw()<34?2:1;MON.forEach((mm,i)=>{if(i%every)return;g+=`<text class="chtx-axc" x="${cx(i)}" y="${H-7}" text-anchor="middle">${mm}</text>`;});}
+      else g+=`<line class="chtx-bl" x1="${P.l}" x2="${W-P.r}" y1="${p.bB}" y2="${p.bB}"/>`;
+      gG.innerHTML=g;const bw=Math.min(S?10:22,gw()*.56);let b='';REV.forEach((v,i)=>{const y=yb(v);b+=`<path class="chtx-dim${hi>=0&&hi!==i?' is-dim':''}" d="${chtxBarTop(cx(i)-bw/2,y,bw,p.bB-y,rr)}" style="fill:var(--cs1)"/>`;});gB.innerHTML=b;
+      gL.innerHTML=`<path d="M${CR.map((v,i)=>cx(i).toFixed(1)+','+yl(v).toFixed(1)).join('L')}" style="fill:none;stroke:var(--cs2);stroke-width:${S?1.5:2};stroke-linejoin:round;stroke-linecap:round"/>`;
+      if(hi>=0)hover(hi);}
+    function hover(i,ex,ey){hi=i;const p=panels(),yl=v=>p.lB-(v/CS.max)*(p.lB-p.lT);band.setAttribute('x',P.l+gw()*i+1);band.setAttribute('width',gw()-2);band.setAttribute('y',P.t-6);band.setAttribute('height',H-P.b-P.t+6);band.setAttribute('opacity',1);
+      gB.querySelectorAll('path').forEach((q,k)=>q.classList.toggle('is-dim',k!==i));dot.setAttribute('cx',cx(i));dot.setAttribute('cy',yl(CR[i]));dot.setAttribute('opacity',1);
+      const r=PL.svg.getBoundingClientRect();tip.show(ex??r.left+cx(i),ey??r.top+yl(CR[i]),MONF[i],[{c:'var(--cs1)',v:chtxFmt(REV[i])+' 萬',k:'營收'},{c:'var(--cs2)',v:CR[i].toFixed(2)+'%',k:'轉換率'}]);}
+    function leave(){hi=-1;band.setAttribute('opacity',0);dot.setAttribute('opacity',0);gB.querySelectorAll('path').forEach(q=>q.classList.remove('is-dim'));tip&&tip.hide();}
+    const PL=chtxPlot(box,o,H,w=>{W=w;render();});PL.svg.append(gH,gG,gB,gL,gO);if(W)render();
+    if(live){const svg=PL.svg;svg.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect(),i=Math.floor((e.clientX-r.left-P.l)/gw());if(i<0||i>=n){leave();return;}hover(i,e.clientX,e.clientY);});
+      svg.addEventListener('pointerleave',leave);svg.addEventListener('blur',leave);chtxKeys(svg,'月營收與轉換率組合圖，方向鍵逐月查看',mv=>hover(chtxClamp((hi<0?n-1:hi)+mv[0],0,n-1)));}};
+
+  /* ════ bar-rank：橫向排名長條（FLIP 換位） ════ */
+  CHTX['bar-rank']=function(box,size,o){const S=size==='s',live=!!o.live;
+    const ALL=[['機能防潑水外套',3280,1306],['登山後背包 28L',2490,1542],['美麗諾羊毛圍巾',890,3860],['防水短靴',2980,812],['輕量羽絨背心',1980,1095],['速乾排汗 T 恤',590,4720],['保溫隨行杯',680,2960],['抓絨保暖手套',450,3210]].map(([k,p,q])=>({k,p,q,s:p*q}));
+    const PR=S?[...ALL].sort((a,b)=>b.s-a.s).slice(0,4):live?ALL:[...ALL].sort((a,b)=>b.s-a.s).slice(0,6);
+    const SUM={s:PR.reduce((a,x)=>a+x.s,0),q:PR.reduce((a,x)=>a+x.q,0)};let metric='s',asc=o.sort==='asc',first0=true;
+    const tools=chtxHead(box,'熱銷商品 Top '+PR.length,'近 30 天',size);const tip=live?chtxTip(box):null;
+    if(!S){tools.append(chtxSeg(['銷售額','銷量'],0,i=>{metric=i?'q':'s';apply();},'指標',live));if(live)tools.append(chtxSeg(['由高到低','由低到高'],asc?1:0,i=>{asc=!!i;apply();},'排序',live));}
+    const rk=ce('div','chtx-rk'+(live?' is-live':'')+(o.values===false?' no-vals':''));box.appendChild(rk);
+    const axis=ce('div','chtx-rk-axis');axis.innerHTML='<span></span><span></span><div></div>';if(!S)rk.appendChild(axis);
+    const rows=PR.map(x=>{const r=ce('div','chtx-rk-row');r.innerHTML='<span class="chtx-rk-n"></span><span class="chtx-rk-name"></span><div class="chtx-rk-bar"><i></i><b></b></div>';r.querySelector('.chtx-rk-name').textContent=x.k;r._d=x;rk.appendChild(r);
+      if(live){r.tabIndex=0;const show=(cx,cy)=>{rk.classList.add('hov');const b=r.getBoundingClientRect();
+          tip.show(cx??b.left+b.width*.6,cy??b.top+b.height/2,x.k,[{c:'var(--cs1)',v:'NT$ '+chtxFmt(x.s),k:'銷售額'},{v:chtxFmt(x.q)+' 件',k:'銷量'},{v:(x[metric]/SUM[metric]*100).toFixed(1)+'%',k:'占 Top '+PR.length+' '+(metric==='s'?'銷售額':'銷量')}]);};
+        const hide=()=>{rk.classList.remove('hov');tip.hide();};
+        r.addEventListener('pointermove',e=>show(e.clientX,e.clientY));r.addEventListener('pointerleave',hide);r.addEventListener('focus',()=>show());r.addEventListener('blur',hide);
+        r.addEventListener('keydown',e=>{const d=e.key==='ArrowDown'?1:e.key==='ArrowUp'?-1:0;if(!d)return;e.preventDefault();const vis=[...rk.querySelectorAll('.chtx-rk-row')];const n=vis[vis.indexOf(r)+d];if(n)n.focus();});}
+      return r;});
+    const lab=x=>metric==='s'?(x.s/10000).toFixed(1)+' 萬':chtxFmt(x.q)+' 件';
+    function apply(){const mx=chtxScale4(Math.max(...PR.map(x=>x[metric]))),rank=[...PR].sort((a,b)=>b[metric]-a[metric]);
+      const ax=axis.querySelector('div');ax.innerHTML='';for(let k=0;k<=4;k+=2){const sp=ce('span');sp.style.left=(k/4*100)+'%';const v=mx.step*k;sp.textContent=metric==='s'?(v?chtxFmt(v/10000)+'萬':'0'):chtxFmt(v);ax.appendChild(sp);}
+      const first=new Map(rows.map(r=>[r,r.getBoundingClientRect().top]));
+      rows.forEach(r=>{const x=r._d,ri=rank.indexOf(x)+1;r.style.setProperty('--p',(x[metric]/mx.max).toFixed(4));r.querySelector('.chtx-rk-n').textContent=ri;r.querySelector('b').textContent=lab(x);r.setAttribute('aria-label',`第 ${ri} 名 ${x.k}，${lab(x)}`);});
+      (asc?[...rank].reverse():rank).forEach(x=>rk.appendChild(rows.find(r=>r._d===x)));
+      if(chtxRM()||first0||!live){first0=false;return;}
+      rows.forEach(r=>{const dy=first.get(r)-r.getBoundingClientRect().top;if(!dy)return;r.style.transition='none';r.style.transform=`translateY(${dy}px)`;});
+      requestAnimationFrame(()=>requestAnimationFrame(()=>rows.forEach(r=>{r.style.transition='';r.style.transform='';})));}
+    apply();};
+
+  /* ════ gauge：儀表（門檻＝feedback 狀態色；狀態以圖示＋文字標示） ════ */
+  CHTX.gauge=function(box,size,o){const S=size==='s',live=!!o.live;const ST=[{k:'台北信義',a:3360,t:3000},{k:'台中勤美',a:1628,t:2200},{k:'線上商城',a:2064,t:4300}];
+    const tools=chtxHead(box,'10 月營收目標達成率','門市與線上 · 單位：萬元',size);
+    const CX=160,CY=140,R=96,MAXP=120,ang=p=>-120+240*chtxClamp(p,0,MAXP)/MAXP,pt=(a,r)=>[CX+r*Math.sin(a*Math.PI/180),CY-r*Math.cos(a*Math.PI/180)];
+    const arc=(a0,a1,r)=>{const [x0,y0]=pt(a0,r),[x1,y1]=pt(a1,r);return `M${x0.toFixed(2)},${y0.toFixed(2)}A${r},${r} 0 ${a1-a0>180?1:0} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`;};
+    const g=ce('div','chtx-gauge');const fig=ce('div','chtx-gauge-fig');const VH=S?196:228,svg=chtxSv('svg',{viewBox:'0 0 320 '+VH,role:'img'});fig.appendChild(svg);g.appendChild(fig);
+    let s='';[[0,60,'--s-feedback-error'],[60,90,'--s-feedback-warning'],[90,120,'--s-feedback-success']].forEach(([a,b,col])=>{s+=`<path d="${arc(ang(a)+(a?.8:0),ang(b)-(b<120?.8:0),R+15)}" style="fill:none;stroke:var(${col});stroke-width:4"/>`;});
+    s+=`<path d="${arc(-120,120,R)}" style="fill:none;stroke:var(--panel-3);stroke-width:16;stroke-linecap:round"/><path class="chtx-gval" d="${arc(-120,120,R)}" pathLength="100" style="fill:none;stroke:var(--cs1);stroke-width:16;stroke-linecap:round"/>`;
+    if(!S)[0,60,90,120].forEach(p=>{const [x,y]=pt(ang(p),R+32);s+=`<text class="chtx-ax" x="${x.toFixed(1)}" y="${(y+3.5).toFixed(1)}" text-anchor="middle" style="font-size:11px">${p}%</text>`;});
+    if(o.target!==false){const [t0x,t0y]=pt(ang(100),R-12),[t1x,t1y]=pt(ang(100),R+20),[tlx,tly]=pt(ang(100),R+34);
+      s+=`<line x1="${t0x}" y1="${t0y}" x2="${t1x}" y2="${t1y}" style="stroke:var(--ink);stroke-width:2;stroke-linecap:round"/>`;if(!S)s+=`<text class="chtx-axc" x="${tlx+4}" y="${tly+4}" text-anchor="start" style="font-size:11px">目標</text>`;}
+    s+=`<g class="chtx-needle"><line x1="${CX}" y1="${CY+10}" x2="${CX}" y2="${CY-R+26}" style="stroke:var(--ink);stroke-width:2.5;stroke-linecap:round"/><circle cx="${CX}" cy="${CY}" r="6" style="fill:var(--panel);stroke:var(--ink);stroke-width:2.5"/></g>`;
+    svg.innerHTML=s;const num=ce('div','chtx-gauge-num');num.style.top=((CY+(S?12:22))/VH*100).toFixed(1)+'%';const rl=chtxRoll('0');const pc=ce('small');pc.textContent='%';num.append(rl,pc);fig.appendChild(num);
+    const sub=ce('div','chtx-gauge-sub');sub.style.top=((CY+64)/VH*100).toFixed(1)+'%';if(!S)fig.appendChild(sub);const foot=ce('div','chtx-gfoot');g.appendChild(foot);
+    const val=svg.querySelector('.chtx-gval'),ndl=svg.querySelector('.chtx-needle');let cur=0;const an={};
+    function go(i){const x=ST[i],p=x.a/x.t*100,p0=cur;chtxAnim(an,live?chtxMs('--dur-slow',1.8):0,k=>{cur=chtxLerp(p0,p,k);val.setAttribute('stroke-dasharray',`${(chtxClamp(cur,0,MAXP)/MAXP*100).toFixed(2)} 100`);ndl.setAttribute('transform',`rotate(${ang(cur).toFixed(2)} ${CX} ${CY})`);});
+      chtxSetRoll(rl,String(Math.round(p)));sub.textContent=`${chtxFmt(x.a)} / 目標 ${chtxFmt(x.t)} 萬`;
+      const zone=p>=90?['i-success',ICON_CHECK,'達標']:p>=60?['i-warning',STP_ICON_WARN,'注意']:['i-danger',MDL_ICON_WARNING,'落後'],gap=x.t-x.a;
+      foot.innerHTML=`<span class="tg v-soft c-round st-default ${zone[0]}">${zone[1]}<span>${zone[2]}</span></span>`+(S?'':`<span>${gap>0?'距目標還差 NT$ '+chtxFmt(gap)+' 萬':'超出目標 NT$ '+chtxFmt(-gap)+' 萬'}</span>`);
+      svg.setAttribute('aria-label',`${x.k} 達成率 ${Math.round(p)}%，${zone[2]}`);}
+    if(!S)tools.appendChild(chtxSeg(ST.map(x=>x.k),0,go,'門市',live));box.appendChild(g);go(0);};
+
+  /* ════ funnel：漏斗圖 ════ */
+  CHTX.funnel=function(box,size,o){const S=size==='s',live=!!o.live;const ALL=['瀏覽商品','加入購物車','進入結帳','填寫付款資料','完成訂單'];
+    const DV0={全部:[48200,9640,4820,3610,2890],手機:[34100,6480,2980,2090,1610],桌機:[14100,3160,1840,1520,1280]};
+    const ns=chtxClamp(+o.stages||5,3,5),pickI=ns===5?[0,1,2,3,4]:ns===4?[0,1,2,4]:[0,1,4];const STG=pickI.map(i=>ALL[i]),DV={};Object.keys(DV0).forEach(k=>DV[k]=pickI.map(i=>DV0[k][i]));let dv='全部';
+    const tools=chtxHead(box,'結帳漏斗','近 7 天 · 不重複訪客',size);const tip=live?chtxTip(box):null;
+    const fn=ce('div','chtx-fn'+(live?' is-live':''));const rows=[],steps=[];const rates=!S&&o.rates!==false;
+    STG.forEach((k,i)=>{if(i&&rates){const sp=ce('div','chtx-fn-step');sp.innerHTML=ICON_ARROW+'<span></span>';fn.appendChild(sp);steps.push(sp);}
+      const r=ce('div','chtx-fn-row');r.innerHTML='<div class="chtx-fn-l"><span><span class="k"></span> <b></b></span><span></span></div><div class="chtx-fn-bar"><span class="loss"></span><i></i></div>';r.querySelector('.k').textContent=k;fn.appendChild(r);rows.push(r);
+      if(live){r.tabIndex=0;const show=(cx,cy)=>{fn.classList.add('hov');r.classList.add('on');const v=DV[dv],bb=r.querySelector('.chtx-fn-bar').getBoundingClientRect();const rr=[{c:'var(--cs1)',v:chtxFmt(v[i])+' 人',k:'到達'},{v:(v[i]/v[0]*100).toFixed(1)+'%',k:'占第一步'}];
+          if(i){rr.splice(1,0,{v:(v[i]/v[i-1]*100).toFixed(1)+'%',k:'上一步轉換'});rr.push({v:'−'+chtxFmt(v[i-1]-v[i])+' 人（'+((1-v[i]/v[i-1])*100).toFixed(1)+'%）',k:'從上一步流失',cls:'tot neg'});}
+          tip.show(cx??bb.left+bb.width*v[i]/v[0],cy??bb.top,k,rr);};
+        const hide=()=>{fn.classList.remove('hov');r.classList.remove('on');tip.hide();};
+        r.addEventListener('pointermove',e=>show(e.clientX,e.clientY));r.addEventListener('pointerleave',hide);r.addEventListener('focus',()=>show());r.addEventListener('blur',hide);
+        r.addEventListener('keydown',e=>{const d=e.key==='ArrowDown'?1:e.key==='ArrowUp'?-1:0;if(!d)return;e.preventDefault();const n=rows[i+d];if(n)n.focus();});}});
+    function apply(){const v=DV[dv];rows.forEach((r,i)=>{r.style.setProperty('--p',(v[i]/v[0]).toFixed(4));r.style.setProperty('--pp',(i?v[i-1]/v[0]:1).toFixed(4));
+        r.querySelector('b').textContent=chtxFmt(v[i]);r.querySelector('.chtx-fn-l>span:last-child').textContent=(v[i]/v[0]*100).toFixed(1)+'%';r.setAttribute('aria-label',`${STG[i]} ${chtxFmt(v[i])} 人`);});
+      steps.forEach((sp,i)=>sp.querySelector('span').textContent='轉換 '+(v[i+1]/v[i]*100).toFixed(1)+'%');}
+    if(!S)tools.appendChild(chtxSeg(Object.keys(DV),0,i=>{dv=Object.keys(DV)[i];apply();},'裝置',live));box.appendChild(fn);apply();};
+
+  /* ════ heatmap：熱力圖（星期 × 小時；色階＝--s-chart-seq-*） ════ */
+  CHTX.heatmap=function(box,size,o){const S=size==='s',live=!!o.live;const DAYN=['週一','週二','週三','週四','週五','週六','週日'];
+    const curve=[22,12,6,3,2,2,4,9,18,26,32,38,52,48,36,34,36,40,46,58,78,92,84,52];
+    const make=kind=>{const R=chtxRng(kind?11:4);return DAYN.map((_,d)=>curve.map((v,h)=>{const we=d>=5;let x=v*(we?(h>=9&&h<=17?1.35:1.08):1)*(d===4&&h>=20?1.12:1);
+      if(kind){x*=d===2?1.9:1.25;if(d===2&&h===0)x=262;if(d===2&&h===1)x=176;if(d===1&&h>=22)x*=1.5;}return Math.round(x*(.88+R()*.24));}));};
+    const DATA=[make(0),make(1)],six=String(o.steps||'6')!=='5';
+    const BINS=six?[0,10,25,45,70,100]:[0,15,35,60,90],SEQ=six?[0,1,2,3,4,5]:[0,1,3,4,5];const bin=v=>{let b=0;BINS.forEach((t,i)=>{if(v>=t)b=i;});return b;};
+    let ds=0,W=0,cell=0,ch=0,hc=null;const P={l:S?2:38,t:4,b:S?2:18},GAP=S?1:2;
+    const tools=chtxHead(box,'下單時段熱度','每格＝該時段平均每小時訂單數',size);const tip=live?chtxTip(box):null;
+    if(!S)tools.appendChild(chtxSeg(['近 4 週','去年雙 11 當週'],0,i=>{ds=i;paint(true);},'資料',live));
+    const gC=chtxSv('g'),gT=chtxSv('g'),ring=chtxSv('rect',{rx:chtxR(),opacity:0,style:'fill:none;stroke:var(--ink);stroke-width:1.5;pointer-events:none'});
+    const lbl=(d,h)=>`${d===2&&ds===1?'11/11 ':''}${DAYN[d]} ${String(h).padStart(2,'0')}:00–${String(h+1).padStart(2,'0')}:00`;
+    let peak=null;
+    const PL=chtxPlot(box,{},100,w=>{W=w;build();});PL.svg.append(gT,gC,ring);if(o.w){W=o.w;PL.svg.setAttribute('width',o.w);}
+    if(!S&&o.legend!==false){const leg=ce('div','chtx-hm-leg');peak=ce('span');const sc=ce('div','chtx-hm-scale');
+      sc.innerHTML='<span>少</span><span class="bins">'+BINS.map((b,i)=>`<span><i style="background:var(--s-chart-seq-${SEQ[i]})"></i>${b}${i===BINS.length-1?'+':''}</span>`).join('')+'</span><span>多</span>';
+      leg.append(peak,sc);box.appendChild(leg);}
+    function build(){const short=W<520;if(!S)P.l=short?26:38;cell=Math.max(S?3:6,(W-P.l)/24-GAP);ch=S?chtxClamp(cell*1.4,6,10):chtxClamp(cell,14,24);const H=P.t+7*(ch+GAP)+P.b;
+      PL.svg.setAttribute('viewBox',`0 0 ${W} ${H}`);PL.svg.setAttribute('height',H);let t='';
+      if(!S){DAYN.forEach((d,i)=>{d=short?d.slice(1):d;t+=`<text class="chtx-axc" x="${P.l-6}" y="${P.t+i*(ch+GAP)+ch/2+3.5}" text-anchor="end">${d}</text>`;});
+        for(let h=0;h<24;h+=(W<300?6:3))t+=`<text class="chtx-ax" x="${P.l+h*(cell+GAP)}" y="${H-4}" text-anchor="start">${String(h).padStart(2,'0')}</text>`;}
+      gT.innerHTML=t;gC.innerHTML='';const rx=Math.min(chtxR(),ch/4);
+      for(let d=0;d<7;d++)for(let h=0;h<24;h++){const r=chtxSv('rect',{class:'chtx-hm-cell',x:P.l+h*(cell+GAP),y:P.t+d*(ch+GAP),width:cell,height:ch,rx});r.dataset.d=d;r.dataset.h=h;gC.appendChild(r);}paint(false);}
+    function paint(wave){const D=DATA[ds];gC.querySelectorAll('rect').forEach(r=>{const d=+r.dataset.d,h=+r.dataset.h;r.style.transitionDelay=wave&&!chtxRM()?(h*14)+'ms':'0ms';r.style.fill=`var(--s-chart-seq-${SEQ[bin(D[d][h])]})`;});
+      let pd=0,ph=0;D.forEach((row,d)=>row.forEach((v,h)=>{if(v>D[pd][ph]){pd=d;ph=h;}}));
+      if(peak){peak.innerHTML='';const b=ce('b');b.textContent=`尖峰：${lbl(pd,ph)}`;peak.append(b,document.createTextNode(`，平均 ${D[pd][ph]} 筆`));}
+      if(hc)show(hc[0],hc[1]);}
+    function show(d,h,cx,cy){hc=[d,h];const x=P.l+h*(cell+GAP),y=P.t+d*(ch+GAP);ring.setAttribute('x',x-1.5);ring.setAttribute('y',y-1.5);ring.setAttribute('width',cell+3);ring.setAttribute('height',ch+3);ring.setAttribute('opacity',1);
+      const r=PL.svg.getBoundingClientRect();tip.show(cx??r.left+x+cell/2,cy??r.top+y,lbl(d,h),[{c:`var(--s-chart-seq-${SEQ[bin(DATA[ds][d][h])]})`,v:DATA[ds][d][h]+' 筆',k:'平均每小時訂單'}]);}
+    function leave(){hc=null;ring.setAttribute('opacity',0);tip&&tip.hide();}
+    if(W)build();
+    if(live){const svg=PL.svg;svg.addEventListener('pointermove',e=>{const t=e.target.closest&&e.target.closest('.chtx-hm-cell');if(!t){leave();return;}show(+t.dataset.d,+t.dataset.h,e.clientX,e.clientY);});
+      svg.addEventListener('pointerleave',leave);svg.addEventListener('blur',leave);chtxKeys(svg,'下單時段熱力圖，方向鍵移動格子',m=>{const [d,h]=hc||[2,20];show(chtxClamp(d+m[1],0,6),chtxClamp(h+m[0],0,23));});}};
+
+  /* --- 分派：chtChart(variant,size,o) 遇到進階型 → chtxChart --- */
+  function chtxChart(variant,size,o){o=o||{};const s=size==='s'?'s':'m';
+    const box=ce('div','cht-box cht-x cht-'+variant+' cht-sz-'+s+(o.live?' is-live':''));
+    const opt=Object.assign({},o,{w:s==='s'?196:(o.live?null:320)});
+    try{CHTX[variant](box,s,opt);}catch(err){console.error('chart '+variant,err);}
+    return box;}
+
+  /* --- Live 控制列 scoped：依圖型只留對應的 seg／勾選（標籤文字比對）--- */
+  const CHTX_SEG_SCOPE={'系列數 series':'area-stack','刻度 scale':'bar-stack','版面 layout':'combo','排序 sort':'bar-rank','步驟數 stages':'funnel','色階 steps':'heatmap'};
+  Object.assign(CHT_BOOL_SCOPE,{'小圖 sparkline':'spark','區間切換 period':'spark','7 日平均 moving-avg':'brush','圖例可切換 legend toggle':'area-stack',
+    '排名數值 values':'bar-rank','目標線 target':'gauge','步驟轉換率 rates':'funnel','色階圖例 legend':'heatmap'});
+  function chtxScopeCtl(host,variant){requestAnimationFrame(()=>{
+    host.querySelectorAll('.livewrap .ctl').forEach(c=>{const lab=c.querySelector(':scope>.lab');const sc=lab&&CHTX_SEG_SCOPE[lab.textContent.trim()];if(!sc)return;
+      const show=sc===variant;c.style.display=show?'':'none';
+      if(show){const a=c.querySelector('.seg>button[aria-pressed="true"]');if(a)a.setAttribute('aria-pressed','true');}});
+    host.querySelectorAll('.livewrap .ctl').forEach(c=>{const ck=c.querySelector(':scope>.checks');if(!ck)return;c.style.display=[...ck.children].some(l=>l.style.display!=='none')?'':'none';});
+    const variantCtl=host.querySelector('.livewrap .ctl .seg');if(variantCtl){const a=variantCtl.querySelector(':scope>button[aria-pressed="true"]');if(a)a.setAttribute('aria-pressed','true');}});}
+  /* 矩陣：依圖表用途分段（每段一張 matrixPanel；列＝圖型、欄＝尺寸），軸值仍以 DIAL_SPECS.chart 為準 */
+  function chtxMatrix(p,axes,active,VN,SZN){
+    const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.size.filter(s=>active.size.has(s));
+    const known=new Set(CHTX_GROUPS.flatMap(g=>g.vs));const groups=CHTX_GROUPS.map(g=>Object.assign({},g,{vs:g.vs.filter(v=>vs.includes(v))}));
+    const rest=vs.filter(v=>!known.has(v));if(rest.length)groups.push({k:'other',t:'其他',d:'',vs:rest});
+    groups.filter(g=>g.vs.length).forEach(g=>{const panel=matrixPanel({badge:'chart · '+g.t,name:'Variant × Size',desc:g.d,rows:g.vs,cols:ss,
+      rowLab:v=>labHTML((VN[v]||[v])[0],v),colLab:s=>labHTML(SZN[s][0],SZN[s][1]),cell:(v,s)=>chtCell(v,s),mincol:g.k==='base'?240:360});panel.classList.add('cht-mx-group');p.appendChild(panel);});}
+
   function buildChart(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Chart',title:'Chart 圖表',
-      lede:'儀表板圖表五型態：<b>stat 統計數字</b>（直接重用 Number 頁的 <b>prMetricEl</b> 原子，含標題＋趨勢 delta）、<b>line 折線</b>（淡格線＋accent 面積填充＋端點圓點）、<b>curve 曲線</b>（折線的平滑版，Catmull-Rom 內插）、<b>bar 長條</b>（可雙系列並排對照）、<b>donut 甜甜圈</b>（<code>stroke-dasharray</code> 分段環＋中央百分比）。× 兩尺寸：<b>m 標準</b>＝完整配置、<b>s 精簡</b>＝sparkline 式簡配（收格線端點／單系列／收圖例）。全部 <b>inline SVG 手刻</b>、無外部 lib；系列色綁 <code>--accent／--ok／--warn／--i-danger</code>，圖例與 delta 重用 <b>.tg</b>，數字一律 <code>tabular-nums</code>。',
-      specRows:[['axes','<code>variant × size</code>'],['formula','<code>5 × 2 = 10</code>'],['token-policy','<code>--accent / --ok / --warn / --i-danger / --line</code>'],['tech','<code>inline SVG 手刻 · pathLength 環 · tabular-nums</code>']]});
+      lede:'儀表板圖表共 <b>14 型</b>，依用途分五段：<b>基礎</b>（stat 統計數字＝重用 <b>prMetricEl</b>、line 折線、curve 曲線、bar 長條、donut 甜甜圈）、<b>趨勢</b>（spark KPI 趨勢小圖卡、brush 刷選縮放折線）、<b>組成</b>（area-stack 堆疊面積、bar-stack 堆疊長條）、<b>比較</b>（combo 長條＋折線、bar-rank 橫向排名）、<b>進度與分布</b>（gauge 儀表、funnel 漏斗、heatmap 熱力圖）。× 兩尺寸：<b>m 標準</b>＝完整配置、<b>s 精簡</b>＝收座標軸／圖例／切換的小卡版。全部 <b>inline SVG 手刻</b>、無外部 lib；系列 1 綁 <code>--accent</code>（chart 內＝品牌橘），系列 2–4 綁 <code>--s-chart-2..4</code>，熱力色階 <code>--s-chart-seq-*</code>，狀態只用 <code>--s-feedback-*</code>；卡內切換重用 <b>Segmented</b>、圖例與漲跌重用 <b>.tg</b>，數字一律 <code>tabular-nums</code>。',
+      specRows:[['axes','<code>variant × size</code>'],['formula','<code>14 × 2 = 28</code>'],['token-policy','<code>--accent / --s-chart-2..4 / --s-chart-seq-0..5 / --s-feedback-*</code>'],['tech','<code>inline SVG 手刻 · tabular-nums · --dur-* / --ease-out</code>']]});
     const axes=DIAL_SPECS.chart.axes, zh=DIAL_SPECS.chart.zh, active=CHOICE.chart.active; // 接中央 store
-    const VN={stat:['統計數字','stat'],line:['折線','line'],curve:['曲線','curve'],bar:['長條','bar'],donut:['甜甜圈','donut']};
+    const VN={};axes.variant.forEach(v=>VN[v]=[zh.variant[v]||v,v]);
     const SZN={m:['標準','m'],s:['精簡','s']};
     let p;
-    function renderM(){ if(!p)return; p.innerHTML='';
-      const vs=axes.variant.filter(v=>active.variant.has(v));
-      const ss=axes.size.filter(s=>active.size.has(s));
-      p.appendChild(matrixPanel({badge:'chart',name:'Variant × Size',desc:'列＝圖型、欄＝尺寸；每格為一塊 dashboard tile',
-        rows:vs,cols:ss,
-        rowLab:v=>labHTML(VN[v][0],VN[v][1]),
-        colLab:s=>labHTML(SZN[s][0],SZN[s][1]),
-        cell:(v,s)=>chtCell(v,s),mincol:240}));
-    }
+    function renderM(){ if(!p)return; p.innerHTML=''; chtxMatrix(p,axes,active,VN,SZN); }
     mountDial(body,{axes,zh,active,onRender:renderM});
-    const sec=section(body,'Variant × Size 矩陣','m 標準＝完整配置（折線含格線＋端點、長條雙系列、甜甜圈含圖例）；s 精簡＝sparkline 式簡配，適合塞進表格列或緊湊卡片。stat 直接沿用 prMetricEl 的 sm／md 兩級。');
+    const sec=section(body,'Variant × Size 矩陣','依用途分段：基礎／趨勢／組成／比較／進度與分布。m 標準＝完整配置（座標軸、圖例、卡內切換）；s 精簡＝收掉座標軸與切換，適合塞進表格列或緊湊卡片。矩陣格為靜態版；可操作的版本在本頁最上方的互動預覽。');
     p=panelsIn(sec);renderM();
 
     /* showcase：一組 dashboard 並排（stat ×2 ＋ line ＋ bar ＋ donut），示意真實儀表板 */
     const cs=section(body,'Dashboard 組合示意','五張卡組成的迷你儀表板：兩張統計數字卡（prMetricEl 上升／下降）＋近期走勢折線＋雙週對照長條＋任務狀態甜甜圈。卡標題旁的 delta 與圖例都重用 .tg 原子；示意數據為固定值，方便明暗模式對照。');
     const dash=ce('div','cht-dash');
-    /* dashboard 卡工廠：標題列（muted 小字＋可選 .tg delta）＋圖表本體 */
     function dashCard(title,delta,node,span){
       const c=ce('div','cht-card'+(span?' cht-span-'+span:''));
       const h=ce('div','cht-card-h');
       const t=ce('div','cht-card-t');t.textContent=title;h.appendChild(t);
-      if(delta){ // delta 重用 .tg：上升 i-brand／下降 i-danger
-        const tg=ce('div','tg v-soft c-round '+(delta.up?'i-brand':'i-danger')+' st-default');
-        tg.innerHTML='<span>'+delta.txt+'</span>';h.appendChild(tg);
-      }
+      if(delta){const tg=ce('div','tg v-soft c-round '+(delta.up?'i-brand':'i-danger')+' st-default');tg.innerHTML='<span>'+delta.txt+'</span>';h.appendChild(tg);}
       c.append(h,node);return c;
     }
     dash.appendChild(dashCard('本月營收',null,chtChart('stat','m',{title:false,trend:'up',unit:true})));
@@ -10931,29 +11501,49 @@ function buildArticleCard(view){
     dash.appendChild(dashCard('任務狀態分布',null,chtChart('donut','m',{center:true,legend:true})));
     dash.appendChild(dashCard('近 10 期營收走勢',{up:true,txt:'+12.5%'},chtChart('line','m',{grid:true,area:true,xaxis:true,yaxis:true,interactive:true,wide:true}),3));
     const barCard=dashCard('每日訂單 本週 vs 上週',null,chtChart('bar','m',{series2:true,xaxis:true,yaxis:true,interactive:true,wide:true}),3);
-    barCard.appendChild(chtLegend([{k:'本週',dot:'c-accent'},{k:'上週',dot:'c-ok'}])); // 雙系列圖例（.tg＋色點）
+    barCard.appendChild(chtLegend([{k:'本週',dot:'c-accent'},{k:'上週',dot:'c-ok'}]));
     dash.appendChild(barCard);
     cs.appendChild(dash);
 
-    /* Live：seg 切 variant／size；bools 依 variant scoped 顯示（隱藏非當前圖型的選項，避免空轉開關） */
-    const sl=section(body,'互動預覽與程式碼','切圖型與尺寸；勾選項會隨圖型切換只留對應選項——折線控面積填充／格線／<b>X 軸月份</b>／<b>Y 軸數值</b>，長條控第二系列／數值標／<b>X 軸星期</b>／<b>Y 軸數量</b>，甜甜圈控中央數字／圖例，統計數字控趨勢／單位。<b>滑鼠移到折線／長條上</b>會顯示該點 tooltip 數值，折線端點只在 hover 時出現。');
-    mountLive(sl,{
+    /* Live：seg 切 variant／size；其餘 seg／勾選依 variant scoped 顯示（只留當前圖型的選項） */
+    const sl=section(body,'互動預覽與程式碼','切圖型與尺寸；下方選項會隨圖型只留對應的屬性（＝Figma variant／boolean property）。進階圖表在預覽裡都能直接操作：<b>滑過</b>看十字準線與 tooltip、<b>點圖例</b>開關系列、<b>卡內切換</b>看平滑變形、<b>聚焦後用方向鍵</b>逐點查看；刷選圖可拖曳下方總覽條縮放。');
+    sl.classList.add('cht-live-sec');
+    const vOpts=axes.variant.slice();
+    mountLive(sl,{gate:'chart',
       initial:{variant:'line',size:'m',
         statTrend:true,statUnit:false,
         lineArea:true,lineGrid:true,lineXcat:true,lineYval:true,lineGrad:false,
         barSeries2:true,barVals:false,barXcat:true,barYval:true,
-        donutCenter:true,donutLegend:true},
-      segs:[{key:'variant',label:'Variant',options:['stat','line','curve','bar','donut'],labels:['統計數字','折線','曲線','長條','甜甜圈']},
-            {key:'size',label:'Size',options:['m','s'],labels:['M','S']}],
+        donutCenter:true,donutLegend:true,
+        sparkLine:true,sparkPeriod:true,brushMA:true,areaSeries:'4',areaToggle:true,stackScale:'count',comboLayout:'split',
+        rankSort:'desc',rankVals:true,gaugeTarget:true,funnelStages:'5',funnelRates:true,heatSteps:'6',heatLegend:true},
+      segs:[{key:'variant',label:'Variant',options:vOpts,labels:vOpts.map(v=>zh.variant[v]||v)},
+            {key:'size',label:'Size',options:['m','s'],labels:['M','S']},
+            {key:'areaSeries',label:'系列數 series',options:['2','3','4']},
+            {key:'stackScale',label:'刻度 scale',options:['count','percent'],labels:['筆數','百分比']},
+            {key:'comboLayout',label:'版面 layout',options:['split','dual'],labels:['分開','雙軸']},
+            {key:'rankSort',label:'排序 sort',options:['desc','asc'],labels:['由高到低','由低到高']},
+            {key:'funnelStages',label:'步驟數 stages',options:['3','4','5']},
+            {key:'heatSteps',label:'色階 steps',options:['5','6']}],
       bools:[{key:'statTrend',label:'趨勢 trend'},{key:'statUnit',label:'單位 unit'},
              {key:'lineArea',label:'面積填充 area'},{key:'lineGrad',label:'漸層填充 gradient'},{key:'lineGrid',label:'格線 grid'},{key:'lineXcat',label:'X 軸月份'},{key:'lineYval',label:'Y 軸數值'},
              {key:'barSeries2',label:'第二系列 series2'},{key:'barVals',label:'數值標 values'},{key:'barXcat',label:'X 軸星期'},{key:'barYval',label:'Y 軸數量'},
-             {key:'donutCenter',label:'中央數字 center'},{key:'donutLegend',label:'圖例 legend'}],
+             {key:'donutCenter',label:'中央數字 center'},{key:'donutLegend',label:'圖例 legend'},
+             {key:'sparkLine',label:'小圖 sparkline'},{key:'sparkPeriod',label:'區間切換 period'},{key:'brushMA',label:'7 日平均 moving-avg'},
+             {key:'areaToggle',label:'圖例可切換 legend toggle'},{key:'rankVals',label:'排名數值 values'},{key:'gaugeTarget',label:'目標線 target'},
+             {key:'funnelRates',label:'步驟轉換率 rates'},{key:'heatLegend',label:'色階圖例 legend'}],
       boolLabel:'選項（依圖型）',
-      render:st=>{
-        chtScopeBools(sl,st.variant); // 依當前 variant 只留對應勾選項
+      render:(st,sync)=>{
+        if(sync){chtScopeBools(sl,st.variant);chtxScopeCtl(sl,st.variant);} // 只在真正渲染時 scope（CSS 分頁列舉時不動控制列）
         const stage=ce('div','cht-live-stage');
         let node;
+        if(CHTX[st.variant]){
+          node=chtChart(st.variant,st.size,{live:true,spark:st.sparkLine,period:st.sparkPeriod,ma:st.brushMA,series:st.areaSeries,toggle:st.areaToggle,scale:st.stackScale,
+            layout:st.comboLayout,sort:st.rankSort,values:st.rankVals,target:st.gaugeTarget,stages:st.funnelStages,rates:st.funnelRates,steps:st.heatSteps,legend:st.heatLegend});
+          const multi=st.variant==='spark'&&st.size==='m';
+          const tile=ce('div',multi?'chtx-live-bare':'cht-tile chtx-live-tile');if(st.size==='s'&&!multi){tile.style.width='auto';tile.style.display='inline-flex';}
+          tile.appendChild(node);stage.appendChild(tile);return stage;
+        }
         if(st.variant==='stat')node=chtChart('stat',st.size,{title:true,trend:st.statTrend?'up':null,unit:st.statUnit});
         else if(st.variant==='line')node=chtChart('line',st.size,{area:st.lineArea,grad:st.lineGrad,grid:st.lineGrid,xaxis:st.lineXcat,yaxis:st.lineYval,interactive:true,wide:true});
         else if(st.variant==='curve')node=chtChart('curve',st.size,{area:st.lineArea,grad:st.lineGrad,grid:st.lineGrid,xaxis:st.lineXcat,yaxis:st.lineYval,interactive:true,wide:true});
@@ -10963,7 +11553,7 @@ function buildArticleCard(view){
         stage.appendChild(tile);
         return stage;
       },
-      note:'↓ 四圖型精簡尺寸快速對照（sparkline 式簡配）。系列色全綁 token（--accent／--ok／--warn／--i-danger），明暗模式自動跟切；甜甜圈環用 <code>pathLength=100</code>＋<code>stroke-dasharray</code> 分段。折線端點與 tooltip 為 hover 驅動，非永遠顯示。',
+      note:'↓ 基礎五型精簡尺寸快速對照（sparkline 式簡配）。系列色全綁 token（--accent／--s-chart-2..4／--s-feedback-*），明暗模式自動跟切；進階圖表的動態時長讀 --dur-*、曲線讀 --ease-out，系統開「減少動態」時直接跳到終點。',
       free:()=>['stat','line','curve','bar','donut'].map(v=>{const t=ce('div','cht-tile');t.appendChild(chtChart(v,'s',{}));return t;})
     });
   }
@@ -11772,6 +12362,9 @@ function buildScheduleChart(view){
     {g:'Feedback 狀態色（各 9 階）',kind:'color',note:'成功／警告／錯誤／資訊，框架完整 9 階 tint；500 為主、兼圖表系列色，400/600 供 hover/press 與暗色。',
      rows:[['--c-success-100'],['--c-success-200'],['--c-success-300'],['--c-success-400'],['--c-success-500','success'],['--c-success-600'],['--c-success-700'],['--c-success-800'],['--c-success-900'],['--c-warning-100'],['--c-warning-200'],['--c-warning-300'],['--c-warning-400'],['--c-warning-500','warning'],['--c-warning-600'],['--c-warning-700'],['--c-warning-800'],['--c-warning-900'],['--c-error-100'],['--c-error-200'],['--c-error-300'],['--c-error-400'],['--c-error-500','error'],['--c-error-600'],['--c-error-700'],['--c-error-800'],['--c-error-900'],['--c-info-100'],['--c-info-200'],['--c-info-300'],['--c-info-400'],['--c-info-500','info'],['--c-info-600'],['--c-info-700'],['--c-info-800'],['--c-info-900']],
      def:{'--c-success-100':'#D1FAE5','--c-success-200':'#A7F3D0','--c-success-300':'#6EE7B7','--c-success-400':'#34D399','--c-success-500':'#10B981','--c-success-600':'#059669','--c-success-700':'#047857','--c-success-800':'#065F46','--c-success-900':'#064E3B','--c-warning-100':'#FEF3C7','--c-warning-200':'#FDE68A','--c-warning-300':'#FCD34D','--c-warning-400':'#FBBF24','--c-warning-500':'#F59E0B','--c-warning-600':'#D97706','--c-warning-700':'#B45309','--c-warning-800':'#92400E','--c-warning-900':'#78350F','--c-error-100':'#FEE2E2','--c-error-200':'#FECACA','--c-error-300':'#FCA5A5','--c-error-400':'#F87171','--c-error-500':'#EF4444','--c-error-600':'#DC2626','--c-error-700':'#B91C1C','--c-error-800':'#991B1B','--c-error-900':'#7F1D1D','--c-info-100':'#DBEAFE','--c-info-200':'#BFDBFE','--c-info-300':'#93C5FD','--c-info-400':'#60A5FA','--c-info-500':'#3B82F6','--c-info-600':'#2563EB','--c-info-700':'#1D4ED8','--c-info-800':'#1E40AF','--c-info-900':'#1E3A8A'}},
+    {g:'Violet 紫（9 階）',kind:'color',note:'圖表系列 4（--s-chart-4）來源；2026-11-03 隨圖表擴充新增。',
+     rows:[['--c-violet-100'],['--c-violet-200'],['--c-violet-300'],['--c-violet-400','dark 系列'],['--c-violet-500'],['--c-violet-600','系列 4'],['--c-violet-700'],['--c-violet-800'],['--c-violet-900']],
+     def:{'--c-violet-100':'#EEECFB','--c-violet-200':'#DCD8F7','--c-violet-300':'#BDB5F1','--c-violet-400':'#9085E9','--c-violet-500':'#7565DF','--c-violet-600':'#6250D6','--c-violet-700':'#4F3EB5','--c-violet-800':'#3D3190','--c-violet-900':'#2C246A'}},
     {g:'Radius 圓角（9 階）',kind:'text',resp:true,note:'響應式：mobile 收小 lg/xl；md 8 為預設、按鈕 pill（＝框架 full）。xs/2xl/3xl 固定不隨裝置。',
      rows:[['--r-none'],['--r-xs'],['--r-sm'],['--r-md','預設'],['--r-lg'],['--r-xl'],['--r-2xl'],['--r-3xl'],['--r-pill','按鈕']],
      def:{'--r-none':['0px','0px','0px'],'--r-xs':['2px','2px','2px'],'--r-sm':['4px','4px','4px'],'--r-md':['8px','8px','8px'],'--r-lg':['10px','10px','8px'],'--r-xl':['16px','16px','12px'],'--r-2xl':['24px','24px','24px'],'--r-3xl':['32px','32px','32px'],'--r-pill':['9999px','9999px','9999px']}},
@@ -11827,7 +12420,11 @@ function buildScheduleChart(view){
       ['--s-sec-on','sec on','var(--c-neutral-800)','#F4F4F5'],['--s-sec-edge','sec edge','var(--c-neutral-400)','#3A3C43']]},
     {g:'Feedback 狀態',rows:[
       ['--s-feedback-success','success','var(--c-success-500)','var(--c-success-400)'],['--s-feedback-warning','warning','var(--c-warning-500)','var(--c-warning-400)'],
-      ['--s-feedback-error','error','var(--c-error-500)','var(--c-error-400)'],['--s-feedback-info','info','var(--c-info-500)','var(--c-info-400)']]}
+      ['--s-feedback-error','error','var(--c-error-500)','var(--c-error-400)'],['--s-feedback-info','info','var(--c-info-500)','var(--c-info-400)']]},
+    {g:'Chart 圖表系列',rows:[
+      ['--s-chart-2','series 2','var(--c-info-600)','var(--c-info-500)'],['--s-chart-3','series 3','var(--c-success-600)','var(--c-success-500)'],['--s-chart-4','series 4','var(--c-violet-600)','var(--c-violet-400)'],
+      ['--s-chart-seq-0','heat 0','var(--s-surface-3)','var(--s-surface-3)'],['--s-chart-seq-1','heat 1','var(--c-brand2-100)','var(--c-brand2-900)'],['--s-chart-seq-2','heat 2','var(--c-brand2-300)','var(--c-brand2-800)'],
+      ['--s-chart-seq-3','heat 3','var(--c-brand2-400)','var(--c-brand2-600)'],['--s-chart-seq-4','heat 4','var(--c-brand2-500)','var(--c-brand2-400)'],['--s-chart-seq-5','heat 5','var(--c-brand2-700)','var(--c-brand2-300)']]}
   ];
   /* 框架索引（唯讀）：DS Framework _base.theme.yaml 完整原始定義；rows=[key,value,role/note]，value 為 #hex 時左側顯示色塊。
      ⚠ 標記處＝框架原值與本專案 v0 種子刻意不同（對照用）。 */
