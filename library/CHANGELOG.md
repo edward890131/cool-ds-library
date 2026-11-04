@@ -6,6 +6,479 @@
 
 ---
 
+## 2026-11-04（四十五）　Favicon 與分享封面
+
+- **Favicon** 換成新 logo：深色圓角方塊＋白色 cdl 字標＋橘色方點；SVG 為主、32px PNG 備援、180px apple-touch-icon，皆以 data URI 內嵌。
+- **分享封面**：新增 `library/assets/og-cover.png`（1200×630，標語 Tune one token, every component follows.）；補 `og:*`、`twitter:card`（summary_large_image）、description 與 theme-color。封面以絕對網址 `https://cool-ds-library.vercel.app/library/assets/og-cover.png` 指定，合併到 main、Vercel 部署後生效。
+
+## 2026-11-04（四十四）　試玩預設、header 排列、側欄待調整項
+
+- **Token 試玩**預設陰影改「無」、外框深淺預設 35%；預覽卡底色淺色更淺（混白）、深色更深（混黑）。
+- **使用回饋**手機高度改 75vh（最矮 420px）。
+- **Header**：搜尋框移到 RWD 切換左邊（右側群組）。
+- **需求匯總**：類別卡左側 icon 拿掉（同側欄）。
+- **側欄**：「上手指南」「偏好設定」標示（待調整）並停用。
+
+## 2026-11-04（四十三）　Figma 同步段落改雙筆電場景
+
+- 標題改「Code <-> Figma, Auto-connect」。
+- 中間改成大型場景（1440 寬約 460px 高）：左右各一台 CSS 繪製的筆電，往外側延伸、只露出靠中間的部分，中間放同步標誌與「已同步／同步中」Tag。
+- 左螢幕是程式碼編輯器（tokens.export.json 分頁、行號、語法上色、色票）：第 4 行 `primary` 反白，舊色號刪掉、逐字打上新色號；右螢幕是 Figma Local variables 面板，`action/primary` 列閃一下並更新色票與色號。兩邊輪流當起點，用的是 :root 實際色值；只在畫面內播放、減少動態時靜止。手機改上下兩螢幕各自裁切外側。
+
+## 2026-11-04（四十二）　首頁細修：手機瀑布流、Step 標籤、回饋背景不閃
+
+- **手機動態展示**改回瀑布流（兩欄、元件縮到約 58%），取代橫向滑動。
+- **裝置預覽變淡**：外層顆粒層疊在 iframe 上造成畫面變灰；預覽開著時外層顆粒關閉。
+- **段落間距**再加大（上方段落 `--sp-9 + --sp-6`、下方四段 `--sp-9 × 2`）。
+- **四個步驟**：「Step 01」改用 Tag 原子；Step 02「活潑」主色橘、輔色紫，不再相同；進度條跑到 100% 轉成綠色。
+- **使用回饋（續）**：手機固定 50vh 高；換則改成先退後進，兩張引言卡不再疊在一起。
+- **Step 標籤**改為 solid 中性 Tag。
+- **使用回饋**：背景改成固定一張，切換時只換引言卡、不再閃；引號縮小；手機上下留大量 padding。
+- **試玩區標題**改「Try to change the token setting.」。
+
+## 2026-11-04（四十一）　首頁下半部統一風格
+
+- **間距**：四個步驟、Figma 同步、使用回饋、常見問題四段之間的距離與上方段落相同。
+- **四個步驟**：「Step 01」放大成淡色大字裝飾（Epilogue、約 64px、14% 透明度），與標題拉開距離。
+- **Figma 三個亮點**改回 bento 卡片（取代細線分隔）；icon 簡化成兩個基本形，加一顆 `--accent2` 小方塊點綴（同 logo），滑過時方塊微放大。
+- **使用回饋**：背景圖圓角改 `--radius`、疊一層 42% 淺黑、拿掉 zoom；切換箭頭與進度移進引言卡底部；換則時卡內資訊依序上移淡入。
+- **常見問題**：標題改「常見問題 FAQ」，移除卡內小標，問題列表不再多包一層卡。
+
+## 2026-11-04（四十）　Figma 亮點改幾何 icon、新增使用回饋段落
+
+- **Figma 同步段落**底部的三個亮點改成無外框三欄（細直線分隔）：每欄一個幾何線條 icon（VARIABLES 疊層八角、VARIANTS 斜切＋旋轉、DRIFT CHECK 位移副本），進入畫面時線條依序畫出、滑過微位移；標題用 Epilogue，說明改寫。手機改單欄、橫線分隔。
+- **動態展示**的元件卡陰影統一為淡淡的 `--e-sm`。
+- **Token 試玩**新增「外框深淺」滑桿（0–100%，50 為預設）：往上混入文字色讓 `--s-border-1／2` 變深，往下淡化。
+- **新增使用回饋段落**（FAQ 前）：寬幅背景照片（使用者提供的辦公室窗景）上疊引言卡（大引號、Epilogue 引言、姓名職稱、頭像），下方左右箭頭＋進度線＋01 / 05；五則回饋約 6 秒自動淡換，滑過／聚焦／捲出畫面暫停，聚焦時可用 ←／→；減少動態不自動播放。
+
+## 2026-11-04（三十九）　四個步驟：Step 標、動態配圖、只留最後 CTA
+
+- 拿掉段落大標（保留 aria-label）；每張卡標題上方改為 Epilogue 的「Step 01–04」。
+- 右側配圖改成循環動態（進入畫面才播、分頁隱藏暫停、減少動態顯示完成狀態）：上傳進度跑滿→第二個檔案上傳；風格 俐落→柔和→活潑，色票／Tag／按鈕圓角與色彩跟著變；勾選框逐一打勾、計數 0→3；兩條進度填滿→按下寫入 Figma→出現成功 Tag→下載 SCSS。
+- 只有第 4 張卡保留「開始新專案」與「看 Figma 同步」，草稿提示移到按鈕下方。
+
+## 2026-11-04（三十八）　動態展示間距、元件牆跟手加強
+
+- **動態展示**：卡片之間的距離縮成與元件牆相同（`--sp-5`），每張元件卡撐滿欄寬（同欄等寬），段落上下留白加大；手機不再多包一層外框。
+- **元件牆**：滑過時的跟手位移與傾斜加大一倍（16px／5°）；跑馬燈上下各留 `--sp-6` 空間，格子往上位移時不再被上緣裁掉。
+
+## 2026-11-04（三十七）　首頁「四個步驟」改疊卡、下方段落限寬
+
+- **四個步驟**改成疊卡（參考 arqe.ai）：每步一張全寬大卡，左側淡色編號 01–04＋標題＋說明＋「開始新專案」與對應頁面的文字按鈕，右側大面板放放大的元件示範（Dropzone、Segmented＋色票＋Tag＋Button、Checkbox 清單、Progress＋Button）。≥768px 捲動時卡片 sticky 疊上，被蓋住的卡從上緣略縮、變淡；手機一般直排；減少動態時不縮不淡。
+- **首頁下方三段**最大寬度改為與 hero 相同（1180px）。
+- **常見問題段**先隱藏「最近的版本」，標題改「有問題看這裡」。
+
+## 2026-11-04（三十六）　Header／側欄重排、手機首頁調整
+
+- **Header**：搜尋框移到 logo 右邊；RWD 預覽切換移到深淺色切換左邊；topbar 的「上手指南」按鈕拿掉。
+- **側欄**：「上手指南」固定放在「偏好設定」上方（全尺寸都顯示），原本手機頂端的入口移除。
+- **手機／平板首頁**：沒有游標互動，hero 的光暈全部拿掉，只留點陣。
+- **手機動態展示**：改成橫向一列卡片，自動以約 18px/s 慢慢左右來回滑動；手指觸碰後暫停 4 秒、捲出畫面停止、減少動態時不動。人物卡與群組卡在手機也顯示。
+
+## 2026-11-04（三十五）　首頁 03–05 段落改版、網站預設深色、人物卡輪播
+
+- **網站預設改深色**：沒選過主題的訪客一律深色；只有在 topbar 明確切到淺色才記住淺色。
+- **首頁三段改版**（拿掉段落數字、標題改口語）：
+  - 「四個步驟，開好一個新專案」：四張步驟卡，每張放一個小的實際元件（Dropzone、Segmented＋Tag、Checkbox、Progress＋Button）示範該步，下方「開始新專案」按鈕。
+  - 「改一邊，另一邊自動跟上」：程式碼卡與 Figma 卡左右對照，一邊的色彩 token 換值、另一邊跟著更新，方向交替；下方三點說明（Variables／Variants／Drift）。捲出畫面、分頁隱藏、減少動態時停止。
+  - 「最近改了什麼？有問題看這裡」：左卡列最近四筆版本，右卡用 Collapse 呈現四題常見問題。
+- **動態展示的人物牌卡**撐滿欄寬，照片改為淡入淡出輪播（站內四張人像），加入成員鈕照舊切換。
+
+## 2026-11-04（三十四）　首頁動態展示精簡、協作游標全首頁
+
+- **元件牆**：原本虛線透明底、棋盤格的格子改成實底淡漸層；標籤格的 Tag 放大一級（30px／`--fs-h10`）、數量 5 → 12 個（三排；有滑過動態的 4 個保留原色，其餘用中性外框）；頭像格改用 Avatar image 型（人物照片頭貼）。
+- **數字段落**上下留白加倍。
+- **動態展示**：拿掉暫停鈕（滑過／聚焦、捲出畫面、減少動態仍會停）與卡片間虛線；KPI 走勢卡只留一張圖；拿掉熱銷商品卡；原本待辦卡的位置改放「27 New Messages」群組卡。
+- **協作游標**擴大到整個首頁（不只 hero），元件牆格子上也維持「yuu」游標；離開首頁自動移除。
+
+## 2026-11-04（三十三）　元件牆 Figma 選取框、hero 協作游標
+
+- **元件牆**：滑過或聚焦的格子顯示 Figma 式選取框（藍色 1px 外框＋四角白底小方塊），跟著格子一起跟手位移。
+- **Hero**：拿掉跟隨滑鼠的光暈，改成協作游標——藍色箭頭＋「yuu」名牌彈性跟隨滑鼠；移到按鈕、連結或試玩區時自動隱藏、恢復系統游標。只在有滑鼠的裝置、未開減少動態時啟用；點陣散開效果保留。
+
+## 2026-11-04（三十二）　非元件頁改 bento 版面、手刻控制換成元件庫原子
+
+- Design Token、Design Guideline、需求匯總、版本紀錄、偏好設定、上手指南六頁改用 bento 卡片＋間距排版（`--panel` 底、1px `--line`、`--radius`、卡內 `--sp-5`、段落間 40px），拿掉頁首下方分隔線、段落標題 2px 底線與條目間分隔線；段落標題在卡外、用 `--font-display`。
+- 手刻控制換成元件庫原子：Token 頁 L1／L2／框架索引分頁、Desktop／Tablet／Mobile、中／En、Sans／Mono 切換改 Segmented；預覽文字框改 Input；重設、停用部分數值、查看程式碼、複製／下載此檔、全部下載改 Button。Guideline 裝置／語言／字體分頁改 Segmented；需求匯總 AI 建議產出改 Switch、複製 JSON／我要調整改 Button；上手指南示意的深淺色切換改 Segmented。
+- 部分輔助文字精簡（匯出段落說明、磨砂說明）。
+
+## 2026-11-04（三十一）　首頁元件牆改一列、滑過換狀態＋跟手
+
+- 元件牆改成一列 15 格方格跑馬燈。拿掉儀表板、評價、步驟、分頁器；新增 Date Picker（區間月曆）、Metric Card、Tooltip；Slider 改填充樣式；人物牌卡整張放得下。
+- 滑過（或鍵盤聚焦）時，格子裡的元件會依序切換自己的狀態，例如按鈕 預設 → 滑過 → 按下、下拉 收起 → 展開 → 選項反白、開關 關 → 開，約 0.8 秒一拍，離開回到靜止狀態；全部用元件自己的狀態 class／事件，不另外重畫。
+- 滑過的格子會帶點彈性往游標方向位移、微傾斜，離開彈回。保留減速、拖曳慣性、名稱淡入與點擊進元件頁；減少動態時直接顯示代表狀態、不跟手。
+
+## 2026-11-04（三十）　字體來源統一、光暈改小圓
+
+- **Eyebrow 與軸標籤改 Epilogue**：頁首「L3 COMPONENT · …」與控制區／變數篩選器的軸標籤（VARIANT、SIZE、CONTENT…）全站改用 `--font-display`，保留大寫與字距。
+- **Epilogue 內嵌**：與 Geist／Geist Mono 一樣以 Latin 子集變體字（100–900）內嵌，不再從 Google Fonts 載入，離線、內網也正常；Design Token 頁「Font Family」群組加入 `--font-display`，`tokens.base.json` 同步。
+- **未套字體 token 的等寬字**：`code／kbd／samp／pre` 預設改走 `--font-mono`（Token 綁定欄位名旁的 radius／spacing／typography 原本落到瀏覽器內建 monospace）。
+- **Metric Card 平均線標籤**改用 `--font-sans`＋tabular-nums，與卡片大數字、圖表元件一致。
+- **手機字級層級**：hero 標題由 `--fs-h4`（28px）提高到 `--fs-h2`（36px），CTA 改 Button sz-m 規格（40px／`--fs-h10`），試玩段落標題改 `--fs-h5`；數字段落手機兩兩並排。
+- **Hero 游標光暈**改為正圓（半徑 140px），透明度減半（淺色 11%、深色 8%）。
+
+## 2026-11-04（二十九）　首頁細修：英文 slogan、光暈換色、數字段落、Epilogue 補齊
+
+- **Topbar** 拿掉 logo 旁的「cool-ds-library」文字。
+- **Slogan** 只留英文、恢復一般大小寫，換字的動詞維持正體。
+- **試玩區**拿掉三種裝置外框與「調整 token」小標（手機仍限高 80vh、內部捲動，工具列 icon 靠右）。
+- **Hero 光暈**：跟隨游標的光暈縮小為原本約 1/4 面積（260×210）；淺色模式改用資訊藍＋紫的淡色（原本混近黑主色顯得髒），深色模式維持主色微光。
+- **數字段落**：最大寬度同 hero、拿掉卡片外框，文案改英文並縮短、整寬 balance 斷行、逐字（單字）變色；只留三個數字（拿掉主題 × 斷點）；標籤移到數字上方，數字字體改用圖表元件同款（Geist＋tabular-nums）。
+- **Button soft**：改成半透明面板底＋背景模糊，磨砂效果在點陣／光暈上看得出來。
+- **Epilogue 補齊**：首頁段落標題、Design Token 段落標題、Guideline 段落標題、版本號、上手指南示意圖、狀態一覽表標頭等原本寫死 Geist Mono 的標題類文字改為 Epilogue；eyebrow、標籤、程式碼、字體標本維持原字。
+
+## 2026-11-04（二十八）　首頁新增宣言段落與大數字
+
+- 元件牆下方新增一張 bento 卡：一段宣言文字隨捲動逐字由淡轉實；下方四個大數字（已定案元件、變體組合、Design Token、主題 × 斷點）在進入畫面時從 0 滾動計數到實際值（ease-out、依序錯開）。數字直接從網站資料計算，元件或軸增減會自動更新。減少動態時直接顯示終值與實色文字。
+
+## 2026-11-04（二十七）　標題字改 Epilogue；首頁 slogan、試玩區裝置外框
+
+- **Display 字體改為 Epilogue**（新增 `--font-display` token）：頁面標題、側欄項目、段落標題、品牌名稱、首頁 slogan 改用 Epilogue；說明文字回到內文 Geist；Geist Mono 只留給程式碼、token 名稱與小型標籤。樣式包 `_font.scss` 同步輸出 `--font-display`。
+- **首頁 slogan**：英文全大寫；預先量測兩種語言所有詞的最大高度並鎖定，換字時下方按鈕不再上下跳動；hero 上下留白加大。
+- **試玩區**：段落標題改為「Change the token, change the component」（字級 `--fs-h7`）；預覽外加裝置外框——桌機為瀏覽器視窗（三點＋網址列）、平板為平板邊框、手機為手機邊框＋動態島，手機限高 80vh、內部捲動。手機工具列補上底部 padding。
+- **Hero 互動背景**：主光暈以彈性補間跟隨游標；點陣改用 canvas 繪製，游標附近的點會被推開、變亮略放大，離開後彈回。只在有滑鼠的裝置、未開減少動態時啟用，捲出畫面即停止。
+- **Button soft**：加上背景模糊（`backdrop-filter`），放在漸層或圖片上更清楚。
+
+## 2026-11-04（二十六）　手機試玩改分組工具列、浮動列離邊、編輯中停用開新專案
+
+- **手機試玩**：「調整 token」大按鈕改成一列工具列——左側標題＋四顆 icon-only Button（顏色／形狀／文字／間距與動態，Phosphor icon）＋已改數 Tag；點任一顆開底部抽屜並自動捲到該分組，分組短暫高亮。
+- **手機浮動列**不再貼邊貼底：左右與底部各留 12px（含安全區），`--r-md` 圓角。
+- **編輯中停用「開啟新專案」**：已套用提案的專案編輯中，右上按鈕停用並提示改用浮動列的「重新開始」。
+- **手機搜尋鈕**：icon 改 14px 與選單鈕一致，hover 樣式只在有游標的裝置生效（避免觸控後殘留深色外框）。
+
+## 2026-11-04（二十五）　首頁 slogan 加英文版
+
+- Hero 標題先播英文「Tune one token, / every component recolors · rounds · reweights · tightens」，四個詞播完淡出換成中文「調一次 token，/ 整套元件一起換主色 · 改圓角 · 調字重 · 變密度」，循環；每個詞仍各有顏色。減少動態時固定英文第一句。
+- 網站頁尾版權改為「© 2026 YUUDESIGN, all rights reserved. Powered by Yuu」。
+
+## 2026-11-04（二十四）　Logo 換成 CDL
+
+- 母庫 logo 由 Goons 字標換成 **CDL**（Cool Design Library）：小寫幾何字標「cdl」（同一支 6 單位筆畫）＋句尾強調方塊，方塊綁 `--accent2`、字身走 `currentColor`（深淺色自動反白）。三處同步：網站 topbar `.brand-logo`、library header `hdrLogo`、footer `ftrLogo`；鎖寬 40／46px、高度等比。專案上傳的 logo 仍優先顯示。
+- 產品名稱同步改為 CDL（CDL Studio、樣式包與匯出檔註解、說明文字、guide 示意圖的字標）；公司版權「果思設計 Goons Design」維持不變。
+
+## 2026-11-04（二十三）　專案浮動列改反白、套用提案後直接到 Token 頁
+
+- **專案浮動列**改用元件庫浮動批次列（Table Toolbar `.ttb-bar`）同一套反白樣式：`--ink` 底、`--panel` 字、`--r-md`、`--e-xl`；「匯出」為反白外框、「下一步」為反白實心，深色模式自動反轉。進場改成彈性上滑＋淡入（手機為底部滑入）。
+- **浮動列加「重新開始」**（反白文字按鈕，放在「匯出」左邊）：確認後清除流程草稿、回到開新專案第 1 步；`?project=` 模式不顯示。
+- **開新專案「套用到網站」**：套用後自動關閉流程、流程進到「調整」步驟，跳到 Design Token 頁並顯示提示，底部浮動列動態進場。
+
+## 2026-11-04（二十二）　手機：調整 token 移到試玩區上方、搜尋鈕與彈窗
+
+- 手機試玩區的「調整 token」不再懸浮在畫面底部，改放在試玩卡片最上方、滿寬。
+- 手機 header 的搜尋鈕改成與選單鈕同款（outline · secondary icon-only，透明底、同色 icon）。
+- 搜尋在手機／小平板改為彈窗（上方留出 header、左右 12px 側距、列表在彈窗內捲動），不再滿版。
+
+## 2026-11-04（二十一）　Header、裝置預覽與專案編輯模式
+
+- **裝置預覽載入動畫**：裝置螢幕內顯示 % 進度（Progress＋Loader 原子），依框內頁面的真實訊號推進（文件開始→腳本執行完→字型就緒），完成後淡出。慢與空白的原因：每次開預覽都重新載入整份約 1.8MB 的單檔頁面，靜態殼先畫出（只有 topbar、空側欄、頁尾），大段腳本跑完才出現內容；現在載入動畫蓋住這段空殼，切換裝置沿用同一個 iframe 不重載。
+- **Header 手機／平板**：選單鈕固定 32×32 方形 icon 按鈕；搜尋在 ≤599px 改 icon 按鈕、600–1023px 為 220px 欄位（修正被 1199px 規則蓋掉的問題）。
+- **側邊欄**：901–1199px（iPad Pro）預設收合，使用者手動切換會記住。
+- **右上按鈕改「開啟新專案」**（開 #start 流程）；`?project=` 模式維持「儲存並更新」。匯出改在流程的匯出步驟與浮動列。
+- **專案編輯模式**（`?project=` 或已套用流程提案）：元件頁 Token 綁定可編輯，綁定存進草稿、重整後保留。原右下「專案進行中」改成底部置中浮動列：專案名 Tag＋「已設定 N 項 token · 已選 M 個元件」（即時更新）＋「匯出」「下一步」；手機為滿寬底部列並避開安全區。
+
+## 2026-11-04（二十）　首頁手機／平板：CTA 破版修正、試玩區改版
+
+- **Hero CTA**：手機寬度下按鈕被 `flex:1 1 0` 擠到比文字還窄而破版；改為維持原尺寸，≤599px 時兩顆等寬並排撐滿。
+- **iPad mini 直式（600–767px）**：試玩控制改成面板內兩欄格線（同類控制成對排），整組約 414px 高、不再需要「更多選項」；footer 單列。
+- **手機（≤599px）**：控制收進一顆浮動「調整 token」按鈕（附已改數量 Tag），點開 library Modal 底部抽屜，內含全部控制與重設／複製 CSS 變數，預覽即時更新；Esc／×／點背景關閉，焦點回到按鈕。移除舊的「更多選項／收合」列。
+
+## 2026-11-04（十九）　匯出 zip 元件程式碼改成合併檔結構
+
+- 原本每個元件一個資料夾（`components/<id>/<id>.html＋<id>.scss`），32 個元件就是 64 個檔。改成：樣式每顆一個 SCSS partial 平放在 `styles/components/_<id>.scss`，加 `styles/components/_index.scss` 合併入口（`@forward` 全部已選元件，`@use "styles/components"` 一行引入）；HTML 全部合在專案根目錄 `components.html`（開頭附元件清單，依元件分段註解）。交棒說明與檔案清單文字同步更新。
+
+## 2026-11-04（十八）　Slider 頁新增「Variant 樣式軸」段落
+
+- 填充式滑桿原本只藏在互動預覽的 Variant 切換與狀態一覽表裡，不容易發現。新增「Variant 樣式軸」段落，並排展示軌道／填充 × 單值／區間四種（都可直接拖曳）；示意列改成等寬格線，兩種樣式的長度一致好比較。
+
+## 2026-11-04（十七）　首頁 hero 精簡
+
+- 拿掉左上「新」公告膠囊與底部「已定案元件」分類數字列；說明改寫為「N 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。」並移到「開始新專案」按鈕下方，hero 改為單欄靠左。
+
+## 2026-11-04（十六）　首頁 Token 試玩面板拿掉小標
+
+- 拿掉面板標題「Token 試玩」與分組小標（顏色／形狀／文字／間距與動態），分組之間的虛線分隔也拿掉（只留間距）；分組仍有 aria-label。桌機不顯示面板標題列，手機保留（改動數＋收合鈕）。
+
+## 2026-11-04（十五）　首頁第六輪：元件牆互動還原、動態展示換輸入類牌卡
+
+- **Token 試玩**：團隊成員改回頭像列版（加到 6 位，與趨勢圖等高）；快速新增拿掉「說明」欄位，欄位重新排列。
+- **元件牆、動態展示**：不顯示段落標題（保留 aria-label）；動態展示的暫停／播放改成卡片右上的小按鈕。
+- **元件牆互動**（參考 designsystems.surf 的 ticker）：持續橫向輪播，滑過時減速到 25%（不是硬停）；可滑鼠／觸控拖曳並帶慣性、觸控板橫向捲動；滑過或聚焦時格子下方的名稱與「查看元件 →」以彈性曲線淡入上滑；拖曳不會誤觸點擊。移除「查看 X →」游標提示。
+- **動態展示**：移除儀表、品牌牌卡、動態速度卡；新增三張輸入類牌卡——建立帳號表單（自動打字、驗證錯誤→修正→成功）、任務清單篩選（搜尋逐字篩選、套用狀態 chip）、排程上線（下拉選負責人、日期選擇）。熱銷商品改成模擬游標滑過長條顯示 tooltip，不再切換排名。KPI 折線的 hover 一次只動一張、十字線與 tooltip 淡入淡出、每張約 3.8 秒，修正切換時跳動閃爍。
+
+## 2026-11-04（十四）　圖表頁控制區只顯示該圖型可控制的選項
+
+- 圖表頁原本就有「依圖型顯示選項」的邏輯，但改成 bento 版面後控制列被移出原本的區塊，判斷找不到元素，所以 14 種圖型的選項全部攤開。現在改從整頁找控制列：例如折線只顯示面積／漸層／格線／X、Y 軸 5 項，橫向排名長條只顯示排序＋排名數值，熱力圖只顯示色階＋色階圖例。
+
+## 2026-11-04（十三）　所有元件頁改用 bento 版面；長選項改下拉
+
+- **元件頁 bento 化**：除 Logo（品牌資產上傳頁）外，所有元件頁沿用 Button 頁版型——第一列控制｜預覽｜變數篩選＋Token 綁定（可拖寬）、第二列 HTML｜SCSS、內容段落（標題在卡外、內容一張卡）、最後狀態一覽表預設收合；拿掉 spec 列、分隔線與「互動預覽與程式碼」「變數與 Token」段落標題。依預覽寬度自動選三欄／兩欄／寬版（控制橫排、預覽滿寬，用在 header、footer、app-shell、table、table-toolbar、modal、drawer 等）。selector 依 checkbox／radio 各一組；input 子元件、tab item 各成段落；progress、calendar 無程式碼列。`PAGE_LAYOUT[id]='classic'` 可退回舊版。
+- **長選項改下拉**：互動預覽的選項超過 6 個（或設定 `as:'select'`）改用 Dropdown 元件——Chart 圖型（14 種）、Tag intent、Icon。被變數篩選器關掉的選項會停用，鍵盤可操作、點外面收合。
+- 手機寬度下 header、input、list、table-toolbar 原本會撐出橫向捲動，現在寬預覽在卡片內部捲動。
+
+## 2026-11-04（十二）　首頁第五輪：元件牆跑馬燈、動態展示錯落 bento、段落 bento 化
+
+- **Token 試玩預覽**：待辦卡拿掉封面、改 6 項＋完成進度；團隊成員改成人物照片小卡（Person Card 的相框＋站內照片）；快速新增加入負責人（下拉）、截止日（Date Picker）、優先度、標籤（多選）、說明、通知成員，新增／清除改 s 尺寸放到卡片右上角；「進行中」tag 文字修正為綠色。
+- **元件牆**：改成兩排 300px 正方形格、16 顆真實元件原尺寸展示，背景輪流用漸層、照片、虛線框、點點、棋盤格；兩排反向無限跑馬燈（52s／60s 一圈），滑過或聚焦暫停、捲出畫面暫停，減少動態時改成可橫向捲動；保留「查看 X →」游標提示與點擊進元件頁。
+- **動態展示**：改成高低錯落的 bento 欄位排列＋虛線格線，欄數依寬度 4／3／2／1；自動動態節奏不變，暫停鈕移到段落標題列。
+- **段落**：所有段落內容改用 bento 卡片、段落間距 40px，拿掉段落說明、腳註、自動播放說明等輔助文字；段落標題精簡為：元件牆、動態展示、四步開新專案、Figma 同步、更新與常見問題。
+
+## 2026-11-04（十一）　Header 新增 RWD 裝置預覽切換
+
+- 「上手指南」右邊新增裝置切換（Segmented 原子＋Tooltip）：桌機／平板 iPad Pro 13"（1024×1366）／小平板 iPad mini（744×1133）／手機 iPhone 16（393×852）。選平板或手機時，在 header 下方開啟預覽區，用裝置外框（動態島、狀態列、home 指示條；外框色走 neutral token）以真實 CSS 尺寸顯示目前頁面，超過視窗高度時等比縮小；下方顯示裝置名稱與尺寸，附「旋轉」「關閉」（Button 原子），Esc 也可關閉。
+- 外框內是同一頁的 iframe（加 `rwdframe=1`，內層不再出現切換鈕）；主題、磨砂設定即時同步，內外頁換頁雙向同步；選擇記在分頁 session。視窗寬度小於 1024px 時隱藏切換、自動關閉預覽。
+
+## 2026-11-04（十）　首頁 Token 試玩改版第三輪；Button bento 段落間距修正
+
+- **首頁 Token 試玩**：操作區與預覽合成同一張實底卡片，左右等高（預覽決定列高、操作區內部捲動），不再透出點點背景；拿掉「底色染色」與染色強度；預覽主題只留淺色／深色（進站跟網站主題）；「快速新增」欄位與底部按鈕間距拉開並加分隔線；「邀請」改 Button soft／secondary 灰底；卡片標題列改依內容高度，四邊 padding 一致；待辦卡加上 Image 元件封面（站內照片）；預覽內圖表系列 1 跟主色、系列 2 跟輔助色。
+- **Button bento 頁段落間距修正**：上一版加的間距被 `.bento section.block{margin:0}` 蓋掉沒生效；現在 Size／Content／狀態一覽表之間＝40px（依 Figma 17756:22864）。
+
+## 2026-11-04（九）　全站確認框改用 library Modal 元件
+
+- 原本的確認框（`dsDialog`：開新專案「重新開始」、匯出／儲存確認等）是另一套自訂樣式（`.ds-dlg`），跟 Modal 元件圓角、字級、按鈕排列都不同。現在一律取用 Modal：單純確認＝**popup**（置中標題＋說明＋次／主並排等寬按鈕），帶變更清單＝**modal**（標題列＋×、可捲內容、右對齊 footer）。支援 Esc 關閉、關閉後焦點回到觸發按鈕；疊在其他 Modal 上方時層級正確。
+
+## 2026-11-04（八）　分段控制選取底色錯位修正；流程「重新開始」移到底部；步驟打勾加粗
+
+- **分段控制（`.seg`）**：選取底色改由 ResizeObserver 跟著元件自身尺寸重新對齊（只在尺寸真的改變時 snap，點選切換仍保留滑動動畫）——拖曳欄寬、容器換版時不再錯位；Button bento 控制欄的分段鈕改用等分格線，字放不下時該格撐開、不溢出，控制欄最小寬度 200 → 240px。
+- **開新專案**：「重新開始」從右上角移到底部「上一步」右邊。
+- **Step**：完成步驟的打勾改成 bold 粗細（與 checkbox 一致）。
+- **Button bento 頁**：Size／Content／狀態一覽表段落間距再加大（`--sp-8`）。
+
+## 2026-11-04（七）　開新專案匯出含元件程式碼；Button bento 頁細修
+
+- **匯出改成一個 zip**：除了原本的訪談、提案、token、元件、狀態 JSON 與 README，新增 `styles/`（_variables／_breakpoints／_font／layout.scss＋README，與 Design Token 頁「輸出 · 樣式包」同一套產生器）與 `components/<id>/<id>.html＋<id>.scss`（每顆已選元件，內容與元件頁程式碼區一致、已套用變數篩選）。檔案清單分「文件／樣式包／元件程式碼」三組。JSON 檔維持放在專案根目錄，sync 腳本與 `?project=` 續編才讀得到。
+- **修正**：樣式包原本漏掉全寬（root）層的響應式 token 覆寫（圓角／間距／字級），現在 tablet／mobile 覆寫 > root 覆寫 > 預設，與網站實際套用一致（Design Token 頁的輸出也一起修正）。
+- **「專案進行中」膠囊改用 Notification 元件**（outline · info，附「回到流程」動作鈕），移除自訂樣式。
+- **Button bento 頁**：控制區分段鈕等分寬度；變數篩選器的 checkbox 改用與 checkbox 元件同款的打勾動態（全站原生 checkbox 一起套用）；HTML／SCSS 兩張卡在寬螢幕只顯示標題、不再有分頁切換，手機上只留一張卡並保留切換；Size、Content、狀態一覽表段落間距加大。
+
+## 2026-11-04（六）　Step／Table Toolbar 重新設計；首頁試玩預覽改成 bento 介面
+
+- **Step 新增 `type` 軸：`classic`（原版）／`compact`（精簡進度：分段進度條＋「步驟 n / m」，可點回已完成步驟、錯誤狀態擋下一步）／`timeline`（垂直時間軸：每步可展開細節、一次只開一個）**。`orientation`、`variant` 只在 classic 生效，有效組合 8 種（以 `when` 記錄稀疏組合，Figma 只建有效組合）；boolean：description／count／time／expandable。
+- **Table Toolbar 改成 `filter × bulk × density`（2×3×2＝12）**：已存檢視分頁（可另存新檢視）、篩選氣泡卡＋條件 chip、列高切換；勾選列時底部浮出批次操作列（全選 N 筆／只選本頁、指派、匯出、刪除需確認）。原 `mode`、`size` 軸移除。全部取用既有原子（tab、field、button、popover、checkbox、tag、segmented、table、action menu）。
+- **registry 產生器**：支援 `when`（稀疏組合）與 `bools`（Figma boolean property），每顆元件加 `variantCount`。
+- **首頁試玩預覽**：改成一個「春季活動頁」專案總覽介面——頂列＋7 張 bento 卡（三張 KPI、交付趨勢圖、團隊成員、待辦任務、快速新增），所有卡片同一套圓角（`--radius`）、陰影、外框、底色、padding 與標題列；可直接操作（切月份／本週、勾待辦、新增任務），依預覽寬度自動換欄。
+- **slogan 換字加換色**：換主色／改圓角／調字重／變密度各一色（紫／藍／橘／綠，深色模式用亮階），游標跟著變色；減少動態時固定第一個字。
+- **動態展示放慢**：每拍停 2.5～4 秒並加隨機偏移，各卡錯開開始；游標掃過圖表改成緩入緩出的弧線，展示卡內的動態時間拉長、改用 ease-out。
+
+## 2026-11-04（五）　Button 頁改 bento 版面；全站 checkbox 與遮罩統一
+
+- **Button 頁改 bento 版面**（依 Figma 17753:18970）：第一列「控制｜預覽｜變數篩選＋Token 綁定」三欄可拖曳調寬（鍵盤 ←／→、雙擊還原，寬度記在瀏覽器）；第二列 HTML／SCSS 左右並列；第三、四列 Size、Content；第五列狀態一覽表預設收合。每塊都是同款卡片（`--panel` 底、1px `--line`、`--radius`、間距 `--sp-5`），拿掉細線分段與不必要的輔助文字。其他元件頁暫不變。
+- **checkbox 統一**：全站原生 checkbox（控制面板、篩選清單、表單）改成與元件 `.cbx` 標準尺寸同外觀（20px、1.5px 外框、`--r-sm`）；勾與半選符號改成 bold 粗細，元件內的勾也一起加粗。
+- **遮罩統一成 `--s-scrim` token**：modal、drawer、搜尋、確認框、App Shell、手機側欄共用；淺色 40%、深色 62%，兩種主題看起來的壓暗程度一致（原本深色遮罩偏淺，部分用 `--ink` 混色在深色下反而變亮）。
+
+## 2026-11-04（四）　Slider 新增填充式樣式；首頁試玩改用填充滑桿與色號欄；側邊欄拿掉 icon
+
+- **Slider 新增 `variant` 軸：`track`（軌道，原版）／`fill`（填充）**。填充式沿用偏好設定的磨砂程度滑桿：整條就是控制項，標籤在左、數值在右、填色代表目前值，點或拖任何位置都能調，鍵盤操作同軌道版；單值與區間都支援，尺寸 s＝32px、m＝40px。握把只在滑過、聚焦、拖曳時出現，避免壓到標籤。組合數 16 → 32。
+- **首頁 Token 試玩**：所有滑桿改用填充式；主色、輔助色、底色染色從色票改成「色號預覽＋色號輸入欄」（取用開新專案流程同款的色彩欄位）。輸入格式錯誤時欄位轉紅框；清空＝回到預設（底色染色清空＝不染色）。
+- **側邊欄**：拿掉各項目前方的線框 icon。
+
+## 2026-11-04（三）　牌卡與卡片容器圓角統一走 `--radius`
+
+- 新牌卡（person／profile／metric／invite／widget-card）的圓角預設改綁共用的 `--radius`（＝`--r-sm`，與 card、product-card、article-card、category-tile、chart 卡同一個），之後改 `--radius` 全部一起變。
+- 首頁玩玩看：預覽裡的表單卡原本用 `--r-lg`（10px）和其他卡片不一致，改為 `--radius`；「圓角」滑桿改成調「元件圓角（--radius）」，預設 4px、範圍 0–16px，等比例帶動其他 `--r-*`；預覽外框與操作面板圓角收為 `--r-md`。
+
+## 2026-11-04（二）　磨砂時浮層不再透出背後內容
+
+- 磨砂偏好會把 `--panel` 系列換成半透明，原本連彈窗（開始新專案、對話框）、下拉、選單、浮出卡、搜尋面板也一起變透明、且沒有模糊，背後的字直接透出來。浮層改為只淡淡透一點（磨砂 100% 時約 86% 不透明）並加強背景模糊（16＋24×磨砂 px），浮層內的標題列、內容區、底部列不再各自疊半透明底。
+
+## 2026-11-04（一）　移除 Typography、牌卡圓角統一、Modal 次按鈕一致、token 收尾
+
+- **移除 Typography 文字元件**（頁面、DIAL_SPECS、registry、搜尋別名）；文字樣式仍由 Design Token 的 h1–h12 text style 管理。
+- **新牌卡圓角改用舊牌卡的值**：person／profile／metric／invite／widget-card 外框由 `--r-lg`／`--r-xl` 改為 `--r-sm`（與 card、product-card、category-tile、article-card 一致），內層照片、分享區塊、通知改 `--r-xs`，對話泡泡 `--r-sm`；TOKEN_SLOTS 預設同步。
+- **Modal（popup）底部次按鈕**原本用 outline **primary**（深色外框），和全站「次動作＝outline secondary」不一致，改為 `v-outline i-secondary`。
+- 圖表／牌卡剩下的寫死值改綁 token：小尺寸座標字級 → `--fs-h12`、人物卡照片漸層 → `--c-neutral-900` 混色、在線呼吸動畫 → `--dur-slow` 倍數；舊 Card 內距 → `--crd-pad`（預設 `--sp-4`）。
+- registry 70 ready＋6 planned；需求匯總 1138 個變體。
+
+## 2026-11-03（十七）　首頁第三輪：玩玩看左右版面＋更多選項、元件牆不縮放、會動的卡片與圖表加快
+
+- **玩玩看**：左側固定的操作面板（約 320px，手機收合為「更多選項」）＋右側預覽。選項：主色／副色（色票＋自訂）、底色染色與強度、預覽單獨切深淺、圓角（0–24px，等比例套到所有 `--r-*`）、外框粗細、陰影層級、字體（Geist／系統黑體／明體）、字重、字級比例、間距密度、動態速度（`--dur-*` 倍率）。即時列出改了哪些 token，可重設、可「複製 CSS 變數」。預覽精簡為 4 個元件（表單＋按鈕、profile-card、堆疊面積圖、metric-card）；只寫在預覽容器，不動 `:root`。
+- **元件牆**：拿掉格子下的名稱與說明；元件用原尺寸、不縮放（放不下就裁切）；卡片類只留 metric-card，其餘換成日期選擇、下拉選單、指令面板、通知、標籤、分頁籤、頭像群組、儀表、滑桿、評分、進度、步驟、分頁、表格工具列。滑過格子時游標旁跟著「查看 ○○ →」的按鈕樣式標籤（只在滑鼠／筆，觸控不顯示；鍵盤聚焦時顯示在格內）。
+- **會動的卡片與圖表**：拿掉說明文字；每 1.2–2 秒換一次狀態、各卡錯開，動態加量（十字準線掃過、長條重排、儀表擺針、頭像散開等）；離開畫面／滑過／聚焦／切分頁暫停，減少動態時不自動播放。
+
+## 2026-11-03（十六）　側欄圖示改用 Phosphor
+
+- 側欄、需求匯總分類、上手指南按鈕與上手指南裡的仿側欄示意，原本用 emoji，改成 Phosphor regular 線條圖示（16px、`--muted`，滑過或目前頁轉 `--ink`）：首頁 house-simple、Design Token palette、Design Guideline ruler、需求匯總 clipboard-text、上手指南 book-open-text、General shapes、Layout layout、Navigation compass、Form textbox、Feedback & Overlay chat-circle-dots、Data Display rows、Card cards、Table & Chart chart-bar、版本紀錄 clock-counter-clockwise、偏好設定 gear-six。NAV 每組新增 `ic` 欄位（emoji 欄位保留供舊資料相容）。
+
+## 2026-11-03（十五）　首頁改版：hero 版型、牌卡圖表試玩、瀑布流元件牆、會動的卡片與圖表
+
+- **Hero**：參考 designsystems.surf 的結構（不沿用品牌與文案）——靠左大標、最後一個詞輪流打字（換主色／改圓角／調字重／變密度，減少動態時靜止）、CTA 在左、說明在右，下方細線＋各分類元件數。「新」標籤連到 person-card。
+- **玩玩看**：hero 下方的大視窗，內容換成真的 person-card、metric-card、profile-card、widget-card 與 area-stack／heatmap 圖表（瀑布排列，手機只顯示 3 張）；工具列的主色／圓角／字重／密度只改 hero 範圍內的變數，不寫 `:root`，附重設。
+- **01 元件牆**：改成 15 格精選的瀑布流（四種尺寸、無空格），捲動時依序浮現（未觸發時仍保持 40% 可見）、滑過微浮起；拿掉篩選 chip，底部「瀏覽元件」→ Button 頁。
+- **02 會動的卡片與圖表（新段落）**：趨勢小圖卡換區間、追蹤切換、排名重排、週次輪播、儀表換門市、加入成員切換、待辦切換、motion token 示意；離開畫面、滑過、聚焦或切到別的分頁時暫停，有全域暫停鈕，減少動態時不自動播放。
+- 拿掉「動手試試」；四步／Token 與 Figma／最新更新與 FAQ 保留（編號 03～05）。
+
+## 2026-11-03（十四）　開新專案改成大 popup、表單改用元件庫元件、Dropdown 外點收合
+
+- **開始新專案改在一個大 Modal 內完成**（取用 Modal 元件的開合動態）：960px、最高 90vh，標題列＋步驟條與「上一步／下一步」固定，只有內容捲動；手機為全螢幕。`#start` 會在目前頁面上開啟，× 與 Esc 關閉並保留草稿，點遮罩不會丟失內容；首頁按鈕、搜尋、右下角「回到流程」都會開它；焦點鎖在視窗內、關閉後回到原按鈕。
+- **表單全部改用元件庫元件**：Field（label／hint／錯誤）、Dropdown、Segmented、Tag、Dropzone、textarea；兩欄 label、控制項、提示對齊，控制項一律 36px 高，間距走 `--sp-*`。第一步的「上一步」用 disabled 樣式。
+- **Dropdown 元件修正（全站）**：原本只能點觸發器才收合；改為展開時監聽外點、Esc、焦點離開，關閉後移除監聽。觸發器可聚焦（combobox／listbox、aria-expanded），↑↓ Home End 移動、Enter 選取、Esc 回到觸發器。
+- **topbar 在 1024／768px 不再橫向超出**：1199px 以下藏起頂部的「此為母元件庫…」（側欄底部仍有），899px 以下搜尋框縮成圖示。
+
+## 2026-11-03（十三）　metric-card 長條圓角對齊 chart
+
+- chart 的 line／curve／bar 原本寫死 300／340／380px 寬，現在和進階 9 型一樣依容器寬度重畫（ResizeObserver；viewBox 寬＝實際像素，文字與線條不被拉伸），互動預覽、Dashboard 示意、矩陣格都會跟著伸縮。
+
+- metric-card 的週長條／每日長條原本用 `rx:6`／`rx:1.2` 四角圓，和 chart 元件不一致；改用 chart 同一支 `chtxBarTop`＋`--r-xs`（只有頂端圓角、底部貼齊基準線）。折線版的重點欄底色也改用 `--r-xs`。
+
+## 2026-11-03（十二）　Card 新增 5 種牌卡（牌卡提案第二版進庫）
+
+- **person-card 照片人物卡**：`state`（default／added）× `size`（m／s）＝4；boolean `tags`（照片左上的磨砂標籤）。加入成員 → 已加入。
+- **profile-card 品牌檔案卡**：`cover`（graphic／image／color）× `state`（default／following）＝6；boolean `verified`。追蹤者數字逐位滾動（顯示完整數字，+1 才看得出變化）。
+- **metric-card 指標週卡**：`chart`（daily-bar／weekly-bar／line）× `tone`（brand／info／success／violet）＝12；點週次切換、平均值滾動，平均線數值滑過才出現；附 Walking／Active calories／Sleep／Weight 範例。
+- **invite-card 邀請協作卡**：`layout`（card／modal）× `members`（empty／list）＝4；email 驗證（錯誤輕晃）、新成員滑入標 Invited、權限選單（取用 action-menu 項目，↑↓／Enter／Esc）、複製連結、全部移除後顯示 empty。
+- **widget-card 小工具卡**：`kind`（message／todo／group／welcome／date）＝5；附參考圖版面的 Bento 組合。
+- 原子擴充：`avtEl` 可帶自訂照片（`o.src`）；Tag 新增 `.tg-frost`（壓在照片上的磨砂標籤）。新增 Phosphor icon：caret-right、link、seal-check（fill）、person-simple-walk、fire、gauge、chat-centered-text。
+- 示範照片：原檔在 `library/assets/photos/`，頁面內以壓縮 data URI 嵌入（約 51KB）。
+- 元件內容維持提案的英文；registry 重生 71 ready＋6 planned；需求匯總 1150 個變體；首頁元件牆多 5 格。
+- ✅ Playwright：5 頁段落順序、矩陣、互動、深淺、390px；全站 84 頁無空頁、0 console error。
+
+## 2026-11-03（十一）　Chart 新增 9 種圖型（提案定案 → 進庫）
+
+- **chart variant 擴充為 14 種 × m／s＝28**：原有 stat／line／curve／bar／donut，新增 spark（趨勢小圖卡）、brush（刷選縮放折線）、area-stack（堆疊面積）、bar-stack（堆疊長條）、combo（長條＋折線，預設上下分開、可切雙軸）、bar-rank（橫向排名）、gauge（儀表）、funnel（漏斗）、heatmap（熱力圖）。頁面依「基礎／趨勢／組成／比較／進度與分布」分組顯示，DIAL_SPECS 仍是唯一來源。
+- 互動沿用提案：跟著游標的十字準線提示、圖例開關（其他層補位）、hover 淡化、區間切換變形、方向鍵逐點查看、數字逐位滾動、排名 FLIP 重排、刷選拖曳／把手／鍵盤縮放；reduced-motion 直接到終點。
+- **新 token**：primitive `--c-violet-100…900`；semantic `--s-chart-2`（info）、`--s-chart-3`（success）、`--s-chart-4`（violet），熱力圖色階 `--s-chart-seq-0…5`（brand2）；深淺各自定義，Design Token 頁與 `tokens.base.json` 同步。系列 1 仍是 chart 的 `--accent`（brand2）。門檻與流失只用 feedback token。圓角改用元件庫 token（提案頁的圓角過大已修正）。
+- registry 重生（chart 軸 +9）；需求匯總 1101 → 1119 個變體。
+- ✅ Playwright：28 格矩陣、9 種互動、深淺、390px；全站 79 頁、0 console error。
+
+## 2026-11-03（十）　新首頁、磨砂滑桿互動
+
+- **新首頁（`#home`，無網址時的預設頁；上手指南仍在 `#guide`）**：
+  - Hero：「調一次 token，整套元件一起變。」＋ token 試玩區（主色色票／自訂、圓角、字重、密度），只改 hero 範圍內的變數，旁邊一格格真實元件（按鈕、toggle、slider、segmented、欄位、tag、alert、avatar、progress、圖表）即時換樣式；CTA「開始新專案」→ `#start`、「瀏覽元件」。
+  - 01 元件牆：66 顆已定案元件的迷你即時預覽（取用各元件工廠函式），依 8 組分類篩選，點了進元件頁。
+  - 02 四步開一個新專案、03 動手試試（輪播、評分、可滑掉的通知）、04 Token 與 Figma 同步（三層 token、四類差異、Local Variables 示意）、05 最新更新（讀更新紀錄）＋常見問題（取用 Collapse）。
+  - 側欄最上方加「首頁」，logo 點擊回首頁；搜尋可找到「首頁」。
+- **磨砂滑桿**：填色加深、看得到目前值；整條游標改為 pointer；握把滑過時放大（3×14 → 4×20px），拖曳時再拉長到 24px（spring）。
+
+## 2026-11-03（九）　專案流程原型（#start）、磨砂滑桿改版
+
+- **開始新專案（`#start`，無 AI 原型）**：六步精靈——① 專案基本資料（品牌、專案名稱自動 `<品牌>-YYYYMMDD`、產業、平台、Figma 檔）② 匯入資料（取用 Dropzone，檔案只留在記憶體；貼文字／網址）③ 品牌問卷（精簡 Phase 0；沒有主色不能往下）④ 提案（依答案產生 token 與元件建議並附理由，「套用到網站」走 Design Token 頁同一條 `applyTokOverrides`，元件預選進需求匯總）⑤ 調整（跳到 Token／需求匯總／Guideline，其他頁右下角顯示「專案進行中 · 回到流程」）⑥ 匯出（opening-interview.md、proposal.json、tokens／components／selection、README，可逐檔或全部下載；匯出前規則檢查：主色對比、元件數）。三處標示「AI 之後接上」並有固定規則的替代做法。草稿存在這台裝置，可中斷後續作。搜尋可找到「開始新專案」。
+- **磨砂滑桿改版**（參考 React Bits 參數面板）：控制區收窄到 340px；滑桿改成整條可拖的填充式控制（標籤在左、數值在右、填色＝目前值、邊緣握把、刻度），底下仍是原生 range（鍵盤 ←→、螢幕閱讀器照常）；快速值改用 Segmented 原子（關閉／輕／中／重，自訂值時都不選）。
+
+## 2026-11-03（八）　磨砂偏好、topbar 深淺色切換、全站模糊搜尋
+
+- **磨砂材質（偏好設定）**：0～100 滑桿＋關閉／輕／中／重快速值，預設 0（與原本完全相同）。往上調時全站背景透出依 `--accent2` 等 token 生成的漸層，網站外框（頁底、topbar、側欄、規格／篩選／互動預覽／矩陣面板）變半透明＋背景模糊。只是看站的偏好：元件預覽區（矩陣格、互動預覽舞台、內容示範列）把 surface token 釘回實心值，元件外觀與匯出結果一致。存 localStorage `ds-frost`。
+- **深淺色切換移回 topbar 右上角**：預設淺色，拿掉「跟隨系統」（舊的 system 設定視為淺色）；偏好設定頁移除主題區塊。切換鈕為 `role=switch`，太陽／月亮圖示。
+- **全站搜尋**：topbar 搜尋框，或按 ⌘K／Ctrl+K、`/` 開啟；面板取用 Command 元件。搜尋元件（含規劃中，會標示）、頁面、token（例如 `--sp-4`，選了會跳到 Token 頁並亮出那一列）。模糊比對：子字串 → 依序出現的字母（`dtpk` → Date Picker）→ 4 字以上容許錯字（`buton` → Button）；中英文名稱、id 與常用別名（「彈窗」→ Modal、「上傳」→ Dropzone）都能搜，命中字標色。沒輸入時顯示最近搜尋與常用頁面。手機為全螢幕面板。
+- **Command 元件**同步改用同一套模糊比對。
+- **搜尋細修**：觸發框快捷鍵改成單一鍵帽（⌘K／Ctrl K）靠右；無結果的空狀態置中；「最近搜尋」右側加「清除紀錄」；群組標題、說明與提示列字級不低於 14px；拿掉元件右側的分類備注（token 仍顯示目前數值）；注音／中文輸入法組字時不搜尋，選字完成才搜。
+- ✅ Playwright：預設淺色、切換持久化、搜尋 7 組關鍵字結果、Enter 換頁、token 跳轉亮列、磨砂 60% 時 topbar backdrop-filter 生效且矩陣格／預覽舞台維持實心白、390px 無橫向捲動；全站 78 頁無空頁、0 console error。
+
+## 2026-11-03（七）　P2 元件全部完成（17 顆，規劃中 → 完成）
+
+每顆都有變數篩選、矩陣、「什麼時候用」、互動預覽與程式碼；內部一律取用既有原子（鐵則 5）。
+- **第一批**
+  - **Button Group**（General）：`variant`（outline／soft／split）× `size`＝9；取用 Button，相鄰圓角歸零、外框重疊；icon／icon-only／toggle。
+  - **Typography**（General）：`kind`（heading／body／caption／code）× `tone`＝12；level 直接套 `.ty-h1～h12` text style；truncate。
+  - **Link**（General）：`variant`（inline／standalone）× `state`＝10；半透明底線 hover 轉實色、箭頭前推、external 圖示。
+  - **Kbd**（General）：`variant` × `size`＝4；mac／win 符號切換；按鍵測試區按下時鍵帽壓平。
+  - **Divider**（General）：`orientation` × `variant`（solid／dashed／strong）＝6；可帶文字。
+  - **Descriptions**（Data Display）：`layout` × `columns`＝6；dl／dt／dd 語意結構，狀態取用 Tag，可複製，手機自動單欄。
+- **第二批**
+  - **Splitter**（Layout）：`orientation` × `handle`（line／grip）＝4；拖曳（20%～80%）、方向鍵（Shift 一次 10%）、Home／End、雙擊／Enter 還原（有過渡）；`role=separator`＋aria-value*。
+  - **Scroll Area**（Layout）：`orientation` × `scrollbar`（always／hover）＝4；細捲軸、邊緣漸層提示「還有內容」；內容取用 list-item。
+  - **Number Input**（Form）：`variant`（stacked／plain）× `state`＝8；取用 field 外框；↑↓（Shift ×10）、Home／End、超出範圍即時標紅、離開時夾回並輕晃；`role=spinbutton`。
+  - **Rating**（Data Display）：`size` × `state`（default／readonly／disabled）＝9；半顆星、hover 預覽、點選 spring 彈一下、再點同分清除、鍵盤調整；星色綁 `--warn`。
+  - **Carousel**（Data Display）：`arrows`（inside／outside）× `indicator`（dots／number）＝4；箭頭取用 Button；拖曳跟手（超過 20% 或甩得夠快換頁）、loop／autoplay（滑過或聚焦暫停）、方向鍵。
+  - **Hover Card**（Feedback & Overlay）：`placement` × `size`＝12；卡片與浮層定位沿用 popover，內容取用 avatar／button；`--dur-hover-delay` 後才出現、離開有 150ms 緩衝可移進卡片、Tab 聚焦也會開、Esc 關閉。
+- **第三批**
+  - **Context Menu**（Navigation）：`variant`（default／with-icon／with-shortcut）× `size`＝9；面板取用 action-menu、快捷鍵取用 kbd；從游標位置展開、靠邊自動反向並換展開原點；Shift＋F10、↑↓、Enter、Esc（焦點回原區塊）。
+  - **Command**（Navigation）：`state`（default／results／empty）× `size`＝6；搜的是元件庫自己的側欄清單，命中字標色、無結果取用 empty；↑↓／Enter／Esc，⌘K 重新開啟；combobox＋aria-activedescendant。
+  - **Date Picker**（Form）：`variant`（single／range）× `state`＝10；欄位取用 field、浮層沿用 popover、內容直接取用 calendar（`calMonthEl` 新增 `onPick` 回呼與 `selY／selM`）；開啟時焦點跳到今天，Esc／點外面關閉。
+  - **Dropzone**（Form）：`state`（default／dragover／uploading／done／error）× `size`＝10；進度取用 progress、移除取用 button；真的可拖曳／選檔，超過 10 MB 直接標錯；附「加入範例檔」模擬上傳。
+  - **Table Toolbar**（Table & Chart）：`mode`（default／filtered／bulk）× `size`＝6；搜尋取用 field、篩選 chip 取用 tag；搜尋與篩選即時套用到下方 table，勾選列切換成批次操作（匯出／刪除／取消選取）。
+- TOKEN_SLOTS：descriptions、splitter、scroll-area、carousel、command、dropzone、table-toolbar 補綁定槽。
+- registry 重生：66 ready＋6 planned（P2 清空，剩 P3）；需求匯總 66 顆、1101 個變體。
+- ✅ Playwright：17 頁段落順序、互動（splitter 鍵盤／拖曳／還原、number-input 夾值、rating 點選與鍵盤、carousel 箭頭／拖曳換頁、hover-card 延遲與緩衝、context-menu 右鍵靠邊反向與鍵盤、command 篩選與選取、date-picker 選日回填、dropzone 進度／錯誤／移除、table-toolbar 篩選→批次刪除）、深淺截圖；全站 78 頁無空頁、390px 無橫向捲動、0 console error。
+
+## 2026-11-03（六）　頭像改取用 Avatar 原子、站上 .seg 改用 Segmented 規格、群組 hover 調整
+
+- **Avatar 群組 hover**：滑過只往上位移 2px，拿掉 `z-index`，疊放順序不變。
+- **頭像改取用 Avatar 原子**（鐵則 5）：Header 帳號鈕（原本是 soft 按鈕寫字「楊」→ button 包 `avtEl` s 28px，保留按壓縮放與 focus 外框）；Article Card 作者（原本拿 image 原子縮到 24px → `avtEl` s 縮寫，依作者名固定底色，疊字版保留白色外圈）；Skeleton→內容示範（`--avt-s:40px` 對齊骨架 m 圓，轉場不跳位）。移除未使用的 `.lst-avatar`。Guide 頁模擬 GitHub 畫面的小頭像屬插圖，不動。
+- **站上所有 `.seg` 改用 Segmented 規格**（互動預覽控制列、程式碼 HTML／SCSS 分頁、展開視窗分頁、圖表切換等）：柔色軌道＋`--sgm-radius`、滑動指示器改 `--accent`＋選中字 `--primary-on`（與 tab pill／Segmented 一致，深淺自動對比）、字體改 sans medium、motion token。結構與 aria-pressed 切換邏輯不變（全域 MutationObserver 照舊）。新增方向鍵切換；重建型控制列（如 button 頁）切換後以 `data-seg` 找回新列，焦點不遺失。
+- ✅ Playwright：.seg 深淺計算色（軌道／指示器／選中字）、方向鍵切換與焦點保留、群組 hover translate 0 -2px＋z-index auto、Header／Article／Skeleton 頭像皆為 .avt 且舊 image 頭像 0、全站 78 頁無空頁、0 console error。
+
+## 2026-11-03（五）　P1 元件全部完成：Avatar、Segmented、Slider、Field、Stack、App Shell、Empty
+
+依差距分析 P1 清單一次補齊 7 顆（規劃中 → 完成），每顆都有變數篩選、矩陣、內容軸、「什麼時候用」、互動預覽與程式碼。
+- **Avatar 頭像**（General）：`size`（xs 20～xl 64）× `shape`（circle／rounded）× `content`（image／initials／icon）＝30；在線狀態點（online／away／busy／offline，外圈 --panel 描邊）、群組疊放＋N。照片用內嵌 SVG（不依賴網路）。
+- **Segmented 分段控制**（Form）：`variant`（soft／outline）× `size`（s／m）＝4；單一滑動指示器，選中＝`--accent`＋`--primary-on`（與 tab pill 同一套）；`role=radiogroup`、方向鍵切換、roving tabindex；ResizeObserver 在字型載入後重新量測。
+- **Slider 滑桿**（Form）：`type`（single／range）× `size` × `state`＝16；拖曳（pointer capture）、點軌道跳值（只有這時才用 --ease-out 過渡）、鍵盤（方向鍵／PageUp／PageDown／Home／End）、`role=slider` 與 aria-value*；區間兩端不交叉；拖曳時顯示數值提示。
+- **Field 表單欄位**（Form）：`layout`（vertical／horizontal）× `state`（default／filled／error／disabled）＝8；label＋控制項（取用 input 原子）＋提示／錯誤（帶圖示，不只靠紅色）＋字數；互動預覽是完整表單：送出驗證、錯誤摘要（取用 alert，可點欄位名跳過去）、焦點移到第一個錯誤欄、修正即時清除、成功提示；aria-invalid／aria-describedby。
+- **Stack 版面排列**（Layout）：`direction`（Stack／Inline／Grid）× `gap`（sp-2～sp-5）＝12；gap 只接受 --sp-* token，align／justify／wrap；附「對應 Figma auto layout」對照。
+- **App Shell 應用程式框架**（Layout）：`layout`（side／top／side-top）× `device`（desktop／mobile）＝6；內部取用 menu／avatar／button 原子（鐵則 5）；電腦版側欄收合（寬度動畫、只留圖示）、行動版抽屜＋遮罩。
+- **Empty 空狀態**（Feedback & Overlay）：`kind`（first／search／error／permission）× `size`（s 卡片內／m 整頁）＝8；icon／title／description／主次動作；內容逐行淡入；附放在列表裡的情境示範。
+- TOKEN_SLOTS：avatar、segmented、field、app-shell、empty 各補綁定槽；slider／stack 以 token 本身為軸，不另設。
+- registry 重生：49 ready＋23 planned（P1 清空，剩 P2／P3）；需求匯總 49 顆。
+- ✅ Playwright：7 頁段落順序與矩陣格數（30／4／16／8／12／6／8）、Segmented 指示器位移與鍵盤、Slider 拖曳／鍵盤／不交叉、Field 送出 3 錯→修正→成功、Stack 程式碼 var(--sp-3)、App Shell 收合 58px／行動版抽屜開關、深淺截圖，0 console error。
+
+## 2026-11-03（四）　新增 Alert 提示橫幅、Popover 氣泡卡（P1，規劃中 → 完成）
+
+依差距分析優先處理「文件已在引用、元件卻不存在」的兩顆。
+- **Alert 提示橫幅**（Feedback & Overlay）：頁內常駐、不自動消失的提示。`variant`（soft／outline／accent 左側色條）× `intent`（info／success／warning／error）＝12；內容 boolean：icon／title／description／action／close。意圖色綁 `--s-feedback-*`（不沿用 notification 寫死的 hex），深淺自動切換。關閉＝淡出後高度收合（示意 1 秒後復原）。附「什麼時候用」與 notification／modal 分工。TOKEN_SLOTS：radius／pad／gap／title-fs。
+- **Popover 氣泡卡**（Feedback & Overlay）：點擊觸發、可放互動內容的浮層。`placement`（bottom／top／left／right）× `size`（s 220／m 280／l 340）＝12；內容 boolean：arrow／header／close／footer。內容取用既有原子（selector 的 `.cbx`、`mkBtn`，鐵則 5）。互動：從 trigger 方向縮放展開；點外面、Esc、×、套用皆關閉；開啟 focus 進 popover、關閉 focus 回 trigger；`aria-haspopup`／`aria-expanded`／`role=dialog`。定位用獨立 `translate`、動畫用 `transform`，互不覆蓋。TOKEN_SLOTS 同上。
+- **文件引用改為連結**：tooltip 頁「改用 popover」、loader 頁「那是 alert 的事」改為可點連結；新頁 lede 也互相連到 tooltip／modal／notification。
+- registry 重生：42 ready＋30 planned；alert `l0Ref: alert`，popover 無同名 L0。
+- ✅ Playwright：兩頁段落順序、矩陣各 12 格、綁定槽各 4、Alert 關閉收合與復原、深淺意圖色跟隨 token、Popover 外點／Esc／套用關閉與焦點回收、右側 placement 位置與 transform-origin；全站 78 頁無空頁、需求匯總 42 顆、0 console error。
+
+## 2026-11-03（三）　分類重整為 8 組＋32 顆規劃中元件＋toggle 升格
+
+- **分類**：側欄與 registry 由 Basic／Complex／Card／Table & Chart 4 組，改為依用途的 8 組：General 基礎、Layout 版面、Navigation 導覽、Form 表單、Feedback & Overlay 回饋與浮層、Data Display 資料展示、Card 卡片、Table & Chart 表格圖表。**元件 id 全部不變**，sync 腳本只認 id 不受影響。
+- **規劃中元件 32 顆**：依「7 套元件庫差距分析」以 `st:'planned'` 列入 NAV（附優先級 P1–P3 與理由）。側欄字色淡＋優先級 pill，群組數字顯示「已完成／全部」；點進去顯示佔位頁。不會進需求匯總與匯出。
+- **toggle 升格**：從 tab 頁拆出為獨立元件頁 `buildToggle`（變數篩選＋狀態矩陣＋互動預覽），補 `DIAL_SPECS.toggle`，進需求匯總（40 顆）。tab 頁留一行指引。
+- **registry**：`library/tools/build-registry.js` 改為相對 repo 路徑（原本寫死本機絕對路徑）、logo／selector 依 id 查找（不依群組名）、輸出 planned 的 `priority`／`note`、`meta.counts` 加 ready／planned；L0 比對改為只認 `- id:` 條目。重生 `component-registry.json`（v0.2.0，72 項＝40 ready＋32 planned），既有 39 項內容逐欄比對無變動。`REGISTRY-NOTES.md` 同步。
+- ✅ Playwright：78 頁逐一開啟無空頁、8 組與 32 顆規劃中正確、toggle 頁段落順序、需求匯總 8 組／40 顆、0 console error、390px 無橫捲。
+
+## 2026-11-03（二）　Motion v1 第二、三批＋Button 按壓
+
+- **Button 按壓**：靜態 pressed 與 live :active 由下移 1px 改為 `scale(.97)`。
+- **浮層**：Dropdown（從觸發框縮放展開、收合更快；全站 ddField 共用）、Action Menu（常駐掛載、從觸發鈕角落展開、項目依序淡入、程式碼區同步）、Modal（進場加大、關閉先播退場再移除）、Drawer（開減速／關加速；可拖曳關閉、反向阻尼、拖不夠遠 spring 彈回）、Toast（從上方落入不回彈、關閉加速淡出、可往右滑掉）、Menu（單一 hover 指示器跟著滑動）。
+- **內容**：文字滾換（程式碼面板等 4 處「已複製」）、圖示交叉替換（密碼眼睛）、Skeleton→內容（組合卡片加「模擬載入完成」）、Tag／多選 chip 移除縮小淡出、Step（連接線填滿→節點變色打勾→下一步微彈）、Progress（減速到達、不加閃光）、Chart（長條依序長出、hover 其餘淡化、折線描繪）、Tree view（高度展開收合）、Breadcrumb（「…」可點擊展開）、List（新增 removable：刪除淡出後收合、新增淡入；巢狀子列高度展開）、List Item（尾端動作鈕 hover／focus 才滑入）、Table（排序 FLIP 重排）、Floating Line（出現時從下方彈上，用獨立 translate 保留置中）、Schedule（排程條 clip-path 揭開不壓扁文字、逐列接續、hover 浮起）。
+- **不採用**：數字切換、Input 聚焦、Pagination 指示器、Calendar 換月、Header 捲動收合、Button 光澤掃過。
+- 共用 helper：`afterAnim`、`afterTransition`、`swapText`、`swapIcon`、`slideToggle`、`flipFirst/flipPlay`；全部尊重 `prefers-reduced-motion`。
+- ✅ Playwright：逐項驗證（Drawer 小拖彈回／大拖關閉、Toast 滑掉後復原、Table 排序 2/5 列移動、List 收合時間軸 124→12→0px、Chart hover 12/21 淡化等），0 console error。
+
+## 2026-11-03　Motion v1：元件動態對照採用項（第一批）
+
+依「元件動態對照」頁的評審結果，第一批套用 CSS 為主的項目；只作用在 `.live` 互動 demo，矩陣靜態格不變。時長／曲線一律取 motion token。
+- **Token**：`--ease-out` 改 `cubic-bezier(.22,1,.36,1)`、`--ease-in` 改 `cubic-bezier(.55,0,1,.45)`（框架原值 `0,0,.2,1`／`.4,0,1,1`，兩者原本無元件引用）；新增 `--dur-hover-delay:250ms`；Token 頁 Motion 群組補上這三列。
+- **Button**：outline／soft／text 的 hover 底色由左掃入（`::before` scaleX）；有右側 icon（`mkBtn` 的 `trail`，新增 `.has-trail`）時箭頭前推 3px。不採用光澤掃過。
+- **Toggle**：圓鈕 `--ease-spring` 到位、按住拉長、底色稍慢跟上。
+- **Checkbox／Radio**：勾勾由左往右揭開（實心 icon，改用 clip-path 而非描邊動畫）；單選點改 transform scale 彈出（原本動 width／height）；按下微縮。
+- **Tooltip**：停留 `--dur-hover-delay` 才出現、從箭頭方向微放大；離開立刻以 `--ease-in` 收；鍵盤 focus 也會顯示。
+- **Card 家族**（card／product-card／article-card／category-tile）：hover 統一上浮 2px（原本 3px／無）、按下壓回 scale .985（內部按鈕按下時不觸發）、封面圖慢速放大；category-tile 圖示 spring 微浮。
+- **Image**：圖片 `load` 後加 `.is-loaded`，由模糊、微放大轉清晰。
+- 全部尊重 `prefers-reduced-motion`。
+- ✅ Playwright：填色掃入、toggle 按壓拉長與切換、勾勾動畫、tooltip 延遲（120ms 未顯示／620ms 已顯示）、商品卡上浮 2px、圖片 blur-up（本機 data URI 驗證；Unsplash 圖在測試環境無網路）、Token 頁三列，0 console error。
+
+## 2026-11-02（四）　Toggle 開啟態改用模式對比色＋互動預覽程式碼同步
+
+- **症狀**：深色模式開啟態＝`--accent`（亮灰）軌道＋寫死 `#fff` 圓鈕，白鈕糊在亮軌上；淺色則是黑軌白鈕。兩模式邏輯不一致。
+- **修正**：開啟態圓鈕改 `--primary-on`（同 checkbox 勾、tab 選中的模式對比色）→ 淺＝黑軌白鈕、深＝亮軌深鈕；關閉態圓鈕 `#fff` 改綁 `--c-neutral-0`。
+- **程式碼同步**：Toggle 互動預覽點擊後只改 DOM、程式碼區仍顯示初始 `class="switch"`／「關閉」。`mountLive` 的 `cfg.render(state, sync)` 新增第二參數 `sync`，預覽內自行改 DOM 後呼叫即同步程式碼區（不重建節點，保留切換動態）；toggle 已接上。
+- ✅ Playwright：深淺 × 開關四態計算色正確、點擊後程式碼區同步為 `switch on`／開啟，0 console error。
+
+## 2026-11-02（三）　Tab pill 改回單一 token 做法＋變數與 Token 左右並排
+
+- **Tab pill 修正上一版**：上一版在淺色加了白片＋描邊＋陰影、深色另寫 `[data-theme=dark]` 覆寫，兩模式做法不一致。改為與 line／contained 同一套：選中＝`--accent` 底＋`--primary-on` 字，深淺由 token 自動切換；移除 `--pill-*` 元件變數、主題覆寫、描邊與陰影。軌道回 `--panel-2`。count badge 選中態沿用 contained 規則。
+- **變數與 Token 段落**：變數篩選器（左）＋ Token 綁定（右）改 grid 左右並排；只有一張卡（selector／icon 無綁定槽）時佔滿整列；≤1023px 改回上下。
+- ✅ Playwright：深淺截圖確認 pill 選中態、段落並排，0 console error。
+
+## 2026-11-02（二）　Tab pill 選中態加強＋元件頁段落統一順序
+
+- **Tab pill 選中態**：原本選中片＝`--panel`、軌道＝`--panel-2`，明度幾乎相同（深色甚至片比軌道暗）→ 兩種主題都看不出選中。改為元件內變數 `--pill-track／--pill-ind／--pill-ind-edge`：淺色＝白片浮在 `--panel-3` 灰軌、深色＝`--i-sec-fill-p` 亮片浮在 `--panel-2` 暗軌；皆加 `--line-strong` 描邊＋`--e-md` 陰影、選中字改 `--ink`。靜態 `.st-active` 與滑動 `.tab-ind` 同步。
+- **段落順序**：新增 `reorderSections(view)`，在 `renderView` 渲染後集中重排為「互動預覽與程式碼 → 變數與 Token → 矩陣 → 其餘（維持原相對順序）」，取代原本 button／BUILD 兩處各自的 `vt.after(liveSec)`。只搬主要那一段，子元件段落（如 tab 頁的 Toggle 互動預覽）留在原位。
+- ✅ Playwright：39 頁逐一確認順序（logo 無段落略過）、0 console error；pill 深淺截圖確認。
+
+## 2026-11-02　元件接上字重／行高／陰影／動態 token（修「Token 頁調了元件不會變」）
+
+- **症狀**：同事試用回報部分元件樣式調不動。稽核發現 Token 頁可編輯的 Font Weight／Line Height／Elevation／Motion 四類，元件 CSS 引用數皆為 **0**——值全寫死，調 token 無效。
+- **修正**（僅元件 CSS：`.btn` 區＋input → calendar 區段，網站外殼 UI 不動）：
+  - 字重 88 處：`500/600/700` → `var(--fw-medium/semibold/bold)`（值相同，零視覺差）
+  - 行高 41 處：依最近值對映 `--lh-tight/snug/normal/relaxed`；`line-height:1`（單行置中結構用）保留
+  - 陰影 35 處：依 blur 對映 `--e-sm`（≤4）／`--e-md`（≤14）／`--e-lg`（≤28）／`--e-xl`；focus ring、inset 底線保留。附帶：深色模式自動吃加深版陰影
+  - 動態 84 處：`≤.2s` → `--dur-fast`、`.22–.35s` → `--dur-default`；`.06s` 按壓微動保留
+- ✅ Playwright：改 `--fw-semibold`／`--dur-fast`／`--e-*` 後 button、notification 計算值即時跟隨，0 console error。
+- 待辦（稽核其餘項）：元件尺寸 token（按鈕／輸入高度）、零星寫死字級與顏色、擴充元件 Token 綁定槽。
+
 ## 2026-07-17（二十二）　甘特直欄格線捲動消失＝絕對層丟格：改 in-flow cell 根治
 
 - **症狀**：甘特右滑後內文的直欄格線消失（表頭的線正常）。決定性線索：表頭線畫在 in-flow 的 `.gnt-g-hcell`（不掉），內文線畫在 `.gnt-g-bg`（`position:absolute` 背景層）→ **絕對定位層的 1px 線在橫向捲動時被 GPU 合成器丟格**（同層的實色週末底不會掉，所以灰底還在、線沒了）。
