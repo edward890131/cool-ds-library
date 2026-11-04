@@ -627,7 +627,7 @@
   @media(max-width:767px){.bento-code{grid-template-columns:minmax(0,1fr);}.bento-code>.live-code{height:320px;}}
   /* 內容段落（Size／Content）：標題＋說明在卡外、示意列本身是卡；取消段落 2px 底線與上方大間距 */
   .bento section.block{margin:0;}
-  .bento .bento-sec,.bento .bento-mtx{margin-top:var(--sp-8);}  /* Size／Content／狀態一覽表段落之間拉開 */
+  .bento > .bento-sec.bento-sec,.bento > .bento-mtx.bento-mtx,.bento section.block.bento-sec,.bento section.block.bento-mtx{margin-top:var(--sp-6);}  /* 段落間距＝flex gap 16＋24＝40px（依 Figma 17756:22864）；選擇器加權壓過 .bento section.block{margin:0} */
   .bento .bento-sec > h2{border-bottom:0;padding-bottom:0;margin:0 0 var(--sp-4);}
   /* 狀態一覽表：沿用 .dcard 收合（全域 .dcard-head 委派），預設收合；展開後各 variant 矩陣直向堆疊 */
   .bento .bento-mtx > h2{margin:0;padding:0;border:0;display:block;font:inherit;}
