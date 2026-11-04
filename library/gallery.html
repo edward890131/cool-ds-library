@@ -5220,12 +5220,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-bc-ch .hx-bc-b{justify-content:space-between;} .hx-bc-ch .cht-box{width:100%;}
   .hx-ch-sum{display:flex;align-items:baseline;gap:var(--sp-2) var(--sp-4);flex-wrap:wrap;font-size:var(--fs-h11);color:var(--muted);}
   .hx-ch-sum b{font-size:var(--fs-h7);font-weight:var(--fw-semibold);color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
-  /* 團隊：照片人物卡格（.psc 外框＋.psc-photo，縮成小格） */
-  .hx-tmg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-3);min-width:0;}
-  @container (max-width:459px){.hx-tmg{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-2);}}
-  .hx-psc{max-width:none;padding:var(--sp-2);gap:var(--sp-2);box-shadow:var(--e-sm);}
-  .hx-psc .psc-photo{aspect-ratio:1/1;}
-  .hx-mem-n{display:flex;flex-direction:column;gap:1px;min-width:0;padding:0 var(--sp-1) var(--sp-1);}
+  /* 團隊（HOME6:v1 改回 HOME4 版）：頭像列＝Avatar 原子（initials＋狀態點）＋姓名／職務，列間細線；6 位成員剛好填滿趨勢圖旁的高度 */
+  .hx-bc-tm .hx-bc-b{gap:0;justify-content:space-between;}
+  .hx-mem{display:flex;align-items:center;gap:var(--sp-3);min-width:0;padding:var(--sp-3) 0;}
+  .hx-mem:first-child{padding-top:0;} .hx-mem:last-child{padding-bottom:0;}
+  .hx-mem + .hx-mem{border-top:1px solid var(--line);}
+  .hx-mem-n{display:flex;flex-direction:column;gap:1px;min-width:0;}
   .hx-mem-n b{font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .hx-mem-n span{font-size:var(--fs-h12);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   /* 任務列：整列可點，取用 Checkbox／Tag 原子；底部完成度 */
@@ -5239,7 +5239,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-task-t{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .hx-task.is-done .hx-task-t{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line-strong);}
   .hx-task .tg{flex:0 0 auto;}
-  /* 快速新增：Field／Dropdown／Date Picker／Segmented／Textarea／Switch 原子，兩欄格；新增／清除在標題列 */
+  /* 快速新增：Field／Dropdown／Date Picker／Segmented／Switch 原子，兩欄格（HOME6:v1 拿掉說明 Textarea）；新增／清除在標題列 */
   .hx-fm-x{display:flex;align-items:center;gap:var(--sp-2);}
   .hx-fm-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-4) var(--sp-3);align-content:start;min-width:0;}
   .hx-fm-g > *{min-width:0;}
@@ -5250,7 +5250,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-bc-fm .dpk-live-stage{display:block;min-height:0;padding:0;}
   .hx-bc-fm .dpk{display:flex;width:100%;}
   .hx-bc-fm .sgm{width:100%;}
-  .hx-bc-fm textarea.tarea{min-width:0;min-height:calc(var(--sp-8) + var(--sp-5));font-size:var(--fs-h11);display:block;box-sizing:border-box;}
   /* 底部那排欄位的浮層往上開，不被試玩區外框裁掉 */
   .hx-fm-up .ddmenu{top:auto;bottom:calc(100% + var(--sp-2));}
   .hx-fm-up .dpk-pop.pop-float{top:auto;bottom:calc(100% + var(--sp-2));left:auto;right:0;transform-origin:bottom right;}
@@ -5286,28 +5285,26 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-mcol{display:flex;flex-direction:column;gap:var(--sp-3);}
   .hx-sub{font-size:var(--fs-h11);color:var(--muted);margin:0;}
 
-  /* 元件牆＝跑馬燈（參考 designsystems.surf）：兩列等大方格、反向等速循環（transform、--hx-mq-d 一圈）；滑過該列／鍵盤聚焦暫停；減少動態＝靜止、可橫向捲動 */
-  .hx-mq{--hx-tile:300px;--hx-mq-gap:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-6);min-width:0;margin:0 calc(-1*var(--container-pad));}
-  .hx-mq-vp{overflow:hidden;padding:var(--sp-1) 0;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--sp-8),#000 calc(100% - var(--sp-8)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--sp-8),#000 calc(100% - var(--sp-8)),transparent);}
-  .hx-mq-tr{display:flex;width:max-content;will-change:transform;}
-  .hx-mq-tr > .hx-tile{margin-right:var(--hx-mq-gap);}  /* 用 margin 不用 gap：兩份等寬，-50% 剛好接回起點 */
-  @keyframes hx-mq{from{transform:translate3d(0,0,0);}to{transform:translate3d(-50%,0,0);}}
-  @media (prefers-reduced-motion:no-preference){
-    .hx-mq-tr{animation:hx-mq var(--hx-mq-d,56s) linear infinite;}
-    .hx-mq-row.is-rev .hx-mq-tr{animation-direction:reverse;}
-    .hx-mq-row:hover .hx-mq-tr,.hx-mq:focus-within .hx-mq-tr,.hx-mq.is-off .hx-mq-tr{animation-play-state:paused;}
-  }
+  /* 元件牆＝跑馬燈（HOME6:v1 互動還原 designsystems.surf）：兩列等大方格、反向循環；位移由 JS（rAF）推 translateX，
+     滑過該列減速、可拖曳帶慣性、觸控板可橫推；格子滑過＝標題列淡入上移（彈簧曲線）。減少動態＝靜止、原生橫向捲動 */
+  .hx-mq{--hx-tile:300px;--hx-mq-gap:var(--sp-5);--hx-edge:var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-5);min-width:0;margin:0 calc(-1*var(--container-pad));}
+  .hx-mq-vp{overflow:hidden;padding:var(--sp-1) 0 var(--sp-2);cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--hx-edge),#000 calc(100% - var(--hx-edge)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--hx-edge),#000 calc(100% - var(--hx-edge)),transparent);}
+  .hx-mq-vp.is-drag,.hx-mq-vp.is-drag .hx-tile{cursor:grabbing;}
+  .hx-mq-tr{display:flex;align-items:flex-start;width:max-content;will-change:transform;}
+  .hx-mq-tr > .hx-tile{margin-right:var(--hx-mq-gap);}  /* 用 margin 不用 gap：兩份等寬，循環長度＝第一個複本的位置 */
   @media (prefers-reduced-motion:reduce){
-    .hx-mq-vp{overflow-x:auto;-webkit-mask-image:none;mask-image:none;overscroll-behavior-x:contain;padding-left:var(--container-pad);padding-right:var(--container-pad);}
+    .hx-mq-vp{overflow-x:auto;cursor:auto;-webkit-mask-image:none;mask-image:none;overscroll-behavior-x:contain;padding-left:var(--container-pad);padding-right:var(--container-pad);touch-action:auto;}
     .hx-mq-tr [data-clone]{display:none;}
   }
-  .hx-tile{flex:0 0 auto;width:var(--hx-tile);display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;color:inherit;text-decoration:none;outline:none;}
-  .hx-tile-fr{position:relative;}
+  .hx-tile{flex:0 0 auto;width:var(--hx-tile);display:flex;flex-direction:column;min-width:0;color:inherit;text-decoration:none;outline:none;cursor:pointer;-webkit-user-drag:none;}
   .hx-tile-stage{position:relative;width:100%;aspect-ratio:1/1;display:flex;align-items:safe center;justify-content:safe center;padding:var(--sp-5);box-sizing:border-box;overflow:hidden;pointer-events:none;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);transition:border-color var(--dur-fast),box-shadow var(--dur-default) var(--ease-out);}
-  .hx-tile:hover .hx-tile-stage{border-color:var(--line-strong);box-shadow:var(--e-md);}
+  .hx-tile-stage > *{transition:transform var(--dur-default) var(--ease-spring);}
+  .hx-tile:hover .hx-tile-stage,.hx-tile:focus-visible .hx-tile-stage{border-color:var(--line-strong);box-shadow:var(--e-md);}
+  .hx-tile:hover .hx-tile-stage > *,.hx-tile:focus-visible .hx-tile-stage > *{transform:translateY(calc(-1*var(--sp-1)));}
   .hx-tile:focus-visible .hx-tile-stage{outline:2px solid var(--accent);outline-offset:2px;}
+  .hx-mq-vp.is-drag .hx-tile .hx-tile-stage{box-shadow:none;}
   /* 五種底：漸層×2／照片（CARD_COVER）／虛線框／點陣／棋盤格 */
   .hx-bg-grad .hx-tile-stage{background:radial-gradient(100% 90% at 0% 0%,color-mix(in srgb,var(--c-violet-500) 18%,transparent),transparent 70%),radial-gradient(100% 100% at 100% 100%,color-mix(in srgb,var(--accent2) 30%,transparent),transparent 72%),var(--panel);}
   .hx-bg-grad2 .hx-tile-stage{background:linear-gradient(160deg,color-mix(in srgb,var(--s-feedback-info) 22%,var(--panel)),color-mix(in srgb,var(--c-violet-500) 14%,var(--panel)) 55%,color-mix(in srgb,var(--s-feedback-success) 18%,var(--panel)));}
@@ -5323,55 +5320,104 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tgl-r{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-5);font-size:var(--fs-h11);color:var(--ink);}
   .hx-gap5{gap:var(--sp-6);}
   .hx-tile-ph{font-size:var(--fs-h4);}
-  .hx-tile-cap{display:flex;flex-direction:column;gap:2px;padding:0 var(--sp-1);min-width:0;}
-  .hx-tile-cap b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);white-space:nowrap;}
-  .hx-tile-cap span{font-size:var(--fs-h11);color:var(--muted);white-space:nowrap;}
-  /* 鍵盤聚焦：格內顯示同一個「查看 … →」標籤（Button 原子樣式） */
-  .hx-tile-cue{position:absolute;left:50%;bottom:var(--sp-4);transform:translate(-50%,4px);opacity:0;pointer-events:none;white-space:nowrap;box-shadow:var(--e-lg);
-    transition:opacity var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);}
-  .hx-tile:focus-visible .hx-tile-cue{opacity:1;transform:translate(-50%,0);}
-  /* 游標膠囊：掛 body、position:fixed，只在 pointer:fine 的 hover 時顯示 */
-  .hx-cur{position:fixed;left:0;top:0;z-index:9000;pointer-events:none;opacity:0;will-change:transform;}
-  .hx-cur .btn{pointer-events:none;white-space:nowrap;box-shadow:var(--e-lg);transform:scale(.6);transition:transform var(--dur-fast) var(--ease-spring);}
-  .hx-cur{transition:opacity var(--dur-fast) var(--ease-out);}
-  .hx-cur.on{opacity:1;} .hx-cur.on .btn{transform:scale(1);} .hx-cur.is-press .btn{transform:scale(.94);}
-  @media (hover:hover) and (pointer:fine){.hx-mq.has-cur .hx-tile{cursor:none;}}
-  @media (hover:none),(pointer:coarse){.hx-cur{display:none;}}
+  /* 標題列（參考站：平常 opacity 0；滑過時淡入、與方格的距離 22→12px、名稱與按鈕 12→4px）。
+     這裡改用 transform 做同樣的上收，不改版面高度，滑過時下方內容不會跳 */
+  .hx-tile-cap{display:flex;flex-direction:column;align-items:flex-start;gap:var(--sp-1);padding:var(--sp-4) var(--sp-1) 0;min-width:0;opacity:0;
+    transition:opacity var(--dur-default) var(--ease-out);}
+  .hx-tile-cap > *{transition:transform var(--dur-default) var(--ease-spring),gap var(--dur-default) var(--ease-spring);}
+  .hx-tile-tt{display:flex;align-items:baseline;gap:var(--sp-2);min-width:0;max-width:100%;transform:translateY(calc(var(--sp-3) + 2px));}
+  .hx-tile-tt b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);white-space:nowrap;}
+  .hx-tile-tt span{font-size:var(--fs-h11);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  .hx-tile-go{display:inline-flex;align-items:center;gap:var(--sp-1);font-size:var(--fs-h11);font-weight:var(--fw-medium);color:var(--ink);white-space:nowrap;transform:translateY(calc(var(--sp-3) * 2 + 2px));}
+  .hx-tile-go svg{width:12px;height:12px;}
+  .hx-tile:hover .hx-tile-cap,.hx-tile:focus-visible .hx-tile-cap{opacity:1;}
+  .hx-tile:hover .hx-tile-cap > *,.hx-tile:focus-visible .hx-tile-cap > *{transform:none;}
+  .hx-tile:hover .hx-tile-go,.hx-tile:focus-visible .hx-tile-go{gap:var(--sp-2);}
+  .hx-mq-vp.is-drag .hx-tile-cap{opacity:0;}
+  /* 觸控（沒有 hover）：標題列一直顯示 */
+  @media (hover:none){.hx-tile-cap{opacity:1;} .hx-tile-cap > *{transform:none;}}
   .hx-wall-cta{display:flex;align-items:center;justify-content:center;gap:var(--sp-4);flex-wrap:wrap;margin-top:var(--sp-6);}
 
   /* 動態展示（參考 aceternity）：錯位 bento——CSS columns（欄數看容器寬：4／3／2／1）＋細虛線格線，每格高度由元件決定 */
-  .hx-showq{container-type:inline-size;overflow:hidden;}
+  .hx-showq{container-type:inline-size;overflow:hidden;position:relative;}
   .hx-show{columns:1;column-gap:0;column-rule:1px dashed var(--line);margin-bottom:-1px;}
   @container (min-width:600px){.hx-show{columns:2;}}
   @container (min-width:880px){.hx-show{columns:3;}}
   @container (min-width:1400px){.hx-show{columns:4;}}
-  /* HOME3-SHOW:v2 示範區內的元件動態放慢、改走 ease-out（只在示範卡內覆寫時間 token；motion token 比較卡維持原值） */
-  .hx-sc:not(.hx-sc-tok){--dur-fast:240ms;--dur-default:520ms;--dur-slow:900ms;--ease-standard:var(--ease-out);--ease-in:var(--ease-out);}
-  .hx-sc{display:block;break-inside:avoid;min-width:0;padding:var(--sp-6);box-sizing:border-box;border-bottom:1px dashed var(--line);
+  /* HOME6:v1 段標題拿掉後，暫停／播放鈕放在段落右上角、卡片上緣外側（小鈕，不擋卡片內容） */
+  .hx-sec-show{position:relative;}
+  .hx-show-bar{position:absolute;right:0;bottom:calc(100% + var(--sp-2));z-index:2;display:flex;}
+  .hx-show-pb svg{width:12px;height:12px;}
+  /* HOME3-SHOW:v2 示範區內的元件動態放慢、改走 ease-out（只在示範卡內覆寫時間 token） */
+  .hx-sc{--dur-fast:240ms;--dur-default:520ms;--dur-slow:900ms;--ease-standard:var(--ease-out);--ease-in:var(--ease-out);}
+  .hx-sc{position:relative;display:block;break-inside:avoid;min-width:0;padding:var(--sp-6);box-sizing:border-box;border-bottom:1px dashed var(--line);
     transition:background-color var(--dur-default) var(--ease-out);}
   .hx-sc:hover,.hx-sc:focus-within{background:color-mix(in srgb,var(--panel-2) 60%,transparent);}
   .hx-sc-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;}
   .hx-sc-stage > *{width:100%;min-width:0;}
-  .hx-sc-stage .psc,.hx-sc-stage .bpf{max-width:300px;}
+  .hx-sc-stage .psc{max-width:300px;}
   .hx-sc-stage .mtc,.hx-sc-stage .wdg{max-width:360px;}
   .hx-sc-stage > .cht-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-5);box-sizing:border-box;box-shadow:var(--e-md);}
   .hx-demo-go,.hx-more{display:inline-flex;align-items:center;gap:var(--sp-1);flex:0 0 auto;font-size:var(--fs-h11);color:var(--ink);text-decoration:none;white-space:nowrap;}
   .hx-demo-go svg,.hx-more svg{width:12px;height:12px;transition:transform var(--dur-fast) var(--ease-out);}
   .hx-demo-go:hover svg,.hx-more:hover svg{transform:translateX(2px);}
-  /* 自動示範的額外動態：封面視差緩動、照片推近、頭像展開（全部 transform） */
-  .hx-sc-prof .bpf-cover > *{transition:transform calc(var(--dur-slow) * 2) var(--ease-out);}
+  /* 自動示範的額外動態：照片推近、頭像展開（全部 transform） */
   .hx-sc-psc .psc.is-zoom .psc-photo img{transform:scale(1.06);}
   .hx-sc-grp .wdg-g4 .avt{transition:transform var(--dur-slow) var(--ease-spring);}
   .hx-sc-grp .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(1){transform:translate(-6px,-6px);} .hx-sc-grp .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(2){transform:translate(6px,-6px);}
   .hx-sc-grp .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(3){transform:translate(-6px,6px);} .hx-sc-grp .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(4){transform:translate(6px,6px);}
-  /* motion token 卡：三條軌道，點依 --dur-fast／default／slow 來回 */
-  .hx-tok{display:flex;flex-direction:column;gap:var(--sp-4);width:100%;padding:var(--sp-5);box-sizing:border-box;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--e-md);}
-  .hx-tok-r{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;gap:var(--sp-3);}
-  .hx-tok-r code{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--ink);}
-  .hx-tok-r code small{display:block;color:var(--faint);font-size:var(--fs-h12);}
-  .hx-tok-tr{position:relative;height:12px;border-radius:var(--r-pill);background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line);}
-  .hx-tok-tr i{position:absolute;top:0;left:0;width:12px;height:12px;border-radius:var(--r-pill);background:var(--accent);transition:left var(--hx-d) var(--ease-out);}
-  .hx-tok.is-b .hx-tok-tr i{left:calc(100% - 12px);}
+  /* 模擬游標（aria-hidden）：卡片內絕對定位，位置用 transform；出現／消失淡入淡出 */
+  .hx-ghost{position:absolute;left:0;top:0;z-index:9;width:16px;height:20px;margin:-2px 0 0 -2px;pointer-events:none;opacity:0;will-change:transform,opacity;
+    transition:opacity var(--dur-default) var(--ease-out);}
+  .hx-ghost.on{opacity:1;}
+  .hx-ghost svg{display:block;width:100%;height:100%;fill:var(--ink);stroke:var(--panel);stroke-width:1.2;stroke-linejoin:round;}
+  /* KPI 走勢：十字線與 hover 點淡入淡出（不閃） */
+  .hx-sc-spark .chtx-xh,.hx-sc-spark .cht-hdot{transition:opacity var(--dur-default) var(--ease-out);}
+  /* 熱銷排名：模擬 hover 的那一列維持高亮（真的滑鼠照舊走 :hover） */
+  .hx-sc.hx-sc-rank .chtx-rk.hov .chtx-rk-row.hx-sim .chtx-rk-bar i{opacity:1;}
+  .hx-sc.hx-sc-rank .chtx-rk-row.hx-sim{background:var(--panel-2);}
+  .hx-sc-rank .chtx-rk-bar i{transition:width calc(var(--dur-slow) * 1.1) var(--ease-out),opacity var(--dur-default) var(--ease-out);}
+  .hx-sc-rank .chtx-rk-row{transition:background-color var(--dur-default) var(--ease-out);}
+  /* 輸入類示範卡：同一個卡片外框（--panel／--line／--radius／--e-md），標題列＋原子 */
+  .hx-icard{display:flex;flex-direction:column;gap:var(--sp-4);width:100%;max-width:360px;padding:var(--sp-5);box-sizing:border-box;margin:0;
+    background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--e-md);}
+  .hx-icard-h{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-3);min-width:0;}
+  .hx-icard-h b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);white-space:nowrap;}
+  .hx-icard-h span{font-size:var(--fs-h12);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .hx-icard .fld{width:100%;max-width:none;} .hx-icard .field{width:100%;box-sizing:border-box;min-width:0;}
+  /* 表單：訊息列固定高度（提示／錯誤／成功互換時卡片不變高） */
+  .hx-ifm .fld-msg{min-height:calc(var(--fs-h12) * var(--lh-normal) + 2px);}
+  .hx-ifm .fld-msg.hx-ok{color:var(--s-feedback-success);animation:fld-msg-in calc(var(--dur-fast) * 1.33) var(--ease-out);}
+  .hx-ifm .field.st-error{border-color:var(--i-danger);}
+  .hx-ifm-go{width:100%;justify-content:center;}
+  /* 篩選：搜尋框＋chip 列＋條件列（固定高度）＋清單（每列收合用 grid-rows，清單本身高度固定） */
+  .hx-ifl-q > svg{width:16px;height:16px;color:var(--muted);flex:0 0 auto;}
+  .hx-ifl-chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .hx-ifl-chips .tg{cursor:pointer;transition:background-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),transform var(--dur-fast) var(--ease-out);}
+  .hx-ifl-chips .tg.hx-press{transform:scale(.94);}
+  .hx-ifl-cond{display:flex;flex-wrap:wrap;gap:var(--sp-2);min-height:24px;margin:calc(-1*var(--sp-2)) 0;}
+  .hx-ifl-l{display:flex;flex-direction:column;}
+  .hx-fr{display:grid;grid-template-rows:1fr;opacity:1;transition:grid-template-rows var(--dur-default) var(--ease-out),opacity var(--dur-default) var(--ease-out);}
+  .hx-fr + .hx-fr .lst-item{border-top:1px solid var(--line);}
+  .hx-fr-i{min-height:0;overflow:hidden;}
+  .hx-fr.is-out{grid-template-rows:0fr;opacity:0;}
+  .hx-ifl .lst-item{padding:var(--sp-3) var(--sp-4);}
+  .hx-ifl .lst-title{font-size:var(--fs-h11);}
+  /* 清單外框留住 6 列的高度，篩掉的列往上收、下方留白，不推動整面牆 */
+  .hx-ifl-l{min-height:var(--hx-ifl-h,auto);box-sizing:border-box;}
+  /* 排程：兩欄欄位＋常駐月曆面板，下拉選單浮在月曆上 */
+  .hx-isc-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-3);}
+  .hx-isc-g > *{min-width:0;}
+  .hx-isc .ddwrap{display:block;position:relative;min-width:0;width:100%;}
+  .hx-isc .ddmenu{z-index:31;}
+  .hx-isc .dpk{display:flex;width:100%;} .hx-isc .dpk .field{width:100%;font-size:var(--fs-h11);}
+  .hx-isc .dpk .field .val,.hx-isc .dpk .field .ph{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hx-isc-cal{position:relative;top:auto;left:auto;width:100%;margin:0;padding:0;border:0;box-shadow:none;background:transparent;}
+  .hx-isc-cal .cal{width:100%;max-width:none;}
+  .hx-isc .ddopt.hx-sim{background:var(--i-primary-tint);color:var(--accent);}
+  .hx-isc .cal-day.hx-sim:not(.is-selected){background:var(--panel-2);}
+  .hx-isc .cal-day{transition:background-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  @media (prefers-reduced-motion:reduce){.hx-fr,.hx-ghost,.hx-ifl-chips .tg{transition:none;}}
 
   /* 四步流程：四張 bento 卡，編號＋標題同列、下方是元件示意 */
   .hx-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-5);}
@@ -5447,8 +5493,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
   @media(prefers-reduced-motion:reduce){
     .hx-sw-b:hover{transform:none;}
-    .hx-cur,.hx-cur .btn,.hx-tile-cue,.hx-tile-stage{transition:none;}
-    .hx-tok-tr i{transition:none;}
+    .hx-tile-stage,.hx-tile-stage > *,.hx-tile-cap,.hx-tile-cap > *,.hx-tile-go{transition:none;}  /* HOME6:v1 */
     .hx-type,.hx-caret{transition:none;}
   }
   /* ===== CARDS:round2-v1 · Card 卡片第二批（person／profile／metric／invite／widget，2026-11-03）=====
@@ -15380,12 +15425,12 @@ function buildScheduleChart(view){
     const sum=ce('div','hx-ch-sum');const sb=ce('b'),sm=meta(''),sg=tag('soft','brand2','');sum.append(sb,sm,sg);ch.appendChild(sum);
     sumP=i=>{sb.textContent=SUM[i][0];sm.textContent=SUM[i][1];sg.querySelector('span').textContent=SUM[i][2];};sumP(0);
     chW=chartOf(0);ch.appendChild(chW);
-    /* 團隊：照片人物卡（同 Person Card 的 .psc 外框＋.psc-photo 照片格，照片取 CARD_AV data URI） */
-    const MEM=[['林語晨','設計主責',4],['陳柏宇','前端工程',1],['王思妤','專案經理',3],['李承恩','品質測試',2]];
-    const tm=card('tm','團隊成員',btn('soft','secondary','s','邀請'));const tg=ce('div','hx-tmg');tm.appendChild(tg);
-    MEM.forEach(([n,r,i])=>{const c=ce('article','psc psc-sz-s hx-psc');c.setAttribute('aria-label',n+'，'+r);
-      const ph=ce('div','psc-photo');const im=document.createElement('img');im.src=CARD_AV[i%CARD_AV.length];im.alt='';im.decoding='async';ph.appendChild(im);
-      const nm=ce('div','hx-mem-n');const b=ce('b');b.textContent=n;nm.append(b,meta(r));c.append(ph,nm);tg.appendChild(c);});
+    /* 團隊（HOME6:v1 改回 HOME4 版）：頭像列＝Avatar 原子（initials＋狀態點）＋姓名／職務；邀請＝灰色 soft 按鈕 */
+    const MEM=[['林語晨','設計主責','林','accent','online'],['陳柏宇','前端工程','陳','brand2','away'],['王思妤','專案經理','王','sec','online'],
+      ['李承恩','品質測試','李','accent','offline'],['張家豪','視覺設計','張','brand2','online'],['黃詩涵','內容策略','黃','sec','away']];
+    const tm=card('tm','團隊成員',btn('soft','secondary','s','邀請'));
+    MEM.forEach(([n,r,i,tone,st])=>{const m=ce('div','hx-mem');m.appendChild(avtEl('s','circle','initials',{initials:i,tone,status:st,name:n}));
+      const nm=ce('div','hx-mem-n');const b=ce('b');b.textContent=n;nm.append(b,meta(r));m.appendChild(nm);tm.appendChild(m);});
     /* 待辦：整列可點切換完成；底部完成度（Progress 原子） */
     const ts=card('ts','待辦任務','本週');const list=ce('div','hx-ts-l');ts.appendChild(list);
     const tf=ce('div','hx-kpi-f');let tpb=prgEl('bar','s',{value:0});const cnt=meta('');tf.append(tpb,cnt);ts.appendChild(tf);
@@ -15396,7 +15441,7 @@ function buildScheduleChart(view){
       const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('outline',intent,label));paint(done);
       r.onclick=()=>{paint(!r.classList.contains('is-done'));recount();};if(first)list.prepend(r);else list.appendChild(r);recount();return r;};
     [['確認主色與輔助色','設計','brand',true],['圓角 token 定案','設計','brand',true],['Button 寫進 Figma','Figma','info',false],['跑 sync drift 檢查','前端','brand2',false],['Modal 文案校稿','內容','neutral',false],['活動頁 Hero 切版','前端','brand2',false]].forEach(a=>task(...a));
-    /* 快速新增：新增／清除在標題列（size s）；欄位＝任務名稱／負責人（Dropdown）／截止日（Date Picker）／優先度（Segmented）／標籤（Dropdown 多選 chips）／說明（Textarea）／通知（Switch） */
+    /* 快速新增：新增／清除在標題列（size s）；欄位＝任務名稱／負責人（Dropdown）／截止日（Date Picker）／優先度（Segmented）／標籤（Dropdown 多選 chips）／通知（Switch）；HOME6:v1 拿掉說明 */
     const fx=ce('div','hx-fm-x');const cl=btn('outline','secondary','s','清除'),add=btn('solid','primary','s','新增');fx.append(cl,add);
     const fm=card('fm','快速新增',fx);const fg=ce('div','hx-fm-g');fm.appendChild(fg);
     const fld=(label,node,cls)=>{const f=fldEl('vertical','default',{label});const ctl=f.querySelector('.fld-ctl');ctl.innerHTML='';ctl.appendChild(node);if(cls)f.classList.add(cls);
@@ -15410,15 +15455,14 @@ function buildScheduleChart(view){
     fld('截止日',dpkLive('single'),'hx-fm-up');
     const pg=sgmEl('soft','s',{live:true,full:true,items:['低','中','高'],active:1,label:'優先度'});fld('優先度',pg);
     fld('標籤',ddField('outline',{multi:true,options:['設計','前端','Figma','內容'],value:'設計',placeholder:'選擇標籤',onChange:v=>{tags=v;}}),'hx-fm-up');
-    const ta=ce('textarea','tarea v-outline');ta.rows=2;ta.placeholder='補充需求或驗收條件';fld('說明',ta,'hx-fm-full');
     const sw=ce('label','hx-fm-sw hx-fm-full');const s=ce('button','switch on');s.type='button';s.setAttribute('role','switch');s.setAttribute('aria-checked','true');s.setAttribute('aria-label','通知成員');
     s.onclick=()=>{const on=!s.classList.contains('on');s.classList.toggle('on',on);s.setAttribute('aria-checked',String(on));};sw.append(meta('通知成員'),s);fg.appendChild(sw);
     const TI={'設計':'brand','前端':'brand2','Figma':'info','內容':'neutral'};
     add.onclick=()=>{const v=(inp&&inp.value||'').trim();if(!v){if(inp)inp.focus();return;}
       const hi=pg.querySelector('.is-active')&&pg.querySelector('.is-active').textContent.trim()==='高';const lb=tags[0]||'新';
       task(v,lb,hi?'danger':(TI[lb]||'neutral'),false,true);
-      const all=[...list.querySelectorAll('.hx-task')];if(all.length>7){const old=all.reverse().find(x=>x.classList.contains('is-done'))||all[0];old.remove();recount();}inp.value='';ta.value='';};
-    cl.onclick=()=>{if(inp){inp.value='';ta.value='';inp.focus();}};
+      const all=[...list.querySelectorAll('.hx-task')];if(all.length>7){const old=all.reverse().find(x=>x.classList.contains('is-done'))||all[0];old.remove();recount();}inp.value='';};
+    cl.onclick=()=>{if(inp){inp.value='';inp.focus();}};
   }
 
   /* 標題尾字輪播（打字效果）＋每個字各自的顏色（primitive token，淺／深各一階）；刪完換下一個字時顏色以 --dur-slow／--ease-out 漸變，游標用 currentColor 跟著變。
@@ -15536,8 +15580,12 @@ function buildScheduleChart(view){
   }
   function hxCopyFallback(t){const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();}
 
-  /* HOME5-HOME:v1 元件牆＝跑馬燈（版面參考 designsystems.surf）：兩列等大方格、反向自動捲動，每格一個真元件（原尺寸、不縮放）放在不同底上
-     （柔和漸層／照片／虛線框／點陣／棋盤格），格下標題＋英文名。bg＝底的種類；row＝第幾列 */
+  /* HOME6:v1 元件牆＝跑馬燈，互動還原 designsystems.surf：
+     · 自動捲動用 rAF 推 translateX（同 Framer Ticker），兩份內容無縫循環；滑過該列＝減速到 25%（不硬停，速度以 400ms 指數緩動）
+     · 可拖曳（滑鼠／觸控，touch-action:pan-y＋不可選字／不可拖連結＝Framer drag 的寫法），放開後帶慣性滑行再接回自動速度；觸控板橫向滾輪也能推
+     · 格子滑過＝標題列淡入並往上收（間距 22→12、名稱與「查看元件 →」4px），彈簧曲線；鍵盤聚焦同樣顯示。不用游標膠囊（參考站沒有）
+     · 點格子進元件頁（拖曳後不觸發點擊）；捲出畫面／分頁在背景就停；減少動態＝不自動捲動、改原生橫向捲動
+     bg＝底的種類；row＝第幾列 */
   const HX_WALL=[
     {id:'button',row:0,bg:'grad',mk:()=>{const w=ce('div','hx-mcol');[['solid','primary','開始使用'],['outline','secondary','稍後再說'],['soft','secondary','了解更多']].forEach(([v,i,t])=>{const b=mkBtn({variant:v,intent:i,size:'m'});b.querySelector('span').textContent=t;w.appendChild(b);});return w;}},
     {id:'dropdown',row:0,bg:'dots',mk:()=>{const w=ddField('outline',{value:'台中市'});w.querySelector('.ddmenu').classList.add('is-open');const t=w.querySelector('.field');t.classList.add('st-open');const c=w.querySelector('.ddcaret');if(c)c.classList.add('up');return w;}},
@@ -15556,107 +15604,256 @@ function buildScheduleChart(view){
     {id:'widget-card',v:'group',row:1,bg:'grad2',mk:()=>wdgEl('group',{})},
     {id:'segmented',row:1,bg:'dots',mk:()=>sgmEl('soft','m',{items:['日','週','月','年'],active:1})},
   ];
-  /* 游標膠囊（全站一顆，掛 body；pointer:fine 才啟用）。Button 原子的樣式，aria-hidden、不可聚焦 */
-  function hxCursor(){if(window.__hxCur)return window.__hxCur;
-    const el=ce('div','hx-cur');el.setAttribute('aria-hidden','true');el.inert=true;
-    const b=mkBtn({variant:'solid',intent:'primary',size:'s',trail:true});b.tabIndex=-1;el.appendChild(b);document.body.appendChild(el);
-    let x=0,y=0,tx=0,ty=0,raf=0,on=false;
-    const put=()=>{el.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) translate(-50%,-50%)';};
-    const loop=()=>{raf=0;const k=HX_REDUCE()?1:.32;x+=(tx-x)*k;y+=(ty-y)*k;put();if(Math.abs(tx-x)+Math.abs(ty-y)>.3)raf=requestAnimationFrame(loop);};
-    const api={el,move(cx,cy,first){tx=cx;ty=cy;if(first||HX_REDUCE()){x=tx;y=ty;put();}else if(!raf)raf=requestAnimationFrame(loop);},
-      show(label){b.querySelector('span').textContent=label;if(!on){on=true;el.classList.add('on');}},hide(){if(on){on=false;el.classList.remove('on');}}};
-    window.__hxCur=api;return api;}
+  const HX_MQ={hover:.25,ease:400,glide:325,drag:5};  // 滑過速度倍率、速度緩動時間常數（ms）、放開後慣性衰減時間常數（ms）、拖曳判定距離（px）
   function hxWall(){
     const all=NAV.flatMap(g=>g.items);
-    const sec=ce('section','gd-sec hx-sec');sec.id='hxWall';
-    sec.innerHTML=`<div class="gd-sec-h"><span class="gd-sec-n">01</span><h2 class="gd-sec-t">元件牆</h2></div>
-      <div class="hx-mq" id="hxWallGrid"></div><div class="hx-wall-cta" id="hxWallCta"></div>`;
+    const sec=ce('section','gd-sec hx-sec');sec.id='hxWall';sec.setAttribute('aria-label','元件牆');
+    sec.innerHTML=`<div class="hx-mq" id="hxWallGrid"></div><div class="hx-wall-cta" id="hxWallCta"></div>`;
     const mq=sec.querySelector('.hx-mq');mq.style.setProperty('--hx-photo','url("'+CARD_COVER+'")');
-    const cueTpl=mkBtn({variant:'solid',intent:'primary',size:'s',trail:true});
     const items=HX_WALL.filter(x=>all.some(n=>n.id===x.id));
     const tile=(x,clone)=>{const it=all.find(n=>n.id===x.id);
       const nm=it.name.split(' ');const zh=nm.pop(),en=nm.join(' ');const label='查看 '+zh+(x.v?' · '+x.v:'');
-      const t=document.createElement('a');t.className='hx-tile hx-bg-'+x.bg;t.href='#'+x.id;t.dataset.id=x.id;t.dataset.cue=label;
+      const t=document.createElement('a');t.className='hx-tile hx-bg-'+x.bg;t.href='#'+x.id;t.dataset.id=x.id;t.draggable=false;
       if(clone){t.dataset.clone='1';t.tabIndex=-1;t.setAttribute('aria-hidden','true');}else t.setAttribute('aria-label',label+'（'+en+(x.v?' '+x.v:'')+'）');
-      t.onclick=e=>{e.preventDefault();if(window.__hxCur)window.__hxCur.hide();renderView(x.id);};
-      const fr=ce('div','hx-tile-fr');const stg=ce('div','hx-tile-stage');stg.setAttribute('aria-hidden','true');stg.inert=true;
+      t.onclick=e=>{e.preventDefault();renderView(x.id);};
+      const stg=ce('div','hx-tile-stage');stg.setAttribute('aria-hidden','true');stg.inert=true;
       let node=null;try{node=x.mk();}catch(err){node=null;}
       if(!node){node=ce('span','hx-tile-ph');node.textContent='🧩';}
       stg.appendChild(node);
-      const cue=ce('span',cueTpl.className+' hx-tile-cue');cue.setAttribute('aria-hidden','true');cue.innerHTML=cueTpl.innerHTML;cue.querySelector('span').textContent=label;
-      fr.append(stg,cue);
-      const cap=ce('div','hx-tile-cap');cap.setAttribute('aria-hidden','true');const b=ce('b');b.textContent=zh;const s=ce('span');s.textContent=en+(x.v?' · '+x.v:'');cap.append(b,s);
-      t.append(fr,cap);return t;};
-    [0,1].forEach(r=>{const row=ce('div','hx-mq-row'+(r?' is-rev':''));const vp=ce('div','hx-mq-vp');const tr=ce('div','hx-mq-tr');
+      /* 標題列：名稱＋英文名，下面一顆「查看元件 →」；平常收起，滑過／聚焦才淡入上移 */
+      const cap=ce('div','hx-tile-cap');cap.setAttribute('aria-hidden','true');const tt=ce('div','hx-tile-tt');const b=ce('b');b.textContent=zh;const s=ce('span');s.textContent=en+(x.v?' · '+x.v:'');tt.append(b,s);
+      const go=ce('span','hx-tile-go');go.innerHTML='<span>查看元件</span>'+ICON_ARROW;cap.append(tt,go);
+      t.append(stg,cap);return t;};
+    const rows=[0,1].map(r=>{const row=ce('div','hx-mq-row'+(r?' is-rev':''));const vp=ce('div','hx-mq-vp');const tr=ce('div','hx-mq-tr');
       const set=items.filter(x=>x.row===r);set.forEach(x=>tr.appendChild(tile(x,false)));set.forEach(x=>tr.appendChild(tile(x,true)));  // 第二份＝無縫循環用的複本
-      tr.style.setProperty('--hx-mq-d',(r?60:52)+'s');vp.appendChild(tr);row.appendChild(vp);mq.appendChild(row);});
+      vp.appendChild(tr);row.appendChild(vp);mq.appendChild(row);
+      return {vp,tr,dir:r?1:-1,sec:r?60:52,x:r?-1:0,v:0,W:0,hover:false,focus:false,drag:null,mom:0,last:[]};});
     const b=mkBtn({variant:'solid',intent:'primary',size:'l',isLive:true,trail:true});b.querySelector('span').textContent='瀏覽元件';b.onclick=()=>renderView('button');
     sec.querySelector('#hxWallCta').append(b);
-    // 捲出畫面就暫停（CSS animation-play-state）
-    if(window.IntersectionObserver){const io=new IntersectionObserver(es=>es.forEach(e=>mq.classList.toggle('is-off',!e.isIntersecting)),{threshold:0});io.observe(mq);}
-    // 游標膠囊：只在 hover＋精準指標裝置
-    const fine=matchMedia('(hover:hover) and (pointer:fine)');
-    if(fine.matches){const cur=hxCursor();mq.classList.add('has-cur');let inside=false;
-      mq.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'&&e.pointerType!=='pen'){cur.hide();return;}const t=e.target.closest('.hx-tile');
-        if(!t){cur.hide();inside=false;return;}cur.move(e.clientX,e.clientY,!inside);inside=true;cur.show(t.dataset.cue);});
-      mq.addEventListener('pointerleave',()=>{inside=false;cur.hide();});
-      mq.addEventListener('pointerdown',()=>cur.el.classList.add('is-press'));mq.addEventListener('pointerup',()=>cur.el.classList.remove('is-press'));
-      const main=document.querySelector('.main');if(main)main.addEventListener('scroll',()=>{if(!mq.isConnected)return;inside=false;cur.hide();},{passive:true});}
+    if(HX_REDUCE())return sec;  // 減少動態：CSS 改原生橫向捲動、藏複本，不掛任何動畫
+    const measure=R=>{const c=R.tr.querySelector('[data-clone]'),f=R.tr.firstElementChild;R.W=c&&f?c.offsetLeft-f.offsetLeft:0;};
+    const wrap=R=>{if(R.W>0){R.x=((R.x%R.W)+R.W)%R.W-R.W;}};
+    const put=R=>{R.tr.style.transform='translate3d('+R.x.toFixed(2)+'px,0,0)';};
+    let vis=false,raf=0,lt=0;
+    const loop=t=>{raf=0;if(!mq.isConnected)return;const dt=Math.min(64,lt?t-lt:16);lt=t;
+      rows.forEach(R=>{if(!R.W)measure(R);if(!R.W)return;
+        const base=R.dir*R.W/R.sec;const target=(R.drag&&R.drag.on)||R.focus?0:R.hover?base*HX_MQ.hover:base;
+        R.v+=(target-R.v)*(1-Math.exp(-dt/HX_MQ.ease));
+        if(!(R.drag&&R.drag.on)){if(R.mom){R.x+=R.mom*dt;R.mom*=Math.exp(-dt/HX_MQ.glide);if(Math.abs(R.mom)<.01)R.mom=0;}R.x+=R.v*dt/1000;}
+        wrap(R);put(R);});
+      if(vis&&!document.hidden)raf=requestAnimationFrame(loop);else lt=0;};
+    const kick=()=>{if(!raf&&vis&&!document.hidden&&mq.isConnected){lt=0;raf=requestAnimationFrame(loop);}};
+    rows.forEach(R=>{const {vp}=R;
+      if(window.ResizeObserver)new ResizeObserver(()=>{measure(R);wrap(R);put(R);}).observe(R.tr);
+      vp.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')R.hover=true;});
+      vp.addEventListener('pointerleave',()=>{R.hover=false;});
+      /* 拖曳：超過 5px 才算拖，之後抓住指標；放開時用最近 100ms 的位移算速度，交給慣性 */
+      vp.addEventListener('pointerdown',e=>{if(e.button!==0)return;R.drag={id:e.pointerId,x0:e.clientX,y0:e.clientY,start:R.x,on:false};R.mom=0;R.last=[[performance.now(),e.clientX]];});
+      vp.addEventListener('pointermove',e=>{const D=R.drag;if(!D||D.id!==e.pointerId)return;const dx=e.clientX-D.x0;
+        if(!D.on){if(Math.abs(dx)<HX_MQ.drag)return;if(Math.abs(e.clientY-D.y0)>Math.abs(dx)){R.drag=null;return;}D.on=true;R.v=0;vp.classList.add('is-drag');try{vp.setPointerCapture(e.pointerId);}catch(err){}}
+        R.x=D.start+dx;wrap(R);D.start+=R.x-(D.start+dx);put(R);const now=performance.now();R.last.push([now,e.clientX]);while(R.last.length>2&&now-R.last[0][0]>100)R.last.shift();});
+      const end=e=>{const D=R.drag;if(!D||D.id!==e.pointerId)return;R.drag=null;if(!D.on)return;vp.classList.remove('is-drag');
+        const L=R.last,a=L[0],z=L[L.length-1];const v=z&&a&&z[0]>a[0]&&performance.now()-z[0]<80?(z[1]-a[1])/(z[0]-a[0]):0;  // 用指標的位移算速度（不受循環接縫影響）；放開前停住 80ms 以上＝不滑行
+        R.mom=Math.max(-3,Math.min(3,v));R.dragged=true;setTimeout(()=>{R.dragged=false;},0);kick();};
+      vp.addEventListener('pointerup',end);vp.addEventListener('pointercancel',end);
+      vp.addEventListener('click',e=>{if(R.dragged){e.preventDefault();e.stopPropagation();R.dragged=false;}},true);
+      vp.addEventListener('dragstart',e=>e.preventDefault());
+      /* 觸控板／Shift＋滾輪：只吃橫向量，直向滾動照常捲頁面 */
+      vp.addEventListener('wheel',e=>{const dx=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:(e.shiftKey?e.deltaY:0);if(!dx)return;e.preventDefault();R.x-=dx*(e.deltaMode===1?16:1);R.v=0;wrap(R);put(R);kick();},{passive:false});
+      /* 鍵盤：聚焦的格子停下、必要時把它推進可視範圍（overflow:hidden 的捲動位置歸零，只用 transform） */
+      vp.addEventListener('focusin',e=>{R.focus=true;const t=e.target.closest('.hx-tile');vp.scrollLeft=0;if(!t)return;
+        const vr=vp.getBoundingClientRect(),tr=t.getBoundingClientRect(),pad=parseFloat(getComputedStyle(mq).getPropertyValue('--hx-edge'))||48;
+        if(tr.left<vr.left+pad)R.x+=vr.left+pad-tr.left;else if(tr.right>vr.right-pad)R.x-=tr.right-(vr.right-pad);R.v=0;R.mom=0;put(R);});
+      vp.addEventListener('focusout',e=>{if(!vp.contains(e.relatedTarget))R.focus=false;});
+      vp.addEventListener('scroll',()=>{if(vp.scrollLeft)vp.scrollLeft=0;},{passive:true});});
+    // 捲出畫面就停（rAF 不跑）
+    if(window.IntersectionObserver){const io=new IntersectionObserver(es=>es.forEach(e=>{vis=e.isIntersecting;mq.classList.toggle('is-off',!vis);if(vis)kick();}),{threshold:0});io.observe(mq);}else{vis=true;kick();}
+    const onVis=()=>{if(!mq.isConnected){document.removeEventListener('visibilitychange',onVis);return;}kick();};document.addEventListener('visibilitychange',onVis);
+    window.__hxWall={rows,get running(){return !!raf;}};
     return sec;
   }
 
   /* 動態展示（HOME5-HOME:v1 版面參考 aceternity）：錯位 bento——多欄（CSS columns）＋細虛線格線，每格一個元件、高度不一。
-     每張示範一個 step()；只在「看得到、沒被滑過／聚焦、分頁在前景、使用者沒按暫停」時播放。卡片下不放文字，名稱只留在 aria-label */
+     每張示範一個 step()；只在「看得到、沒被滑過／聚焦、分頁在前景、使用者沒按暫停」時播放。卡片下不放文字，名稱只留在 aria-label
+     HOME6:v1 拿掉儀表／品牌牌卡／motion token 卡，換成三張輸入類（表單打字驗證、搜尋＋篩選即時過濾、下拉＋日期選擇）；
+     熱銷排名改成模擬游標滑過長條（tooltip＋高亮），KPI 走勢一次只滑一張、淡入淡出、從左緣進場，每張停 3.6 秒以上 */
   function hxClickNext(scope,sel){const bs=[...scope.querySelectorAll(sel)];if(!bs.length)return;const i=bs.findIndex(b=>b.classList.contains('is-active'));bs[(i+1)%bs.length].click();}
+  const HX_IC_PAUSE='<svg viewBox="0 0 256 256" fill="currentColor"><rect x="60" y="40" width="44" height="176" rx="8"/><rect x="152" y="40" width="44" height="176" rx="8"/></svg>';
+  const HX_IC_PLAY='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M80 40.5v175a8 8 0 0 0 12.2 6.8l140-87.5a8 8 0 0 0 0-13.6l-140-87.5A8 8 0 0 0 80 40.5Z"/></svg>';
+  const HX_IC_GHOST='<svg viewBox="0 0 16 20" aria-hidden="true"><path d="M2 1.6v14.6l3.7-3.6 2.6 5.8 2.6-1.1-2.6-5.7h5.1z"/></svg>';
   function hxShow(){
-    const sec=ce('section','gd-sec hx-sec');sec.id='hxShow';
-    sec.innerHTML=`<div class="gd-sec-h"><span class="gd-sec-n">02</span><h2 class="gd-sec-t">動態展示</h2><div class="hx-sec-x" id="hxShowBar"></div></div>
-      <div class="bento-card hx-showq"><div class="hx-show" id="hxShowGrid"></div></div>`;
+    const sec=ce('section','gd-sec hx-sec hx-sec-show');sec.id='hxShow';sec.setAttribute('aria-label','動態展示');
+    sec.innerHTML=`<div class="hx-show-bar" id="hxShowBar"></div><div class="bento-card hx-showq"><div class="hx-show" id="hxShowGrid"></div></div>`;
     const grid=sec.querySelector('#hxShowGrid');const demos=[];
-    /* 每張示範可以有多個 actor（各自的節奏）；第 n 張卡片錯開起跑，整面牆隨時都有東西在動 */
-    const demo=(key,label,node,actors)=>{const c=ce('div','hx-sc hx-sc-'+key);c.dataset.playing='0';c.setAttribute('role','group');c.setAttribute('aria-label',label+'（自動示範）');
+    /* 每張示範可以有多個 actor（各自的節奏）；第 n 張卡片錯開起跑，整面牆隨時都有東西在動。
+       actor.once＝只在開始播放時呼叫一次，之後由它自己的時間軸（later／tween）接續循環 */
+    const demo=(key,label,node,actors,o)=>{const c=ce('div','hx-sc hx-sc-'+key);c.dataset.playing='0';c.setAttribute('role','group');c.setAttribute('aria-label',label+'（自動示範）');
       const st=ce('div','hx-sc-stage');st.appendChild(node);c.appendChild(st);grid.appendChild(c);
-      const d={el:c,node,actors:actors.map(a=>Object.assign({t:null,w:null},a)),idx:demos.length,stops:[]};demos.push(d);return d;};
+      node.querySelectorAll('.chtx-sr[aria-live]').forEach(n=>n.setAttribute('aria-live','off'));  // 自動示範不要一直播報 tooltip
+      const d=Object.assign({el:c,node,actors:actors.map(a=>Object.assign({t:null,w:null},a)),idx:demos.length,stops:[]},o||{});demos.push(d);return d;};
     const fire=(el,type,x,y)=>{try{el.dispatchEvent(new PointerEvent(type,{bubbles:type!=='pointerleave',clientX:x,clientY:y,pointerType:'mouse'}));}catch(e){}};
-    /* 游標掃過：在 SVG 上送合成 pointermove（只改 tooltip／十字線的 transform／屬性），結束送 pointerleave；smoothstep 慢起慢收，結束後停一下才離開 */
-    const sweep=(d,svg,dur)=>{if(!svg)return;const r=svg.getBoundingClientRect();if(!r.width)return;const t0=performance.now();let raf=0;
-      const stop=()=>{cancelAnimationFrame(raf);fire(svg,'pointerleave',0,0);};d.stops.push(stop);
-      const f=t=>{const k=Math.min(1,(t-t0)/dur),e=k*k*(3-2*k);if(!d.running){stop();return;}fire(svg,'pointermove',r.left+6+e*(r.width-12),r.top+r.height*(.45+.06*Math.sin(e*Math.PI)));if(k<1)raf=requestAnimationFrame(f);else setTimeout(()=>{if(d.running)fire(svg,'pointerleave',0,0);},chtxMs('--dur-slow',1.6));};
-      raf=requestAnimationFrame(f);};
+    /* 時間軸小工具：都掛在 d.stops，暫停時一次清掉 */
+    const unstop=(d,c)=>{const i=d.stops.indexOf(c);if(i>=0)d.stops.splice(i,1);};
+    const later=(d,ms,f)=>{const c=()=>clearTimeout(id);const id=setTimeout(()=>{unstop(d,c);if(d.running)f();},ms);d.stops.push(c);};
+    const tween=(d,dur,fn,done)=>{const t0=performance.now();let raf=0;const c=()=>cancelAnimationFrame(raf);d.stops.push(c);
+      const f=t=>{if(!d.running)return;const k=Math.min(1,Math.max(0,(t-t0)/dur));fn(k);if(k<1)raf=requestAnimationFrame(f);else{unstop(d,c);if(done)done();}};raf=requestAnimationFrame(f);};
+    const seq=(d,steps,done)=>{let i=0;const go=()=>{if(!d.running)return;if(i>=steps.length){if(done)done();return;}steps[i++](go);};go();};
+    const jit=ms=>Math.round(ms*(0.85+Math.random()*0.3));
+    const eo=k=>1-Math.pow(1-k,3),ss=k=>k*k*(3-2*k);
+    /* 模擬游標：卡片內一個箭頭（aria-hidden），位置用卡片內座標；送事件時換回視窗座標 */
+    const ghost=d=>{if(d.g)return d.g;const g=ce('span','hx-ghost');g.setAttribute('aria-hidden','true');g.innerHTML=HX_IC_GHOST;d.el.appendChild(g);let lx=0,ly=0;
+      d.g={at(x,y){lx=x;ly=y;g.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0)';},show(v){g.classList.toggle('on',!!v);},
+        client(){const r=d.el.getBoundingClientRect();return [r.left+lx,r.top+ly];},get x(){return lx;},get y(){return ly;}};return d.g;};
+    const local=(d,el)=>{const e=d.el.getBoundingClientRect(),r=el.getBoundingClientRect();return {l:r.left-e.left,t:r.top-e.top,w:r.width,h:r.height};};
+    /* 打字：逐字 110～190ms（標點後多停一下），每打一個字呼叫 onKey */
+    const type=(d,inp,text,done,onKey)=>{let i=0;const step=()=>{if(i>=text.length){if(done)done();return;}inp.value+=text[i++];if(onKey)onKey(inp.value);
+      later(d,Math.round((110+Math.random()*80)*(/[@.\s]/.test(text[i-1])?1.8:1)),step);};step();};
+    const setMsg=(m,kind,text)=>{if(!m)return;m.className='fld-msg'+(kind==='err'?' is-err':kind==='ok'?' hx-ok':'');
+      m.innerHTML=kind?`<span class="fld-msg-ic">${kind==='err'?NT_IC_ERROR:NT_IC_SUCCESS}</span><span>${text}</span>`:'';if(!kind)m.textContent=text||'';};
     /* 節奏：每一拍 2.5～4 秒（--dur-slow 的倍數，最短 2.5 秒）；排程時每拍再加 ±15% 隨機，卡片之間不會同步跳動 */
     const ms=n=>Math.max(2500,chtxMs('--dur-slow',n));
-    /* 順序＝欄由上而下（CSS columns），高矮交錯 */
-    demo('spark','Chart · spark：區間切換＋游標掃過',chtChart('spark','m',{live:true}),[
-      {ms:ms(8),fn:d=>hxClickNext(d.node,'.chtx-kpi-top .sgm-it')},
-      {ms:ms(8),at:ms(4.4),fn:d=>{const svgs=d.node.querySelectorAll('.chtx-kpi svg');svgs.forEach((s,i)=>setTimeout(()=>d.running&&sweep(d,s,ms(5)),i*320));}}]);
+
+    /* ── KPI 走勢：一次只滑一張圖。游標從圖的左緣外滑進來 → 碰到圖才送 pointermove（十字線／點／tooltip 淡入）→ 3.8 秒 smoothstep 往右掃（最多 82%，tooltip 不換邊）→ 停 0.8 秒 → 往下滑出、送 pointerleave（淡出）→ 空 1.2 秒才換下一張 */
+    const sweepKpi=(d,svg,done)=>{const G=ghost(d);const r=local(d,svg);if(!r.w){done();return;}const y0=r.t+r.h*.58;let inside=false;
+      /* tooltip 在游標右側；掃到它放不下、要翻到左側之前就停（不讓 tooltip 中途左右換邊） */
+      let span=r.w*.82;const fitSpan=()=>{const tip=d.node.querySelector('.chtx-tip');if(!tip||!tip.parentElement)return;const hr=tip.parentElement.getBoundingClientRect(),sr=svg.getBoundingClientRect();
+        const fit=hr.right-22-tip.offsetWidth*1.15-sr.left-6;if(fit>=r.w*.4)span=Math.min(span,fit);};  // tooltip 已出現後量寬度（留 15% 給數字變長）
+      const at=(x,y,send)=>{G.at(x,y);if(send){inside=true;const [cx,cy]=G.client();fire(svg,'pointermove',cx,cy);}};
+      d.leave=()=>{if(inside)fire(svg,'pointerleave',0,0);inside=false;G.show(false);d.leave=null;};
+      G.at(r.l-22,y0+14);requestAnimationFrame(()=>G.show(true));
+      seq(d,[n=>tween(d,jit(800),k=>{const e=eo(k);at(r.l-22+e*28,y0+14-e*14,k>.55);},n),
+        n=>{fitSpan();n();},
+        n=>tween(d,jit(3800),k=>{const e=ss(k);at(r.l+6+e*span,y0-Math.sin(e*Math.PI)*r.h*.18,true);},n),
+        n=>later(d,jit(800),n),
+        n=>{const x1=G.x,y1=G.y;if(inside)fire(svg,'pointerleave',0,0);inside=false;G.show(false);tween(d,jit(600),k=>{const e=eo(k);G.at(x1+e*12,y1+e*(r.h*.5+20));},()=>{d.leave=null;n();});}],done);};
+    const spark=chtChart('spark','m',{live:true});
+    demo('spark','Chart · spark：區間切換＋游標逐張滑過走勢',spark,[{once:true,at:600,fn:d=>{const run=()=>{const svgs=[...d.node.querySelectorAll('.chtx-kpi svg')];
+      seq(d,[n=>{hxClickNext(d.node,'.chtx-kpi-top .sgm-it');later(d,jit(2400),n);},
+        ...svgs.map(s=>n=>sweepKpi(d,s,()=>later(d,jit(1200),n))),
+        n=>later(d,jit(1400),n)],run);};run();}}]);
     demo('grp','Widget Card · group：頭像展開',wdgEl('group',{live:true}),[{ms:ms(6.6),fn:d=>d.node.classList.toggle('is-spread')}]);
-    const tok=ce('div','hx-tok');
-    [['--dur-fast','hover、小切換'],['--dur-default','展開、位移'],['--dur-slow','圖表、數字滾動']].forEach(([k,d])=>{const r=ce('div','hx-tok-r');
-      r.innerHTML='<code>'+k+'<small>'+hxRootVar(k)+' · '+d+'</small></code><span class="hx-tok-tr"><i style="--hx-d:var('+k+')"></i></span>';tok.appendChild(r);});
-    demo('tok','Motion token：三個時間 token 比較',tok,[{ms:ms(5),fn:d=>d.node.classList.toggle('is-b')}]);
-    demo('prof','Profile Card：Follow 切換＋封面視差',bpfEl('graphic','default',{live:true}),[
-      {ms:ms(7.6),fn:d=>{const b=d.node.querySelector('.bpf-top .btn');if(b)b.click();}},
-      {ms:ms(6),at:ms(5),fn:d=>{d.ph=(d.ph||0)+1;const r=d.node.getBoundingClientRect();const a=d.ph*Math.PI/2.6;fire(d.node,'pointermove',r.left+r.width*(.5+.3*Math.cos(a)),r.top+r.height*(.5+.3*Math.sin(a)));}}]);
-    demo('gauge','Chart · gauge：指針在三個門市間擺動',chtChart('gauge','m',{live:true}),[{ms:ms(7.4),fn:d=>hxClickNext(d.node,'.chtx-tools .sgm-it')}]);
+
+    /* ── 表單：Field／Input 原子。打姓名 → 打 Email（少了網域尾）→ 離開欄位跳錯誤 → 回來補上 → 變成功訊息 → 按送出 → 重來 */
+    const fm=ce('form','hx-icard hx-ifm');fm.noValidate=true;fm.setAttribute('aria-label','建立帳號');fm.onsubmit=e=>e.preventDefault();
+    const fmh=ce('div','hx-icard-h');fmh.innerHTML='<b>建立帳號</b><span>填完寄送驗證信</span>';fm.appendChild(fmh);
+    const fN=fldEl('vertical','default',{live:true,label:'姓名',required:true,placeholder:'王小明'}),fE=fldEl('vertical','default',{live:true,label:'電子郵件',required:true,placeholder:'name@example.com',hint:'我們會寄送驗證信到這個信箱。'});
+    [fN,fE].forEach(f=>{if(!f.querySelector('.fld-msg')){const m=ce('div','fld-msg');m.id='fld-msg-'+(++FLD_ID);f.querySelector('input').setAttribute('aria-describedby',m.id);f.querySelector('.fld-ctl').appendChild(m);}fm.appendChild(f);});
+    const fOk=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true});fOk.type='submit';fOk.querySelector('span').textContent='建立帳號';fOk.classList.add('hx-ifm-go');fm.appendChild(fOk);
+    const F=[fN,fE].map(f=>({f,inp:f.querySelector('input'),box:f.querySelector('.field'),msg:f.querySelector('.fld-msg')}));
+    const fmState=k=>{F.forEach(x=>{x.box.classList.remove('st-focus','st-error');x.inp.removeAttribute('aria-invalid');});fOk.classList.remove('st-press','st-hover');
+      if(k==='done'){F[0].inp.value='林語晨';F[1].inp.value='yuchen.lin@goons.tw';setMsg(F[1].msg,'ok','格式正確，驗證信會寄到這裡');}
+      else{F.forEach(x=>{x.inp.value='';});setMsg(F[1].msg,'','我們會寄送驗證信到這個信箱。');}};
+    fmState('done');
+    demo('form','Field · 表單：打字、聚焦、即時驗證',fm,[{once:true,at:1400,fn:d=>{const [N,E]=F;const run=()=>seq(d,[
+        n=>{fmState('reset');later(d,jit(1100),n);},
+        n=>{N.box.classList.add('st-focus');later(d,jit(500),n);},
+        n=>type(d,N.inp,'林語晨',()=>later(d,jit(700),n)),
+        n=>{N.box.classList.remove('st-focus');E.box.classList.add('st-focus');later(d,jit(450),n);},
+        n=>type(d,E.inp,'yuchen.lin@goons',()=>later(d,jit(800),n)),
+        n=>{E.box.classList.remove('st-focus');E.box.classList.add('st-error');E.inp.setAttribute('aria-invalid','true');setMsg(E.msg,'err','請輸入完整的 Email，例如 name@example.com');later(d,jit(2800),n);},
+        n=>{E.box.classList.add('st-focus');later(d,jit(600),n);},
+        n=>type(d,E.inp,'.tw',()=>{E.box.classList.remove('st-error');E.inp.removeAttribute('aria-invalid');setMsg(E.msg,'ok','格式正確，驗證信會寄到這裡');later(d,jit(1600),n);}),
+        n=>{E.box.classList.remove('st-focus');fOk.classList.add('st-hover');later(d,jit(700),n);},
+        n=>{fOk.classList.add('st-press');later(d,260,()=>{fOk.classList.remove('st-press');n();});},
+        n=>later(d,jit(3000),n)],run);run();}}],{reset:()=>{F.forEach(x=>x.box.classList.remove('st-focus'));fOk.classList.remove('st-press','st-hover');}});  // 暫停時只收掉暫態（聚焦框／按下），內容停在當下
+
+    /* ── 篩選：搜尋框＋狀態 chip（Tag 原子）＋已套用條件 chip（Table Toolbar 的 ttbChip）＋清單列（List 原子）即時過濾；清單高度固定，列收起時不推動整面牆 */
+    const FL_ROWS=[['Card 元件驗收','設計 · 林語晨','進行中'],['Button 寫進 Figma','Figma · 陳柏宇','已完成'],['Card 深色模式檢查','設計 · 王思妤','已完成'],
+      ['Modal 文案校稿','內容 · 李承恩','待審'],['Card 圖片比例','前端 · 陳柏宇','進行中'],['Table 欄寬調整','前端 · 林語晨','進行中']];
+    const FL_I={'進行中':'info','已完成':'success','待審':'warning'};
+    const fl=ce('div','hx-icard hx-ifl');
+    const flh=ce('div','hx-icard-h');const flCnt=ce('span');flh.innerHTML='<b>任務清單</b>';flh.appendChild(flCnt);fl.appendChild(flh);
+    const sb=ce('div','field v-outline hx-ifl-q');sb.insertAdjacentHTML('beforeend',ICON_SEARCH);const sq=document.createElement('input');sq.className='bare';sq.placeholder='搜尋任務…';sq.setAttribute('aria-label','搜尋任務');sb.appendChild(sq);fl.appendChild(sb);
+    const chips=ce('div','hx-ifl-chips');chips.setAttribute('role','group');chips.setAttribute('aria-label','狀態');
+    const CH=['全部','進行中','待審','已完成'].map(k=>{const t=tagEl('outline','neutral','default');t.querySelector('span').textContent=k;t.dataset.k=k;chips.appendChild(t);return t;});fl.appendChild(chips);
+    const cond=ce('div','hx-ifl-cond');fl.appendChild(cond);
+    const lst=ce('div','lst-solo hx-ifl-l');fl.appendChild(lst);
+    const FR=FL_ROWS.map(([t,ds,s])=>{const w=ce('div','hx-fr');const it=lstRowBasic('default',{title:t,desc:ds});const tr=ce('div','lst-trail');const g=tagEl('soft',FL_I[s],'default');g.querySelector('span').textContent=s;tr.appendChild(g);it.appendChild(tr);
+      const inner=ce('div','hx-fr-i');inner.appendChild(it);w.appendChild(inner);lst.appendChild(w);return {w,t,s};});
+    const flS={q:'',st:'全部'};
+    const flApply=()=>{let n=0;FR.forEach(r=>{const ok=(!flS.q||r.t.toLowerCase().includes(flS.q.toLowerCase()))&&(flS.st==='全部'||r.s===flS.st);r.w.classList.toggle('is-out',!ok);r.w.setAttribute('aria-hidden',String(!ok));if(ok)n++;});
+      flCnt.textContent=n+' / '+FR.length+' 筆';
+      CH.forEach(c=>{const on=c.dataset.k===flS.st;c.className=c.className.replace(/\bv-\w+/,on?'v-solid':'v-outline').replace(/\bi-\w+/,on?'i-brand':'i-neutral');c.setAttribute('aria-pressed',String(on));});};
+    const flCond=(label,key)=>{const c=ttbChip(label,{});c.classList.add('tg-in');c.dataset.key=key;cond.appendChild(c);};
+    const flReset=()=>{flS.q='';flS.st='全部';sq.value='';sb.classList.remove('st-focus');cond.innerHTML='';flApply();};
+    CH.forEach(c=>{c.setAttribute('role','button');c.tabIndex=0;const pick=()=>{flS.st=c.dataset.k;flApply();};c.onclick=pick;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};});
+    sq.addEventListener('input',()=>{flS.q=sq.value.trim();flApply();});
+    flReset();
+    /* 清單外框鎖住「全部列都在」的高度（隨寬度重算），過濾時卡片不變高 */
+    if(window.ResizeObserver)new ResizeObserver(()=>{if(FR.some(r=>r.w.classList.contains('is-out')))return;const h=FR.reduce((a,r)=>a+r.w.offsetHeight,0);if(h)lst.style.setProperty('--hx-ifl-h',(h+2)+'px');}).observe(lst);
+    demo('filter','Table Toolbar · 篩選：搜尋＋狀態 chip 即時過濾清單',fl,[{once:true,at:2600,fn:d=>{const run=()=>seq(d,[
+        n=>{flReset();later(d,jit(1400),n);},
+        n=>{sb.classList.add('st-focus');later(d,jit(500),n);},
+        n=>type(d,sq,'Card',()=>later(d,jit(900),n),v=>{flS.q=v;flApply();}),
+        n=>{sb.classList.remove('st-focus');flCond('關鍵字：Card','q');later(d,jit(2000),n);},
+        n=>{const c=CH[1];c.classList.add('hx-press');later(d,220,()=>{c.classList.remove('hx-press');flS.st='進行中';flApply();flCond('狀態：進行中','st');later(d,jit(3200),n);});},
+        n=>{[...cond.children].forEach(c=>c.classList.add('tg-out'));later(d,jit(400),()=>{flReset();later(d,jit(2600),n);});}],run);run();}}],{reset:()=>{sb.classList.remove('st-focus');CH.forEach(c=>c.classList.remove('hx-press'));}});
+
     demo('mtc','Metric Card：逐週切換',mtcEl('weekly-bar','violet',{live:true,metric:'sleep'}),[{ms:ms(6),fn:d=>hxClickNext(d.node,'.mtc-x .sgm-it')}]);
     demo('psc','Person Card：Add member 切換＋照片推近',pscEl('default','s',{live:true}),[
       {ms:ms(7.2),fn:d=>{const b=d.node.querySelector('.psc-add');if(b)b.click();}},
       {ms:ms(7.2),at:ms(3.6),fn:d=>d.node.classList.toggle('is-zoom')}]);
-    demo('rank','Chart · bar-rank：指標與排序切換',chtChart('bar-rank','m',{live:true}),[
-      {ms:ms(8),fn:d=>{const s=d.node.querySelectorAll('.chtx-tools .sgm');if(s[0])hxClickNext(s[0],'.sgm-it');}},
-      {ms:ms(8),at:ms(4),fn:d=>{const s=d.node.querySelectorAll('.chtx-tools .sgm');if(s[1])hxClickNext(s[1],'.sgm-it');}}]);
+
+    /* ── 熱銷排名：不換位，改成模擬游標滑過長條——游標從右側進場，經過的列即時高亮＋tooltip（圖表自己的 hover），每列停 3.4 秒、列與列之間 1 秒滑動，三列後滑出休息 */
+    const rank=chtChart('bar-rank','m',{live:true});
+    const rkRows=()=>[...rank.querySelectorAll('.chtx-rk-row')];
+    const rkSim=row=>rkRows().forEach(r=>r.classList.toggle('hx-sim',r===row));
+    demo('rank','Chart · bar-rank：游標滑過長條看數值',rank,[{once:true,at:2000,fn:d=>{const G=ghost(d);let cur=null,prev=-1;
+      const hit=()=>{const [cx,cy]=G.client();const rs=rkRows();const r=rs.find(x=>{const b=x.getBoundingClientRect();return cy>=b.top&&cy<b.bottom&&cx>=b.left&&cx<=b.right;});
+        if(r){cur=r;rkSim(r);fire(r,'pointermove',cx,cy);}};
+      const target=i=>{const r=local(d,rkRows()[i]);return [r.l+r.w*(.42+Math.random()*.12),r.t+r.h*.5];};
+      d.leave=()=>{if(cur)fire(cur,'pointerleave',0,0);cur=null;rkSim(null);G.show(false);};
+      const move=(to,dur,send,done)=>{const x0=G.x,y0=G.y;tween(d,dur,k=>{const e=eo(k);G.at(x0+(to[0]-x0)*e,y0+(to[1]-y0)*e);if(send)hit();},done);};
+      const pick=()=>{let i;do{i=Math.floor(Math.random()*Math.min(6,rkRows().length));}while(i===prev);prev=i;return i;};
+      const run=()=>{const a=pick(),b=pick(),c=pick();const box=local(d,rank);const t0=target(a);G.at(box.l+box.w+12,t0[1]+18);requestAnimationFrame(()=>G.show(true));
+        seq(d,[n=>move(t0,jit(1000),true,n),n=>later(d,jit(3400),n),
+          n=>move(target(b),jit(1000),true,n),n=>later(d,jit(3400),n),
+          n=>move(target(c),jit(1000),true,n),n=>later(d,jit(3400),n),
+          n=>{if(cur)fire(cur,'pointerleave',0,0);cur=null;rkSim(null);G.show(false);move([box.l+box.w+12,G.y+24],jit(700),false,n);},
+          n=>later(d,jit(2600),n)],run);};run();}}]);
+
+    /* ── 排程：Dropdown 展開→游標往下滑過選項→選定收合；接著 Date Picker 的月曆逐日滑過→選定，欄位跟著填值。月曆常駐（同 dpk 的 static 面板），選單浮在上面，卡片高度不變 */
+    const SC_OWN=['林語晨','陳柏宇','王思妤','李承恩'];
+    const sc=ce('div','hx-icard hx-isc');const sch=ce('div','hx-icard-h');sch.innerHTML='<b>排程上線</b><span>春季活動頁</span>';sc.appendChild(sch);
+    const scg=ce('div','hx-isc-g');sc.appendChild(scg);
+    const scF=(label,node)=>{const f=fldEl('vertical','default',{label});const ctl=f.querySelector('.fld-ctl');ctl.innerHTML='';ctl.appendChild(node);scg.appendChild(f);return f;};
+    const dd=ddField('outline',{options:SC_OWN,placeholder:'選擇負責人'});scF('負責人',dd).querySelector('[role="combobox"]').setAttribute('aria-label','負責人');
+    const dpk=dpkEl('single','default',{});scF('上線日',dpk);const dpF=dpk.querySelector('.field');dpF.setAttribute('aria-expanded','true');
+    const pop=ce('div','pop dpk-pop dpk-pop-static hx-isc-cal');sc.appendChild(pop);
+    let cal=null;const scCal=sel=>{const n=calMonthEl('m',{selected:sel==null?null:sel});if(cal)cal.replaceWith(n);else pop.appendChild(n);cal=n;};
+    const ddT=dd.querySelector('.field'),ddM=dd.querySelector('.ddmenu'),ddC=dd.querySelector('.ddcaret');
+    const ddOpen=v=>{ddM.classList.toggle('is-open',v);ddT.classList.toggle('st-open',v);if(ddC)ddC.classList.toggle('up',v);ddT.setAttribute('aria-expanded',String(v));if(!v)ddM.querySelectorAll('.ddopt').forEach(o=>o.classList.remove('hx-sim'));};
+    const ddVal=v=>{const b=dd.querySelector('.dd-body');b.innerHTML='';const s=ce('span',v?'val':'ph');s.textContent=v||'選擇負責人';b.appendChild(s);ddM.querySelectorAll('.ddopt').forEach(o=>{const on=o.textContent===v;o.classList.toggle('sel',on);o.setAttribute('aria-selected',String(on));});};
+    const dpVal=t=>{const s=dpF.querySelector('.ph,.val');s.className=t?'val':'ph';s.textContent=t||'年/月/日';};
+    const scState=k=>{ddOpen(false);dpF.classList.remove('st-focus');if(k==='done'){ddVal('王思妤');dpVal('2026/07/23');scCal(23);}else{ddVal('');dpVal('');scCal(null);}};
+    scState('done');
+    demo('sched','Dropdown＋Date Picker：展開、滑過、選定',sc,[{once:true,at:3400,fn:d=>{
+      const opts=()=>[...ddM.querySelectorAll('.ddopt')];const days=()=>[...cal.querySelectorAll('.cal-day:not(.is-out):not(:disabled)')];
+      const hov=(list,i)=>list.forEach((o,j)=>o.classList.toggle('hx-sim',j===i));
+      const walk=(listFn,from,to,step,done)=>{let i=from;const go=()=>{hov(listFn(),i);if(i===to){done();return;}i+=i<to?1:-1;later(d,step(),go);};go();};
+      const run=()=>{const pickO=1+Math.floor(Math.random()*3),dayA=17+Math.floor(Math.random()*3),dayB=dayA+3+Math.floor(Math.random()*4);
+        seq(d,[n=>{scState('reset');later(d,jit(1200),n);},
+          n=>{ddT.classList.add('st-focus');ddOpen(true);later(d,jit(700),n);},
+          n=>walk(opts,0,pickO,()=>jit(520),()=>later(d,jit(900),n)),
+          n=>{ddVal(SC_OWN[pickO]);ddOpen(false);ddT.classList.remove('st-focus');later(d,jit(1400),n);},
+          n=>{dpF.classList.add('st-focus');later(d,jit(600),n);},
+          n=>{const ds=days(),ia=ds.findIndex(x=>+x.textContent===dayA),ib=ds.findIndex(x=>+x.textContent===dayB);walk(days,ia<0?0:ia,ib<0?ds.length-1:ib,()=>jit(380),()=>later(d,jit(900),n));},
+          n=>{hov(days(),-1);scCal(dayB);dpVal('2026/07/'+String(dayB).padStart(2,'0'));dpF.classList.remove('st-focus');later(d,jit(3400),n);}],run);};run();}}],{reset:()=>{ddOpen(false);ddT.classList.remove('st-focus');dpF.classList.remove('st-focus');if(cal)cal.querySelectorAll('.hx-sim').forEach(x=>x.classList.remove('hx-sim'));}});
+
     demo('todo','Widget Card · todo：分頁切換',wdgEl('todo',{live:true}),[{ms:ms(6.8),fn:d=>hxClickNext(d.node,'.sgm-it')}]);
     let on=!HX_REDUCE();
-    const bar=sec.querySelector('#hxShowBar');const pb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});bar.append(pb);
-    const stopD=d=>{d.actors.forEach(a=>{clearTimeout(a.w);clearInterval(a.t);a.w=a.t=null;});d.stops.splice(0).forEach(f=>{try{f();}catch(e){}});};
+    /* 暫停／播放：段落右上角一顆小鈕（icon＋短字），aria-pressed 表示已暫停 */
+    const bar=sec.querySelector('#hxShowBar');const pb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});pb.classList.add('hx-show-pb');bar.append(pb);
+    const stopD=d=>{d.actors.forEach(a=>{clearTimeout(a.w);clearInterval(a.t);a.w=a.t=null;});d.stops.splice(0).forEach(f=>{try{f();}catch(e){}});
+      if(d.leave){try{d.leave();}catch(e){}}if(d.reset){try{d.reset();}catch(e){}}};
     const sync=d=>{const run=on&&d.vis&&!d.hold&&!document.hidden&&d.el.isConnected;
       if(run&&!d.running){d.running=true;d.actors.forEach((a,i)=>{const tick=()=>{if(!d.el.isConnected){stopD(d);d.running=false;return;}try{a.fn(d);}catch(e){}};
           const next=()=>{a.w=setTimeout(()=>{if(!d.running)return;tick();next();},Math.round(a.ms*(0.85+Math.random()*0.3)));};
-          a.w=setTimeout(()=>{if(!d.running)return;tick();next();},(a.at||0)+d.idx*480+Math.round(Math.random()*900)+600);});}
+          a.w=setTimeout(()=>{if(!d.running)return;tick();if(!a.once)next();},(a.at||0)+d.idx*480+Math.round(Math.random()*900)+600);});}
       else if(!run&&d.running){d.running=false;stopD(d);}
       d.el.dataset.playing=run?'1':'0';};
     const syncAll=()=>demos.forEach(sync);
-    const paint=()=>{pb.querySelector('span').textContent=on?'暫停自動播放':'播放示範';pb.setAttribute('aria-pressed',String(!on));};
+    const paint=()=>{pb.innerHTML=(on?HX_IC_PAUSE:HX_IC_PLAY)+'<span>'+(on?'暫停':'播放')+'</span>';pb.setAttribute('aria-label',on?'暫停自動播放':'播放自動示範');pb.title=on?'暫停自動播放':'播放自動示範';pb.setAttribute('aria-pressed',String(!on));};
     pb.onclick=()=>{on=!on;paint();syncAll();};paint();
     demos.forEach(d=>{d.vis=!window.IntersectionObserver;d.hold=false;d.running=false;
       d.el.addEventListener('pointerenter',e=>{if(!e.isTrusted)return;d.hold=true;sync(d);});d.el.addEventListener('pointerleave',e=>{if(!e.isTrusted)return;d.hold=d.el.contains(document.activeElement);sync(d);});
