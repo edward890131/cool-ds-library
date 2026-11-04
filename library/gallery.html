@@ -5111,7 +5111,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hx-hero-bg{--hx-glow:color-mix(in srgb,var(--accent) 8%,transparent);--hx-glow3:color-mix(in srgb,var(--accent) 8%,transparent);}}
   .hx-hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(circle 140px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
+      radial-gradient(50% 42% at 50% 0%,var(--hx-glow) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
       radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/22px 22px,
@@ -5119,11 +5119,18 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent);mask-image:linear-gradient(180deg,#000 78%,transparent);}
   /* 互動背景（hxHeroFx）：有 canvas 時點陣改由 canvas 畫（滑過會散開），CSS 點陣只當無 JS／減少動態的後備 */
   .hx-hero-bg.has-fx{background:
-      radial-gradient(circle 140px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
+      radial-gradient(50% 42% at 50% 0%,var(--hx-glow) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
       radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       var(--canvas);}
   .hx-hero-bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  /* 協作游標（像 Figma 多人游標）：箭頭＋名牌，彈性跟隨滑鼠；系統游標在 hero 內隱藏，按鈕／連結／試玩區恢復 */
+  .hx-cur{position:absolute;left:0;top:0;z-index:5;pointer-events:none;opacity:0;transition:opacity var(--dur-fast) var(--ease-out);--cur-c:var(--c-info-500);}
+  .hx-cur.on{opacity:1;}
+  .hx-cur svg{display:block;width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));}
+  .hx-cur-tag{position:absolute;left:16px;top:18px;padding:4px 12px;border-radius:var(--r-pill);background:var(--cur-c);color:var(--c-neutral-0);
+    font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:var(--fw-semibold);line-height:1.4;white-space:nowrap;box-shadow:var(--e-md);}
+  .hx-hero.has-cur{cursor:none;} .hx-hero.has-cur :is(a,button,input,[role=button],.btn,.hx-pgx){cursor:auto;} .hx-hero.has-cur :is(a,button,[role=button],.btn){cursor:pointer;}
   /* 版面參考 designsystems.surf：靠左大標（尾字打字輪播）→ 下一列左 CTA／右補充說明 → 細線＋mono 標籤列 → 全寬展示框 */
   .hx-hero-in{display:flex;flex-direction:column;gap:clamp(32px,4vw,48px);max-width:1180px;margin:0 auto;}
   .hx-copy{padding-block:clamp(40px,7vw,104px) clamp(32px,5vw,72px);display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"h1" "cta" "lede";justify-items:start;column-gap:clamp(24px,6vw,96px);row-gap:var(--sp-6);align-items:end;min-width:0;}
@@ -5336,6 +5343,13 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);transition:border-color var(--dur-fast),box-shadow var(--dur-default) var(--ease-out);}
   .hx-tile-stage > *{transition:transform var(--dur-default) var(--ease-spring);}
   .hx-tile:hover .hx-tile-stage,.hx-tile:focus-visible .hx-tile-stage{border-color:var(--line-strong);box-shadow:var(--e-md);}
+  /* 滑過＝Figma 式選取框：藍色 1px 外框＋四角白底方塊（選取色走 --c-info-500） */
+  .hx-tile-wrap{position:relative;will-change:transform;}
+  .hx-sel{position:absolute;inset:-1px;pointer-events:none;border:1px solid var(--c-info-500);opacity:0;transition:opacity var(--dur-fast) var(--ease-out);}
+  .hx-sel i{position:absolute;width:7px;height:7px;box-sizing:border-box;background:var(--c-neutral-0);border:1px solid var(--c-info-500);}
+  .hx-sel i:nth-child(1){left:-4px;top:-4px;} .hx-sel i:nth-child(2){right:-4px;top:-4px;} .hx-sel i:nth-child(3){left:-4px;bottom:-4px;} .hx-sel i:nth-child(4){right:-4px;bottom:-4px;}
+  .hx-tile:hover .hx-sel,.hx-tile:focus-visible .hx-sel{opacity:1;}
+  .hx-tile:hover .hx-tile-stage,.hx-tile:focus-visible .hx-tile-stage{border-color:transparent;}
   .hx-tile:hover .hx-tile-stage > *,.hx-tile:focus-visible .hx-tile-stage > *{transform:translateY(calc(-1*var(--sp-1)));}
   .hx-tile:focus-visible .hx-tile-stage{outline:2px solid var(--accent);outline-offset:2px;}
   .hx-mq-vp.is-drag .hx-tile .hx-tile-stage{box-shadow:none;}
@@ -15715,8 +15729,16 @@ function buildScheduleChart(view){
       bg.style.setProperty('--gx',(gx*100).toFixed(2)+'%');bg.style.setProperty('--gy',(gy*100).toFixed(2)+'%');
       const m=draw();if(m||active||Math.abs(tgx-gx)>.001||Math.abs(tgy-gy)>.001)raf=requestAnimationFrame(loop);};
     const kick=()=>{if(!raf)raf=requestAnimationFrame(loop);};
-    hero.addEventListener('pointermove',e=>{const r=bg.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;tgx=Math.min(1,Math.max(0,mx/W));tgy=Math.min(1,Math.max(0,my/H));active=true;kick();});
-    hero.addEventListener('pointerleave',()=>{mx=my=-9999;tgx=.5;tgy=0;active=false;kick();});
+    const cur=ce('div','hx-cur');cur.setAttribute('aria-hidden','true');
+    cur.innerHTML='<svg viewBox="0 0 18 18"><path d="M2 1.5 16 7.2 9.6 9.4 7.1 16Z" fill="var(--cur-c)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="hx-cur-tag">yuu</span>';
+    hero.appendChild(cur);hero.classList.add('has-cur');let cx2=0,cy2=0,tx2=0,ty2=0,seen=false;
+    const cloop=()=>{cx2+=(tx2-cx2)*.32;cy2+=(ty2-cy2)*.32;cur.style.transform='translate3d('+cx2.toFixed(1)+'px,'+cy2.toFixed(1)+'px,0)';
+      if(Math.abs(tx2-cx2)>.3||Math.abs(ty2-cy2)>.3)requestAnimationFrame(cloop);else cur.__r=0;};
+    hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;const r=bg.getBoundingClientRect(),hr=hero.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;active=true;kick();
+      tx2=e.clientX-hr.left;ty2=e.clientY-hr.top;if(!seen){cx2=tx2;cy2=ty2;seen=true;}
+      const over=!!e.target.closest('a,button,input,[role=button],.btn,.hx-pgx');cur.classList.toggle('on',!over);
+      if(!cur.__r){cur.__r=1;requestAnimationFrame(cloop);}});
+    hero.addEventListener('pointerleave',()=>{mx=my=-9999;active=false;kick();cur.classList.remove('on');seen=false;});
     new ResizeObserver(()=>build()).observe(bg);
     new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)kick();}).observe(hero);
     new MutationObserver(()=>{readCol();draw();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
@@ -16030,7 +16052,7 @@ function buildScheduleChart(view){
       if(S.size)raf=requestAnimationFrame(frame);else lt=0;};
     const kick=()=>{if(!raf&&S.size){lt=0;raf=requestAnimationFrame(frame);}};
     mq.addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY;},{passive:true});
-    mq.querySelectorAll('.hx-tile').forEach(t=>{const stg=t.querySelector('.hx-tile-stage');if(!stg)return;
+    mq.querySelectorAll('.hx-tile').forEach(t=>{const stg=t.querySelector('.hx-tile-wrap')||t.querySelector('.hx-tile-stage');if(!stg)return;   // 跟手位移套在 wrap：選取框與元件一起動
       t.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;px=e.clientX;py=e.clientY;cur=t;if(!S.has(t))S.set(t,{stg,p:[0,0,0,0],v:[0,0,0,0]});kick();});
       t.addEventListener('pointerleave',()=>{if(cur===t)cur=null;kick();});});
     return {get cur(){return cur;},get n(){return S.size;}};}
@@ -16053,7 +16075,8 @@ function buildScheduleChart(view){
       /* 標題列：名稱＋英文名，下面一顆「查看元件 →」；平常收起，滑過／聚焦才淡入上移 */
       const cap=ce('div','hx-tile-cap');cap.setAttribute('aria-hidden','true');const tt=ce('div','hx-tile-tt');const b=ce('b');b.textContent=zh;const s=ce('span');s.textContent=en+(x.v?' · '+x.v:'');tt.append(b,s);
       const go=ce('span','hx-tile-go');go.innerHTML='<span>查看元件</span>'+ICON_ARROW;cap.append(tt,go);
-      t.append(stg,cap);hxTileFx(t,node,x);return t;};  // HOME8:v1 滑過／聚焦換狀態
+      const wrap=ce('div','hx-tile-wrap');const sel=ce('span','hx-sel');sel.setAttribute('aria-hidden','true');sel.innerHTML='<i></i><i></i><i></i><i></i>';wrap.append(stg,sel);
+      t.append(wrap,cap);hxTileFx(t,node,x);return t;};  // HOME8:v1 滑過／聚焦換狀態
 
     const rows=[0].map(r=>{const row=ce('div','hx-mq-row');  // HOME8:v1 只留一列
       const vp=ce('div','hx-mq-vp');const tr=ce('div','hx-mq-tr');
