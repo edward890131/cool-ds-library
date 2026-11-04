@@ -10,5 +10,6 @@ gallery.html 內以壓縮後的 data URI 嵌入（離線與 Claude 預覽可用�
 | white-suit-night.webp | 頭像、展開卡／滑卡示範 |
 | field-grey-suit.webp | 頭像、滑卡示範 |
 | dusk-white-set.webp | 頭像、展開卡／滑卡示範 |
+| office-window.webp | 首頁使用回饋段落背景（使用者提供，2026-11-04） |
 
 專案自己的品牌素材請放 `projects/<name>/assets/`（CLAUDE.md 鐵則 4），不要放這裡。
