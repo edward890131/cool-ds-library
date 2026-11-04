@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-04（一）　移除 Typography、牌卡圓角統一、Modal 次按鈕一致、token 收尾
+
+- **移除 Typography 文字元件**（頁面、DIAL_SPECS、registry、搜尋別名）；文字樣式仍由 Design Token 的 h1–h12 text style 管理。
+- **新牌卡圓角改用舊牌卡的值**：person／profile／metric／invite／widget-card 外框由 `--r-lg`／`--r-xl` 改為 `--r-sm`（與 card、product-card、category-tile、article-card 一致），內層照片、分享區塊、通知改 `--r-xs`，對話泡泡 `--r-sm`；TOKEN_SLOTS 預設同步。
+- **Modal（popup）底部次按鈕**原本用 outline **primary**（深色外框），和全站「次動作＝outline secondary」不一致，改為 `v-outline i-secondary`。
+- 圖表／牌卡剩下的寫死值改綁 token：小尺寸座標字級 → `--fs-h12`、人物卡照片漸層 → `--c-neutral-900` 混色、在線呼吸動畫 → `--dur-slow` 倍數；舊 Card 內距 → `--crd-pad`（預設 `--sp-4`）。
+- registry 70 ready＋6 planned；需求匯總 1138 個變體。
+
 ## 2026-11-03（十七）　首頁第三輪：玩玩看左右版面＋更多選項、元件牆不縮放、會動的卡片與圖表加快
 
 - **玩玩看**：左側固定的操作面板（約 320px，手機收合為「更多選項」）＋右側預覽。選項：主色／副色（色票＋自訂）、底色染色與強度、預覽單獨切深淺、圓角（0–24px，等比例套到所有 `--r-*`）、外框粗細、陰影層級、字體（Geist／系統黑體／明體）、字重、字級比例、間距密度、動態速度（`--dur-*` 倍率）。即時列出改了哪些 token，可重設、可「複製 CSS 變數」。預覽精簡為 4 個元件（表單＋按鈕、profile-card、堆疊面積圖、metric-card）；只寫在預覽容器，不動 `:root`。

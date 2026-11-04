@@ -1,14 +1,14 @@
 {
   "meta": {
     "version": "0.2.0",
-    "generated": "2026-11-03",
+    "generated": "2026-11-04",
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 77,
-      "ready": 71,
+      "total": 76,
+      "ready": 70,
       "planned": 6,
-      "withAxes": 69,
+      "withAxes": 68,
       "noAxes": 8
     }
   },
@@ -207,58 +207,6 @@
                   {
                     "value": "danger",
                     "zh": "危險"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        {
-          "id": "typography",
-          "name": "Typography 文字",
-          "status": "ready",
-          "l0Ref": "typography",
-          "axes": {
-            "order": [
-              "kind",
-              "tone"
-            ],
-            "by": {
-              "kind": {
-                "axisName": "Kind 類型",
-                "options": [
-                  {
-                    "value": "heading",
-                    "zh": "標題"
-                  },
-                  {
-                    "value": "body",
-                    "zh": "內文"
-                  },
-                  {
-                    "value": "caption",
-                    "zh": "說明"
-                  },
-                  {
-                    "value": "code",
-                    "zh": "程式碼"
-                  }
-                ]
-              },
-              "tone": {
-                "axisName": "Tone 色調",
-                "options": [
-                  {
-                    "value": "default",
-                    "zh": "主文字"
-                  },
-                  {
-                    "value": "muted",
-                    "zh": "次要"
-                  },
-                  {
-                    "value": "faint",
-                    "zh": "輔助"
                   }
                 ]
               }

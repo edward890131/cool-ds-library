@@ -3222,7 +3222,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .fld-msg.is-err,.emp.emp-in > *{animation:none !important;}
   }
 
-  /* ===== P2 元件 · 第一批（2026-11-03）：button-group／typography／link／kbd／divider／descriptions ===== */
+  /* ===== P2 元件 · 第一批（2026-11-03）：button-group／link／kbd／divider／descriptions ===== */
   /* ── Button Group（bgp-）：取用 Button 原子，相鄰處圓角歸零、外框重疊 ── */
   .bgp{display:inline-flex;align-items:stretch;isolation:isolate;}
   .bgp > .btn{border-radius:0;position:relative;}
@@ -3235,15 +3235,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .bgp-v-split > .btn:last-child svg{transition:transform calc(var(--dur-default) * .73) var(--ease-out);}
   .bgp-v-split > .btn.is-open:last-child svg{transform:rotate(180deg);}
   .bgp .btn.is-on{background:var(--tint2);}
-
-  /* ── Typography（typ-）：直接取用 .ty-h* text style（字級／字重／行高／字距 token） ── */
-  .typ{margin:0;color:var(--ink);max-width:100%;}
-  .typ-t-muted{color:var(--muted);} .typ-t-faint{color:var(--faint);}
-  .typ-code{font-family:var(--font-mono);font-size:var(--fs-h11);background:var(--panel-2);border:1px solid var(--line);padding:1px 6px;border-radius:var(--r-sm);}
-  .typ-trunc{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .typ-scale{display:flex;flex-direction:column;gap:var(--sp-3);width:100%;}
-  .typ-scale-row{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:baseline;gap:var(--sp-4);}
-  .typ-scale-row code{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);}
 
   /* ── Link（lnk-）：底線用半透明 currentColor，hover 時轉實色；standalone 帶箭頭前推 ── */
   .lnk{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;
@@ -5092,9 +5083,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .psc *,.bpf *,.mtc *,.ivc *,.wdg *{box-sizing:border-box;}
 
   /* ---------- person-card 照片人物卡 ---------- */
-  .psc{width:100%;max-width:300px;padding:var(--psc-pad,var(--sp-3));display:grid;grid-template-columns:minmax(0,1fr);gap:var(--psc-gap,var(--sp-3));border-radius:var(--psc-radius,var(--r-lg));}
+  .psc{width:100%;max-width:300px;padding:var(--psc-pad,var(--sp-3));display:grid;grid-template-columns:minmax(0,1fr);gap:var(--psc-gap,var(--sp-3));border-radius:var(--psc-radius,var(--r-sm));}
   .psc-sz-s{max-width:240px;}
-  .psc-photo{position:relative;aspect-ratio:1/1.08;border-radius:var(--r-md);overflow:hidden;background:var(--panel-2);}
+  .psc-photo{position:relative;aspect-ratio:1/1.08;border-radius:var(--r-xs);overflow:hidden;background:var(--panel-2);}
   .psc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;transition:transform calc(var(--dur-slow) * 1.6) var(--ease-out);}
   .psc.live:hover .psc-photo img{transform:scale(1.04);}
   .psc-photo::after{content:"";position:absolute;inset:auto 0 0;height:30%;background:linear-gradient(transparent,color-mix(in srgb,var(--c-neutral-900) 28%,transparent));pointer-events:none;}
@@ -5118,7 +5109,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @keyframes psc-lbl{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
 
   /* ---------- profile-card 品牌檔案卡 ---------- */
-  .bpf{width:100%;max-width:312px;overflow:hidden;border-radius:var(--bpf-radius,var(--r-lg));--bpf-accent:var(--c-violet-600);}
+  .bpf{width:100%;max-width:312px;overflow:hidden;border-radius:var(--bpf-radius,var(--r-sm));--bpf-accent:var(--c-violet-600);}
   :root[data-theme="dark"] .bpf{--bpf-accent:var(--c-violet-400);}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bpf{--bpf-accent:var(--c-violet-400);}}
   .bpf-cover{position:relative;height:152px;overflow:hidden;background:var(--c-violet-800);}
@@ -5146,7 +5137,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .bpf-link .lnk-ic{display:inline-flex;color:var(--bpf-accent);} .bpf-link .lnk-ic svg{width:16px;height:16px;}
 
   /* ---------- metric-card 指標週卡 ---------- */
-  .mtc{width:100%;max-width:400px;min-width:0;padding:var(--mtc-pad,var(--sp-5));display:grid;gap:var(--sp-1);border-radius:var(--mtc-radius,var(--r-lg));}
+  .mtc{width:100%;max-width:400px;min-width:0;padding:var(--mtc-pad,var(--sp-5));display:grid;gap:var(--sp-1);border-radius:var(--mtc-radius,var(--r-sm));}
   .mtc-t-brand{--mc:var(--accent2);} .mtc-t-info{--mc:var(--s-chart-2);} .mtc-t-success{--mc:var(--s-chart-3);} .mtc-t-violet{--mc:var(--s-chart-4);}
   .mtc-h{display:flex;align-items:center;gap:var(--sp-3);min-width:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);}
   .mtc-h > .mtc-ic{display:inline-flex;color:var(--mc);flex:0 0 auto;} .mtc-h > .mtc-ic svg{width:18px;height:18px;}
@@ -5179,7 +5170,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .mtc-grid .mtc{max-width:none;}
 
   /* ---------- invite-card 邀請協作卡 ---------- */
-  .ivc{width:100%;max-width:440px;border-radius:var(--ivc-radius,var(--r-lg));}
+  .ivc{width:100%;max-width:440px;border-radius:var(--ivc-radius,var(--r-sm));}
   .ivc-ly-modal{box-shadow:var(--e-xl);}
   .ivc-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-4) var(--sp-4) var(--sp-4) var(--ivc-pad,var(--sp-5));border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);}
   .ivc-h b{font-size:var(--fs-h8);font-weight:var(--fw-semibold);}
@@ -5192,7 +5183,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ivc-in .field.st-error{animation:ivc-shake calc(var(--dur-default) * 1.2) var(--ease-out);}
   @keyframes ivc-shake{25%{transform:translateX(-3px);}50%{transform:translateX(3px);}75%{transform:translateX(-2px);}}
   .ivc-err{margin-top:calc(var(--sp-3) * -1);font-size:var(--fs-h11);color:var(--i-danger);} .ivc-err:empty{display:none;}
-  .ivc-share{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);padding:var(--sp-4) var(--sp-5);border-radius:var(--r-md);background:var(--panel-2);}
+  .ivc-share{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);padding:var(--sp-4) var(--sp-5);border-radius:var(--r-xs);background:var(--panel-2);}
   .ivc-share > div{min-width:0;}
   .ivc-share b{display:block;font-size:var(--fs-h10);font-weight:var(--fw-medium);}
   .btn.ivc-acc{height:auto;padding:0;margin-top:2px;gap:var(--sp-1);font-weight:var(--fw-regular);font-size:var(--fs-h11);color:var(--muted);background:transparent!important;}
@@ -5225,7 +5216,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* ---------- widget-card 小工具卡 ---------- */
   .wdg{width:100%;max-width:280px;min-width:0;display:flex;flex-direction:column;padding:var(--wdg-pad,var(--sp-6));background:var(--panel);color:var(--ink);font-family:var(--font-sans);text-align:left;
-    border-radius:var(--wdg-radius,var(--r-xl));border:1px solid color-mix(in srgb,var(--line) 50%,transparent);box-shadow:var(--e-sm);box-sizing:border-box;}
+    border-radius:var(--wdg-radius,var(--r-sm));border:1px solid color-mix(in srgb,var(--line) 50%,transparent);box-shadow:var(--e-sm);box-sizing:border-box;}
   .wdg .wdg-t{font-size:var(--wdg-title-fs,var(--fs-h9));font-weight:var(--fw-medium);line-height:var(--lh-snug);letter-spacing:-.005em;}
   .wdg .wdg-m{font-size:var(--fs-h11);line-height:var(--lh-snug);color:var(--faint);}
   /* 1 message */
@@ -5239,7 +5230,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .wdg-rx{display:flex;flex-wrap:wrap;gap:var(--sp-1);padding:0 var(--sp-3) var(--sp-4);margin-top:calc(var(--sp-1) * -1);}
   .wdg-rx:empty{display:none;}
   .wdg-rx .tg{height:24px;font-size:var(--fs-h11);font-variant-numeric:tabular-nums;animation:ivc-in var(--dur-default) var(--ease-out);}
-  .wdg-reply{align-self:flex-end;max-width:70%;margin:0 var(--sp-3) var(--sp-4);padding:var(--sp-3) var(--sp-4);border-radius:var(--r-lg);background:var(--panel-2);font-size:var(--fs-h11);line-height:var(--lh-normal);animation:ivc-in var(--dur-default) var(--ease-out);}
+  .wdg-reply{align-self:flex-end;max-width:70%;margin:0 var(--sp-3) var(--sp-4);padding:var(--sp-3) var(--sp-4);border-radius:var(--r-sm);background:var(--panel-2);font-size:var(--fs-h11);line-height:var(--lh-normal);animation:ivc-in var(--dur-default) var(--ease-out);}
   .wdg-ft{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-4) 0 0 var(--sp-3);border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent);}
   .wdg-ft input{flex:1;min-width:0;border:0;outline:none;background:transparent;font:inherit;font-size:var(--fs-h10);color:var(--ink);}
   .wdg-ft input::placeholder{color:var(--faint);}
@@ -5280,7 +5271,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .wdg-wel-row{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);margin-top:auto;padding-top:var(--sp-5);}
   .wdg-wel-row .lnk{padding:0;border:0;background:transparent;font:inherit;font-size:var(--fs-h11);color:var(--s-feedback-info);text-decoration-color:transparent;cursor:pointer;}
   .wdg-wel-row .lnk:hover{text-decoration-color:currentColor;}
-  .wdg-nt{display:flex;align-items:center;gap:var(--sp-4);margin-top:var(--sp-3);padding:var(--sp-4) var(--sp-5);max-height:120px;overflow:hidden;border-radius:var(--r-lg);background:var(--panel);
+  .wdg-nt{display:flex;align-items:center;gap:var(--sp-4);margin-top:var(--sp-3);padding:var(--sp-4) var(--sp-5);max-height:120px;overflow:hidden;border-radius:var(--r-xs);background:var(--panel);
     box-shadow:0 0 0 6px var(--panel-2),var(--e-sm);
     transition:opacity var(--dur-default) var(--ease-out),transform var(--dur-default) var(--ease-out),max-height var(--dur-default) var(--ease-out),margin var(--dur-default) var(--ease-out),padding var(--dur-default) var(--ease-out);}
   .wdg-k-welcome.read .wdg-nt{opacity:0;transform:translateY(-6px) scale(.98);max-height:0;margin-top:0;padding-block:0;box-shadow:none;}
@@ -5344,7 +5335,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       {id:'button',name:'Button 按鈕',st:'ready'},
       {id:'button-group',name:'Button Group 按鈕組',st:'ready'},
       {id:'icon',name:'Icon 圖示',st:'ready'},
-      {id:'typography',name:'Typography 文字',st:'ready'},
       {id:'link',name:'Link 連結',st:'ready'},
       {id:'kbd',name:'Kbd 快捷鍵',st:'ready'},
       {id:'divider',name:'Divider 分隔線',st:'ready'},
@@ -5474,7 +5464,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       axes:{variant:['solid','outline','soft'],corner:['round','rect'],intent:['brand','brand2','neutral','danger','success','warning','info'],state:['default','hover','disabled']},
       zh:{variant:{solid:'實心',outline:'外框',soft:'柔色'},corner:{round:'圓角',rect:'方角'},intent:{brand:'品牌',brand2:'輔助',neutral:'中性',danger:'危險',success:'成功',warning:'警告',info:'資訊'},state:{default:'預設',hover:'滑過',disabled:'停用'},axisName:{variant:'Variant 風格',corner:'Corner 圓角',intent:'Intent 意圖',state:'State 狀態'}}},
     'button-group':{label:'Button Group 按鈕組',order:['variant','size'],axes:{variant:['outline','soft','split'],size:['s','m','l']},zh:{variant:{outline:'外框',soft:'柔色',split:'主鈕＋下拉'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
-    typography:{label:'Typography 文字',order:['kind','tone'],axes:{kind:['heading','body','caption','code'],tone:['default','muted','faint']},zh:{kind:{heading:'標題',body:'內文',caption:'說明',code:'程式碼'},tone:{default:'主文字',muted:'次要',faint:'輔助'},axisName:{kind:'Kind 類型',tone:'Tone 色調'}}},
     link:{label:'Link 連結',order:['variant','state'],axes:{variant:['inline','standalone'],state:['default','hover','visited','focus','disabled']},zh:{variant:{inline:'段落內',standalone:'獨立連結'},state:{default:'預設',hover:'滑過',visited:'已造訪',focus:'聚焦',disabled:'停用'},axisName:{variant:'Variant 風格',state:'State 狀態'}}},
     kbd:{label:'Kbd 快捷鍵',order:['variant','size'],axes:{variant:['default','ghost'],size:['s','m']},zh:{variant:{default:'鍵帽',ghost:'淡底'},size:{s:'小 s',m:'標準 m'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
     divider:{label:'Divider 分隔線',order:['orientation','variant'],axes:{orientation:['horizontal','vertical'],variant:['solid','dashed','strong']},zh:{orientation:{horizontal:'水平',vertical:'垂直'},variant:{solid:'實線',dashed:'虛線',strong:'加深'},axisName:{orientation:'Orientation 方向',variant:'Variant 樣式'}}},
@@ -6813,39 +6802,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     capRow(cs,[['帶圖示',bgpEl('outline','m',{icon:true})],['純圖示',bgpEl('outline','m',{iconOnly:true})],['可切換選中（類似 toggle group）',bgpEl('outline','m',{toggle:true})]]);
     usageSection(body,[['用 Button Group','2～4 個彼此相關、使用頻率相近的動作。'],['改用 Segmented','切換的是「檢視方式」，一次只能選一個。'],['改用 Action Menu','動作超過 4 個，或不常用。']]);
     const sl=section(body,'互動預覽與程式碼','切 variant／size、開關圖示與切換模式。');LIVE['button-group'](sl);
-  }
-
-  /* ---------- TYPOGRAPHY 文字 ---------- */
-  const TYP_TXT={heading:'元件庫讓設計與開發說同一種語言',body:'把字級、行高與字距綁成一包 text style，設計稿與程式碼共用同一組 token，改一處、兩邊一起更新。',caption:'更新於 3 分鐘前 · 林語晨',code:'var(--fs-h10)'};
-  const TYP_DEF={heading:'h5',body:'h9',caption:'h11',code:'h10'};
-  function typEl(kind,tone,o){o=o||{};const lv=o.level||TYP_DEF[kind];
-    const tag=kind==='heading'?('h'+Math.min(6,Math.max(1,Math.ceil(parseInt(lv.slice(1),10)/2)))):kind==='body'?'p':kind==='code'?'code':'span';
-    const e=document.createElement(tag);e.className=`typ typ-${kind} typ-t-${tone}`+(kind==='code'?' typ-code':' ty-'+lv)+(o.truncate?' typ-trunc':'');
-    e.textContent=o.text||TYP_TXT[kind];return e;}
-  LIVE.typography=(host)=>mountLive(host,{gate:'typography',initial:{kind:'heading',level:'h5',tone:'default',truncate:false},
-    segs:[{key:'kind',label:'Kind',options:['heading','body','caption','code'],labels:['標題','內文','說明','程式碼']},
-          {key:'level',label:'Level（標題／內文／說明）',options:['h1','h3','h5','h6','h7','h8','h9','h10','h11','h12']},
-          {key:'tone',label:'Tone',options:['default','muted','faint'],labels:['主文字','次要','輔助']}],
-    bools:[{key:'truncate',label:'truncate 單行省略'}],boolLabel:'Options',
-    render:st=>{const w=ce('div');w.style.cssText='width:100%;max-width:520px;';w.appendChild(typEl(st.kind,st.tone,{level:st.kind==='code'?null:st.level,truncate:st.truncate}));return w;},
-    note:'level 直接對應 Design Token 頁的 text style（.ty-h1～h12）；改 token 這裡會一起變。標題的 HTML 標籤依層級自動選 h1～h6，維持文件結構。'});
-  function buildTypography(view){
-    const body=viewScaffold(view,{eyebrow:'L3 Component · Typography',title:'Typography 文字',
-      lede:'Heading／Text 元件：直接套用 Design Token 的 text style（字級、字重、行高、字距綁成一包），不再在各元件裡各寫 font-size。四種 kind × 三種 tone（<b>4 × 3 = 12</b>）。',
-      specRows:[['axes','<code>kind × tone</code>'],['formula','<code>4 × 3 = 12</code>'],['token-policy','<code>typography.h1～h12 · semantic.text.*</code>'],['features','level / truncate']]});
-    const KN={heading:['標題','heading'],body:['內文','body'],caption:['說明','caption'],code:['程式碼','code']},TN={default:['主文字','default'],muted:['次要','muted'],faint:['輔助','faint']};
-    const axes=DIAL_SPECS.typography.axes,zh=DIAL_SPECS.typography.zh,active=CHOICE.typography.active;let p;
-    function renderM(){if(!p)return;p.innerHTML='';const ks=axes.kind.filter(v=>active.kind.has(v)),ts=axes.tone.filter(v=>active.tone.has(v));
-      p.appendChild(matrixPanel({badge:'level · 預設',name:'Kind × Tone',rows:ks,cols:ts,rowLab:k=>labHTML(KN[k][0],KN[k][1]),colLab:t=>labHTML(TN[t][0],TN[t][1]),
-        cell:(k,t)=>typEl(k,t,{level:k==='heading'?'h7':null}),mincol:220}));}
-    mountDial(body,{axes,zh,active,onRender:renderM});
-    const sec=section(body,'Kind × Tone 矩陣','tone 只用 semantic.text 三階（ink／muted／faint），不要在元件裡另外調灰。');p=panelsIn(sec);renderM();
-    const ls=section(body,'Level 層級','12 階 text style 的實際樣子（值即時讀 Design Token）。');
-    const sc=ce('div','typ-scale');['h1','h2','h3','h4','h5','h6','h7','h8','h9','h10','h11','h12'].forEach(l=>{const r=ce('div','typ-scale-row');const c=ce('code');
-      c.textContent=l+' · '+getComputedStyle(document.documentElement).getPropertyValue('--fs-'+l).trim();r.append(c,typEl('heading','default',{level:l,text:'元件庫 Design System',truncate:true}));sc.appendChild(r);});
-    ls.appendChild(sc);
-    usageSection(body,[['標題','一個區塊只用一個層級的標題；層級跳太多（h2 直接到 h5）會讓結構看不懂。'],['內文','長文用 h9（16px）以上；表格、表單說明用 h10。'],['說明','時間、作者、輔助資訊；不要用來放重要內容。']]);
-    const sl=section(body,'互動預覽與程式碼','切 kind／level／tone。');LIVE.typography(sl);
   }
 
   /* ---------- LINK 連結 ---------- */
@@ -9672,7 +9628,7 @@ function skelMedia(anim){
     const sz=compact?'sz-s':'sz-m';                       // 矩陣縮小示意用 s、Live 用 m
     const lv=live?' live':'';
     const foot=ce('div','mdl-pop-foot'+((arrange==='stack'||single)?' stack':'')); // stack/單顆皆走全寬直排
-    const mkSec=()=>{const b=ce('button','btn v-outline i-primary '+sz+lv);b.innerHTML='<span>'+c.secondary+'</span>';b.setAttribute('data-mdl-cancel','1');return b;}; // 次按鈕：primary outline
+    const mkSec=()=>{const b=ce('button','btn v-outline i-secondary '+sz+lv);b.innerHTML='<span>'+c.secondary+'</span>';b.setAttribute('data-mdl-cancel','1');return b;}; // 次按鈕：primary outline
     const mkPri=()=>{const b=ce('button','btn v-solid '+c.primary.cls+' '+sz+lv);b.innerHTML='<span>'+c.primary.label+'</span>';return b;}; // 主按鈕：solid（intent 依 variant）
     if(arrange==='primary')foot.appendChild(mkPri());            // 單顆主按鈕
     else if(arrange==='secondary')foot.appendChild(mkSec());     // 單顆次按鈕
@@ -12998,7 +12954,7 @@ function buildScheduleChart(view){
   }
   /* ==================== /CARDS:round2-v1 ==================== */
 
-  const BUILD={'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,typography:buildTypography,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar};
+  const BUILD={'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar};
 
   /* ===== 複雜度確認總覽 ===== */
   function choiceReport(){
@@ -15159,7 +15115,7 @@ function buildScheduleChart(view){
   function fzBest(q,label,keys){let best=null;const m=fzMatch(q,label);if(m)best={s:m.s,hit:m.hit};
     (keys||[]).forEach(k=>{const r=fzMatch(q,k);if(r&&(!best||r.s*.92>best.s))best={s:r.s*.92,hit:[]};});return best;}
 
-  const SS_ALIAS={button:'按鈕 btn','button-group':'按鈕群組 工具列 toolbar',icon:'圖示 icons',typography:'字體 文字 字型 font heading',link:'超連結 連結 anchor',kbd:'快捷鍵 鍵盤 shortcut keyboard',
+  const SS_ALIAS={button:'按鈕 btn','button-group':'按鈕群組 工具列 toolbar',icon:'圖示 icons',link:'超連結 連結 anchor',kbd:'快捷鍵 鍵盤 shortcut keyboard',
     divider:'分隔線 hr separator',avatar:'頭像 大頭貼 profile',logo:'商標 品牌 brand',stack:'排版 間距 auto layout flex grid','app-shell':'框架 版型 layout',splitter:'分割 resizable 面板',
     'scroll-area':'捲軸 scroll',header:'頁首 導覽列 navbar',footer:'頁尾','section-head':'區塊標題','floating-line':'浮動 客服',tab:'頁籤 分頁 tabs',menu:'選單 側欄 nav sidebar',
     'action-menu':'更多 動作選單 dropdown menu','context-menu':'右鍵 選單',breadcrumb:'麵包屑 路徑',pagination:'分頁 頁碼',step:'步驟 stepper',command:'指令 搜尋 cmdk palette',
@@ -15394,19 +15350,19 @@ function buildScheduleChart(view){
     'article-card':[{slot:'--art-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                     {slot:'--art-body-gap',label:'內文間距 gap',cat:'spacing',def:'--sp-3'},
                     {slot:'--art-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h9'}],
-    'person-card':[{slot:'--psc-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+    'person-card':[{slot:'--psc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--psc-pad',label:'內距 padding',cat:'spacing',def:'--sp-3'},
                    {slot:'--psc-gap',label:'照片↔底列間距 gap',cat:'spacing',def:'--sp-3'}],
-    'profile-card':[{slot:'--bpf-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+    'profile-card':[{slot:'--bpf-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                     {slot:'--bpf-pad',label:'內距 padding',cat:'spacing',def:'--sp-5'},
                     {slot:'--bpf-name-fs',label:'名稱文字級別 font-size',cat:'typography',def:'--fs-h8'}],
-    'metric-card':[{slot:'--mtc-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+    'metric-card':[{slot:'--mtc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--mtc-pad',label:'內距 padding',cat:'spacing',def:'--sp-5'},
                    {slot:'--mtc-num-fs',label:'數值文字級別 font-size',cat:'typography',def:'--fs-h5'}],
-    'invite-card':[{slot:'--ivc-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+    'invite-card':[{slot:'--ivc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--ivc-pad',label:'內距 padding',cat:'spacing',def:'--sp-5'},
                    {slot:'--ivc-gap',label:'區塊間距 gap',cat:'spacing',def:'--sp-4'}],
-    'widget-card':[{slot:'--wdg-radius',label:'圓角 radius',cat:'radius',def:'--r-xl'},
+    'widget-card':[{slot:'--wdg-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--wdg-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
                    {slot:'--wdg-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h9'}],
     /* ── Table & Chart ── */
