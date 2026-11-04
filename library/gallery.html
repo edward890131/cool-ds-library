@@ -5333,7 +5333,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 元件牆＝跑馬燈（HOME6:v1 互動還原 designsystems.surf）：兩列等大方格、反向循環；位移由 JS（rAF）推 translateX，
      滑過該列減速、可拖曳帶慣性、觸控板可橫推；格子滑過＝標題列淡入上移（彈簧曲線）。減少動態＝靜止、原生橫向捲動 */
   .hx-mq{--hx-tile:340px;--hx-mq-gap:var(--sp-5);--hx-edge:var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-5);min-width:0;margin:0 calc(-1*var(--container-pad));}
-  .hx-mq-vp{overflow:hidden;padding:var(--sp-1) 0 var(--sp-2);cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+  .hx-mq-vp{overflow:hidden;padding:var(--sp-6) 0 var(--sp-6);margin:calc(-1*var(--sp-6)) 0;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--hx-edge),#000 calc(100% - var(--hx-edge)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--hx-edge),#000 calc(100% - var(--hx-edge)),transparent);}
   .hx-mq-vp.is-drag,.hx-mq-vp.is-drag .hx-tile{cursor:grabbing;}
   .hx-mq-tr{display:flex;align-items:flex-start;width:max-content;will-change:transform;}
@@ -5434,6 +5434,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @container (min-width:1400px){.hx-show{columns:4;}}
   /* HOME6:v1 段標題拿掉後，暫停／播放鈕放在段落右上角、卡片上緣外側（小鈕，不擋卡片內容） */
   .hx-sec-show{position:relative;}
+  .hx > .hx-sec-show{margin-top:calc(var(--sp-9) + var(--sp-6));margin-bottom:calc(var(--sp-9) + var(--sp-6) - var(--sp-7) - var(--sp-3));}  /* 動態展示上下留白加大 */
   .hx-show-bar{position:absolute;right:0;bottom:calc(100% + var(--sp-2));z-index:2;display:flex;}
   .hx-show-pb svg{width:12px;height:12px;}
   /* HOME3-SHOW:v2 示範區內的元件動態放慢、改走 ease-out（只在示範卡內覆寫時間 token） */
@@ -5441,6 +5442,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sc{position:relative;display:block;break-inside:avoid;min-width:0;padding:var(--sp-6);box-sizing:border-box;border-bottom:0;
     transition:background-color var(--dur-default) var(--ease-out);}
   .hx-sc:hover,.hx-sc:focus-within{background:color-mix(in srgb,var(--panel-2) 60%,transparent);}
+  /* 卡片間距＝元件牆 gap（--sp-5）：每格只留半個 gap 的內距，外框再補半個 */
+  @media(min-width:600px){.hx-sc{padding:calc(var(--sp-5) / 2);} .hx-sc:hover,.hx-sc:focus-within{background:transparent;} .hx-show{padding:calc(var(--sp-5) / 2);}}
   .hx-sc-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;}
   .hx-sc-psc .hx-sc-stage{align-items:stretch;}
   .hx-sc-stage > *{width:100%;min-width:0;}
@@ -16097,7 +16100,7 @@ function buildScheduleChart(view){
     t.addEventListener('focus',()=>set('focus',true));t.addEventListener('blur',()=>set('focus',false));}
   /* 跟手：滑過的格子（舞台）往游標方向位移 ≤8px、傾斜 ≤2.5°，用彈簧（rAF 速度＋阻尼，略帶回彈）；離開彈回原位後清掉 inline transform。
      只給 pointer:fine；減少動態不掛（hxWall 在那之前就 return）；拖曳中目標歸零 */
-  const HX_FOL={move:8,tilt:2.5,k:.085,damp:.76};
+  const HX_FOL={move:16,tilt:5,k:.085,damp:.74};  // 位移／傾斜加大一倍
   function hxFollow(mq){if(!matchMedia('(pointer:fine)').matches)return null;
     const S=new Map();let cur=null,px=0,py=0,raf=0,lt=0;
     const frame=n=>{raf=0;const dt=Math.min(48,lt?n-lt:16.7);lt=n;const f=dt/16.7,dm=Math.pow(HX_FOL.damp,f);
