@@ -5309,6 +5309,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 共用段落（HOME5-HOME:v1 比照 Button bento 頁）：每段內容都是卡片（--panel 底＋1px --line 框＋--radius、內距 --sp-5），
      段距 40px（--sp-7＋--sp-3），段標題不畫底線、不放說明文字 */
   .hx > .hx-sec{margin:calc(var(--sp-7) + var(--sp-3)) 0 0;scroll-margin-top:var(--sp-6);}
+  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxNews{max-width:1180px;margin-left:auto;margin-right:auto;}  /* 與 hero 同最大寬 */
   /* 宣言＋大數字 */
   .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(64px,10vw,144px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框；上下留白加倍 */
   .hx-manifesto{margin:0;max-width:none;text-wrap:balance;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
@@ -5551,7 +5552,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media(prefers-reduced-motion:reduce){.hx-sy-c,.hx-sy-val,.hx-sy-sw,.hx-sy-pv .btn,.hx-sy-ar svg{transition:none;}}
 
   /* HOME9:v1 最新更新＋FAQ：左＝精簡更新列表（版本 tag＋標題＋日期一列）、右＝library Collapse（filled） */
-  .hx-nf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--sp-5);align-items:stretch;}
+  .hx-nf{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--sp-5);align-items:stretch;}
+  .hx-nf > .hx-news{display:none;}  /* 最近的版本先隱藏，只留常見問題 */
   .hx-news,.hx-faq{display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-5);}
   .hx-news-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);}
   .hx-nl{list-style:none;margin:0 calc(-1*var(--sp-3));padding:0;display:flex;flex-direction:column;gap:var(--sp-1);}
@@ -16453,7 +16455,7 @@ function buildScheduleChart(view){
     const sec=ce('section','gd-sec hx-sec');sec.id='hxNews';
     const isProj=!!window.__dsProject;
     const data=(isProj&&typeof projectChangelogData==='function'?projectChangelogData():CHANGELOG_DATA).slice(0,4);
-    sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">最近改了什麼？有問題看這裡</h2></div><div class="hx-nf"><div class="hx-news bento-card"></div><div class="hx-faq bento-card"><h3 class="hx-h3">常見問題</h3></div></div>`;
+    sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">有問題看這裡</h2></div><div class="hx-nf"><div class="hx-news bento-card"></div><div class="hx-faq bento-card"><h3 class="hx-h3">常見問題</h3></div></div>`;
     const nw=sec.querySelector('.hx-news');
     const nh=ce('div','hx-news-h');const nt=ce('h3','hx-h3');nt.textContent=isProj?'最近的更新':'最近的版本';nh.appendChild(nt);nw.appendChild(nh);
     const all=document.createElement('a');all.className='hx-more';all.href='#changelog';all.innerHTML='看全部 '+ICON_ARROW;all.onclick=e=>{e.preventDefault();renderView('changelog');};nh.appendChild(all);
