@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-04（七）　開新專案匯出含元件程式碼；Button bento 頁細修
+
+- **匯出改成一個 zip**：除了原本的訪談、提案、token、元件、狀態 JSON 與 README，新增 `styles/`（_variables／_breakpoints／_font／layout.scss＋README，與 Design Token 頁「輸出 · 樣式包」同一套產生器）與 `components/<id>/<id>.html＋<id>.scss`（每顆已選元件，內容與元件頁程式碼區一致、已套用變數篩選）。檔案清單分「文件／樣式包／元件程式碼」三組。JSON 檔維持放在專案根目錄，sync 腳本與 `?project=` 續編才讀得到。
+- **修正**：樣式包原本漏掉全寬（root）層的響應式 token 覆寫（圓角／間距／字級），現在 tablet／mobile 覆寫 > root 覆寫 > 預設，與網站實際套用一致（Design Token 頁的輸出也一起修正）。
+- **「專案進行中」膠囊改用 Notification 元件**（outline · info，附「回到流程」動作鈕），移除自訂樣式。
+- **Button bento 頁**：控制區分段鈕等分寬度；變數篩選器的 checkbox 改用與 checkbox 元件同款的打勾動態（全站原生 checkbox 一起套用）；HTML／SCSS 兩張卡在寬螢幕只顯示標題、不再有分頁切換，手機上只留一張卡並保留切換；Size、Content、狀態一覽表段落間距加大。
+
 ## 2026-11-04（六）　Step／Table Toolbar 重新設計；首頁試玩預覽改成 bento 介面
 
 - **Step 新增 `type` 軸：`classic`（原版）／`compact`（精簡進度：分段進度條＋「步驟 n / m」，可點回已完成步驟、錯誤狀態擋下一步）／`timeline`（垂直時間軸：每步可展開細節、一次只開一個）**。`orientation`、`variant` 只在 classic 生效，有效組合 8 種（以 `when` 記錄稀疏組合，Figma 只建有效組合）；boolean：description／count／time／expandable。
