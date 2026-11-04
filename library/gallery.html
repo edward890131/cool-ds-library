@@ -5448,6 +5448,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sc-psc .hx-sc-stage{align-items:stretch;}
   /* 每張示範卡撐滿欄寬：同欄等寬、左右間距只剩 gap */
   .hx-sc .hx-sc-stage{align-items:stretch;}
+  .hx-show .hx-sc .hx-sc-stage > *{box-shadow:var(--e-sm) !important;}  /* 陰影統一：全部淡淡的 --e-sm */
   .hx-show .hx-sc .hx-sc-stage > *{width:100%;max-width:none !important;box-sizing:border-box;margin-left:0;margin-right:0;}  /* 壓過元件自身的 max-width（例：Metric Card 360px），寬螢幕欄寬大於 360 時也同寬 */
   .hx-sc-stage > *{width:100%;min-width:0;}
   .hx-sc-stage .psc{max-width:none;width:100%;}  /* 撐滿欄寬，跟其他卡同寬 */
@@ -15705,7 +15706,7 @@ function buildScheduleChart(view){
      3 動態展示：卡片與圖表自動示範，只放元件本身；滑過暫停、捲出畫面暫停、減少動態時不自動播放
      4 四步流程 → #start　5 Figma 同步與 token　6 最新更新＋FAQ */
   const HX_REDUCE=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const HX_DEF={primary:'brand',primaryC:'#7C3AED',second:'brand2',secondC:'#0EA5E9',theme:0,radius:4,bw:1,shadow:2,font:0,weight:1,scale:100,density:100,motion:100};
+  const HX_DEF={primary:'brand',primaryC:'#7C3AED',second:'brand2',secondC:'#0EA5E9',theme:0,radius:4,bw:1,bc:50,shadow:2,font:0,weight:1,scale:100,density:100,motion:100};
   const HX_ST=Object.assign({},HX_DEF);
   /* 色票：全部取既有 primitive token（淺／深色各一階）；第一個＝不覆寫 */
   const HX_PRIM=[{k:'brand',label:'品牌預設',light:'--c-brand-500',dark:'--c-brand-200'},{k:'orange',label:'品牌橘',light:'--c-brand2-500',dark:'--c-brand2-400'},
@@ -15744,6 +15745,8 @@ function buildScheduleChart(view){
     if(HX_ST.second!=='brand2')o['--accent2']=HX_ST.second==='custom'?HX_ST.secondC:hxSw(HX_SEC,HX_ST.second,dark);
     if(HX_ST.radius!==HX_DEF.radius){const f=HX_ST.radius/(hxPx('--r-sm')||4);['--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-2xl','--r-3xl'].forEach(n=>{if(hxRootVar(n))o[n]=Math.round(hxPx(n)*f*10)/10+'px';});}
     if(HX_ST.bw!==HX_DEF.bw)o['--hx-bw']=HX_ST.bw+'px';
+    if(HX_ST.bc!==HX_DEF.bc){const bc=HX_ST.bc,val=n=>TH[n]||hxRootVar(n);   // 外框深淺：50＝預設；往上混入文字色變深、往下混入透明變淡
+      ['--s-border-1','--s-border-2'].forEach(n=>{o[n]=bc>50?'color-mix(in srgb,var(--s-text-1) '+Math.round((bc-50)*1.2)+'%,'+val(n)+')':'color-mix(in srgb,'+val(n)+' '+Math.round(bc*2)+'%,transparent)';});}
     if(HX_ST.shadow!==2){const E=['--e-sm','--e-md','--e-lg','--e-xl','--e-2xl'],val=n=>TH[n]||hxRootVar(n);
       if(HX_ST.shadow===0)E.forEach(n=>o[n]='none');
       else if(HX_ST.shadow===1){o['--e-2xl']=val('--e-xl');o['--e-xl']=val('--e-lg');o['--e-lg']=val('--e-md');o['--e-md']=val('--e-sm');o['--e-sm']='none';}
@@ -15933,6 +15936,7 @@ function buildScheduleChart(view){
     const g2=grp('形狀');
     row(g2,null,sld('元件圓角','radius',0,16,1,v=>v+'px'));
     row(g2,null,sld('外框粗細','bw',0,3,1,v=>v+'px'));
+    row(g2,null,sld('外框深淺','bc',0,100,5,v=>v+'%'));
     row(g2,'陰影',seg(HX_SHADOW,'shadow','陰影'));
     const g3=grp('文字');
     row(g3,'字體',seg(HX_FONTS.map(x=>x.label),'font','字體'));
