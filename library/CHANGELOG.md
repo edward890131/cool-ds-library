@@ -9,6 +9,7 @@
 ## 2026-11-04（二十五）　首頁 slogan 加英文版
 
 - Hero 標題先播英文「Tune one token, / every component recolors · rounds · reweights · tightens」，四個詞播完淡出換成中文「調一次 token，/ 整套元件一起換主色 · 改圓角 · 調字重 · 變密度」，循環；每個詞仍各有顏色。減少動態時固定英文第一句。
+- 網站頁尾版權改為「© 2026 YUUDESIGN, all rights reserved. Powered by Yuu」。
 
 ## 2026-11-04（二十四）　Logo 換成 CDL
 
