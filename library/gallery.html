@@ -12325,7 +12325,8 @@ function buildArticleCard(view){
   };
   function chtScopeBools(host,variant){
     requestAnimationFrame(()=>{ // render 回傳後控制列才在 DOM，延一拍再掃
-      host.querySelectorAll('.livewrap label.chk').forEach(l=>{
+      const root=document.getElementById('view')||host;  // bento 版控制列已移出 section，改從整頁找
+      root.querySelectorAll('.bento-ctl label.chk,.livewrap label.chk').forEach(l=>{
         const key=l.textContent.trim();
         const sc=CHT_BOOL_SCOPE[key];if(sc)l.style.display=((Array.isArray(sc)?sc.includes(variant):sc===variant))?'':'none';
       });
@@ -12738,11 +12739,11 @@ function buildArticleCard(view){
   const CHTX_SEG_SCOPE={'系列數 series':'area-stack','刻度 scale':'bar-stack','版面 layout':'combo','排序 sort':'bar-rank','步驟數 stages':'funnel','色階 steps':'heatmap'};
   Object.assign(CHT_BOOL_SCOPE,{'小圖 sparkline':'spark','區間切換 period':'spark','7 日平均 moving-avg':'brush','圖例可切換 legend toggle':'area-stack',
     '排名數值 values':'bar-rank','目標線 target':'gauge','步驟轉換率 rates':'funnel','色階圖例 legend':'heatmap'});
-  function chtxScopeCtl(host,variant){requestAnimationFrame(()=>{
-    host.querySelectorAll('.livewrap .ctl').forEach(c=>{const lab=c.querySelector(':scope>.lab');const sc=lab&&CHTX_SEG_SCOPE[lab.textContent.trim()];if(!sc)return;
+  function chtxScopeCtl(host,variant){requestAnimationFrame(()=>{const root=document.getElementById('view')||host;
+    root.querySelectorAll('.bento-ctl .ctl,.livewrap .ctl').forEach(c=>{const lab=c.querySelector(':scope>.lab');const sc=lab&&CHTX_SEG_SCOPE[lab.textContent.trim()];if(!sc)return;
       const show=sc===variant;c.style.display=show?'':'none';
       if(show){const a=c.querySelector('.seg>button[aria-pressed="true"]');if(a)a.setAttribute('aria-pressed','true');}});
-    host.querySelectorAll('.livewrap .ctl').forEach(c=>{const ck=c.querySelector(':scope>.checks');if(!ck)return;c.style.display=[...ck.children].some(l=>l.style.display!=='none')?'':'none';});
+    root.querySelectorAll('.bento-ctl .ctl,.livewrap .ctl').forEach(c=>{const ck=c.querySelector(':scope>.checks');if(!ck)return;c.style.display=[...ck.children].some(l=>l.style.display!=='none')?'':'none';});
     const variantCtl=host.querySelector('.livewrap .ctl .seg');if(variantCtl){const a=variantCtl.querySelector(':scope>button[aria-pressed="true"]');if(a)a.setAttribute('aria-pressed','true');}});}
   /* 矩陣：依圖表用途分段（每段一張 matrixPanel；列＝圖型、欄＝尺寸），軸值仍以 DIAL_SPECS.chart 為準 */
   function chtxMatrix(p,axes,active,VN,SZN){
