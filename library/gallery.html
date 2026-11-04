@@ -3852,6 +3852,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;font-size:var(--fs-h10);color:var(--muted);user-select:none;
     transition:border-color var(--dur-fast) var(--ease-out);}
   .fsl:hover{border-color:var(--line-strong);}
+  .row-demo.sld-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));} .row-demo.sld-row .demo-item{min-width:0;} .row-demo.sld-row .demo-item>.sld,.row-demo.sld-row .demo-item>.fsl-x{width:100%;max-width:none;}  /* Slider 頁示意列：固定格寬，兩種樣式才看得出差異 */
   .fsl-x{cursor:pointer;touch-action:none;width:100%;--fsl-h:var(--fsl-h-m,40px);height:var(--fsl-h);border-radius:var(--fsl-radius,var(--r-sm));font-size:var(--fs-h10);}
   .fsl-x.fsl-sz-s{--fsl-h:32px;font-size:var(--fs-h11);padding:0 var(--sp-3);}
   .fsl-x .fsl-fill{left:var(--a,0%);width:calc(var(--b,0%) - var(--a,0%));min-width:0;transition:left var(--dur-fast) var(--ease-out),width var(--dur-fast) var(--ease-out);}
@@ -7263,8 +7264,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
         rowLab:s=>labHTML(STN[s][0],STN[s][1]),colLab:t=>labHTML(TN[t][0],TN[t][1]),cell:(s,t)=>sldEl(t,sz,s,vr==='fill'?{variant:'fill',title:t==='range'?'價格區間':'音量',format:t==='range'?(x=>x):(x=>x+'%')}:{label:false}),mincol:260}))));}
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State × Type 矩陣','每級尺寸一張：列＝狀態、欄＝單值／區間。聚焦時圓鈕外加一圈淡外框。');p=panelsIn(sec);renderM();
+    const vsec=section(body,'Variant 樣式軸','軌道式適合放在內容裡；填充式把整條當成控制項（標籤在左、數值在右），適合設定面板與工具列。');
+    (capRow(vsec,[['軌道 · 單值',sldEl('single','m','default',{live:true,value:60,title:'音量',format:x=>x+'%'})],['軌道 · 區間',sldEl('range','m','default',Object.assign({live:true,value:[500,2000],title:'價格區間'},SLD_PRICE))],
+      ['填充 · 單值',sldEl('single','m','default',{live:true,variant:'fill',value:40,title:'磨砂程度',format:x=>x+'%'})],['填充 · 區間',sldEl('range','m','default',Object.assign({live:true,variant:'fill',value:[500,2000],title:'價格區間'},SLD_PRICE))]])).classList.add('sld-row');
     const cs=section(body,'Content 內容軸（boolean）','標題與數值、刻度都是內容開關。');
-    capRow(cs,[['標題＋數值',sldEl('range','m','default',Object.assign({value:[500,2000],title:'價格區間'},SLD_PRICE))],['刻度',sldEl('single','m','default',{marks:true,value:50,format:x=>x+'%'})]]);
+    (capRow(cs,[['標題＋數值',sldEl('range','m','default',Object.assign({value:[500,2000],title:'價格區間'},SLD_PRICE))],['刻度',sldEl('single','m','default',{marks:true,value:50,format:x=>x+'%'})]])).classList.add('sld-row');
     usageSection(body,[['用 Slider','範圍比精確值重要、而且希望即時看到結果（篩選、音量）。'],['改用 Number input','使用者知道確切數字，或需要精準輸入。'],['改用 Segmented','只有 3～5 個固定級距。']]);
     const sl=section(body,'互動預覽與程式碼','拖曳、點軌道、或用鍵盤調整。');LIVE.slider(sl);
   }
