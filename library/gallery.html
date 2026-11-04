@@ -2086,7 +2086,7 @@
    矩陣用靜態 class（is-hover / is-selected / is-disabled）模擬狀態；Live／showcase 加 .live 走真實 :hover。
    陰影一律用 color-mix(--ink) 調透明度，暗色模式自動跟著加深（比照 modal/drawer 的做法）。 */
 
-.crd{position:relative;display:flex;flex-direction:column;width:100%;max-width:300px;padding:12px;
+.crd{position:relative;display:flex;flex-direction:column;width:100%;max-width:300px;padding:var(--crd-pad,var(--sp-4));
   background:var(--panel);border:1px solid transparent;border-radius:var(--crd-radius,var(--radius));overflow:hidden;
   font-family:var(--font-sans);text-align:left;
   transition:box-shadow var(--dur-fast),border-color var(--dur-fast),background var(--dur-fast),transform var(--dur-fast);}
@@ -2580,7 +2580,7 @@
 .chtx-plot svg:focus-visible,.chtx-focus:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-xs);}
 .chtx-ax{font-size:var(--fs-h12);fill:var(--muted);font-variant-numeric:tabular-nums;}
 .chtx-axc{font-size:var(--fs-h12);fill:var(--muted);}
-.cht-sz-s .chtx-ax,.cht-sz-s .chtx-axc{font-size:9px;}
+.cht-sz-s .chtx-ax,.cht-sz-s .chtx-axc{font-size:var(--fs-h12);}
 .chtx-gl{stroke:var(--line);stroke-width:1;shape-rendering:crispEdges;}
 .chtx-bl{stroke:var(--line-strong);stroke-width:1;shape-rendering:crispEdges;}
 .chtx-xh{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 3;pointer-events:none;}
@@ -5097,7 +5097,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .psc-photo{position:relative;aspect-ratio:1/1.08;border-radius:var(--r-md);overflow:hidden;background:var(--panel-2);}
   .psc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;transition:transform calc(var(--dur-slow) * 1.6) var(--ease-out);}
   .psc.live:hover .psc-photo img{transform:scale(1.04);}
-  .psc-photo::after{content:"";position:absolute;inset:auto 0 0;height:30%;background:linear-gradient(transparent,rgba(0,0,0,.28));pointer-events:none;}
+  .psc-photo::after{content:"";position:absolute;inset:auto 0 0;height:30%;background:linear-gradient(transparent,color-mix(in srgb,var(--c-neutral-900) 28%,transparent));pointer-events:none;}
   .psc-tags{position:absolute;top:var(--sp-4);left:var(--sp-4);right:var(--sp-4);z-index:2;display:flex;flex-wrap:wrap;gap:var(--sp-1);}
   .psc-sz-s .psc-tags{top:var(--sp-3);left:var(--sp-3);right:var(--sp-3);}
   /* 照片上的標籤：Tag 原子＋白色磨砂修飾（同 .tg-glass 的作法，壓在照片上固定淺底深字，不隨主題翻色） */
@@ -5106,7 +5106,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:var(--e-sm);transition:background var(--dur-fast) var(--ease-out);}
   .tg.tg-frost span{color:var(--c-neutral-900);}
   .psc.live .tg.tg-frost:hover{background:color-mix(in srgb,var(--c-neutral-0) 92%,transparent);}
-  .psc-dot{width:8px;height:8px;border-radius:var(--r-pill);background:var(--c-success-600);box-shadow:0 0 0 0 color-mix(in srgb,var(--c-success-600) 50%,transparent);animation:psc-pulse 1.6s var(--ease-out) infinite;}
+  .psc-dot{width:8px;height:8px;border-radius:var(--r-pill);background:var(--c-success-600);box-shadow:0 0 0 0 color-mix(in srgb,var(--c-success-600) 50%,transparent);animation:psc-pulse calc(var(--dur-slow) * 3.2) var(--ease-out) infinite;}
   @keyframes psc-pulse{to{box-shadow:0 0 0 6px transparent;}}
   .psc-foot{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-1);}
   .psc-who{display:flex;align-items:center;gap:var(--sp-3);min-width:0;}
