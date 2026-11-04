@@ -357,6 +357,7 @@
   .nav-item.is-planned .nm{color:var(--faint);}   /* 規劃中：字色淡＋右側優先級 pill */
   .nav-plan{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h12);line-height:1;padding:2px 6px;border-radius:var(--r-pill);border:1px dashed var(--line-strong);color:var(--faint);}
   .nav-pin>span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;}
+  .nav-item.is-off{opacity:.45;cursor:not-allowed;pointer-events:none;}  /* 待調整：停用 */
   .nav-pin>span.nav-ic{flex:0 0 16px;} /* 圖示不參與撐寬 */ /* 釘選項用裸 span，補上與 .nm 同款：收合縮寬時維持一行、超出變刪節號不折行 */
   .nav-item .dot{margin-left:auto;width:7px;height:7px;border-radius:var(--r-pill);flex:0 0 auto;background:var(--line-strong);} /* 建立狀態＝色圈（已停用） */
   .nav-item .dot.st-ready{background:var(--ok);}
@@ -5237,8 +5238,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @container (max-width:459px){.hx-bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"k1 k1" "k2 k3" "ch ch" "tm tm" "ts ts";} .hx-bento .hx-bc-fm{display:none;}
     .hx-pvb-acts .avt-grp{display:none;}}
   /* 牌卡：唯一一套樣式 */
+  /* 試玩預覽卡底色：淺色更淺、深色更深（依預覽主題） */
+  #hxPv{--hx-bc-bg:color-mix(in srgb,var(--panel) 40%,#fff);}
+  #hxPv[data-theme="dark"]{--hx-bc-bg:color-mix(in srgb,var(--panel) 55%,#000);}
   .hx-bc{display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;box-sizing:border-box;margin:0;padding:var(--hx-bc-pad);
-    background:var(--panel);color:var(--ink);border:var(--hx-bw) solid var(--line);border-radius:var(--hx-bc-r);box-shadow:var(--e-md);
+    background:var(--hx-bc-bg,var(--panel));color:var(--ink);border:var(--hx-bw) solid var(--line);border-radius:var(--hx-bc-r);box-shadow:var(--e-md);
     transition:border-radius var(--dur-default) var(--ease-out),box-shadow var(--dur-default) var(--ease-out),padding var(--dur-default) var(--ease-out),background-color var(--dur-default) var(--ease-out);}
   .hx-bc-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);min-width:0;} /* 標題列高度＝內容高度：純文字標題時上內距＝左右內距 */
   .hx-bc-t{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);line-height:1.25;letter-spacing:0;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
@@ -6189,7 +6193,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-bar i{position:absolute;left:0;top:-.5px;height:2px;width:20%;background:var(--ink);transition:width var(--dur-slow,.4s) var(--ease-out);}
   .hx-tm-n{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;}
   @media(max-width:767px){
-    .hx-tm-stage{height:50vh;height:50svh;min-height:360px;border-radius:var(--radius);}  /* 手機固定 50vh */
+    .hx-tm-stage{height:75vh;height:75svh;min-height:420px;border-radius:var(--radius);}  /* 手機固定 50vh */
     .hx-tm-sl{padding:var(--sp-7) var(--sp-5);}
     .hx-tm-card{max-height:100%;overflow:hidden;}
     .hx-tm-card{min-height:0;padding:var(--sp-5);gap:var(--sp-4);}
@@ -15698,7 +15702,7 @@ function buildScheduleChart(view){
     function catShell(g,inner){const sec=ce('div','sumcat collapsed');
       const selN=g.ids.filter(id=>SUMSEL.has(id)).length;
       const head=ce('button','sumcat-h');
-      head.innerHTML=`<span class="sumcat-t">${navIc(g.ic)}${g.name}</span>
+      head.innerHTML=`<span class="sumcat-t">${g.name}</span>
         <span class="sumcat-n">${selN} / ${g.ids.length}</span><span class="sumcat-caret">${ICON_CARET}</span>`;
       head.onclick=()=>sec.classList.toggle('collapsed');
       const bw=ce('div','sumcat-body');bw.appendChild(inner);
@@ -15769,7 +15773,7 @@ function buildScheduleChart(view){
      3 動態展示：卡片與圖表自動示範，只放元件本身；滑過暫停、捲出畫面暫停、減少動態時不自動播放
      4 四步流程 → #start　5 Figma 同步與 token　6 最新更新＋FAQ */
   const HX_REDUCE=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const HX_DEF={primary:'brand',primaryC:'#7C3AED',second:'brand2',secondC:'#0EA5E9',theme:0,radius:4,bw:1,bc:50,shadow:2,font:0,weight:1,scale:100,density:100,motion:100};
+  const HX_DEF={primary:'brand',primaryC:'#7C3AED',second:'brand2',secondC:'#0EA5E9',theme:0,radius:4,bw:1,bc:35,shadow:0,font:0,weight:1,scale:100,density:100,motion:100};
   const HX_ST=Object.assign({},HX_DEF);
   /* 色票：全部取既有 primitive token（淺／深色各一階）；第一個＝不覆寫 */
   const HX_PRIM=[{k:'brand',label:'品牌預設',light:'--c-brand-500',dark:'--c-brand-200'},{k:'orange',label:'品牌橘',light:'--c-brand2-500',dark:'--c-brand2-400'},
@@ -15808,7 +15812,7 @@ function buildScheduleChart(view){
     if(HX_ST.second!=='brand2')o['--accent2']=HX_ST.second==='custom'?HX_ST.secondC:hxSw(HX_SEC,HX_ST.second,dark);
     if(HX_ST.radius!==HX_DEF.radius){const f=HX_ST.radius/(hxPx('--r-sm')||4);['--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-2xl','--r-3xl'].forEach(n=>{if(hxRootVar(n))o[n]=Math.round(hxPx(n)*f*10)/10+'px';});}
     if(HX_ST.bw!==HX_DEF.bw)o['--hx-bw']=HX_ST.bw+'px';
-    if(HX_ST.bc!==HX_DEF.bc){const bc=HX_ST.bc,val=n=>TH[n]||hxRootVar(n);   // 外框深淺：50＝預設；往上混入文字色變深、往下混入透明變淡
+    if(HX_ST.bc!==50){const bc=HX_ST.bc,val=n=>TH[n]||hxRootVar(n);   // 外框深淺：50＝預設；往上混入文字色變深、往下混入透明變淡
       ['--s-border-1','--s-border-2'].forEach(n=>{o[n]=bc>50?'color-mix(in srgb,var(--s-text-1) '+Math.round((bc-50)*1.2)+'%,'+val(n)+')':'color-mix(in srgb,'+val(n)+' '+Math.round(bc*2)+'%,transparent)';});}
     if(HX_ST.shadow!==2){const E=['--e-sm','--e-md','--e-lg','--e-xl','--e-2xl'],val=n=>TH[n]||hxRootVar(n);
       if(HX_ST.shadow===0)E.forEach(n=>o[n]='none');
@@ -17019,9 +17023,9 @@ function buildScheduleChart(view){
     clpin.innerHTML=`<span>${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
     host.appendChild(ce('div','nav-sep')); // 更新紀錄 ↔ 上手指南 分隔線
     { const gd=document.createElement('button');gd.className='nav-item nav-pin';gd.dataset.id='guide';gd.setAttribute('aria-current',current==='guide');
-      gd.innerHTML=`<span>上手指南</span>`;gd.onclick=()=>renderView('guide');host.appendChild(gd);host.appendChild(ce('div','nav-sep')); }  // 上手指南放在偏好設定上方
+      gd.innerHTML=`<span>上手指南（待調整）</span>`;gd.disabled=true;gd.setAttribute('aria-disabled','true');gd.classList.add('is-off');gd.title='待調整，暫不開放';host.appendChild(gd);host.appendChild(ce('div','nav-sep')); }  // 上手指南放在偏好設定上方
     const spin=document.createElement('button');spin.className='nav-item nav-pin';spin.dataset.id='settings';spin.setAttribute('aria-current',current==='settings');
-    spin.innerHTML=`<span>偏好設定</span>`;spin.onclick=()=>renderView('settings');host.appendChild(spin); // 深淺色＋背景漸層偏好，放更新紀錄下方
+    spin.innerHTML=`<span>偏好設定（待調整）</span>`;spin.disabled=true;spin.setAttribute('aria-disabled','true');spin.classList.add('is-off');spin.title='待調整，暫不開放';host.appendChild(spin); // 深淺色＋背景漸層偏好，放更新紀錄下方
     const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
   }
   function sbFootHTML(){
@@ -18553,7 +18557,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       b.innerHTML='<span class="sgm-ic">'+IC[d.id]+'</span>';
       if(typeof ttEl==='function'){const t=ttEl('bottom','s',true);t.classList.add('tt-float','tt-fp-bottom');t.setAttribute('aria-hidden','true');
         t.querySelector('span').textContent=d.name?d.label+' · '+d.name:d.tip;b.appendChild(t);} else b.title=d.label;});
-    {const th=document.getElementById('themeBtn');if(th)th.insertAdjacentElement('beforebegin',grp);else gb.insertAdjacentElement('afterend',grp);} tb.classList.add('has-rwd');   // 深淺色切換左邊
+    {const th=document.getElementById('themeBtn');if(th)th.insertAdjacentElement('beforebegin',grp);else gb.insertAdjacentElement('afterend',grp);
+      const ss=document.getElementById('ssTrig');if(ss)grp.insertAdjacentElement('beforebegin',ss);}   // 搜尋框放在 RWD 切換左邊 tb.classList.add('has-rwd');   // 深淺色切換左邊
     const segBtns=[...grp.querySelectorAll('.sgm-it')];
 
     function themeMsg(){const r=document.documentElement;return {rwdframe:1,t:'theme',theme:r.getAttribute('data-theme')==='dark'?'dark':'light',frost:window.__frost||0};}
