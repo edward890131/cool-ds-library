@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-04（三十二）　非元件頁改 bento 版面、手刻控制換成元件庫原子
+
+- Design Token、Design Guideline、需求匯總、版本紀錄、偏好設定、上手指南六頁改用 bento 卡片＋間距排版（`--panel` 底、1px `--line`、`--radius`、卡內 `--sp-5`、段落間 40px），拿掉頁首下方分隔線、段落標題 2px 底線與條目間分隔線；段落標題在卡外、用 `--font-display`。
+- 手刻控制換成元件庫原子：Token 頁 L1／L2／框架索引分頁、Desktop／Tablet／Mobile、中／En、Sans／Mono 切換改 Segmented；預覽文字框改 Input；重設、停用部分數值、查看程式碼、複製／下載此檔、全部下載改 Button。Guideline 裝置／語言／字體分頁改 Segmented；需求匯總 AI 建議產出改 Switch、複製 JSON／我要調整改 Button；上手指南示意的深淺色切換改 Segmented。
+- 部分輔助文字精簡（匯出段落說明、磨砂說明）。
+
 ## 2026-11-04（三十一）　首頁元件牆改一列、滑過換狀態＋跟手
 
 - 元件牆改成一列 15 格方格跑馬燈。拿掉儀表板、評價、步驟、分頁器；新增 Date Picker（區間月曆）、Metric Card、Tooltip；Slider 改填充樣式；人物牌卡整張放得下。
