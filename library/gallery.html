@@ -5112,6 +5112,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-hero-in{display:flex;flex-direction:column;gap:clamp(32px,4vw,48px);max-width:1180px;margin:0 auto;}
   .hx-copy{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"h1" "cta" "lede";justify-items:start;column-gap:clamp(24px,6vw,96px);row-gap:var(--sp-6);align-items:end;min-width:0;}
   .hx-pill{grid-area:pill;justify-self:start;}
+  .hx-h1 .hx-l1,.hx-h1 .hx-l2{transition:opacity var(--dur-default) var(--ease-out);} .hx-h1.is-swap .hx-l1,.hx-h1.is-swap .hx-l2{opacity:0;}
+  .hx-h1.is-en{letter-spacing:-.035em;}
   .hx-h1{grid-area:h1;max-width:15em;}
   .hx-cta{grid-area:cta;}
   .hx-lede{grid-area:lede;}
@@ -15579,13 +15581,25 @@ function buildScheduleChart(view){
 
   /* 標題尾字輪播（打字效果）＋每個字各自的顏色（primitive token，淺／深各一階）；刪完換下一個字時顏色以 --dur-slow／--ease-out 漸變，游標用 currentColor 跟著變。
      減少動態時固定顯示第一個字與顏色 */
-  function hxTypeword(el){const W=['換主色','改圓角','調字重','變密度'];let i=0,n=W[0].length,del=false;el.textContent=W[0];
+  /* 標題尾字輪播（打字效果）：先播英文 4 個詞、再換中文 4 個詞，循環；換語言時前兩行淡出淡入。減少動態時固定英文第一個詞 */
+  function hxTypeword(el){
+    const L=[{l1:'Tune one token,',l2:'every component ',W:['recolors','rounds','reweights','tightens']},
+             {l1:'調一次 token，',l2:'整套元件一起',W:['換主色','改圓角','調字重','變密度']}];
+    const h1=el.closest('.hx-h1'),l1=h1&&h1.querySelector('.hx-l1'),l2=h1&&h1.querySelector('.hx-l2');
+    let g=0,i=0,n=L[0].W[0].length,del=false;el.textContent=L[0].W[0];
     const box=el.closest('.hx-type')||el.parentNode;const tone=k=>{if(box)box.dataset.w=String(k);};tone(0);
+    const setLang=k=>{if(!h1)return;h1.lang=k?'zh-Hant':'en';h1.classList.toggle('is-en',!k);if(l1)l1.textContent=L[k].l1;if(l2)l2.textContent=L[k].l2;};setLang(0);
     if(HX_REDUCE())return;
-    const tick=()=>{if(!el.isConnected)return;let wait=chtxMs('--dur-fast');
-      if(!document.hidden){if(del){n--;if(n<=0){del=false;i=(i+1)%W.length;n=0;tone(i);wait=chtxMs('--dur-default',1.4);}}
+    const tick=()=>{if(!el.isConnected)return;let wait=chtxMs('--dur-fast')*(g?1:.6);
+      if(!document.hidden){const W=L[g].W;
+        if(del){n--;if(n<=0){del=false;n=0;i++;
+          if(i>=W.length){i=0;g=(g+1)%L.length;                        // 換語言：前兩行淡出 → 換字 → 淡入
+            if(h1){h1.classList.add('is-swap');setTimeout(()=>{setLang(g);h1.classList.remove('is-swap');},chtxMs('--dur-default'));}
+            wait=chtxMs('--dur-default',2.2);}
+          else wait=chtxMs('--dur-default',1.4);
+          tone(i);}}
         else{n++;if(n>=W[i].length){n=W[i].length;del=true;wait=chtxMs('--dur-slow',5);}}
-        el.textContent=W[i].slice(0,Math.max(0,n));}
+        el.textContent=L[g].W[i].slice(0,Math.max(0,n));}
       setTimeout(tick,wait);};
     setTimeout(tick,chtxMs('--dur-slow',5));}
 
@@ -15637,7 +15651,7 @@ function buildScheduleChart(view){
     hero.innerHTML=`<div class="hx-hero-bg" aria-hidden="true"></div>
       <div class="hx-hero-in">
         <div class="hx-copy">
-          <h1 class="hx-h1" aria-label="調一次 token，整套元件一起換。">調一次 token，<br class="hx-br">整套元件一起<span class="hx-type" aria-hidden="true"><span class="hx-type-w"></span><span class="hx-caret"></span></span></h1>
+          <h1 class="hx-h1" aria-label="Tune one token, every component follows. 調一次 token，整套元件一起換。"><span class="hx-l1" aria-hidden="true">Tune one token,</span><br class="hx-br"><span class="hx-l2" aria-hidden="true">every component </span><span class="hx-type" aria-hidden="true"><span class="hx-type-w"></span><span class="hx-caret"></span></span></h1>
           <div class="hx-cta" id="hxCta"></div>
           <p class="hx-lede">${ready} 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。</p>
         </div>

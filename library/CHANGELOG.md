@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-04（二十五）　首頁 slogan 加英文版
+
+- Hero 標題先播英文「Tune one token, / every component recolors · rounds · reweights · tightens」，四個詞播完淡出換成中文「調一次 token，/ 整套元件一起換主色 · 改圓角 · 調字重 · 變密度」，循環；每個詞仍各有顏色。減少動態時固定英文第一句。
+
 ## 2026-11-04（二十四）　Logo 換成 CDL
 
 - 母庫 logo 由 Goons 字標換成 **CDL**（Cool Design Library）：小寫幾何字標「cdl」（同一支 6 單位筆畫）＋句尾強調方塊，方塊綁 `--accent2`、字身走 `currentColor`（深淺色自動反白）。三處同步：網站 topbar `.brand-logo`、library header `hdrLogo`、footer `ftrLogo`；鎖寬 40／46px、高度等比。專案上傳的 logo 仍優先顯示。
