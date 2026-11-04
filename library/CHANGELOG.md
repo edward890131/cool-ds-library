@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-04（六）　Step／Table Toolbar 重新設計；首頁試玩預覽改成 bento 介面
+
+- **Step 新增 `type` 軸：`classic`（原版）／`compact`（精簡進度：分段進度條＋「步驟 n / m」，可點回已完成步驟、錯誤狀態擋下一步）／`timeline`（垂直時間軸：每步可展開細節、一次只開一個）**。`orientation`、`variant` 只在 classic 生效，有效組合 8 種（以 `when` 記錄稀疏組合，Figma 只建有效組合）；boolean：description／count／time／expandable。
+- **Table Toolbar 改成 `filter × bulk × density`（2×3×2＝12）**：已存檢視分頁（可另存新檢視）、篩選氣泡卡＋條件 chip、列高切換；勾選列時底部浮出批次操作列（全選 N 筆／只選本頁、指派、匯出、刪除需確認）。原 `mode`、`size` 軸移除。全部取用既有原子（tab、field、button、popover、checkbox、tag、segmented、table、action menu）。
+- **registry 產生器**：支援 `when`（稀疏組合）與 `bools`（Figma boolean property），每顆元件加 `variantCount`。
+- **首頁試玩預覽**：改成一個「春季活動頁」專案總覽介面——頂列＋7 張 bento 卡（三張 KPI、交付趨勢圖、團隊成員、待辦任務、快速新增），所有卡片同一套圓角（`--radius`）、陰影、外框、底色、padding 與標題列；可直接操作（切月份／本週、勾待辦、新增任務），依預覽寬度自動換欄。
+- **slogan 換字加換色**：換主色／改圓角／調字重／變密度各一色（紫／藍／橘／綠，深色模式用亮階），游標跟著變色；減少動態時固定第一個字。
+- **動態展示放慢**：每拍停 2.5～4 秒並加隨機偏移，各卡錯開開始；游標掃過圖表改成緩入緩出的弧線，展示卡內的動態時間拉長、改用 ease-out。
+
 ## 2026-11-04（五）　Button 頁改 bento 版面；全站 checkbox 與遮罩統一
 
 - **Button 頁改 bento 版面**（依 Figma 17753:18970）：第一列「控制｜預覽｜變數篩選＋Token 綁定」三欄可拖曳調寬（鍵盤 ←／→、雙擊還原，寬度記在瀏覽器）；第二列 HTML／SCSS 左右並列；第三、四列 Size、Content；第五列狀態一覽表預設收合。每塊都是同款卡片（`--panel` 底、1px `--line`、`--radius`、間距 `--sp-5`），拿掉細線分段與不必要的輔助文字。其他元件頁暫不變。

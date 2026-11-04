@@ -43,6 +43,14 @@ const groups=NAV.map(g=>({
         const axisName=(spec.zh&&spec.zh.axisName&&spec.zh.axisName[k])||k;
         axes.by[k]={axisName,options:opts.map(o=>({value:o,zh:zh[o]||o}))};
       });
+      // when：某軸只在其他軸取特定值時才存在（稀疏組合，Figma 只建有效組合）；bools：Figma boolean property
+      if(spec.when)axes.when=spec.when;
+      if(spec.bools)axes.bools=spec.bools;
+      const combos=(function(){let list=[{}];spec.order.forEach(k=>{const n=[];list.forEach(c=>(spec.axes[k]||[]).forEach(v=>n.push(Object.assign({},c,{[k]:v}))));list=n;});
+        if(!spec.when)return list.length;
+        const ok=c=>Object.entries(spec.when).every(([ax,cond])=>Object.entries(cond).every(([dep,vals])=>vals.includes(c[dep])));
+        const seen=new Set();list.forEach(c=>{const k=spec.order.filter(ax=>!spec.when[ax]||ok(c)).map(ax=>ax+'='+c[ax]).join('|');seen.add(k);});return seen.size;})();
+      axes.variantCount=combos;
     }
     const out={
       id:it.id,
