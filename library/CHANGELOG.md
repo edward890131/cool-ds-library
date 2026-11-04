@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-04（八）　分段控制選取底色錯位修正；流程「重新開始」移到底部；步驟打勾加粗
+
+- **分段控制（`.seg`）**：選取底色改由 ResizeObserver 跟著元件自身尺寸重新對齊——拖曳欄寬、容器換版時不再錯位；Button bento 控制欄的分段鈕改用等分格線，字放不下時該格撐開、不溢出，控制欄最小寬度 200 → 240px。
+- **開新專案**：「重新開始」從右上角移到底部「上一步」右邊。
+- **Step**：完成步驟的打勾改成 bold 粗細（與 checkbox 一致）。
+- **Button bento 頁**：Size／Content／狀態一覽表段落間距再加大（`--sp-8`）。
+
 ## 2026-11-04（七）　開新專案匯出含元件程式碼；Button bento 頁細修
 
 - **匯出改成一個 zip**：除了原本的訪談、提案、token、元件、狀態 JSON 與 README，新增 `styles/`（_variables／_breakpoints／_font／layout.scss＋README，與 Design Token 頁「輸出 · 樣式包」同一套產生器）與 `components/<id>/<id>.html＋<id>.scss`（每顆已選元件，內容與元件頁程式碼區一致、已套用變數篩選）。檔案清單分「文件／樣式包／元件程式碼」三組。JSON 檔維持放在專案根目錄，sync 腳本與 `?project=` 續編才讀得到。

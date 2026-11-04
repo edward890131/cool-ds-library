@@ -591,8 +591,8 @@
   /* 欄1：控制項（直向堆疊；seg 撐滿欄寬、content 勾選改直排）*/
   .bento-ctl{padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-5);margin:0;}
   .bento-ctl .ctl{min-width:0;}
-  .bento-ctl .seg{display:flex;width:100%;flex-wrap:nowrap;}
-  .bento-ctl .seg button{flex:1 1 0;min-width:0;text-align:center;justify-content:center;}  /* 分段鈕等分寬度 */
+  .bento-ctl .seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;width:100%;box-sizing:border-box;}
+  .bento-ctl .seg button{min-width:0;text-align:center;justify-content:center;padding-inline:var(--sp-2);}  /* 分段鈕等分寬度（字放不下時該格撐開，不溢出） */
   .bento-ctl .checks{flex-direction:column;gap:var(--sp-4);}
   .bento-ctl .ctl-text{width:100%;min-width:0;box-sizing:border-box;}
   /* 欄2：預覽舞台（沿用 .live-stage：實心底、虛線框；frost 時仍釘回實心）*/
@@ -627,7 +627,7 @@
   @media(max-width:767px){.bento-code{grid-template-columns:minmax(0,1fr);}.bento-code>.live-code{height:320px;}}
   /* 內容段落（Size／Content）：標題＋說明在卡外、示意列本身是卡；取消段落 2px 底線與上方大間距 */
   .bento section.block{margin:0;}
-  .bento .bento-sec,.bento .bento-mtx{margin-top:var(--sp-6);}  /* Size／Content／狀態一覽表段落之間拉開 */
+  .bento .bento-sec,.bento .bento-mtx{margin-top:var(--sp-8);}  /* Size／Content／狀態一覽表段落之間拉開 */
   .bento .bento-sec > h2{border-bottom:0;padding-bottom:0;margin:0 0 var(--sp-4);}
   /* 狀態一覽表：沿用 .dcard 收合（全域 .dcard-head 委派），預設收合；展開後各 variant 矩陣直向堆疊 */
   .bento .bento-mtx > h2{margin:0;padding:0;border:0;display:block;font:inherit;}
@@ -986,7 +986,7 @@
   .cbx .dash{width:60%;height:2px;background:var(--primary-on);border-radius:2px;}
   /* 2026-11-04 全站 checkbox 統一：勾的粗細＝Phosphor bold（regular 路徑外加 8 單位描邊＝24 單位線寬）；
      原生 checkbox（控制面板、篩選清單、表單）改成與 .cbx sz-m 同外觀：20px、1.5px 外框、--r-sm、勾＝--primary-on */
-  .cbx svg path,.ddcheck svg path{stroke:currentColor;stroke-width:8;stroke-linejoin:round;stroke-linecap:round;}
+  .cbx svg path,.ddcheck svg path,.stp-node.stp-done svg path{stroke:currentColor;stroke-width:8;stroke-linejoin:round;stroke-linecap:round;}
   input[type=checkbox]{-webkit-appearance:none;appearance:none;position:relative;display:inline-grid;place-items:center;flex:0 0 auto;
     width:20px !important;height:20px !important;margin:0;padding:0;box-sizing:border-box;border:1.5px solid var(--i-sec-edge);border-radius:var(--r-sm);
     background:var(--panel);cursor:pointer;vertical-align:middle;transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);}
@@ -5941,7 +5941,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   function wireBento(root){
     const top=root&&root.querySelector('.bento-top'); if(!top)return;
     const KEY='ds-bento-w:'+(root.dataset.bento||'page');
-    const MIN1=200,MIN3=280,MINS=280,GAP=()=>{const rz=top.querySelector('.bento-rz');return rz?rz.getBoundingClientRect().width||16:16;};
+    const MIN1=240,MIN3=280,MINS=280,GAP=()=>{const rz=top.querySelector('.bento-rz');return rz?rz.getBoundingClientRect().width||16:16;};
     const DEF1=264,DEF3=400;   // 設計稿：控制項 233（無內距）→ 卡片含 --sp-5 內距約 264；右欄 400
     let saved={}; try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(_){saved={};}
     const w={c1:saved.c1||null,c3:saved.c3||null};      // null＝用預設
@@ -16725,13 +16725,13 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     card.setAttribute('aria-labelledby','flwTitle');card.setAttribute('aria-describedby','flwSub');card.tabIndex=-1;
     const hd=ce('div','flw-hd');const mh=ce('div','mdl-mhead');const ht=ce('div','mdl-mhead-txt');
     ht.innerHTML='<div class="mdl-title" id="flwTitle">開始新專案</div><div class="mdl-sub" id="flwSub" aria-live="polite"></div>';
-    const act=ce('div','flw-hd-act');const rst=flwBtn('text','secondary','重新開始','s');rst.classList.add('flw-rst');
+    const act=ce('div','flw-hd-act');const rst=flwBtn('text','secondary','重新開始','m');rst.classList.add('flw-rst');  /* 放在底部「上一步」右邊（每次換步驟由 flwRenderStep 掛回 nav） */
     const x=mdlClose(false);x.type='button';x.setAttribute('aria-label','關閉（草稿會保留）');x.title='關閉（草稿會保留）';
-    act.append(rst,x);mh.append(ht,act);
+    act.append(x);mh.append(ht,act);
     const prog=ce('div','flw-prog');hd.append(mh,prog);
     const body=ce('div','mdl-content flw-body');const nav=ce('div','mdl-foot flw-nav');
     card.append(hd,body,nav);ovl.appendChild(card);
-    FLW_UI={ovl,card,body,nav,prog,ret,resume:!!(FLW.updated&&FLW.step>0)};
+    FLW_UI={ovl,card,body,nav,prog,ret,rst,resume:!!(FLW.updated&&FLW.step>0)};
     rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
       onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();if(FLW_UI){FLW_UI.resume=false;flwRenderStep(true);}}});
     x.onclick=()=>flwClose();
@@ -16776,7 +16776,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const first=FLW.step===0;
     const back=flwBtn('outline','secondary','上一步','m',{disabled:first});
     if(first)back.setAttribute('aria-disabled','true');else back.onclick=()=>flwGo(FLW.step-1);
-    nav.append(back,ce('div','spacer'));
+    nav.append(back);if(U.rst)nav.appendChild(U.rst);nav.appendChild(ce('div','spacer'));
     const cnt=ce('span','flw-count');cnt.textContent=(FLW.step+1)+' / '+FLW_STEPS.length;nav.appendChild(cnt);
     if(FLW.step<FLW_STEPS.length-1){const next=flwBtn('solid','primary',ctx.nextText||'下一步');next.classList.add('has-trail');next.insertAdjacentHTML('beforeend',ICON_ARROW);
       next.onclick=()=>{if(!ctx.valid()){const bad=body.querySelector('.fld-msg.is-err');const f=bad&&bad.closest('.fld');if(f&&f.__focus)f.__focus.focus();return;}
@@ -16991,11 +16991,13 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     /* 重建型控制列（例如 button 頁點選後整塊重繪）：用 data-seg 找回新的那一列，把焦點放回選中項 */
     const again=key&&document.querySelector('.seg[data-seg="'+key+'"] button[aria-pressed="true"]');if(again)again.focus();});
   (function initSegPill(){
+    /* seg 自身尺寸變動（欄寬拖曳、容器查詢換版、字級調整）→ 重新對齊 pill；window resize 抓不到這類變動 */
+    const ro=typeof ResizeObserver!=='undefined'?new ResizeObserver(es=>es.forEach(e=>{const s=e.target;if(s.isConnected)place(s,false);})):null;
     const lastGeo={};                                  // key＝seg 的 data-seg；存上次 active 的 {l,t,w,h}，供重建型 seg 續接滑動
     let fontsReady=!(document.fonts&&document.fonts.ready);  // 字型 ready 前不顯示 pill，避免用 fallback 字寬定位後跳位（手機首載）
     function pillOf(seg){
       let p=seg.querySelector(':scope>.seg-pill');
-      if(!p){p=document.createElement('span');p.className='seg-pill';p.setAttribute('aria-hidden','true');seg.insertBefore(p,seg.firstChild);}
+      if(!p){p=document.createElement('span');p.className='seg-pill';p.setAttribute('aria-hidden','true');seg.insertBefore(p,seg.firstChild);if(ro)ro.observe(seg);}
       return p;
     }
     function measure(seg){
