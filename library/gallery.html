@@ -5105,12 +5105,19 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 背景：點陣格＋跟著主色走的柔光（--accent 在 hero 上被覆寫時一起變） */
   .hx-hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(50% 42% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent) 0%,transparent 72%),
+      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),color-mix(in srgb,var(--accent) 16%,transparent) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
       radial-gradient(36% 40% at 6% 72%,color-mix(in srgb,var(--accent) 8%,transparent) 0%,transparent 70%),
       radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/22px 22px,
       var(--canvas);
     -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent);mask-image:linear-gradient(180deg,#000 78%,transparent);}
+  /* 互動背景（hxHeroFx）：有 canvas 時點陣改由 canvas 畫（滑過會散開），CSS 點陣只當無 JS／減少動態的後備 */
+  .hx-hero-bg.has-fx{background:
+      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),color-mix(in srgb,var(--accent) 16%,transparent) 0%,transparent 72%),
+      radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
+      radial-gradient(36% 40% at 6% 72%,color-mix(in srgb,var(--accent) 8%,transparent) 0%,transparent 70%),
+      var(--canvas);}
+  .hx-hero-bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
   /* 版面參考 designsystems.surf：靠左大標（尾字打字輪播）→ 下一列左 CTA／右補充說明 → 細線＋mono 標籤列 → 全寬展示框 */
   .hx-hero-in{display:flex;flex-direction:column;gap:clamp(32px,4vw,48px);max-width:1180px;margin:0 auto;}
   .hx-copy{padding-block:clamp(40px,7vw,104px) clamp(32px,5vw,72px);display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"h1" "cta" "lede";justify-items:start;column-gap:clamp(24px,6vw,96px);row-gap:var(--sp-6);align-items:end;min-width:0;}
@@ -15610,6 +15617,34 @@ function buildScheduleChart(view){
 
   /* 標題尾字輪播（打字效果）＋每個字各自的顏色（primitive token，淺／深各一階）；刪完換下一個字時顏色以 --dur-slow／--ease-out 漸變，游標用 currentColor 跟著變。
      減少動態時固定顯示第一個字與顏色 */
+  /* Hero 互動背景：主光暈以彈性補間跟隨游標；點陣用 canvas 畫，游標附近的點被推開、離開後彈回。
+     只在 pointer:fine 且未開減少動態時啟用；離開畫面或分頁隱藏時停止 rAF */
+  function hxHeroFx(hero){const bg=hero.querySelector('.hx-hero-bg');if(!bg||HX_REDUCE()||!matchMedia('(pointer:fine)').matches)return;
+    const cv=document.createElement('canvas');bg.appendChild(cv);bg.classList.add('has-fx');const cx=cv.getContext('2d');
+    const G=22,R=110,PUSH=18;let W=0,H=0,dpr=1,pts=[],mx=-9999,my=-9999,gx=.5,gy=0,tgx=.5,tgy=0,raf=0,vis=true,active=false,col='#999',acc='#999';
+    const readCol=()=>{const cs=getComputedStyle(hero);col=cs.getPropertyValue('--line-strong').trim()||'#999';acc=cs.getPropertyValue('--muted').trim()||col;};
+    const draw=()=>{let moving=false;cx.clearRect(0,0,W,H);const hot=[];cx.fillStyle=col;cx.beginPath();
+      for(const p of pts){let tx=0,ty=0;const dx=p.x-mx,dy=p.y-my,d2=dx*dx+dy*dy;
+        if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R);tx=dx/d*PUSH*f*f*2;ty=dy/d*PUSH*f*f*2;}
+        p.ox+=(tx-p.ox)*.14;p.oy+=(ty-p.oy)*.14;if(Math.abs(tx-p.ox)>.05||Math.abs(ty-p.oy)>.05)moving=true;
+        const off=Math.hypot(p.ox,p.oy);if(off>1.5){hot.push([p.x+p.ox,p.y+p.oy,Math.min(1,off/PUSH)]);continue;}
+        cx.moveTo(p.x+p.ox+1,p.y+p.oy);cx.arc(p.x+p.ox,p.y+p.oy,1,0,6.2832);}
+      cx.fill();
+      for(const [x,y,k] of hot){cx.globalAlpha=.35+.65*k;cx.fillStyle=k>.5?acc:col;cx.beginPath();cx.arc(x,y,1+.6*k,0,6.2832);cx.fill();}   // 被推開的點：變亮、略放大
+      cx.globalAlpha=1;return moving;};
+    const build=()=>{const r=bg.getBoundingClientRect();W=r.width;H=r.height;if(!W||!H)return;dpr=Math.min(2,devicePixelRatio||1);cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+      pts=[];for(let y=1;y<H;y+=G)for(let x=1;x<W;x+=G)pts.push({x,y,ox:0,oy:0});readCol();draw();};
+    const loop=()=>{raf=0;if(!vis||document.hidden)return;gx+=(tgx-gx)*.08;gy+=(tgy-gy)*.08;
+      bg.style.setProperty('--gx',(gx*100).toFixed(2)+'%');bg.style.setProperty('--gy',(gy*100).toFixed(2)+'%');
+      const m=draw();if(m||active||Math.abs(tgx-gx)>.001||Math.abs(tgy-gy)>.001)raf=requestAnimationFrame(loop);};
+    const kick=()=>{if(!raf)raf=requestAnimationFrame(loop);};
+    hero.addEventListener('pointermove',e=>{const r=bg.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;tgx=Math.min(1,Math.max(0,mx/W));tgy=Math.min(1,Math.max(0,my/H));active=true;kick();});
+    hero.addEventListener('pointerleave',()=>{mx=my=-9999;tgx=.5;tgy=0;active=false;kick();});
+    new ResizeObserver(()=>build()).observe(bg);
+    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)kick();}).observe(hero);
+    new MutationObserver(()=>{readCol();draw();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+    requestAnimationFrame(build);}
+
   /* 標題尾字輪播（打字效果）：先播英文 4 個詞、再換中文 4 個詞，循環；換語言時前兩行淡出淡入。減少動態時固定英文第一個詞 */
   function hxTypeword(el){
     const L=[{l1:'Tune one token,',l2:'every component ',W:['recolors','rounds','reweights','tightens']},
@@ -15701,7 +15736,7 @@ function buildScheduleChart(view){
           <div class="hx-pv" id="hxPv" aria-label="Token 試玩預覽"></div>
         </div>
       </div>`;
-    hxTypeword(hero.querySelector('.hx-type-w'));
+    hxTypeword(hero.querySelector('.hx-type-w'));hxHeroFx(hero);
     hero.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();renderView(a.dataset.go);}));
     const cta=hero.querySelector('#hxCta');
     const go1=mkBtn({variant:'solid',intent:'primary',size:'l',isLive:true,trail:true});go1.querySelector('span').textContent='開始新專案';go1.onclick=()=>{location.hash='start';};
