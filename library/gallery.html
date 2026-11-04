@@ -5577,26 +5577,73 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media(prefers-reduced-motion:reduce){.hx-step-v .cbx.st-checked svg{animation:none;} .hx-st2 .tg,.hx-st2 .btn,.hx-st2 .hx-step-sw i,.hx-step-v .cbx,.hx-fl-ok{transition:none;}}
 
   /* HOME9:v1 Figma 同步：程式碼卡 ⇄ Figma 卡，token 值在一邊改、另一邊跟著更新（自動播放；離開畫面／減少動態時停）＋三點說明 */
-  .hx-sy-g{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:var(--sp-5);align-items:stretch;}
-  .hx-sy-c{display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-5);transition:box-shadow var(--dur-default) var(--ease-out);}
-  .hx-sy-c.is-hit{box-shadow:0 0 0 2px color-mix(in srgb,var(--i-primary) 55%,transparent);}
-  .hx-sy-top{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);min-width:0;}
-  .hx-sy-top .hx-h3{font-size:var(--fs-h9);}
-  .hx-sy-top code{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .hx-sy-box{background:var(--panel-2);border-radius:var(--r-sm);padding:var(--sp-4);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:1.8;color:var(--muted);min-height:88px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;min-width:0;}
-  .hx-sy-box pre{margin:0;font:inherit;white-space:pre;overflow:hidden;}
-  .hx-sy-val{color:var(--ink);font-weight:var(--fw-semibold);border-radius:var(--r-xs,2px);transition:background-color var(--dur-default) var(--ease-out);}
-  .hx-sy-c.is-hit .hx-sy-val{background:color-mix(in srgb,var(--i-primary) 22%,transparent);}
-  .hx-sy-var{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:var(--sp-3);}
-  .hx-sy-var span{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .hx-sy-sw{width:20px;height:20px;border-radius:var(--r-sm);background:var(--i-primary);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 14%,transparent);transition:background-color var(--dur-default) var(--ease-out);}
-  .hx-sy-pv{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;}
-  .hx-sy-pv code{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);}
-  .hx-sy-pv .btn{transition:background-color var(--dur-default) var(--ease-out);}
-  .hx-sy-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--sp-3);min-width:120px;}
-  .hx-sy-ar{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:var(--r-pill);background:var(--panel);border:1px solid var(--line);color:var(--ink);}
-  .hx-sy-ar svg{width:20px;height:20px;transition:transform var(--dur-slow,.4s) var(--ease-out);}
+  /* HOME13:v1 舞台：兩台筆電（左＝程式碼編輯器、右＝Figma Variables 面板），外側被區塊邊界裁切；只用 token */
+  .hx-sy-g{position:relative;height:460px;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);
+    background:radial-gradient(circle at 1px 1px,color-mix(in srgb,var(--ink) 9%,transparent) 1px,transparent 0) 0 0/20px 20px,var(--panel-2);
+    --sy-b:200px;--sy-gap:52px;--sy-h:380px;}
+  .hx-sy-dev{position:absolute;top:34px;display:flex;flex-direction:column;}
+  .hx-sy-dev[data-side="code"]{left:calc(-1 * var(--sy-b));right:calc(50% + var(--sy-gap));}
+  .hx-sy-dev[data-side="figma"]{left:calc(50% + var(--sy-gap));right:calc(-1 * var(--sy-b));}
+  .hx-sy-scr{height:var(--sy-h);box-sizing:border-box;padding:10px;background:var(--c-neutral-800);border:1px solid var(--s-border-2);border-radius:var(--r-xl) var(--r-xl) var(--r-sm) var(--r-sm);box-shadow:var(--e-lg);transition:box-shadow var(--dur-default) var(--ease-out);}
+  .hx-sy-dev.is-hit .hx-sy-scr{box-shadow:var(--e-lg),0 0 0 3px color-mix(in srgb,var(--c-info-500) 45%,transparent);}
+  .hx-sy-scr > div{height:100%;border-radius:var(--r-sm);overflow:hidden;display:flex;flex-direction:column;min-width:0;}
+  .hx-sy-base{position:relative;height:14px;margin:0 -28px;background:linear-gradient(var(--s-surface-3),var(--s-border-2));border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:var(--e-md);}
+  .hx-sy-base::before{content:"";position:absolute;left:50%;top:0;width:88px;height:5px;transform:translateX(-50%);background:var(--s-border-2);border-radius:0 0 var(--r-sm) var(--r-sm);}
+  /* 編輯器（固定深色 chrome） */
+  .hx-sy-ed{background:var(--c-neutral-900);color:var(--c-neutral-300);font-family:var(--font-mono);font-size:var(--fs-h11);}
+  .hx-sy-ed{flex-direction:row !important;}
+  .hx-sy-ex{flex:none;width:calc(var(--sy-b) + 64px);box-sizing:border-box;padding:12px 0;background:var(--c-neutral-800);border-right:1px solid color-mix(in srgb,var(--c-neutral-0) 8%,transparent);font-size:var(--fs-h12);color:var(--c-neutral-500);white-space:nowrap;overflow:hidden;line-height:24px;}
+  .hx-sy-ex span{display:block;padding:0 12px 0 calc(12px + var(--x,0) * 14px);overflow:hidden;text-overflow:ellipsis;}
+  .hx-sy-ex span.is-on{background:color-mix(in srgb,var(--c-neutral-0) 8%,transparent);color:var(--c-neutral-100);}
+  .hx-sy-ex small{display:block;padding:0 12px 4px;font-size:var(--fs-h12);letter-spacing:.06em;color:var(--c-neutral-600);}
+  .hx-sy-em{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .hx-sy-edt{display:flex;align-items:stretch;gap:0;height:36px;flex:none;background:var(--c-neutral-800);border-bottom:1px solid color-mix(in srgb,var(--c-neutral-0) 8%,transparent);}
+  .hx-sy-dots{display:none;align-items:center;gap:6px;padding:0 14px;}
+  .hx-sy-dots i{width:10px;height:10px;border-radius:var(--r-pill);background:var(--c-neutral-600);}
+  .hx-sy-tab{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:var(--fs-h12);color:var(--c-neutral-500);white-space:nowrap;border-right:1px solid color-mix(in srgb,var(--c-neutral-0) 6%,transparent);}
+  .hx-sy-tab.is-on{background:var(--c-neutral-900);color:var(--c-neutral-100);box-shadow:inset 0 2px 0 var(--c-info-500);}
+  .hx-sy-tab b{width:7px;height:7px;border-radius:var(--r-pill);background:var(--c-neutral-0);opacity:0;transition:opacity var(--dur-default) var(--ease-out);}
+  .hx-sy[data-dirty] .hx-sy-tab.is-on b{opacity:.8;}
+  .hx-sy-edb{flex:1;min-height:0;padding:12px 0;counter-reset:ln;overflow:hidden;line-height:22px;}
+  .hx-sy-ln{display:block;white-space:pre;padding-right:16px;counter-increment:ln;transition:background-color var(--dur-default) var(--ease-out);}
+  .hx-sy-ln::before{content:counter(ln);display:inline-block;width:3.2em;padding-right:1.4em;text-align:right;color:var(--c-neutral-600);}
+  .hx-sy-ln.is-ed{background:color-mix(in srgb,var(--c-info-500) 20%,transparent);box-shadow:inset 3px 0 0 var(--c-info-500);}
+  .hx-sy-ln.is-ed::before{color:var(--c-neutral-200);}
+  .hx-sy-k{color:color-mix(in srgb,var(--c-info-500) 55%,var(--c-neutral-0));}
+  .hx-sy-s{color:color-mix(in srgb,var(--c-success-500) 60%,var(--c-neutral-0));}
+  .hx-sy-n{color:color-mix(in srgb,var(--c-warning-500) 65%,var(--c-neutral-0));}
+  .hx-sy-p{color:var(--c-neutral-500);}
+  .hx-sy-csw{display:inline-block;width:10px;height:10px;margin:0 6px 0 2px;vertical-align:-1px;border-radius:var(--r-xs,2px);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-neutral-0) 30%,transparent);transition:background-color var(--dur-default) var(--ease-out);}
+  .hx-sy-cur{display:inline-block;width:2px;height:16px;margin:0 -2px 0 0;vertical-align:-3px;background:var(--c-neutral-0);opacity:0;}
+  .hx-sy-ln.is-typ .hx-sy-cur{opacity:1;animation:hxSyBlink 1s steps(1) infinite;}
+  @keyframes hxSyBlink{50%{opacity:0;}}
+  .hx-sy-esb{flex:none;display:flex;justify-content:space-between;gap:12px;padding:0 14px;height:24px;align-items:center;font-size:var(--fs-h12);color:var(--c-neutral-500);background:var(--c-neutral-800);white-space:nowrap;overflow:hidden;}
+  /* Figma Variables 面板（跟隨淺／深色的中性 UI） */
+  .hx-sy-pn{background:var(--s-surface-1);color:var(--s-text-1);font-size:var(--fs-h11);}
+  .hx-sy-pnh{flex:none;display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 calc(16px + var(--sy-b)) 0 16px;border-bottom:1px solid var(--s-border-1);font-weight:var(--fw-semibold);white-space:nowrap;}
+  .hx-sy-pnh span{color:var(--s-text-3);font-weight:var(--fw-regular,400);}
+  .hx-sy-pnb{flex:1;min-height:0;display:grid;grid-template-columns:136px minmax(0,1fr);}
+  .hx-sy-pnc{display:flex;flex-direction:column;gap:2px;padding:12px 8px;border-right:1px solid var(--s-border-1);background:var(--s-surface-2);white-space:nowrap;}
+  .hx-sy-pnc small{padding:0 8px 6px;font-size:var(--fs-h12);color:var(--s-text-3);}
+  .hx-sy-pnc span{padding:6px 8px;border-radius:var(--r-sm);color:var(--s-text-2);}
+  .hx-sy-pnc span.is-on{background:var(--s-surface-3);color:var(--s-text-1);font-weight:var(--fw-semibold);}
+  .hx-sy-pnt{min-width:0;display:flex;flex-direction:column;}
+  .hx-sy-row{display:grid;grid-template-columns:minmax(0,1fr) 92px calc(var(--sy-b) + 24px);align-items:center;height:36px;padding:0 16px;gap:12px;border-bottom:1px solid color-mix(in srgb,var(--s-border-1) 60%,transparent);transition:background-color var(--dur-slow,.4s) var(--ease-out);}
+  .hx-sy-row > span{display:flex;align-items:center;gap:10px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hx-sy-row code{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--s-text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:3px 6px;border-radius:var(--r-xs,2px);transition:box-shadow var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out);}
+  .hx-sy-hd{height:32px;color:var(--s-text-3);font-size:var(--fs-h12);background:var(--s-surface-2);}
+  .hx-sy-row > em{font-style:normal;color:var(--s-text-3);white-space:nowrap;overflow:hidden;font-size:var(--fs-h12);}
+  .hx-sy-row.is-hit{background:var(--s-feedback-info-tint2);}
+  .hx-sy-row.is-hit code{color:var(--s-text-1);box-shadow:inset 0 0 0 1px var(--c-info-500);}
+  .hx-sy-sw{flex:none;width:16px;height:16px;border-radius:var(--r-xs,2px);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--s-text-1) 16%,transparent);transition:background-color var(--dur-default) var(--ease-out);}
+  .hx-sy-add{padding:10px 16px;color:var(--s-text-3);font-size:var(--fs-h12);}
+  /* 中央同步徽章 */
+  .hx-sy-mid{position:absolute;left:50%;top:calc(34px + var(--sy-h) / 2);transform:translate(-50%,-50%);z-index:1;display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);}
+  .hx-sy-ar{display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:var(--r-pill);background:var(--panel);border:1px solid var(--line);color:var(--ink);box-shadow:var(--e-lg);}
+  .hx-sy-ar svg{width:26px;height:26px;transition:transform var(--dur-slow,.4s) var(--ease-out);}
   .hx-sy[data-dir="figma"] .hx-sy-ar svg{transform:scaleX(-1);}
+  .hx-sy-mid .tag{box-shadow:var(--e-md);white-space:nowrap;}
+  @media(max-width:1180px){.hx-sy-g{--sy-b:170px;--sy-gap:44px;} .hx-sy-pnb{grid-template-columns:118px minmax(0,1fr);}}
   /* HOME12:v1 facts：無卡框三欄，細直線分隔；手機改單欄橫線分隔 */
   .hx-sy-facts{list-style:none;margin:var(--sp-5) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-5);}
   .hx-sy-f{display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:var(--sp-6);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--e-sm);}  /* 延續 bento 卡片 */
@@ -5617,8 +5664,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sy-fd{margin:0;font-size:var(--fs-h10);line-height:var(--lh-relaxed,1.7);color:var(--muted);max-width:34em;}
   @media(max-width:1024px){.hx-sy-f{padding:var(--sp-5);} .hx-sy-ic{margin-bottom:var(--sp-5);}}
   @media(max-width:767px){.hx-sy-facts{grid-template-columns:minmax(0,1fr);gap:var(--sp-4);} .hx-sy-f{padding:var(--sp-5);} .hx-sy-ic{margin:0 0 var(--sp-5);}}
-  @media(max-width:767px){.hx-sy-g{grid-template-columns:minmax(0,1fr);gap:var(--sp-3);} .hx-sy-mid{flex-direction:row;min-width:0;} .hx-sy-ar svg{transform:rotate(90deg);} .hx-sy[data-dir="figma"] .hx-sy-ar svg{transform:rotate(-90deg);} .hx-sy-facts li{flex-direction:column;gap:var(--sp-2);}}
-  @media(prefers-reduced-motion:reduce){.hx-sy-c,.hx-sy-val,.hx-sy-sw,.hx-sy-pv .btn,.hx-sy-ar svg{transition:none;}}
+  @media(max-width:767px){/* HOME13:v1 手機：兩台上下疊，各自外側裁切 */ .hx-sy-g{height:auto;display:flex;flex-direction:column;gap:var(--sp-4);padding:var(--sp-5) 0 var(--sp-6);--sy-h:300px;--sy-b:36px;--sy-gap:0px;} .hx-sy-dev[data-side="code"],.hx-sy-dev[data-side="figma"]{position:relative;top:auto;left:auto;right:auto;width:calc(88% + var(--sy-b));} .hx-sy-dev[data-side="code"]{align-self:flex-start;margin-left:calc(-1 * var(--sy-b));} .hx-sy-dev[data-side="figma"]{align-self:flex-end;margin-right:calc(-1 * var(--sy-b));} .hx-sy-ex{width:var(--sy-b);padding:0;} .hx-sy-ex *{visibility:hidden;} .hx-sy-base{margin:0 -14px;height:10px;} .hx-sy-mid{position:relative;left:auto;top:auto;transform:none;flex-direction:row;align-self:center;} .hx-sy-ar{width:48px;height:48px;} .hx-sy-ar svg{transform:rotate(90deg);} .hx-sy[data-dir="figma"] .hx-sy-ar svg{transform:rotate(-90deg);} .hx-sy-ed{font-size:var(--fs-h12);} .hx-sy-edb{line-height:19px;padding:8px 0;} .hx-sy-ln::before{width:2.2em;padding-right:1em;} .hx-sy-tab:not(.is-on){display:none;} .hx-sy-esb span:first-child{display:none;} .hx-sy-pnb{grid-template-columns:minmax(0,1fr);} .hx-sy-pnc{display:none;} .hx-sy-row{grid-template-columns:minmax(0,1fr) auto calc(var(--sy-b) - 4px);gap:8px;padding-left:12px;} .hx-sy-row > em{visibility:hidden;} .hx-sy-facts li{flex-direction:column;gap:var(--sp-2);}}
+  @media(prefers-reduced-motion:reduce){.hx-sy-scr,.hx-sy-ln,.hx-sy-csw,.hx-sy-row,.hx-sy-row code,.hx-sy-sw,.hx-sy-tab b,.hx-sy-ar svg{transition:none;} .hx-sy-ln.is-typ .hx-sy-cur{animation:none;}}
 
   /* HOME9:v1 最新更新＋FAQ：左＝精簡更新列表（版本 tag＋標題＋日期一列）、右＝library Collapse（filled） */
   .hx-nf{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--sp-5);align-items:stretch;}
@@ -16592,21 +16639,35 @@ function buildScheduleChart(view){
   function hxFigma(){ /* HOME9:v1 */
     const sec=ce('section','gd-sec hx-sec hx-sy');sec.id='hxFigma';sec.dataset.dir='code';
     const AR='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,181.66l-32,32a8,8,0,0,1-11.32-11.32L188.69,184H48a8,8,0,0,1,0-16H188.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32A8,8,0,0,1,213.66,181.66Zm-139.32-64a8,8,0,0,0,11.32-11.32L67.31,88H208a8,8,0,0,0,0-16H67.31L85.66,53.66A8,8,0,0,0,74.34,42.34l-32,32a8,8,0,0,0,0,11.32Z"/></svg>';
-    sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">改一邊，另一邊自動跟上</h2><div class="hx-sec-x" id="hxFgX"></div></div>
+    /* HOME13:v1 標題改英文；中段改成兩台筆電：左＝編輯器（tokens.export.json）、右＝Figma Local variables，外側裁切 */
+    const L=(h,ed)=>`<span class="hx-sy-ln"${ed?' data-ed':''}>${h}</span>`;
+    const K=s=>`<span class="hx-sy-k">"${s}"</span><span class="hx-sy-p">:</span> `,S=s=>`<span class="hx-sy-s">${s}</span>`,P=s=>`<span class="hx-sy-p">${s}</span>`;
+    const HX=n=>(hxRootVar(n)||'').toUpperCase(),SW=n=>`<i class="hx-sy-csw" style="background:var(${n})"></i>`;
+    const CL=(k,n,last)=>L(`      ${K(k)}${SW(n)}${S('"'+HX(n)+'"')}${last?'':P(',')}`);
+    const RV=(n,v,d)=>`<div class="hx-sy-row"><span><i class="hx-sy-sw" style="background:var(${v})"></i>${n}</span><code>${HX(v)}</code><em>${d||''}</em></div>`;
+    const MODE=document.documentElement.dataset.theme==='dark'?'Dark':'Light';
+    sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">Code &lt;-&gt; Figma, Auto-connect</h2><div class="hx-sec-x" id="hxFgX"></div></div>
       <div class="hx-sy-g" role="img" aria-label="示意：程式碼裡的 token 改了，Figma 的 Variables 跟著更新；反過來也一樣">
-        <div class="hx-sy-c bento-card" data-side="code">
-          <div class="hx-sy-top"><h3 class="hx-h3">程式碼</h3><code>tokens.export.json</code></div>
-          <div class="hx-sy-box"><pre>"action": {
-  "primary": <span class="hx-sy-val" data-v></span>
-}</pre></div>
-          <div class="hx-sy-pv" data-pv><code>.btn.v-solid</code></div>
-        </div>
+        <div class="hx-sy-dev" data-side="code"><div class="hx-sy-scr"><div class="hx-sy-ed">
+          <div class="hx-sy-ex"><small>EXPLORER</small>${[[0,'cool-ds-library'],[1,'framework'],[1,'library'],[2,'gallery.html'],[2,'component-registry.json'],[1,'projects'],[2,'tokens.export.json',1],[2,'assets'],[1,'sync'],[2,'drift.mjs']].map(([x,t,on])=>`<span style="--x:${x}"${on?' class="is-on"':''}>${t}</span>`).join('')}</div>
+          <div class="hx-sy-em"><div class="hx-sy-edt"><span class="hx-sy-dots"><i></i><i></i><i></i></span><span class="hx-sy-tab is-on">tokens.export.json<b></b></span><span class="hx-sy-tab">button.css</span><span class="hx-sy-tab">gallery.html</span></div>
+          <div class="hx-sy-edb">${[
+            L(P('{')),L(`  ${K('color')}${P('{')}`),L(`    ${K('action')}${P('{')}`),
+            L(`      ${K('primary')}<i class="hx-sy-csw" data-sw></i><span class="hx-sy-s">"<span data-v></span><span class="hx-sy-cur"></span>"</span>${P(',')}`,1),
+            CL('primary-hover','--s-action-primary-hover'),CL('danger','--s-action-danger',1),L(`    ${P('},')}`),
+            L(`    ${K('feedback')}${P('{')}`),CL('info','--s-feedback-info'),CL('success','--s-feedback-success'),CL('warning','--s-feedback-warning',1),L(`    ${P('}')}`),
+            L(`  ${P('},')}`),L(`  ${K('radius')}${P('{')} ${K('sm')}<span class="hx-sy-n">"${hxRootVar('--r-sm')||'4px'}"</span> ${P('}')}`),L(P('}'))].join('')}</div>
+          <div class="hx-sy-esb"><span>main · tokens.export.json</span><span>JSON · UTF-8 · Ln 4</span></div></div>
+        </div></div><div class="hx-sy-base"></div></div>
         <div class="hx-sy-mid"><span class="hx-sy-ar">${AR}</span><span data-st></span></div>
-        <div class="hx-sy-c bento-card" data-side="figma">
-          <div class="hx-sy-top"><h3 class="hx-h3">Figma</h3><code>Local variables</code></div>
-          <div class="hx-sy-box"><div class="hx-sy-var"><i class="hx-sy-sw"></i><span>action/primary</span><b class="hx-sy-val" data-v></b></div></div>
-          <div class="hx-sy-pv" data-pv><code>Button · variant=solid</code></div>
-        </div>
+        <div class="hx-sy-dev" data-side="figma"><div class="hx-sy-scr"><div class="hx-sy-pn">
+          <div class="hx-sy-pnh">Local variables<span>✕</span></div>
+          <div class="hx-sy-pnb"><div class="hx-sy-pnc"><small>Collections</small><span>Primitives</span><span class="is-on">Semantic</span><span>Spacing</span><span>Radius</span></div>
+            <div class="hx-sy-pnt"><div class="hx-sy-row hx-sy-hd"><span>Name</span><span>${MODE}</span><em>Description</em></div>
+              <div class="hx-sy-row" data-row><span><i class="hx-sy-sw" data-sw></i>action/primary</span><code data-v></code><em>主要按鈕、連結</em></div>
+              ${RV('action/primary-hover','--s-action-primary-hover','滑過狀態')}${RV('action/danger','--s-action-danger','刪除、危險操作')}${RV('feedback/info','--s-feedback-info','提示訊息')}${RV('feedback/success','--s-feedback-success','成功狀態')}${RV('feedback/warning','--s-feedback-warning')}${RV('text/1','--s-text-1')}${RV('surface/1','--s-surface-1')}
+              <div class="hx-sy-add">+ Create variable</div></div></div>
+        </div></div><div class="hx-sy-base"></div></div>
       </div>
       <ul class="hx-sy-facts"></ul>`;
     const g=sec.querySelector('.hx-sy-g');g.inert=true;
@@ -16632,23 +16693,35 @@ function buildScheduleChart(view){
       li.querySelector('h3').textContent=k;li.querySelector('p').textContent=t;fl.appendChild(li);});
     if(HX_REDUCE())fl.classList.add('is-in');
     else{const fio=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;fio.disconnect();fl.classList.add('is-in');},{threshold:.3});fio.observe(fl);}
-    const cards={code:sec.querySelector('[data-side="code"]'),figma:sec.querySelector('[data-side="figma"]')};
-    Object.values(cards).forEach(c=>{const b=mkBtn({variant:'solid',intent:'primary',size:'s'});b.querySelector('span').textContent='儲存';c.querySelector('[data-pv]').prepend(b);});
+    /* HOME13:v1 交替同步：從程式碼端＝逐字輸入新 hex（反白該行＋游標）→ Figma 該列閃一下；從 Figma 端＝該列換色 → 程式碼該行跟著更新。
+       只在畫面內＋分頁可見＋未減少動態時播放；hex 一律取 :root 實際解析值 */
+    const dev={code:sec.querySelector('.hx-sy-dev[data-side="code"]'),figma:sec.querySelector('.hx-sy-dev[data-side="figma"]')};
+    const cLn=sec.querySelector('.hx-sy-ln[data-ed]'),cV=cLn.querySelector('[data-v]'),cSw=cLn.querySelector('[data-sw]');
+    const fRow=sec.querySelector('[data-row]'),fV=fRow.querySelector('[data-v]'),fSw=fRow.querySelector('[data-sw]');
     const st=tg('soft','success','已同步');sec.querySelector('[data-st]').appendChild(st);
     const TOK=['--s-action-primary','--accent2','--s-feedback-info','--s-feedback-success'];
-    const paint=(side,i,hit)=>{const c=cards[side];['--i-primary','--i-primary-h','--i-primary-p'].forEach(p=>c.style.setProperty(p,'var('+TOK[i]+')'));
-      const hex=(hxRootVar(TOK[i])||'').toUpperCase();c.querySelector('[data-v]').textContent=side==='code'?'"'+hex+'"':hex;
-      if(hit){c.classList.remove('is-hit');void c.offsetWidth;c.classList.add('is-hit');setTimeout(()=>c.classList.remove('is-hit'),700);}};
+    const hexOf=i=>HX(TOK[i]);
+    let tms=[];const later=(f,ms)=>{tms.push(setTimeout(()=>{if(run)f();},ms));};
+    const flash=(el,cls,ms)=>{el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);later(()=>el.classList.remove(cls),ms);};
+    const setCode=i=>{cV.textContent=hexOf(i);cSw.style.background='var('+TOK[i]+')';};
+    const setFig=i=>{fV.textContent=hexOf(i);fSw.style.background='var('+TOK[i]+')';};
+    const clear=()=>{cLn.classList.remove('is-ed','is-typ');fRow.classList.remove('is-hit');dev.code.classList.remove('is-hit');dev.figma.classList.remove('is-hit');delete sec.dataset.dirty;};
     const setSt=(busy,from)=>{st.classList.remove('i-success','i-info');st.classList.add(busy?'i-info':'i-success');st.querySelector('span').textContent=busy?'同步中':'已同步';if(from)sec.dataset.dir=from;};
-    let k=0,n=0,tm=0,vis=false,run=false;
-    paint('code',0);paint('figma',0);
+    let k=0,n=0,vis=false,run=false;
+    setCode(0);setFig(0);
     const mq=matchMedia('(prefers-reduced-motion:reduce)');
-    const stop=()=>{run=false;clearTimeout(tm);tm=0;};
-    const tick=()=>{if(!sec.isConnected){cleanup();return;}
-      k=(k+1)%TOK.length;const from=n++%2?'figma':'code',to=from==='code'?'figma':'code';
-      paint(from,k,true);setSt(true,from);
-      tm=setTimeout(()=>{if(!run)return;paint(to,k,true);setSt(false);tm=setTimeout(tick,2400);},1000);};
-    const sync=()=>{const want=vis&&!document.hidden&&!mq.matches&&sec.isConnected;if(want&&!run){run=true;tm=setTimeout(tick,1200);}else if(!want&&run){stop();paint('code',k);paint('figma',k);setSt(false);}};
+    const stop=()=>{run=false;tms.forEach(clearTimeout);tms=[];};
+    const done=()=>{setSt(false);later(()=>{clear();},900);later(tick,2600);};
+    const typeCode=(i,cb)=>{const old=cV.textContent,nw=hexOf(i);cLn.classList.add('is-ed','is-typ');sec.dataset.dirty='';
+      let t=300;for(let c=old.length;c>=1;c--){const s=old.slice(0,c-1)||'';later(()=>{cV.textContent=s||'#';},t);t+=45;}
+      for(let c=2;c<=nw.length;c++){const s=nw.slice(0,c);later(()=>{cV.textContent=s;if(c===nw.length)cSw.style.background='var('+TOK[i]+')';},t);t+=85;}
+      later(()=>{cLn.classList.remove('is-typ');delete sec.dataset.dirty;cb();},t+350);};
+    const tick=()=>{if(!sec.isConnected){cleanup();return;}tms=[];
+      k=(k+1)%TOK.length;const from=n++%2?'figma':'code';setSt(true,from);
+      if(from==='code'){flash(dev.code,'is-hit',1400);typeCode(k,()=>{setFig(k);flash(fRow,'is-hit',1600);flash(dev.figma,'is-hit',900);done();});}
+      else{setFig(k);flash(fRow,'is-hit',2200);flash(dev.figma,'is-hit',900);
+        later(()=>{setCode(k);cLn.classList.add('is-ed');flash(dev.code,'is-hit',900);done();},1100);}};
+    const sync=()=>{const want=vis&&!document.hidden&&!mq.matches&&sec.isConnected;if(want&&!run){run=true;later(tick,1000);}else if(!want&&run){stop();clear();setCode(k);setFig(k);setSt(false);}};
     const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;sync();},{threshold:.25});io.observe(g);
     const onVis=()=>sync();document.addEventListener('visibilitychange',onVis);mq.addEventListener('change',onVis);
     const cleanup=()=>{stop();io.disconnect();document.removeEventListener('visibilitychange',onVis);mq.removeEventListener('change',onVis);};
