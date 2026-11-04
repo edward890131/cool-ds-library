@@ -5836,9 +5836,21 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* ⑤ 專案浮動列：Floating Line 原子（toolbar 型態的白底圓角陰影面）置中底部；Tag＋計數＋Button（匯出 outline／下一步 solid） */
   .pjb{position:fixed;left:50%;bottom:calc(var(--sp-5) + env(safe-area-inset-bottom,0px));z-index:34;transform:translateX(-50%);
     gap:var(--sp-4);padding:var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3);max-width:calc(100vw - var(--sp-5) * 2);box-sizing:border-box;
-    animation:pjb-in var(--dur-default) var(--ease-out);}
+    animation:pjb-in var(--dur-slow) var(--ease-spring) both;}
+  .pjb.pjb-enter{animation:pjb-in var(--dur-slow) var(--ease-spring) both;}
   .pjb[hidden]{display:none;}
-  @keyframes pjb-in{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
+  @keyframes pjb-in{from{opacity:0;transform:translate(-50%,24px) scale(.96);}to{opacity:1;transform:translate(-50%,0) scale(1);}}
+  @keyframes pjb-in-m{from{opacity:0;transform:translateY(100%);}to{opacity:1;transform:none;}}
+  /* 反白浮動列：與元件庫的浮動批次列（Table Toolbar .ttb-bar）同一套——--ink 底、--panel 字、--r-md、--e-xl；深色模式自動反轉 */
+  .flo-toolbar.pjb{background:var(--ink);color:var(--panel);border-color:transparent;border-radius:var(--r-md);box-shadow:var(--e-xl);}
+  .pjb .pjb-cnt{color:color-mix(in srgb,var(--panel) 70%,transparent);}
+  .pjb .pjb-cnt b{color:var(--panel);}
+  .pjb .pjb-cnt .pjb-sep{color:color-mix(in srgb,var(--panel) 40%,transparent);}
+  .pjb .pjb-tag.tg{background:color-mix(in srgb,var(--panel) 14%,transparent);color:var(--panel);border-color:transparent;}
+  .pjb .pjb-exp.btn{--edge:color-mix(in srgb,var(--panel) 28%,transparent);--fg:var(--panel);--tint:color-mix(in srgb,var(--panel) 14%,transparent);--tint2:color-mix(in srgb,var(--panel) 24%,transparent);background:transparent;color:var(--panel);}
+  .pjb .pjb-exp.btn:hover:not(:disabled){background:var(--tint);}
+  .pjb .pjb-next.btn{--fill:var(--panel);--fill-h:color-mix(in srgb,var(--panel) 86%,var(--ink));--fill-p:color-mix(in srgb,var(--panel) 74%,var(--ink));--on:var(--ink);}
+  .pjb .btn:focus-visible{outline:2px solid var(--panel);outline-offset:1px;}
   .pjb .pjb-tag{flex:0 1 auto;min-width:0;max-width:200px;}
   .pjb .pjb-tag > span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .pjb-cnt{font-family:var(--font-sans);font-size:var(--fs-h11);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;}
@@ -5848,7 +5860,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   body.has-pjb .main{padding-bottom:calc(96px + 56px + env(safe-area-inset-bottom,0px));}   /* 浮動列不蓋住頁尾內容 */
   body:has(> .rwd-ovl:not([hidden])) .pjb{display:none;}                                    /* 響應式預覽開著時讓位給裝置框說明列 */
   @media(max-width:599px){
-    .pjb{left:0;right:0;bottom:0;width:100%;max-width:none;transform:none;border-radius:0;border-width:1px 0 0;animation:none;
+    .flo-toolbar.pjb{border-radius:0;} .pjb,.pjb.pjb-enter{animation:pjb-in-m var(--dur-slow) var(--ease-spring) both;}
+    .pjb{left:0;right:0;bottom:0;width:100%;max-width:none;transform:none;border-radius:0;border-width:1px 0 0;
       padding:var(--sp-3) var(--container-pad) calc(var(--sp-3) + env(safe-area-inset-bottom,0px));}
     .pjb .pjb-tag{display:none;}
     .pjb-cnt{flex:1 1 auto;min-width:0;white-space:normal;line-height:1.45;}
@@ -17477,7 +17490,12 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const regen=flwBtn('outline','secondary','依問卷重算');
     regen.onclick=()=>{FLW.proposal=flwBuildProposal();FLW.applied=false;flwSave();flwRenderStep(false);};
     const upd=()=>{st.textContent=FLW.applied?'已套用：token 已換、需求匯總已勾選 '+SUMSEL.size+' 個元件。':'還沒套用，按下後才會改到網站。';};
-    ap.onclick=()=>{flwApplyProposal();ap.querySelector('span').textContent='重新套用提案';st.classList.remove('is-err');upd();};
+    /* 套用後：關閉流程 → 直接到 Design Token 頁開始調整（流程進到「調整」步驟），底部專案浮動列進場 */
+    ap.onclick=()=>{flwApplyProposal();st.classList.remove('is-err');
+      FLW.step=Math.max(FLW.step,4);FLW.max=Math.max(FLW.max,FLW.step);flwSave();
+      flwClose({noFocus:true});renderView('tokens');
+      requestAnimationFrame(()=>{const b=document.getElementById('flwPill');if(b){b.classList.remove('pjb-enter');void b.offsetWidth;b.classList.add('pjb-enter');}
+        if(typeof dsToast==='function')dsToast('已套用提案，在這裡調整 token');});};
     act.append(ap,regen,st);body.appendChild(act);upd();
     ctx.valid=()=>{if(!FLW.applied){st.textContent='請先按「套用到網站」，下一步要在網站上調整。';st.classList.add('is-err');ap.focus();return false;}return true;};
   }
