@@ -5851,6 +5851,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .pjb .pjb-tag.tg{background:color-mix(in srgb,var(--panel) 14%,transparent);color:var(--panel);border-color:transparent;}
   .pjb .pjb-exp.btn{--edge:color-mix(in srgb,var(--panel) 28%,transparent);--fg:var(--panel);--tint:color-mix(in srgb,var(--panel) 14%,transparent);--tint2:color-mix(in srgb,var(--panel) 24%,transparent);background:transparent;color:var(--panel);}
   .pjb .pjb-exp.btn:hover:not(:disabled){background:var(--tint);}
+  .pjb .pjb-rst.btn{--fg:color-mix(in srgb,var(--panel) 78%,transparent);--tint:color-mix(in srgb,var(--panel) 14%,transparent);color:var(--fg);}
+  .pjb .pjb-rst.btn:hover{background:var(--tint);color:var(--panel);}
   .pjb .pjb-next.btn{--fill:var(--panel);--fill-h:color-mix(in srgb,var(--panel) 86%,var(--ink));--fill-p:color-mix(in srgb,var(--panel) 74%,var(--ink));--on:var(--ink);}
   .pjb .btn:focus-visible{outline:2px solid var(--panel);outline-offset:1px;}
   .pjb .pjb-tag{flex:0 1 auto;min-width:0;max-width:200px;}
@@ -17592,14 +17594,17 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       const acts=ce('div','pjb-acts');
       const ex=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});ex.type='button';ex.classList.add('pjb-exp');
       const nx=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true,trail:true});nx.type='button';nx.classList.add('pjb-next');
-      acts.append(ex,nx);el.append(tg,cnt,acts);document.body.appendChild(el);
+      const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('pjb-rst');rs.querySelector('span').textContent='重新開始';
+      rs.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
+        onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();flwOpen();}});   // 同流程內「重新開始」：清草稿後回到第 1 步
+      acts.append(rs,ex,nx);el.append(tg,cnt,acts);document.body.appendChild(el);el.__rs=rs;
       el.__tg=tg;el.__cnt=cnt;el.__ex=ex;el.__nx=nx;}
     const c=pjCounts(),last=FLW_STEPS.length-1;
     el.__tg.querySelector('span').textContent=proj?(window.__dsProject+' · v'+(window.__dsVersion||0)):(FLW.info.name||'未命名專案');
     el.__tg.title=proj?'專案模式':'專案進行中 · 步驟 '+(FLW.step+1)+' / '+FLW_STEPS.length+' '+FLW_STEPS[FLW.step].label;
     el.__cnt.innerHTML='<span class="pjb-c">已設定 <b>'+c.tok+'</b> 項 token</span><span class="pjb-sep" aria-hidden="true">·</span><span class="pjb-c">已選 <b>'+c.sel+'</b> 個元件</span>';
     el.__cnt.title='token 覆寫 '+c.ov+' 項 · 元件綁定 '+c.bd+' 項';
-    const ex=el.__ex,nx=el.__nx;
+    const ex=el.__ex,nx=el.__nx;if(el.__rs)el.__rs.style.display=proj?'none':'';   // ?project= 模式沒有流程草稿可清
     if(proj){ex.style.display='none';nx.querySelector('span').textContent='儲存並更新';nx.onclick=()=>{if(typeof dsSave==='function')dsSave();};}   // ?project=：沒有開新專案流程，主要動作＝寫回專案
     else{ex.style.display='';ex.querySelector('span').textContent='匯出';
       const can=!!FLW.applied;ex.disabled=!can;ex.classList.toggle('st-disabled',!can);ex.title=can?'直接到「匯出」步驟下載專案 zip':'先在「提案」步驟按「套用到網站」';ex.onclick=pjbExport;
