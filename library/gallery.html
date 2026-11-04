@@ -4166,6 +4166,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .theme-toggle-left{margin-left:var(--sp-4);}
   /* Studio 版本彈窗（Phase F：專案元件庫版本化）*/
   .ds-ovl{position:fixed;inset:0;background:var(--s-scrim);display:flex;align-items:center;justify-content:center;z-index:9999;padding:var(--sp-5);}
+  .mdl-overlay.ds-ovl{z-index:9999;}  /* 確認框疊在其他 Modal（例如開新專案）之上 */
   .ds-dlg{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--e-2xl);max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;}
   .ds-dlg-hd{padding:var(--sp-5) var(--sp-5) var(--sp-3);border-bottom:1px solid var(--line);}
   .ds-dlg-ttl{font-size:var(--fs-h8);font-weight:600;color:var(--ink);}
@@ -16185,21 +16186,44 @@ function buildScheduleChart(view){
     });
     return out;
   }
+  /* 全站確認框：一律取用 library Modal 元件——單純確認＝popup（置中小卡＋並排按鈕）；帶變更清單／自訂內容＝modal（標題列＋可捲內容＋右對齊 footer） */
   function dsDialog(o){
     const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-    const ovl=document.createElement('div');ovl.className='ds-ovl';
-    const dlg=document.createElement('div');dlg.className='ds-dlg';
-    let bd;
+    const ovl=ce('div','mdl-overlay mdl-fixed ds-ovl');
+    let bd=null;
     if(o.changes&&o.changes.length)bd='<ul class="ds-chg">'+o.changes.map(c=>'<li class="'+c.t+'">'+esc(c.s)+'</li>').join('')+'</ul>';
-    else if(o.changes)bd='<div style="color:var(--muted);font-size:var(--fs-h11)">沒有變更。</div>';
-    else bd=o.bodyHTML||'';
-    dlg.innerHTML='<div class="ds-dlg-hd"><div class="ds-dlg-ttl">'+esc(o.title)+'</div>'+(o.sub?'<div class="ds-dlg-sub">'+esc(o.sub)+'</div>':'')+'</div><div class="ds-dlg-bd">'+bd+'</div>';
-    const ft=document.createElement('div');ft.className='ds-dlg-ft';
-    const close=()=>ovl.remove();
-    if(o.cancelText){const c=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});c.type='button';c.querySelector('span').textContent=o.cancelText;c.onclick=close;ft.appendChild(c);}
-    if(o.okText){const k=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true});k.type='button';k.querySelector('span').textContent=o.okText;k.onclick=()=>{close();o.onOk&&o.onOk();};ft.appendChild(k);}
-    dlg.appendChild(ft);ovl.appendChild(dlg);document.body.appendChild(ovl);
-    ovl.addEventListener('click',e=>{if(e.target===ovl)close();});
+    else if(o.changes)bd='<p class="mdl-desc">沒有變更。</p>';
+    else if(o.bodyHTML)bd=o.bodyHTML;
+    let card,cancel=null,ok=null;
+    if(bd==null){                                   // popup：標題＋說明＋次／主並排
+      card=ce('div','mdl-card mdl-kind-popup');const body=ce('div','mdl-pop-body');
+      const t=ce('div','mdl-pop-title');t.id='dsDlgT';t.textContent=o.title;body.appendChild(t);
+      if(o.sub){const d=ce('p','mdl-desc');d.textContent=o.sub;body.appendChild(d);}
+      card.appendChild(body);
+      const arrange=o.cancelText&&o.okText?'row':(o.okText?'primary':'secondary');
+      const foot=mdlPopFoot({secondary:esc(o.cancelText||''),primary:{cls:o.danger?'i-danger':'i-primary',label:esc(o.okText||'')}},{arrange},true);
+      card.appendChild(foot);cancel=foot.querySelector('[data-mdl-cancel]');ok=foot.querySelector('.v-solid');
+    }else{                                          // modal：header（標題＋副標＋×）＋內容＋footer
+      card=ce('div','mdl-card mdl-kind-modal');const head=ce('div','mdl-mhead');const ht=ce('div','mdl-mhead-txt');
+      ht.innerHTML='<div class="mdl-title" id="dsDlgT">'+esc(o.title)+'</div>'+(o.sub?'<div class="mdl-sub">'+esc(o.sub)+'</div>':'');
+      const x=mdlClose(false);x.type='button';head.append(ht,x);card.appendChild(head);
+      const ct=ce('div','mdl-content');ct.innerHTML=bd;card.appendChild(ct);
+      const foot=mdlModalFoot({cancel:esc(o.cancelText||'取消'),confirm:esc(o.okText||'確定')},true);
+      cancel=foot.querySelector('[data-mdl-cancel]');ok=foot.querySelector('.v-solid');
+      if(!o.cancelText&&cancel)cancel.remove();if(!o.okText&&ok){ok.remove();ok=null;}
+      card.appendChild(foot);x.onclick=()=>close();
+    }
+    card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-labelledby','dsDlgT');card.tabIndex=-1;
+    const ret=document.activeElement;
+    const key=e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();}};
+    function close(){document.removeEventListener('keydown',key,true);ovl.classList.add('is-closing');afterAnim(ovl,()=>ovl.remove());
+      if(ret&&ret.isConnected&&ret.focus)ret.focus({preventScroll:true});}
+    if(cancel){cancel.type='button';cancel.onclick=close;}
+    if(ok){ok.type='button';ok.onclick=()=>{close();o.onOk&&o.onOk();};}
+    ovl.appendChild(card);document.body.appendChild(ovl);
+    document.addEventListener('keydown',key,true);
+    ovl.addEventListener('mousedown',e=>{if(e.target===ovl)close();});
+    requestAnimationFrame(()=>(ok||cancel||card).focus({preventScroll:true}));
   }
   // CTA：先算 diff，確認再寫；無 proj（公開/無 server）仍給 diff 確認後下載
   function dsSave(){
