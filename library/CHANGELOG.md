@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-11-04（四十五）　Favicon 與分享封面
+
+- **Favicon** 換成新 logo：深色圓角方塊＋白色 cdl 字標＋橘色方點；SVG 為主、32px PNG 備援、180px apple-touch-icon，皆以 data URI 內嵌。
+- **分享封面**：新增 `library/assets/og-cover.png`（1200×630，標語 Tune one token, every component follows.）；補 `og:*`、`twitter:card`（summary_large_image）、description 與 theme-color。封面以絕對網址 `https://cool-ds-library.vercel.app/library/assets/og-cover.png` 指定，合併到 main、Vercel 部署後生效。
+
 ## 2026-11-04（四十四）　試玩預設、header 排列、側欄待調整項
 
 - **Token 試玩**預設陰影改「無」、外框深淺預設 35%；預覽卡底色淺色更淺（混白）、深色更深（混黑）。
