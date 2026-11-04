@@ -5101,8 +5101,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-win-h span{font-size:var(--fs-h11);color:var(--muted);}
 
   /* 試玩區：左側控制面板（sticky）＋右側預覽；覆寫只寫在 #hxPv */
-  .hx-pgx{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--sp-6);align-items:start;width:100%;min-width:0;}
-  .hx-pnl{position:sticky;top:var(--sp-5);display:flex;flex-direction:column;min-width:0;max-height:calc(100dvh - 104px);background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--e-md);overflow:hidden;}
+  /* HOME4-PLAY:v1 操作區＋展示區＝同一張牌卡：外框／圓角／陰影只在 .hx-pgx；左右欄 stretch 等高。
+     面板 contain:size → 不參與列高，高度＝預覽高度，內容多時 .hx-pnl-b 內捲；窄版（≤767）改上下堆疊、面板回自然高度 */
+  .hx-pgx{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:0;align-items:stretch;width:100%;min-width:0;box-sizing:border-box;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--e-md);overflow:hidden;}
+  .hx-pnl{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;contain:size;background:var(--panel);border-right:1px solid var(--line);overflow:hidden;}
   .hx-pnl-h{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5);border-bottom:1px solid var(--line);}
   .hx-pg-t{font-family:var(--font-mono);font-size:var(--fs-h11);font-weight:var(--fw-semibold);letter-spacing:.06em;color:var(--ink);}
   .hx-pnl-n{margin-left:auto;font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
@@ -5142,8 +5145,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
      所有牌卡共用同一套樣式（.hx-bc）：圓角 --r-lg、陰影 --e-md、外框 --hx-bw＋--line、底色 --panel、內距 --sp-5、標題列同結構同字級。
      欄數用容器查詢（看預覽寬度，不看視窗）：寬＝6 欄格、中＝3＋3、窄＝單欄。 */
   .hx-pv{--hx-bw:1px;--hx-bc-r:var(--radius);--hx-bc-pad:var(--sp-5);container-type:inline-size;min-width:0;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);box-sizing:border-box;
-    background:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/18px 18px,var(--canvas);color:var(--ink);font-family:var(--font-sans);
-    border:var(--hx-bw) solid var(--line);border-radius:var(--r-md);box-shadow:var(--e-sm);
+    background:var(--canvas);color:var(--ink);font-family:var(--font-sans);
+    border:0;border-radius:0;box-shadow:none;
     transition:background-color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
   /* 頂列：不是牌卡，是這個介面的頁首 */
   .hx-pvb{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3) var(--sp-4);flex-wrap:wrap;min-width:0;}
@@ -5165,8 +5168,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-bc{display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;box-sizing:border-box;margin:0;padding:var(--hx-bc-pad);
     background:var(--panel);color:var(--ink);border:var(--hx-bw) solid var(--line);border-radius:var(--hx-bc-r);box-shadow:var(--e-md);
     transition:border-radius var(--dur-default) var(--ease-out),box-shadow var(--dur-default) var(--ease-out),padding var(--dur-default) var(--ease-out),background-color var(--dur-default) var(--ease-out);}
-  .hx-bc-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);height:28px;min-width:0;} /* 標題列固定高度：右側放 Segmented／文字按鈕時也不會把卡片撐高 */
-  .hx-bc-t{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);line-height:1.3;letter-spacing:0;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  .hx-bc-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);min-width:0;} /* 標題列高度＝內容高度（不再固定 28px）：純文字標題時上內距＝左右內距；同列兩卡都有控制項時等高 */
+  .hx-bc-t{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);line-height:1.25;letter-spacing:0;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
   .hx-bc-x{display:flex;align-items:center;gap:var(--sp-2);flex:0 0 auto;font-size:var(--fs-h11);color:var(--muted);white-space:nowrap;}
   .hx-bc-b{flex:1 1 auto;display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
   /* KPI：數字列＋底列，三張同結構 */
@@ -5198,7 +5201,18 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-bc-fm .fld{width:100%;max-width:none;} .hx-bc-fm .field{width:100%;box-sizing:border-box;}
   .hx-fm-r{display:flex;flex-direction:column;gap:var(--sp-2);min-width:0;}
   .hx-fm-sw{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);font-size:var(--fs-h11);color:var(--ink);cursor:pointer;}
-  .hx-fm-acts{margin-top:auto;display:flex;justify-content:flex-end;gap:var(--sp-2);flex-wrap:wrap;}
+  /* 快速新增：欄位、優先度、通知、按鈕列四段等距（最小 --sp-4，卡片被同列撐高時平均分配），按鈕列上方分隔線 */
+  .hx-bc-fm .hx-bc-b{gap:var(--sp-4);justify-content:space-between;}
+  .hx-fm-acts{margin-top:0;padding-top:var(--sp-4);border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:var(--sp-2);flex-wrap:wrap;}
+  @container (min-width:460px) and (max-width:619px){.hx-bc-fm .hx-fm-acts{grid-column:1/-1;}}
+  /* 待辦卡封面：Image 原子（imEl rounded）＋照片 CARD_COVER（data URI，原檔 assets/photos/dusk-white-set.webp）；左下角疊 Tag 原子 */
+  /* 封面高度彈性：基準 72px（contain:size 讓它不撐高列），同列另一張卡較高時由封面吃掉多出來的高度，清單維持緊湊 */
+  .hx-cv{position:relative;flex:1 1 72px;min-height:72px;min-width:0;contain:size;}
+  .hx-bc-ts .hx-bc-b{flex:0 0 auto;}
+  .hx-cv .im-box{display:block;width:100%;height:100%;aspect-ratio:auto;border-radius:var(--r-md);border-width:var(--hx-bw);}
+  .hx-cv .tg{position:absolute;left:var(--sp-3);bottom:var(--sp-3);}
+  /* 預覽內圖表跟試玩主輔色：系列 1（線／面積／長條 A／hover 點）＝主色、系列 2（長條 B、進階圖 --s-chart-2）＝輔助色。只在 #hxPv 內覆寫，全站圖表不變 */
+  .hx-pv .cht-box{--accent:var(--s-action-primary);--ok:var(--accent2);--s-chart-2:var(--accent2);}
   .hx-pv :is(.bpf,.mtc,.field,.hx-chcard,.tg.v-outline){border-width:var(--hx-bw);}
   .hx-pv .btn.v-outline{border-width:var(--hx-bw);}
   /* 圖表卡外框（同 .cht-card 視覺），圓角／內距走 slot */
@@ -5358,7 +5372,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-faq .cps-body a{color:var(--ink);}
 
   @media(max-width:1280px){
-    .hx-pgx{grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:var(--sp-5);}
+    .hx-pgx{grid-template-columns:minmax(0,300px) minmax(0,1fr);}
     .hx-show{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"spark spark" "prof mtc" "rank gauge" "psc todo" "grp tok";}
   }
   @media(max-width:1024px){
@@ -5371,7 +5385,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-cta > .btn{flex:1 1 0;justify-content:center;}
     .hx-strip ul{gap:var(--sp-2) var(--sp-4);}
     .hx-pgx{grid-template-columns:minmax(0,1fr);}
-    .hx-pnl{position:static;max-height:none;}
+    .hx-pnl{position:static;max-height:none;contain:none;border-right:0;border-bottom:1px solid var(--line);}
     .hx-pnl-more{display:inline-flex;margin-left:var(--sp-1);}
     .hx-pnl.is-collapsed .hx-grp:not(:first-child){display:none;}
     .hx-pnl.is-collapsed .hx-grp:first-child{border-bottom:0;}
@@ -15080,15 +15094,13 @@ function buildScheduleChart(view){
      3 動態展示：卡片與圖表自動示範，只放元件本身；滑過暫停、捲出畫面暫停、減少動態時不自動播放
      4 四步流程 → #start　5 Figma 同步與 token　6 最新更新＋FAQ */
   const HX_REDUCE=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const HX_DEF={primary:'brand',primaryC:'#7C3AED',second:'brand2',secondC:'#0EA5E9',tint:'none',tintC:'#F59E0B',tintK:8,theme:0,radius:4,bw:1,shadow:2,font:0,weight:1,scale:100,density:100,motion:100};
+  const HX_DEF={primary:'brand',primaryC:'#7C3AED',second:'brand2',secondC:'#0EA5E9',theme:0,radius:4,bw:1,shadow:2,font:0,weight:1,scale:100,density:100,motion:100};
   const HX_ST=Object.assign({},HX_DEF);
   /* 色票：全部取既有 primitive token（淺／深色各一階）；第一個＝不覆寫 */
   const HX_PRIM=[{k:'brand',label:'品牌預設',light:'--c-brand-500',dark:'--c-brand-200'},{k:'orange',label:'品牌橘',light:'--c-brand2-500',dark:'--c-brand2-400'},
     {k:'blue',label:'資訊藍',light:'--c-info-600',dark:'--c-info-400'},{k:'green',label:'成功綠',light:'--c-success-600',dark:'--c-success-400'},{k:'violet',label:'紫',light:'--c-violet-600',dark:'--c-violet-400'}];
   const HX_SEC=[{k:'brand2',label:'預設輔助色（品牌橘）',light:'--c-brand2-500',dark:'--c-brand2-400'},{k:'blue',label:'資訊藍',light:'--c-info-500',dark:'--c-info-400'},
     {k:'green',label:'成功綠',light:'--c-success-500',dark:'--c-success-400'},{k:'violet',label:'紫',light:'--c-violet-500',dark:'--c-violet-400'}];
-  const HX_TINT=[{k:'none',label:'不染色',light:'--c-neutral-300',dark:'--c-neutral-600',none:true},{k:'warm',label:'暖色',light:'--c-brand2-500',dark:'--c-brand2-400'},
-    {k:'cool',label:'冷色',light:'--c-info-500',dark:'--c-info-400'},{k:'violet',label:'紫色',light:'--c-violet-500',dark:'--c-violet-400'},{k:'accent',label:'跟主色',light:'--c-brand-500',dark:'--c-brand-200',accent:true}];
   const HX_FONTS=[{label:'Geist',v:null},{label:'系統黑體',v:'system-ui,-apple-system,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif'},{label:'明體',v:"'Noto Serif TC','Songti TC','PMingLiU',serif"}];
   const HX_SHADOW=['無','淡','預設','重'];
   const hxRootVar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -15106,7 +15118,10 @@ function buildScheduleChart(view){
       for(const r of rs){if(!r.style||!r.selectorText)continue;const s=r.selectorText.trim();
         if(s===':root')take(r,alias,true);else if(s===':root[data-theme="dark"]')take(r,dark,false);else if(s===':root[data-theme="light"]')take(r,light,false);}}
     return (HX_SHEET={alias,light,dark});}
-  const hxPrevDark=()=>HX_ST.theme===2||(HX_ST.theme===0&&hxSiteDark());
+  /* 預覽主題：0＝淺色、1＝深色。載入時跟網站當下主題；使用者切過就固定（HX_THEME_USER），按「重設」回到跟網站 */
+  let HX_THEME_USER=false;
+  const hxSiteTheme=()=>hxSiteDark()?1:0;
+  const hxPrevDark=()=>HX_ST.theme===1;
   const hxSw=(list,k,dark)=>{const s=list.find(x=>x.k===k)||list[0];return 'var('+(dark?s.dark:s.light)+')';};
 
   /* 依 HX_ST 算出「使用者改了什麼」（只含覆寫，給讀數與複製用）；預覽容器另外加上別名＋主題語意層 */
@@ -15116,9 +15131,6 @@ function buildScheduleChart(view){
       o['--s-action-primary']=C;o['--s-action-primary-hover']='color-mix(in srgb,'+C+' 86%,var(--s-text-1))';o['--s-action-primary-press']='color-mix(in srgb,'+C+' 72%,var(--s-text-1))';
       o['--s-action-primary-tint']='color-mix(in srgb,'+C+' 12%,transparent)';o['--s-action-primary-tint2']='color-mix(in srgb,'+C+' 22%,transparent)';o['--s-on-primary']=on;}
     if(HX_ST.second!=='brand2')o['--accent2']=HX_ST.second==='custom'?HX_ST.secondC:hxSw(HX_SEC,HX_ST.second,dark);
-    if(HX_ST.tint!=='none'&&HX_ST.tintK>0){const T=HX_ST.tint==='custom'?HX_ST.tintC:HX_ST.tint==='accent'?(o['--s-action-primary']||TH['--s-action-primary']||'var(--c-brand-500)'):hxSw(HX_TINT,HX_ST.tint,dark);
-      const k=HX_ST.tintK;[['--s-surface-canvas',k*1.6],['--s-surface-1',k],['--s-surface-2',k*1.3],['--s-surface-3',k*1.5],['--s-border-1',k*1.8],['--s-border-2',k*1.8]].forEach(([n,p])=>{
-        o[n]='color-mix(in srgb,'+T+' '+Math.min(60,Math.round(p))+'%,'+(TH[n]||hxRootVar(n))+')';});}
     if(HX_ST.radius!==HX_DEF.radius){const f=HX_ST.radius/(hxPx('--r-sm')||4);['--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-2xl','--r-3xl'].forEach(n=>{if(hxRootVar(n))o[n]=Math.round(hxPx(n)*f*10)/10+'px';});}
     if(HX_ST.bw!==HX_DEF.bw)o['--hx-bw']=HX_ST.bw+'px';
     if(HX_ST.shadow!==2){const E=['--e-sm','--e-md','--e-lg','--e-xl','--e-2xl'],val=n=>TH[n]||hxRootVar(n);
@@ -15170,12 +15182,14 @@ function buildScheduleChart(view){
     sumP=i=>{sb.textContent=SUM[i][0];sm.textContent=SUM[i][1];sg.querySelector('span').textContent=SUM[i][2];};sumP(0);
     chW=chartOf(0);ch.appendChild(chW);
     /* 團隊 */
-    const tm=card('tm','團隊成員',btn('text','secondary','s','邀請'));
+    const tm=card('tm','團隊成員',btn('soft','secondary','s','邀請'));
     [['林語晨','設計主責','林','accent','online'],['陳柏宇','前端工程','陳','brand2','away'],['王思妤','專案經理','王','sec','online'],['李承恩','品質測試','李','accent','offline']].forEach(([n,r,i,tone,st])=>{
       const m=ce('div','hx-mem');m.appendChild(avtEl('s','circle','initials',{initials:i,tone,status:st,name:n}));
       const nm=ce('div','hx-mem-n');const b=ce('b');b.textContent=n;nm.append(b,meta(r));m.appendChild(nm);tm.appendChild(m);});
     /* 待辦：整列可點切換完成 */
     const cnt=meta('');const ts=card('ts','待辦任務',cnt);
+    const cv=ce('div','hx-cv');const im=imEl('rounded','default','m',{alt:'春季活動主視覺 v3'});const ig=im.querySelector('img');
+    if(ig){ig.loading='eager';ig.src=CARD_COVER;}cv.append(im,tag('solid','brand','主視覺 v3 · 待確認'));ts.before(cv);
     const recount=()=>{const all=ts.querySelectorAll('.hx-task'),done=ts.querySelectorAll('.hx-task.is-done');cnt.textContent=done.length+' / '+all.length+' 完成';};
     const task=(text,label,intent,done,first)=>{const r=ce('button','hx-task');r.type='button';r.setAttribute('role','checkbox');
       const paint=on=>{r.classList.toggle('is-done',on);r.setAttribute('aria-checked',String(on));const c=cbxEl(on?'checked':'default','s');const old=r.querySelector('.cbx');if(old)old.replaceWith(c);else r.prepend(c);};
@@ -15222,7 +15236,7 @@ function buildScheduleChart(view){
       ci.oninput=()=>{HX_ST[ckey]=ci.value;HX_ST[key]='custom';cu.style.setProperty('--sw-c',ci.value);paint();refresh();};
       ci.onclick=()=>{if(HX_ST[key]!=='custom'){HX_ST[key]='custom';paint();refresh();}};
       cu.innerHTML='<span class="hx-sw-plus" aria-hidden="true">'+ICON_PENCIL+'</span>';cu.appendChild(ci);w.appendChild(cu);paint();return w;};
-    /* 色號欄：左＝色票預覽（點開選色器）、右＝輸入色號；欄位空白＝回到預設（底色染色空白＝不染色） */
+    /* 色號欄：左＝色票預覽（點開選色器）、右＝輸入色號；欄位空白＝回到預設 */
     const colorIn=(list,key,ckey,lb)=>{const def=list[0],dark=hxPrevDark();
       const defHex=def.none?'':hxHex(hxRgb('var('+(dark?def.dark:def.light)+')'));
       const cur=HX_ST[key]==='custom'?HX_ST[ckey].toUpperCase():HX_ST[key]===def.k?defHex:hxHex(hxRgb('var('+((list.find(x=>x.k===HX_ST[key])||def)[dark?'dark':'light'])+')'));
@@ -15236,9 +15250,7 @@ function buildScheduleChart(view){
     const g1=grp('顏色');
     row(g1,'主色',colorIn(HX_PRIM,'primary','primaryC','主色'));
     row(g1,'輔助色',colorIn(HX_SEC,'second','secondC','輔助色'));
-    row(g1,'底色染色',colorIn(HX_TINT,'tint','tintC','底色染色'));
-    row(g1,null,sld('染色強度','tintK',0,24,1,v=>v+'%'));
-    row(g1,'預覽主題',seg(['跟隨網站','淺色','深色'],'theme','預覽主題'));
+    row(g1,'預覽主題',sgmEl('outline','s',{live:true,full:true,items:['淺色','深色'],active:HX_ST.theme,label:'預覽主題',onChange:i=>{HX_ST.theme=i;HX_THEME_USER=true;refresh();}}));
     const g2=grp('形狀');
     row(g2,null,sld('元件圓角','radius',0,16,1,v=>v+'px'));
     row(g2,null,sld('外框粗細','bw',0,3,1,v=>v+'px'));
@@ -15294,7 +15306,7 @@ function buildScheduleChart(view){
       cnt.textContent=ks.length?'已改 '+ks.length+' 個 token':'';
       if(reset)reset.disabled=!ks.length;if(copy)copy.disabled=!ks.length;};
     reset=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});reset.querySelector('span').textContent='重設';
-    reset.onclick=()=>{Object.assign(HX_ST,HX_DEF);hxPanel(pnl,pv,refresh);refresh();};
+    reset.onclick=()=>{Object.assign(HX_ST,HX_DEF);HX_THEME_USER=false;HX_ST.theme=hxSiteTheme();hxPanel(pnl,pv,refresh);refresh();};
     copy=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});copy.querySelector('span').textContent='複製 CSS 變數';
     copy.onclick=()=>{const t=css(last);const done=()=>{copy.querySelector('span').textContent='已複製';setTimeout(()=>{if(copy.isConnected)copy.querySelector('span').textContent='複製 CSS 變數';},1600);};
       try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{hxCopyFallback(t);done();});else{hxCopyFallback(t);done();}}catch(e){hxCopyFallback(t);done();}};
@@ -15303,8 +15315,9 @@ function buildScheduleChart(view){
     const tg=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true,trail:true});tg.classList.add('hx-pnl-more');
     const setC=c=>{pnl.classList.toggle('is-collapsed',c);tg.querySelector('span').textContent=c?'更多選項':'收合';tg.setAttribute('aria-expanded',String(!c));};
     tg.onclick=()=>setC(!pnl.classList.contains('is-collapsed'));hero.querySelector('#hxPnlTg').appendChild(tg);setC(matchMedia('(max-width:767px)').matches);
+    if(!HX_THEME_USER)HX_ST.theme=hxSiteTheme();
     hxPanel(pnl,pv,refresh);refresh();
-    const re=()=>{if(pv.isConnected)refresh();};
+    const re=()=>{if(!pv.isConnected)return;if(!HX_THEME_USER){const t=hxSiteTheme();if(t!==HX_ST.theme){HX_ST.theme=t;hxPanel(pnl,pv,refresh);}}refresh();};
     if(!window.__hxThemeWatch){window.__hxThemeWatch=true;
       matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>setTimeout(()=>window.__hxRetheme&&window.__hxRetheme(),30));
       new MutationObserver(()=>setTimeout(()=>window.__hxRetheme&&window.__hxRetheme(),30)).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class']});}
