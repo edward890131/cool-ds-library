@@ -5937,6 +5937,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
   @media(prefers-reduced-motion:reduce){.pjb{animation:none;}}
   /* Display 字（Epilogue）統一：各頁標題類文字，壓過個別元件裡寫死的 --font-mono（小型標籤、eyebrow、程式碼、字體標本維持原字） */
+  /* eyebrow（L3 COMPONENT · …）與控制區／篩選器的軸標籤（VARIANT、SIZE、CONTENT…）改用 display 字；保留大寫＋字距 */
+  html body :is(.eyebrow,.ctl .lab,.axis .name){font-family:var(--font-display);font-weight:var(--fw-semibold);letter-spacing:.08em;}
   html body :is(.gd-sec-n,.gd-sec-t,.hx-h3,.tok-sec-t,.dg-sectitle,.cl-ver,.gd-card-ic,.hm-nav,.gm-brand,.hm-brand,.dh-title,.bh-t,.gd-hero-t,.gd-h1,.dg-h1,.cl-title,.st-title,.sum-title){font-family:var(--font-display);}
 </style>
 
