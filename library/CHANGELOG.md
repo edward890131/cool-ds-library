@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-04（十三）　所有元件頁改用 bento 版面；長選項改下拉
+
+- **元件頁 bento 化**：除 Logo（品牌資產上傳頁）外，所有元件頁沿用 Button 頁版型——第一列控制｜預覽｜變數篩選＋Token 綁定（可拖寬）、第二列 HTML｜SCSS、內容段落（標題在卡外、內容一張卡）、最後狀態一覽表預設收合；拿掉 spec 列、分隔線與「互動預覽與程式碼」「變數與 Token」段落標題。依預覽寬度自動選三欄／兩欄／寬版（控制橫排、預覽滿寬，用在 header、footer、app-shell、table、table-toolbar、modal、drawer 等）。selector 依 checkbox／radio 各一組；input 子元件、tab item 各成段落；progress、calendar 無程式碼列。`PAGE_LAYOUT[id]='classic'` 可退回舊版。
+- **長選項改下拉**：互動預覽的選項超過 6 個（或設定 `as:'select'`）改用 Dropdown 元件——Chart 圖型（14 種）、Tag intent、Icon。被變數篩選器關掉的選項會停用，鍵盤可操作、點外面收合。
+- 手機寬度下 header、input、list、table-toolbar 原本會撐出橫向捲動，現在寬預覽在卡片內部捲動。
+
 ## 2026-11-04（十二）　首頁第五輪：元件牆跑馬燈、動態展示錯落 bento、段落 bento 化
 
 - **Token 試玩預覽**：待辦卡拿掉封面、改 6 項＋完成進度；團隊成員改成人物照片小卡（Person Card 的相框＋站內照片）；快速新增加入負責人（下拉）、截止日（Date Picker）、優先度、標籤（多選）、說明、通知成員，新增／清除改 s 尺寸放到卡片右上角；「進行中」tag 文字修正為綠色。

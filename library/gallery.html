@@ -644,6 +644,46 @@
   /* 磨砂偏好：卡片屬網站 chrome → 跟著模糊；預覽舞台／矩陣格／示意列仍由既有規則釘回實心 */
   html[data-frost] :is(.bento-ctl,.bento .dcard){backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));-webkit-backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));}
   .bento-top.is-1col>.bento-stage.live-stage{min-height:160px;padding:var(--sp-6);}
+  /* ===== BENTO-ALL:v1 其他元件頁自動套 bento（bentoifyPage；.bento[data-bento-auto]）=====
+     預覽需要的寬度由 wireBento 量測（max-content）：放得下→三欄；放不下→兩欄；再放不下→「寬版」is-wide（控制項橫排一列、預覽滿寬、篩選器＋Token 下一列）。 */
+  .bento-top.is-wide{grid-template-columns:minmax(0,1fr);grid-template-areas:"ctl" "stage" "side";row-gap:var(--sp-5);}
+  .bento-top.is-wide>.bento-rz{display:none;}
+  .bento-top.is-wide>.bento-ctl{flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:var(--sp-5) var(--sp-7);}
+  .bento-top.is-wide>.bento-ctl .seg{display:inline-flex;width:auto;}
+  .bento-top.is-wide>.bento-ctl .checks{flex-direction:row;flex-wrap:wrap;gap:var(--sp-3) var(--sp-5);}
+  .bento-top.is-wide>.bento-ctl .ctl-sel{min-width:240px;}
+  .bento-top.is-wide>.bento-ctl>.bento-cap,.bento-top.is-wide>.bento-ctl>.bento-note{flex-basis:100%;}
+  .bento[data-bento-auto] .bento-top:is(.is-2col,.is-wide)>.bento-side{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:start;}
+  .bento[data-bento-auto] .bento-stage{min-width:0;}
+  .bento[data-bento-auto] .bento-ctl .seg{display:flex;flex-wrap:wrap;}            /* 選項多時換行，不撐破控制項卡 */
+  .bento[data-bento-auto] .bento-ctl .seg button{flex:1 1 auto;}
+  .bento-side .dcard-head .dh-count.bento-keep{display:inline;}                       /* 沒有狀態一覽表的頁：變體數留在篩選器標頭 */
+  .bento-ctl .bento-cap{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .bento-ctl .bento-note{margin:0;font-family:var(--font-sans);font-size:var(--fs-h11);line-height:1.6;color:var(--muted);}
+  .bento .bento-sec > :not(h2) + :not(h2){margin-top:var(--sp-4);}                   /* 段落內多張卡（子矩陣＋Live）之間的間距 */
+  .bento .bento-sec > .livewrap,.bento .bento-sec > [class$="-live-block"]{margin-bottom:0;}
+  .bento-mtx .bento-mtx-sub{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);margin:var(--sp-6) 0 var(--sp-3);}
+  .famhead.bento-fam{border-top:0;padding-top:0;margin:var(--sp-8) 0 0;}
+  .famhead.bento-fam:first-child{margin-top:var(--sp-6);}
+  .famhead.bento-fam + .bento{margin-top:var(--sp-4);}
+  /* 長選項清單（> 6 個或 as:'select'）→ library Dropdown（ddField）；控制項卡內滿寬 */
+  .ctl-sel{width:100%;min-width:0;}
+  .ctl-sel .field.dd{width:100%;min-width:0;box-sizing:border-box;}
+  .bento-ctl .ctl-sel{display:block;}
+  .ctl .ddwrap.ctl-sel{min-width:220px;}
+  .bento-ctl .ddwrap.ctl-sel{min-width:0;}
+  .ddopt.is-off{opacity:.4;cursor:not-allowed;}
+  .ddopt.is-off:hover{background:transparent;color:var(--ink);}
+  .bento[data-bento-auto] .bento-ctl .checks:has(> :nth-child(9)){display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--sp-3) var(--sp-4);} /* 勾選很多（chart）→ 兩欄，控制項卡不要拉太長 */
+  /* 手機：預覽／段落內 Live 太寬時在卡內橫捲，不撐出整頁橫向捲動 */
+  @media(max-width:767px){
+    .bento[data-bento-auto] .bento-stage{overflow-x:clip;}
+    .bento[data-bento-auto][data-stage="wide"] .bento-stage{overflow-x:auto;justify-content:flex-start;}
+    .bento .bento-sec .livewrap{min-width:0;}
+    .bento .bento-sec .livewrap>.live-stage{overflow-x:auto;justify-content:flex-start;}
+    .bento .bento-sec .livewrap .seg{flex-wrap:wrap;}
+    .bento .bento-sec>.lst-sel-grid{overflow-x:auto;}
+  }
   /* live 可輸入欄位（裸 input 嵌在 .field 容器內，hover/focus 為真）*/
   .field.live-field{cursor:text;}
   .field .bare{border:none;background:transparent;outline:none;flex:1;min-width:40px;font:inherit;color:var(--ink);padding:0;}
@@ -5985,7 +6025,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* ===== Bento 元件頁版型（可重用）=====
      PAGE_LAYOUT[id]==='bento' 的元件頁改用 bentoHTML()＋wireBento()：Row1 三欄（控制項｜預覽｜篩選器＋Token，可拖曳調寬）、
      Row2 HTML｜SCSS 並排、其後內容段落卡、最後「狀態一覽表」預設收合。目前只有 button 切過來，其他頁維持原版型。 */
-  const PAGE_LAYOUT={button:'bento'};
+  const PAGE_LAYOUT={button:'bento',logo:'classic'}; // BENTO-ALL:v1 其餘 BUILD 頁預設 'bento'（bentoifyPage）；'classic'＝維持舊版型（logo＝品牌資產頁，沒有 Live／篩選器）
   function bentoHTML(o){
     const sec=s=>`<section class="block bento-sec"${s.id?` id="${s.id}"`:''}><h2><span class="bh-t">${s.title}</span>${s.sub?`<span class="bh-d">${s.sub}</span>`:''}</h2>${s.html}</section>`;
     const m=o.matrix;
@@ -6008,7 +6048,13 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   function wireBento(root){
     const top=root&&root.querySelector('.bento-top'); if(!top)return;
     const KEY='ds-bento-w:'+(root.dataset.bento||'page');
-    const MIN1=240,MIN3=280,MINS=280,GAP=()=>{const rz=top.querySelector('.bento-rz');return rz?rz.getBoundingClientRect().width||16:16;};
+    const MIN1=240,MIN3=280,MINS0=280,GAP=()=>{const rz=top.querySelector('.bento-rz');return rz?rz.getBoundingClientRect().width||16:16;};
+    // BENTO-ALL:v1 自動頁（data-bento-auto）：量預覽內容的 max-content 寬度當預覽欄下限；data-stage="wide" 直接走寬版
+    const AUTO=root.hasAttribute('data-bento-auto'), stg=top.querySelector(':scope>.bento-stage');
+    function measure(){ if(!AUTO||!stg)return MINS0; if(root.dataset.stage==='wide')return 99999;
+      const s=stg.style,keep=s.cssText; s.width='max-content';s.maxWidth='none';s.minWidth='0';s.justifySelf='start';
+      const w=Math.ceil(stg.getBoundingClientRect().width); s.cssText=keep; return Math.max(MINS0,w); }
+    let MINS=measure();
     const DEF1=264,DEF3=400;   // 設計稿：控制項 233（無內距）→ 卡片含 --sp-5 內距約 264；右欄 400
     let saved={}; try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(_){saved={};}
     const w={c1:saved.c1||null,c3:saved.c3||null};      // null＝用預設
@@ -6016,8 +6062,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     const cw=()=>top.clientWidth;
     function layout(pri){
       const W=cw(); if(!W)return;
-      const g=GAP(); const m=W>=MIN1+MINS+MIN3+g*2?'3':(W>=MIN1+MINS+g?'2':'1');
-      if(m!==mode){mode=m;top.classList.toggle('is-2col',m==='2');top.classList.toggle('is-1col',m==='1');}
+      const g=GAP(); const m=W>=MIN1+MINS+MIN3+g*2?'3':(W>=MIN1+MINS+g?'2':(MINS>MINS0&&W>=560?'w':'1'));  // 'w'＝寬版（BENTO-ALL:v1）
+      if(m!==mode){mode=m;top.classList.toggle('is-2col',m==='2');top.classList.toggle('is-1col',m==='1');top.classList.toggle('is-wide',m==='w');}
       let c1=w.c1||DEF1, c3=w.c3||Math.min(DEF3,Math.max(MIN3,W*.34));
       if(m==='3'){ const room=W-g*2-MINS;                   // 拖哪欄就先夾那欄（不擠鄰欄，只吃預覽欄）；容器變窄時兩欄一起退到最小值
         if(pri==='c3'){ c3=Math.max(MIN3,Math.min(c3,room-MIN1)); c1=Math.max(MIN1,Math.min(c1,room-c3)); }
@@ -6035,7 +6081,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     top.querySelectorAll('.bento-rz').forEach(rz=>{
       const k=rz.dataset.i==='1'?'c1':'c3', dir=k==='c1'?1:-1;  // 欄1 往右拖變寬；欄3 往左拖變寬
       let x0=0,w0=0,drag=false;
-      rz.addEventListener('pointerdown',e=>{ if(mode==='1')return; drag=true;x0=e.clientX;w0=cur(k);
+      rz.addEventListener('pointerdown',e=>{ if(mode==='1'||mode==='w')return; drag=true;x0=e.clientX;w0=cur(k);
         rz.classList.add('is-drag');document.body.classList.add('is-resizing');try{rz.setPointerCapture(e.pointerId);}catch(_){} e.preventDefault(); });
       rz.addEventListener('pointermove',e=>{ if(!drag)return; w[k]=w0+dir*(e.clientX-x0); layout(k); });
       const end=()=>{ if(!drag)return; drag=false; rz.classList.remove('is-drag');document.body.classList.remove('is-resizing'); w[k]=cur(k); commit(); };
@@ -6051,6 +6097,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     layout();
     if(top.__ro)top.__ro.disconnect();
     if(window.ResizeObserver){top.__ro=new ResizeObserver(()=>layout());top.__ro.observe(top);}
+    if(AUTO&&stg&&root.dataset.stage!=='wide'){let q=0;new MutationObserver(()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;const n=measure();if(n!==MINS){MINS=n;layout();}});}).observe(stg,{childList:true});} // 控制項換掉預覽節點→重量寬度
     // 狀態一覽表：.dcard-head 由全域委派切 collapsed；這裡同步 aria-expanded 與「展開／收合」字樣
     root.querySelectorAll('.bento-mtx').forEach(sec=>{const h=sec.querySelector('.dcard-head'),a=sec.querySelector('.dh-act');
       const sync=()=>{const open=!sec.classList.contains('collapsed');h.setAttribute('aria-expanded',String(open));if(a)a.textContent=open?'收合':'展開';};
@@ -6069,6 +6116,93 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       {title:'Content 內容軸（boolean）',sub:'<code>show-label</code>／<code>show-leading-icon</code>／<code>show-trailing-icon</code>；<code>show-label=false</code> 的 icon-only 取代舊 icon-button。',html:'<div class="row-demo" id="boolRow"></div>'}],
     matrix:{title:'狀態一覽表',sub:'State × Intent',countId:'countOut',bodyId:'matrix'}
   });}
+
+  /* ===== BENTO-ALL:v1 其他元件頁套用 Button 的 bento 版型（renderView 在 BUILD＋renderBindPanel 之後呼叫）=====
+     不改各 BUILD：渲染完把既有節點（closure 都還在）搬進 bento 欄位——
+       主 Live（第一個 .livewrap）：.ctl → 控制項卡、.live-stage → 預覽舞台、.live-code → Row2 HTML 卡（＋鏡像一張 SCSS 卡）；
+       變數篩選器／Token 綁定 → 右欄；其餘段落 → 內容段落（標題在卡外）；第一個「…矩陣／陳列」段 → 最後的「狀態一覽表」（預設收合，標頭帶變體數）。
+     有 famhead 且自帶 Live／篩選器的家族（selector＝checkbox＋radio）→ 每組一個 bento；只有說明＋示意的 famhead 組（input 子元件、tab-item）→ 內容段落。
+     規格表 strip、head-rule、「互動預覽與程式碼」「變數與 Token」段標題都不再出現。離屏的 flwCompCode／需求匯總 Live 不經過這裡（不受影響）。 */
+  const BENTO_STAGE={header:'wide',footer:'wide','app-shell':'wide','schedule-chart':'wide',table:'wide','table-toolbar':'wide',modal:'wide',drawer:'wide'}; // 預覽天生要滿寬的頁
+  const BENTO_LIVE2={price:'數值 Metric 互動預覽'};                    // 第二組 Live 沒有小標時的段落標題
+  function bentoSec(title,sub,nodes,id){const s=ce('section','block bento-sec');if(id)s.id=id;
+    s.innerHTML=`<h2><span class="bh-t">${title}</span>${sub?`<span class="bh-d">${sub}</span>`:''}</h2>`;
+    nodes.forEach(n=>{if(n.style)n.style.marginBottom='';s.appendChild(n);});return s;}
+  function bentoMirrorCode(src){const h=ce('div','live-code');const cp=makeCodePanel(h,'');cp.setTab('css');if(src.__cpMirror)src.__cpMirror(cp);return h;} // SCSS 卡＝同一個面板的鏡像
+  function bentoifyPage(view,id){
+    if((PAGE_LAYOUT[id]||'bento')!=='bento')return false;
+    const host=view.querySelector('#cbody'); if(!host)return false;
+    const isSec=el=>el.matches('section.block');
+    const ttl=el=>((el.querySelector(':scope>h2 .bh-t')||{}).textContent||'').trim();
+    const isLive=el=>isSec(el)&&(/^互動預覽/.test(ttl(el))||!!el.querySelector('.livewrap'));
+    const groups=[[]];[...host.children].forEach(el=>{if(el.classList.contains('famhead'))groups.push([el]);else groups[groups.length-1].push(el);});
+    const isCore=g=>g.some(el=>isLive(el)||el.id==='sec-vartoken'||el.matches('.dcard'));
+    if(!groups.some(isCore))return false;
+    view.querySelectorAll(':scope>.head-rule,:scope>.spec,:scope>footer').forEach(e=>e.remove());
+    const out=[];let cur=null,n=0;
+    groups.forEach(g=>{ if(!g.length)return;
+      const fam=g[0].classList.contains('famhead')?g.shift():null;
+      if(isCore(g)){ n++; if(fam){fam.classList.add('bento-fam');out.push(fam);} cur=bentoGroup(g,id,n); out.push(cur.root); return; }
+      let sub='';if(fam&&g[0]&&g[0].tagName==='P'&&!g[0].className)sub=g.shift().innerHTML;
+      const items=fam?[bentoSec((fam.querySelector('.fz')||fam).textContent.trim(),sub,g)]:g;
+      items.forEach(it=>cur?cur.add(it):out.push(it));
+    });
+    host.innerHTML='';out.forEach(e=>host.appendChild(e));
+    host.querySelectorAll(':scope>.bento').forEach(b=>wireBento(b));
+    return true;
+  }
+  function bentoGroup(g,id,n){
+    const isSec=el=>el.matches('section.block');
+    const ttl=el=>((el.querySelector(':scope>h2 .bh-t')||{}).textContent||'').trim();
+    const root=ce('div','bento');root.dataset.bento=id+(n>1?'-'+n:'');root.setAttribute('data-bento-auto','');if(BENTO_STAGE[id])root.dataset.stage=BENTO_STAGE[id];
+    const top=ce('div','bento-top'),ctl=ce('div','bento-card bento-ctl'),side=ce('div','bento-side'),code=ce('div','bento-code');
+    side.dataset.bentoSlot='vartoken';
+    const rz=i=>{const r=ce('div','bento-rz');r.dataset.i=i;r.setAttribute('role','separator');r.setAttribute('aria-orientation','vertical');r.tabIndex=0;
+      r.setAttribute('aria-label',i==='1'?'調整控制項欄寬度':'調整篩選器與 Token 欄寬度');r.title='拖曳調整寬度 · 方向鍵微調 · 雙擊還原';return r;};
+    const liveSec=g.find(el=>isSec(el)&&(/^互動預覽/.test(ttl(el))||!!el.querySelector('.livewrap')));
+    const vt=g.find(el=>el.id==='sec-vartoken');
+    const mtxs=g.filter(el=>isSec(el)&&el!==liveSec&&el!==vt&&/矩陣|陳列/.test(ttl(el)));
+    const cards=[...g.filter(el=>el.matches('.dcard')),...(vt?[...vt.querySelectorAll(':scope>.dcard')]:[])];
+    cards.sort((a,b)=>a.classList.contains('bind-dcard')-b.classList.contains('bind-dcard')).forEach(c=>side.appendChild(c));
+    const early=[],secs=[];
+    let stage=null;
+    if(liveSec){ const lws=[...liveSec.querySelectorAll('.livewrap')], capOf=w=>{const blk=w.parentElement!==liveSec?w.parentElement:null;return {blk,cap:blk&&blk.querySelector(':scope>[class$="-live-cap"]')};};
+      const lw=lws[0];
+      if(lw){ const {cap}=capOf(lw); if(cap){const c=ce('div','bento-cap');c.textContent=cap.textContent.trim();ctl.appendChild(c);}
+        const cr=lw.querySelector(':scope>.ctl-row');if(cr)[...cr.children].forEach(c=>ctl.appendChild(c));
+        stage=lw.querySelector(':scope>.live-stage');if(stage)stage.classList.add('bento-stage');
+        const lc=lw.querySelector(':scope>.live-code');if(lc)code.append(lc,bentoMirrorCode(lc));
+        const note=lw.querySelector(':scope>.live-note'),free=lw.querySelector(':scope>.live-free');
+        if(free){free.classList.add('row-demo');early.push(bentoSec('快速對照',note?note.innerHTML.replace(/^\s*↓\s*/,''):'',[free]));}
+        else if(note){note.className='bento-note';ctl.appendChild(note);} }
+      lws.slice(1).forEach((w,i)=>{const {blk,cap}=capOf(w);const t=cap?cap.textContent.trim():(BENTO_LIVE2[id]||'互動預覽 '+(i+2));if(cap)cap.remove();early.push(bentoSec(t,'',[blk||w]));});
+    }
+    if(stage){top.append(ctl,rz('1'),stage,rz('2'),side);}else{top.classList.add('is-wide');top.append(side);} // 沒有 Live：只剩右欄卡片一列
+    let last=null;
+    g.forEach(el=>{ if(el===liveSec||el===vt||mtxs.includes(el)||el.matches('.dcard'))return;
+      if(isSec(el)){el.classList.add('bento-sec');el.style.marginBottom='';secs.push(el);last=el;}
+      else if(last){last.appendChild(el);}          // 段落後面直接 append 到 body 的散件（如 skeleton 第二排）歸回前一段
+      else secs.push(el); });
+    let mtx=null;
+    const filter=side.querySelector('.dcard:not(.bind-dcard)'),cnt=filter&&filter.querySelector('.dh-count');
+    if(mtxs.length){ mtx=mtxs[0];
+      const sub=escHTML(ttl(mtx).replace(/\s*矩陣/,'').trim());
+      if(!mtx.id)mtx.id='sec-matrix'+(n>1?'-'+n:'');
+      const body=ce('div','dcard-body');body.id=mtx.id+'-body';
+      mtxs.forEach((m,i)=>{const h=m.querySelector(':scope>h2');
+        if(i){const s=ce('div','bento-mtx-sub');s.textContent=ttl(m);body.appendChild(s);}
+        [...m.children].filter(e=>e!==h).forEach(e=>body.appendChild(e)); if(i)m.remove();});
+      const h2=document.createElement('h2');
+      h2.innerHTML=`<button type="button" class="dcard-head" aria-expanded="false" aria-controls="${body.id}"><span class="dh-title bh-t">狀態一覽表</span>${sub?`<span class="dh-sub">${sub}</span>`:''}<span class="dh-act">展開</span><span class="dh-chevron">${ICON_CARET}</span></button>`;
+      if(cnt)h2.querySelector('.dh-act').before(cnt);                // 篩選器的變體數（同一個節點，updateCount 照常更新）搬到一覽表標頭
+      mtx.className='block dcard bento-mtx collapsed';mtx.style.marginBottom='';mtx.innerHTML='';mtx.append(h2,body);
+    } else if(cnt)cnt.classList.add('bento-keep');
+    root.append(top);
+    if(code.children.length)root.append(code);
+    [...early,...secs].forEach(s=>root.appendChild(s));
+    if(mtx)root.appendChild(mtx);
+    return {root,add:el=>{ if(!el.matches('section.block'))el=bentoSec('','',[el]);el.classList.add('bento-sec');if(mtx)root.insertBefore(el,mtx);else root.appendChild(el);}};
+  }
 
   function renderSpecStrip(){
     const rows=[['axes','<code>variant × intent × state × size</code>'],['formula','<code>4 × 3 × 4 × 3 = 144</code> 全展'],
@@ -6374,10 +6508,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     function ensureCss(){if(cssRaw==null&&cssProvider){try{cssRaw=cssProvider();}catch(e){cssRaw='/* CSS 產生失敗 */';}}}
     function activate(t){active=t;tabH.setAttribute('aria-pressed',t==='html');tabC.setAttribute('aria-pressed',t==='css');if(t==='css')ensureCss();bodyEl.scrollTop=0;paint();}
     tabH.onclick=()=>activate('html');tabC.onclick=()=>activate('css');
+    const mirrors=[];host.__cpMirror=m=>{mirrors.push(m);m.set(htmlRaw);if(cssProvider)m.setCssProvider(cssProvider);}; // BENTO-ALL:v1 bento 的 SCSS 卡：鏡像這個面板的 HTML／CSS 產生器
     copy.onclick=()=>{if(navigator.clipboard)navigator.clipboard.writeText(cur());const s=copy.querySelector('span');const o=s.textContent;swapText(s,'已複製 ✓');setTimeout(()=>swapText(s,o),1200);};
     return {
-      set(r){htmlRaw=r;if(active==='html')paint();},                       // 相容舊呼叫：設 HTML（切換控制項時每次更新）
-      setCssProvider(fn){cssProvider=fn;cssRaw=null;if(active==='css'){ensureCss();paint();}},  // 設 CSS 產生器（lazy，只在看 CSS 分頁時執行）
+      set(r){htmlRaw=r;if(active==='html')paint();mirrors.forEach(m=>m.set(r));},                       // 相容舊呼叫：設 HTML（切換控制項時每次更新）
+      setCssProvider(fn){cssProvider=fn;cssRaw=null;if(active==='css'){ensureCss();paint();}mirrors.forEach(m=>m.setCssProvider(fn));},  // 設 CSS 產生器（lazy，只在看 CSS 分頁時執行）
       setTab(t){activate(t==='css'?'css':'html');}                          // 外部指定分頁（展開 modal 沿用來源分頁）
     };
   }
@@ -6470,6 +6605,14 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     const segRefs=[]; // 供篩選器連動時更新各 seg 選項 disabled
     (cfg.segs||[]).forEach(s=>{
       const c=ce('div','ctl');c.innerHTML=`<span class="lab">${s.label}</span>`;
+      if(s.as==='select'||(s.as!=='seg'&&s.options.length>LIVE_SELECT_MAX)){ // BENTO-ALL:v1 選項太多 → library Dropdown（ddField），行為同 seg
+        const dd=ddField('outline',{options:s.options.map((o,i)=>({value:o,label:s.labels?s.labels[i]:o})),value:state[s.key],
+          onChange:v=>{state[s.key]=v;sync(v);rerender();}});
+        dd.classList.add('ctl-sel');const trg=dd.querySelector('.field.dd');if(trg)trg.setAttribute('aria-label',s.label);
+        const opts=[...dd.querySelectorAll('.ddopt')];
+        opts.forEach((el,i)=>{el.dataset.val=s.options[i];const go=el.onclick;el.onclick=()=>{if(el.disabled)return;go();};}); // 篩選器停用的選項不可選（滑鼠／Enter 都走 onclick）
+        function sync(v){const val=dd.querySelector('.dd-body .val');opts.forEach((el,i)=>{const on=el.dataset.val===v;el.classList.toggle('sel',on);el.setAttribute('aria-selected',on?'true':'false');if(on&&val)val.textContent=el.textContent;});}
+        c.appendChild(dd);ctlRow.appendChild(c);segRefs.push({key:s.key,btns:opts,sync});return;}
       const seg=ce('div','seg');const btns=[];
       s.options.forEach((o,i)=>{const b=document.createElement('button');b.textContent=s.labels?s.labels[i]:o;b.dataset.val=o;
         b.setAttribute('aria-pressed',state[s.key]===o);
@@ -6499,12 +6642,13 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     if(!inSummary)applyLiveLayout(wrap,resizer);
     // 依篩選器 active 停用未勾軸值選項；若目前選中的值被停用，改跳到第一個仍啟用值
     function syncActive(){ if(!gActive){rerender();return;}
-      segRefs.forEach(({key,btns})=>{ const set=gActive[key], full=gAxes&&gAxes[key]; if(!set||!full)return;
+      segRefs.forEach(({key,btns,sync})=>{ const set=gActive[key], full=gAxes&&gAxes[key]; if(!set||!full)return;
         let cur=state[key];
         if(full.includes(cur)&&!set.has(cur)){const first=btns.find(b=>full.includes(b.dataset.val)&&set.has(b.dataset.val));if(first)cur=first.dataset.val;}
         state[key]=cur;
         btns.forEach(b=>{const v=b.dataset.val, gated=full.includes(v), on=!gated||set.has(v);
-          b.disabled=!on; b.classList.toggle('is-off',!on); b.setAttribute('aria-pressed',String(v===cur));});
+          b.disabled=!on; b.classList.toggle('is-off',!on); b.setAttribute('aria-pressed',String(v===cur)); if(sync)b.setAttribute('aria-disabled',String(!on));});
+        if(sync)sync(cur);
       });
       rerender();
     }
@@ -6515,6 +6659,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* ===== 各元件「實際操作 Live」共用 registry ===== 元件頁與「複雜度確認」頁共用同一份，改一處兩邊同步 */
   const LIVE={};
   const LIVE_REFRESH=new Map(); // 篩選器 active 物件 → 該頁 Live syncActive fns（換頁 clear）
+  const LIVE_SELECT_MAX=6; // BENTO-ALL:v1 seg 選項超過這個數（或 seg 設 as:'select'）→ 改用 Dropdown；as:'seg' 強制維持分段
   LIVE.button=(host)=>mountLive(host,{
     initial:{variant:'solid',intent:'primary',size:'m',lead:false,trail:false,disabled:false},
     segs:[{key:'variant',label:'Variant',options:AXES.variant},{key:'intent',label:'Intent',options:AXES.intent},{key:'size',label:'Size',options:AXES.size}],
@@ -12651,7 +12796,7 @@ function buildArticleCard(view){
         donutCenter:true,donutLegend:true,
         sparkLine:true,sparkPeriod:true,brushMA:true,areaSeries:'4',areaToggle:true,stackScale:'count',comboLayout:'split',
         rankSort:'desc',rankVals:true,gaugeTarget:true,funnelStages:'5',funnelRates:true,heatSteps:'6',heatLegend:true},
-      segs:[{key:'variant',label:'Variant',options:vOpts,labels:vOpts.map(v=>zh.variant[v]||v)},
+      segs:[{key:'variant',label:'Variant',as:'select',options:vOpts,labels:vOpts.map(v=>zh.variant[v]||v)}, // BENTO-ALL:v1 圖表類型太多→下拉
             {key:'size',label:'Size',options:['m','s'],labels:['M','S']},
             {key:'areaSeries',label:'系列數 series',options:['2','3','4']},
             {key:'stackScale',label:'刻度 scale',options:['count','percent'],labels:['筆數','百分比']},
@@ -15644,7 +15789,7 @@ function buildScheduleChart(view){
     else if(id==='tokens'){renderTokens(view);}
     else if(id==='button'&&PAGE_LAYOUT.button==='bento'){view.innerHTML=buttonBentoHTML();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');wireBento(view.querySelector('.bento'));} // bento 版型（不跑 reorderSections：順序由版型決定）
     else if(id==='button'){view.innerHTML=buttonViewHTML();renderSpecStrip();renderAxes();renderMatrix();renderSizes();renderBooleans();renderCount();renderLive();renderBindPanel(view,'button');reorderSections(view);} // 「互動預覽與程式碼」段落移到「變數與 Token」下方
-    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);reorderSections(view);} // 集中掛綁定卡（無 TOKEN_SLOTS 則 early-return）＋統一段落順序
+    else if(BUILD[id]){BUILD[id](view);renderBindPanel(view,id);if(!bentoifyPage(view,id))reorderSections(view);} // BENTO-ALL:v1 預設套 bento 版型；PAGE_LAYOUT[id]='classic' 或沒有 Live／篩選器的頁維持舊版 // 集中掛綁定卡（無 TOKEN_SLOTS 則 early-return）＋統一段落順序
     else if(item&&item.st==='planned'){view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p><span class="nav-plan" style="margin-right:6px">${item.pr||''}</span>規劃中元件（2026-11-03 差距分析建議新增）。</p><p>${item.note||''}</p><div class="axhint">完成前不會出現在需求匯總與匯出；建置時請補 DIAL_SPECS（軸）並把 st 改為 ready。</div></div>`;}
     else{view.innerHTML=`<div class="placeholder"><div class="em">🧩</div><h2>${item.name}</h2><p>這顆元件還沒定案。先在已完成的元件上把「元件該多複雜」的模式定下來，我再用同一套方式套到這裡。</p><div class="axhint">預定軸：variant × state × size（＋各自的內容軸）</div></div>`;}
     document.querySelectorAll('.nav-item').forEach(el=>el.setAttribute('aria-current',el.dataset.id===id));
