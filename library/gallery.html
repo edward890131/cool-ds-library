@@ -5526,7 +5526,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-step::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--canvas);opacity:calc(min(var(--hx-st-p),1)*.4);pointer-events:none;}
   .hx-step-tx{display:flex;flex-direction:column;justify-content:center;gap:var(--sp-4);padding:var(--sp-7);min-width:0;}
   .hx-step-h{margin:0;font-family:var(--font-display);font-size:var(--fs-h5);font-weight:var(--fw-semibold);line-height:1.2;letter-spacing:-.01em;color:var(--ink);text-wrap:balance;}
-  .hx-step-n{color:var(--muted);font-weight:var(--fw-regular,400);font-variant-numeric:tabular-nums;margin-right:var(--sp-4);}
   .hx-step-d{margin:0;font-size:var(--fs-h9);line-height:var(--lh-relaxed);color:var(--muted);max-width:34ch;}
   .hx-step-a{display:flex;align-items:center;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);margin-top:var(--sp-4);}
   .hx-step-v{position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-8) var(--sp-7);background:var(--panel-2);border-radius:var(--r-lg);overflow:hidden;min-width:0;}
@@ -5540,7 +5539,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-pick{display:flex;align-items:center;gap:var(--sp-3);font-size:var(--fs-h10);color:var(--ink);padding:var(--sp-3) 0;border-bottom:1px solid var(--line);}
   .hx-pick:last-child{border-bottom:0;}
   .hx-pick .hx-pick-m{margin-left:auto;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);}
-  .hx-fl-end{margin-top:var(--sp-6);}
+  .hx-fl-end{margin:0;} /* HOME11:v1 移到第 4 步按鈕下 */
   @media(max-width:1024px){
     .hx-step{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);}
     .hx-step-tx{padding:var(--sp-5);} .hx-step-h{font-size:var(--fs-h6);}
@@ -5555,6 +5554,23 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-step-v{padding:var(--sp-6) var(--sp-4);}
   }
   @media(prefers-reduced-motion:reduce){.hx-step{transform:none;} .hx-step::after{display:none;}}
+  /* HOME11:v1 Step 眉標（display 字、淡色）＋右側示意動畫（只在畫面內播；減少動態＝靜態終態） */
+  .hx-step-k{font-family:var(--font-display);font-size:var(--fs-h10);font-weight:var(--fw-medium);line-height:1;letter-spacing:.02em;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:calc(var(--sp-2) - var(--sp-4));}
+  .hx-step-v .prg-fill{transition:none;} /* 寬度由 JS ease-out 補間驅動 */
+  .hx-step-v .drz-files{min-height:var(--hx11-drz-h,128px);}
+  .hx-step-v .cbx{transition:background-color var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out);}
+  .hx-step-v .cbx.st-checked svg{animation:hx11-ck var(--dur-default) var(--ease-out) both;}
+  @keyframes hx11-ck{from{opacity:0;transform:scale(.4);}to{opacity:1;transform:none;}}
+  .hx-st2 .tg,.hx-st2 .hx-step-sw i{transition:background-color var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
+  .hx-st2 .btn{transition:background var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
+  .hx-st2[data-sty="0"]{--btn-radius:var(--r-xs);} .hx-st2[data-sty="0"] .hx-step-sw i{border-radius:var(--r-xs);}
+  .hx-st2[data-sty="1"]{--btn-radius:var(--r-md);} .hx-st2[data-sty="1"] .hx-step-sw i{border-radius:var(--r-md);}
+  .hx-st2[data-sty="2"]{--btn-radius:var(--r-pill);--i-primary:var(--accent2);--i-primary-h:color-mix(in srgb,var(--accent2) 88%,var(--ink));--i-primary-p:color-mix(in srgb,var(--accent2) 78%,var(--ink));
+    --i-primary-tint:var(--accent2-tint);--i-primary-tint2:var(--accent2-tint2);--primary-on:var(--accent2-on);--accent:var(--accent2);}
+  .hx-st2[data-sty="2"] .hx-step-sw i{border-radius:var(--r-pill);}
+  .hx-fl-ok{opacity:0;transform:translateY(4px);transition:opacity var(--dur-default) var(--ease-out),transform var(--dur-default) var(--ease-out);}
+  .hx-fl-ok.is-on{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){.hx-step-v .cbx.st-checked svg{animation:none;} .hx-st2 .tg,.hx-st2 .btn,.hx-st2 .hx-step-sw i,.hx-step-v .cbx,.hx-fl-ok{transition:none;}}
 
   /* HOME9:v1 Figma 同步：程式碼卡 ⇄ Figma 卡，token 值在一邊改、另一邊跟著更新（自動播放；離開畫面／減少動態時停）＋三點說明 */
   .hx-sy-g{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:var(--sp-5);align-items:stretch;}
@@ -16409,43 +16425,78 @@ function buildScheduleChart(view){
     return sec;
   }
 
-  function hxFlow(){ /* HOME9:v1 → HOME10:v1 arqe 式 sticky 堆疊大卡 */
-    const sec=ce('section','gd-sec hx-sec');sec.id='hxFlow';
-    sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">四個步驟，開好一個新專案</h2></div>
-      <ol class="hx-steps" id="hxSteps"></ol>
-      <p class="hx-sub hx-fl-end">中途關掉也沒關係，草稿會幫你留著。</p>`;
+  function hxFlow(){ /* HOME9:v1 → HOME10:v1 arqe 式 sticky 堆疊大卡 → HOME11:v1 去區塊標題、Step 序號眉標、右側示意自動播放、只有第 4 步放 CTA */
+    const sec=ce('section','gd-sec hx-sec');sec.id='hxFlow';sec.setAttribute('aria-label','四個步驟，開好一個新專案');
+    sec.innerHTML=`<ol class="hx-steps" id="hxSteps"></ol>`;
     const tg=(v,i,t)=>{const g=tagEl(v,i,'default');g.querySelector('span').textContent=t;return g;};
-    const stage=(cap,meta,...kids)=>{const s=ce('div','hx-step-stage bento-card');const c=ce('div','hx-step-cap');const a=ce('span');a.innerHTML=cap;const m=ce('span');m.textContent=meta;c.append(a,m);s.append(c,...kids);return s;};
+    const stage=(cap,meta,...kids)=>{const s=ce('div','hx-step-stage bento-card');const c=ce('div','hx-step-cap');const a=ce('span');a.innerHTML=cap;const m=ce('span');m.textContent=meta;c.append(a,m);s.append(c,...kids);s.hxCap=(h,t)=>{if(h!=null)a.innerHTML=h;if(t!=null)m.textContent=t;};return s;};
     const btn=(v,i,t,o)=>{const b=mkBtn(Object.assign({variant:v,intent:i,size:'s'},o||{}));b.querySelector('span').textContent=t;return b;};
     const goStart=()=>{if(location.hash==='#start'&&typeof flwOpen==='function')flwOpen();else location.hash='start';};
     const goFigma=()=>{const f=document.getElementById('hxFigma');if(f)f.scrollIntoView({behavior:HX_REDUCE()?'auto':'smooth',block:'start'});};
+    const eo=p=>1-Math.pow(1-Math.max(0,Math.min(1,p)),3); /* ease-out */
+    const tw=(R,ms,f)=>{const t0=performance.now();const k=()=>{const p=Math.min(1,(performance.now()-t0)/ms);f(p);if(p<1)R.raf=requestAnimationFrame(k);};R.raf=requestAnimationFrame(k);};
+    const setPrg=(p,v)=>{if(!p)return;const f=p.querySelector('.prg-fill');if(f)f.style.width=v+'%';p.setAttribute('aria-valuenow',v);const c=p.querySelector('.prg-pct');if(c)c.textContent=v+'%';};
+    /* 每個示意回傳 {el, beats:[[fn,停留ms]...], end}：end＝靜態終態（減少動態／尚未播放時） */
+    const visUpload=()=>{const d=drzEl('default','m');const ul=d.querySelector('.drz-files');const s=stage('','',d);
+      const A=['品牌規範.pdf',3355443],B=['logo.svg',48213];let f1,f2;
+      const up=(li,b,v)=>{setPrg(li.querySelector('.prg'),v);const m=li.querySelector('.drz-fm');if(m)m.textContent=drzSize(b)+' · 上傳中 '+v+'%';};
+      const inF=(f,st)=>{const li=drzFile(f[0],f[1],st,0);li.classList.add('is-in');return li;};
+      const end=()=>{ul.replaceChildren(drzFile(A[0],A[1],'done'),drzFile(B[0],B[1],'done'));s.hxCap('<b>Dropzone</b> · 上傳完成','2 個檔案');};
+      return {el:s,end,beats:[
+        [()=>{f1=inF(A,'uploading');ul.replaceChildren(f1);s.hxCap('<b>Dropzone</b> · 上傳中','1 個檔案');},700],
+        [R=>tw(R,2600,p=>up(f1,A[1],Math.round(eo(p)*100))),2900],
+        [()=>{f1.replaceWith(drzFile(A[0],A[1],'done'));f2=inF(B,'uploading');ul.appendChild(f2);s.hxCap(null,'2 個檔案');},700],
+        [R=>tw(R,2200,p=>up(f2,B[1],Math.round(eo(p)*100))),2500],
+        [()=>{f2.replaceWith(drzFile(B[0],B[1],'done'));s.hxCap('<b>Dropzone</b> · 上傳完成',null);},3400]]};};
+    const visStyle=()=>{const NM=['俐落','柔和','活潑'];const sg=sgmEl('soft','m',{items:NM,active:1,label:'起始風格',live:true});
+      const w=ce('div','hx-mcol hx-st2');const sw=ce('div','hx-step-sw');['var(--i-primary)','var(--i-primary-tint)','var(--line-strong)','var(--ink)'].forEach(c=>{const i=ce('i');i.style.background=c;sw.appendChild(i);});
+      const r=ce('div','hx-mrow hx-wrap');const t1=tg('soft','brand','主色'),t2=tg('soft','brand2','輔色'),t3=tg('outline','neutral','圓角 M');r.append(t1,t2,t3);
+      const br=ce('div','hx-mrow hx-wrap');br.append(btn('solid','primary','主要按鈕'),btn('outline','secondary','次要按鈕'));w.append(sw,r,br);
+      const s=stage('<b>Segmented</b> · 起始風格','柔和',sg,w);
+      const V=['outline','soft','solid'],RD=['圓角 XS','圓角 M','圓角 Pill'];
+      const go=k=>{const b=sg.querySelectorAll('.sgm-it')[k];if(b&&!b.classList.contains('is-active'))b.click();w.dataset.sty=String(k);
+        [t1,t2].forEach(t=>{V.forEach(v=>t.classList.toggle('v-'+v,v===V[k]));t.classList.toggle('c-rect',k===0);t.classList.toggle('c-round',k!==0);});
+        t3.classList.toggle('c-rect',k===0);t3.classList.toggle('c-round',k!==0);t3.querySelector('span').textContent=RD[k];s.hxCap(null,NM[k]);};
+      return {el:s,end:()=>go(1),beats:[[()=>go(0),3000],[()=>go(1),3000],[()=>go(2),3200]]};};
+    const visPick=()=>{const L=[['Button 按鈕','L3'],['Field 輸入欄','L3'],['Dropzone 上傳','L3'],['Carousel 輪播','L4'],['Gantt 甘特圖','L4']];const w=ce('div');
+      const rows=L.map(([t,m])=>{const r=ce('div','hx-pick');r.append(cbxEl('default','m'));const l=ce('span');l.textContent=t;const mm=ce('span','hx-pick-m');mm.textContent=m;r.append(l,mm);w.appendChild(r);return r;});
+      const s=stage('<b>Checkbox</b> · 元件清單','已選 0 / 5',w);
+      const set=(i,st)=>{const o=rows[i].firstChild;if(!o.classList.contains('st-'+st))o.replaceWith(cbxEl(st,'m'));};
+      const cnt=()=>s.hxCap(null,'已選 '+rows.filter(r=>r.firstChild.classList.contains('st-checked')).length+' / 5');
+      const tick=i=>R=>{set(i,'hover');R.later(()=>{set(i,'checked');cnt();},380);};
+      return {el:s,end:()=>{rows.forEach((r,i)=>set(i,i<3?'checked':'default'));cnt();},beats:[
+        [()=>{rows.forEach((r,i)=>set(i,'default'));cnt();},1200],[tick(0),1300],[tick(1),1300],[tick(2),3600]]};};
+    const visExport=()=>{const w=ce('div','hx-mcol');const bars=[['Figma Variables'],['SCSS 樣式包']].map(([t])=>{const p=prgEl('label','m',{value:0});const c=p.querySelector('.prg-cap');if(c)c.textContent=t;w.appendChild(p);return p;});
+      const br=ce('div','hx-mrow hx-wrap');const bw=btn('solid','primary','寫入 Figma'),bd=btn('outline','secondary','下載 SCSS');const ok=tg('soft','success','已寫入 Figma');ok.classList.add('hx-fl-ok');br.append(bw,bd,ok);
+      const s=stage('<b>Progress</b> · 匯出中','2 個目標',w,br);
+      const press=(b,R)=>{b.classList.replace('st-default','st-pressed');R.later(()=>b.classList.replace('st-pressed','st-default'),240);};
+      return {el:s,end:()=>{bars.forEach(p=>setPrg(p,100));ok.classList.add('is-on');s.hxCap('<b>Progress</b> · 匯出完成','已同步');},beats:[
+        [()=>{bars.forEach(p=>setPrg(p,0));ok.classList.remove('is-on');s.hxCap('<b>Progress</b> · 匯出中','2 個目標');},600],
+        [R=>tw(R,3000,p=>{setPrg(bars[0],Math.round(eo(p/.78)*100));setPrg(bars[1],Math.round(eo((p-.22)/.78)*100));}),3300],
+        [R=>press(bw,R),900],
+        [R=>{ok.classList.add('is-on');s.hxCap('<b>Progress</b> · 匯出完成','已同步');R.later(()=>press(bd,R),1400);},3400]]};};
     const steps=[
-      ['丟進你的品牌資料','貼上既有網站，或上傳品牌規範。',['看 Design Token',()=>{location.hash='tokens';}],
-        ()=>{const d=drzEl('uploading','m');const n=d.querySelector('.drz-fn');if(n)n.textContent='品牌規範.pdf';try{d.querySelector('.drz-files').appendChild(drzFile('logo.svg',48213,'done'));}catch(e){}
-          return stage('<b>Dropzone</b> · 上傳中','2 個檔案',d);}],
-      ['挑風格和主色','選一個起始風格，顏色和圓角會先配好。',['看 Button 元件',()=>{location.hash='button';}],
-        ()=>{const sg=sgmEl('soft','m',{items:['俐落','柔和','活潑'],active:1,label:'起始風格'});
-          const sw=ce('div','hx-step-sw');['var(--i-primary)','var(--i-primary-tint)','var(--line-strong)','var(--ink)'].forEach(c=>{const i=ce('i');i.style.background=c;sw.appendChild(i);});
-          const r=ce('div','hx-mrow hx-wrap');r.append(tg('soft','brand','主色'),tg('soft','brand2','輔色'),tg('outline','neutral','圓角 M'));
-          const br=ce('div','hx-mrow hx-wrap');br.append(btn('solid','primary','主要按鈕'),btn('outline','secondary','次要按鈕'));
-          return stage('<b>Segmented</b> · 起始風格','柔和',sg,sw,r,br);}],
-      ['勾選要用的元件','只留專案用得到的，其他先收起來。',['看需求匯總',()=>{location.hash='summary';}],
-        ()=>{const w=ce('div');[['Button 按鈕','checked','L3'],['Field 輸入欄','checked','L3'],['Dropzone 上傳','checked','L3'],['Carousel 輪播','default','L4'],['Gantt 甘特圖','default','L4']].forEach(([t,s,m])=>{
-            const r=ce('div','hx-pick');r.append(cbxEl(s,'m'));const l=ce('span');l.textContent=t;const mm=ce('span','hx-pick-m');mm.textContent=m;r.append(l,mm);w.appendChild(r);});
-          return stage('<b>Checkbox</b> · 元件清單','已選 3 / 5',w);}],
-      ['匯出到 Figma 和程式碼','寫進 Figma，也能下載 SCSS 樣式包。',['看 Figma 同步',goFigma],
-        ()=>{const w=ce('div','hx-mcol');[['Figma Variables',100],['SCSS 樣式包',72]].forEach(([t,v])=>{const p=prgEl('label','m',{value:v});const c=p.querySelector('.prg-cap');if(c)c.textContent=t;w.appendChild(p);});
-          const br=ce('div','hx-mrow hx-wrap');br.append(btn('solid','primary','寫入 Figma'),btn('outline','secondary','下載 SCSS'));
-          return stage('<b>Progress</b> · 匯出中','2 個目標',w,br);}],
+      ['丟進你的品牌資料','貼上既有網站，或上傳品牌規範。',visUpload],
+      ['挑風格和主色','選一個起始風格，顏色和圓角會先配好。',visStyle],
+      ['勾選要用的元件','只留專案用得到的，其他先收起來。',visPick],
+      ['匯出到 Figma 和程式碼','寫進 Figma，也能下載 SCSS 樣式包。',visExport],
     ];
-    const ol=sec.querySelector('#hxSteps');
-    steps.forEach(([t,d,[sl,sf],vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
-      const tx=ce('div','hx-step-tx');const h=ce('h3','hx-step-h');h.innerHTML='<span class="hx-step-n" aria-hidden="true">0'+(i+1)+'</span>';h.appendChild(document.createTextNode(t));
-      const p=ce('p','hx-step-d');p.textContent=d;const a=ce('div','hx-step-a');
-      const b1=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true,trail:true});b1.querySelector('span').textContent='開始新專案';b1.onclick=goStart;
-      const b2=mkBtn({variant:'text',intent:'secondary',size:'m',isLive:true});b2.querySelector('span').textContent=sl;b2.onclick=sf;
-      a.append(b1,b2);tx.append(h,p,a);
-      const v=ce('div','hx-step-v');v.inert=true;v.setAttribute('aria-hidden','true');try{v.appendChild(vis());}catch(e){}
+    const ol=sec.querySelector('#hxSteps');const runs=[];
+    steps.forEach(([t,d,vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
+      const tx=ce('div','hx-step-tx');const k=ce('div','hx-step-k');k.textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
+      const p=ce('p','hx-step-d');p.textContent=d;tx.append(k,h,p);
+      if(i===steps.length-1){const a=ce('div','hx-step-a');
+        const b1=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true,trail:true});b1.querySelector('span').textContent='開始新專案';b1.onclick=goStart;
+        const b2=mkBtn({variant:'text',intent:'secondary',size:'m',isLive:true});b2.querySelector('span').textContent='看 Figma 同步';b2.onclick=goFigma;
+        a.append(b1,b2);const n=ce('p','hx-sub hx-fl-end');n.textContent='中途關掉也沒關係，草稿會幫你留著。';tx.append(a,n);}
+      const v=ce('div','hx-step-v');v.inert=true;v.setAttribute('aria-hidden','true');
+      try{const an=vis();v.appendChild(an.el);an.end();
+        const R={i:0,t:0,raf:0,subs:[],on:false,vis:false};R.later=(f,ms)=>{R.subs.push(setTimeout(f,ms));};
+        R.halt=()=>{clearTimeout(R.t);cancelAnimationFrame(R.raf);R.subs.forEach(clearTimeout);R.subs=[];R.t=0;R.raf=0;};
+        const beat=()=>{if(!sec.isConnected){stop();return;}const [f,ms]=an.beats[R.i];f(R);R.t=setTimeout(()=>{R.subs.forEach(clearTimeout);R.subs=[];R.i=(R.i+1)%an.beats.length;beat();},ms);};
+        R.sync=()=>{const want=R.vis&&!document.hidden&&!HX_REDUCE();if(want===R.on)return;R.on=want;R.halt();
+          if(want){R.i=0;beat();}else an.end();}; /* 進畫面從頭播；離開／分頁隱藏停在終態 */
+        R.li=li;runs.push(R);}catch(e){}
       li.append(tx,v);ol.appendChild(li);});
     /* 堆疊效果：每張卡被後面幾張蓋住的程度加總 → --hx-st-p（0＝沒被蓋、1＝被一張完全蓋住…），CSS 依此微縮＋淡出。.main 捲動不冒泡 → document capture 監聽 */
     if(window.__hxFlowStop)window.__hxFlowStop();
@@ -16455,8 +16506,15 @@ function buildScheduleChart(view){
       lis.forEach((li,i)=>{let s=0;if(on){const h=li.offsetHeight||1;for(let j=i+1;j<lis.length;j++){const dd=tops[j]-tops[i]-12*(j-i);s+=Math.max(0,Math.min(1,1-dd/h));}}
         const v=s.toFixed(3);if(li.style.getPropertyValue('--hx-st-p')!==v)li.style.setProperty('--hx-st-p',v);});};
     const req=()=>{if(!raf)raf=requestAnimationFrame(paint);};
-    const stop=()=>{document.removeEventListener('scroll',req,true);removeEventListener('resize',req);if(raf)cancelAnimationFrame(raf);raf=0;if(window.__hxFlowStop===stop)window.__hxFlowStop=null;};
+    /* HOME11:v1 播放閘：卡片在畫面內（IntersectionObserver）＋分頁可見＋未要求減少動態才播 */
+    const io=window.IntersectionObserver?new IntersectionObserver(es=>es.forEach(e=>{const R=runs.find(r=>r.li===e.target);if(R){R.vis=e.isIntersecting;R.sync();}}),{threshold:.35}):null;
+    if(io)runs.forEach(R=>io.observe(R.li));
+    const onVis=()=>runs.forEach(R=>R.sync());const RM=matchMedia('(prefers-reduced-motion:reduce)');
+    const stop=()=>{document.removeEventListener('scroll',req,true);removeEventListener('resize',req);if(raf)cancelAnimationFrame(raf);raf=0;
+      document.removeEventListener('visibilitychange',onVis);try{RM.removeEventListener('change',onVis);}catch(e){}if(io)io.disconnect();runs.forEach(R=>{R.on=false;R.halt();});
+      if(window.__hxFlowStop===stop)window.__hxFlowStop=null;};
     document.addEventListener('scroll',req,{capture:true,passive:true});addEventListener('resize',req,{passive:true});window.__hxFlowStop=stop;req();
+    document.addEventListener('visibilitychange',onVis);try{RM.addEventListener('change',onVis);}catch(e){}
     return sec;
   }
 
