@@ -5529,7 +5529,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-pnl{display:none;}
     .hx-pv{scroll-margin-top:72px;}
     .hx-tokdock{display:flex;padding:var(--sp-4) var(--sp-4) 0;}  /* 放在試玩卡最上方、不懸浮 */
-    .hx-tokdock .btn{flex:1 1 auto;justify-content:center;box-shadow:none;}
+    .hx-toktb{display:flex;align-items:center;gap:var(--sp-2);width:100%;}
+    .hx-toktb-l{margin-right:auto;font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+    .hx-toktb .hx-tokfab-n[hidden]{display:none;}
+    .hx-toktb .hx-tokfab-n{min-width:22px;justify-content:center;font-variant-numeric:tabular-nums;}
+    .hx-grp-hl{animation:hx-grp-hl 1.2s var(--ease-out);border-radius:var(--r-sm);}
+    @keyframes hx-grp-hl{0%,40%{background:color-mix(in srgb,var(--accent) 10%,transparent);}100%{background:transparent;}}
   }
   @media(prefers-reduced-motion:reduce){
     .hx-sw-b:hover{transform:none;}
@@ -5829,8 +5834,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media(max-width:599px){
     .topbar .ss-trig{flex:0 0 32px;width:32px;min-width:0;padding:0;justify-content:center;background:transparent;}
     .topbar .ss-trig.ss-trig{color:var(--i-sec-fg);}  /* 與漢堡鈕同款：Button outline·secondary icon-only s */
-    .topbar .ss-trig:hover{background:var(--panel-2);border-color:var(--line-strong);}
-    .topbar .ss-trig svg{width:16px;height:16px;}
+    .topbar .ss-trig:hover{border-color:var(--line);color:var(--i-sec-fg);}
+    @media(hover:hover){.topbar .ss-trig:hover{background:var(--i-sec-tint,var(--panel-2));}}
+    .topbar .ss-trig svg{width:14px;height:14px;}
     .topbar .ss-trig > span{display:none;}
   }
   @media(max-width:374px){.topbar #dsNewProjBtn > svg{display:none;}}
@@ -5864,9 +5870,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   body.has-pjb .main{padding-bottom:calc(96px + 56px + env(safe-area-inset-bottom,0px));}   /* 浮動列不蓋住頁尾內容 */
   body:has(> .rwd-ovl:not([hidden])) .pjb{display:none;}                                    /* 響應式預覽開著時讓位給裝置框說明列 */
   @media(max-width:599px){
-    .flo-toolbar.pjb{border-radius:0;} .pjb,.pjb.pjb-enter{animation:pjb-in-m var(--dur-slow) var(--ease-spring) both;}
-    .pjb{left:0;right:0;bottom:0;width:100%;max-width:none;transform:none;border-radius:0;border-width:1px 0 0;
-      padding:var(--sp-3) var(--container-pad) calc(var(--sp-3) + env(safe-area-inset-bottom,0px));}
+    .flo-toolbar.pjb{border-radius:var(--r-md);} .pjb,.pjb.pjb-enter{animation:pjb-in-m var(--dur-slow) var(--ease-spring) both;}
+    .pjb{left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;max-width:none;transform:none;
+      padding:var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);}
     .pjb .pjb-tag{display:none;}
     .pjb-cnt{flex:1 1 auto;min-width:0;white-space:normal;line-height:1.45;}
     .pjb-cnt .pjb-sep{display:none;} .pjb-cnt .pjb-c{display:block;}
@@ -15696,19 +15702,22 @@ function buildScheduleChart(view){
        把同一份面板本體（.hx-pnl-b）與重設／複製按鈕搬進去 → 狀態完全共用、預覽即時更新；關閉時搬回。遮罩調淡、sheet 限高，背後預覽看得到 */
     const pb=pnl.querySelector('.hx-pnl-b'),pf=pnl.querySelector('.hx-pnl-f'),acts=hero.querySelector('#hxActs');pnl.__hxB=pb;
     const PHONE=matchMedia('(max-width:599px)');
-    const fab=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true,lead:true});fab.classList.add('hx-tokfab');fab.type='button';
-    fab.querySelector('svg').outerHTML=ICON_GEAR;fab.querySelector('span').textContent='調整 token';
-    fab.setAttribute('aria-haspopup','dialog');fab.setAttribute('aria-expanded','false');
-    const fbd=tagEl('solid','brand2','default');fbd.classList.add('hx-tokfab-n');fbd.hidden=true;fab.appendChild(fbd);
-    hero.querySelector('#hxTokDock').appendChild(fab);
+    /* 工具列：每個分組一顆 icon-only Button（outline · secondary · s），點了開 sheet 並捲到對應分組 */
+    const TB=[['顏色','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M200.77,53.89A103.27,103.27,0,0,0,128,24h-1.07A104,104,0,0,0,24,128c0,43,26.58,79.06,69.36,94.17A32,32,0,0,0,136,192a16,16,0,0,1,16-16h46.21a31.81,31.81,0,0,0,31.2-24.88,104.43,104.43,0,0,0,2.59-24A103.28,103.28,0,0,0,200.77,53.89Zm13,93.71A15.89,15.89,0,0,1,198.21,160H152a32,32,0,0,0-32,32,16,16,0,0,1-21.31,15.07C62.49,194.3,40,164,40,128a88,88,0,0,1,87.09-88h.9a88.35,88.35,0,0,1,88,87.25A88.86,88.86,0,0,1,213.81,147.6ZM140,76a12,12,0,1,1-12-12A12,12,0,0,1,140,76ZM96,100A12,12,0,1,1,84,88,12,12,0,0,1,96,100Zm0,56a12,12,0,1,1-12-12A12,12,0,0,1,96,156Zm88-56a12,12,0,1,1-12-12A12,12,0,0,1,184,100Z"/></svg>'],['形狀','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>'],['文字','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z"/></svg>'],['間距與動態','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M136,40V216a8,8,0,0,1-16,0V40a8,8,0,0,1,16,0ZM96,120H35.31l18.35-18.34A8,8,0,0,0,42.34,90.34l-32,32a8,8,0,0,0,0,11.32l32,32a8,8,0,0,0,11.32-11.32L35.31,136H96a8,8,0,0,0,0-16Zm149.66,2.34-32-32a8,8,0,0,0-11.32,11.32L220.69,120H160a8,8,0,0,0,0,16h60.69l-18.35,18.34a8,8,0,0,0,11.32,11.32l32-32A8,8,0,0,0,245.66,122.34Z"/></svg>']];
+    const tb=ce('div','hx-toktb');tb.setAttribute('role','toolbar');tb.setAttribute('aria-label','調整 token');
+    const tbl=ce('span','hx-toktb-l');tbl.textContent='調整 token';tb.appendChild(tbl);
+    let fab=null;const tbBtns=TB.map(([g,ic])=>{const b=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});b.type='button';b.classList.add('icon-only','hx-toktb-b');
+      b.innerHTML=ic;b.setAttribute('aria-label','調整'+g);b.title=g;b.setAttribute('aria-haspopup','dialog');b.setAttribute('aria-expanded','false');b.dataset.g=g;tb.appendChild(b);return b;});
+    const fbd=tagEl('solid','brand2','default');fbd.classList.add('hx-tokfab-n');fbd.hidden=true;tb.appendChild(fbd);
+    hero.querySelector('#hxTokDock').appendChild(tb);fab=tbBtns[0];
     let tov=null,tsub=null,tkey=null;
     tokN=n=>{fbd.hidden=!n;fbd.querySelector('span').textContent=String(n);
-      fab.setAttribute('aria-label','調整 token'+(n?'（已改 '+n+' 個）':''));
+      fbd.setAttribute('aria-label','已改 '+n+' 個 token');
       if(tsub)tsub.textContent=n?'已改 '+n+' 個 token · 預覽即時更新':'目前全部是預設 token · 預覽即時更新';};
     const closeTok=()=>{if(!tov)return;const ov=tov;tov=null;tsub=null;document.removeEventListener('keydown',tkey,true);
-      pnl.insertBefore(pb,pf);pf.appendChild(acts);fab.setAttribute('aria-expanded','false');
+      pnl.insertBefore(pb,pf);pf.appendChild(acts);tbBtns.forEach(b=>b.setAttribute('aria-expanded','false'));
       ov.classList.add('is-closing');afterAnim(ov,()=>ov.remove());if(fab.isConnected)fab.focus({preventScroll:true});};
-    const openTok=()=>{if(tov)return;
+    const openTok=(grp)=>{if(tov)return;
       const ov=ce('div','mdl-overlay mdl-fixed mdl-sheet-ov hx-tok-ov');
       const card=ce('div','mdl-card mdl-kind-modal mdl-sheet hx-tok-card');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-labelledby','hxTokT');card.tabIndex=-1;
       const head=ce('div','mdl-mhead');const ht=ce('div','mdl-mhead-txt');const t=ce('div','mdl-title');t.id='hxTokT';t.textContent='調整 token';
@@ -15724,8 +15733,10 @@ function buildScheduleChart(view){
       document.addEventListener('keydown',tkey,true);
       tov=ov;tokN(Object.keys(last).length);fab.setAttribute('aria-expanded','true');
       const top=pv.getBoundingClientRect().top;if(top<0||top>innerHeight*.3)pv.scrollIntoView({block:'start',behavior:HX_REDUCE()?'auto':'smooth'});  // 讓預覽上半露在 sheet 上方
-      document.body.appendChild(ov);requestAnimationFrame(()=>card.focus({preventScroll:true}));};
-    fab.onclick=openTok;
+      document.body.appendChild(ov);
+      requestAnimationFrame(()=>{card.focus({preventScroll:true});const g=grp&&pb.querySelector('.hx-grp[aria-label="'+grp+'"]');
+        if(g){ct.scrollTo({top:Math.max(0,g.offsetTop-ct.offsetTop-8),behavior:HX_REDUCE()?'auto':'smooth'});g.classList.remove('hx-grp-hl');void g.offsetWidth;g.classList.add('hx-grp-hl');}});};
+    tbBtns.forEach(b=>b.onclick=()=>{fab=b;openTok(b.dataset.g);});
     PHONE.addEventListener('change',()=>{if(!PHONE.matches)closeTok();});
     window.__hxTokClose=closeTok;
     if(!HX_THEME_USER)HX_ST.theme=hxSiteTheme();
@@ -17586,6 +17597,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const ed=pjEditing();
     if(PJB_EDIT!==null&&ed!==PJB_EDIT&&typeof current==='string'&&document.querySelector('#view .bind-dcard'))renderView(current);  // 進／出編輯模式：重繪目前元件頁，綁定卡切換可編輯
     PJB_EDIT=ed;
+    { const nb=document.getElementById('dsNewProjBtn');   // 編輯中（已套用提案的專案）：右上「開啟新專案」停用，避免蓋掉進行中的草稿；要重來用浮動列的「重新開始」
+      if(nb){const lock=!proj&&ed;nb.disabled=lock;nb.classList.toggle('st-disabled',lock);nb.setAttribute('aria-disabled',String(lock));nb.title=lock?'專案編輯中：要開新專案請先用底部的「重新開始」或完成匯出':'';} }
     document.body.classList.toggle('has-pjb',show);
     if(!show){if(el)el.hidden=true;return;}
     if(!el){el=ce('div','flo-toolbar pjb');el.id='flwPill';el.setAttribute('role','region');el.setAttribute('aria-label','專案進度');
