@@ -1516,11 +1516,25 @@
           "l0Ref": null,
           "axes": {
             "order": [
+              "variant",
               "type",
               "size",
               "state"
             ],
             "by": {
+              "variant": {
+                "axisName": "Variant 樣式",
+                "options": [
+                  {
+                    "value": "track",
+                    "zh": "軌道"
+                  },
+                  {
+                    "value": "fill",
+                    "zh": "填充"
+                  }
+                ]
+              },
               "type": {
                 "axisName": "Type 型態",
                 "options": [
