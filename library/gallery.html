@@ -249,6 +249,7 @@
   @media(prefers-color-scheme:dark){body::after{mix-blend-mode:screen;opacity:.2;}}  /* 深色：screen 讓顆粒在近黑底變亮點；配更深底色，降回 .2 保易讀 */
   :root[data-theme="dark"] body::after{mix-blend-mode:screen;opacity:.2;}
   :root[data-theme="light"] body::after{mix-blend-mode:multiply;opacity:.3;}
+  body:has(> .rwd-ovl:not([hidden]))::after{display:none;}  /* 裝置預覽開著時外層顆粒不要疊在 iframe 上（框內自己有一層），否則手機畫面會變灰變淡 */
 
   /* ---------- scrollbar：純標準屬性一套（scrollbar-width/color 會被繼承，整頁與側邊欄自動一致）。
        不混用 ::-webkit-scrollbar——同時存在會讓 Chrome 對 root 與元素捲軸挑不同渲染路徑，一粗一細。
@@ -5308,9 +5309,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* 共用段落（HOME5-HOME:v1 比照 Button bento 頁）：每段內容都是卡片（--panel 底＋1px --line 框＋--radius、內距 --sp-5），
      段距 40px（--sp-7＋--sp-3），段標題不畫底線、不放說明文字 */
-  .hx > .hx-sec{margin:calc(var(--sp-7) + var(--sp-3)) 0 0;scroll-margin-top:var(--sp-6);}
+  .hx > .hx-sec{margin:calc(var(--sp-9) + var(--sp-6)) 0 0;scroll-margin-top:var(--sp-6);}
   .hx > #hxFlow,.hx > #hxFigma,.hx > #hxNews{max-width:1180px;margin-left:auto;margin-right:auto;}
-  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxNews{margin-top:calc(var(--sp-9) + var(--sp-6));}  /* 下方四段間距同上方段落 */  /* 與 hero 同最大寬 */
+  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxNews{margin-top:calc(var(--sp-9) * 2);}  /* 下方四段間距同上方段落 */  /* 與 hero 同最大寬 */
   /* 宣言＋大數字 */
   .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(64px,10vw,144px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框；上下留白加倍 */
   .hx-manifesto{margin:0;max-width:none;text-wrap:balance;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
@@ -5421,12 +5422,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 動態展示（參考 aceternity）：錯位 bento——CSS columns（欄數看容器寬：4／3／2／1）＋細虛線格線，每格高度由元件決定 */
   .hx-showq{container-type:inline-size;overflow:hidden;position:relative;}
   /* 手機：動態展示改成橫向一列、自動慢慢左右滑（JS 推 scrollLeft），手指可自行滑動 */
+  /* 手機：同桌機的瀑布流，兩欄、元件整體縮到 ~58%，畫面一樣豐富 */
   @media(max-width:599px){
-    .hx-showq{overflow:visible;background:none;border:0;box-shadow:none;}
-    .hx-show{display:flex;align-items:flex-start;columns:auto;gap:var(--sp-4);overflow-x:auto;scrollbar-width:none;scroll-snap-type:none;padding-bottom:2px;}
-    .hx-show::-webkit-scrollbar{display:none;}
-    .hx-show > .hx-sc{flex:0 0 82%;padding:0;}  /* 元件卡本身就有外框，不再包一層 */
-    .hx-show > .hx-sc.hx-sc-psc{display:block;}
+    .hx-show{columns:2 !important;column-gap:0;padding:calc(var(--sp-3) / 2);}
+    .hx-show > .hx-sc{padding:calc(var(--sp-3) / 2);}
+    .hx-show > .hx-sc .hx-sc-stage{zoom:.58;}
+    .hx-show > .hx-sc.hx-sc-psc,.hx-show > .hx-sc.hx-sc-grp{display:block;}
   }
   .hx-show{columns:1;column-gap:0;margin-bottom:-1px;}
   #hxShowBar.hx-show-bar{display:none;}  /* 暫停鈕拿掉：滑過／聚焦、捲出畫面、減少動態仍會停 */
@@ -5435,7 +5436,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @container (min-width:1400px){.hx-show{columns:4;}}
   /* HOME6:v1 段標題拿掉後，暫停／播放鈕放在段落右上角、卡片上緣外側（小鈕，不擋卡片內容） */
   .hx-sec-show{position:relative;}
-  .hx > .hx-sec-show{margin-top:calc(var(--sp-9) + var(--sp-6));margin-bottom:calc(var(--sp-9) + var(--sp-6) - var(--sp-7) - var(--sp-3));}  /* 動態展示上下留白加大 */
+  .hx > .hx-sec-show{margin-top:calc(var(--sp-9) * 2);margin-bottom:0;}  /* 動態展示上下留白加大 */
   .hx-show-bar{position:absolute;right:0;bottom:calc(100% + var(--sp-2));z-index:2;display:flex;}
   .hx-show-pb svg{width:12px;height:12px;}
   /* HOME3-SHOW:v2 示範區內的元件動態放慢、改走 ease-out（只在示範卡內覆寫時間 token） */
@@ -5557,7 +5558,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
   @media(prefers-reduced-motion:reduce){.hx-step{transform:none;} .hx-step::after{display:none;}}
   /* HOME11:v1 Step 眉標（display 字、淡色）＋右側示意動畫（只在畫面內播；減少動態＝靜態終態） */
-  .hx-step-k{font-family:var(--font-display);font-size:clamp(48px,6vw,var(--fs-h1));font-weight:var(--fw-semibold);line-height:1;letter-spacing:-.03em;color:color-mix(in srgb,var(--ink) 14%,transparent);font-variant-numeric:tabular-nums;margin-bottom:var(--sp-6);}  /* 大字裝飾：放大、變淡、與標題拉開 */
+  .hx-step-k{align-self:flex-start;margin-bottom:var(--sp-4);font-family:var(--font-display);}  /* Step 標籤：Tag 原子（中性外框） */  /* 大字裝飾：放大、變淡、與標題拉開 */
   .hx-step-v .prg-fill{transition:none;} /* 寬度由 JS ease-out 補間驅動 */
   .hx-step-v .drz-files{min-height:var(--hx11-drz-h,128px);}
   .hx-step-v .cbx{transition:background-color var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out);}
@@ -5565,10 +5566,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @keyframes hx11-ck{from{opacity:0;transform:scale(.4);}to{opacity:1;transform:none;}}
   .hx-st2 .tg,.hx-st2 .hx-step-sw i{transition:background-color var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
   .hx-st2 .btn{transition:background var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
+  #hxFlow .prg-fill.hx-done{background:var(--s-feedback-success);transition:width calc(var(--dur-default) * 1.6) var(--ease-out),background var(--dur-default) var(--ease-out);}  /* 跑到 100% 轉綠 */
   .hx-st2[data-sty="0"]{--btn-radius:var(--r-xs);} .hx-st2[data-sty="0"] .hx-step-sw i{border-radius:var(--r-xs);}
   .hx-st2[data-sty="1"]{--btn-radius:var(--r-md);} .hx-st2[data-sty="1"] .hx-step-sw i{border-radius:var(--r-md);}
-  .hx-st2[data-sty="2"]{--btn-radius:var(--r-pill);--i-primary:var(--accent2);--i-primary-h:color-mix(in srgb,var(--accent2) 88%,var(--ink));--i-primary-p:color-mix(in srgb,var(--accent2) 78%,var(--ink));
-    --i-primary-tint:var(--accent2-tint);--i-primary-tint2:var(--accent2-tint2);--primary-on:var(--accent2-on);--accent:var(--accent2);}
+  .hx-st2[data-sty="2"]{--btn-radius:var(--r-pill);--hx-lv1:var(--c-brand2-500);--hx-lv2:var(--c-violet-500);--i-primary:var(--hx-lv1);--i-primary-h:color-mix(in srgb,var(--hx-lv1) 88%,var(--ink));--i-primary-p:color-mix(in srgb,var(--hx-lv1) 78%,var(--ink));
+    --i-primary-tint:color-mix(in srgb,var(--hx-lv1) 16%,transparent);--i-primary-tint2:color-mix(in srgb,var(--hx-lv1) 26%,transparent);--primary-on:var(--accent2-on);--accent:var(--hx-lv1);--accent2:var(--hx-lv2);}  /* 活潑：主色橘、輔色紫，兩者不同 */
   .hx-st2[data-sty="2"] .hx-step-sw i{border-radius:var(--r-pill);}
   .hx-fl-ok{opacity:0;transform:translateY(4px);transition:opacity var(--dur-default) var(--ease-out),transform var(--dur-default) var(--ease-out);}
   .hx-fl-ok.is-on{opacity:1;transform:none;}
@@ -6113,6 +6115,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-sl{grid-area:1/1;position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-6);opacity:0;visibility:hidden;transition:opacity .8s var(--ease-standard),visibility 0s linear .8s;}
   .hx-tm-sl.on{opacity:1;visibility:visible;z-index:1;transition:opacity .8s var(--ease-standard),visibility 0s;}
   .hx-tm-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .hx-tm-stage > .hx-tm-bg0{z-index:0;}  /* 共用背景：固定一張，不隨切換淡入淡出 */
+  .hx-tm-sl .hx-tm-bg{display:none;} .hx-tm-sl::after{display:none;}
+  .hx-tm-stage::after{content:"";position:absolute;inset:0;z-index:0;background:color-mix(in srgb,var(--c-neutral-900) 42%,transparent);pointer-events:none;}
+  .hx-tm-sl{z-index:1;}
   .hx-tm-sl::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--c-neutral-900) 42%,transparent);pointer-events:none;}  /* 背景壓一層淺黑，不要太亮 */
   .hx-tm-card{z-index:1;}
   /* 牌卡內容進退場：同其他段落的 ease-out 上移淡入，依序錯開 */
@@ -6120,7 +6126,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-sl.on .hx-tm-card > *{opacity:1;transform:none;}
   .hx-tm-sl.on .hx-tm-card > :nth-child(2){transition-delay:80ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(3){transition-delay:160ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(4){transition-delay:240ms;}
   .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--r-lg);box-shadow:var(--e-xl);}
-  .hx-tm-qm{align-self:flex-end;width:44px;height:36px;color:var(--c-info-500);flex:0 0 auto;}
+  .hx-tm-qm{align-self:flex-end;width:28px;height:23px;color:var(--c-info-500);flex:0 0 auto;}
   .hx-tm-q{margin:0;flex:1 1 auto;display:flex;align-items:center;}
   .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h6);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
   .hx-tm-who{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);}
@@ -6136,9 +6142,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-n{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;}
   @media(max-width:767px){
     .hx-tm-stage{height:auto;border-radius:var(--r-xl);}
-    .hx-tm-sl{padding:calc(var(--sp-8) + var(--sp-5)) var(--sp-4);}
+    .hx-tm-sl{padding:var(--sp-9) var(--sp-5);}  /* 手機：上下留大量呼吸空間 */
     .hx-tm-card{min-height:0;padding:var(--sp-5);gap:var(--sp-4);}
-    .hx-tm-qm{width:36px;height:30px;}
+    .hx-tm-qm{width:24px;height:20px;}
     .hx-tm-q p{font-size:var(--fs-h7);}
     .hx-tm-ctl{gap:var(--sp-4);}
   }
@@ -15966,7 +15972,7 @@ function buildScheduleChart(view){
           <div class="hx-cta" id="hxCta"></div>
           <p class="hx-lede">${ready} 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。</p>
         </div>
-        <div class="hx-win-h"><h2>Change the token, change the component</h2></div>
+        <div class="hx-win-h"><h2>Try to change the token setting.</h2></div>
         <div class="hx-pgx" id="hxPgx">
           <aside class="hx-pnl" id="hxPnl" aria-label="Token 試玩控制">
             <span class="hx-pnl-n" id="hxPnlN" hidden></span>
@@ -16500,7 +16506,7 @@ function buildScheduleChart(view){
     const goFigma=()=>{const f=document.getElementById('hxFigma');if(f)f.scrollIntoView({behavior:HX_REDUCE()?'auto':'smooth',block:'start'});};
     const eo=p=>1-Math.pow(1-Math.max(0,Math.min(1,p)),3); /* ease-out */
     const tw=(R,ms,f)=>{const t0=performance.now();const k=()=>{const p=Math.min(1,(performance.now()-t0)/ms);f(p);if(p<1)R.raf=requestAnimationFrame(k);};R.raf=requestAnimationFrame(k);};
-    const setPrg=(p,v)=>{if(!p)return;const f=p.querySelector('.prg-fill');if(f)f.style.width=v+'%';p.setAttribute('aria-valuenow',v);const c=p.querySelector('.prg-pct');if(c)c.textContent=v+'%';};
+    const setPrg=(p,v)=>{if(!p)return;const f=p.querySelector('.prg-fill');if(f){f.style.width=v+'%';f.classList.toggle('hx-done',v>=100);}p.setAttribute('aria-valuenow',v);const c=p.querySelector('.prg-pct');if(c)c.textContent=v+'%';};
     /* 每個示意回傳 {el, beats:[[fn,停留ms]...], end}：end＝靜態終態（減少動態／尚未播放時） */
     const visUpload=()=>{const d=drzEl('default','m');const ul=d.querySelector('.drz-files');const s=stage('','',d);
       const A=['品牌規範.pdf',3355443],B=['logo.svg',48213];let f1,f2;
@@ -16548,7 +16554,7 @@ function buildScheduleChart(view){
     ];
     const ol=sec.querySelector('#hxSteps');const runs=[];
     steps.forEach(([t,d,vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
-      const tx=ce('div','hx-step-tx');const k=ce('div','hx-step-k');k.textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
+      const tx=ce('div','hx-step-tx');const k=tagEl('outline','neutral','default','round');k.classList.add('hx-step-k');k.querySelector('span').textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
       const p=ce('p','hx-step-d');p.textContent=d;tx.append(k,h,p);
       if(i===steps.length-1){const a=ce('div','hx-step-a');
         const b1=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true,trail:true});b1.querySelector('span').textContent='開始新專案';b1.onclick=goStart;
@@ -16724,6 +16730,7 @@ function buildScheduleChart(view){
     sec.innerHTML=`<div class="hx-tm-stage" tabindex="0" aria-label="使用回饋輪播，可用左右方向鍵切換"></div>
 `;
     const stage=sec.querySelector('.hx-tm-stage'),N=VOICES.length;
+    { const b0=document.createElement('img');b0.className='hx-tm-bg hx-tm-bg0';b0.alt='';b0.decoding='async';b0.src=VOICES[0].bg;stage.appendChild(b0); }
     const slides=VOICES.map((v,i)=>{const sl=ce('div','hx-tm-sl');sl.setAttribute('role','group');sl.setAttribute('aria-roledescription','slide');sl.setAttribute('aria-label',(i+1)+' / '+N);
       const im=document.createElement('img');im.className='hx-tm-bg';im.alt='';im.decoding='async';im.src=v.bg;
       const fg=document.createElement('figure');fg.className='hx-tm-card';fg.innerHTML=QM+'<blockquote class="hx-tm-q"><p></p></blockquote><figcaption class="hx-tm-who"><span class="hx-tm-id"><b></b><span></span></span></figcaption>';
