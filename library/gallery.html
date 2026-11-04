@@ -260,7 +260,7 @@
   .brand{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;min-width:0;}
   .brand.is-link{cursor:pointer;} .brand.is-link:hover{opacity:.7;} .brand.is-link{transition:opacity .15s ease;}
   .brand.is-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-sm);}
-  .brand-logo{width:66px;height:auto;display:block;color:var(--ink);flex:0 0 auto;}
+  .brand-logo{width:40px;height:auto;display:block;color:var(--ink);flex:0 0 auto;}
   .brand-logo-img{width:66px;height:auto;display:block;flex:0 0 auto;}
   .brand .divider{width:1px;height:18px;background:var(--line-strong);flex:0 0 auto;}
   .brand-title{font-size:var(--fs-h10);font-weight:600;color:var(--ink);white-space:nowrap;letter-spacing:-.005em;}
@@ -1575,9 +1575,9 @@
   /* 整條頁首 bar：面板底 + 描邊 + 圓角；compact 收縮高度與間距 */
   .hdr-bar{display:flex;align-items:center;gap:var(--hdr-gap,var(--sp-5));height:60px;padding:0 var(--hdr-pad-x,var(--sp-4));width:100%;box-sizing:border-box;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--hdr-radius,var(--radius));}
-  /* logo：複用 topbar 的 Goons 官方字標 svg */
+  /* logo：複用 topbar 的 CDL 字標 svg */
   .hdr-logo{display:inline-flex;align-items:center;flex:0 0 auto;color:var(--ink);}
-  .hdr-logo svg,.hdr-logo img{width:72px;height:auto;display:block;}
+  .hdr-logo svg,.hdr-logo img{width:46px;height:auto;display:block;}
   /* 導覽：複用 Menu 元件（.mn-bar / .mn-item），在 header 內去除容器外框、貼齊排列 */
   .hdr-nav-slot{display:flex;align-items:center;min-width:0;}
   .hdr-nav-slot .mn-bar{border:0;background:transparent;border-radius:0;padding:0;gap:2px;}
@@ -1611,9 +1611,9 @@
   .ftr-foot + .ftr-foot{margin-top:var(--sp-6);}
   .ftr-foot.ftr-v-simple{padding:var(--sp-4);}
   .ftr-foot.ftr-v-minimal{padding:var(--sp-4);}
-  /* logo：複用 header 的 Goons 官方字標 svg */
+  /* logo：複用 header 的 CDL 字標 svg */
   .ftr-logo{display:inline-flex;align-items:center;color:var(--ink);flex:0 0 auto;}
-  .ftr-logo svg,.ftr-logo img{width:72px;height:auto;display:block;}
+  .ftr-logo svg,.ftr-logo img{width:46px;height:auto;display:block;}
   /* 品牌區：logo + 簡介 + 聯絡資訊 */
   .ftr-brand{display:flex;flex-direction:column;gap:var(--sp-4);max-width:300px;}
   .ftr-desc{font-size:var(--fs-h11);line-height:var(--lh-relaxed);color:var(--faint);}
@@ -5878,7 +5878,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     <button class="hamb" id="hambBtn" aria-label="切換元件選單">
       <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
     </button>
-    <div class="brand"><svg class="brand-logo" viewBox="0 0 209 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M104.733 10.4818C102.566 11.349 100.515 12.6797 98.5801 14.4746C96.6451 16.2692 95.0527 18.2959 93.8027 20.5546C92.3928 23.1277 91.4031 26.212 90.8331 29.8079L99.9072 30.4678C100.761 25.684 102.467 22.1385 105.026 19.831C107.684 17.4351 110.161 16.2972 113.84 16.4887C117.519 16.6803 119.577 18.0395 121.398 20.6383C123.218 23.237 123.721 27.0597 122.906 32.1059C122.904 32.1175 122.902 32.1288 122.9 32.1402L131.999 32.8022C132.048 32.4443 132.092 32.0822 132.132 31.7167C132.91 24.497 131.561 18.8608 128.082 14.8073C124.604 10.754 120.295 8.72729 113.773 8.72729C110.169 8.72729 107.618 9.31244 104.733 10.4818ZM59.735 10.4818C57.568 11.349 55.5173 12.6797 53.582 14.4746C51.6468 16.2692 50.054 18.2959 48.804 20.5546C47.8354 22.3226 47.0652 24.3321 46.4929 26.5833L55.6668 27.2505C56.6265 24.0602 58.0802 21.5868 60.0277 19.831C62.6851 17.4351 65.1623 16.2972 68.8418 16.4887C72.5203 16.6803 74.5792 18.0395 76.3996 20.6383C77.8114 22.654 78.4308 25.4056 78.2574 28.8933L87.305 29.5511C87.6135 23.3608 86.2065 18.4463 83.0839 14.8073C79.6053 10.754 75.2969 8.72729 68.7741 8.72729C65.1708 8.72729 62.6189 9.31244 59.735 10.4818ZM4.50813 19.2046C3.59653 20.5817 2.71956 22.18 2.3151 23.3989L11.1863 24.0157C13.653 19.2594 18.6723 16.219 24.0793 16.3564C26.0393 16.4063 28.0306 16.8688 29.6489 17.9687C32.1507 19.6691 32.9742 22.5121 33.3588 25.3576L33.3774 25.392L33.3982 25.4245C33.4866 25.5513 33.6286 25.6336 33.7863 25.6455L41.7678 26.243L41.8049 26.2444L41.8421 26.2435C42.1307 26.2249 42.3501 25.9775 42.3316 25.6904C42.2173 20.9899 40.7876 16.8826 38.1217 14.0743C35.5248 11.3391 32.0475 9.77445 28.3751 9.11318C26.9499 8.85661 25.4957 8.73624 24.0521 8.73624C23.3426 8.73624 22.6356 8.76536 21.9363 8.82153C14.8389 9.39314 8.41631 13.3004 4.50813 19.2046ZM185.892 11.1552C183.416 12.1625 181.446 13.629 179.98 15.5546C178.514 17.4803 177.661 19.549 177.422 21.7609C177.049 25.1974 178.07 28.1103 180.484 30.5002C182.201 32.1987 185.353 33.6306 189.939 34.7956C193.503 35.7038 199.204 36.3348 199.204 41.424C199.154 43.3779 197.514 46.4887 192.951 47.2682C190.053 47.6679 186.473 47.6638 184.13 45.6673C181.666 43.5679 181.418 40.4199 182.387 37.5134C182.385 37.24 182.167 37.0165 181.892 37.0064L175.132 36.5208H175.122H175.113C175.049 36.5208 174.658 36.4506 174.552 36.8104C174.187 38.0494 173.987 41.2442 174.18 42.5906C174.62 45.6553 175.693 48.5982 177.991 50.778C180.666 53.3159 184.756 54.585 190.26 54.585C197.746 54.585 201.753 52.5532 205.341 48.6654C207.332 46.508 208.164 43.6811 208.264 40.8195C208.368 37.8532 207.371 35.2299 205.11 33.1117C201.923 30.125 198.664 28.988 194.445 27.8498C191.289 27.0872 185.048 25.8956 185.794 21.3842C186.222 18.801 189.138 17.4893 191.468 17.1176C195.333 16.5015 201.336 17.8394 201.014 22.8167L201.017 22.8514L201.024 22.8851C201.067 23.0621 201.221 23.196 201.409 23.2095L208.158 23.711L208.167 23.7116C208.258 23.7183 208.632 23.7421 208.745 23.3675C208.896 22.8715 209.092 18.829 206.96 15.5546C204.308 11.4819 197.992 9.64444 194.623 9.64444C190.26 9.64444 188.367 10.1484 185.892 11.1552ZM165.352 10.5616L165.315 10.563C165.07 10.5804 164.869 10.7686 164.84 11.0142L162.374 35.0272L170.701 35.633L173.41 11.1288L173.413 11.1009L173.414 11.0729C173.414 10.7906 173.183 10.5616 172.898 10.5616H165.352ZM139.31 10.5616L139.273 10.563C139.026 10.5804 138.824 10.7702 138.797 11.0172L136.351 33.1349L144.644 33.7384L145.563 24.4899L149.696 34.1054L158.027 34.7115L147.951 10.8714L147.934 10.837C147.846 10.6687 147.67 10.5616 147.477 10.5616H139.31ZM4.54001e-05 35.3526C-0.00364612 37.4226 0.217616 39.4971 0.724972 41.5069C0.81057 41.8461 0.904241 42.1833 1.00668 42.5177C2.25235 46.5953 4.68116 50.1342 8.38376 52.3535C11.6307 54.2996 15.5802 55.2728 20.2311 55.2728C20.4286 55.2728 20.6256 55.2709 20.8227 55.2661C24.4219 55.1876 28.1921 54.4923 31.506 53.0664C34.555 51.7541 37.7282 49.7907 40.1936 47.5972C40.3623 47.4474 40.469 47.2414 40.4951 47.0184L42.3048 31.7583L42.3067 31.7381L42.3083 31.7179C42.3186 31.4306 42.0926 31.1892 41.8037 31.1786L23.6979 30.291H23.6612C23.4037 30.2997 23.1875 30.4951 23.1585 30.7535L22.3881 37.3634L22.3856 37.3854L22.3849 37.4067C22.3766 37.6945 22.6047 37.9341 22.8936 37.9421L32.49 38.2122L31.8803 43.2369L31.7541 43.3357C30.7294 44.124 29.4436 44.942 28.2669 45.4313C23.0761 47.5916 15.4496 47.6928 11.6905 42.8912C9.62968 40.2598 8.48713 35.383 9.7261 29.7078L0.64399 29.3665C0.474195 29.5298 0.194082 31.9595 0.170318 32.2122C0.0711077 33.2575 0.00189119 34.3024 4.54001e-05 35.3526ZM45.5542 31.9282C44.7925 38.9863 46.1375 44.5269 49.5894 48.5499C53.0409 52.573 57.3653 54.585 63.9482 54.585C70.4512 54.585 75.171 52.5629 79.4923 48.5197C83.5797 44.6953 86.0796 39.4779 86.9918 32.8662L77.8375 32.5218C76.9857 37.4177 75.2497 41.0495 72.6292 43.4174C69.9353 45.8515 67.5005 47.0124 63.9413 46.8269C60.3831 46.6414 58.3474 45.2376 56.4506 42.5445C54.6349 39.9649 54.0576 36.335 54.719 31.6537L45.6251 31.3116C45.6002 31.5157 45.5769 31.7211 45.5542 31.9282ZM94.5874 48.5499C98.0393 52.573 102.364 54.585 108.947 54.585C115.449 54.585 120.169 52.5629 124.491 48.5197C128.225 45.0256 130.635 40.3675 131.719 34.5464L122.498 34.1999C121.563 38.2562 119.939 41.3284 117.627 43.4174C114.933 45.8515 112.499 47.0124 108.94 46.8269C105.381 46.6414 103.345 45.2376 101.449 42.5445C99.8571 40.2829 99.2172 37.2139 99.5291 33.3369L90.4522 32.9959C89.9334 39.5476 91.3118 44.7319 94.5874 48.5499ZM134.194 52.6418L134.191 52.6699L134.191 52.6976C134.191 52.98 134.422 53.2093 134.706 53.2093H142.245L142.281 53.2077C142.531 53.1907 142.734 52.9967 142.758 52.7459L144.516 35.0355L136.175 34.7222L134.194 52.6418ZM157.784 52.9166L157.802 52.9516C157.893 53.1099 158.064 53.2093 158.25 53.2093H168.295L168.332 53.2074C168.578 53.1904 168.78 53.0008 168.807 52.7535L170.658 36.0179L162.305 35.7038L161.551 43.048L158.385 35.5566L150.188 35.2487L157.784 52.9166Z"/></svg><span class="divider"></span><span class="brand-title">cool-ds-library</span></div>
+    <div class="brand"><svg class="brand-logo" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CDL"><g stroke="currentColor" stroke-width="6"><path d="M25.96 21.64A13 13 0 1 0 25.96 38.36"/><circle cx="48" cy="30" r="13"/><path d="M61 2V46"/><path d="M75 2V46"/></g><rect x="82" y="40" width="6" height="6" fill="var(--accent2)"/></svg><span class="divider"></span><span class="brand-title">cool-ds-library</span></div>
     <button class="gd-entry" id="guideBtn" type="button">📖 上手指南</button>
     <div class="spacer"></div>
     <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
@@ -9655,9 +9655,9 @@ function skelMedia(anim){
 
 /* header build */
 /* ==================== header 頁首 ==================== */
-  const HDR_LOGO='<svg viewBox="0 0 209 64" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M104.733 10.4818C102.566 11.349 100.515 12.6797 98.5801 14.4746C96.6451 16.2692 95.0527 18.2959 93.8027 20.5546C92.3928 23.1277 91.4031 26.212 90.8331 29.8079L99.9072 30.4678C100.761 25.684 102.467 22.1385 105.026 19.831C107.684 17.4351 110.161 16.2972 113.84 16.4887C117.519 16.6803 119.577 18.0395 121.398 20.6383C123.218 23.237 123.721 27.0597 122.906 32.1059C122.904 32.1175 122.902 32.1288 122.9 32.1402L131.999 32.8022C132.048 32.4443 132.092 32.0822 132.132 31.7167C132.91 24.497 131.561 18.8608 128.082 14.8073C124.604 10.754 120.295 8.72729 113.773 8.72729C110.169 8.72729 107.618 9.31244 104.733 10.4818ZM59.735 10.4818C57.568 11.349 55.5173 12.6797 53.582 14.4746C51.6468 16.2692 50.054 18.2959 48.804 20.5546C47.8354 22.3226 47.0652 24.3321 46.4929 26.5833L55.6668 27.2505C56.6265 24.0602 58.0802 21.5868 60.0277 19.831C62.6851 17.4351 65.1623 16.2972 68.8418 16.4887C72.5203 16.6803 74.5792 18.0395 76.3996 20.6383C77.8114 22.654 78.4308 25.4056 78.2574 28.8933L87.305 29.5511C87.6135 23.3608 86.2065 18.4463 83.0839 14.8073C79.6053 10.754 75.2969 8.72729 68.7741 8.72729C65.1708 8.72729 62.6189 9.31244 59.735 10.4818ZM4.50813 19.2046C3.59653 20.5817 2.71956 22.18 2.3151 23.3989L11.1863 24.0157C13.653 19.2594 18.6723 16.219 24.0793 16.3564C26.0393 16.4063 28.0306 16.8688 29.6489 17.9687C32.1507 19.6691 32.9742 22.5121 33.3588 25.3576L33.3774 25.392L33.3982 25.4245C33.4866 25.5513 33.6286 25.6336 33.7863 25.6455L41.7678 26.243L41.8049 26.2444L41.8421 26.2435C42.1307 26.2249 42.3501 25.9775 42.3316 25.6904C42.2173 20.9899 40.7876 16.8826 38.1217 14.0743C35.5248 11.3391 32.0475 9.77445 28.3751 9.11318C26.9499 8.85661 25.4957 8.73624 24.0521 8.73624C23.3426 8.73624 22.6356 8.76536 21.9363 8.82153C14.8389 9.39314 8.41631 13.3004 4.50813 19.2046ZM185.892 11.1552C183.416 12.1625 181.446 13.629 179.98 15.5546C178.514 17.4803 177.661 19.549 177.422 21.7609C177.049 25.1974 178.07 28.1103 180.484 30.5002C182.201 32.1987 185.353 33.6306 189.939 34.7956C193.503 35.7038 199.204 36.3348 199.204 41.424C199.154 43.3779 197.514 46.4887 192.951 47.2682C190.053 47.6679 186.473 47.6638 184.13 45.6673C181.666 43.5679 181.418 40.4199 182.387 37.5134C182.385 37.24 182.167 37.0165 181.892 37.0064L175.132 36.5208H175.122H175.113C175.049 36.5208 174.658 36.4506 174.552 36.8104C174.187 38.0494 173.987 41.2442 174.18 42.5906C174.62 45.6553 175.693 48.5982 177.991 50.778C180.666 53.3159 184.756 54.585 190.26 54.585C197.746 54.585 201.753 52.5532 205.341 48.6654C207.332 46.508 208.164 43.6811 208.264 40.8195C208.368 37.8532 207.371 35.2299 205.11 33.1117C201.923 30.125 198.664 28.988 194.445 27.8498C191.289 27.0872 185.048 25.8956 185.794 21.3842C186.222 18.801 189.138 17.4893 191.468 17.1176C195.333 16.5015 201.336 17.8394 201.014 22.8167L201.017 22.8514L201.024 22.8851C201.067 23.0621 201.221 23.196 201.409 23.2095L208.158 23.711L208.167 23.7116C208.258 23.7183 208.632 23.7421 208.745 23.3675C208.896 22.8715 209.092 18.829 206.96 15.5546C204.308 11.4819 197.992 9.64444 194.623 9.64444C190.26 9.64444 188.367 10.1484 185.892 11.1552ZM165.352 10.5616L165.315 10.563C165.07 10.5804 164.869 10.7686 164.84 11.0142L162.374 35.0272L170.701 35.633L173.41 11.1288L173.413 11.1009L173.414 11.0729C173.414 10.7906 173.183 10.5616 172.898 10.5616H165.352ZM139.31 10.5616L139.273 10.563C139.026 10.5804 138.824 10.7702 138.797 11.0172L136.351 33.1349L144.644 33.7384L145.563 24.4899L149.696 34.1054L158.027 34.7115L147.951 10.8714L147.934 10.837C147.846 10.6687 147.67 10.5616 147.477 10.5616H139.31ZM4.54001e-05 35.3526C-0.00364612 37.4226 0.217616 39.4971 0.724972 41.5069C0.81057 41.8461 0.904241 42.1833 1.00668 42.5177C2.25235 46.5953 4.68116 50.1342 8.38376 52.3535C11.6307 54.2996 15.5802 55.2728 20.2311 55.2728C20.4286 55.2728 20.6256 55.2709 20.8227 55.2661C24.4219 55.1876 28.1921 54.4923 31.506 53.0664C34.555 51.7541 37.7282 49.7907 40.1936 47.5972C40.3623 47.4474 40.469 47.2414 40.4951 47.0184L42.3048 31.7583L42.3067 31.7381L42.3083 31.7179C42.3186 31.4306 42.0926 31.1892 41.8037 31.1786L23.6979 30.291H23.6612C23.4037 30.2997 23.1875 30.4951 23.1585 30.7535L22.3881 37.3634L22.3856 37.3854L22.3849 37.4067C22.3766 37.6945 22.6047 37.9341 22.8936 37.9421L32.49 38.2122L31.8803 43.2369L31.7541 43.3357C30.7294 44.124 29.4436 44.942 28.2669 45.4313C23.0761 47.5916 15.4496 47.6928 11.6905 42.8912C9.62968 40.2598 8.48713 35.383 9.7261 29.7078L0.64399 29.3665C0.474195 29.5298 0.194082 31.9595 0.170318 32.2122C0.0711077 33.2575 0.00189119 34.3024 4.54001e-05 35.3526ZM45.5542 31.9282C44.7925 38.9863 46.1375 44.5269 49.5894 48.5499C53.0409 52.573 57.3653 54.585 63.9482 54.585C70.4512 54.585 75.171 52.5629 79.4923 48.5197C83.5797 44.6953 86.0796 39.4779 86.9918 32.8662L77.8375 32.5218C76.9857 37.4177 75.2497 41.0495 72.6292 43.4174C69.9353 45.8515 67.5005 47.0124 63.9413 46.8269C60.3831 46.6414 58.3474 45.2376 56.4506 42.5445C54.6349 39.9649 54.0576 36.335 54.719 31.6537L45.6251 31.3116C45.6002 31.5157 45.5769 31.7211 45.5542 31.9282ZM94.5874 48.5499C98.0393 52.573 102.364 54.585 108.947 54.585C115.449 54.585 120.169 52.5629 124.491 48.5197C128.225 45.0256 130.635 40.3675 131.719 34.5464L122.498 34.1999C121.563 38.2562 119.939 41.3284 117.627 43.4174C114.933 45.8515 112.499 47.0124 108.94 46.8269C105.381 46.6414 103.345 45.2376 101.449 42.5445C99.8571 40.2829 99.2172 37.2139 99.5291 33.3369L90.4522 32.9959C89.9334 39.5476 91.3118 44.7319 94.5874 48.5499ZM134.194 52.6418L134.191 52.6699L134.191 52.6976C134.191 52.98 134.422 53.2093 134.706 53.2093H142.245L142.281 53.2077C142.531 53.1907 142.734 52.9967 142.758 52.7459L144.516 35.0355L136.175 34.7222L134.194 52.6418ZM157.784 52.9166L157.802 52.9516C157.893 53.1099 158.064 53.2093 158.25 53.2093H168.295L168.332 53.2074C168.578 53.1904 168.78 53.0008 168.807 52.7535L170.658 36.0179L162.305 35.7038L161.551 43.048L158.385 35.5566L150.188 35.2487L157.784 52.9166Z"/></svg>';
-  /* logo：複用檔內既有 Goons 官方字標 svg */
-  function hdrLogo(){const l=ce('div','hdr-logo');l.innerHTML=(function(){var _l=activeLogo();return _l?('<img src="'+_l+'" alt="Logo">'):HDR_LOGO;})();l.setAttribute('aria-label','Goons');return l;}
+  const HDR_LOGO='<svg viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CDL"><g stroke="currentColor" stroke-width="6"><path d="M25.96 21.64A13 13 0 1 0 25.96 38.36"/><circle cx="48" cy="30" r="13"/><path d="M61 2V46"/><path d="M75 2V46"/></g><rect x="82" y="40" width="6" height="6" fill="var(--accent2)"/></svg>';  /* CDL 字標（小寫 cdl＋強調方塊，方塊綁 --accent2）*/
+  /* logo：複用檔內既有 CDL 字標 svg */
+  function hdrLogo(){const l=ce('div','hdr-logo');l.innerHTML=(function(){var _l=activeLogo();return _l?('<img src="'+_l+'" alt="Logo">'):HDR_LOGO;})();l.setAttribute('aria-label','CDL');return l;}
   /* 導覽：複用 Menu 元件 mnBar（水平），維持原子建構 */
   function hdrNav(){const slot=ce('div','hdr-nav-slot');
     slot.appendChild(mnBar('horizontal','m',{items:['首頁','產品','定價','關於'],activeIndex:0,clickable:true}));
@@ -9709,7 +9709,7 @@ function skelMedia(anim){
     const body=viewScaffold(view,{
       eyebrow:'L3 Component · Header',
       title:'Header 頁首',
-      lede:'應用／網站最上緣的<b>全域導覽列</b>：左側 Goons 品牌字標、<b>導覽（Menu 元件）與搜尋框（Search 元件）可同時並存</b>、右側依序為通知鈴鐺、帳號頭像與登入鈕。以 <b>裝置（電腦版／行動版）</b> 為軸，行動版導覽收進漢堡鈕。內部 btn／icon btn／menu／search 全部取自本 library、維持原子建構。',
+      lede:'應用／網站最上緣的<b>全域導覽列</b>：左側 CDL 品牌字標、<b>導覽（Menu 元件）與搜尋框（Search 元件）可同時並存</b>、右側依序為通知鈴鐺、帳號頭像與登入鈕。以 <b>裝置（電腦版／行動版）</b> 為軸，行動版導覽收進漢堡鈕。內部 btn／icon btn／menu／search 全部取自本 library、維持原子建構。',
       specRows:[['axes','<code>device</code>'],['variants','<code>desktop · mobile</code>'],['atoms','Button · Icon Button · Menu · Search'],['content','logo / nav + search / actions']]
     });
     const axes=DIAL_SPECS.header.axes, zh=DIAL_SPECS.header.zh, active=CHOICE.header.active; // 接中央 store
@@ -9766,8 +9766,8 @@ function skelMedia(anim){
   ];
   const FTR_SOCIALS=[['Twitter',FTR_IC_TWITTER],['GitHub',FTR_IC_GITHUB],['LinkedIn',FTR_IC_LINKEDIN],['Instagram',FTR_IC_INSTAGRAM]];
 
-  /* 品牌 logo：複用 header 的 Goons 官方字標 svg */
-  function ftrLogo(){const w=ce('div','ftr-logo');w.innerHTML=(function(){var _l=activeLogo();return _l?('<img src="'+_l+'" alt="Logo">'):HDR_LOGO;})();w.setAttribute('aria-label','Goons Design');return w;}
+  /* 品牌 logo：複用 header 的 CDL 字標 svg */
+  function ftrLogo(){const w=ce('div','ftr-logo');w.innerHTML=(function(){var _l=activeLogo();return _l?('<img src="'+_l+'" alt="Logo">'):HDR_LOGO;})();w.setAttribute('aria-label','CDL · Cool Design Library');return w;}
   /* 聯絡資訊：地址／信箱／電話（重用 library icon）*/
   function ftrContact(){
     const c=ce('div','ftr-contact');
@@ -13694,7 +13694,7 @@ function buildScheduleChart(view){
   }
 
   /* ===== Logo 品牌資產（Phase C · 專案級可替換，淺／深雙檔）=====
-     PROJECT_LOGOS 依主題各存一顆；activeLogo() 取當前主題、沒有退用另一顆、再沒有回 null(Goons 字標)。三處同步、鎖寬高等比。 */
+     PROJECT_LOGOS 依主題各存一顆；activeLogo() 取當前主題、沒有退用另一顆、再沒有回 null(CDL 字標)。三處同步、鎖寬高等比。 */
   const PROJECT_LOGOS={light:null,dark:null};
   function curTheme(){return document.documentElement.getAttribute('data-theme')||'light';}
   function activeLogo(){const t=curTheme();return PROJECT_LOGOS[t]||PROJECT_LOGOS[t==='dark'?'light':'dark']||null;}
@@ -13741,7 +13741,7 @@ function buildScheduleChart(view){
     slots.appendChild(slot('light','淺色主題 Logo','用於淺色背景。'));
     slots.appendChild(slot('dark','深色主題 Logo','用於深色背景；未設定時自動用淺色那顆替代。'));
     wrap.appendChild(slots);
-    const note=ce('p','logo-note');note.innerHTML='⚠ topbar 依當前主題自動切換對應 logo；未設定的主題會退用另一顆。都未上傳時維持 Goons 字標（會跟著主題反白）。切右上角深淺色可即時預覽。';
+    const note=ce('p','logo-note');note.innerHTML='⚠ topbar 依當前主題自動切換對應 logo；未設定的主題會退用另一顆。都未上傳時維持 CDL 字標（會跟著主題反白）。切右上角深淺色可即時預覽。';
     wrap.appendChild(note);
     view.appendChild(wrap);
   }
@@ -14444,7 +14444,7 @@ function buildScheduleChart(view){
         <div class="gd-hero-copy">
           <p class="eyebrow">上手指南 · Getting Started</p>
           <h1>Cool-DS-Library</h1>
-          <p class="gd-hero-lede">Goons 設計系統的單一事實來源。選定元件、校準 Design Token、預覽整體視覺，一鍵雙向同步至工程與 Figma——讓每一次交付都精準、一致、可追溯。</p>
+          <p class="gd-hero-lede">CDL 設計系統的單一事實來源。選定元件、校準 Design Token、預覽整體視覺，一鍵雙向同步至工程與 Figma——讓每一次交付都精準、一致、可追溯。</p>
           <div class="gd-hero-cta" id="gdHeroCta"></div>
         </div>
         <div class="gd-hero-mock">
@@ -14480,7 +14480,7 @@ function buildScheduleChart(view){
           <div class="gd-fig">
             <div class="gd-figv gd-figv-simple">
             <div class="gd-shell">
-              <div class="gd-shell-top"><span>☰</span><span>GOONS</span><span class="gd-anno">① 上方列</span></div>
+              <div class="gd-shell-top"><span>☰</span><span>cdl</span><span class="gd-anno">① 上方列</span></div>
               <div class="gd-shell-body">
                 <div class="gd-shell-side"><span class="gd-anno">② 側欄</span><div class="gd-shell-line" style="width:80%"></div><div class="gd-shell-line" style="width:64%"></div><div class="gd-shell-line" style="width:72%"></div></div>
                 <div class="gd-shell-main"><span class="gd-anno">③ 主區</span></div>
@@ -14656,7 +14656,7 @@ function buildScheduleChart(view){
         +'<div class="gd-gh-toolbar"><span class="gd-gh-branchbtn">'+O.branch+'main</span><span class="gd-gh-tbmeta">'+O.branch+'1 Branch</span><span class="gd-gh-tbmeta">0 Tags</span><span class="gd-gh-spacer"></span><span class="gd-gh-gotofile">Go to file</span><span class="gd-gh-addfile">Add file</span><span class="gd-gh-codebtn">'+O.code+'Code</span></div>'
         +'<div class="gd-gh-commitrow"><span class="gd-gh-cavatar"></span><span class="gd-gh-cauth"><b>edward890131</b> and <b>claude</b></span><span class="gd-gh-cmsg">上手指南 mockup 精修</span><span class="gd-gh-chash">941df1a</span><span class="gd-gh-ctime">now</span><span class="gd-gh-ccount">'+O.branch.replace(/<svg/,'<svg class="gd-gh-histic"')+'39 commits</span></div>'
         +'<div class="gd-gh-files">'+fileRows+'</div>'
-        +'<div class="gd-gh-readme"><div class="gd-gh-readme-h">'+O.book+'README</div><div class="gd-gh-readme-t">Goons DS Studio</div></div>'
+        +'<div class="gd-gh-readme"><div class="gd-gh-readme-h">'+O.book+'README</div><div class="gd-gh-readme-t">CDL Studio</div></div>'
       +'</div><div class="gd-gh-side">'
         +'<div class="gd-gh-side-h">About</div><p class="gd-gh-side-desc">cool-des-library — 設計系統元件庫網站＋框架＋Figma 雙向同步</p>'
         +'<div class="gd-gh-side-link">🔗 cool-ds-library.vercel.app</div>'
@@ -14683,7 +14683,7 @@ function buildScheduleChart(view){
       +'</div>';
     // ── 另兩張輪播 mockup：高還原「我們網站」的 Design Token 頁與需求匯總頁（1040 native，隨 gh 深淺變數）──
     const hmBar=(u)=>'<div class="gd-gh-bar"><span class="gd-gh-dot" style="background:#FF5F57"></span><span class="gd-gh-dot" style="background:#FEBC2E"></span><span class="gd-gh-dot" style="background:#28C840"></span><span class="gd-gh-url"><span class="gd-gh-lock">🔒</span>'+u+'</span></div>';
-    const hmTop='<div class="hm-top"><span class="hm-burger">☰</span><span class="hm-brand">GOONS</span><span class="hm-brandsub">cool-ds-library</span><span class="hm-divider"></span><span class="hm-pill">📖 上手指南</span><span class="hm-sp"></span><span class="hm-tbtn">'+O.mark+'Github</span><span class="hm-tbtn solid">開啟新專案</span></div>'; // 深淺色 toggle 已移到偏好設定頁，topbar 不再有
+    const hmTop='<div class="hm-top"><span class="hm-burger">☰</span><span class="hm-brand">cdl</span><span class="hm-brandsub">cool-ds-library</span><span class="hm-divider"></span><span class="hm-pill">📖 上手指南</span><span class="hm-sp"></span><span class="hm-tbtn">'+O.mark+'Github</span><span class="hm-tbtn solid">開啟新專案</span></div>'; // 深淺色 toggle 已移到偏好設定頁，topbar 不再有
     const hmSide=(act)=>'<div class="hm-side">' // 對齊現行側欄：無上手指南（在 topbar）、末端加偏好設定
       +'<div class="hm-nav'+(act==='tokens'?' on':'')+'">'+navIc('palette')+'Design Token</div>'
       +'<div class="hm-sep"></div><div class="hm-nav'+(act==='guideline'?' on':'')+'">'+navIc('ruler')+'Design Guideline</div>'
@@ -14724,7 +14724,7 @@ function buildScheduleChart(view){
       +'<p class="hm-lede">依<b>當前 token 與選定元件</b>組成的設計指南預覽——匯出前的最後確認關。在 Design Token 調值、需求匯總 勾元件，這頁即時反映。</p>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-sec-t">品牌 Brand</div><div class="hm-sec-d">logo 與主色角色</div>'
-      +'<div class="hm-dgbrand"><div class="hm-dglogos"><span class="hm-dglogo lt">GOONS</span><span class="hm-dglogo dk">GOONS</span></div>'
+      +'<div class="hm-dgbrand"><div class="hm-dglogos"><span class="hm-dglogo lt">cdl</span><span class="hm-dglogo dk">cdl</span></div>'
       +'<div class="hm-dgroles"><div class="hm-dgrole"><span class="hm-dgrole-sw" style="background:#141417"></span>主色</div><div class="hm-dgrole"><span class="hm-dgrole-sw" style="background:#EA580C"></span>副色</div><div class="hm-dgrole"><span class="hm-dgrole-sw" style="background:#9BA0AA"></span>中性</div></div></div>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-sec-t">色彩 Color</div><div class="hm-sec-d">品牌主色、中性與狀態色階</div>'
@@ -14929,7 +14929,7 @@ function buildScheduleChart(view){
     const r02=view.querySelector('#gdRich02');
     if(r02)r02.innerHTML=
       '<div class="gm-rel"><div class="gm-win">'
-      +'<div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-sp"></span><span class="gm-ver">儲存並更新 · v3</span></div>'
+      +'<div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">cdl</span><span class="gm-sp"></span><span class="gm-ver">儲存並更新 · v3</span></div>'
       +'<div class="gm-body"><div class="gm-side">'
         +'<div class="gm-si"><span class="gm-ico"></span>Design Token</div><div class="gm-si"><span class="gm-ico"></span>Design Guideline</div><div class="gm-si"><span class="gm-ico"></span>需求匯總</div>'
         +'<div class="gm-lb">BASIC</div><div class="gm-si on"><span class="gm-ico"></span>Button</div><div class="gm-si"><span class="gm-ico"></span>Input</div>'
@@ -14941,7 +14941,7 @@ function buildScheduleChart(view){
     // 04 元件架構：Button 規格矩陣（mkBtn 原子）＋篩選 chip＋token 綁定列
     const r04=view.querySelector('#gdRich04');
     if(r04){r04.innerHTML=
-      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">/ Basic / Button</span><span class="gm-sp"></span></div>'
+      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">cdl</span><span class="gm-crumb" style="margin-left:6px">/ Basic / Button</span><span class="gm-sp"></span></div>'
       +'<div class="gm-main" style="gap:9px">'
         +'<div class="gm-h" style="font-size:var(--fs-h9)">規格矩陣</div>'
         +'<div class="gd-chiprow"><span class="gd-chip on">實心</span><span class="gd-chip on">外框</span><span class="gd-chip on">柔色</span><span class="gd-chip on">主要</span><span class="gd-chip on">次要</span><span class="gd-chip on">危險</span></div>'
@@ -14966,7 +14966,7 @@ function buildScheduleChart(view){
     // 05 數值編輯：Design Token L1 tab＋色票／數值列（brand2 欄位 focus 高亮示意編輯中）
     const r05=view.querySelector('#gdRich05');
     if(r05){r05.innerHTML=
-      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">Design Token</span><span class="gm-sp"></span><span id="gdR05Reset"></span></div>'
+      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">cdl</span><span class="gm-crumb" style="margin-left:6px">Design Token</span><span class="gm-sp"></span><span id="gdR05Reset"></span></div>'
       +'<div class="gm-main" style="gap:8px">'
         +'<div class="gm-tabs"><span class="gm-tab on">L1 Primitive</span><span class="gm-tab">L2 Semantic</span><span class="gm-tab">框架索引</span></div>'
         +'<div class="gm-trow"><span class="gm-tsw" style="background:var(--accent)"></span><span class="gm-tnm">--c-brand-500</span><span class="gm-tfield plain">#1C1C20</span></div>'
@@ -14983,7 +14983,7 @@ function buildScheduleChart(view){
       const gmTag=(txt,on)=>'<div class="tg v-outline c-round i-neutral st-default'+(on?'':' off')+'"><span>'+txt+'</span></div>'; // 真實 Tag 元件
       const gmCard=(name,checked,tags)=>'<div class="gm-ccard"><div class="gm-ccard-top"><span class="gm-ck'+(checked?' on':'')+'">'+(checked?CK:'')+'</span><span class="gm-cnm">'+name+'</span></div><div class="gm-ctags">'+tags+'</div></div>';
       r06.innerHTML=
-      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-crumb" style="margin-left:6px">需求匯總</span><span class="gm-sp"></span></div>'
+      '<div class="gm-win"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">cdl</span><span class="gm-crumb" style="margin-left:6px">需求匯總</span><span class="gm-sp"></span></div>'
       +'<div class="gm-cardgrid">'
         +gmCard('Button',true,gmTag('實心',1)+gmTag('外框',1)+gmTag('柔色',0))
         +gmCard('Input',true,gmTag('預設',1)+gmTag('錯誤',1))
@@ -14996,7 +14996,7 @@ function buildScheduleChart(view){
     // 07 版本存檔：存檔確認對話框疊在暗化視窗上（按鈕用 mkBtn 原子）
     const r07=view.querySelector('#gdRich07');
     if(r07){r07.innerHTML=
-      '<div class="gm-win gm-stage7"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">GOONS</span><span class="gm-sp"></span><span class="gm-ver">v1</span></div>'
+      '<div class="gm-win gm-stage7"><div class="gm-top"><span class="gm-burger">☰</span><span class="gm-brand">cdl</span><span class="gm-sp"></span><span class="gm-ver">v1</span></div>'
       +'<div class="gm-body" style="min-height:270px"><div class="gm-side"><div class="gm-si"><span class="gm-ico"></span>Design Token</div><div class="gm-si"><span class="gm-ico"></span>Design Guideline</div><div class="gm-si"><span class="gm-ico"></span>需求匯總</div><div class="gm-lb">BASIC</div><div class="gm-si on"><span class="gm-ico"></span>Button</div></div><div class="gm-main"><div class="gm-line" style="width:78%"></div><div class="gm-card-ph"></div><div class="gm-line" style="width:56%"></div><div class="gm-line" style="width:68%"></div></div></div>'
       +'<div class="gm-scrim"></div>'
       +'<div class="gm-dlg"><div class="gm-dlg-h"><div class="gm-dlg-t">儲存並更新此元件庫</div><div class="gm-dlg-sub">v1 → v2 · 3 項變更</div></div>'
@@ -16977,7 +16977,7 @@ function buildScheduleChart(view){
     const hasCI=s.files.length||s.text.trim()||s.url.trim();
     return `# Opening Interview — ${i.name}
 Date: ${d}
-Source: Goons DS Studio 網站「開新專案」流程（無 AI 原型；標 assumed-default 的項目請在 Claude Code 跑 Step 5 前確認）
+Source: CDL Studio 網站「開新專案」流程（無 AI 原型；標 assumed-default 的項目請在 Claude Code 跑 Step 5 前確認）
 
 Q0 Project folder:
   - Path: projects/${i.name}/
@@ -17048,7 +17048,7 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
   function tokStylePackFiles(){
     const SANS="'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', system-ui, sans-serif";
     const MONO="'Geist Mono', ui-monospace, 'SF Mono', Menlo, 'PingFang TC', 'Noto Sans TC', monospace";
-    const HD=t=>'/* ============================================================\n   Goons DS · '+t+'\n   由 Design Token 頁輸出 · 命名為 source of truth\n   ============================================================ */\n\n';
+    const HD=t=>'/* ============================================================\n   CDL · '+t+'\n   由 Design Token 頁輸出 · 命名為 source of truth\n   ============================================================ */\n\n';
     // _breakpoints.scss：對齊 token RWD 分層（mobile <768 / tablet 768–1023 / desktop ≥1024），mixin API 比照同事既有慣例
     const F_BP=HD('_breakpoints.scss｜斷點變數與 mixin')+
       '$breakpoint-sm: 480px;   // 小網\n$breakpoint-md: 768px;   // 平板（token tablet 起點）\n$breakpoint-lg: 1024px;  // 桌機（token desktop 起點）\n$breakpoint-xl: 1920px;  // 大網（token wide）\n\n'+
@@ -17077,7 +17077,7 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
       '/* 捲軸（webkit）*/\n::-webkit-scrollbar { width: 4px; height: 4px; }\n::-webkit-scrollbar-track { background: none; }\n::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, .2); border-radius: 15px; transition: .3s; }\n::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, .4); }\n';
     const BT='```';
     const F_README=[
-      '# Goons DS · 樣式包（@goons/styles）',
+      '# CDL · 樣式包（@goons/styles）',
       '',
       '由 Design Token 頁輸出的全站共用樣式包。token 命名為 **source of truth**，開發端直接以 `var(--token)` 取用。',
       '',
@@ -17134,7 +17134,7 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
   function flwSelIds(){return Object.keys(DIAL_SPECS).filter(id=>SUMSEL.has(id));}
   function flwReadme(){const n=FLW.info.name;const k=flwSelIds().length;const BT='```';return `# ${n} — 交棒說明
 
-這包是在 Goons DS Studio 網站「開新專案」流程產生的（${n}.zip）。
+這包是在 CDL Studio 網站「開新專案」流程產生的（${n}.zip）。
 
 ## 放到 repo
 
@@ -17196,10 +17196,10 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     finally{makeCodePanel=orig;host.remove();LIVE_REFRESH.clear();saved.forEach((v,k)=>LIVE_REFRESH.set(k,v));current=cur0;}
     return out;}
   function flwCompFiles(id,cc){const nm=componentName(id),parts=cc.parts,multi=parts.length>1;
-    const html='<!-- Goons DS · '+nm+'（'+id+'）HTML｜'+(cc.src==='panel'?'同元件頁「程式碼 · HTML」':'元件頁沒有程式碼面板，由互動預覽序列化')+'；樣式見 '+id+'.scss，token 由 styles/_variables.scss 提供 -->\n\n'+
+    const html='<!-- CDL · '+nm+'（'+id+'）HTML｜'+(cc.src==='panel'?'同元件頁「程式碼 · HTML」':'元件頁沒有程式碼面板，由互動預覽序列化')+'；樣式見 '+id+'.scss，token 由 styles/_variables.scss 提供 -->\n\n'+
       parts.map((p,i)=>(multi?'<!-- ── '+(i+1)+'／'+parts.length+(p.t?' · '+p.t:'')+' ── -->\n':'')+String(p.html||'').trim()).join('\n\n')+'\n';
     const seen=new Set(),cs=parts.filter(p=>{const k=String(p.css||'').trim();if(!k||seen.has(k))return false;seen.add(k);return true;});
-    const scss='/* Goons DS · '+nm+'（'+id+'）SCSS｜'+(cc.src==='panel'?'同元件頁「程式碼 · SCSS」':'由互動預覽推導')+'；token 以 var(--token) 取用，先全域 @use styles/_variables.scss */\n\n'+
+    const scss='/* CDL · '+nm+'（'+id+'）SCSS｜'+(cc.src==='panel'?'同元件頁「程式碼 · SCSS」':'由互動預覽推導')+'；token 以 var(--token) 取用，先全域 @use styles/_variables.scss */\n\n'+
       cs.map((p,i)=>(cs.length>1?'/* ── '+(i+1)+'／'+cs.length+(p.t?' · '+p.t:'')+' ── */\n':'')+String(p.css).trim()).join('\n\n')+'\n';
     return {html,scss};}
 

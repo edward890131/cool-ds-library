@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-11-04（二十四）　Logo 換成 CDL
+
+- 母庫 logo 由 Goons 字標換成 **CDL**（Cool Design Library）：小寫幾何字標「cdl」（同一支 6 單位筆畫）＋句尾強調方塊，方塊綁 `--accent2`、字身走 `currentColor`（深淺色自動反白）。三處同步：網站 topbar `.brand-logo`、library header `hdrLogo`、footer `ftrLogo`；鎖寬 40／46px、高度等比。專案上傳的 logo 仍優先顯示。
+- 產品名稱同步改為 CDL（CDL Studio、樣式包與匯出檔註解、說明文字、guide 示意圖的字標）；公司版權「果思設計 Goons Design」維持不變。
+
 ## 2026-11-04（二十三）　專案浮動列改反白、套用提案後直接到 Token 頁
 
 - **專案浮動列**改用元件庫浮動批次列（Table Toolbar `.ttb-bar`）同一套反白樣式：`--ink` 底、`--panel` 字、`--r-md`、`--e-xl`；「匯出」為反白外框、「下一步」為反白實心，深色模式自動反轉。進場改成彈性上滑＋淡入（手機為底部滑入）。
