@@ -5109,7 +5109,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hx-hero-bg{--hx-glow:color-mix(in srgb,var(--accent) 16%,transparent);--hx-glow3:color-mix(in srgb,var(--accent) 8%,transparent);}}
   .hx-hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
+      radial-gradient(260px 210px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
       radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/22px 22px,
@@ -5117,7 +5117,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent);mask-image:linear-gradient(180deg,#000 78%,transparent);}
   /* 互動背景（hxHeroFx）：有 canvas 時點陣改由 canvas 畫（滑過會散開），CSS 點陣只當無 JS／減少動態的後備 */
   .hx-hero-bg.has-fx{background:
-      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
+      radial-gradient(260px 210px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
       radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       var(--canvas);}
@@ -5300,15 +5300,15 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx > .hx-sec{margin:calc(var(--sp-7) + var(--sp-3)) 0 0;scroll-margin-top:var(--sp-6);}
   /* 宣言＋大數字 */
   .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(32px,5vw,72px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框 */
-  .hx-manifesto{margin:0;max-width:22em;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
+  .hx-manifesto{margin:0;max-width:none;text-wrap:balance;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
   .hx-manifesto span{color:color-mix(in srgb,var(--ink) 18%,transparent);transition:color var(--dur-default) var(--ease-out);}
   .hx-manifesto span.on{color:var(--ink);}
-  .hx-nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-6);}
+  .hx-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-6);}
   .hx-num{display:flex;flex-direction:column;gap:var(--sp-2);min-width:0;}
   .hx-num-v{display:flex;align-items:baseline;font-family:var(--font-sans);font-size:clamp(40px,5.4vw,72px);line-height:1;font-weight:var(--fw-semibold);letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;}
   .hx-num-s{font-size:.6em;margin-left:.04em;}
   .hx-num-l{font-size:var(--fs-h10);color:var(--muted);order:-1;}
-  @media(max-width:767px){.hx-nums{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--sp-7);}}
+  @media(max-width:599px){.hx-nums{grid-template-columns:minmax(0,1fr);row-gap:var(--sp-6);}}
   .hx > .hx-sec:last-child{margin-bottom:calc(var(--sp-7) + var(--sp-3));}
   .hx .gd-sec-h{align-items:center;border-bottom:0;padding-bottom:0;margin-bottom:var(--sp-5);}
   .hx-sec-x{margin-left:auto;display:flex;align-items:center;gap:var(--sp-3);}
@@ -16185,8 +16185,8 @@ function buildScheduleChart(view){
     const all=NAV.flatMap(g=>g.items),ready=all.filter(x=>x.st==='ready').length;
     let vars=0;try{Object.values(DIAL_SPECS).forEach(sp=>{if(!sp||!sp.order||!sp.axes)return;const pick={};sp.order.forEach(k=>pick[k]=sp.axes[k]||[]);vars+=dialCount(sp.order,pick,sp.when);});}catch(e){}
     let toks=0;try{const seen=new Set();for(const sh of document.styleSheets){let rs;try{rs=sh.cssRules;}catch(e){continue;}for(const r of rs){if(r.selectorText===':root'&&r.style)for(let i=0;i<r.style.length;i++){const n=r.style[i];if(/^--(c|s|r|sp|fs|fw|lh|e|dur|ease|font|i)-/.test(n))seen.add(n);}}}toks=seen.size;}catch(e){}
-    const TXT='Every component grows from the same set of tokens. Change one color or one radius, and the site, the code and Figma all update together. Design and engineering stop re-checking each other’s work.';
-    const STATS=[[ready,'','Components'],[vars,'','Variants'],[toks,'+','Design tokens'],[2,'×3','Themes × breakpoints']];
+    const TXT='Every component grows from the same set of tokens. Change one color or one radius, and the site, the code and Figma update together.';
+    const STATS=[[ready,'','Components'],[vars,'','Variants'],[toks,'+','Design tokens']];
     sec.innerHTML=`<div class="hx-stats-card"><p class="hx-manifesto" aria-label="${TXT}">${TXT.split(/(\s+)/).map(w=>/^\s+$/.test(w)?w:`<span aria-hidden="true">${w}</span>`).join('')}</p>
       <div class="hx-nums">${STATS.map(([n,suf,lb])=>`<div class="hx-num"><div class="hx-num-l">${lb}</div><div class="hx-num-v"><span class="hx-num-n" data-to="${n}">${n.toLocaleString('en-US')}</span><span class="hx-num-s">${suf}</span></div></div>`).join('')}</div></div>`;
     const chars=[...sec.querySelectorAll('.hx-manifesto span')],nums=[...sec.querySelectorAll('.hx-num-n')];
