@@ -6159,8 +6159,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm{container-type:inline-size;}
   .hx-tm-stage{position:relative;display:grid;height:min(560px,56.25cqi);border-radius:var(--radius);overflow:hidden;background:var(--panel-2);isolation:isolate;}
   .hx-tm-stage:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .hx-tm-sl{grid-area:1/1;position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-6);opacity:0;visibility:hidden;transition:opacity .8s var(--ease-standard),visibility 0s linear .8s;}
-  .hx-tm-sl.on{opacity:1;visibility:visible;z-index:1;transition:opacity .8s var(--ease-standard),visibility 0s;}
+  .hx-tm-sl{grid-area:1/1;position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-6);opacity:0;visibility:hidden;transition:opacity .25s var(--ease-in),visibility 0s linear .25s;}
+  .hx-tm-sl.on{opacity:1;visibility:visible;z-index:2;transition:opacity .45s var(--ease-out) .2s,visibility 0s;}  /* 先退後進，兩張卡不重疊 */
   .hx-tm-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
   .hx-tm-stage > .hx-tm-bg0{z-index:0;}  /* 共用背景：固定一張，不隨切換淡入淡出 */
   .hx-tm-sl .hx-tm-bg{display:none;} .hx-tm-sl::after{display:none;}
@@ -6169,7 +6169,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-sl::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--c-neutral-900) 42%,transparent);pointer-events:none;}  /* 背景壓一層淺黑，不要太亮 */
   .hx-tm-card{z-index:1;}
   /* 牌卡內容進退場：同其他段落的 ease-out 上移淡入，依序錯開 */
-  .hx-tm-card > *{opacity:0;transform:translateY(10px);transition:opacity var(--dur-default) var(--ease-out),transform var(--dur-default) var(--ease-out);}
+  .hx-tm-card > *{opacity:0;transform:translateY(10px);transition:opacity calc(var(--dur-fast) * .8) var(--ease-in),transform var(--dur-default) var(--ease-out);}  /* 退場快、進場慢，避免兩則重疊 */
+  .hx-tm-sl.on .hx-tm-card > *{transition:opacity var(--dur-default) var(--ease-out) 160ms,transform var(--dur-default) var(--ease-out) 160ms;}
   .hx-tm-sl.on .hx-tm-card > *{opacity:1;transform:none;}
   .hx-tm-sl.on .hx-tm-card > :nth-child(2){transition-delay:80ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(3){transition-delay:160ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(4){transition-delay:240ms;}
   .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--r-lg);box-shadow:var(--e-xl);}
@@ -6188,8 +6189,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-bar i{position:absolute;left:0;top:-.5px;height:2px;width:20%;background:var(--ink);transition:width var(--dur-slow,.4s) var(--ease-out);}
   .hx-tm-n{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;}
   @media(max-width:767px){
-    .hx-tm-stage{height:auto;border-radius:var(--r-xl);}
-    .hx-tm-sl{padding:var(--sp-9) var(--sp-5);}  /* 手機：上下留大量呼吸空間 */
+    .hx-tm-stage{height:50vh;height:50svh;min-height:360px;border-radius:var(--radius);}  /* 手機固定 50vh */
+    .hx-tm-sl{padding:var(--sp-7) var(--sp-5);}
+    .hx-tm-card{max-height:100%;overflow:hidden;}
     .hx-tm-card{min-height:0;padding:var(--sp-5);gap:var(--sp-4);}
     .hx-tm-qm{width:24px;height:20px;}
     .hx-tm-q p{font-size:var(--fs-h7);}
@@ -16601,7 +16603,7 @@ function buildScheduleChart(view){
     ];
     const ol=sec.querySelector('#hxSteps');const runs=[];
     steps.forEach(([t,d,vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
-      const tx=ce('div','hx-step-tx');const k=tagEl('outline','neutral','default','round');k.classList.add('hx-step-k');k.querySelector('span').textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
+      const tx=ce('div','hx-step-tx');const k=tagEl('solid','neutral','default','round');k.classList.add('hx-step-k');k.querySelector('span').textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
       const p=ce('p','hx-step-d');p.textContent=d;tx.append(k,h,p);
       if(i===steps.length-1){const a=ce('div','hx-step-a');
         const b1=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true,trail:true});b1.querySelector('span').textContent='開始新專案';b1.onclick=goStart;
