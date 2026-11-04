@@ -5357,12 +5357,13 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-bg-grad .hx-tile-stage{background:radial-gradient(100% 90% at 0% 0%,color-mix(in srgb,var(--c-violet-500) 18%,transparent),transparent 70%),radial-gradient(100% 100% at 100% 100%,color-mix(in srgb,var(--accent2) 30%,transparent),transparent 72%),var(--panel);}
   .hx-bg-grad2 .hx-tile-stage{background:linear-gradient(160deg,color-mix(in srgb,var(--s-feedback-info) 22%,var(--panel)),color-mix(in srgb,var(--c-violet-500) 14%,var(--panel)) 55%,color-mix(in srgb,var(--s-feedback-success) 18%,var(--panel)));}
   .hx-bg-photo .hx-tile-stage{background:var(--hx-photo) 50% 40%/cover no-repeat,var(--panel-2);border-color:transparent;}
-  .hx-bg-dash .hx-tile-stage{background:transparent;border-style:dashed;border-color:var(--line-strong);}
+  .hx-bg-dash .hx-tile-stage{background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--s-feedback-success) 16%,transparent),transparent 70%),var(--panel-2);}  /* 原虛線透明底 → 實底淡綠漸層 */
   .hx-bg-dots .hx-tile-stage{background:radial-gradient(circle at 1px 1px,var(--line-strong) 1px,transparent 1.5px) 0 0/16px 16px,var(--panel);}
-  .hx-bg-check .hx-tile-stage{background:repeating-conic-gradient(var(--panel-2) 0 25%,var(--panel) 0 50%) 0 0/20px 20px;}
+  .hx-bg-check .hx-tile-stage{background:linear-gradient(200deg,color-mix(in srgb,var(--accent2) 16%,var(--panel)),color-mix(in srgb,var(--c-violet-500) 10%,var(--panel)));}  /* 原棋盤格（看起來像透明）→ 實底暖色漸層 */
   .hx-tile-stage > *{flex:0 0 auto;max-width:none;}
   .hx-tile-stage > .hx-w-full{flex:1 1 auto;width:100%;}
-  .hx-tile-stage > .hx-w-tag{flex:1 1 auto;justify-content:center;}
+  .hx-tile-stage > .hx-w-tag{flex:1 1 auto;justify-content:center;gap:var(--sp-3);}
+  .hx-w-tag .tg{height:30px;--tg-pad-x:var(--sp-4);--tg-fs:var(--fs-h10);}  /* 牆上的標籤放大一級 */
   .hx-tile-stage .ddwrap{position:relative;align-self:center;} .hx-tile-stage .ddwrap .ddmenu{position:static;margin-top:var(--sp-2);transition:none;}
   .hx-w-tgl{min-width:200px;padding:var(--sp-4);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--e-sm);}
   .hx-tgl-r{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-5);font-size:var(--fs-h11);color:var(--ink);}
@@ -15959,7 +15960,10 @@ function buildScheduleChart(view){
         return [()=>{base();h(-1);},()=>h(2),()=>{v(2,'solid');h(-1);},()=>h(3),()=>{v(3,'solid');h(-1);},()=>h(0),()=>{v(0,'outline');h(-1);},()=>h(4),()=>{v(4,'solid');h(-1);},()=>{base();h(-1);}];}},
     /* Avatar group：逐顆往上浮 → 「+2」展開成全部成員 → 收合 */
     {id:'avatar',bg:'photo',peak:6,mk:()=>{const g=avtGroup('l',6,4);const more=g.querySelector('.avt-more');
-        for(let i=4;i<6;i++){const P=AVT_PEOPLE[i%6];const a=avtEl('l','circle','initials',{initials:P[0],tone:P[1],name:P[0]});a.classList.add('hx-avx');g.insertBefore(a,more);}return g;},
+        /* 人物頭貼：Avatar 原子的 image 內容型，照片取站內 CARD_AV（5 張循環） */
+        const ph=i=>{const P=AVT_PEOPLE[i%6];const a=avtEl('l','circle','image',{src:CARD_AV[i%CARD_AV.length],name:P[0]});return a;};
+        [...g.querySelectorAll('.avt:not(.avt-more)')].forEach((a,i)=>a.replaceWith(ph(i)));
+        for(let i=4;i<6;i++){const a=ph(i);a.classList.add('hx-avx');g.insertBefore(a,more);}return g;},
       st:g=>{const A=[...g.querySelectorAll('.avt:not(.hx-avx)')];
         const lift=i=>A.forEach((a,j)=>a.classList.toggle('hx-sim',j===i)),all=v=>g.classList.toggle('hx-all',v);
         return [()=>{all(false);lift(-1);},()=>lift(0),()=>lift(1),()=>lift(2),()=>lift(3),()=>lift(4),[()=>{lift(-1);all(true);},1700],()=>all(false)];}},
