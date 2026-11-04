@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-04（二十）　首頁手機／平板：CTA 破版修正、試玩區改版
+
+- **Hero CTA**：手機寬度下按鈕被 `flex:1 1 0` 擠到比文字還窄而破版；改為維持原尺寸，≤599px 時兩顆等寬並排撐滿。
+- **iPad mini 直式（600–767px）**：試玩控制改成面板內兩欄格線（同類控制成對排），整組約 414px 高、不再需要「更多選項」；footer 單列。
+- **手機（≤599px）**：控制收進一顆浮動「調整 token」按鈕（附已改數量 Tag），點開 library Modal 底部抽屜，內含全部控制與重設／複製 CSS 變數，預覽即時更新；Esc／×／點背景關閉，焦點回到按鈕。移除舊的「更多選項／收合」列。
+
 ## 2026-11-04（十九）　匯出 zip 元件程式碼改成合併檔結構
 
 - 原本每個元件一個資料夾（`components/<id>/<id>.html＋<id>.scss`），32 個元件就是 64 個檔。改成：樣式每顆一個 SCSS partial 平放在 `styles/components/_<id>.scss`，加 `styles/components/_index.scss` 合併入口（`@forward` 全部已選元件，`@use "styles/components"` 一行引入）；HTML 全部合在專案根目錄 `components.html`（開頭附元件清單，依元件分段註解）。交棒說明與檔案清單文字同步更新。
