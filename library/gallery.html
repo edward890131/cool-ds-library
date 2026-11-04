@@ -4191,7 +4191,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .dgt-tab.on{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.07);}
   .nav-item.nav-mono{font-family:var(--font-display);letter-spacing:-0.01em;}
   .nav-guide-m{display:none;}                                         /* 上手指南選單項：桌機在 topbar，這裡隱藏 */
-  @media(max-width:767px){.nav-guide-m{display:flex;}}               /* 手機 topbar 收起後，改由選單頂端進入上手指南 */
+  /* 上手指南已固定在側欄偏好設定上方，頂端的手機專用入口不再顯示 */               /* 手機 topbar 收起後，改由選單頂端進入上手指南 */
   /* 選單底部：版本號＋母元件庫說明（手機 topbar badge 收起後改在此顯示；釘在選單底部） */
   .sb-foot{display:none;padding:var(--sp-4) var(--sp-2) var(--sp-2);border-top:1px solid var(--line);}
   @media(max-width:767px){.sidebar{display:flex;flex-direction:column;} .sb-foot{display:block;margin-top:auto;}}
@@ -4228,6 +4228,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ds-chg li.rm{border-left:3px solid var(--s-action-danger);}
   .ds-chg li.chg{border-left:3px solid var(--s-feedback-info);}
   /* ── 上手指南 教學頁（Batch B）── */
+  #guideBtn{display:none!important;}  /* 上手指南移到側欄（偏好設定上方） */
   .gd-entry{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 10px;cursor:pointer;margin-left:var(--sp-4);transition:color .15s,border-color .15s;}
   .gd-entry:hover{color:var(--ink);border-color:var(--accent);}
   @media(max-width:767px){#guideBtn,.gd-entry{display:none;} .brand-title,.brand .divider{display:none;}}  /* 手機：隱藏上手指南＋品牌文字，只留 GOONS 字標，釋出 topbar 空間避免 logo 溢出疊字 */
@@ -5124,6 +5125,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       var(--canvas);}
   .hx-hero-bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  /* 手機／平板（觸控或 ≤1023px）沒有游標互動：拿掉所有光暈，只留點陣，避免整片霧色 */
+  @media (max-width:1023px),(pointer:coarse){.hx-hero-bg,.hx-hero-bg.has-fx{background:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/22px 22px,var(--canvas);}}
   /* 協作游標（像 Figma 多人游標）：箭頭＋名牌，彈性跟隨滑鼠；系統游標在 hero 內隱藏，按鈕／連結／試玩區恢復 */
   .hx-cur{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:0;transition:opacity var(--dur-fast) var(--ease-out);--cur-c:var(--c-info-500);}
   .hx-cur.on{opacity:1;}
@@ -5415,6 +5418,14 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* 動態展示（參考 aceternity）：錯位 bento——CSS columns（欄數看容器寬：4／3／2／1）＋細虛線格線，每格高度由元件決定 */
   .hx-showq{container-type:inline-size;overflow:hidden;position:relative;}
+  /* 手機：動態展示改成橫向一列、自動慢慢左右滑（JS 推 scrollLeft），手指可自行滑動 */
+  @media(max-width:599px){
+    .hx-showq{overflow:visible;background:none;border:0;box-shadow:none;}
+    .hx-show{display:flex;align-items:flex-start;columns:auto;gap:var(--sp-4);overflow-x:auto;scrollbar-width:none;scroll-snap-type:none;padding-bottom:2px;}
+    .hx-show::-webkit-scrollbar{display:none;}
+    .hx-show > .hx-sc{flex:0 0 82%;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);}
+    .hx-show > .hx-sc.hx-sc-psc{display:block;}
+  }
   .hx-show{columns:1;column-gap:0;margin-bottom:-1px;}
   #hxShowBar.hx-show-bar{display:none;}  /* 暫停鈕拿掉：滑過／聚焦、捲出畫面、減少動態仍會停 */
   @container (min-width:600px){.hx-show{columns:2;}}
@@ -5570,7 +5581,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-pnl-h,.hx-pnl-f{padding-left:var(--sp-4);padding-right:var(--sp-4);} .hx-pnl-b{padding:0 var(--sp-4) var(--sp-4);}
     .hx-pv{padding:var(--sp-4);gap:var(--sp-4);}
     .hx-mq{--hx-mq-gap:var(--sp-4);gap:var(--sp-5);}
-    .hx-sc-rank,.hx-sc-psc,.hx-sc-todo,.hx-sc-tok,.hx-sc-grp{display:none;}
+    .hx-sc-rank,.hx-sc-todo,.hx-sc-tok{display:none;}  /* 手機改橫向輪播，人物卡與群組卡保留 */
     .hx-sc{padding:var(--sp-5);}
     .hx-steps{grid-template-columns:1fr;}
     .hx-fv-r{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:var(--sp-2);padding:var(--sp-3);}
@@ -6036,9 +6047,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
     </button>
     <div class="brand"><svg class="brand-logo" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CDL"><g stroke="currentColor" stroke-width="6"><path d="M25.96 21.64A13 13 0 1 0 25.96 38.36"/><circle cx="48" cy="30" r="13"/><path d="M61 2V46"/><path d="M75 2V46"/></g><rect x="82" y="40" width="6" height="6" fill="var(--accent2)"/></svg></div>
-    <button class="gd-entry" id="guideBtn" type="button">📖 上手指南</button>
-    <div class="spacer"></div>
     <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
+    <button class="gd-entry" id="guideBtn" type="button" hidden>📖 上手指南</button>
+    <div class="spacer"></div>
     <button class="theme-toggle" id="themeBtn" type="button" role="switch" aria-checked="false" aria-label="切換為深色模式"><span class="knob"></span></button>
   </div>
 
@@ -16353,6 +16364,15 @@ function buildScheduleChart(view){
     const mq=matchMedia('(prefers-reduced-motion:reduce)');const onMq=()=>{if(mq.matches)on=false;paint();syncAll();};mq.addEventListener('change',onMq);
     window.__hxShowStop=()=>{demos.forEach(d=>{d.running=false;stopD(d);});document.removeEventListener('visibilitychange',vis);mq.removeEventListener('change',onMq);};
     window.__hxShow={demos,get on(){return on;}};
+    /* 手機自動橫移：約 18px/s 來回漂移，碰到底就反向；觸控後暫停 4 秒、捲出畫面停止、減少動態不動 */
+    { const PH=matchMedia('(max-width:599px)');let dir=1,last=0,hold=0,raf=0,inView=true,fx=0;
+      const step=t=>{raf=0;if(!grid.isConnected)return;const dt=last?Math.min(64,t-last):16;last=t;
+        if(PH.matches&&on&&inView&&!document.hidden&&t>hold){const max=grid.scrollWidth-grid.clientWidth;
+          if(max>2){if(Math.abs(grid.scrollLeft-fx)>2)fx=grid.scrollLeft;let x=fx+dir*dt*.018;if(x>=max){x=max;dir=-1;}else if(x<=0){x=0;dir=1;}fx=x;grid.scrollLeft=x;}}   // fx＝浮點位置（scrollLeft 會取整數，小步長不累積）
+        raf=requestAnimationFrame(step);};
+      const pause=()=>{hold=performance.now()+4000;};grid.addEventListener('touchstart',pause,{passive:true});grid.addEventListener('pointerdown',pause);grid.addEventListener('wheel',pause,{passive:true});
+      if(window.IntersectionObserver)new IntersectionObserver(es=>{inView=es[0].isIntersecting;}).observe(grid);
+      if(!HX_REDUCE())raf=requestAnimationFrame(step);}
     syncAll();
     return sec;
   }
@@ -16665,7 +16685,9 @@ function buildScheduleChart(view){
     host.appendChild(ce('div','nav-sep')); // Table 群組 ↔ 版本紀錄／更新紀錄 分隔線
     const clpin=document.createElement('button');clpin.className='nav-item nav-pin';clpin.dataset.id='changelog';clpin.setAttribute('aria-current',current==='changelog');
     clpin.innerHTML=`<span>${window.__dsProject?'更新紀錄':'版本紀錄'}</span>`;clpin.onclick=()=>renderView('changelog');host.appendChild(clpin); // 母檔=版本紀錄／專案=更新紀錄，放 Table 以下
-    host.appendChild(ce('div','nav-sep')); // 更新紀錄 ↔ 偏好設定 分隔線
+    host.appendChild(ce('div','nav-sep')); // 更新紀錄 ↔ 上手指南 分隔線
+    { const gd=document.createElement('button');gd.className='nav-item nav-pin';gd.dataset.id='guide';gd.setAttribute('aria-current',current==='guide');
+      gd.innerHTML=`<span>上手指南</span>`;gd.onclick=()=>renderView('guide');host.appendChild(gd);host.appendChild(ce('div','nav-sep')); }  // 上手指南放在偏好設定上方
     const spin=document.createElement('button');spin.className='nav-item nav-pin';spin.dataset.id='settings';spin.setAttribute('aria-current',current==='settings');
     spin.innerHTML=`<span>偏好設定</span>`;spin.onclick=()=>renderView('settings');host.appendChild(spin); // 深淺色＋背景漸層偏好，放更新紀錄下方
     const foot=ce('div','sb-foot');foot.id='sbFoot';foot.innerHTML=sbFootHTML();foot.style.cursor='pointer';foot.title=window.__dsProject?'看更新紀錄':'看版本紀錄';foot.onclick=()=>renderView('changelog');host.appendChild(foot); // 選單底部：版本號＋母元件庫說明（.sb-foot 只 ≤767px 顯示）；點擊進紀錄頁
@@ -18199,7 +18221,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       b.innerHTML='<span class="sgm-ic">'+IC[d.id]+'</span>';
       if(typeof ttEl==='function'){const t=ttEl('bottom','s',true);t.classList.add('tt-float','tt-fp-bottom');t.setAttribute('aria-hidden','true');
         t.querySelector('span').textContent=d.name?d.label+' · '+d.name:d.tip;b.appendChild(t);} else b.title=d.label;});
-    gb.insertAdjacentElement('afterend',grp); tb.classList.add('has-rwd');
+    {const th=document.getElementById('themeBtn');if(th)th.insertAdjacentElement('beforebegin',grp);else gb.insertAdjacentElement('afterend',grp);} tb.classList.add('has-rwd');   // 深淺色切換左邊
     const segBtns=[...grp.querySelectorAll('.sgm-it')];
 
     function themeMsg(){const r=document.documentElement;return {rwdframe:1,t:'theme',theme:r.getAttribute('data-theme')==='dark'?'dark':'light',frost:window.__frost||0};}
