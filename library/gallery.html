@@ -463,7 +463,7 @@
   .v-text.st-hover{background:var(--tint);}
   .v-text.st-pressed{background:var(--tint2);transform:scale(.97);}
   .v-soft{background:var(--tint);color:var(--fg);border-color:transparent;}
-  .btn.v-soft{-webkit-backdrop-filter:blur(var(--btn-blur,12px)) saturate(1.2);backdrop-filter:blur(var(--btn-blur,12px)) saturate(1.2);}  /* soft 底是半透明 tint：加背景模糊，放在圖片／漸層上也讀得清楚 */
+  .btn.v-soft{background:linear-gradient(var(--tint),var(--tint)),color-mix(in srgb,var(--panel) 55%,transparent);-webkit-backdrop-filter:blur(var(--btn-blur,14px)) saturate(1.4);backdrop-filter:blur(var(--btn-blur,14px)) saturate(1.4);}  /* soft：半透明面板底＋背景模糊（磨砂玻璃），放在點陣／漸層／圖片上也讀得清楚 */  /* soft 底是半透明 tint：加背景模糊，放在圖片／漸層上也讀得清楚 */
   .v-soft.st-hover{background:var(--tint2);}
   .v-soft.st-pressed{background:var(--tint2);transform:scale(.97);}
   .st-disabled{opacity:.42;cursor:not-allowed;transform:none !important;}
@@ -5103,19 +5103,23 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     margin:calc(-1*var(--sp-6)) calc(-1*var(--container-pad)) 0;
     padding:clamp(48px,6vw,88px) var(--container-pad) clamp(40px,5vw,72px);}  /* HOME5-HOME:v1 段落不用分隔線 */
   /* 背景：點陣格＋跟著主色走的柔光（--accent 在 hero 上被覆寫時一起變） */
+  /* 光暈色：淺色模式主色是近黑，混出來會變髒灰 → 改用資訊藍／紫的淡色；深色模式維持主色微光 */
+  .hx-hero-bg{--hx-glow:color-mix(in srgb,var(--c-info-400) 22%,transparent);--hx-glow3:color-mix(in srgb,var(--c-violet-400) 14%,transparent);}
+  :root[data-theme="dark"] .hx-hero-bg{--hx-glow:color-mix(in srgb,var(--accent) 16%,transparent);--hx-glow3:color-mix(in srgb,var(--accent) 8%,transparent);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hx-hero-bg{--hx-glow:color-mix(in srgb,var(--accent) 16%,transparent);--hx-glow3:color-mix(in srgb,var(--accent) 8%,transparent);}}
   .hx-hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),color-mix(in srgb,var(--accent) 16%,transparent) 0%,transparent 72%),
+      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
-      radial-gradient(36% 40% at 6% 72%,color-mix(in srgb,var(--accent) 8%,transparent) 0%,transparent 70%),
+      radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 1.4px) 0 0/22px 22px,
       var(--canvas);
     -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent);mask-image:linear-gradient(180deg,#000 78%,transparent);}
   /* 互動背景（hxHeroFx）：有 canvas 時點陣改由 canvas 畫（滑過會散開），CSS 點陣只當無 JS／減少動態的後備 */
   .hx-hero-bg.has-fx{background:
-      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),color-mix(in srgb,var(--accent) 16%,transparent) 0%,transparent 72%),
+      radial-gradient(520px 420px at var(--gx,50%) var(--gy,0%),var(--hx-glow) 0%,transparent 72%),
       radial-gradient(40% 40% at 92% 62%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 70%),
-      radial-gradient(36% 40% at 6% 72%,color-mix(in srgb,var(--accent) 8%,transparent) 0%,transparent 70%),
+      radial-gradient(36% 40% at 6% 72%,var(--hx-glow3) 0%,transparent 70%),
       var(--canvas);}
   .hx-hero-bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
   /* 版面參考 designsystems.surf：靠左大標（尾字打字輪播）→ 下一列左 CTA／右補充說明 → 細線＋mono 標籤列 → 全寬展示框 */
@@ -5123,7 +5127,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-copy{padding-block:clamp(40px,7vw,104px) clamp(32px,5vw,72px);display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"h1" "cta" "lede";justify-items:start;column-gap:clamp(24px,6vw,96px);row-gap:var(--sp-6);align-items:end;min-width:0;}
   .hx-pill{grid-area:pill;justify-self:start;}
   .hx-h1 .hx-l1,.hx-h1 .hx-l2{transition:opacity var(--dur-default) var(--ease-out);} .hx-h1.is-swap .hx-l1,.hx-h1.is-swap .hx-l2{opacity:0;}
-  .hx-h1.is-en{letter-spacing:-.02em;text-transform:uppercase;}  /* 英文 slogan 全大寫 */
+  .hx-h1.is-en{letter-spacing:-.025em;}
+  .hx-h1 .hx-type-w{font-style:italic;}  /* 換字的英文動詞用斜體 */
   .hx-h1{grid-area:h1;max-width:15em;}
   .hx-cta{grid-area:cta;}
   .hx-lede{grid-area:lede;}
@@ -5294,15 +5299,15 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
      段距 40px（--sp-7＋--sp-3），段標題不畫底線、不放說明文字 */
   .hx > .hx-sec{margin:calc(var(--sp-7) + var(--sp-3)) 0 0;scroll-margin-top:var(--sp-6);}
   /* 宣言＋大數字 */
-  .hx-stats-card{padding:clamp(28px,5vw,64px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}
-  .hx-manifesto{margin:0;max-width:30em;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
+  .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(32px,5vw,72px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框 */
+  .hx-manifesto{margin:0;max-width:22em;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
   .hx-manifesto span{color:color-mix(in srgb,var(--ink) 18%,transparent);transition:color var(--dur-default) var(--ease-out);}
   .hx-manifesto span.on{color:var(--ink);}
   .hx-nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-6);}
   .hx-num{display:flex;flex-direction:column;gap:var(--sp-2);min-width:0;}
-  .hx-num-v{display:flex;align-items:baseline;font-family:var(--font-display);font-size:clamp(40px,5.4vw,72px);line-height:1;font-weight:var(--fw-semibold);letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .hx-num-v{display:flex;align-items:baseline;font-family:var(--font-sans);font-size:clamp(40px,5.4vw,72px);line-height:1;font-weight:var(--fw-semibold);letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;}
   .hx-num-s{font-size:.6em;margin-left:.04em;}
-  .hx-num-l{font-size:var(--fs-h10);color:var(--muted);}
+  .hx-num-l{font-size:var(--fs-h10);color:var(--muted);order:-1;}
   @media(max-width:767px){.hx-nums{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--sp-7);}}
   .hx > .hx-sec:last-child{margin-bottom:calc(var(--sp-7) + var(--sp-3));}
   .hx .gd-sec-h{align-items:center;border-bottom:0;padding-bottom:0;margin-bottom:var(--sp-5);}
@@ -5550,7 +5555,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-pnl{display:none;}
     .hx-pv{scroll-margin-top:72px;}
     .hx-tokdock{display:flex;padding:var(--sp-4);}  /* 放在試玩卡最上方、不懸浮 */
-    .hx-toktb{display:flex;align-items:center;gap:var(--sp-2);width:100%;}
+    .hx-toktb{display:flex;align-items:center;justify-content:flex-end;gap:var(--sp-2);width:100%;}
     .hx-toktb-l{margin-right:auto;font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
     .hx-toktb .hx-tokfab-n[hidden]{display:none;}
     .hx-toktb .hx-tokfab-n{min-width:22px;justify-content:center;font-variant-numeric:tabular-nums;}
@@ -5558,23 +5563,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     @keyframes hx-grp-hl{0%,40%{background:color-mix(in srgb,var(--accent) 10%,transparent);}100%{background:transparent;}}
   }
 
-  /* 試玩預覽的裝置 mockup：桌機＝瀏覽器視窗（頂列三點＋網址）、平板＝平板邊框、手機＝手機邊框＋動態島；手機限高 80vh、內部捲動 */
-  .hx-pv{margin:var(--sp-5);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;align-self:start;}
-  .hx-pv::before{content:"spring-campaign.cdl.app";order:-1;flex:0 0 auto;display:flex;align-items:center;justify-content:center;height:36px;
-    margin:calc(-1 * var(--sp-6)) calc(-1 * var(--sp-6)) 0;padding:0 72px;border-bottom:1px solid var(--line);
-    background:radial-gradient(circle at 16px 50%,#FF5F57 0 4px,transparent 4.5px),radial-gradient(circle at 30px 50%,#FEBC2E 0 4px,transparent 4.5px),radial-gradient(circle at 44px 50%,#28C840 0 4px,transparent 4.5px),var(--panel-2);
-    font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  @media(max-width:767px){
-    .hx-pv{margin:var(--sp-4);border:10px solid var(--c-neutral-900);border-radius:22px;box-shadow:0 0 0 1px var(--line);}
-    .hx-pv::before{content:"";height:10px;margin:calc(-1 * var(--sp-4)) calc(-1 * var(--sp-4)) 0;padding:0;border:0;
-      background:radial-gradient(circle at 50% 50%,var(--c-neutral-700) 0 3px,transparent 3.5px),var(--c-neutral-900);}
-  }
-  @media(max-width:599px){
-    .hx-pv{border-width:8px;border-radius:30px;max-height:80vh;max-height:80dvh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
-    .hx-pv::-webkit-scrollbar{display:none;}
-    .hx-pv::before{position:sticky;top:calc(-1 * var(--sp-4));z-index:3;height:28px;
-      background:radial-gradient(ellipse 44px 11px at 50% 55%,var(--c-neutral-900) 0 100%,transparent 101%),var(--canvas);}
-  }
+  @media(max-width:599px){.hx-pv{max-height:80vh;max-height:80dvh;overflow-y:auto;overscroll-behavior:contain;}}  /* 手機：試玩預覽限高、內部捲動 */
   @media(prefers-reduced-motion:reduce){
     .hx-sw-b:hover{transform:none;}
     .hx-tile-stage,.hx-tile-stage > *,.hx-tile-cap,.hx-tile-cap > *,.hx-tile-go{transition:none;}  /* HOME6:v1 */
@@ -5918,6 +5907,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     body.has-pjb .main{padding-bottom:calc(80px + 64px + env(safe-area-inset-bottom,0px));}
   }
   @media(prefers-reduced-motion:reduce){.pjb{animation:none;}}
+  /* Display 字（Epilogue）統一：各頁標題類文字，壓過個別元件裡寫死的 --font-mono（小型標籤、eyebrow、程式碼、字體標本維持原字） */
+  html body :is(.gd-sec-n,.gd-sec-t,.hx-h3,.tok-sec-t,.dg-sectitle,.cl-ver,.gd-card-ic,.hm-nav,.gm-brand,.hm-brand,.dh-title,.bh-t,.gd-hero-t,.gd-h1,.dg-h1,.cl-title,.st-title,.sum-title){font-family:var(--font-display);}
 </style>
 
 <script>/* SHELL8:v1 框內載入進度：樣式／字型解析完、開始建 body */try{if(/[?&]rwdframe=1(&|$)/.test(location.search)&&window.parent!==window)window.parent.postMessage({rwdframe:1,t:'stage',s:'body'},'*');}catch(e){}</script>
@@ -15658,8 +15649,7 @@ function buildScheduleChart(view){
 
   /* 標題尾字輪播（打字效果）：先播英文 4 個詞、再換中文 4 個詞，循環；換語言時前兩行淡出淡入。減少動態時固定英文第一個詞 */
   function hxTypeword(el){
-    const L=[{l1:'Tune one token,',l2:'every component ',W:['recolors','rounds','reweights','tightens']},
-             {l1:'調一次 token，',l2:'整套元件一起',W:['換主色','改圓角','調字重','變密度']}];
+    const L=[{l1:'Tune one token,',l2:'every component ',W:['recolors','rounds','reweights','tightens']}];   /* 只留英文 */
     const h1=el.closest('.hx-h1'),l1=h1&&h1.querySelector('.hx-l1'),l2=h1&&h1.querySelector('.hx-l2');
     let g=0,i=0,n=L[0].W[0].length,del=false;el.textContent=L[0].W[0];
     const box=el.closest('.hx-type')||el.parentNode;const tone=k=>{if(box)box.dataset.w=String(k);};tone(0);
@@ -15675,7 +15665,7 @@ function buildScheduleChart(view){
       if(!document.hidden){const W=L[g].W;
         if(del){n--;if(n<=0){del=false;n=0;i++;
           if(i>=W.length){i=0;g=(g+1)%L.length;                        // 換語言：前兩行淡出 → 換字 → 淡入
-            if(h1){h1.classList.add('is-swap');setTimeout(()=>{setLang(g);h1.classList.remove('is-swap');},chtxMs('--dur-default'));}
+            if(h1&&L.length>1){h1.classList.add('is-swap');setTimeout(()=>{setLang(g);h1.classList.remove('is-swap');},chtxMs('--dur-default'));}
             wait=chtxMs('--dur-default',2.2);}
           else wait=chtxMs('--dur-default',1.4);
           tone(i);}}
@@ -15732,7 +15722,7 @@ function buildScheduleChart(view){
     hero.innerHTML=`<div class="hx-hero-bg" aria-hidden="true"></div>
       <div class="hx-hero-in">
         <div class="hx-copy">
-          <h1 class="hx-h1" aria-label="Tune one token, every component follows. 調一次 token，整套元件一起換。"><span class="hx-l1" aria-hidden="true">Tune one token,</span><br class="hx-br"><span class="hx-l2" aria-hidden="true">every component </span><span class="hx-type" aria-hidden="true"><span class="hx-type-w"></span><span class="hx-caret"></span></span></h1>
+          <h1 class="hx-h1" aria-label="Tune one token, every component follows."><span class="hx-l1" aria-hidden="true">Tune one token,</span><br class="hx-br"><span class="hx-l2" aria-hidden="true">every component </span><span class="hx-type" aria-hidden="true"><span class="hx-type-w"></span><span class="hx-caret"></span></span></h1>
           <div class="hx-cta" id="hxCta"></div>
           <p class="hx-lede">${ready} 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。</p>
         </div>
@@ -15778,7 +15768,6 @@ function buildScheduleChart(view){
     /* 工具列：每個分組一顆 icon-only Button（outline · secondary · s），點了開 sheet 並捲到對應分組 */
     const TB=[['顏色','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M200.77,53.89A103.27,103.27,0,0,0,128,24h-1.07A104,104,0,0,0,24,128c0,43,26.58,79.06,69.36,94.17A32,32,0,0,0,136,192a16,16,0,0,1,16-16h46.21a31.81,31.81,0,0,0,31.2-24.88,104.43,104.43,0,0,0,2.59-24A103.28,103.28,0,0,0,200.77,53.89Zm13,93.71A15.89,15.89,0,0,1,198.21,160H152a32,32,0,0,0-32,32,16,16,0,0,1-21.31,15.07C62.49,194.3,40,164,40,128a88,88,0,0,1,87.09-88h.9a88.35,88.35,0,0,1,88,87.25A88.86,88.86,0,0,1,213.81,147.6ZM140,76a12,12,0,1,1-12-12A12,12,0,0,1,140,76ZM96,100A12,12,0,1,1,84,88,12,12,0,0,1,96,100Zm0,56a12,12,0,1,1-12-12A12,12,0,0,1,96,156Zm88-56a12,12,0,1,1-12-12A12,12,0,0,1,184,100Z"/></svg>'],['形狀','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>'],['文字','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z"/></svg>'],['間距與動態','<svg viewBox="0 0 256 256" fill="currentColor"><path d="M136,40V216a8,8,0,0,1-16,0V40a8,8,0,0,1,16,0ZM96,120H35.31l18.35-18.34A8,8,0,0,0,42.34,90.34l-32,32a8,8,0,0,0,0,11.32l32,32a8,8,0,0,0,11.32-11.32L35.31,136H96a8,8,0,0,0,0-16Zm149.66,2.34-32-32a8,8,0,0,0-11.32,11.32L220.69,120H160a8,8,0,0,0,0,16h60.69l-18.35,18.34a8,8,0,0,0,11.32,11.32l32-32A8,8,0,0,0,245.66,122.34Z"/></svg>']];
     const tb=ce('div','hx-toktb');tb.setAttribute('role','toolbar');tb.setAttribute('aria-label','調整 token');
-    const tbl=ce('span','hx-toktb-l');tbl.textContent='調整 token';tb.appendChild(tbl);
     let fab=null;const tbBtns=TB.map(([g,ic])=>{const b=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});b.type='button';b.classList.add('icon-only','hx-toktb-b');
       b.innerHTML=ic;b.setAttribute('aria-label','調整'+g);b.title=g;b.setAttribute('aria-haspopup','dialog');b.setAttribute('aria-expanded','false');b.dataset.g=g;tb.appendChild(b);return b;});
     const fbd=tagEl('solid','brand2','default');fbd.classList.add('hx-tokfab-n');fbd.hidden=true;tb.appendChild(fbd);
@@ -16196,10 +16185,10 @@ function buildScheduleChart(view){
     const all=NAV.flatMap(g=>g.items),ready=all.filter(x=>x.st==='ready').length;
     let vars=0;try{Object.values(DIAL_SPECS).forEach(sp=>{if(!sp||!sp.order||!sp.axes)return;const pick={};sp.order.forEach(k=>pick[k]=sp.axes[k]||[]);vars+=dialCount(sp.order,pick,sp.when);});}catch(e){}
     let toks=0;try{const seen=new Set();for(const sh of document.styleSheets){let rs;try{rs=sh.cssRules;}catch(e){continue;}for(const r of rs){if(r.selectorText===':root'&&r.style)for(let i=0;i<r.style.length;i++){const n=r.style[i];if(/^--(c|s|r|sp|fs|fw|lh|e|dur|ease|font|i)-/.test(n))seen.add(n);}}}toks=seen.size;}catch(e){}
-    const TXT='每一顆元件都從同一套 token 長出來。改一個顏色、一個圓角，網站、程式碼與 Figma 會在同一個時間換成同一個樣子，設計與工程不用再對一次稿。';
-    const STATS=[[ready,'','已定案元件'],[vars,'','變體組合'],[toks,'+','Design Token'],[2,'×3','主題 × 斷點']];
-    sec.innerHTML=`<div class="bento-card hx-stats-card"><p class="hx-manifesto" aria-label="${TXT}">${[...TXT].map(c=>`<span aria-hidden="true">${c}</span>`).join('')}</p>
-      <div class="hx-nums">${STATS.map(([n,suf,lb])=>`<div class="hx-num"><div class="hx-num-v"><span class="hx-num-n" data-to="${n}">${n.toLocaleString()}</span><span class="hx-num-s">${suf}</span></div><div class="hx-num-l">${lb}</div></div>`).join('')}</div></div>`;
+    const TXT='Every component grows from the same set of tokens. Change one color or one radius, and the site, the code and Figma all update together. Design and engineering stop re-checking each other’s work.';
+    const STATS=[[ready,'','Components'],[vars,'','Variants'],[toks,'+','Design tokens'],[2,'×3','Themes × breakpoints']];
+    sec.innerHTML=`<div class="hx-stats-card"><p class="hx-manifesto" aria-label="${TXT}">${TXT.split(/(\s+)/).map(w=>/^\s+$/.test(w)?w:`<span aria-hidden="true">${w}</span>`).join('')}</p>
+      <div class="hx-nums">${STATS.map(([n,suf,lb])=>`<div class="hx-num"><div class="hx-num-l">${lb}</div><div class="hx-num-v"><span class="hx-num-n" data-to="${n}">${n.toLocaleString('en-US')}</span><span class="hx-num-s">${suf}</span></div></div>`).join('')}</div></div>`;
     const chars=[...sec.querySelectorAll('.hx-manifesto span')],nums=[...sec.querySelectorAll('.hx-num-n')];
     if(HX_REDUCE()){chars.forEach(c=>c.classList.add('on'));return sec;}
     nums.forEach(n=>n.textContent='0');
@@ -16214,7 +16203,7 @@ function buildScheduleChart(view){
     /* 數字：第一次進入畫面才計數（ease-out，約 1.6s，錯開 120ms） */
     const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();
       nums.forEach((el,i)=>{const to=+el.dataset.to,dur=1600,t0=performance.now()+i*120;
-        const step=t=>{const p=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-p,4);el.textContent=Math.round(to*e).toLocaleString();if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);});},{threshold:.35});
+        const step=t=>{const p=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-p,4);el.textContent=Math.round(to*e).toLocaleString('en-US');if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);});},{threshold:.35});
     io.observe(sec.querySelector('.hx-nums'));
     return sec;}
 
