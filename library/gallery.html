@@ -16993,11 +16993,11 @@ projects/${n}/
 ├─ tokens.export.json        最終 token（含在網站上的調整）
 ├─ components.export.json    最終元件與樣式軸
 ├─ selection.state.json      網站完整狀態（續編用）
-├─ styles/                   樣式包：_variables.scss（目前 token 值）
-│                            _breakpoints.scss／_font.scss／layout.scss／README.md
-└─ components/               已選的 ${k} 個元件，每個一個資料夾
-   ├─ README.md              元件清單
-   └─ <id>/<id>.html＋<id>.scss（同元件頁「程式碼」面板）
+├─ components.html           已選的 ${k} 個元件 HTML 結構，一個檔、依元件分段（同元件頁「程式碼」面板）
+└─ styles/                   樣式包：_variables.scss（目前 token 值）
+   │                         _breakpoints.scss／_font.scss／layout.scss／README.md
+   └─ components/            每個元件一個 partial：_<id>.scss（平放，不包資料夾）
+      └─ _index.scss         合併入口：@forward 全部已選元件
 ${BT}
 
 JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編都從這裡讀，不要移進子資料夾。
@@ -17006,7 +17006,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
 
 1. 在 Claude Code 開這個 repo，說：「依 ds-studio-flow 從 Step 5 接續 ${n}」。
 2. Claude 會先讀 opening-interview.md 跟你確認標了 assumed-default 的項目，再 build、寫 Figma。
-3. 前端可直接用 styles/ 與 components/：全域 @use \`styles/_variables.scss\`（見 styles/README.md），元件照 \`<id>.html\` 的結構套 class、引入 \`<id>.scss\`。
+3. 前端可直接用 styles/ 與 components/：全域 @use \`styles/_variables.scss\`（見 styles/README.md），元件樣式一次引入用 \`@use "styles/components"\`（走 _index.scss），只要幾顆就 \`@use "styles/components/button"\`；HTML 結構看 components.html。
 
 之後想再調整：開 \`gallery.html?project=${n}\`（需 studio server），網站會載入 selection.state.json 接續。
 `;}
@@ -17064,17 +17064,20 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const size=cen.reduce((s,b)=>s+b.byteLength,0);
     const e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,size,true);e.setUint32(16,off,true);
     return new Blob([...loc,...cen,e],{type:'application/zip'});}
-  /* 整包檔案清單：<name>/（文件）＋ styles/ ＋ components/<id>/；元件逐顆產生，中間讓出主執行緒並回報進度 */
+  /* 整包檔案清單：<name>/（文件＋components.html）＋ styles/（含 components/_<id>.scss＋_index.scss）；元件逐顆產生，中間讓出主執行緒並回報進度 */
   async function flwBuildFiles(onProgress){flwSnapSave();const n=FLW.info.name||'project';const out=[];const add=(p,t)=>out.push({path:n+'/'+p,text:t});
     flwDocFiles().forEach(f=>add(f.name,f.get()));
     tokStylePackFiles().forEach(f=>add('styles/'+f.name,f.get()));
-    const ids=flwSelIds(),idx=[];
+    const ids=flwSelIds(),fw=[],html=[],idx=[];
     for(let i=0;i<ids.length;i++){const id=ids[i];if(onProgress)onProgress(i+1,ids.length);await new Promise(r=>setTimeout(r,0));
       const cc=flwCompCode(id);
-      if(cc&&cc.parts&&cc.parts.length){const f=flwCompFiles(id,cc);add('components/'+id+'/'+id+'.html',f.html);add('components/'+id+'/'+id+'.scss',f.scss);
-        idx.push('| `'+id+'/` | '+componentName(id)+' | '+(cc.src==='panel'?'元件頁程式碼面板'+(cc.parts.length>1?'（'+cc.parts.length+' 段）':''):'互動預覽序列化')+' |');}
-      else idx.push('| `'+id+'/` | '+componentName(id)+' | （沒有產出：'+(cc&&cc.err?cc.err:'元件頁沒有程式碼')+'） |');}
-    add('components/README.md','# '+n+' · 元件程式碼\n\n每個已選元件一個資料夾：`<id>.html`（結構）＋`<id>.scss`（樣式），內容同元件頁「程式碼」面板。token 一律 `var(--token)`，由 `../styles/_variables.scss` 提供。\n\n| 資料夾 | 元件 | 來源 |\n|---|---|---|\n'+idx.join('\n')+'\n');
+      if(cc&&cc.parts&&cc.parts.length){const f=flwCompFiles(id,cc);
+        add('styles/components/_'+id+'.scss',f.scss);fw.push('@forward "'+id+'";');                       // SCSS partial 平放，_index.scss 合併
+        html.push('<!-- ═════ '+componentName(id)+'（'+id+'）· 樣式：styles/components/_'+id+'.scss ═════ -->\n'+String(f.html).trim());
+        idx.push('  '+id.padEnd(16)+componentName(id)+(cc.src==='panel'?'':'（互動預覽序列化）'));}
+      else idx.push('  '+id.padEnd(16)+componentName(id)+'（沒有產出：'+(cc&&cc.err?cc.err:'元件頁沒有程式碼')+'）');}
+    if(fw.length){add('styles/components/_index.scss','// '+n+' · 元件樣式合併入口（已選 '+fw.length+' 個）\n// 全部引入：@use "styles/components";　只要一顆：@use "styles/components/button";\n// token 一律 var(--token)，請先全域引入 ../_variables.scss\n\n'+fw.join('\n')+'\n');
+      add('components.html','<!--\n  '+n+' · 元件 HTML 結構（已選 '+ids.length+' 個，內容同元件頁「程式碼」面板）\n  樣式：styles/components/_<id>.scss，或一次引入 styles/components/_index.scss\n\n'+idx.join('\n')+'\n-->\n\n'+html.join('\n\n')+'\n');}
     return out;}
   /* 匯出前檢查（固定規則；之後換 AI） */
   function flwChecks(){const out=[];const W=flwPrim('--c-neutral-0')||'#FFFFFF';
@@ -17367,9 +17370,9 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const docs=flwDocFiles(),pack=tokStylePackFiles(),ids=flwSelIds();
     fp.append(grp('文件',nm+'/',docs.length+' 個檔'),files(docs));
     fp.append(grp('樣式包',nm+'/styles/',pack.length+' 個檔'),files(pack));
-    fp.append(grp('元件程式碼',nm+'/components/',ids.length+' 個元件 · '+(ids.length*2)+' 個檔'));
+    fp.append(grp('元件程式碼',nm+'/components.html＋styles/components/',ids.length+' 個元件 · '+(ids.length?ids.length+2:0)+' 個檔'));
     if(ids.length){const chips=ce('div','flw-fchips');ids.forEach(id=>{const t=tagEl('outline','neutral','default','round');t.querySelector('span').textContent=id;t.title=componentName(id);chips.appendChild(t);});fp.appendChild(chips);}
-    const cn=ce('p','flw-note');cn.innerHTML=ids.length?'每個元件一個資料夾：<code>&lt;id&gt;.html</code>＋<code>&lt;id&gt;.scss</code>，內容同元件頁「程式碼」面板；只在 zip 裡。':'還沒選元件，回「調整」到需求匯總勾選。';fp.appendChild(cn);
+    const cn=ce('p','flw-note');cn.innerHTML=ids.length?'HTML 全部合在 <code>components.html</code>；樣式每顆一個 <code>_&lt;id&gt;.scss</code>，<code>_index.scss</code> 一次引入全部。內容同元件頁「程式碼」面板；只在 zip 裡。':'還沒選元件，回「調整」到需求匯總勾選。';fp.appendChild(cn);
     const all=flwBtn('solid','primary','全部下載（.zip）');const done=ce('span','flw-note');done.setAttribute('aria-live','polite');
     all.onclick=async()=>{if(all.getAttribute('aria-busy')==='true')return;all.setAttribute('aria-busy','true');done.textContent='正在打包…';
       try{const r=await flwDownloadAll((i,t)=>{done.textContent='正在產生元件程式碼 '+i+' / '+t+'…';});done.textContent='已下載 '+r.file+'（'+r.count+' 個檔）。';}

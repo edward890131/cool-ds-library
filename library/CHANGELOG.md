@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-04（十九）　匯出 zip 元件程式碼改成合併檔結構
+
+- 原本每個元件一個資料夾（`components/<id>/<id>.html＋<id>.scss`），32 個元件就是 64 個檔。改成：樣式每顆一個 SCSS partial 平放在 `styles/components/_<id>.scss`，加 `styles/components/_index.scss` 合併入口（`@forward` 全部已選元件，`@use "styles/components"` 一行引入）；HTML 全部合在專案根目錄 `components.html`（開頭附元件清單，依元件分段註解）。交棒說明與檔案清單文字同步更新。
+
 ## 2026-11-04（十八）　Slider 頁新增「Variant 樣式軸」段落
 
 - 填充式滑桿原本只藏在互動預覽的 Variant 切換與狀態一覽表裡，不容易發現。新增「Variant 樣式軸」段落，並排展示軌道／填充 × 單值／區間四種（都可直接拖曳）；示意列改成等寬格線，兩種樣式的長度一致好比較。
