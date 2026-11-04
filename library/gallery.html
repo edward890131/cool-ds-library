@@ -5147,6 +5147,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-pnl{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;contain:size;background:var(--panel);border-right:1px solid var(--line);overflow:hidden;}
   .hx-pnl-h{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5);border-bottom:1px solid var(--line);}
   .hx-pg-t{font-family:var(--font-mono);font-size:var(--fs-h11);font-weight:var(--fw-semibold);letter-spacing:.06em;color:var(--ink);}
+  @media (min-width:768px){.hx-pnl-h{display:none;}}  /* 桌機不顯示面板標題列；手機保留（改動數＋收合鈕） */
   .hx-pnl-n{margin-left:auto;font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
   .hx-pnl-more{display:none;}
   .hx-pnl-b{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:var(--sp-2) var(--sp-5) var(--sp-5);display:flex;flex-direction:column;}
@@ -15479,7 +15480,7 @@ function buildScheduleChart(view){
 
   /* 控制面板：取用 Slider（sldEl）、Segmented（sgmEl）原子；色票＋自訂選色（同 Design Token 頁的 input[type=color]） */
   function hxPanel(pnl,pv,refresh){const body=pnl.querySelector('.hx-pnl-b');body.innerHTML='';
-    const grp=t=>{const g=ce('div','hx-grp');const h=ce('div','hx-grp-t');h.textContent=t;g.appendChild(h);body.appendChild(g);return g;};
+    const grp=t=>{const g=ce('div','hx-grp');g.setAttribute('role','group');g.setAttribute('aria-label',t);body.appendChild(g);return g;};  // 分組不顯示小標（保留 aria-label）
     const row=(g,lb,node)=>{const r=ce('div','hx-ctl');if(lb){const l=ce('span','hx-ctl-lb');l.textContent=lb;r.appendChild(l);}r.appendChild(node);g.appendChild(r);return r;};
     const swatches=(list,key,ckey,lb)=>{const w=ce('div','hx-sws');w.setAttribute('role','radiogroup');w.setAttribute('aria-label',lb);
       const paint=()=>w.querySelectorAll('.hx-sw-b').forEach(b=>{const on=b.dataset.k===HX_ST[key];b.classList.toggle('on',on);b.setAttribute('aria-checked',String(on));});
@@ -15534,7 +15535,7 @@ function buildScheduleChart(view){
         <div class="hx-win-h"><h2>玩玩看</h2></div>
         <div class="hx-pgx" id="hxPgx">
           <aside class="hx-pnl" id="hxPnl" aria-label="Token 試玩控制">
-            <div class="hx-pnl-h"><b class="hx-pg-t">Token 試玩</b><span class="hx-pnl-n" id="hxPnlN"></span><span id="hxPnlTg"></span></div>
+            <div class="hx-pnl-h"><span class="hx-pnl-n" id="hxPnlN"></span><span id="hxPnlTg"></span></div>
             <div class="hx-pnl-b"></div>
             <div class="hx-pnl-f"><div class="hx-diff" id="hxDiff" aria-live="polite"></div><div class="hx-pnl-acts" id="hxActs"></div></div>
           </aside>
