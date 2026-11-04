@@ -5424,7 +5424,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-showq{overflow:visible;background:none;border:0;box-shadow:none;}
     .hx-show{display:flex;align-items:flex-start;columns:auto;gap:var(--sp-4);overflow-x:auto;scrollbar-width:none;scroll-snap-type:none;padding-bottom:2px;}
     .hx-show::-webkit-scrollbar{display:none;}
-    .hx-show > .hx-sc{flex:0 0 82%;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);}
+    .hx-show > .hx-sc{flex:0 0 82%;padding:0;}  /* 元件卡本身就有外框，不再包一層 */
     .hx-show > .hx-sc.hx-sc-psc{display:block;}
   }
   .hx-show{columns:1;column-gap:0;margin-bottom:-1px;}
@@ -5446,6 +5446,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media(min-width:600px){.hx-sc{padding:calc(var(--sp-5) / 2);} .hx-sc:hover,.hx-sc:focus-within{background:transparent;} .hx-show{padding:calc(var(--sp-5) / 2);}}
   .hx-sc-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;}
   .hx-sc-psc .hx-sc-stage{align-items:stretch;}
+  /* 每張示範卡撐滿欄寬：同欄等寬、左右間距只剩 gap */
+  .hx-sc .hx-sc-stage{align-items:stretch;}
+  .hx-sc .hx-sc-stage > *{width:100%;max-width:none;box-sizing:border-box;margin-left:0;margin-right:0;}
   .hx-sc-stage > *{width:100%;min-width:0;}
   .hx-sc-stage .psc{max-width:none;width:100%;}  /* 撐滿欄寬，跟其他卡同寬 */
   .hx-sc-psc .psc-photo .hx-psc-x{transition:opacity calc(var(--dur-slow) * 1.6) var(--ease-out);}
