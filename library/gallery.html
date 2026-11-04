@@ -3906,8 +3906,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ss-ovl .cmd-it .cmd-tag{font-size:var(--fs-h10);color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:0 6px;}
   .ss-ovl .cmd-it code{font-family:var(--font-mono);font-size:var(--fs-h11);}
   @keyframes ss-fade{from{opacity:0;}} @keyframes ss-fade-out{to{opacity:0;}} @keyframes ss-out{to{opacity:0;transform:scale(.98);}}
-  @media (max-width:767px){.ss-ovl{padding:0;align-items:stretch;} .ss-ovl .cmd{width:100%;max-width:none;border-radius:0;display:flex;flex-direction:column;--cmd-h:none;}
-    .ss-ovl .cmd-list{flex:1;max-height:none;} .ss-ovl .cmd-foot{display:none;}}
+  /* 手機／小平板：維持彈窗（不再滿版），寬度貼齊側距、上方留出 header 高度、列表在彈窗內捲動 */
+  @media (max-width:767px){.ss-ovl{padding:calc(56px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 16px max(12px,env(safe-area-inset-left,0px));}
+    .ss-ovl .cmd{width:100%;max-width:none;display:flex;flex-direction:column;--cmd-h:min(420px,calc(100dvh - 180px));}
+    .ss-ovl .cmd-foot{display:none;}}
   .ss-flash{animation:ss-flash 1.6s var(--ease-out);}
   @keyframes ss-flash{0%,30%{background:var(--i-primary-tint2);}100%{background:transparent;}}
   @media (prefers-reduced-motion:reduce){.ss-ovl,.ss-ovl .cmd,.ss-flash{animation:none !important;}}
@@ -5524,9 +5526,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-hero,.hx-pgx{overflow:clip;}  /* hidden 會讓 sticky 失效；clip 視覺相同 */
     .hx-pnl{display:none;}
     .hx-pv{scroll-margin-top:72px;}
-    .hx-tokdock{display:flex;justify-content:center;position:sticky;bottom:calc(var(--sp-5) + env(safe-area-inset-bottom));z-index:3;
-      padding:0 var(--sp-4) var(--sp-5);pointer-events:none;}
-    .hx-tokdock .btn{pointer-events:auto;}
+    .hx-tokdock{display:flex;padding:var(--sp-4) var(--sp-4) 0;}  /* 放在試玩卡最上方、不懸浮 */
+    .hx-tokdock .btn{flex:1 1 auto;justify-content:center;box-shadow:none;}
   }
   @media(prefers-reduced-motion:reduce){
     .hx-sw-b:hover{transform:none;}
@@ -5824,7 +5825,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .topbar .ds-badge{margin-right:0;}
   }
   @media(max-width:599px){
-    .topbar .ss-trig{flex:0 0 32px;width:32px;min-width:0;padding:0;justify-content:center;}
+    .topbar .ss-trig{flex:0 0 32px;width:32px;min-width:0;padding:0;justify-content:center;background:transparent;}
+    .topbar .ss-trig.ss-trig{color:var(--i-sec-fg);}  /* 與漢堡鈕同款：Button outline·secondary icon-only s */
+    .topbar .ss-trig:hover{background:var(--panel-2);border-color:var(--line-strong);}
+    .topbar .ss-trig svg{width:16px;height:16px;}
     .topbar .ss-trig > span{display:none;}
   }
   @media(max-width:374px){.topbar #dsNewProjBtn > svg{display:none;}}
@@ -15631,8 +15635,8 @@ function buildScheduleChart(view){
             <div class="hx-pnl-b"></div>
             <div class="hx-pnl-f"><div class="hx-diff" id="hxDiff" aria-live="polite"></div><div class="hx-pnl-acts" id="hxActs"></div></div>
           </aside>
-          <div class="hx-pv" id="hxPv" aria-label="Token 試玩預覽"></div>
           <div class="hx-tokdock" id="hxTokDock"></div>
+          <div class="hx-pv" id="hxPv" aria-label="Token 試玩預覽"></div>
         </div>
       </div>`;
     hxTypeword(hero.querySelector('.hx-type-w'));
