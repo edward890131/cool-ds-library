@@ -11,6 +11,7 @@
 - **Epilogue 內嵌**：與 Geist／Geist Mono 一樣以 Latin 子集變體字（100–900）內嵌，不再從 Google Fonts 載入，離線、內網也正常；Design Token 頁「Font Family」群組加入 `--font-display`，`tokens.base.json` 同步。
 - **未套字體 token 的等寬字**：`code／kbd／samp／pre` 預設改走 `--font-mono`（Token 綁定欄位名旁的 radius／spacing／typography 原本落到瀏覽器內建 monospace）。
 - **Metric Card 平均線標籤**改用 `--font-sans`＋tabular-nums，與卡片大數字、圖表元件一致。
+- **手機字級層級**：hero 標題由 `--fs-h4`（28px）提高到 `--fs-h2`（36px），CTA 改 Button sz-m 規格（40px／`--fs-h10`），試玩段落標題改 `--fs-h5`；數字段落手機兩兩並排。
 - **Hero 游標光暈**改為正圓（半徑 140px），透明度減半（淺色 11%、深色 8%）。
 
 ## 2026-11-04（二十九）　首頁細修：英文 slogan、光暈換色、數字段落、Epilogue 補齊

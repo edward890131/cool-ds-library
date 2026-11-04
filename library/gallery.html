@@ -5146,7 +5146,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-pill-new{flex:0 0 auto;padding:2px var(--sp-3);border-radius:var(--r-pill);background:var(--accent);color:var(--primary-on);font-weight:var(--fw-semibold);}
   .hx-pill-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .hx-pill svg{width:12px;height:12px;flex:0 0 auto;transition:transform var(--dur-fast) var(--ease-out);} .hx-pill:hover svg{transform:translateX(2px);}
-  .hx-h1{font-size:clamp(var(--fs-h4),5vw,var(--fs-h1));line-height:1.1;letter-spacing:-.03em;margin:0;font-weight:var(--fw-semibold);text-wrap:balance;}
+  .hx-h1{font-size:clamp(var(--fs-h2),5vw,var(--fs-h1));line-height:1.1;letter-spacing:-.03em;margin:0;font-weight:var(--fw-semibold);text-wrap:balance;}
   /* HOME3-TYPE:v1 尾字輪播：每個字一個顏色（primitive token；淺色取 600／700 階、深色取 400 階），換字時顏色漸變，游標 currentColor 跟著走 */
   .hx-type{--hx-tw:var(--c-violet-600);color:var(--hx-tw);white-space:nowrap;transition:color calc(var(--dur-slow) * 1.6) var(--ease-out);}
   .hx-type[data-w="1"]{--hx-tw:var(--c-info-600);} .hx-type[data-w="2"]{--hx-tw:var(--c-brand2-600);} .hx-type[data-w="3"]{--hx-tw:var(--c-success-700);}
@@ -5160,7 +5160,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-lede{margin:calc(var(--sp-6) * -1 + var(--sp-4)) 0 0;max-width:620px;color:var(--muted);font-size:var(--fs-h10);line-height:var(--lh-relaxed);text-wrap:pretty;}
   .hx-cta{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
   .hx-win-h{display:flex;align-items:baseline;gap:var(--sp-3);margin:0 0 calc(-1*var(--sp-5));flex-wrap:wrap;}
-  .hx-win-h h2{margin:0;font-family:var(--font-display);text-wrap:balance;font-size:var(--fs-h7,var(--fs-h6));font-weight:var(--fw-semibold);letter-spacing:-.01em;}
+  .hx-win-h h2{margin:0;font-family:var(--font-display);text-wrap:balance;font-size:var(--fs-h5);font-weight:var(--fw-semibold);letter-spacing:-.01em;}
 
   /* 試玩區：左側控制面板（sticky）＋右側預覽；覆寫只寫在 #hxPv */
   /* HOME4-PLAY:v1 操作區＋展示區＝同一張牌卡：外框／圓角／陰影只在 .hx-pgx；左右欄 stretch 等高。
@@ -5310,7 +5310,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-num-v{display:flex;align-items:baseline;font-family:var(--font-sans);font-size:clamp(40px,5.4vw,72px);line-height:1;font-weight:var(--fw-semibold);letter-spacing:-.04em;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;}
   .hx-num-s{font-size:.6em;margin-left:.04em;}
   .hx-num-l{font-size:var(--fs-h10);color:var(--muted);order:-1;}
-  @media(max-width:599px){.hx-nums{grid-template-columns:minmax(0,1fr);row-gap:var(--sp-6);}}
+  @media(max-width:599px){.hx-nums{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--sp-6);}}  /* 手機兩兩並排換行 */
   .hx > .hx-sec:last-child{margin-bottom:calc(var(--sp-7) + var(--sp-3));}
   .hx .gd-sec-h{align-items:center;border-bottom:0;padding-bottom:0;margin-bottom:var(--sp-5);}
   .hx-sec-x{margin-left:auto;display:flex;align-items:center;gap:var(--sp-3);}
@@ -5552,7 +5552,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
   @media(max-width:599px){
     .hx-cta{justify-self:stretch;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
-    .hx-cta > .btn{width:100%;min-width:0;padding:0 var(--sp-4);}
+    .hx-cta > .btn{width:100%;min-width:0;padding:0 var(--sp-4);height:40px;font-size:var(--fs-h10);}  /* 手機 CTA＝Button sz-m 規格（40px／--fs-h10），拉開與標題的層級 */
     .hx-hero,.hx-pgx{overflow:clip;}  /* hidden 會讓 sticky 失效；clip 視覺相同 */
     .hx-pnl{display:none;}
     .hx-pv{scroll-margin-top:72px;}
