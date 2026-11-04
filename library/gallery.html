@@ -16992,7 +16992,9 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const again=key&&document.querySelector('.seg[data-seg="'+key+'"] button[aria-pressed="true"]');if(again)again.focus();});
   (function initSegPill(){
     /* seg 自身尺寸變動（欄寬拖曳、容器查詢換版、字級調整）→ 重新對齊 pill；window resize 抓不到這類變動 */
-    const ro=typeof ResizeObserver!=='undefined'?new ResizeObserver(es=>es.forEach(e=>{const s=e.target;if(s.isConnected)place(s,false);})):null;
+    const roW=new WeakMap();   // 只在尺寸真的變了才 snap；observe 當下的首次回報略過，否則會蓋掉切換時的滑動動畫
+    const ro=typeof ResizeObserver!=='undefined'?new ResizeObserver(es=>es.forEach(e=>{const s=e.target,w=Math.round(e.contentRect.width)+'x'+Math.round(e.contentRect.height),o=roW.get(s);roW.set(s,w);
+      if(o!==undefined&&o!==w&&s.isConnected)place(s,false);})):null;
     const lastGeo={};                                  // key＝seg 的 data-seg；存上次 active 的 {l,t,w,h}，供重建型 seg 續接滑動
     let fontsReady=!(document.fonts&&document.fonts.ready);  // 字型 ready 前不顯示 pill，避免用 fallback 字寬定位後跳位（手機首載）
     function pillOf(seg){
