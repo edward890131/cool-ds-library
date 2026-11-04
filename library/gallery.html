@@ -5448,12 +5448,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sc-psc .hx-sc-stage{align-items:stretch;}
   /* 每張示範卡撐滿欄寬：同欄等寬、左右間距只剩 gap */
   .hx-sc .hx-sc-stage{align-items:stretch;}
-  .hx-sc .hx-sc-stage > *{width:100%;max-width:none;box-sizing:border-box;margin-left:0;margin-right:0;}
+  .hx-show .hx-sc .hx-sc-stage > *{width:100%;max-width:none !important;box-sizing:border-box;margin-left:0;margin-right:0;}  /* 壓過元件自身的 max-width（例：Metric Card 360px），寬螢幕欄寬大於 360 時也同寬 */
   .hx-sc-stage > *{width:100%;min-width:0;}
   .hx-sc-stage .psc{max-width:none;width:100%;}  /* 撐滿欄寬，跟其他卡同寬 */
   .hx-sc-psc .psc-photo .hx-psc-x{transition:opacity calc(var(--dur-slow) * 1.6) var(--ease-out);}
   .hx-sc-psc .psc-photo img:not(.hx-psc-x){transition:none;}
-  .hx-sc-stage .mtc,.hx-sc-stage .wdg{max-width:360px;}
+  .hx-sc-stage .mtc,.hx-sc-stage .wdg{max-width:none;}
   .hx-sc-stage > .cht-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-5);box-sizing:border-box;box-shadow:var(--e-md);}
   .hx-demo-go,.hx-more{display:inline-flex;align-items:center;gap:var(--sp-1);flex:0 0 auto;font-size:var(--fs-h11);color:var(--ink);text-decoration:none;white-space:nowrap;}
   .hx-demo-go svg,.hx-more svg{width:12px;height:12px;transition:transform var(--dur-fast) var(--ease-out);}
