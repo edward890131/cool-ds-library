@@ -5322,7 +5322,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* 元件牆＝跑馬燈（HOME6:v1 互動還原 designsystems.surf）：兩列等大方格、反向循環；位移由 JS（rAF）推 translateX，
      滑過該列減速、可拖曳帶慣性、觸控板可橫推；格子滑過＝標題列淡入上移（彈簧曲線）。減少動態＝靜止、原生橫向捲動 */
-  .hx-mq{--hx-tile:300px;--hx-mq-gap:var(--sp-5);--hx-edge:var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-5);min-width:0;margin:0 calc(-1*var(--container-pad));}
+  .hx-mq{--hx-tile:340px;--hx-mq-gap:var(--sp-5);--hx-edge:var(--sp-8);display:flex;flex-direction:column;gap:var(--sp-5);min-width:0;margin:0 calc(-1*var(--container-pad));}
   .hx-mq-vp{overflow:hidden;padding:var(--sp-1) 0 var(--sp-2);cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--hx-edge),#000 calc(100% - var(--hx-edge)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--hx-edge),#000 calc(100% - var(--hx-edge)),transparent);}
   .hx-mq-vp.is-drag,.hx-mq-vp.is-drag .hx-tile{cursor:grabbing;}
@@ -5372,6 +5372,32 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 觸控（沒有 hover）：標題列一直顯示 */
   @media (hover:none){.hx-tile-cap{opacity:1;} .hx-tile-cap > *{transform:none;}}
   .hx-wall-cta{display:flex;align-items:center;justify-content:center;gap:var(--sp-4);flex-wrap:wrap;margin-top:var(--sp-6);}
+  /* HOME8:v1 元件牆一列（340 方格）＋滑過換狀態＋跟手。舞台的 transform 由 JS 寫（位移／傾斜），離開彈回後清掉 */
+  .hx-tile-stage{transform-origin:50% 50%;backface-visibility:hidden;}
+  .hx-tile[data-id="person-card"] .hx-tile-stage{padding:var(--sp-3);}  /* 人物牌卡 s 高 311px：內距收到 8px，整張不裁切（含滑過上浮 4px） */
+  .hx-tile-stage > .hx-w-cal{flex:0 0 auto;margin-top:0;}
+  .hx-w-nt{justify-content:flex-start;min-height:calc(var(--hx-tile) * .6);}  /* 通知疊加：固定高度、從上往下長，卡片不跳 */
+  .hx-tile .hx-btn-ld{border-color:color-mix(in srgb,currentColor 28%,transparent);border-top-color:currentColor;}  /* Loader 原子在按鈕裡跟字色 */
+  .hx-tile-stage .ddwrap .ddmenu{transition:opacity calc(var(--dur-fast) * .73) var(--ease-in),transform calc(var(--dur-fast) * .73) var(--ease-in),visibility 0s linear calc(var(--dur-fast) * .73);}
+  .hx-tile-stage .ddwrap .ddmenu.is-open{transition:opacity calc(var(--dur-fast) * 1.07) var(--ease-out),transform calc(var(--dur-default) * .73) var(--ease-out),visibility 0s;}
+  .hx-tile .ddopt{transition:background-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .hx-tile .ddopt.hx-sim{background:var(--i-primary-tint);color:var(--accent);}
+  .hx-tile .avt-grp .avt{transition:translate var(--dur-default) var(--ease-spring);}
+  .hx-tile .avt-grp .avt.hx-sim{translate:0 calc(-1*var(--sp-2));}
+  .hx-tile .avt-grp:not(.hx-all) .hx-avx,.hx-tile .avt-grp.hx-all .avt-more{display:none;}
+  .hx-tile .avt-grp.hx-all .hx-avx{animation:hx-tpop var(--dur-default) var(--ease-spring) both;}
+  .hx-tile .avt-grp.hx-all .hx-avx + .hx-avx{animation-delay:calc(var(--dur-fast) * .4);}
+  @keyframes hx-tpop{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:none;}}
+  .hx-tile .psc.is-zoom .psc-photo img{transform:scale(1.06);}
+  .hx-tile .wdg-g4 .avt{transition:transform var(--dur-slow) var(--ease-spring);}
+  .hx-tile .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(1){transform:translate(-6px,-6px);} .hx-tile .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(2){transform:translate(6px,-6px);}
+  .hx-tile .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(3){transform:translate(-6px,6px);} .hx-tile .wdg-k-group.is-spread .wdg-g4 .avt:nth-child(4){transform:translate(6px,6px);}
+  .hx-tile .cal-day{transition:background-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .hx-tile .cal-day.hx-sim:not(.is-range-start):not(.is-range-end){background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line-strong);}
+  .hx-tile .tt-trig.hx-sim{background:var(--i-sec-tint);}
+  .hx-tile .tt-trigwrap.is-open .tt-tip.tt-fp-top,.hx-tile .tt-trigwrap.is-open .tt-tip.tt-fp-bottom{opacity:1;transform:translateX(-50%) translateY(0);}
+  .hx-tile .tt-trigwrap.is-open .tt-tip.tt-fp-left,.hx-tile .tt-trigwrap.is-open .tt-tip.tt-fp-right{opacity:1;transform:translateY(-50%) translateX(0);}
+  .hx-tile .tt-tip.tt-float{transition:opacity var(--dur-default) var(--ease-out),transform var(--dur-default) var(--ease-out);}
 
   /* 動態展示（參考 aceternity）：錯位 bento——CSS columns（欄數看容器寬：4／3／2／1）＋細虛線格線，每格高度由元件決定 */
   .hx-showq{container-type:inline-size;overflow:hidden;position:relative;}
@@ -5569,6 +5595,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media(prefers-reduced-motion:reduce){
     .hx-sw-b:hover{transform:none;}
     .hx-tile-stage,.hx-tile-stage > *,.hx-tile-cap,.hx-tile-cap > *,.hx-tile-go{transition:none;}  /* HOME6:v1 */
+    .hx-tile-stage *{transition:none !important;animation:none !important;}  /* HOME8:v1 減少動態：狀態直接跳到代表狀態、不補間；舞台不跟手 */
     .hx-type,.hx-caret{transition:none;}
   }
   /* ===== CARDS:round2-v1 · Card 卡片第二批（person／profile／metric／invite／widget，2026-11-03）=====
@@ -15820,25 +15847,148 @@ function buildScheduleChart(view){
      · 格子滑過＝標題列淡入並往上收（間距 22→12、名稱與「查看元件 →」4px），彈簧曲線；鍵盤聚焦同樣顯示。不用游標膠囊（參考站沒有）
      · 點格子進元件頁（拖曳後不觸發點擊）；捲出畫面／分頁在背景就停；減少動態＝不自動捲動、改原生橫向捲動
      bg＝底的種類；row＝第幾列 */
+  /* HOME8:v1 元件牆改成「一列」15 格，滑過時格子裡的元件自己換狀態（參考 designsystems.surf）：
+     · 拿掉 儀表板／評價／步驟／分頁器；新增 Date Picker（區間月曆）、Metric Card、Tooltip；Slider 改 fill variant；人物牌卡整張放得下
+     · 每格 st(node) 回傳一串狀態：[0]＝靜止（離開時回到這裡），之後每 ~820ms 換下一個、循環；項目可寫 [fn, ms] 自訂停留
+       狀態一律用元件自己的 class／工廠／事件（st-hover、st-pressed、is-open、.on、is-active、click()、keydown…），不另外重畫
+     · 滑鼠滑過＋鍵盤聚焦都會循環；減少動態＝直接跳到代表狀態（peak）、不循環 */
+  const HX_TS={ms:820,first:240};  // 每個狀態停留時間、滑入後第一拍（ms）
+  const hxEo=k=>1-Math.pow(1-k,3);
+  const hxCls=(el,re,c)=>{el.className=el.className.replace(re,c);};
+  const hxBtnSt=(b,s)=>hxCls(b,/\bst-[\w-]+/,'st-'+s);
   const HX_WALL=[
-    {id:'button',row:0,bg:'grad',mk:()=>{const w=ce('div','hx-mcol');[['solid','primary','開始使用'],['outline','secondary','稍後再說'],['soft','secondary','了解更多']].forEach(([v,i,t])=>{const b=mkBtn({variant:v,intent:i,size:'m'});b.querySelector('span').textContent=t;w.appendChild(b);});return w;}},
-    {id:'dropdown',row:0,bg:'dots',mk:()=>{const w=ddField('outline',{value:'台中市'});w.querySelector('.ddmenu').classList.add('is-open');const t=w.querySelector('.field');t.classList.add('st-open');const c=w.querySelector('.ddcaret');if(c)c.classList.add('up');return w;}},
-    {id:'notification',row:0,bg:'grad2',mk:()=>{const w=ce('div','hx-mcol');const a=ntEl('soft','success',{close:true});const b=ntEl('dark','info',{close:true,desc:false});[a,b].forEach(n=>{n.classList.add('nt-in');w.appendChild(n);});return w;}},
-    {id:'chart',v:'gauge',row:0,bg:'dash',mk:()=>chtChart('gauge','s',{})},
-    {id:'tag',row:0,bg:'check',mk:()=>{const r=ce('div','hx-mrow hx-wrap hx-w-tag');[['solid','brand','設計中'],['soft','success','已上線'],['outline','info','Figma'],['soft','warning','待審'],['soft','brand2','v7']].forEach(([v,i,t])=>{const g=tagEl(v,i,'default');g.querySelector('span').textContent=t;r.appendChild(g);});return r;}},
-    {id:'avatar',row:0,bg:'photo',mk:()=>avtGroup('l',8,4)},
-    {id:'toggle',row:0,bg:'dots',mk:()=>{const w=ce('div','hx-mcol hx-w-tgl');[['通知成員','on'],['自動同步','on'],['公開專案','off']].forEach(([t,s])=>{const r=ce('div','hx-tgl-r');const l=ce('span');l.textContent=t;r.append(l,switchEl(s));w.appendChild(r);});return w;}},
-    {id:'rating',row:0,bg:'dash',mk:()=>rtgEl('m','readonly',{value:4.5,count:128})},
-    {id:'slider',row:1,bg:'dash',mk:()=>{const w=ce('div','hx-mcol hx-w-full hx-gap5');w.append(sldEl('range','m','default',Object.assign({value:[500,2000],title:'價格區間'},SLD_PRICE)),sldEl('single','m','default',{value:60,title:'音量',format:x=>x+'%'}));return w;}},
-    {id:'progress',row:1,bg:'check',mk:()=>{const w=ce('div','hx-mcol hx-w-full');const p=prgEl('label','m',{value:68});const c=p.querySelector('.prg-cap');if(c)c.textContent='元件覆蓋率';w.appendChild(p);return w;}},
-    {id:'tab',row:1,bg:'grad',mk:()=>tabBarLive('pill',{})},
-    {id:'pagination',row:1,bg:'dots',mk:()=>pgBar('numbered','m',{total:10,current:3})},
-    {id:'person-card',row:1,bg:'photo',mk:()=>pscEl('default','s',{})},
-    {id:'step',row:1,bg:'check',mk:()=>{const s=stpStepper('horizontal','numbered',stpMxSteps());s.classList.add('hx-w-full');return s;}},
-    {id:'widget-card',v:'group',row:1,bg:'grad2',mk:()=>wdgEl('group',{})},
-    {id:'segmented',row:1,bg:'dots',mk:()=>sgmEl('soft','m',{items:['日','週','月','年'],active:1})},
+    /* Button：hover → pressed → loading（Loader 原子塞進按鈕）→ 換下一顆 */
+    {id:'button',bg:'grad',peak:3,mk:()=>{const w=ce('div','hx-mcol');[['solid','primary','開始使用'],['outline','secondary','稍後再說'],['soft','secondary','了解更多']].forEach(([v,i,t])=>{const b=mkBtn({variant:v,intent:i,size:'m'});b.querySelector('span').textContent=t;w.appendChild(b);});return w;},
+      st:w=>{const B=[...w.querySelectorAll('.btn')],L=B.map(b=>b.querySelector('span')),T=L.map(s=>s.textContent);
+        const set=(i,s)=>B.forEach((b,j)=>hxBtnSt(b,j===i?s:'default'));
+        const load=on=>{const b=B[0];let l=b.querySelector('.ld-circ');if(on&&!l){l=ce('span','ld-circ ld-sz-s hx-btn-ld');l.setAttribute('aria-hidden','true');b.prepend(l);}else if(!on&&l)l.remove();
+          if(on)b.setAttribute('aria-busy','true');else b.removeAttribute('aria-busy');L[0].textContent=on?'處理中…':T[0];};
+        return [()=>{load(false);set(-1);},()=>set(0,'hover'),()=>set(0,'pressed'),[()=>{set(-1);load(true);},1600],()=>{load(false);set(1,'hover');},()=>set(1,'pressed'),()=>set(2,'hover'),()=>set(2,'pressed')];}},
+    /* Dropdown：展開狀態 → 游標往下滑過選項 → 選定收合 → 再展開 */
+    {id:'dropdown',bg:'dots',peak:2,mk:()=>{const w=ddField('outline',{value:'台中市'});w.querySelector('.ddmenu').classList.add('is-open');const t=w.querySelector('.field');t.classList.add('st-open');const c=w.querySelector('.ddcaret');if(c)c.classList.add('up');return w;},
+      st:w=>{const T=w.querySelector('.field'),M=w.querySelector('.ddmenu'),C=w.querySelector('.ddcaret'),O=[...M.querySelectorAll('.ddopt')];
+        const open=v=>{M.classList.toggle('is-open',v);T.classList.toggle('st-open',v);if(C)C.classList.toggle('up',v);T.setAttribute('aria-expanded',String(v));};
+        const sim=i=>O.forEach((o,j)=>o.classList.toggle('hx-sim',j===i));
+        const pick=i=>{sim(-1);O.forEach((o,j)=>{o.classList.toggle('sel',j===i);o.setAttribute('aria-selected',String(j===i));});const v=w.querySelector('.dd-body .val');if(v)v.textContent=O[i].textContent;open(false);};
+        return [()=>{pick(1);open(true);},()=>sim(2),()=>sim(3),()=>pick(3),()=>open(true),()=>sim(0),()=>sim(1),()=>pick(1),()=>open(true)];}},
+    /* Notification：新通知從上方落入、舊的往右淡出（nt-in／nt-out），最多疊三張 */
+    {id:'notification',bg:'grad2',peak:1,mk:()=>{const w=ce('div','hx-mcol hx-w-nt');const a=ntEl('soft','success',{close:true});const b=ntEl('dark','info',{close:true,desc:false});[a,b].forEach(n=>{n.classList.add('nt-in');w.appendChild(n);});return w;},
+      st:w=>{const [A,B]=[...w.children],C=ntEl('soft','warning',{close:true,desc:false}),D=ntEl('outline','error',{close:true,desc:false}),P=[A,B,C,D];
+        const show=(list,out)=>{P.forEach(n=>{if(!list.includes(n)&&n.parentNode===w)n.remove();});
+          for(let i=list.length-1;i>=0;i--){const n=list[i];if(n.parentNode!==w){const ref=list.slice(i+1).find(m=>m.parentNode===w)||null;n.classList.remove('nt-out','nt-in');w.insertBefore(n,ref);void n.offsetWidth;n.classList.add('nt-in');}}
+          list.forEach(n=>{const o=n===out;if(o){n.classList.remove('nt-in');n.classList.add('nt-out');}else if(n.classList.contains('nt-out')){n.classList.remove('nt-out');n.classList.add('nt-in');}});};
+        return [()=>show([A,B]),[()=>show([C,A,B]),1000],[()=>show([C,A,B],B),420],()=>show([C,A]),[()=>show([D,C,A]),1000],[()=>show([D,C,A],C),420],()=>show([D,A]),[()=>show([D,A],D),420],()=>show([A])];}},
+    /* Tag：chip 滑過（st-hover）→ 點選變實心 → 取消 */
+    {id:'tag',bg:'check',peak:2,mk:()=>{const r=ce('div','hx-mrow hx-wrap hx-w-tag');[['solid','brand','設計中'],['soft','success','已上線'],['outline','info','Figma'],['soft','warning','待審'],['soft','brand2','v7']].forEach(([v,i,t])=>{const g=tagEl(v,i,'default');g.querySelector('span').textContent=t;r.appendChild(g);});return r;},
+      st:r=>{const G=[...r.children],V0=G.map(g=>(g.className.match(/\bv-(\w+)/)||[])[1]);
+        const v=(i,x)=>hxCls(G[i],/\bv-\w+/,'v-'+x),h=i=>G.forEach((g,j)=>hxCls(g,/\bst-[\w-]+/,'st-'+(j===i?'hover':'default')));
+        const base=()=>G.forEach((g,i)=>v(i,V0[i]));
+        return [()=>{base();h(-1);},()=>h(2),()=>{v(2,'solid');h(-1);},()=>h(3),()=>{v(3,'solid');h(-1);},()=>h(0),()=>{v(0,'outline');h(-1);},()=>h(4),()=>{v(4,'solid');h(-1);},()=>{base();h(-1);}];}},
+    /* Avatar group：逐顆往上浮 → 「+2」展開成全部成員 → 收合 */
+    {id:'avatar',bg:'photo',peak:6,mk:()=>{const g=avtGroup('l',6,4);const more=g.querySelector('.avt-more');
+        for(let i=4;i<6;i++){const P=AVT_PEOPLE[i%6];const a=avtEl('l','circle','initials',{initials:P[0],tone:P[1],name:P[0]});a.classList.add('hx-avx');g.insertBefore(a,more);}return g;},
+      st:g=>{const A=[...g.querySelectorAll('.avt:not(.hx-avx)')];
+        const lift=i=>A.forEach((a,j)=>a.classList.toggle('hx-sim',j===i)),all=v=>g.classList.toggle('hx-all',v);
+        return [()=>{all(false);lift(-1);},()=>lift(0),()=>lift(1),()=>lift(2),()=>lift(3),()=>lift(4),[()=>{lift(-1);all(true);},1700],()=>all(false)];}},
+    /* Toggle：開關逐個切換（.on，旋鈕走元件自己的彈簧曲線） */
+    {id:'toggle',bg:'dots',peak:1,mk:()=>{const w=ce('div','hx-mcol hx-w-tgl');[['通知成員','on'],['自動同步','on'],['公開專案','off']].forEach(([t,s])=>{const r=ce('div','hx-tgl-r');const l=ce('span');l.textContent=t;r.append(l,switchEl(s));w.appendChild(r);});return w;},
+      st:w=>{const S=[...w.querySelectorAll('.switch')];const set=(...v)=>S.forEach((s,i)=>s.classList.toggle('on',!!v[i]));
+        return [()=>set(1,1,0),()=>set(1,1,1),()=>set(0,1,1),()=>set(0,0,1),()=>set(1,0,0),()=>set(1,1,0)];}},
+    /* Slider（fill variant）：用元件自己的鍵盤邏輯一格一格推，ease-out 補間決定每幀推到哪；推的時候掛 is-drag */
+    {id:'slider',bg:'dash',peak:1,mk:()=>{const w=ce('div','hx-mcol hx-w-full hx-gap5');w.append(sldEl('range','m','default',Object.assign({live:true,variant:'fill',value:[500,2000],title:'價格區間'},SLD_PRICE)),sldEl('single','m','default',{live:true,variant:'fill',value:60,title:'音量',format:x=>x+'%'}));return w;},
+      st:w=>{const [R,S]=[...w.querySelectorAll('.fsl')],H=[...R.querySelectorAll('.fsl-h')],h1=S.querySelector('.fsl-h');
+        const val=h=>+h.getAttribute('aria-valuenow');
+        const key=(h,k)=>h.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true,cancelable:true}));
+        const to=(K,f,pairs,step)=>{f.classList.add('is-drag');const st=pairs.map(([h,b])=>[h,val(h),b]);
+          K.tween(560,k=>{const e=hxEo(k);for(let pass=0;pass<2;pass++)st.forEach(([h,a,b])=>{const want=a+(b-a)*e;let g=80;
+            while(g--&&Math.abs(val(h)-want)>=step/2){const v0=val(h);key(h,want>v0?'ArrowRight':'ArrowLeft');if(val(h)===v0)break;}});},()=>f.classList.remove('is-drag'));};
+        return [K=>{to(K,R,[[H[0],500],[H[1],2000]],100);to(K,S,[[h1,60]],1);},K=>to(K,S,[[h1,88]],1),K=>to(K,R,[[H[1],3600],[H[0],1200]],100),K=>to(K,S,[[h1,30]],1),K=>to(K,R,[[H[0],300],[H[1],1500]],100)];}},
+    /* Date Picker：月曆面板（區間）。游標滑過日期（hx-sim）→ 點起點 → 往後滑時預覽區間（is-in-range）→ 點終點；點擊走 calMonthEl 自己的區間邏輯 */
+    {id:'date-picker',bg:'grad',peak:4,mk:()=>{const p=ce('div','pop dpk-pop dpk-pop-static hx-w-cal');p.appendChild(calMonthEl('s',{range:true,rangeText:true,interactive:true}));return p;},
+      st:p=>{const cal=()=>p.querySelector('.cal'),days=()=>[...cal().querySelectorAll('.cal-day:not(.is-out)')],day=d=>days().find(b=>+b.textContent===d);
+        const sim=(d,from)=>days().forEach(b=>{const n=+b.textContent;b.classList.toggle('hx-sim',n===d);if(from)b.classList.toggle('is-in-range',n>from&&n<d);});
+        const tap=d=>{const b=day(d);if(b)b.click();};
+        return [()=>cal().replaceWith(calMonthEl('s',{range:true,rangeText:true,interactive:true})),()=>sim(20),()=>tap(20),()=>sim(22,20),()=>sim(24,20),[()=>tap(24),1500]];}},
+    /* Progress：數值往上推（寬度走元件自己的 ease-out）→ 滿格變 success → 重新掃描 */
+    {id:'progress',bg:'check',peak:2,mk:()=>{const w=ce('div','hx-mcol hx-w-full');const p=prgEl('label','m',{value:68});const c=p.querySelector('.prg-cap');if(c)c.textContent='元件覆蓋率';w.appendChild(p);return w;},
+      st:w=>{const P=w.querySelector('.prg'),F=P.querySelector('.prg-fill'),N=P.querySelector('.prg-pct'),Cp=P.querySelector('.prg-cap');
+        const set=(K,v,cap,ok)=>{const a=parseInt(N.textContent,10)||0;F.style.width=v+'%';P.setAttribute('aria-valuenow',v);hxCls(F,/\bi-\w+/,'i-'+(ok?'success':'primary'));if(Cp)Cp.textContent=cap;
+          K.tween(800,k=>{N.textContent=Math.round(a+(v-a)*hxEo(k))+'%';});};
+        return [K=>set(K,68,'元件覆蓋率'),K=>set(K,84,'元件覆蓋率'),[K=>set(K,100,'覆蓋完成',true),1500],K=>set(K,24,'重新掃描…'),K=>set(K,52,'重新掃描…')];}},
+    /* Tab（pill）：分頁滑過（st-hover）→ 點選，滑動指示器跟著走 */
+    {id:'tab',bg:'grad2',peak:2,mk:()=>tabBarLive('pill',{}),
+      st:bar=>{const T=[...bar.querySelectorAll('.tabi')];const hov=i=>T.forEach((t,j)=>t.classList.toggle('st-hover',j===i));const go=i=>{hov(-1);T[i].click();};
+        return [()=>go(0),()=>hov(1),()=>go(1),()=>hov(2),()=>go(2),()=>hov(0),()=>go(0)];}},
+    /* Person Card：照片推近 → 加入鈕 hover／pressed → Added → 取消（精簡 s 尺寸，整張放得下） */
+    {id:'person-card',bg:'grad',peak:4,mk:()=>pscEl('default','s',{live:true}),
+      st:c=>{const b=c.querySelector('.psc-add'),on=()=>b.getAttribute('aria-pressed')==='true';
+        return [()=>{c.classList.remove('is-zoom');hxBtnSt(b,'default');if(on())b.click();},()=>c.classList.add('is-zoom'),()=>hxBtnSt(b,'hover'),()=>hxBtnSt(b,'pressed'),[()=>{hxBtnSt(b,'default');if(!on())b.click();},1500],()=>c.classList.remove('is-zoom'),()=>{if(on())b.click();}];}},
+    /* Metric Card：逐週切換（Segmented 原子 click），數字滾動、長條高亮跟著換 */
+    {id:'metric-card',bg:'dash',peak:3,mk:()=>mtcEl('weekly-bar','violet',{live:true,metric:'sleep'}),
+      st:c=>{const B=[...c.querySelectorAll('.mtc-x .sgm-it')];const go=i=>{if(B[i])B[i].click();};
+        return [()=>go(7),()=>go(6),()=>go(5),()=>go(3),()=>go(1),()=>go(4),()=>go(7)];}},
+    /* Segmented：滑過（is-hover）→ 點選，指示器滑過去 */
+    {id:'segmented',bg:'dots',peak:2,mk:()=>sgmEl('soft','m',{items:['日','週','月','年'],active:1,live:true}),
+      st:g=>{const B=[...g.querySelectorAll('.sgm-it')];const hov=i=>B.forEach((b,j)=>b.classList.toggle('is-hover',j===i));const go=i=>{hov(-1);B[i].click();};
+        return [()=>go(1),()=>hov(2),()=>go(2),()=>hov(3),()=>go(3),()=>hov(0),()=>go(0),()=>hov(1),()=>go(1)];}},
+    /* Widget Card · group：頭像散開 → 收回 */
+    {id:'widget-card',v:'group',bg:'grad2',peak:1,mk:()=>wdgEl('group',{}),
+      st:c=>[()=>c.classList.remove('is-spread'),[()=>c.classList.add('is-spread'),1500],[()=>c.classList.remove('is-spread'),900]]},
+    /* Tooltip：trigger hover → 提示淡入，位置 上 → 右 → 下 → 左 輪流（tt-p-*／tt-fp-*） */
+    {id:'tooltip',bg:'check',peak:3,mk:()=>{const w=ttTrigger('top','m',true);const s=w.querySelector('.tt-trig span');if(s)s.textContent='分享元件';const p=w.querySelector('.tt-tip span');if(p)p.textContent='複製元件連結';w.classList.add('is-open');return w;},
+      st:w=>{const g=w.querySelector('.tt-trig'),t=w.querySelector('.tt-tip'),P=['top','right','bottom','left'];
+        const place=(K,p,hv)=>{g.classList.toggle('hx-sim',!!hv);if(t.classList.contains('tt-p-'+p)){w.classList.add('is-open');return;}w.classList.remove('is-open');
+          K.later(K.instant?0:180,()=>{t.style.transition='none';P.forEach(q=>t.classList.remove('tt-p-'+q,'tt-fp-'+q));t.classList.add('tt-p-'+p,'tt-fp-'+p);void t.offsetWidth;t.style.transition='';w.classList.add('is-open');});};  // 換邊時先關掉補間，只讓淡入＋4px 滑入那段動
+        return [K=>place(K,'top',false),()=>{g.classList.add('hx-sim');w.classList.remove('is-open');},K=>place(K,'top',true),K=>place(K,'right',true),K=>place(K,'bottom',true),K=>place(K,'left',true)];}},
   ];
-  const HX_MQ={hover:.25,ease:400,glide:325,drag:5};  // 滑過速度倍率、速度緩動時間常數（ms）、放開後慣性衰減時間常數（ms）、拖曳判定距離（px）
+  /* 格子的狀態循環：來源＝滑過（hover）或聚焦（focus），任一在就循環；都沒了就回到 [0] */
+  function hxTileFx(t,node,x){if(!x.st||t.__hx)return;let S=null;try{S=x.st(node);}catch(e){S=null;}if(!S||!S.length)return;
+    const steps=S.map(s=>Array.isArray(s)?{f:s[0],ms:s[1]}:{f:s,ms:HX_TS.ms});const stops=[];
+    const unstop=c=>{const k=stops.indexOf(c);if(k>=0)stops.splice(k,1);};
+    const K={instant:false,
+      later(ms,f){const c=()=>clearTimeout(id);const id=setTimeout(()=>{unstop(c);f();},ms);stops.push(c);},
+      tween(dur,fn,done){if(K.instant||!(dur>0)){fn(1);if(done)done();return;}const t0=performance.now();let r=0;const c=()=>{cancelAnimationFrame(r);if(done)done();};stops.push(c);
+        const f=n=>{const k=Math.min(1,Math.max(0,(n-t0)/dur));fn(k);if(k<1)r=requestAnimationFrame(f);else{unstop(c);if(done)done();}};r=requestAnimationFrame(f);}};
+    const clear=()=>stops.splice(0).forEach(c=>{try{c();}catch(e){}});
+    let i=0,tm=0;const src=new Set();
+    const apply=j=>{i=j;try{steps[j].f(K);}catch(e){}};
+    const tick=()=>{tm=0;if(!t.isConnected){src.clear();clear();return;}clear();apply(i+1<steps.length?i+1:(steps.length>1?1:0));tm=setTimeout(tick,steps[i].ms);};
+    const set=(k,v)=>{const was=src.size>0;if(v)src.add(k);else src.delete(k);const now=src.size>0;if(now===was)return;
+      clearTimeout(tm);tm=0;clear();K.instant=HX_REDUCE();
+      if(now){if(K.instant)apply(Math.min(x.peak!=null?x.peak:1,steps.length-1));else tm=setTimeout(tick,HX_TS.first);}
+      else apply(0);
+      t.classList.toggle('is-cyc',now);
+      /* 本尊／複本同步：循環接縫時游標下那格會換成另一份，兩份一起換狀態，接縫看不出來 */
+      if(k!=='twin'&&t.parentNode){const tw=()=>t.parentNode&&t.parentNode.querySelectorAll('.hx-tile[data-id="'+x.id+'"]').forEach(o=>{if(o!==t&&o.__hx)o.__hx.set('twin',src.size>0);});
+        if(now)tw();else setTimeout(tw,0);}};  // 關掉時晚一拍：接縫換格時 leave 先到、enter 後到，讓另一份先接手 hover 再撤 twin
+    t.__hx={set,get step(){return i;},get on(){return src.size>0;}};
+    /* 狀態裡的 click()（分頁、Segmented、月曆、加入鈕…）會冒泡到外層 <a>，被點的節點若在處理中被重畫掉，連結的啟用行為還會導頁；
+       舞台本身 pointer-events:none＋inert，真的點擊不會從這裡出發，所以元件自己的 handler 跑完後，在舞台把冒泡＋預設行為都擋掉 */
+    const stg=t.querySelector('.hx-tile-stage');if(stg)stg.addEventListener('click',e=>{e.stopPropagation();e.preventDefault();});
+    t.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch')set('hover',true);});
+    t.addEventListener('pointerleave',()=>set('hover',false));
+    t.addEventListener('focus',()=>set('focus',true));t.addEventListener('blur',()=>set('focus',false));}
+  /* 跟手：滑過的格子（舞台）往游標方向位移 ≤8px、傾斜 ≤2.5°，用彈簧（rAF 速度＋阻尼，略帶回彈）；離開彈回原位後清掉 inline transform。
+     只給 pointer:fine；減少動態不掛（hxWall 在那之前就 return）；拖曳中目標歸零 */
+  const HX_FOL={move:8,tilt:2.5,k:.085,damp:.76};
+  function hxFollow(mq){if(!matchMedia('(pointer:fine)').matches)return null;
+    const S=new Map();let cur=null,px=0,py=0,raf=0,lt=0;
+    const frame=n=>{raf=0;const dt=Math.min(48,lt?n-lt:16.7);lt=n;const f=dt/16.7,dm=Math.pow(HX_FOL.damp,f);
+      S.forEach((s,t)=>{const stg=s.stg;let g=[0,0,0,0];
+        if(t===cur&&t.isConnected&&!t.closest('.is-drag')){const r=t.getBoundingClientRect(),h=stg.offsetHeight||r.width;
+          const nx=Math.max(-1,Math.min(1,(px-(r.left+r.width/2))/(r.width/2))),ny=Math.max(-1,Math.min(1,(py-(r.top+h/2))/(h/2)));
+          g=[nx*HX_FOL.move,ny*HX_FOL.move,-ny*HX_FOL.tilt,nx*HX_FOL.tilt];}
+        let rest=true;for(let j=0;j<4;j++){s.v[j]+=(g[j]-s.p[j])*HX_FOL.k*f;s.v[j]*=dm;s.p[j]+=s.v[j]*f;if(Math.abs(s.p[j]-g[j])>.02||Math.abs(s.v[j])>.02)rest=false;}
+        if(rest&&t!==cur){stg.style.transform='';S.delete(t);return;}
+        const p=s.p;stg.style.transform='perspective(900px) translate3d('+p[0].toFixed(2)+'px,'+p[1].toFixed(2)+'px,0) rotateX('+p[2].toFixed(2)+'deg) rotateY('+p[3].toFixed(2)+'deg)';});
+      if(S.size)raf=requestAnimationFrame(frame);else lt=0;};
+    const kick=()=>{if(!raf&&S.size){lt=0;raf=requestAnimationFrame(frame);}};
+    mq.addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY;},{passive:true});
+    mq.querySelectorAll('.hx-tile').forEach(t=>{const stg=t.querySelector('.hx-tile-stage');if(!stg)return;
+      t.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;px=e.clientX;py=e.clientY;cur=t;if(!S.has(t))S.set(t,{stg,p:[0,0,0,0],v:[0,0,0,0]});kick();});
+      t.addEventListener('pointerleave',()=>{if(cur===t)cur=null;kick();});});
+    return {get cur(){return cur;},get n(){return S.size;}};}
+  const HX_MQ={hover:.25,ease:400,glide:325,drag:5,pps:46};  // 滑過速度倍率、速度緩動時間常數（ms）、放開後慣性衰減時間常數（ms）、拖曳判定距離（px）、自動捲動速度（px/s，HOME8 一列改用固定速度）
   function hxWall(){
     const all=NAV.flatMap(g=>g.items);
     const sec=ce('section','gd-sec hx-sec');sec.id='hxWall';sec.setAttribute('aria-label','元件牆');
@@ -15857,11 +16007,13 @@ function buildScheduleChart(view){
       /* 標題列：名稱＋英文名，下面一顆「查看元件 →」；平常收起，滑過／聚焦才淡入上移 */
       const cap=ce('div','hx-tile-cap');cap.setAttribute('aria-hidden','true');const tt=ce('div','hx-tile-tt');const b=ce('b');b.textContent=zh;const s=ce('span');s.textContent=en+(x.v?' · '+x.v:'');tt.append(b,s);
       const go=ce('span','hx-tile-go');go.innerHTML='<span>查看元件</span>'+ICON_ARROW;cap.append(tt,go);
-      t.append(stg,cap);return t;};
-    const rows=[0,1].map(r=>{const row=ce('div','hx-mq-row'+(r?' is-rev':''));const vp=ce('div','hx-mq-vp');const tr=ce('div','hx-mq-tr');
-      const set=items.filter(x=>x.row===r);set.forEach(x=>tr.appendChild(tile(x,false)));set.forEach(x=>tr.appendChild(tile(x,true)));  // 第二份＝無縫循環用的複本
+      t.append(stg,cap);hxTileFx(t,node,x);return t;};  // HOME8:v1 滑過／聚焦換狀態
+
+    const rows=[0].map(r=>{const row=ce('div','hx-mq-row');  // HOME8:v1 只留一列
+      const vp=ce('div','hx-mq-vp');const tr=ce('div','hx-mq-tr');
+      const set=items;set.forEach(x=>tr.appendChild(tile(x,false)));set.forEach(x=>tr.appendChild(tile(x,true)));  // 第二份＝無縫循環用的複本
       vp.appendChild(tr);row.appendChild(vp);mq.appendChild(row);
-      return {vp,tr,dir:r?1:-1,sec:r?60:52,x:r?-1:0,v:0,W:0,hover:false,focus:false,drag:null,mom:0,last:[]};});
+      return {vp,tr,dir:-1,x:0,v:0,W:0,hover:false,focus:false,drag:null,mom:0,last:[]};});
     const b=mkBtn({variant:'solid',intent:'primary',size:'l',isLive:true,trail:true});b.querySelector('span').textContent='瀏覽元件';b.onclick=()=>renderView('button');
     sec.querySelector('#hxWallCta').append(b);
     if(HX_REDUCE())return sec;  // 減少動態：CSS 改原生橫向捲動、藏複本，不掛任何動畫
@@ -15871,7 +16023,7 @@ function buildScheduleChart(view){
     let vis=false,raf=0,lt=0;
     const loop=t=>{raf=0;if(!mq.isConnected)return;const dt=Math.min(64,lt?t-lt:16);lt=t;
       rows.forEach(R=>{if(!R.W)measure(R);if(!R.W)return;
-        const base=R.dir*R.W/R.sec;const target=(R.drag&&R.drag.on)||R.focus?0:R.hover?base*HX_MQ.hover:base;
+        const base=R.dir*HX_MQ.pps;const target=(R.drag&&R.drag.on)||R.focus?0:R.hover?base*HX_MQ.hover:base;
         R.v+=(target-R.v)*(1-Math.exp(-dt/HX_MQ.ease));
         if(!(R.drag&&R.drag.on)){if(R.mom){R.x+=R.mom*dt;R.mom*=Math.exp(-dt/HX_MQ.glide);if(Math.abs(R.mom)<.01)R.mom=0;}R.x+=R.v*dt/1000;}
         wrap(R);put(R);});
@@ -15903,7 +16055,8 @@ function buildScheduleChart(view){
     // 捲出畫面就停（rAF 不跑）
     if(window.IntersectionObserver){const io=new IntersectionObserver(es=>es.forEach(e=>{vis=e.isIntersecting;mq.classList.toggle('is-off',!vis);if(vis)kick();}),{threshold:0});io.observe(mq);}else{vis=true;kick();}
     const onVis=()=>{if(!mq.isConnected){document.removeEventListener('visibilitychange',onVis);return;}kick();};document.addEventListener('visibilitychange',onVis);
-    window.__hxWall={rows,get running(){return !!raf;}};
+    const fol=hxFollow(mq);  // HOME8:v1 跟手（pointer:fine）
+    window.__hxWall={rows,fol,get running(){return !!raf;}};
     return sec;
   }
 
