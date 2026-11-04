@@ -5106,7 +5106,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent);mask-image:linear-gradient(180deg,#000 78%,transparent);}
   /* 版面參考 designsystems.surf：靠左大標（尾字打字輪播）→ 下一列左 CTA／右補充說明 → 細線＋mono 標籤列 → 全寬展示框 */
   .hx-hero-in{display:flex;flex-direction:column;gap:clamp(32px,4vw,48px);max-width:1180px;margin:0 auto;}
-  .hx-copy{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);grid-template-areas:"pill pill" "h1 h1" "cta lede" "strip strip";column-gap:clamp(24px,6vw,96px);row-gap:var(--sp-6);align-items:end;min-width:0;}
+  .hx-copy{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"h1" "cta" "lede";justify-items:start;column-gap:clamp(24px,6vw,96px);row-gap:var(--sp-6);align-items:end;min-width:0;}
   .hx-pill{grid-area:pill;justify-self:start;}
   .hx-h1{grid-area:h1;max-width:15em;}
   .hx-cta{grid-area:cta;}
@@ -5134,7 +5134,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-caret{display:inline-block;width:.5em;height:.08em;margin-left:.06em;vertical-align:baseline;background:currentColor;}
   @media (prefers-reduced-motion:no-preference){.hx-caret{animation:hx-blink calc(var(--dur-slow) * 2) steps(1) infinite;}}
   @keyframes hx-blink{50%{opacity:0;}}
-  .hx-lede{margin:0;color:var(--muted);font-size:var(--fs-h10);line-height:var(--lh-relaxed);text-wrap:pretty;}
+  .hx-lede{margin:calc(var(--sp-6) * -1 + var(--sp-4)) 0 0;max-width:620px;color:var(--muted);font-size:var(--fs-h10);line-height:var(--lh-relaxed);text-wrap:pretty;}
   .hx-cta{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
   .hx-win-h{display:flex;align-items:baseline;gap:var(--sp-3);margin:0 0 calc(-1*var(--sp-5));flex-wrap:wrap;}
   .hx-win-h h2{margin:0;font-size:var(--fs-h7,var(--fs-h6));font-weight:var(--fw-semibold);letter-spacing:-.01em;}
@@ -5470,12 +5470,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-pgx{grid-template-columns:minmax(0,300px) minmax(0,1fr);}
   }
   @media(max-width:1024px){
-    .hx-copy{grid-template-columns:minmax(0,1fr) minmax(0,260px);}
+    .hx-copy{grid-template-columns:minmax(0,1fr);}
     .hx-steps{grid-template-columns:repeat(2,minmax(0,1fr));}
     .hx-fg,.hx-nf{grid-template-columns:1fr;}
   }
   @media(max-width:767px){
-    .hx-copy{grid-template-columns:minmax(0,1fr);grid-template-areas:"pill" "h1" "lede" "cta" "strip";row-gap:var(--sp-5);}
+    .hx-copy{grid-template-columns:minmax(0,1fr);grid-template-areas:"h1" "cta" "lede";row-gap:var(--sp-5);}
     .hx-cta > .btn{flex:1 1 0;justify-content:center;}
     .hx-strip ul{gap:var(--sp-2) var(--sp-4);}
     .hx-pgx{grid-template-columns:minmax(0,1fr);}
@@ -15526,11 +15526,9 @@ function buildScheduleChart(view){
     hero.innerHTML=`<div class="hx-hero-bg" aria-hidden="true"></div>
       <div class="hx-hero-in">
         <div class="hx-copy">
-          <a class="hx-pill" href="#person-card"><span class="hx-pill-new">新</span><span class="hx-pill-t">5 張卡片、9 種進階圖表上線</span>${ICON_ARROW}</a>
           <h1 class="hx-h1" aria-label="調一次 token，整套元件一起換。">調一次 token，<br class="hx-br">整套元件一起<span class="hx-type" aria-hidden="true"><span class="hx-type-w"></span><span class="hx-caret"></span></span></h1>
           <div class="hx-cta" id="hxCta"></div>
-          <p class="hx-lede">${ready} 個元件都綁 Design Token，也對應到 Figma Variables。</p>
-          <div class="hx-strip"><span class="hx-strip-k">已定案元件</span><ul>${groups.map(g=>`<li><a href="#${g.first}" data-go="${g.first}"><b>${g.n}</b>${g.label}</a></li>`).join('')}</ul></div>
+          <p class="hx-lede">${ready} 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。</p>
         </div>
         <div class="hx-win-h"><h2>玩玩看</h2></div>
         <div class="hx-pgx" id="hxPgx">
@@ -15544,7 +15542,6 @@ function buildScheduleChart(view){
       </div>`;
     hxTypeword(hero.querySelector('.hx-type-w'));
     hero.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();renderView(a.dataset.go);}));
-    hero.querySelector('.hx-pill').addEventListener('click',e=>{e.preventDefault();renderView('person-card');});
     const cta=hero.querySelector('#hxCta');
     const go1=mkBtn({variant:'solid',intent:'primary',size:'l',isLive:true,trail:true});go1.querySelector('span').textContent='開始新專案';go1.onclick=()=>{location.hash='start';};
     const go2=mkBtn({variant:'soft',intent:'secondary',size:'l',isLive:true});go2.querySelector('span').textContent='瀏覽元件';go2.onclick=()=>renderView('button');
