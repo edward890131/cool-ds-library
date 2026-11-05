@@ -5574,7 +5574,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-step::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--canvas);opacity:calc(min(var(--hx-st-p),1)*.4);pointer-events:none;}
   .hx-step-tx{display:flex;flex-direction:column;justify-content:center;gap:var(--sp-4);padding:var(--sp-7);min-width:0;}
   .hx-step-h{margin:0;font-family:var(--font-display);font-size:var(--fs-h5);font-weight:var(--fw-semibold);line-height:1.2;letter-spacing:-.01em;color:var(--ink);text-wrap:balance;}
-  .hx-step-d{margin:0;font-size:var(--fs-h9);line-height:var(--lh-relaxed);color:var(--muted);max-width:34ch;}
+  .hx-step-d{margin:0;font-size:var(--fs-h9);line-height:var(--lh-relaxed);color:var(--muted);max-width:42ch;text-wrap:pretty;}
   .hx-step-a{display:flex;align-items:center;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);margin-top:var(--sp-4);}
   .hx-step-v{position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-8) var(--sp-7);background:var(--panel-2);border-radius:var(--r-lg);overflow:hidden;min-width:0;}
   .hx-step-stage{width:min(100%,420px);display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);box-shadow:var(--e-lg);border-radius:var(--r-lg);}
@@ -14740,6 +14740,7 @@ function buildScheduleChart(view){
       {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
+      {tag:'improve', t:'首頁四個步驟說明改寫，具體寫出網站上的操作：編輯 token 數值、勾選元件與狀態樣式、即時預覽元件與程式碼、Token 綁定、匯出 Figma／SCSS'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
     ]},
     {v:'v10', date:'2026-11-04', title:'元件頁 bento 化 · RWD 裝置預覽 · 首頁改版 · CDL 品牌', items:[
@@ -16695,10 +16696,10 @@ function buildScheduleChart(view){
         [R=>press(bw,R),900],
         [R=>{ok.classList.add('is-on');s.hxCap('<b>Progress</b> · 匯出完成','已同步');R.later(()=>press(bd,R),1400);},3400]]};};
     const steps=[
-      ['丟進你的品牌資料','貼上既有網站，或上傳品牌規範。',visUpload],
-      ['挑風格和主色','選一個起始風格，顏色和圓角會先配好。',visStyle],
-      ['勾選要用的元件','只留專案用得到的，其他先收起來。',visPick],
-      ['匯出到 Figma 和程式碼','寫進 Figma，也能下載 SCSS 樣式包。',visExport],
+      ['丟進你的品牌資料','按「開啟新專案」填好專案名稱、產業與平台，上傳品牌規範、logo 或 PRD，再回答幾題品牌問卷。網站會依答案提出第一版 token 與元件建議，草稿自動保存，隨時回來接著做。',visUpload],
+      ['挑風格和主色','先選俐落、柔和或活潑當起點，再到 Design Token 頁自己輸入色碼，調整間距、圓角、字級與陰影。改一個值，整站元件立刻跟著換色換形，淺色、深色模式一起看。',visStyle],
+      ['勾選要用的元件','到各元件頁用變數篩選器勾選需要的樣式、意圖、狀態和尺寸，狀態一覽表與變體數即時縮減。上方即時預覽可切換組合，HTML／CSS 程式碼同步更新，一鍵複製；圓角、間距也能用 Token 綁定換成別的 token。',visPick],
+      ['匯出到 Figma 和程式碼','確認後寫進 Figma Variables 與元件 variant，網站上的每個切換都對應到 Figma 的屬性。也能下載 SCSS 樣式包和元件程式碼，之後兩邊改了什麼，差異檢查會列出來。',visExport],
     ];
     const ol=sec.querySelector('#hxSteps');const runs=[];
     steps.forEach(([t,d,vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
