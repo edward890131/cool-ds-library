@@ -5403,10 +5403,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tile:hover .hx-tile-stage,.hx-tile:focus-visible .hx-tile-stage{border-color:var(--line-strong);box-shadow:var(--e-md);}
   /* 滑過＝Figma 式選取框：藍色 1px 外框＋四角白底方塊（選取色走 --c-info-500） */
   .hx-tile-wrap{position:relative;will-change:transform;}
-  #hxPv{position:relative;}
-  #hxPv > .hx-pv-sel{inset:var(--sp-2);z-index:3;transition:opacity var(--dur-default) var(--ease-out);}
-  #hxPv.is-sel > .hx-pv-sel{opacity:1;}
-  @media(max-width:599px){#hxPv > .hx-pv-sel{display:none;}}  /* 手機：控制項在 bottom sheet、預覽內部捲動會裁切四角，不顯示 */
+  .hx-pgx-w{position:relative;width:100%;min-width:0;}  /* 選取框掛在試玩外層（.hx-pgx 有 overflow:hidden 會裁掉四角方點） */
+  .hx-pgx-w > .hx-pv-sel{inset:-1px;z-index:5;transition:opacity var(--dur-default) var(--ease-out);}
+  .hx-pgx-w.is-sel > .hx-pv-sel{opacity:1;}
+  .hx-pgx-w.is-sel > .hx-pgx{border-color:transparent;}  /* 同元件牆 hover：選取框取代原外框 */
   .hx-sel{position:absolute;inset:-1px;pointer-events:none;border:1px solid var(--c-info-500);opacity:0;transition:opacity var(--dur-fast) var(--ease-out);}
   .hx-sel i{position:absolute;width:7px;height:7px;box-sizing:border-box;background:var(--c-neutral-0);border:1px solid var(--c-info-500);}
   .hx-sel i:nth-child(1){left:-4px;top:-4px;} .hx-sel i:nth-child(2){right:-4px;top:-4px;} .hx-sel i:nth-child(3){left:-4px;bottom:-4px;} .hx-sel i:nth-child(4){right:-4px;bottom:-4px;}
@@ -14756,7 +14756,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
       {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用柔色 soft Tag'},
-      {tag:'improve', t:'Token 試玩：操作控制欄位時，預覽整塊出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
+      {tag:'improve', t:'Token 試玩：操作控制欄位時，整塊試玩（操作區＋預覽）出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
       {tag:'improve', t:'首頁協作游標標籤依段落換字（yuu／component／about／motion／how2use／highlight／feedback／question），切換時打字動態'},
       {tag:'improve', t:'Header「此為母元件庫，若需更新請調整原始檔」移到 logo 右側，以淺色細線分隔'},
       {tag:'add', t:'Tag 新增 size 軸：s 22px（預設）／m 26px／l 32px；首頁步驟牌卡的 Step 標籤改用 m'},
@@ -16172,10 +16172,10 @@ function buildScheduleChart(view){
     /* 操作控制欄位時：預覽整塊加上 Figma 式選取框（同元件牆 hover 的 .hx-sel：細框＋四角方點）；點到試玩區以外才收掉 */
     {const sel=ce('span','hx-sel hx-pv-sel');sel.setAttribute('aria-hidden','true');sel.innerHTML='<i></i><i></i><i></i><i></i>';pv.__sel=sel;
       const inCtl=t=>!!(t&&t.closest&&t.closest('#hxPnl,.hx-tok-ov,.hx-toktb,#hxActs'));
-      const on=()=>pv.classList.add('is-sel'),off=()=>pv.classList.remove('is-sel');
-      document.addEventListener('pointerdown',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();else if(!pv.contains(e.target))off();},true);
+      const pgx=hero.querySelector('#hxPgx');let pg=pv;if(pgx){pg=ce('div','hx-pgx-w');pgx.replaceWith(pg);pg.appendChild(pgx);}pv.__pg=pg;const on=()=>pg.classList.add('is-sel'),off=()=>pg.classList.remove('is-sel');
+      document.addEventListener('pointerdown',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();else if(!pg.contains(e.target))off();},true);
       document.addEventListener('focusin',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();},true);}
-    hxPreview(pv);pv.appendChild(pv.__sel);   // hxPreview 會重寫內容，選取框之後再掛
+    hxPreview(pv);pv.__pg.appendChild(pv.__sel);   // 掛在整塊試玩外層（hxPreview 會重寫預覽內容）
     let reset,copy,last={},tokN=()=>{};
     const css=o=>'/* 貼到 :root（或專案的 tokens 覆寫） */\n:root {\n'+Object.entries(o).map(([k,v])=>'  '+k+': '+v+';').join('\n')+'\n}\n';
     const refresh=()=>{const o=hxApply(pv);last=o;const ks=Object.keys(o);
