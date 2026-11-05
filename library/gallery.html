@@ -3614,7 +3614,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .crs-vp:focus-visible{box-shadow:0 0 0 2px var(--accent);}
   .crs-track{display:flex;transition:transform calc(var(--dur-default) * 1.4) var(--ease-out);}
   .crs-track.is-drag{transition:none;}
-  .crs-slide{flex:0 0 100%;aspect-ratio:16 / 7;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--sp-1);padding:var(--sp-5);
+  .crs-slide{background-size:cover;background-position:center 35%;flex:0 0 100%;aspect-ratio:16 / 7;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--sp-1);padding:var(--sp-5);
     color:#FFFFFF;user-select:none;}
   .crs-slide b{font-size:var(--fs-h8);font-weight:var(--fw-semibold);} .crs-slide span{font-size:var(--fs-h11);opacity:.85;}
   .crs-s0{background:linear-gradient(135deg,var(--c-brand2-500),var(--c-brand2-800));}
@@ -8467,10 +8467,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* ---------- CAROUSEL 輪播 ---------- */
   const CRS_SLIDES=[['雙 11 全館 85 折','11/01～11/11 · 結帳自動折抵'],['新會員首購免運','註冊即送 NT$100 購物金'],['秋冬新品上市','保暖外套 · 機能背包'],['設計師聯名系列','限量 300 組，售完為止'],['週末限時快閃','每週六 20:00 開搶']];
+  function crsPhoto(i){try{return [PSC_ROT[0],CARD_PHOTO,HX_TSM_BG,PSC_ROT[2],PSC_ROT[1]][i%5];}catch(e){return null;}}   // 輪播各張用內嵌照片
   function crsEl(arrows,indicator,o){o=o||{};const n=CRS_SLIDES.length;let idx=o.index||0;
     const root=ce('div',`crs crs-arrows-${arrows} crs-ind-${indicator}`);root.setAttribute('role','region');root.setAttribute('aria-roledescription','carousel');root.setAttribute('aria-label','活動 Banner');
     const main=ce('div','crs-main');const vp=ce('div','crs-vp');const tr=ce('div','crs-track');
     CRS_SLIDES.forEach(([t,s],i)=>{const sl=ce('div','crs-slide crs-s'+i);sl.setAttribute('role','group');sl.setAttribute('aria-roledescription','slide');sl.setAttribute('aria-label',`${i+1} / ${n}`);
+      {const ph=crsPhoto(i);if(ph)sl.style.backgroundImage='linear-gradient(180deg,color-mix(in srgb,var(--c-neutral-900) 10%,transparent),color-mix(in srgb,var(--c-neutral-900) 68%,transparent)),url("'+ph+'")';sl.style.backgroundSize='cover';sl.style.backgroundPosition='center 35%';sl.style.backgroundRepeat='no-repeat';}   // 照片底＋下方加深，文字維持可讀
       const b=ce('b');b.textContent=t;const sp=ce('span');sp.textContent=s;sl.append(b,sp);tr.appendChild(sl);});
     vp.appendChild(tr);main.appendChild(vp);
     const mkArrow=dir=>{const b=mkBtn({variant:'outline',intent:'secondary',size:'s',iconOnly:true,isLive:!!o.live});b.classList.add('crs-arrow',dir);b.innerHTML=ICON_CARET;b.setAttribute('aria-label',dir==='prev'?'上一張':'下一張');return b;};
@@ -10154,7 +10156,10 @@ function skelMedia(anim){
   const IM_CIRCLE='photo-1501785888041-af3ef285b470'; // circular 用構圖置中的風景（湖光山色）
   const IM_SIZE={s:40,m:64,l:120,xl:240}; // size → 高度（px）；寬度由 aspect-ratio 依比例算
   /* 組出固定方形的 Unsplash URL；一律帶 &h 強制正方，配 object-fit:cover 填滿 */
-  function imUrl(id,w){if(/^(data:|https?:|\.{0,2}\/)/.test(id))return id;return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
+  /* 圖片池改用網站內嵌照片（預覽環境會擋 Unsplash 遠端圖）：IM_POOL／IM_CIRCLE 的 id 依序對應到內嵌照片，找不到才退回遠端 */
+  function imEmbed(id){try{const E=[HX_TSM_BG,CARD_COVER,PSC_ROT[0],PSC_ROT[1],PSC_ROT[2],CARD_PHOTO];
+    if(id===IM_CIRCLE)return CARD_PHOTO;const i=IM_POOL.indexOf(id);return i>=0?E[i%E.length]:null;}catch(e){return null;}}
+  function imUrl(id,w){if(/^(data:|https?:|\.{0,2}\/)/.test(id))return id;{const e=imEmbed(id);if(e)return e;}return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
   /* Image atom：variant=rectangular|rounded|circular；state=default|loading|error；size=s|m|l|xl
      opts={src:Unsplash 圖片 ID, alt:替代文字}。circular 為正方，rectangular/rounded 亦統一用正方最簡單 */
   function imEl(variant,state,size,opts){opts=opts||{};
@@ -15164,6 +15169,7 @@ function buildScheduleChart(view){
       {tag:'add', t:'Weather Card 天氣卡：info 色階漸層＋超大溫度（數字滾動）＋磨砂五日列（Segmented 原子），點任一天整張切換；天氣狀況 4 種'},
       {tag:'add', t:'Player Card 音樂播放卡：token 漸層封面、愛心、可拖曳進度（Slider 原子）、播放／暫停（Button 原子）、按讚頭像群（Avatar 原子）；播放中進度每秒前進，尊重減少動態'},
       {tag:'add', t:'Ticket Card 登機證：SFO → JFK 虛線航線、兩側半圓缺口（CSS mask）＋虛線撕線（Divider 原子）、Gate／Seat／Boards／Zone、狀態 Tag 與 Check in 按鈕；狀態 4 種'},
+      {tag:'improve', t:'Image 圖片與 Carousel 輪播改用網站內嵌照片（原本是 Unsplash 遠端圖／純漸層，預覽環境看不到圖）'},
       {tag:'improve', t:'Card 整理：移除 Card 卡片、Product Card 商品卡、Category Tile 分類磚；文章卡改用內嵌照片；新牌卡圓角調整（趨勢／照片標籤／天氣／播放器 --r-lg，登機證 --radius）、趨勢卡預設墨黑、播放器間距收緊、趨勢卡編號改正體淡字、照片標籤卡預設不選取'},
     ]},
     {v:'v11', date:'2026-11-05', title:'Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正', items:[
