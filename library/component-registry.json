@@ -2467,7 +2467,8 @@
               "variant",
               "corner",
               "intent",
-              "state"
+              "state",
+              "size"
             ],
             "by": {
               "variant": {
@@ -2549,9 +2550,26 @@
                     "zh": "停用"
                   }
                 ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
               }
             },
-            "variantCount": 126
+            "variantCount": 378
           }
         },
         {
@@ -3720,6 +3738,14 @@
                     "zh": "甜甜圈"
                   },
                   {
+                    "value": "semi",
+                    "zh": "半圓"
+                  },
+                  {
+                    "value": "pie",
+                    "zh": "實心圓餅"
+                  },
+                  {
                     "value": "spark",
                     "zh": "趨勢小圖卡"
                   },
@@ -3771,7 +3797,7 @@
                 ]
               }
             },
-            "variantCount": 28
+            "variantCount": 32
           }
         },
         {

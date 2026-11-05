@@ -2,6 +2,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>cool-ds-library</title>
 <script>/* SHELL8:v1 框內載入進度：文件開始解析 */try{if(/[?&]rwdframe=1(&|$)/.test(location.search)&&window.parent!==window)window.parent.postMessage({rwdframe:1,t:'stage',s:'head'},'*');}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap">
 <meta name="description" content="Cool Design Library：調一次 Design Token，整套元件一起更新；網站、程式碼與 Figma Variables 同步。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2309090B%22/%3E%3Cg%20transform%3D%22translate%286%2013%29%20scale%28.578%29%22%20fill%3D%22none%22%3E%3Cg%20stroke%3D%22%23F4F4F5%22%20stroke-width%3D%227%22%3E%3Cpath%20d%3D%22M25.96%2021.64A13%2013%200%201%200%2025.96%2038.36%22/%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2230%22%20r%3D%2213%22/%3E%3Cpath%20d%3D%22M61%202V46%22/%3E%3Cpath%20d%3D%22M75%202V46%22/%3E%3C/g%3E%3Crect%20x%3D%2281%22%20y%3D%2239%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23FB923C%22/%3E%3C/g%3E%3C/svg%3E">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFk0lEQVR4nMWXX4hU1x3HP79z78ydu3dnd92lLu1m6rrGLH2IpNK8+BJsDQGlmkbEKDVgQBoLLS15iLZpGlLwrRgETQNaY5PVkiWQLU0hkSS1hErAB7MPJiF14xqflLqT3flz79y559eHmTs7o+tW2K39wjDnHH73fH/nd873/M5PaMABEs/zVos4PxeRzcAwkAGEpUGBGLiiqn9TTY5EUfRlyilpI5cLdovoyyLmG6q6RM6FISKo2uuq8sswLJ8GHAHI5YJdxsjpJnECGJa+8luhgAUcEcFa3R2G5TOSy+W+DWZSRHpSg2UmvhUJYFR1Fuw6A+ZZEdO7XOQismi/yWEbnOZZ8f3gS2BVar8UclVFVRGR5n539ttNm//T4vtBDLhLIU5hjCGTyZAkCfV6vdl3SRJLvV5f6JO6WQ5y13UJwwpbtmxmcvIiL774W8KwwqZNP2By8hMOHTpEGFZwnNt22F2Q3BiDMabVt9Zire2wEZHWhK7rYowhn89TKBRYuXIlqkp3dzeFQoHBwUHuJO3bHHAch0qlgrWdIQuCfGtPHcchiiIqlVKHTRzHWGuJ4xiAJEk6+v/VAWMMpdIso6PfYcuWzRQKBYrFIu+//wEfffQPstkc2WyWUmmWwcFvsm3bNh54YC2qynvvvUsmk8EYg4hpRanRX+Rs+36gvh9oEOQV0P37f6rF4tfaDmtVT5z4o/b3DyiIbtz4fb18eUpvRTr2+utvKKC7du1WVdXTp/+sgHZ392jKl/7cNOyl0hxPPLGdY8eOogpjY2c4f/6frFq1imee+Qmjo6MYYxgdHWV8fJyBgX4+/PDvTExMEAQBe/fuZWRk5M4rXSwCXV3d6nk5PX/+Y1VVPXjwV0pDqwroQw+t1xUrBhTQo0dfUVXV8fG3NJvNtmyGh0f0s88+V1XVU6f+dNcRMMYYwjBkeHg169Y9yPT0VY4dewXP8+np6SOf72VycpJqtYrn+Tz88PewVjl8+DC1Wo2+vn5WrBjgypUpjh8/AXCbYhaDC40bLJvNks1mKZfLxHGM67okSYKI0NXV1VKA53kAzM3N4bqNS8dxHIwxzMzcBBa8fjECjhHUgm1TpEnJr127xvT0VdasGWHDhg2Uy3NEUY1SabYpuQqVSonLl6cQga1bf0i9HlOtVikWZ7DW8vjjP1pwlUKD9OtKnXKtMzotB2Zm/s3Y2Bie5/Hqq3/gySd3MTKymkce2cg77/yV55//NZ6X47XXTiIiHDhwgOeeO8j9969h/fr1nDx5ikcf3dSKWhrZJEmo1ROG+7M89mAf372vC2t1Pumkh9D3u7S7O69vvz3RklWlUm21v/jiXzo0dJ8C+tJLv2uNR1Gt1a7VYlVVffPNcQV0z56nVFX1+Bvj+vut31J96zF992frFONr0NUmw0bGMsRxzM6dO9m3bx/bt29naGiIYrHI2bNnOXLkCDdv3iQI8rzwwm+4ePETnn56L2vXriVJEs6dO8fU1BQ7duzg0qVLGGO4ceMGFy5c4PNPP6XfGqJSnVJ0y5Xu+0HrSKQptFotY0yGnp481WqVKKqSyXhkMhlUFWMM5fIcIPT29pEkCaXSLACO07gNXdfF2kYWFBEGe33yvkMlSrg+Vyc9px0ONJwAYxystSRJ0posSZKOhOI4DqraInBdt6WUNKrtiogTS2IVI0LGmVfJbQ50OiN3zGLtNu2Ed7ZrqEGBdtNF3wJ38zq+2xe06vwzqB1mgbF7CgMs+Fa6R6gb4BrziedeIeX7yqjqROOIcPcZZOmwIKKqf/n/FyZhGF4F2S8NPTlNg//FdmhzbqfBJfvDMLxqACcMy2es1T0g10XEYfnrQgBpzK3XrdUfh2H5DGlxynx5Pizi/KJZnhcAbxmcUSACvmqW5y9HUXQl5fwPyfsXKo6Tm4IAAAAASUVORK5CYII=">
@@ -61,9 +63,9 @@
     /* ── Container（響應式：desktop 基準；tablet/mobile 於下方 media 覆寫）── */
     --container-max:1280px; --container-pad:32px;
     /* ── L1 Primitive · Typography（Geist 內嵌；size H1–H12、weight、line-height；對齊 Web Guideline 12 階）── */
-    --font-sans:'Geist',-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",system-ui,sans-serif;
-    --font-mono:'Geist Mono',ui-monospace,"SF Mono",Menlo,"PingFang TC","Noto Sans TC",monospace;
-    --font-display:'Epilogue','Geist',-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",system-ui,sans-serif;  /* 標題／側欄／hero 用 display 字 */
+    --font-sans:'Geist','Noto Sans TC',-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC",system-ui,sans-serif;
+    --font-mono:'Geist Mono',ui-monospace,"SF Mono",Menlo,'Noto Sans TC',"PingFang TC",monospace;
+    --font-display:'Epilogue','Geist','Noto Sans TC',-apple-system,BlinkMacSystemFont,"PingFang TC",system-ui,sans-serif;  /* 標題／側欄／hero 用 display 字 */
     --fs-h1:64px; --fs-h2:56px; --fs-h3:48px; --fs-h4:40px; --fs-h5:32px; --fs-h6:24px;
     --fs-h7:20px; --fs-h8:18px; --fs-h9:16px; --fs-h10:14px; --fs-h11:12px; --fs-h12:10px;
     --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
@@ -1093,6 +1095,10 @@
   .tg.st-disabled{opacity:.45;}
   .tg .x{display:inline-flex;cursor:pointer;opacity:.7;margin-right:-3px;} .tg .x:hover{opacity:1;}
   .tg svg{width:12px;height:12px;}
+  /* size 軸（2026-11-05）：s＝預設（22px／h12）、m＝26px／h11、l＝32px／h10；icon 隨尺寸放大 */
+  .tg.sz-m{height:26px;--tg-fs:var(--fs-h11);--tg-pad-x:var(--sp-3);}
+  .tg.sz-l{height:32px;--tg-fs:var(--fs-h10);--tg-pad-x:var(--sp-4);--tg-gap:var(--sp-2);}
+  .tg.sz-m svg{width:14px;height:14px;} .tg.sz-l svg{width:16px;height:16px;}
   /* 元件級 Token 綁定卡：沿用 .dcard 收合＋library .fieldwrap/.dh-title/.hint/.tg/.field.dd；只補 overflow 放開（否則下拉選單被卡片 overflow:hidden 裁切）＋列距 */
   .dcard.bind-dcard{overflow:visible;}
   .dcard.bind-dcard .dcard-head{border-radius:var(--radius) var(--radius) 0 0;}
@@ -1181,7 +1187,8 @@
   .dcard-head .dh-count b{color:var(--accent);}
   .dcard-head .dh-chevron{margin-left:auto;color:var(--faint);transition:transform var(--dur-fast);display:inline-flex;}
   .dcard-head .dh-chevron svg{width:16px;height:16px;display:block;}
-  .dcard.collapsed .dh-chevron{transform:rotate(-90deg);}
+  .dcard.collapsed .dh-chevron,.dcard.is-closing .dh-chevron{transform:rotate(-90deg);}
+  .dcard-head .dh-chevron{transition:transform var(--dur-default) var(--ease-out);}
   .dcard-body{padding:20px;}
   .dcard.collapsed .dcard-body{display:none;}
   .dcard-body .hint{color:var(--muted);font-size:13px;margin:0 0 16px;}
@@ -1889,7 +1896,7 @@
 
   /* ---- kind=popup：置中小卡（置中標題＋說明＋可選 icon／備註／記住帳號） ---- */
   .mdl-kind-popup{width:100%;max-width:360px;}
-  .mdl-pop-body{display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5) 0;}
+  .mdl-pop-body{display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-5) var(--sp-5) 0;}  /* 上距與左右、底部一致（原 --sp-4 偏小） */
   .mdl-illus{flex:0 0 auto;width:46px;height:46px;color:var(--i-primary);}  /* 頂部圓 icon：一般語意＝主色 */
   .mdl-illus.is-danger{color:var(--i-danger);}                              /* 警示語意＝紅，差異只在顏色 */
   .mdl-illus svg{width:100%;height:100%;}
@@ -2727,8 +2734,15 @@
 .cht-line.cht-sz-s svg,.cht-curve.cht-sz-s svg,.cht-bar.cht-sz-s svg{width:170px;height:auto;}
 .cht-box.cht-wide.cht-sz-m svg{width:380px;}          /* Live／dashboard 加寬版 */
 .cht-box.cht-wide.cht-sz-s svg{width:210px;}
-.cht-donut.cht-sz-m svg{width:120px;height:auto;}
-.cht-donut.cht-sz-s svg{width:80px;height:auto;}
+.cht-donut.cht-sz-m svg{width:156px;height:auto;}
+.cht-donut.cht-sz-s svg{width:96px;height:auto;}
+.cht-pie.cht-sz-m svg{width:156px;height:auto;} .cht-pie.cht-sz-s svg{width:96px;height:auto;}
+.cht-semi.cht-sz-m svg{width:220px;height:auto;} .cht-semi.cht-sz-s svg{width:128px;height:auto;}
+.cht-box.cht-donut,.cht-box.cht-pie,.cht-box.cht-semi{flex-direction:column;align-items:center;gap:var(--sp-4);}
+.cht-pie-sl{stroke:var(--panel);stroke-width:1.2;stroke-linejoin:round;transition:opacity var(--dur-fast) var(--ease-out);}
+.cht-pie-lb{font-family:var(--font-sans);font-size:9px;font-weight:var(--fw-semibold);fill:var(--s-on-primary,#fff);pointer-events:none;font-variant-numeric:tabular-nums;}
+.cht-semi-num{font-size:30px;}
+.cht-donut-u{font-size:.55em;font-weight:var(--fw-medium);fill:var(--muted);}
 
 /* --- 互動繪圖區＋hover tooltip（folded 端點只在 hover 出現） --- */
 .cht-plot{position:relative;display:inline-block;max-width:100%;}
@@ -2749,8 +2763,8 @@
 .cht-tile-wide .cht-box,.cht-tile-wide .cht-plot,.cht-tile-wide .cht-plot svg{width:100%;}
 
 /* --- SVG 內文字（class 掛在 <text> 上，inline SVG 吃得到頁面 CSS；數字一律 tabular-nums） --- */
-.cht-donut-num{font-size:var(--fs-h7);font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
-.cht-donut-sub{font-size:var(--fs-h12);font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.04em;}
+.cht-donut-num{font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.cht-donut-sub{font-size:9px;font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.02em;}
 .cht-val{font-size:8.5px;font-weight:var(--fw-semibold);fill:var(--muted);font-variant-numeric:tabular-nums;}
 
 /* --- 矩陣格／Live 舞台的 dashboard tile 容器（panel 底＋細邊） --- */
@@ -2777,7 +2791,7 @@
 .cht-box.cht-sz-m .cht-fluid .cht-plot svg,.cht-box.cht-sz-s .cht-fluid .cht-plot svg{width:100%;height:auto;max-width:none;} /* 覆蓋舊的固定 300／380px */
 .cht-card .cht-plot{width:100%;}
 .cht-card .cht-line svg,.cht-card .cht-curve svg,.cht-card .cht-bar svg{width:100%;}
-.cht-card .cht-donut svg{width:110px;}
+.cht-card .cht-donut svg,.cht-card .cht-pie svg{width:140px;} .cht-card .cht-semi svg{width:200px;}
 @media(max-width:760px){.cht-card,.cht-card.cht-span-3{grid-column:span 6;}}
 
 /* --- Live 舞台 --- */
@@ -3333,7 +3347,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* ── Slider 滑桿（sld-）：拖曳中不過渡；點軌道跳值時才用 --ease-out 滑過去 ── */
   .sld{display:flex;flex-direction:column;gap:var(--sp-2);width:100%;max-width:320px;font-family:var(--font-sans);user-select:none;}
-  .sld-sz-s{--sld-h:3px;--sld-thumb:14px;} .sld-sz-m{--sld-h:4px;--sld-thumb:18px;}
+  .sld-sz-s{--sld-h:5px;--sld-thumb:12px;} .sld-sz-m{--sld-h:6px;--sld-thumb:14px;}  /* 圓點小、軌道粗 */
   .sld-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-3);font-size:var(--fs-h11);font-weight:var(--fw-medium);color:var(--ink);}
   .sld-val{color:var(--muted);font-weight:var(--fw-regular);font-variant-numeric:tabular-nums;}
   .sld-track{position:relative;height:var(--sld-h);border-radius:var(--r-pill);background:var(--line);margin:var(--sp-3) calc(var(--sld-thumb) / 2);cursor:pointer;touch-action:none;}
@@ -3926,7 +3940,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     background:var(--s-scrim);animation:ss-fade var(--dur-fast) var(--ease-out);}
   .ss-ovl.is-out{animation:ss-fade-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
   .ss-ovl.is-out .cmd{animation:ss-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
-  .ss-ovl .cmd{width:600px;--cmd-h:min(420px,56vh);animation:cmd-in var(--dur-default) var(--ease-out);}
+  .ss-ovl{align-items:center;padding:16px;}
+  .ss-ovl .cmd{--cmd-radius:var(--radius);width:600px;--cmd-h:min(420px,56vh);animation:cmd-in var(--dur-default) var(--ease-out);}
   .ss-ovl .cmd-it .cmd-tag{font-size:var(--fs-h10);color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:0 6px;}
   .ss-ovl .cmd-it code{font-family:var(--font-mono);font-size:var(--fs-h11);}
   @keyframes ss-fade{from{opacity:0;}} @keyframes ss-fade-out{to{opacity:0;}} @keyframes ss-out{to{opacity:0;transform:scale(.98);}}
@@ -4182,8 +4197,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .dgc-cat-d{font-size:var(--fs-h11);color:var(--muted);}
   .dgc-row{display:flex;gap:var(--sp-5);flex-wrap:wrap;}
   .dgc-item{display:flex;flex-direction:column;gap:8px;width:88px;}
-  .dgc-chip{position:relative;width:88px;height:88px;border-radius:12px;background-image:linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%),linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%);background-size:16px 16px;background-position:0 0,8px 8px;}
-  .dgc-color{position:absolute;inset:0;border-radius:12px;border:1px solid var(--line);}
+  .dgc-chip{position:relative;width:88px;height:88px;border-radius:var(--r-sm);background-image:linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%),linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%);background-size:16px 16px;background-position:0 0,8px 8px;}
+  .dgc-color{position:absolute;inset:0;border-radius:var(--r-sm);border:1px solid var(--line);}
   .dgc-name{font-size:var(--fs-h10);font-weight:600;color:var(--ink);line-height:1.4;}
   .dgc-hex{font-size:var(--fs-h11);color:var(--muted);line-height:1.4;}
   .dgc-item.dgc-off{opacity:.3;filter:grayscale(.5);}  /* token 頁停用的色號 → guideline 變淺 */
@@ -4227,6 +4242,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ds-badge-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:2px 6px;}
   .ds-badge-proj{font-weight:600;font-size:var(--fs-h11);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ds-badge-proj.full{max-width:none;overflow:visible;} /* 母庫提示文案完整呈現、不截斷 */
+  .topbar > .ds-badge-proj{position:relative;margin-left:var(--sp-3);padding-left:var(--sp-5);flex:0 1 auto;min-width:0;font-weight:var(--fw-medium);color:var(--muted);}  /* logo 右側：拉開距離＋淺細線分隔 */
+  .topbar > .ds-badge-proj::before{content:"";position:absolute;left:0;top:50%;width:1px;height:16px;transform:translateY(-50%);background:var(--line);}
   @media(max-width:900px){.ds-badge-proj,.ds-badge-lbl{display:none;}}
   @media(max-width:1199px){.ds-badge-proj.full{display:none;} .ss-trig{width:min(260px,26vw);}} /* 1024 附近 topbar 放不下母庫提示：先藏提示文案（側欄底部仍有同一句） */
   .ds-badge .gh-topbar{margin-right:var(--sp-2);}                       /* GitHub 入口與 CTA 間距 */
@@ -4972,7 +4989,17 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 外框＝library Modal（.mdl-overlay.mdl-fixed ＋ .mdl-card.mdl-kind-modal）：header 固定（標題＋stepper）、body 內部捲動、footer 固定（上一步／下一步）。
      間距一律走 4px 格線的 --sp-1/3/4/5/6/7；控制項高度統一 36px（= .field 原子高度）。 */
   .flw-ovl{z-index:1000;}
-  .flw-ovl .mdl-card.flw-m{max-width:960px;width:100%;max-height:90vh;max-height:90dvh;}
+  .flw-ovl .mdl-card.flw-m{max-width:1000px;width:calc(100vw - 20vw);max-height:90vh;max-height:90dvh;height:90vh;height:90dvh;}  /* 固定撐到最大高度，換步驟不跳動 */
+  /* ≥768：步驟改放左側（Steps 原子 vertical）；header 橫跨、右側＝內容＋底部操作 */
+  @media (min-width:768px){
+    .flw-ovl .flw-m.mdl-card{display:grid;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;}
+    .flw-ovl .flw-m .flw-hd{display:contents;}
+    .flw-ovl .flw-m .flw-hd > .mdl-mhead{grid-column:1 / -1;grid-row:1;padding:var(--sp-5) var(--sp-6);border-bottom:1px solid var(--line);background:var(--panel);}
+    .flw-ovl .flw-m .flw-hd > .flw-prog{grid-column:1;grid-row:2 / 4;padding:var(--sp-6) var(--sp-5);border-right:1px solid var(--line);overflow:auto;background:var(--panel-2);}
+    .flw-ovl .flw-m .mdl-content.flw-body{grid-column:2;grid-row:2;}
+    .flw-ovl .flw-m .mdl-foot.flw-nav{grid-column:2;grid-row:3;}
+    .flw-ovl .flw-prog .stp-vertical .stp-labels{min-width:0;}
+  }
   .flw-m{--flw-ctl-h:36px;}
   .flw-m:focus{outline:none;}
   .flw-m .flw-hd{flex:0 0 auto;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-5) var(--sp-6) var(--sp-5);border-bottom:1px solid var(--line);background:var(--panel);}
@@ -5060,9 +5087,17 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .flw-why-v{color:var(--ink);text-align:right;overflow-wrap:anywhere;}
   .flw-why-r{grid-column:1 / -1;color:var(--muted);}
   .flw-preview{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-4);border-radius:var(--r-md);background:var(--panel-2);}
-  .flw-comp{max-height:420px;overflow:auto;}
+  .flw-comp{max-height:420px;overflow:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:var(--sp-4);}
+  .flw-cg-h{position:sticky;top:0;z-index:1;margin:0;display:flex;align-items:baseline;gap:var(--sp-2);padding:var(--sp-1) 0 var(--sp-2);background:var(--panel);font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--muted);letter-spacing:.02em;border-bottom:1px solid var(--line);}
+  .flw-cg-l{list-style:none;margin:0;padding:0;}
   .flw-comp li{display:flex;flex-direction:column;gap:var(--sp-1);padding:var(--sp-3) 0;border-top:1px solid var(--line);}
-  .flw-comp li:first-child{border-top:0;padding-top:0;}
+  .flw-comp li:first-child{border-top:0;}
+  /* ≥768 兩欄：建議元件高度跟左邊 Token 提案拉齊（右欄不撐高，清單在面板內捲動） */
+  @media (min-width:768px){
+    .flw-cols{align-items:stretch;}
+    .flw-panel.flw-panel-comp{contain:size;min-height:0;}
+    .flw-panel-comp .flw-comp{flex:1 1 0;min-height:0;max-height:none;}
+  }
   .flw-cn{font-size:var(--fs-h10);color:var(--ink);font-weight:var(--fw-medium);}
   .flw-cr{font-size:var(--fs-h11);color:var(--muted);}
   .flw-stack{display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;}
@@ -5106,8 +5141,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
   @media (max-width:767px){
     /* 手機：滿版 sheet（同 Modal 的 bottom sheet 走向），header／footer 仍固定 */
-    .flw-ovl.mdl-fixed{padding:0;align-items:stretch;}
-    .flw-ovl .mdl-card.flw-m{max-width:none;max-height:none;height:100%;height:100dvh;border-radius:0;border:0;}
+    /* 手機：bottom sheet（同試玩區，library Modal mdl-sheet 走向）：貼底、全寬、上緣圓角、由下滑入；步驟維持置頂水平 */
+    .flw-ovl.mdl-fixed{padding:var(--sp-5) 0 0;align-items:flex-end;}
+    .flw-ovl .mdl-card.flw-m{max-width:none;width:100%;max-height:92vh;max-height:92dvh;height:92vh;height:92dvh;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom);animation:mdl-slideup .22s ease-out;}
+    .flw-ovl.is-closing .mdl-card.flw-m{animation:mdl-slidedown calc(var(--dur-fast) * 1.33) var(--ease-in) forwards;}
     .flw-m .flw-hd{padding:var(--sp-4) var(--sp-5);gap:var(--sp-4);}
     .flw-m .mdl-content.flw-body{padding:var(--sp-5);gap:var(--sp-5);}
     .flw-m .mdl-foot.flw-nav{padding:var(--sp-3) var(--sp-5);}
@@ -5150,6 +5187,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-cur{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:0;transition:opacity var(--dur-fast) var(--ease-out);--cur-c:var(--c-info-500);}
   .hx-cur.on{opacity:1;}
   .hx-cur svg{display:block;width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));}
+  .hx-cur.is-typing .hx-cur-tag::after{content:"";display:inline-block;width:1px;height:1em;margin-left:2px;vertical-align:-.12em;background:currentColor;}  /* 打字中游標 */
   .hx-cur-tag{position:absolute;left:16px;top:18px;padding:4px 12px;border-radius:var(--r-pill);background:var(--cur-c);color:var(--c-neutral-0);
     font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:var(--fw-semibold);line-height:1.4;white-space:nowrap;box-shadow:var(--e-md);}
   .hx.has-cur{cursor:none;} .hx.has-cur :is(a,button,input,[role=button],.btn,.hx-pgx){cursor:auto;} .hx.has-cur :is(a,button,[role=button],.btn){cursor:pointer;} .hx.has-cur .hx-tile,.hx.has-cur .hx-mq-vp{cursor:none;}
@@ -5177,6 +5215,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-h1{font-size:clamp(var(--fs-h2),5vw,var(--fs-h1));line-height:1.1;letter-spacing:-.03em;margin:0;font-weight:var(--fw-semibold);text-wrap:balance;}
   /* HOME3-TYPE:v1 尾字輪播：每個字一個顏色（primitive token；淺色取 600／700 階、深色取 400 階），換字時顏色漸變，游標 currentColor 跟著走 */
   .hx-type{--hx-tw:var(--c-violet-600);color:var(--hx-tw);white-space:nowrap;transition:color calc(var(--dur-slow) * 1.6) var(--ease-out);}
+  @media (max-width:599px){.hx-h1 .hx-type{display:block;}}  /* 手機：換字從第三行開頭打，不接在第二行尾巴（第三行高度固定，打字時不跳） */
   .hx-type[data-w="1"]{--hx-tw:var(--c-info-600);} .hx-type[data-w="2"]{--hx-tw:var(--c-brand2-600);} .hx-type[data-w="3"]{--hx-tw:var(--c-success-700);}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hx-type{--hx-tw:var(--c-violet-400);}
     :root:not([data-theme="light"]) .hx-type[data-w="1"]{--hx-tw:var(--c-info-400);} :root:not([data-theme="light"]) .hx-type[data-w="2"]{--hx-tw:var(--c-brand2-400);} :root:not([data-theme="light"]) .hx-type[data-w="3"]{--hx-tw:var(--c-success-400);}}
@@ -5332,10 +5371,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
      段距 40px（--sp-7＋--sp-3），段標題不畫底線、不放說明文字 */
   .hx > .hx-sec{margin:calc(var(--sp-9) + var(--sp-6)) 0 0;scroll-margin-top:var(--sp-6);}
   .hx > #hxFlow,.hx > #hxFigma,.hx > #hxNews{max-width:1180px;margin-left:auto;margin-right:auto;}
-  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxNews{margin-top:calc(var(--sp-9) * 2);}  /* 下方四段間距同上方段落 */  /* 與 hero 同最大寬 */
+  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxNews{margin-top:calc(var(--sp-9) * 2);}
+  .hx > #hxNews{margin-bottom:calc(var(--sp-9) * 2);}  /* FAQ（首頁最後一段）與 footer 拉開，同段落間距 */  /* 下方四段間距同上方段落 */  /* 與 hero 同最大寬 */
   /* 宣言＋大數字 */
   .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(64px,10vw,144px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框；上下留白加倍 */
   .hx-manifesto{margin:0;max-width:none;text-wrap:balance;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
+  :is(#hxFigma,#hxNews) > .gd-sec-h .gd-sec-t{font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);}  /* 與宣言段「Every component grows…」同字級 */
   .hx-manifesto span{color:color-mix(in srgb,var(--ink) 18%,transparent);transition:color var(--dur-default) var(--ease-out);}
   .hx-manifesto span.on{color:var(--ink);}
   .hx-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-6);}
@@ -5372,6 +5413,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tile:hover .hx-tile-stage,.hx-tile:focus-visible .hx-tile-stage{border-color:var(--line-strong);box-shadow:var(--e-md);}
   /* 滑過＝Figma 式選取框：藍色 1px 外框＋四角白底方塊（選取色走 --c-info-500） */
   .hx-tile-wrap{position:relative;will-change:transform;}
+  .hx-pgx-w{position:relative;width:100%;min-width:0;}  /* 選取框掛在試玩外層（.hx-pgx 有 overflow:hidden 會裁掉四角方點） */
+  .hx-pgx-w > .hx-pv-sel{inset:-1px;z-index:5;transition:opacity var(--dur-default) var(--ease-out);}
+  .hx-pgx-w.is-sel > .hx-pv-sel{opacity:1;}
+  .hx-pgx-w.is-sel > .hx-pgx{border-color:transparent;}  /* 同元件牆 hover：選取框取代原外框 */
   .hx-sel{position:absolute;inset:-1px;pointer-events:none;border:1px solid var(--c-info-500);opacity:0;transition:opacity var(--dur-fast) var(--ease-out);}
   .hx-sel i{position:absolute;width:7px;height:7px;box-sizing:border-box;background:var(--c-neutral-0);border:1px solid var(--c-info-500);}
   .hx-sel i:nth-child(1){left:-4px;top:-4px;} .hx-sel i:nth-child(2){right:-4px;top:-4px;} .hx-sel i:nth-child(3){left:-4px;bottom:-4px;} .hx-sel i:nth-child(4){right:-4px;bottom:-4px;}
@@ -5550,7 +5595,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-step::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--canvas);opacity:calc(min(var(--hx-st-p),1)*.4);pointer-events:none;}
   .hx-step-tx{display:flex;flex-direction:column;justify-content:center;gap:var(--sp-4);padding:var(--sp-7);min-width:0;}
   .hx-step-h{margin:0;font-family:var(--font-display);font-size:var(--fs-h5);font-weight:var(--fw-semibold);line-height:1.2;letter-spacing:-.01em;color:var(--ink);text-wrap:balance;}
-  .hx-step-d{margin:0;font-size:var(--fs-h9);line-height:var(--lh-relaxed);color:var(--muted);max-width:34ch;}
+  .hx-step-d{margin:0;font-size:var(--fs-h9);line-height:var(--lh-relaxed);color:var(--muted);max-width:42ch;text-wrap:pretty;}
   .hx-step-a{display:flex;align-items:center;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);margin-top:var(--sp-4);}
   .hx-step-v{position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-8) var(--sp-7);background:var(--panel-2);border-radius:var(--r-lg);overflow:hidden;min-width:0;}
   .hx-step-stage{width:min(100%,420px);display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);box-shadow:var(--e-lg);border-radius:var(--r-lg);}
@@ -6184,6 +6229,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-sl.on{opacity:1;visibility:visible;z-index:2;transition:opacity .45s var(--ease-out) .2s,visibility 0s;}  /* 先退後進，兩張卡不重疊 */
   .hx-tm-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
   .hx-tm-stage > .hx-tm-bg0{z-index:0;}  /* 共用背景：固定一張，不隨切換淡入淡出 */
+  /* 視差：背景圖比舞台高 40%，捲動時以較慢速度位移（JS 寫 --hx-px，-1～1）；減少動態時不動 */
+  .hx-tm-stage > .hx-tm-bg0{inset:auto 0;top:-20%;height:140%;transform:translate3d(0,calc(var(--hx-px,0) * 14%),0);will-change:transform;}
+  @media (prefers-reduced-motion:reduce){.hx-tm-stage > .hx-tm-bg0{transform:none;}}
   .hx-tm-sl .hx-tm-bg{display:none;} .hx-tm-sl::after{display:none;}
   .hx-tm-stage::after{content:"";position:absolute;inset:0;z-index:0;background:color-mix(in srgb,var(--c-neutral-900) 42%,transparent);pointer-events:none;}
   .hx-tm-sl{z-index:1;}
@@ -6194,10 +6242,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-sl.on .hx-tm-card > *{transition:opacity var(--dur-default) var(--ease-out) 160ms,transform var(--dur-default) var(--ease-out) 160ms;}
   .hx-tm-sl.on .hx-tm-card > *{opacity:1;transform:none;}
   .hx-tm-sl.on .hx-tm-card > :nth-child(2){transition-delay:80ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(3){transition-delay:160ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(4){transition-delay:240ms;}
-  .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--r-lg);box-shadow:var(--e-xl);}
+  .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--radius);box-shadow:var(--e-xl);}
   .hx-tm-qm{align-self:flex-end;width:28px;height:23px;color:var(--c-info-500);flex:0 0 auto;}
   .hx-tm-q{margin:0;flex:1 1 auto;display:flex;align-items:center;}
-  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h6);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
+  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h7);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
   .hx-tm-who{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);}
   .hx-tm-id{display:flex;flex-direction:column;gap:2px;min-width:0;}
   .hx-tm-id b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
@@ -6215,7 +6263,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-tm-card{max-height:100%;overflow:hidden;}
     .hx-tm-card{min-height:0;padding:var(--sp-5);gap:var(--sp-4);}
     .hx-tm-qm{width:24px;height:20px;}
-    .hx-tm-q p{font-size:var(--fs-h7);}
+    .hx-tm-q p{font-size:var(--fs-h8);}
     .hx-tm-ctl{gap:var(--sp-4);}
   }
   @media(prefers-reduced-motion:reduce){
@@ -6233,9 +6281,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
     </button>
     <div class="brand"><svg class="brand-logo" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CDL"><g stroke="currentColor" stroke-width="6"><path d="M25.96 21.64A13 13 0 1 0 25.96 38.36"/><circle cx="48" cy="30" r="13"/><path d="M61 2V46"/><path d="M75 2V46"/></g><rect x="82" y="40" width="6" height="6" fill="var(--accent2)"/></svg></div>
-    <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
     <button class="gd-entry" id="guideBtn" type="button" hidden>📖 上手指南</button>
     <div class="spacer"></div>
+    <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
     <button class="theme-toggle" id="themeBtn" type="button" role="switch" aria-checked="false" aria-label="切換為深色模式"><span class="knob"></span></button>
   </div>
 
@@ -6390,9 +6438,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     radio:{label:'Radio 單選鈕',order:['state','size'],
       axes:{state:['default','hover','checked','disabled','focus'],size:['m']},
       zh:{state:{default:'預設',hover:'滑過',checked:'已選',disabled:'停用',focus:'聚焦'},size:{m:'標準 m'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
-    tag:{label:'Tag 標籤',order:['variant','corner','intent','state'],
-      axes:{variant:['solid','outline','soft'],corner:['round','rect'],intent:['brand','brand2','neutral','danger','success','warning','info'],state:['default','hover','disabled']},
-      zh:{variant:{solid:'實心',outline:'外框',soft:'柔色'},corner:{round:'圓角',rect:'方角'},intent:{brand:'品牌',brand2:'輔助',neutral:'中性',danger:'危險',success:'成功',warning:'警告',info:'資訊'},state:{default:'預設',hover:'滑過',disabled:'停用'},axisName:{variant:'Variant 風格',corner:'Corner 圓角',intent:'Intent 意圖',state:'State 狀態'}}},
+    tag:{label:'Tag 標籤',order:['variant','corner','intent','state','size'],
+      axes:{variant:['solid','outline','soft'],corner:['round','rect'],intent:['brand','brand2','neutral','danger','success','warning','info'],state:['default','hover','disabled'],size:['s','m','l']},
+      zh:{variant:{solid:'實心',outline:'外框',soft:'柔色'},corner:{round:'圓角',rect:'方角'},intent:{brand:'品牌',brand2:'輔助',neutral:'中性',danger:'危險',success:'成功',warning:'警告',info:'資訊'},state:{default:'預設',hover:'滑過',disabled:'停用'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 風格',corner:'Corner 圓角',intent:'Intent 意圖',state:'State 狀態',size:'Size 尺寸'}}},
     'button-group':{label:'Button Group 按鈕組',order:['variant','size'],axes:{variant:['outline','soft','split'],size:['s','m','l']},zh:{variant:{outline:'外框',soft:'柔色',split:'主鈕＋下拉'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
     link:{label:'Link 連結',order:['variant','state'],axes:{variant:['inline','standalone'],state:['default','hover','visited','focus','disabled']},zh:{variant:{inline:'段落內',standalone:'獨立連結'},state:{default:'預設',hover:'滑過',visited:'已造訪',focus:'聚焦',disabled:'停用'},axisName:{variant:'Variant 風格',state:'State 狀態'}}},
     kbd:{label:'Kbd 快捷鍵',order:['variant','size'],axes:{variant:['default','ghost'],size:['s','m']},zh:{variant:{default:'鍵帽',ghost:'淡底'},size:{s:'小 s',m:'標準 m'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
@@ -6475,7 +6523,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     'invite-card':{label:'Invite Card 邀請協作卡',order:['layout','members'],axes:{layout:['card','modal'],members:['empty','list']},zh:{layout:{card:'頁內卡片',modal:'對話框'},members:{empty:'空',list:'成員清單'},axisName:{layout:'Layout 版型',members:'Members 成員'}}},
     'widget-card':{label:'Widget Card 小工具卡',order:['kind'],axes:{kind:['message','todo','group','welcome','date']},zh:{kind:{message:'訊息',todo:'今日待辦',group:'群組訊息',welcome:'歡迎回來',date:'日期'},axisName:{kind:'Kind 種類'}}},
     table:{label:'Table 資料表格',order:['variant','density'],axes:{variant:['bordered','striped','plain'],density:['comfortable','compact']},zh:{variant:{bordered:'格線',striped:'斑馬紋',plain:'簡潔'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{variant:'Variant 型態',density:'Density 密度'}}},
-    chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut','spark','brush','area-stack','bar-stack','combo','bar-rank','gauge','funnel','heatmap'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈',spark:'趨勢小圖卡',brush:'刷選縮放折線','area-stack':'堆疊面積圖','bar-stack':'堆疊長條',combo:'長條＋折線組合圖','bar-rank':'橫向排名長條',gauge:'儀表',funnel:'漏斗圖',heatmap:'熱力圖'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
+    chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut','semi','pie','spark','brush','area-stack','bar-stack','combo','bar-rank','gauge','funnel','heatmap'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈',semi:'半圓',pie:'實心圓餅',spark:'趨勢小圖卡',brush:'刷選縮放折線','area-stack':'堆疊面積圖','bar-stack':'堆疊長條',combo:'長條＋折線組合圖','bar-rank':'橫向排名長條',gauge:'儀表',funnel:'漏斗圖',heatmap:'熱力圖'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
     'tree-view':{label:'Tree View 樹狀',order:['variant','state'],axes:{variant:['lines','plain','checkbox'],state:['default','hover','selected']},zh:{variant:{lines:'連接線',plain:'無線',checkbox:'勾選樹'},state:{default:'預設',hover:'滑過',selected:'選取'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
     'schedule-chart':{label:'Schedule Chart 排程圖',order:['variant','size'],axes:{variant:['gantt','week','timeline'],size:['m','s']},zh:{variant:{gantt:'甘特圖',week:'週排程',timeline:'時間軸'},size:{m:'標準',s:'精簡'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
     calendar:{label:'Calendar 日曆時間',order:['variant','size'],axes:{variant:['month','range','time'],size:['m','s']},zh:{variant:{month:'月曆',range:'區間',time:'時間'},size:{m:'M',s:'S'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}}
@@ -7239,11 +7287,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     }
   });
   LIVE.tag=(host)=>mountLive(host,{gate:'tag',
-    initial:{variant:'soft',corner:'round',intent:'brand',icon:false,close:false},
-    segs:[{key:'variant',label:'Variant',options:['solid','outline','soft']},{key:'corner',label:'Corner',options:['round','rect']},{key:'intent',label:'Intent',options:['brand','brand2','neutral','danger','success','warning','info']}],
+    initial:{variant:'soft',corner:'round',intent:'brand',size:'s',icon:false,close:false},
+    segs:[{key:'variant',label:'Variant',options:['solid','outline','soft']},{key:'size',label:'Size',options:['s','m','l'],labels:['S','M','L']},{key:'corner',label:'Corner',options:['round','rect']},{key:'intent',label:'Intent',options:['brand','brand2','neutral','danger','success','warning','info']}],
     bools:[{key:'icon',label:'icon'},{key:'close',label:'removable ×'}],
     render:st=>{
-      const t=ce('div',`tg v-${st.variant} c-${st.corner} i-${st.intent} st-default`);
+      const t=ce('div',`tg v-${st.variant} c-${st.corner} i-${st.intent} st-default`+(st.size&&st.size!=='s'?' sz-'+st.size:''));
       t.innerHTML=(st.icon?ICON_SEARCH:'')+'<span>標籤</span>';
       if(st.close){const x=ce('span','x');x.innerHTML=ICON_CLOSE;x.onclick=e=>{e.stopPropagation();t.classList.remove('tg-in');t.classList.add('tg-out');setTimeout(()=>{t.classList.remove('tg-out');void t.offsetWidth;t.classList.add('tg-in');},900);};t.appendChild(x);}
       return t;
@@ -7437,24 +7485,24 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
 
   /* ---- TAG ---- */
-  function tagEl(variant,intent,state,corner){corner=corner||'round';
-    const t=ce('div',`tg v-${variant} c-${corner} i-${intent} st-${state}`);
+  function tagEl(variant,intent,state,corner,size){corner=corner||'round';   // size：s（預設，不加 class）／m／l
+    const t=ce('div',`tg v-${variant} c-${corner} i-${intent} st-${state}`+(size&&size!=='s'?' sz-'+size:''));
     t.innerHTML=`<span>標籤</span>`;return t;}
   function buildTag(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Tag',title:'Tag 標籤 / Chip',
-      lede:'標籤與 Chip 合併。<b>variant × corner × intent（3 × 2 × 7 = 42）</b>，intent 提供 brand／brand2（輔助）／neutral／danger／success／warning／info 七色（brand2 綁副品牌 <code>--accent2</code>、feedback 綁 <code>--s-feedback-*</code>；warning solid 底自動改深字保可讀）。corner 圓角／方角切換；removable／icon 為 feature flag。',
-      specRows:[['axes','<code>variant × corner × intent × state</code>'],['formula','<code>3 × 2 × 7</code>（視覺全展）'],['token-policy','<code>semantic.*.tag.*</code>'],['features','removable / icon / avatar']]});
+      lede:'標籤與 Chip 合併。<b>variant × corner × intent × size（3 × 2 × 7 × 3 = 126）</b>，size 分 <b>s 22px（預設）／m 26px／l 32px</b>，intent 提供 brand／brand2（輔助）／neutral／danger／success／warning／info 七色（brand2 綁副品牌 <code>--accent2</code>、feedback 綁 <code>--s-feedback-*</code>；warning solid 底自動改深字保可讀）。corner 圓角／方角切換；removable／icon 為 feature flag。',
+      specRows:[['axes','<code>variant × corner × intent × state × size</code>'],['formula','<code>3 × 2 × 7 × 3</code>（視覺全展）'],['token-policy','<code>semantic.*.tag.*</code>'],['features','removable / icon / avatar']]});
     const Z={default:['預設','default'],hover:['滑過','hover'],disabled:['停用','disabled']};
     const VN={solid:'實心 solid',outline:'外框 outline',soft:'柔色 soft'};
     const axes=DIAL_SPECS.tag.axes, zh=DIAL_SPECS.tag.zh, active=CHOICE.tag.active; // 接中央 store
     let p;
     function renderM(){ if(!p)return; p.innerHTML='';
-      const vs=axes.variant.filter(v=>active.variant.has(v)),cs=axes.corner.filter(c=>active.corner.has(c)),is=axes.intent.filter(i=>active.intent.has(i)),ss=axes.state.filter(s=>active.state.has(s));
+      const vs=axes.variant.filter(v=>active.variant.has(v)),cs=axes.corner.filter(c=>active.corner.has(c)),is=axes.intent.filter(i=>active.intent.has(i)),ss=axes.state.filter(s=>active.state.has(s)),zs=axes.size.filter(z=>active.size.has(z));
       const cols=[];is.forEach(i=>cs.forEach(cn=>cols.push({i,cn}))); // 欄＝intent × corner
-      vs.forEach(v=>p.appendChild(matrixPanel({badge:'variant',name:VN[v],rows:ss,cols,
+      vs.forEach(v=>zs.forEach(z=>p.appendChild(matrixPanel({badge:'variant',name:VN[v]+' · '+z.toUpperCase(),rows:ss,cols,
         rowLab:s=>labHTML(Z[s][0],Z[s][1]),
         colLab:o=>labHTML(zh.intent[o.i]+'·'+(o.cn==='round'?'圓角':'方角'),o.i+'·'+o.cn),
-        cell:(s,o)=>tagEl(v,o.i,s,o.cn),mincol:120}))); }
+        cell:(s,o)=>tagEl(v,o.i,s,o.cn,z),mincol:120})))); }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State × (Intent·Corner) 矩陣','每個 variant 一塊；列＝狀態、欄＝intent × 圓角。');p=panelsIn(sec);renderM();
     const sl=section(body,'互動預覽與程式碼','調 variant／corner／intent／feature，下面即時預覽（removable 可點 × 移除）。');
@@ -12738,16 +12786,36 @@ function buildArticleCard(view){
     svg.addEventListener('mouseleave',()=>{hl.style.opacity='0';tip.classList.remove('on');svg.querySelectorAll('.cht-b.is-dim').forEach(r=>r.classList.remove('is-dim'));});
   }
   /* 甜甜圈 SVG：pathLength=100 ＋ stroke-dasharray 分段畫環（各段綁 intent 色 token），o.center 顯示中央百分比 */
-  function chtDonutSVG(o){
+  function chtDonutSVG(o){   /* 2026-11-05 細緻化：環寬 15→7（約直徑 6%）、半徑 46→52、段間留 1% 細縫；中央改「小標在上＋大數字」 */
     let off=0,s='<svg viewBox="0 0 120 120" role="img" aria-label="甜甜圈圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';
     s+='<g transform="rotate(-90 60 60)">'; // 轉 -90 度讓第一段從 12 點鐘開始
+    const GAP=1;
     CHT_DONUT_SEGS.forEach((g,gi)=>{
-      s+='<circle class="cht-seg" data-i="'+gi+'" cx="60" cy="60" r="46" fill="none" stroke="var('+g.c+')" stroke-width="15" pathLength="100" stroke-dasharray="'+g.v+' '+(100-g.v)+'" stroke-dashoffset="'+(-off)+'"/>';
+      s+='<circle class="cht-seg" data-i="'+gi+'" cx="60" cy="60" r="52" fill="none" stroke="var('+g.c+')" stroke-width="7" pathLength="100" stroke-dasharray="'+(g.v-GAP)+' '+(100-g.v+GAP)+'" stroke-dashoffset="'+(-off)+'"/>';
       off+=g.v;
     });
     s+='</g>';
-    if(o.center)s+='<text x="60" y="58" class="cht-donut-num" text-anchor="middle">46%</text><text x="60" y="75" class="cht-donut-sub" text-anchor="middle">完成率</text>';
+    if(o.center)s+='<text x="60" y="50" class="cht-donut-sub" text-anchor="middle">完成率</text><text x="60" y="72" class="cht-donut-num" text-anchor="middle">46<tspan class="cht-donut-u">%</tspan></text>';
     return s+'</svg>';
+  }
+  /* 半圓 semi：180° 弧（左→上→右），平頭段、段間留細縫（同甜甜圈）；中央大數字壓在弧心下緣 */
+  const chtPt=(cx,cy,r,a)=>[(cx+r*Math.cos(a)).toFixed(2),(cy+r*Math.sin(a)).toFixed(2)];
+  function chtSemiSVG(o){
+    const cx=100,cy=100,r=86,sw=11.5,gap=Math.PI*2*.01;   /* 與甜甜圈同比例：環寬≈半徑 13.5%、段間縫＝圓周 1%、平頭 */let a=Math.PI,s='<svg viewBox="0 0 200 112" role="img" aria-label="半圓圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';
+    CHT_DONUT_SEGS.forEach((g,gi)=>{const span=Math.PI*g.v/100;const a0=a+(gi?gap/2:0),a1=a+span-(gi<CHT_DONUT_SEGS.length-1?gap/2:0);
+      const p0=chtPt(cx,cy,r,a0),p1=chtPt(cx,cy,r,a1);
+      s+='<path class="cht-seg" data-i="'+gi+'" d="M'+p0+'A'+r+' '+r+' 0 0 1 '+p1+'" fill="none" stroke="var('+g.c+')" stroke-width="'+sw+'"/>';a+=span;});
+    if(o.center)s+='<text x="100" y="66" class="cht-donut-sub" text-anchor="middle">完成率</text><text x="100" y="96" class="cht-donut-num cht-semi-num" text-anchor="middle">46<tspan class="cht-donut-u">%</tspan></text>';
+    return s+'</svg>';
+  }
+  /* 實心 pie：扇形以面板色細線分隔，≥10% 的扇形內標百分比（文字色 --s-on-primary） */
+  function chtPieSVG(o){
+    const c=60,r=56;let a=-Math.PI/2,s='<svg viewBox="0 0 120 120" role="img" aria-label="圓餅圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';let lb='';
+    CHT_DONUT_SEGS.forEach((g,gi)=>{const span=2*Math.PI*g.v/100;const p0=chtPt(c,c,r,a),p1=chtPt(c,c,r,a+span);
+      s+='<path class="cht-seg cht-pie-sl" data-i="'+gi+'" d="M'+c+' '+c+'L'+p0+'A'+r+' '+r+' 0 '+(span>Math.PI?1:0)+' 1 '+p1+'Z" fill="var('+g.c+')"/>';
+      if(o.labels!==false&&g.v>=10){const m=chtPt(c,c,r*.62,a+span/2);lb+='<text x="'+m[0]+'" y="'+m[1]+'" class="cht-pie-lb" text-anchor="middle" dominant-baseline="central">'+g.v+'%</text>';}
+      a+=span;});
+    return s+lb+'</svg>';
   }
   /* 甜甜圈 hover：跟折線／長條一樣浮 .cht-tip tooltip（label＋%），不動中央數字、不 focus 段 */
   function chtDonutHover(box){
@@ -12811,9 +12879,9 @@ function buildArticleCard(view){
       box.appendChild(chtFluid(chtBarNode,{w:s?170:340,h:s?76:150,
         series2:o.series2===undefined?!s:o.series2,
         vals:!!o.vals,xaxis:!!o.xaxis,yaxis:!!o.yaxis,interactive:!!o.interactive}));
-    }else{ // donut
+    }else{ // donut／semi 半圓／pie 實心
       const center=o.center===undefined?true:o.center;
-      box.innerHTML=chtDonutSVG({center});
+      box.innerHTML=variant==='pie'?chtPieSVG({labels:o.labels===undefined?!s:o.labels}):variant==='semi'?chtSemiSVG({center}):chtDonutSVG({center});
       chtDonutHover(box); // 滑段浮 tooltip（同折線／長條）
       if(o.legend===undefined?!s:o.legend)box.appendChild(chtLegend());
     }
@@ -12832,7 +12900,7 @@ function buildArticleCard(view){
     '趨勢 trend':'stat','單位 unit':'stat',
     '面積填充 area':['line','curve'],'漸層填充 gradient':['line','curve'],'格線 grid':['line','curve'],'X 軸月份':['line','curve'],'Y 軸數值':['line','curve'],
     '第二系列 series2':'bar','數值標 values':'bar','X 軸星期':'bar','Y 軸數量':'bar',
-    '中央數字 center':'donut','圖例 legend':'donut'
+    '中央數字 center':['donut','semi'],'圖例 legend':['donut','semi','pie'],'扇形百分比 labels':'pie'
   };
   function chtScopeBools(host,variant){
     requestAnimationFrame(()=>{ // render 回傳後控制列才在 DOM，延一拍再掃
@@ -12852,7 +12920,7 @@ function buildArticleCard(view){
      色彩：系列 1＝--accent（chart scope＝--c-brand2-500）、2–4＝--s-chart-2..4、熱力色階＝--s-chart-seq-0..5、門檻＝--s-feedback-*；動態讀 --dur-*／--ease-out。 */
   const CHTX={};
   const CHTX_GROUPS=[
-    {k:'base',t:'基礎',d:'單一數字與單一系列',vs:['stat','line','curve','bar','donut']},
+    {k:'base',t:'基礎',d:'單一數字與單一系列',vs:['stat','line','curve','bar','donut','semi','pie']},
     {k:'trend',t:'趨勢',d:'看數字隨時間怎麼走：切區間、縮放長時間序列',vs:['spark','brush']},
     {k:'comp',t:'組成',d:'總數由哪些部分組成、比例怎麼變',vs:['area-stack','bar-stack']},
     {k:'cmp',t:'比較',d:'多個項目或兩種指標放在一起比',vs:['combo','bar-rank']},
@@ -13266,8 +13334,8 @@ function buildArticleCard(view){
 
   function buildChart(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Chart',title:'Chart 圖表',
-      lede:'儀表板圖表共 <b>14 型</b>，依用途分五段：<b>基礎</b>（stat 統計數字＝重用 <b>prMetricEl</b>、line 折線、curve 曲線、bar 長條、donut 甜甜圈）、<b>趨勢</b>（spark KPI 趨勢小圖卡、brush 刷選縮放折線）、<b>組成</b>（area-stack 堆疊面積、bar-stack 堆疊長條）、<b>比較</b>（combo 長條＋折線、bar-rank 橫向排名）、<b>進度與分布</b>（gauge 儀表、funnel 漏斗、heatmap 熱力圖）。× 兩尺寸：<b>m 標準</b>＝完整配置、<b>s 精簡</b>＝收座標軸／圖例／切換的小卡版。全部 <b>inline SVG 手刻</b>、無外部 lib；系列 1 綁 <code>--accent</code>（chart 內＝品牌橘），系列 2–4 綁 <code>--s-chart-2..4</code>，熱力色階 <code>--s-chart-seq-*</code>，狀態只用 <code>--s-feedback-*</code>；卡內切換重用 <b>Segmented</b>、圖例與漲跌重用 <b>.tg</b>，數字一律 <code>tabular-nums</code>。',
-      specRows:[['axes','<code>variant × size</code>'],['formula','<code>14 × 2 = 28</code>'],['token-policy','<code>--accent / --s-chart-2..4 / --s-chart-seq-0..5 / --s-feedback-*</code>'],['tech','<code>inline SVG 手刻 · tabular-nums · --dur-* / --ease-out</code>']]});
+      lede:'儀表板圖表共 <b>16 型</b>，依用途分五段：<b>基礎</b>（stat 統計數字＝重用 <b>prMetricEl</b>、line 折線、curve 曲線、bar 長條、donut 甜甜圈、semi 半圓、pie 實心圓餅）、<b>趨勢</b>（spark KPI 趨勢小圖卡、brush 刷選縮放折線）、<b>組成</b>（area-stack 堆疊面積、bar-stack 堆疊長條）、<b>比較</b>（combo 長條＋折線、bar-rank 橫向排名）、<b>進度與分布</b>（gauge 儀表、funnel 漏斗、heatmap 熱力圖）。× 兩尺寸：<b>m 標準</b>＝完整配置、<b>s 精簡</b>＝收座標軸／圖例／切換的小卡版。全部 <b>inline SVG 手刻</b>、無外部 lib；系列 1 綁 <code>--accent</code>（chart 內＝品牌橘），系列 2–4 綁 <code>--s-chart-2..4</code>，熱力色階 <code>--s-chart-seq-*</code>，狀態只用 <code>--s-feedback-*</code>；卡內切換重用 <b>Segmented</b>、圖例與漲跌重用 <b>.tg</b>，數字一律 <code>tabular-nums</code>。',
+      specRows:[['axes','<code>variant × size</code>'],['formula','<code>16 × 2 = 32</code>'],['token-policy','<code>--accent / --s-chart-2..4 / --s-chart-seq-0..5 / --s-feedback-*</code>'],['tech','<code>inline SVG 手刻 · tabular-nums · --dur-* / --ease-out</code>']]});
     const axes=DIAL_SPECS.chart.axes, zh=DIAL_SPECS.chart.zh, active=CHOICE.chart.active; // 接中央 store
     const VN={};axes.variant.forEach(v=>VN[v]=[zh.variant[v]||v,v]);
     const SZN={m:['標準','m'],s:['精簡','s']};
@@ -13305,7 +13373,7 @@ function buildArticleCard(view){
         statTrend:true,statUnit:false,
         lineArea:true,lineGrid:true,lineXcat:true,lineYval:true,lineGrad:false,
         barSeries2:true,barVals:false,barXcat:true,barYval:true,
-        donutCenter:true,donutLegend:true,
+        donutCenter:true,donutLegend:true,pieLabels:true,
         sparkLine:true,sparkPeriod:true,brushMA:true,areaSeries:'4',areaToggle:true,stackScale:'count',comboLayout:'split',
         rankSort:'desc',rankVals:true,gaugeTarget:true,funnelStages:'5',funnelRates:true,heatSteps:'6',heatLegend:true},
       segs:[{key:'variant',label:'Variant',as:'select',options:vOpts,labels:vOpts.map(v=>zh.variant[v]||v)}, // BENTO-ALL:v1 圖表類型太多→下拉
@@ -13319,7 +13387,7 @@ function buildArticleCard(view){
       bools:[{key:'statTrend',label:'趨勢 trend'},{key:'statUnit',label:'單位 unit'},
              {key:'lineArea',label:'面積填充 area'},{key:'lineGrad',label:'漸層填充 gradient'},{key:'lineGrid',label:'格線 grid'},{key:'lineXcat',label:'X 軸月份'},{key:'lineYval',label:'Y 軸數值'},
              {key:'barSeries2',label:'第二系列 series2'},{key:'barVals',label:'數值標 values'},{key:'barXcat',label:'X 軸星期'},{key:'barYval',label:'Y 軸數量'},
-             {key:'donutCenter',label:'中央數字 center'},{key:'donutLegend',label:'圖例 legend'},
+             {key:'donutCenter',label:'中央數字 center'},{key:'donutLegend',label:'圖例 legend'},{key:'pieLabels',label:'扇形百分比 labels'},
              {key:'sparkLine',label:'小圖 sparkline'},{key:'sparkPeriod',label:'區間切換 period'},{key:'brushMA',label:'7 日平均 moving-avg'},
              {key:'areaToggle',label:'圖例可切換 legend toggle'},{key:'rankVals',label:'排名數值 values'},{key:'gaugeTarget',label:'目標線 target'},
              {key:'funnelRates',label:'步驟轉換率 rates'},{key:'heatLegend',label:'色階圖例 legend'}],
@@ -13339,13 +13407,13 @@ function buildArticleCard(view){
         else if(st.variant==='line')node=chtChart('line',st.size,{area:st.lineArea,grad:st.lineGrad,grid:st.lineGrid,xaxis:st.lineXcat,yaxis:st.lineYval,interactive:true,wide:true});
         else if(st.variant==='curve')node=chtChart('curve',st.size,{area:st.lineArea,grad:st.lineGrad,grid:st.lineGrid,xaxis:st.lineXcat,yaxis:st.lineYval,interactive:true,wide:true});
         else if(st.variant==='bar')node=chtChart('bar',st.size,{series2:st.barSeries2,vals:st.barVals,xaxis:st.barXcat,yaxis:st.barYval,interactive:true,wide:true});
-        else node=chtChart('donut',st.size,{center:st.donutCenter,legend:st.donutLegend});
+        else node=chtChart(st.variant,st.size,{center:st.donutCenter,legend:st.donutLegend,labels:st.pieLabels});
         const tile=ce('div','cht-tile'+(st.variant==='line'||st.variant==='curve'||st.variant==='bar'?' cht-tile-wide':''));tile.appendChild(node);
         stage.appendChild(tile);
         return stage;
       },
-      note:'↓ 基礎五型精簡尺寸快速對照（sparkline 式簡配）。系列色全綁 token（--accent／--s-chart-2..4／--s-feedback-*），明暗模式自動跟切；進階圖表的動態時長讀 --dur-*、曲線讀 --ease-out，系統開「減少動態」時直接跳到終點。',
-      free:()=>['stat','line','curve','bar','donut'].map(v=>{const t=ce('div','cht-tile');t.appendChild(chtChart(v,'s',{}));return t;})
+      note:'↓ 基礎七型精簡尺寸快速對照（sparkline 式簡配）。系列色全綁 token（--accent／--s-chart-2..4／--s-feedback-*），明暗模式自動跟切；進階圖表的動態時長讀 --dur-*、曲線讀 --ease-out，系統開「減少動態」時直接跳到終點。',
+      free:()=>['stat','line','curve','bar','donut','semi','pie'].map(v=>{const t=ce('div','cht-tile');t.appendChild(chtChart(v,'s',{}));return t;})
     });
   }
 
@@ -14583,7 +14651,7 @@ function buildScheduleChart(view){
       wrap.appendChild(logos);
       const roles=ce('div','dg-roles');
       [['--accent','主色 Primary'],['--c-brand2-500','副色 Secondary'],['--ink','文字 Ink'],['--panel','面板 Panel']].forEach(([n,lb])=>{
-        const v=val(n);if(!v)return;const r=ce('div','dg-role');const sw=ce('div','dg-role-sw');sw.style.background=v;sw.title=n+' '+v;
+        const v=val(n);if(!v)return;const r=ce('div','dg-role');const sw=ce('div','dg-role-sw');sw.style.background='var('+n+')';sw.title=n;
         const nm=ce('div','dg-role-nm');nm.textContent=lb;r.append(sw,nm);roles.appendChild(r);});
       wrap.appendChild(roles);s.appendChild(wrap);})();
 
@@ -14592,8 +14660,8 @@ function buildScheduleChart(view){
       const wrap=ce('div','dgc-wrap');
       const cat=(t,d,sws)=>{const c=ce('div','dgc-cat');const ch=ce('div','dgc-cathead');ch.innerHTML=`<span class="dgc-cat-t">${t}</span>`+(d?`<span class="dgc-cat-d">${d}</span>`:'');c.appendChild(ch);
         const row=ce('div','dgc-row');sws.forEach(o=>{const v=val(o.token);if(!v)return;const it=ce('div','dgc-item'+((window.__tokDisabled&&window.__tokDisabled.has(o.token))?' dgc-off':''));
-          const chip=ce('div','dgc-chip');const col=ce('div','dgc-color');col.style.background=v;col.title=o.token+' '+v;chip.appendChild(col);
-          const nm=ce('div','dgc-name');nm.textContent=o.name;const hx=ce('div','dgc-hex');hx.textContent=v.toUpperCase();
+          const chip=ce('div','dgc-chip');const col=ce('div','dgc-color');col.style.background='var('+o.token+')';col.title=o.token;chip.appendChild(col);
+          const nm=ce('div','dgc-name');nm.textContent=o.name;const hx=ce('div','dgc-hex');hx.dataset.tok=o.token;hx.textContent=v.toUpperCase();
           it.append(chip,nm,hx);row.appendChild(it);});c.appendChild(row);wrap.appendChild(c);};
       const st9=['100','200','300','400','500','600','700','800','900'];
       cat('Primary 主色','品牌主色，主要視覺代表',st9.map(x=>({name:'Brand '+x,token:'--c-brand-'+x})));
@@ -14687,6 +14755,55 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v11', date:'2026-11-05', title:'Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正', items:[
+      {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
+      {tag:'add', t:'Tag 新增 size 軸：s 22px（預設）／m 26px／l 32px；首頁步驟牌卡的 Step 標籤改用 m'},
+      {tag:'improve', t:'開新專案：桌機／平板高度固定撐到最大、換步驟不跳動，步驟改放左側直排；手機改 bottom sheet（由下滑入），步驟維持置頂水平'},
+      {tag:'improve', t:'Header 搜尋在所有寬度（含 RWD 預覽框內）都放右側、深淺色切換左邊；搜尋彈窗圓角改與 Modal 一致並垂直置中'},
+      {tag:'improve', t:'變數篩選器／Token 綁定／狀態一覽表展開收合改成高度補間＋內容淡入淡出，不再瞬間變 0'},
+      {tag:'improve', t:'Slider 圓點縮小、軌道加粗（s：5px／12px；m：6px／14px）'},
+      {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
+      {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
+      {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
+      {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'improve', t:'開新專案「重新開始」改為連網站一起回到元件庫預設（token、綁定、停用 token、元件勾選與軸篩選全部清掉）'},
+      {tag:'improve', t:'字體堆疊補上 Noto Sans TC（Google Fonts 載入，緊接在 Geist／Epilogue 後）；Guideline 色塊圓角改 --r-sm，色塊與色號跟著主題切換／token 覆寫即時更新'},
+      {tag:'improve', t:'開新專案：彈窗寬度改左右各留 10vw、最大 1000px；提案步驟的建議元件依分類分組，高度與 Token 提案拉齊'},
+      {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用柔色 soft Tag'},
+      {tag:'improve', t:'Token 試玩：操作控制欄位時，整塊試玩（操作區＋預覽）出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
+      {tag:'improve', t:'首頁協作游標標籤依段落換字（yuu／component／about／motion／how2use／highlight／feedback／question），切換時打字動態'},
+      {tag:'improve', t:'Header「此為母元件庫，若需更新請調整原始檔」移到 logo 右側，以淺色細線分隔'},
+      {tag:'improve', t:'首頁四個步驟說明改寫，具體寫出網站上的操作：編輯 token 數值、勾選元件與狀態樣式、即時預覽元件與程式碼、Token 綁定、匯出 Figma／SCSS'},
+      {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
+      {tag:'fix', t:'token 覆寫寫入後抽查是否生效，沒生效時改以 inline style 套用（依主題／斷點重算），確保套用提案後全站換色'},
+      {tag:'fix', t:'預覽環境（artifact）擋掉動態 <style>，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
+      {tag:'fix', t:'開新專案提案：色階與預覽改吃問卷色號；彩色主色在深色模式改用夠亮的色階，套用後全站元件與 Guideline 一起換色'},
+      {tag:'fix', t:'Modal popup（確認框）上方內距改與左右、底部一致'},
+      {tag:'fix', t:'首頁動態展示：折線圖自動 hover 示範只在牌卡內進行，不再把協作游標拉到圖表上'},
+    ]},
+    {v:'v10', date:'2026-11-04', title:'元件頁 bento 化 · RWD 裝置預覽 · 首頁改版 · CDL 品牌', items:[
+      {tag:'add', t:'所有元件頁改 bento 版面：三欄可拖寬、程式碼左右並排、狀態一覽表預設收合；長選項改下拉'},
+      {tag:'add', t:'Header 新增 RWD 裝置預覽切換（電腦／平板／手機），框內有載入進度'},
+      {tag:'add', t:'Step、Table Toolbar 重新設計並進庫；Slider 新增填充式樣式與 Variant 樣式軸'},
+      {tag:'add', t:'首頁改版：英文 slogan、Token 試玩區（裝置外框、手機分組工具列＋bottom sheet）、元件牆跑馬燈、動態展示、四個步驟、Code ↔ Figma 雙筆電場景、使用回饋輪播、常見問題 FAQ'},
+      {tag:'add', t:'品牌：Logo 換成 CDL 字標、footer 改 YUUDESIGN；標題字改 Epilogue；favicon 換新 logo、補分享封面圖與 OG／Twitter meta'},
+      {tag:'improve', t:'網站預設深色；全站確認框改用 library Modal；牌卡與容器圓角統一走 --radius；磨砂時浮層不再透出背後內容'},
+      {tag:'improve', t:'Token 試玩預設無陰影、外框深淺 35%，預覽卡底色依深淺模式調整；需求匯總拿掉類別 icon；上手指南、偏好設定標示（待調整）並停用'},
+      {tag:'fix', t:'分段控制選取底色錯位、手機預覽顆粒疊層變灰、回饋背景切換閃爍與引言重疊'},
+    ]},
+    {v:'v9', date:'2026-11-03', title:'Motion v1 · P1／P2 元件全數完成 · 專案流程', items:[
+      {tag:'add', t:'Motion v1：按壓、浮層、內容三批動態規則上線（Button 按壓 scale .97）'},
+      {tag:'add', t:'P1 元件：Alert、Popover、Avatar、Segmented、Slider、Field、Stack、App Shell、Empty'},
+      {tag:'add', t:'P2 元件 17 顆：Button Group、Link、Kbd、Divider、Descriptions、Splitter、Scroll Area、Number Input、Rating、Carousel、Hover Card、Context Menu、Command、Date Picker、Dropzone、Table Toolbar 等'},
+      {tag:'add', t:'Chart 新增 9 種圖型、Card 新增 5 種牌卡'},
+      {tag:'add', t:'全站磨砂偏好、topbar 深淺色切換、模糊搜尋（⌘K）；分階段開新專案流程（#start）'},
+      {tag:'improve', t:'分類重整為 8 組；側欄圖示改用 Phosphor'},
+    ]},
+    {v:'v8', date:'2026-11-02', title:'元件接上字重／行高／陰影／動態 token', items:[
+      {tag:'improve', t:'元件內部改用字重、行高、陰影、動態 token，Token 頁調整即時反映到元件'},
+      {tag:'improve', t:'Tab pill 選中態改單一 token 做法；元件頁段落順序統一，「變數與 Token」左右並排'},
+      {tag:'improve', t:'Toggle 開啟態改用模式對比色，補互動預覽程式碼'},
+    ]},
     {v:'v7', date:'2026-07-27', title:'Design Token 頁與 SCSS 樣式包工程化', items:[
       {tag:'add', t:'Token 頁新增「輸出 · 樣式包（SCSS）」：把當前 token 產成比照工程慣例的樣式包——_variables.scss（token）＋_breakpoints.scss（斷點變數＋mixin）＋_font.scss（字體）＋layout.scss（reset，保留 focus-visible）＋README（Nuxt 引入與套 class 教學），每檔可複製／下載或一鍵「全部下載」'},
       {tag:'improve', t:'元件「互動預覽與程式碼」的 CSS 分頁改成 SCSS 風格：同元素的 variant／state／pseudo 用 & 巢狀、後代選擇器降一層；寫死的佈局屬性（position／margin／inset…）自動加註「可由使用端覆寫」'},
@@ -15370,7 +15487,7 @@ function buildScheduleChart(view){
       if(has(OV.desktop))css+='@media(min-width:1024px){:root{'+blk(OV.desktop)+'}}';             // 響應式各 tier 用互斥區間，避免外洩
       if(has(OV.tablet))css+='@media(min-width:768px) and (max-width:1023px){:root{'+blk(OV.tablet)+'}}';
       if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
-      ovr.textContent=css;
+      dynCss(ovr,css);
       if(refreshExport){cancelAnimationFrame(exportRaf);exportRaf=requestAnimationFrame(refreshExport);}}  // token 改動 → 下方 _variables.scss code 同步更新
     apply();
     view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="btn v-soft i-secondary sz-s st-default live" id="tokCopy"><span>查看程式碼 SCSS</span></button></div>
@@ -15893,7 +16010,7 @@ function buildScheduleChart(view){
       const n=prgEl('bar','s',{value:all?Math.round(done/all*100):0});tpb.replaceWith(n);tpb=n;};
     const task=(text,label,intent,done,first)=>{const r=ce('button','hx-task');r.type='button';r.setAttribute('role','checkbox');
       const paint=on=>{r.classList.toggle('is-done',on);r.setAttribute('aria-checked',String(on));const c=cbxEl(on?'checked':'default','s');const old=r.querySelector('.cbx');if(old)old.replaceWith(c);else r.prepend(c);};
-      const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('outline',intent,label));paint(done);
+      const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('soft',intent,label));paint(done);
       r.onclick=()=>{paint(!r.classList.contains('is-done'));recount();};if(first)list.prepend(r);else list.appendChild(r);recount();return r;};
     [['確認主色與輔助色','設計','brand',true],['圓角 token 定案','設計','brand',true],['Button 寫進 Figma','Figma','info',false],['跑 sync drift 檢查','前端','brand2',false],['Modal 文案校稿','內容','neutral',false],['活動頁 Hero 切版','前端','brand2',false]].forEach(a=>task(...a));
     /* 快速新增：新增／清除在標題列（size s）；欄位＝任務名稱／負責人（Dropdown）／截止日（Date Picker）／優先度（Segmented）／標籤（Dropdown 多選 chips）／通知（Switch）；HOME6:v1 拿掉說明 */
@@ -15948,8 +16065,19 @@ function buildScheduleChart(view){
     document.body.appendChild(cur);let cx2=0,cy2=0,tx2=0,ty2=0,seen=false;const home=()=>hero.closest('.hx');requestAnimationFrame(()=>{const h=home();if(h)h.classList.add('has-cur');});   // 整個首頁都有協作游標
     const cloop=()=>{cx2+=(tx2-cx2)*.32;cy2+=(ty2-cy2)*.32;cur.style.transform='translate3d('+cx2.toFixed(1)+'px,'+cy2.toFixed(1)+'px,0)';
       if(Math.abs(tx2-cx2)>.3||Math.abs(ty2-cy2)>.3)requestAnimationFrame(cloop);else cur.__r=0;};
+    /* 游標標籤依段落換字（打字效果：先逐字刪到共同前綴，再逐字打出新字；減少動態時直接換） */
+    const CUR_LB=[['#hxHero','yuu'],['#hxWall','component'],['#hxStats','about'],['#hxShow','motion'],['#hxFlow','how2use'],['#hxFigma','highlight'],['#hxVoice','feedback'],['#hxNews','question']];
+    const ctag=cur.querySelector('.hx-cur-tag');let cWant='yuu',cT=0;
+    const cStep=()=>{cT=0;const now=ctag.textContent;
+      if(now===cWant){cur.classList.remove('is-typing');return;}
+      cur.classList.add('is-typing');
+      if(!cWant.startsWith(now)){ctag.textContent=now.slice(0,-1);cT=setTimeout(cStep,chtxMs('--dur-fast')*.25);}
+      else{ctag.textContent=cWant.slice(0,now.length+1);cT=setTimeout(cStep,chtxMs('--dur-fast')*.4);}};
+    const cSet=w=>{if(w===cWant)return;cWant=w;if(HX_REDUCE()){ctag.textContent=w;return;}if(!cT)cStep();};
     const onMove=e=>{if(!hero.isConnected){document.removeEventListener('pointermove',onMove);cur.remove();return;}
+      if(!e.isTrusted)return;   // 動態展示的自動示範會派發合成 pointer 事件給圖表做 hover，協作游標只跟真實滑鼠
       if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;const h=home();if(!h||!h.contains(e.target)){cur.classList.remove('on');seen=false;return;}
+      {const hit=CUR_LB.find(([q])=>e.target.closest(q));if(hit)cSet(hit[1]);}
       if(hero.contains(e.target)){const r=bg.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;active=true;kick();}
       tx2=e.clientX;ty2=e.clientY;if(!seen){cx2=tx2;cy2=ty2;seen=true;}
       const over=!!e.target.closest('a,button,input,[role=button],.btn,.hx-pgx')&&!e.target.closest('.hx-tile');cur.classList.toggle('on',!over);
@@ -16060,7 +16188,13 @@ function buildScheduleChart(view){
     const go2=mkBtn({variant:'soft',intent:'secondary',size:'l',isLive:true});go2.querySelector('span').textContent='瀏覽元件';go2.onclick=()=>renderView('button');
     cta.append(go1,go2);
     const pv=hero.querySelector('#hxPv'),pnl=hero.querySelector('#hxPnl'),diff=hero.querySelector('#hxDiff'),cnt=hero.querySelector('#hxPnlN');
-    hxPreview(pv);
+    /* 操作控制欄位時：預覽整塊加上 Figma 式選取框（同元件牆 hover 的 .hx-sel：細框＋四角方點）；點到試玩區以外才收掉 */
+    {const sel=ce('span','hx-sel hx-pv-sel');sel.setAttribute('aria-hidden','true');sel.innerHTML='<i></i><i></i><i></i><i></i>';pv.__sel=sel;
+      const inCtl=t=>!!(t&&t.closest&&t.closest('#hxPnl,.hx-tok-ov,.hx-toktb,#hxActs'));
+      const pgx=hero.querySelector('#hxPgx');let pg=pv;if(pgx){pg=ce('div','hx-pgx-w');pgx.replaceWith(pg);pg.appendChild(pgx);}pv.__pg=pg;const on=()=>pg.classList.add('is-sel'),off=()=>pg.classList.remove('is-sel');
+      document.addEventListener('pointerdown',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();else if(!pg.contains(e.target))off();},true);
+      document.addEventListener('focusin',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();},true);}
+    hxPreview(pv);pv.__pg.appendChild(pv.__sel);   // 掛在整塊試玩外層（hxPreview 會重寫預覽內容）
     let reset,copy,last={},tokN=()=>{};
     const css=o=>'/* 貼到 :root（或專案的 tokens 覆寫） */\n:root {\n'+Object.entries(o).map(([k,v])=>'  '+k+': '+v+';').join('\n')+'\n}\n';
     const refresh=()=>{const o=hxApply(pv);last=o;const ks=Object.keys(o);
@@ -16617,14 +16751,14 @@ function buildScheduleChart(view){
         [R=>press(bw,R),900],
         [R=>{ok.classList.add('is-on');s.hxCap('<b>Progress</b> · 匯出完成','已同步');R.later(()=>press(bd,R),1400);},3400]]};};
     const steps=[
-      ['丟進你的品牌資料','貼上既有網站，或上傳品牌規範。',visUpload],
-      ['挑風格和主色','選一個起始風格，顏色和圓角會先配好。',visStyle],
-      ['勾選要用的元件','只留專案用得到的，其他先收起來。',visPick],
-      ['匯出到 Figma 和程式碼','寫進 Figma，也能下載 SCSS 樣式包。',visExport],
+      ['丟進你的品牌資料','按「開啟新專案」填好專案名稱、產業與平台，上傳品牌規範、logo 或 PRD，再回答幾題品牌問卷。網站會依答案提出第一版 token 與元件建議，草稿自動保存，隨時回來接著做。',visUpload],
+      ['挑風格和主色','先選俐落、柔和或活潑當起點，再到 Design Token 頁自己輸入色碼，調整間距、圓角、字級與陰影。改一個值，整站元件立刻跟著換色換形，淺色、深色模式一起看。',visStyle],
+      ['勾選要用的元件','到各元件頁用變數篩選器勾選需要的樣式、意圖、狀態和尺寸，狀態一覽表與變體數即時縮減。上方即時預覽可切換組合，HTML／CSS 程式碼同步更新，一鍵複製；圓角、間距也能用 Token 綁定換成別的 token。',visPick],
+      ['匯出到 Figma 和程式碼','確認後寫進 Figma Variables 與元件 variant，網站上的每個切換都對應到 Figma 的屬性。也能下載 SCSS 樣式包和元件程式碼，之後兩邊改了什麼，差異檢查會列出來。',visExport],
     ];
     const ol=sec.querySelector('#hxSteps');const runs=[];
     steps.forEach(([t,d,vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
-      const tx=ce('div','hx-step-tx');const k=tagEl('solid','neutral','default','round');k.classList.add('hx-step-k');k.querySelector('span').textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
+      const tx=ce('div','hx-step-tx');const k=tagEl('solid','neutral','default','round','m');k.classList.add('hx-step-k');k.querySelector('span').textContent='Step 0'+(i+1);const h=ce('h3','hx-step-h');h.textContent=t;
       const p=ce('p','hx-step-d');p.textContent=d;tx.append(k,h,p);
       if(i===steps.length-1){const a=ce('div','hx-step-a');
         const b1=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:true,trail:true});b1.querySelector('span').textContent='開始新專案';b1.onclick=goStart;
@@ -16707,9 +16841,9 @@ function buildScheduleChart(view){
       drift:pg(oct(4,8,30,30,8),'bk',0)+pg(oct(20,14,30,30,8),'fr',1)+ac(54,6)
     };
     const FACTS=[
-      ['layers','VARIABLES','顏色、間距、圓角和字級都綁 Figma Variables，數值只存在一個地方，不會各自寫死。'],
-      ['split','VARIANTS','網站上能切換的樣式，在 Figma 變成 variant；內容開關變成 boolean，兩邊的組合方式一致。'],
-      ['drift','DRIFT CHECK','兩邊對不上時，差異檢查會列出改了哪裡，再依 token、結構、內容分類歸位。']];
+      ['layers','Variables','顏色、間距、圓角和字級都綁 Figma Variables，數值只存在一個地方，不會各自寫死。'],
+      ['split','Variants','網站上能切換的樣式，在 Figma 變成 variant；內容開關變成 boolean，兩邊的組合方式一致。'],
+      ['drift','Drift Check','兩邊對不上時，差異檢查會列出改了哪裡，再依 token、結構、內容分類歸位。']];
     const fl=sec.querySelector('.hx-sy-facts');
     FACTS.forEach(([ic,k,t])=>{const li=ce('li','hx-sy-f');li.dataset.ic=ic;
       li.innerHTML=`<svg class="hx-sy-ic" viewBox="0 0 64 48" aria-hidden="true" focusable="false">${ICONS[ic]}</svg><h3 class="hx-sy-ft"></h3><p class="hx-sy-fd"></p>`;
@@ -16774,7 +16908,7 @@ function buildScheduleChart(view){
       {title:'母庫改了 token，進行中的專案會跟著變嗎？',body:'不會自動變。每個專案有自己的 tokens.export.json，母庫更新後由專案成員決定要不要同步。'},
       {title:'可以直接複製程式碼嗎？',body:'可以。每個元件頁都有 HTML 和 CSS 可以一鍵複製；<a href="#tokens">Design Token</a> 頁還能下載整包 SCSS。'},
     ];
-    sec.querySelector('.hx-faq').appendChild(cpsAccordion(FAQ,{variant:'filled',indicator:'plusminus'}));
+    sec.querySelector('.hx-faq').appendChild(cpsAccordion(FAQ,{variant:'filled',indicator:'plusminus',multiple:true}));
     return sec;
   }
 
@@ -16826,7 +16960,13 @@ function buildScheduleChart(view){
     sec.innerHTML=`<div class="hx-tm-stage" tabindex="0" aria-label="使用回饋輪播，可用左右方向鍵切換"></div>
 `;
     const stage=sec.querySelector('.hx-tm-stage'),N=VOICES.length;
-    { const b0=document.createElement('img');b0.className='hx-tm-bg hx-tm-bg0';b0.alt='';b0.decoding='async';b0.src=VOICES[0].bg;stage.appendChild(b0); }
+    { const b0=document.createElement('img');b0.className='hx-tm-bg hx-tm-bg0';b0.alt='';b0.decoding='async';b0.src=VOICES[0].bg;stage.appendChild(b0);
+      /* 視差滾動：舞台在視窗內的位置 → -1（剛從下方進場）～1（將從上方離開），背景反向慢移 */
+      if(!HX_REDUCE()){let raf=0,on=false;const upd=()=>{raf=0;if(!stage.isConnected){removeEventListener('scroll',req,true);return;}
+          const r=stage.getBoundingClientRect(),vh=innerHeight;const k=Math.max(-1,Math.min(1,((r.top+r.height/2)-vh/2)/((vh+r.height)/2)));b0.style.setProperty('--hx-px',(-k).toFixed(4));};
+        const req=()=>{if(on&&!raf)raf=requestAnimationFrame(upd);};
+        addEventListener('scroll',req,{passive:true,capture:true});addEventListener('resize',req,{passive:true});
+        if(window.IntersectionObserver)new IntersectionObserver(es=>{on=es[0].isIntersecting;if(on)req();}).observe(stage);else{on=true;req();}} }
     const slides=VOICES.map((v,i)=>{const sl=ce('div','hx-tm-sl');sl.setAttribute('role','group');sl.setAttribute('aria-roledescription','slide');sl.setAttribute('aria-label',(i+1)+' / '+N);
       const im=document.createElement('img');im.className='hx-tm-bg';im.alt='';im.decoding='async';im.src=v.bg;
       const fg=document.createElement('figure');fg.className='hx-tm-card';fg.innerHTML=QM+'<blockquote class="hx-tm-q"><p></p></blockquote><figcaption class="hx-tm-who"><span class="hx-tm-id"><b></b><span></span></span></figcaption>';
@@ -17097,7 +17237,22 @@ function buildScheduleChart(view){
   { const gb=document.getElementById('guideBtn'); if(gb){ const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true}); nb.id='guideBtn'; nb.type='button'; nb.innerHTML=NAV_IC['book-open-text']+'<span>上手指南</span>';nb.classList.add('has-lead'); nb.style.marginLeft='var(--sp-4)'; nb.onclick=()=>{location.hash='guide';}; gb.replaceWith(nb); } }
   { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>{location.hash='home';}; bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
-  document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
+  /* 變數篩選器／Token 綁定／狀態一覽表（.dcard）收合：高度補間＋內容淡入淡出，不再瞬間變 0（Motion token：--dur-default／--ease-out） */
+  document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(!h)return;const c=h.closest('.dcard');if(!c)return;
+    const body=c.querySelector(':scope > .dcard-body');
+    if(c.__anim){const a=c.__anim;c.__anim=null;a.onfinish=null;a.cancel();if(c.__done)c.__done();}   // 連點：先把上一段收尾到終點狀態
+    const willOpen=c.classList.contains('collapsed');
+    if(!body||matchMedia('(prefers-reduced-motion:reduce)').matches||!c.animate){c.classList.toggle('collapsed');return;}
+    const cs=getComputedStyle(document.documentElement);const dur=(parseFloat(cs.getPropertyValue('--dur-default'))||240)*1.25;const ease=cs.getPropertyValue('--ease-out').trim()||'cubic-bezier(.2,.8,.2,1)';
+    const from=c.getBoundingClientRect().height;
+    c.classList.toggle('collapsed',!willOpen);const to=c.getBoundingClientRect().height;   // 量終點高度
+    if(!willOpen)c.classList.remove('collapsed');                                          // 收合：先保持展開，播完再隱藏內容
+    const ov=c.style.overflow;c.style.overflow='hidden';
+    body.animate(willOpen?[{opacity:0,transform:'translateY(-4px)'},{opacity:1,transform:'none'}]:[{opacity:1},{opacity:0}],{duration:willOpen?dur:dur*.6,easing:ease,fill:'none'});
+    const an=c.animate([{height:from+'px'},{height:to+'px'}],{duration:dur,easing:ease});c.__anim=an;
+    if(!willOpen)c.classList.add('is-closing');
+    const done=()=>{c.__done=null;c.style.overflow=ov;c.classList.remove('is-closing');if(!willOpen)c.classList.add('collapsed');if(c.__anim===an)c.__anim=null;};
+    c.__done=done;an.onfinish=done;});
   (function(){ // 主題偏好：light／dark，存 localStorage；預設淺色（2026-11-03 拿掉跟隨系統）。控制入口＝topbar 右上角切換
     window.__applyThemePref=function(pref,persist){
       pref=pref==='dark'?'dark':'light';window.__themePref=pref;
@@ -17260,6 +17415,42 @@ function buildScheduleChart(view){
   });
 
   /* ===== Studio 資料管線（C1 匯入 proposal / C4 匯出 / C5 server）===== */
+  /* 動態覆寫樣式（#tokenOverrides／#bindOverrides）：先照舊寫 <style> 的 textContent（Vercel／本機直接生效，也讓觀察者收得到改動）；
+     若宿主環境的 CSP 擋掉動態 <style>（例：預覽 artifact 只放行頁面原本的樣式表，style.sheet 會是 null），改用 CSSOM insertRule 寫進頁面既有樣式表的最後面。
+     CSSOM 不受 CSP 限制；每次重寫前先移除上一次插入的規則。 */
+  /* 色塊用 var() 即時跟著變；旁邊的色號文字（[data-tok]）在主題切換／token 覆寫後重讀一次 */
+  function tokTextRefresh(){requestAnimationFrame(()=>{const cs=getComputedStyle(document.documentElement);
+    document.querySelectorAll('[data-tok]').forEach(el=>{const v=cs.getPropertyValue(el.dataset.tok).trim();if(v)el.textContent=v.toUpperCase();});});}
+  new MutationObserver(tokTextRefresh).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  /* 最後保險：寫完 token 覆寫後抽查實際生效值；若樣式表路徑在此環境沒生效（computed 仍是舊值），改把覆寫直接寫到 <html> 的 inline style（CSSOM，任何環境都生效）。
+     inline 依目前主題／斷點合併：root ＋（深色時）dark ＋ 當前 tier；深色時略過 root 裡的 L2 light 值（--s-*），避免蓋掉深色定義。主題或斷點變了就重算。 */
+  const TOK_INLINE={on:false,keys:[]};
+  function tokInlineApply(){const R=document.documentElement,OV=window.__tokOverrides||{};
+    TOK_INLINE.keys.forEach(k=>R.style.removeProperty(k));TOK_INLINE.keys=[];if(!TOK_INLINE.on)return;
+    const dk=R.dataset.theme==='dark',w=innerWidth,m={};
+    Object.entries(OV.root||{}).forEach(([k,v])=>{if(dk&&/^--s-/.test(k))return;m[k]=v;});
+    if(dk)Object.assign(m,OV.dark||{});
+    Object.assign(m,(w>=1024?OV.desktop:w>=768?OV.tablet:OV.mobile)||{});
+    Object.entries(m).forEach(([k,v])=>{R.style.setProperty(k,v);TOK_INLINE.keys.push(k);});tokTextRefresh();}
+  function tokVerify(){const OV=window.__tokOverrides||{};const hexes=Object.entries(OV.root||{}).filter(([k,v])=>/^#[0-9a-f]{6}$/i.test(String(v).trim())&&!/^--s-/.test(k));
+    if(!hexes.length){if(TOK_INLINE.on){TOK_INLINE.on=false;tokInlineApply();}return;}
+    if(TOK_INLINE.on){tokInlineApply();return;}
+    const cs=getComputedStyle(document.documentElement);const bad=hexes.slice(0,3).some(([k,v])=>cs.getPropertyValue(k).trim().toLowerCase()!==String(v).trim().toLowerCase());
+    if(bad){TOK_INLINE.on=true;window.__tokApplyMode='inline';try{console.info('[cdl] token 覆寫改用 inline style 套用（樣式表路徑未生效）');}catch(e){}tokInlineApply();}
+    else window.__tokApplyMode='sheet';}
+  new MutationObserver(()=>{if(TOK_INLINE.on)tokInlineApply();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  {let rt;addEventListener('resize',()=>{if(!TOK_INLINE.on)return;clearTimeout(rt);rt=setTimeout(tokInlineApply,120);});}
+  function dynCss(el,css){
+    el.textContent=css;setTimeout(tokTextRefresh,0);if(el.id==='tokenOverrides')setTimeout(tokVerify,0);
+    const H=window.__dynCssRules||(window.__dynCssRules={}),id=el.id;
+    let host=null;try{host=[...document.styleSheets].find(sh=>{try{return sh.ownerNode&&!sh.ownerNode.id&&sh.cssRules&&sh.cssRules.length>50;}catch(e){return false;}})||null;}catch(e){}
+    if(host&&H[id]){H[id].forEach(r=>{const i=[...host.cssRules].indexOf(r);if(i>=0)try{host.deleteRule(i);}catch(e){}});}
+    H[id]=[];
+    let ok=false;try{ok=!!el.sheet&&(!css.trim()||el.sheet.cssRules.length>0);}catch(e){}
+    if(ok||!host||!css.trim())return;
+    let d=0,st=0;for(let i=0;i<css.length;i++){const ch=css[i];if(ch==='{')d++;else if(ch==='}'){d--;if(d===0){const t=css.slice(st,i+1).trim();st=i+1;
+      if(t)try{const k=host.insertRule(t,host.cssRules.length);H[id].push(host.cssRules[k]);}catch(e){}}}}
+  }
   function applyTokOverrides(){
     const OV=window.__tokOverrides; if(!OV)return;
     let ovr=document.getElementById('tokenOverrides');
@@ -17271,7 +17462,7 @@ function buildScheduleChart(view){
     if(has(OV.desktop))css+='@media(min-width:1024px){:root{'+blk(OV.desktop)+'}}';
     if(has(OV.tablet))css+='@media(min-width:768px) and (max-width:1023px){:root{'+blk(OV.tablet)+'}}';
     if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
-    ovr.textContent=css;
+    dynCss(ovr,css);
   }
   /* ── 元件級 Token 綁定（實驗，垂直切片：button／tag）──
    * 元件 CSS 的屬性走「元件槽 var(--元件-槽, var(--預設token))」；這裡讓專案把某槽換綁到同類別的另一顆 token。
@@ -17411,7 +17602,7 @@ function buildScheduleChart(view){
     if(!st){st=document.createElement('style');st.id='bindOverrides';document.head.appendChild(st);}
     const B=window.__compBindings||{}; let css=':root{';
     Object.values(B).forEach(slots=>Object.entries(slots).forEach(([slot,tok])=>{if(tok)css+=slot+':var('+tok+');';}));
-    st.textContent=css+'}';
+    dynCss(st,css+'}');
   }
   // 專案模式下：把「變數篩選器」dcard 包進一個有錨點的段落「變數與 Token」（所有元件頁一致，即使還沒有綁定卡）
   function ensureVarTokenSection(host){
@@ -17608,6 +17799,7 @@ function buildScheduleChart(view){
       btn.onclick=()=>{ if(typeof FLW_UI!=='undefined'&&FLW_UI)return; if(location.hash==='#start')flwOpen(); else location.hash='start'; };} // 兩模式都 s
     wrap.appendChild(btn);
     tb.appendChild(wrap); // 匯出 badge 靠右（spacer 後）
+    { const pj=wrap.querySelector('#dsBadgeProj'),bd=tb.querySelector('.brand'); if(pj&&bd)bd.insertAdjacentElement('afterend',pj); }   // 母庫提示／專案名移到 logo 右側（細線分隔）
     updateBadgeVersion();
   }
   function applyProposal(p){
@@ -17702,8 +17894,16 @@ function buildScheduleChart(view){
   function flwBuildProposal(){
     const q=FLW.q,info=FLW.info;const root={},desktop={},why=[];
     const p=flwHex(q.primary);
-    Object.assign(root,flwScale('brand',p));why.push({k:'--c-brand-100 … 900',v:p,r:'主色錨點放在 500，其他 8 階依明度自動推出'});
+    const SC=flwScale('brand',p);Object.assign(root,SC);why.push({k:'--c-brand-100 … 900',v:p,r:'主色錨點放在 500，其他 8 階依明度自動推出'});
     const W=flwPrim('--c-neutral-0')||'#FFFFFF';
+    /* 深色模式：預設主色按鈕吃 --c-brand-200（為近黑的中性品牌設計）；彩色主色改挑「在深底上對比 ≥ 3:1」的最深一階，按鈕才看得出是品牌色 */
+    const dark={};
+    {const h=p.replace('#','');const rgb=[0,2,4].map(i=>parseInt(h.substr(i,2),16));const chroma=(Math.max(...rgb)-Math.min(...rgb))/255;
+      if(chroma>.18){const BG='#09090B';const k=[500,400,300,200].find(n=>flwContrast(SC['--c-brand-'+n],BG)>=3)||200;const v=n=>'var(--c-brand-'+Math.min(900,Math.max(100,n))+')';
+        Object.assign(dark,{'--s-action-primary':v(k),'--s-action-primary-hover':v(k-100),'--s-action-primary-press':v(k+100),
+          '--s-action-primary-tint':'color-mix(in srgb,'+v(k)+' 16%,transparent)','--s-action-primary-tint2':'color-mix(in srgb,'+v(k)+' 28%,transparent)',
+          '--s-on-primary':flwContrast(SC['--c-brand-'+k],W)>=4.5?'#FFFFFF':'#0B0B0C','--primary-on':'var(--s-on-primary)'});
+        why.push({k:'--s-action-primary（Dark）',v:'var(--c-brand-'+k+')',r:'深色模式改用 '+k+' 階，主色在深底上才夠亮（對比 ≥ 3:1），按鈕維持品牌色'});}}
     if(flwContrast(p,W)<4.5){root['--primary-on']='var(--c-neutral-900)';why.push({k:'--primary-on',v:'var(--c-neutral-900)',r:'主色偏亮，按鈕上的字改用深色才看得清楚'});}
     const s=flwHex(q.secondary);
     if(s){Object.assign(root,flwScale('brand2',s));why.push({k:'--c-brand2-100 … 900',v:s,r:'副色錨點放在 500，用於點綴與次要強調'});
@@ -17722,8 +17922,17 @@ function buildScheduleChart(view){
     add(FLW_RULES[info.industry]||FLW_RULES.other);
     const selected=[...picks.keys()];
     return {project:info.name,generatedBy:'website-flow · 固定規則（AI 之後接上）',createdAt:new Date().toISOString(),
-      tokens:{overrides:{root,dark:{},desktop,tablet:{},mobile:{}},logo:{light:null,dark:null}},
+      tokens:{overrides:{root,dark,desktop,tablet:{},mobile:{}},logo:{light:null,dark:null}},
       components:{selected,axes:{}},reasons:{tokens:why,components:selected.map(id=>({id,r:picks.get(id)}))}};
+  }
+  /* 重新開始：網站回到元件庫預設——清 token 覆寫（含 inline 保底）、元件綁定、停用 token、需求匯總勾選、各元件軸篩選；背景頁重繪 */
+  function flwResetSite(){
+    window.__tokOverrides={root:{},dark:{},desktop:{},tablet:{},mobile:{}};applyTokOverrides();
+    window.__compBindings={};applyCompBindings();
+    window.__tokDisabled=new Set();
+    SUMSEL.clear();
+    Object.keys(DIAL_SPECS).forEach(id=>{const c=CHOICE[id];if(!c)return;DIAL_SPECS[id].order.forEach(k=>{const set=c.active[k];if(set&&set.clear){set.clear();DIAL_SPECS[id].axes[k].forEach(v=>set.add(v));}});});
+    try{const v=document.getElementById('view');const cur=window.__flwBg||(location.hash||'#home').slice(1);if(v&&cur&&cur!=='start')renderView(cur);}catch(e){}
   }
   function flwApplyProposal(){
     const P=FLW.proposal;if(!P)return;
@@ -17837,7 +18046,7 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
       '  @else { @warn "Unsupported breakpoint: #{$bp}"; }\n}\n';
     // _font.scss：Latin 走 Geist / Geist Mono（Google Fonts），中文 CJK 走系統字 per-character fallback
     const F_FONT=HD('_font.scss｜字體設定')+
-      "@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Epilogue:wght@400..800&display=swap');\n\n"+
+      "@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Epilogue:wght@400..800&family=Noto+Sans+TC:wght@400..700&display=swap');\n\n"+
       ':root {\n  --font-sans: '+SANS+';\n  --font-mono: '+MONO+';\n  --font-display: '+DISP+';\n}\n\nbody {\n  font-family: var(--font-sans);\n  -webkit-font-smoothing: antialiased;\n}\n';
     // layout.scss：reset —— 清各瀏覽器原生樣式差異；保留 focus-visible（鍵盤操作仍看得到焦點，a11y）
     const F_LAYOUT=HD('layout.scss｜reset（清原生樣式、統一各瀏覽器基準）')+
@@ -18100,8 +18309,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const body=ce('div','mdl-content flw-body');const nav=ce('div','mdl-foot flw-nav');
     card.append(hd,body,nav);ovl.appendChild(card);
     FLW_UI={ovl,card,body,nav,prog,ret,rst,resume:!!(FLW.updated&&FLW.step>0)};
-    rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
-      onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();if(FLW_UI){FLW_UI.resume=false;flwRenderStep(true);}}});
+    rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案、提案和網站上已套用的 token、元件勾選都會清掉，回到元件庫預設。',okText:'清除並重來',cancelText:'取消',
+      onOk:()=>{flwResetSite();FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();if(FLW_UI){FLW_UI.resume=false;flwRenderStep(true);}}});
     x.onclick=()=>flwClose();
     /* 點遮罩：不關閉（避免誤觸丟掉進度），焦點留在對話框 */
     ovl.addEventListener('mousedown',e=>{if(e.target===ovl){e.preventDefault();if(!card.contains(document.activeElement))card.focus({preventScroll:true});}});
@@ -18128,11 +18337,12 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
 
   function flwRenderProg(){const U=FLW_UI;if(!U)return;const host=U.prog;host.innerHTML='';
     const steps=FLW_STEPS.map((s,i)=>({label:s.label,description:s.desc,state:i<FLW.step?'done':(i===FLW.step?'current':(i<=FLW.max?'done':'todo'))}));
-    const st=stpStepper('horizontal','numbered',steps);host.appendChild(st);
-    [...st.querySelectorAll('.stp-step')].forEach((el,i)=>{if(i<=FLW.max&&i!==FLW.step){el.classList.add('flw-jump');el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','回到步驟 '+(i+1)+' '+FLW_STEPS[i].label);
+    const st=stpStepper(matchMedia('(min-width:768px)').matches?'vertical':'horizontal','numbered',steps);host.appendChild(st);
+    [...st.querySelectorAll('.stp-step,.stp-vstep')].forEach((el,i)=>{if(i<=FLW.max&&i!==FLW.step){el.classList.add('flw-jump');el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','回到步驟 '+(i+1)+' '+FLW_STEPS[i].label);
       const go=()=>{flwGo(i);};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};}
       if(i===FLW.step)el.setAttribute('aria-current','step');});
     const sub=document.getElementById('flwSub');if(sub)sub.textContent='步驟 '+(FLW.step+1)+' / '+FLW_STEPS.length+' · '+FLW_STEPS[FLW.step].label;}
+  matchMedia('(min-width:768px)').addEventListener('change',()=>{if(FLW_UI)flwRenderProg();});   // 跨斷點：步驟直／橫切換
   function flwGo(i){if(i>FLW.max||i<0||i>=FLW_STEPS.length)return;FLW.step=i;flwSave();flwRenderStep(true);}
   function flwRenderStep(anim){const U=FLW_UI;if(!U)return;
     flwRenderProg();const body=U.body,nav=U.nav;
@@ -18245,17 +18455,30 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const tk=ce('section','flw-panel');tk.innerHTML='<h3 class="flw-ph">Token 提案</h3>';
     const sc=ce('div','flw-scale');const R=P.tokens.overrides.root;
     [['brand','主色'],['brand2','副色']].forEach(([k,lab])=>{if(!R['--c-'+k+'-500'])return;const row=ce('div','flw-scrow');const l=ce('span','flw-scl');l.textContent=lab;row.appendChild(l);
-      const bar=ce('div','flw-scbar');[100,200,300,400,500,600,700,800,900].forEach(n=>{const c=ce('span','flw-sw');c.style.background='var(--c-'+k+'-'+n+')';c.title=n+' '+R['--c-'+k+'-'+n];if(n===500)c.classList.add('is-anchor');bar.appendChild(c);});
+      const bar=ce('div','flw-scbar');[100,200,300,400,500,600,700,800,900].forEach(n=>{const c=ce('span','flw-sw');c.style.background=R['--c-'+k+'-'+n]||('var(--c-'+k+'-'+n+')');c.title=n+' '+R['--c-'+k+'-'+n];if(n===500)c.classList.add('is-anchor');bar.appendChild(c);});
       row.appendChild(bar);sc.appendChild(row);});
     tk.appendChild(sc);
     const ul=ce('ul','flw-why');P.reasons.tokens.forEach(t=>{const li=ce('li');li.innerHTML=`<code>${flwEsc(t.k)}</code><span class="flw-why-v">${flwEsc(t.v)}</span><span class="flw-why-r">${flwEsc(t.r)}</span>`;ul.appendChild(li);});
     tk.appendChild(ul);
     const pv=ce('div','flw-preview');pv.append(flwBtn('solid','primary','主要按鈕','s'),flwBtn('outline','primary','次要按鈕','s'));
     const t1=tagEl('solid','brand','default','round');t1.querySelector('span').textContent='主色標籤';const t2=tagEl('soft','brand2','default','round');t2.querySelector('span').textContent='副色標籤';pv.append(t1,t2);
-    const pvl=ce('p','flw-note');pvl.textContent='預覽：套用後這裡和整個網站會一起換色。';tk.append(pvl,pv);
+    /* 預覽直接吃提案色（還沒套用也看得到）：主色／副色語意變數寫在預覽容器上 */
+    {const D=P.tokens.overrides.dark||{},isDk=document.documentElement.dataset.theme==='dark';const pick=(k,f)=>{const v=(isDk&&D[k])||R[k];return v||f;};
+      const res=v=>String(v||'').replace(/var\((--c-brand2?-\d+)\)/g,(m,n)=>R[n]||m);
+      const prim=isDk?res(D['--s-action-primary']||(R['--c-brand-200']?'var(--c-brand-200)':'')):R['--c-brand-500'];
+      if(prim){pv.style.setProperty('--i-primary',prim);pv.style.setProperty('--accent',prim);pv.style.setProperty('--i-primary-tint','color-mix(in srgb,'+prim+' 16%,transparent)');}
+      const on=res(pick(isDk?'--s-on-primary':'--primary-on',''));if(on)pv.style.setProperty('--primary-on',on);
+      const a2=R[isDk?'--c-brand2-400':'--c-brand2-500'];if(a2){pv.style.setProperty('--accent2',a2);pv.style.setProperty('--accent2-tint','color-mix(in srgb,'+a2+' 12%,transparent)');}}
+    const pvl=ce('p','flw-note');pvl.textContent='預覽：依提案配色；套用後整個網站會換成這套顏色。';tk.append(pvl,pv);
     const cp=ce('section','flw-panel');cp.innerHTML=`<h3 class="flw-ph">建議元件 <span class="flw-cnt">${P.components.selected.length} 個</span></h3>`;
-    const cl=ce('ul','flw-comp');P.reasons.components.forEach(c=>{const li=ce('li');const sp=DIAL_SPECS[c.id];li.innerHTML=`<span class="flw-cn">${flwEsc(sp?sp.label:c.id)}</span><span class="flw-cr">${flwEsc(c.r)}</span>`;cl.appendChild(li);});
-    cp.appendChild(cl);cols.append(tk,cp);
+    /* 依側欄分類（NAV group）分組；分組標題 sticky，清單在面板內捲動 */
+    const cl=ce('div','flw-comp');const grpOf=id=>{const g=NAV.find(g=>g.items.some(x=>x.id===id));return g?g.group:'其他';};
+    const byG=new Map();P.reasons.components.forEach(c=>{const k=grpOf(c.id);if(!byG.has(k))byG.set(k,[]);byG.get(k).push(c);});
+    const order=NAV.map(g=>g.group).concat(['其他']);
+    [...byG.keys()].sort((a,b)=>order.indexOf(a)-order.indexOf(b)).forEach(k=>{const sec=ce('section','flw-cg');const h=ce('h4','flw-cg-h');h.innerHTML=`<span>${flwEsc(k)}</span><span class="flw-cnt">${byG.get(k).length}</span>`;
+      const ul=ce('ul','flw-cg-l');byG.get(k).forEach(c=>{const li=ce('li');const sp=DIAL_SPECS[c.id];li.innerHTML=`<span class="flw-cn">${flwEsc(sp?sp.label:c.id)}</span><span class="flw-cr">${flwEsc(c.r)}</span>`;ul.appendChild(li);});
+      sec.append(h,ul);cl.appendChild(sec);});
+    cp.classList.add('flw-panel-comp');cp.appendChild(cl);cols.append(tk,cp);
     const act=ce('div','flw-apply');const st=ce('span','flw-note');st.setAttribute('aria-live','polite');
     const ap=flwBtn('solid','primary',FLW.applied?'重新套用提案':'套用到網站');
     const regen=flwBtn('outline','secondary','依問卷重算');
@@ -18352,8 +18575,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       const ex=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});ex.type='button';ex.classList.add('pjb-exp');
       const nx=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true,trail:true});nx.type='button';nx.classList.add('pjb-next');
       const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('pjb-rst');rs.querySelector('span').textContent='重新開始';
-      rs.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
-        onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();flwOpen();}});   // 同流程內「重新開始」：清草稿後回到第 1 步
+      rs.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案、提案和網站上已套用的 token、元件勾選都會清掉，回到元件庫預設。',okText:'清除並重來',cancelText:'取消',
+        onOk:()=>{flwResetSite();FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();flwOpen();}});   // 同流程內「重新開始」：清草稿後回到第 1 步
       acts.append(rs,ex,nx);el.append(tg,cnt,acts);document.body.appendChild(el);el.__rs=rs;
       el.__tg=tg;el.__cnt=cnt;el.__ex=ex;el.__nx=nx;}
     const c=pjCounts(),last=FLW_STEPS.length-1;
