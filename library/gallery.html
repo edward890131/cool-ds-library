@@ -3926,7 +3926,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     background:var(--s-scrim);animation:ss-fade var(--dur-fast) var(--ease-out);}
   .ss-ovl.is-out{animation:ss-fade-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
   .ss-ovl.is-out .cmd{animation:ss-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
-  .ss-ovl .cmd{width:600px;--cmd-h:min(420px,56vh);animation:cmd-in var(--dur-default) var(--ease-out);}
+  .ss-ovl{align-items:center;padding:16px;}
+  .ss-ovl .cmd{--cmd-radius:var(--radius);width:600px;--cmd-h:min(420px,56vh);animation:cmd-in var(--dur-default) var(--ease-out);}
   .ss-ovl .cmd-it .cmd-tag{font-size:var(--fs-h10);color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:0 6px;}
   .ss-ovl .cmd-it code{font-family:var(--font-mono);font-size:var(--fs-h11);}
   @keyframes ss-fade{from{opacity:0;}} @keyframes ss-fade-out{to{opacity:0;}} @keyframes ss-out{to{opacity:0;transform:scale(.98);}}
@@ -4972,7 +4973,17 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 外框＝library Modal（.mdl-overlay.mdl-fixed ＋ .mdl-card.mdl-kind-modal）：header 固定（標題＋stepper）、body 內部捲動、footer 固定（上一步／下一步）。
      間距一律走 4px 格線的 --sp-1/3/4/5/6/7；控制項高度統一 36px（= .field 原子高度）。 */
   .flw-ovl{z-index:1000;}
-  .flw-ovl .mdl-card.flw-m{max-width:960px;width:100%;max-height:90vh;max-height:90dvh;}
+  .flw-ovl .mdl-card.flw-m{max-width:960px;width:100%;max-height:90vh;max-height:90dvh;height:90vh;height:90dvh;}  /* 固定撐到最大高度，換步驟不跳動 */
+  /* ≥768：步驟改放左側（Steps 原子 vertical）；header 橫跨、右側＝內容＋底部操作 */
+  @media (min-width:768px){
+    .flw-ovl .flw-m.mdl-card{display:grid;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;}
+    .flw-ovl .flw-m .flw-hd{display:contents;}
+    .flw-ovl .flw-m .flw-hd > .mdl-mhead{grid-column:1 / -1;grid-row:1;padding:var(--sp-5) var(--sp-6);border-bottom:1px solid var(--line);background:var(--panel);}
+    .flw-ovl .flw-m .flw-hd > .flw-prog{grid-column:1;grid-row:2 / 4;padding:var(--sp-6) var(--sp-5);border-right:1px solid var(--line);overflow:auto;background:var(--panel-2);}
+    .flw-ovl .flw-m .mdl-content.flw-body{grid-column:2;grid-row:2;}
+    .flw-ovl .flw-m .mdl-foot.flw-nav{grid-column:2;grid-row:3;}
+    .flw-ovl .flw-prog .stp-vertical .stp-labels{min-width:0;}
+  }
   .flw-m{--flw-ctl-h:36px;}
   .flw-m:focus{outline:none;}
   .flw-m .flw-hd{flex:0 0 auto;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-5) var(--sp-6) var(--sp-5);border-bottom:1px solid var(--line);background:var(--panel);}
@@ -5106,8 +5117,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   }
   @media (max-width:767px){
     /* 手機：滿版 sheet（同 Modal 的 bottom sheet 走向），header／footer 仍固定 */
-    .flw-ovl.mdl-fixed{padding:0;align-items:stretch;}
-    .flw-ovl .mdl-card.flw-m{max-width:none;max-height:none;height:100%;height:100dvh;border-radius:0;border:0;}
+    /* 手機：bottom sheet（同試玩區，library Modal mdl-sheet 走向）：貼底、全寬、上緣圓角、由下滑入；步驟維持置頂水平 */
+    .flw-ovl.mdl-fixed{padding:var(--sp-5) 0 0;align-items:flex-end;}
+    .flw-ovl .mdl-card.flw-m{max-width:none;width:100%;max-height:92vh;max-height:92dvh;height:92vh;height:92dvh;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom);animation:mdl-slideup .22s ease-out;}
+    .flw-ovl.is-closing .mdl-card.flw-m{animation:mdl-slidedown calc(var(--dur-fast) * 1.33) var(--ease-in) forwards;}
     .flw-m .flw-hd{padding:var(--sp-4) var(--sp-5);gap:var(--sp-4);}
     .flw-m .mdl-content.flw-body{padding:var(--sp-5);gap:var(--sp-5);}
     .flw-m .mdl-foot.flw-nav{padding:var(--sp-3) var(--sp-5);}
@@ -6194,10 +6207,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tm-sl.on .hx-tm-card > *{transition:opacity var(--dur-default) var(--ease-out) 160ms,transform var(--dur-default) var(--ease-out) 160ms;}
   .hx-tm-sl.on .hx-tm-card > *{opacity:1;transform:none;}
   .hx-tm-sl.on .hx-tm-card > :nth-child(2){transition-delay:80ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(3){transition-delay:160ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(4){transition-delay:240ms;}
-  .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--r-lg);box-shadow:var(--e-xl);}
+  .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--radius);box-shadow:var(--e-xl);}
   .hx-tm-qm{align-self:flex-end;width:28px;height:23px;color:var(--c-info-500);flex:0 0 auto;}
   .hx-tm-q{margin:0;flex:1 1 auto;display:flex;align-items:center;}
-  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h6);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
+  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h7);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
   .hx-tm-who{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);}
   .hx-tm-id{display:flex;flex-direction:column;gap:2px;min-width:0;}
   .hx-tm-id b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
@@ -6215,7 +6228,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     .hx-tm-card{max-height:100%;overflow:hidden;}
     .hx-tm-card{min-height:0;padding:var(--sp-5);gap:var(--sp-4);}
     .hx-tm-qm{width:24px;height:20px;}
-    .hx-tm-q p{font-size:var(--fs-h7);}
+    .hx-tm-q p{font-size:var(--fs-h8);}
     .hx-tm-ctl{gap:var(--sp-4);}
   }
   @media(prefers-reduced-motion:reduce){
@@ -6233,9 +6246,9 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       <svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg>
     </button>
     <div class="brand"><svg class="brand-logo" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CDL"><g stroke="currentColor" stroke-width="6"><path d="M25.96 21.64A13 13 0 1 0 25.96 38.36"/><circle cx="48" cy="30" r="13"/><path d="M61 2V46"/><path d="M75 2V46"/></g><rect x="82" y="40" width="6" height="6" fill="var(--accent2)"/></svg></div>
-    <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
     <button class="gd-entry" id="guideBtn" type="button" hidden>📖 上手指南</button>
     <div class="spacer"></div>
+    <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
     <button class="theme-toggle" id="themeBtn" type="button" role="switch" aria-checked="false" aria-label="切換為深色模式"><span class="knob"></span></button>
   </div>
 
@@ -16707,9 +16720,9 @@ function buildScheduleChart(view){
       drift:pg(oct(4,8,30,30,8),'bk',0)+pg(oct(20,14,30,30,8),'fr',1)+ac(54,6)
     };
     const FACTS=[
-      ['layers','VARIABLES','顏色、間距、圓角和字級都綁 Figma Variables，數值只存在一個地方，不會各自寫死。'],
-      ['split','VARIANTS','網站上能切換的樣式，在 Figma 變成 variant；內容開關變成 boolean，兩邊的組合方式一致。'],
-      ['drift','DRIFT CHECK','兩邊對不上時，差異檢查會列出改了哪裡，再依 token、結構、內容分類歸位。']];
+      ['layers','Variables','顏色、間距、圓角和字級都綁 Figma Variables，數值只存在一個地方，不會各自寫死。'],
+      ['split','Variants','網站上能切換的樣式，在 Figma 變成 variant；內容開關變成 boolean，兩邊的組合方式一致。'],
+      ['drift','Drift Check','兩邊對不上時，差異檢查會列出改了哪裡，再依 token、結構、內容分類歸位。']];
     const fl=sec.querySelector('.hx-sy-facts');
     FACTS.forEach(([ic,k,t])=>{const li=ce('li','hx-sy-f');li.dataset.ic=ic;
       li.innerHTML=`<svg class="hx-sy-ic" viewBox="0 0 64 48" aria-hidden="true" focusable="false">${ICONS[ic]}</svg><h3 class="hx-sy-ft"></h3><p class="hx-sy-fd"></p>`;
@@ -16774,7 +16787,7 @@ function buildScheduleChart(view){
       {title:'母庫改了 token，進行中的專案會跟著變嗎？',body:'不會自動變。每個專案有自己的 tokens.export.json，母庫更新後由專案成員決定要不要同步。'},
       {title:'可以直接複製程式碼嗎？',body:'可以。每個元件頁都有 HTML 和 CSS 可以一鍵複製；<a href="#tokens">Design Token</a> 頁還能下載整包 SCSS。'},
     ];
-    sec.querySelector('.hx-faq').appendChild(cpsAccordion(FAQ,{variant:'filled',indicator:'plusminus'}));
+    sec.querySelector('.hx-faq').appendChild(cpsAccordion(FAQ,{variant:'filled',indicator:'plusminus',multiple:true}));
     return sec;
   }
 
@@ -18128,11 +18141,12 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
 
   function flwRenderProg(){const U=FLW_UI;if(!U)return;const host=U.prog;host.innerHTML='';
     const steps=FLW_STEPS.map((s,i)=>({label:s.label,description:s.desc,state:i<FLW.step?'done':(i===FLW.step?'current':(i<=FLW.max?'done':'todo'))}));
-    const st=stpStepper('horizontal','numbered',steps);host.appendChild(st);
-    [...st.querySelectorAll('.stp-step')].forEach((el,i)=>{if(i<=FLW.max&&i!==FLW.step){el.classList.add('flw-jump');el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','回到步驟 '+(i+1)+' '+FLW_STEPS[i].label);
+    const st=stpStepper(matchMedia('(min-width:768px)').matches?'vertical':'horizontal','numbered',steps);host.appendChild(st);
+    [...st.querySelectorAll('.stp-step,.stp-vstep')].forEach((el,i)=>{if(i<=FLW.max&&i!==FLW.step){el.classList.add('flw-jump');el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','回到步驟 '+(i+1)+' '+FLW_STEPS[i].label);
       const go=()=>{flwGo(i);};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};}
       if(i===FLW.step)el.setAttribute('aria-current','step');});
     const sub=document.getElementById('flwSub');if(sub)sub.textContent='步驟 '+(FLW.step+1)+' / '+FLW_STEPS.length+' · '+FLW_STEPS[FLW.step].label;}
+  matchMedia('(min-width:768px)').addEventListener('change',()=>{if(FLW_UI)flwRenderProg();});   // 跨斷點：步驟直／橫切換
   function flwGo(i){if(i>FLW.max||i<0||i>=FLW_STEPS.length)return;FLW.step=i;flwSave();flwRenderStep(true);}
   function flwRenderStep(anim){const U=FLW_UI;if(!U)return;
     flwRenderProg();const body=U.body,nav=U.nav;
