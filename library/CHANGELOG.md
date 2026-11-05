@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-05（六十）　套用 token 在預覽環境不生效（真正原因）
+
+- **症狀**：套用提案或在 Token 頁改色後，Token 頁欄位數值有變，但 Guideline、元件仍是預設色。
+- **原因**：token／綁定覆寫是動態建立 `<style id="tokenOverrides">`／`#bindOverrides` 再寫 textContent；預覽 artifact 的 CSP 只放行頁面原本的樣式表，動態 `<style>` 被擋（`style.sheet` 為 null），所以覆寫從沒生效。本機與 Vercel 不受影響，所以先前驗證沒抓到。
+- **修正**：新增 `dynCss(el,css)`：照舊寫 textContent（觀察者仍收得到）；若偵測到 `<style>` 沒有產生 sheet，改用 CSSOM `insertRule` 把規則寫進頁面既有樣式表最後面（CSSOM 不受 CSP 限制），每次重寫前先移除上次插入的規則。三處（Token 頁 apply、`applyTokOverrides`、`applyCompBindings`）都改走它。已用模擬 CSP（nonce 限定樣式）驗證：套用 #0033FF 後 Guideline 與 Button 皆換色。
+
 ## 2026-11-05（五十九）　提案配色修正、popup 上距
 
 - **開新專案 · 提案**：

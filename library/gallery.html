@@ -14763,6 +14763,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'fix', t:'預覽環境（artifact）擋掉動態 <style>，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
       {tag:'fix', t:'開新專案提案：色階與預覽改吃問卷色號；彩色主色在深色模式改用夠亮的色階，套用後全站元件與 Guideline 一起換色'},
       {tag:'fix', t:'Modal popup（確認框）上方內距改與左右、底部一致'},
       {tag:'improve', t:'開新專案：彈窗寬度改左右各留 10vw、最大 1000px；提案步驟的建議元件依分類分組，高度與 Token 提案拉齊'},
@@ -15481,7 +15482,7 @@ function buildScheduleChart(view){
       if(has(OV.desktop))css+='@media(min-width:1024px){:root{'+blk(OV.desktop)+'}}';             // 響應式各 tier 用互斥區間，避免外洩
       if(has(OV.tablet))css+='@media(min-width:768px) and (max-width:1023px){:root{'+blk(OV.tablet)+'}}';
       if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
-      ovr.textContent=css;
+      dynCss(ovr,css);
       if(refreshExport){cancelAnimationFrame(exportRaf);exportRaf=requestAnimationFrame(refreshExport);}}  // token 改動 → 下方 _variables.scss code 同步更新
     apply();
     view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Foundation · Design Token</p><h1>Design Token</h1></div><button class="btn v-soft i-secondary sz-s st-default live" id="tokCopy"><span>查看程式碼 SCSS</span></button></div>
@@ -17409,6 +17410,20 @@ function buildScheduleChart(view){
   });
 
   /* ===== Studio 資料管線（C1 匯入 proposal / C4 匯出 / C5 server）===== */
+  /* 動態覆寫樣式（#tokenOverrides／#bindOverrides）：先照舊寫 <style> 的 textContent（Vercel／本機直接生效，也讓觀察者收得到改動）；
+     若宿主環境的 CSP 擋掉動態 <style>（例：預覽 artifact 只放行頁面原本的樣式表，style.sheet 會是 null），改用 CSSOM insertRule 寫進頁面既有樣式表的最後面。
+     CSSOM 不受 CSP 限制；每次重寫前先移除上一次插入的規則。 */
+  function dynCss(el,css){
+    el.textContent=css;
+    const H=window.__dynCssRules||(window.__dynCssRules={}),id=el.id;
+    let host=null;try{host=[...document.styleSheets].find(sh=>{try{return sh.ownerNode&&!sh.ownerNode.id&&sh.cssRules&&sh.cssRules.length>50;}catch(e){return false;}})||null;}catch(e){}
+    if(host&&H[id]){H[id].forEach(r=>{const i=[...host.cssRules].indexOf(r);if(i>=0)try{host.deleteRule(i);}catch(e){}});}
+    H[id]=[];
+    let ok=false;try{ok=!!el.sheet&&(!css.trim()||el.sheet.cssRules.length>0);}catch(e){}
+    if(ok||!host||!css.trim())return;
+    let d=0,st=0;for(let i=0;i<css.length;i++){const ch=css[i];if(ch==='{')d++;else if(ch==='}'){d--;if(d===0){const t=css.slice(st,i+1).trim();st=i+1;
+      if(t)try{const k=host.insertRule(t,host.cssRules.length);H[id].push(host.cssRules[k]);}catch(e){}}}}
+  }
   function applyTokOverrides(){
     const OV=window.__tokOverrides; if(!OV)return;
     let ovr=document.getElementById('tokenOverrides');
@@ -17420,7 +17435,7 @@ function buildScheduleChart(view){
     if(has(OV.desktop))css+='@media(min-width:1024px){:root{'+blk(OV.desktop)+'}}';
     if(has(OV.tablet))css+='@media(min-width:768px) and (max-width:1023px){:root{'+blk(OV.tablet)+'}}';
     if(has(OV.mobile))css+='@media(max-width:767px){:root{'+blk(OV.mobile)+'}}';
-    ovr.textContent=css;
+    dynCss(ovr,css);
   }
   /* ── 元件級 Token 綁定（實驗，垂直切片：button／tag）──
    * 元件 CSS 的屬性走「元件槽 var(--元件-槽, var(--預設token))」；這裡讓專案把某槽換綁到同類別的另一顆 token。
@@ -17560,7 +17575,7 @@ function buildScheduleChart(view){
     if(!st){st=document.createElement('style');st.id='bindOverrides';document.head.appendChild(st);}
     const B=window.__compBindings||{}; let css=':root{';
     Object.values(B).forEach(slots=>Object.entries(slots).forEach(([slot,tok])=>{if(tok)css+=slot+':var('+tok+');';}));
-    st.textContent=css+'}';
+    dynCss(st,css+'}');
   }
   // 專案模式下：把「變數篩選器」dcard 包進一個有錨點的段落「變數與 Token」（所有元件頁一致，即使還沒有綁定卡）
   function ensureVarTokenSection(host){
