@@ -1,14 +1,14 @@
 {
   "meta": {
     "version": "0.2.0",
-    "generated": "2026-11-04",
+    "generated": "2026-11-05",
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 76,
-      "ready": 70,
+      "total": 81,
+      "ready": 75,
       "planned": 6,
-      "withAxes": 68,
+      "withAxes": 73,
       "noAxes": 8
     }
   },
@@ -3493,6 +3493,191 @@
               }
             },
             "variantCount": 5
+          }
+        },
+        {
+          "id": "trend-card",
+          "name": "Trend Card 趨勢卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "tone"
+            ],
+            "by": {
+              "tone": {
+                "axisName": "Tone 色調",
+                "options": [
+                  {
+                    "value": "ink",
+                    "zh": "墨黑"
+                  },
+                  {
+                    "value": "violet",
+                    "zh": "紫"
+                  },
+                  {
+                    "value": "white",
+                    "zh": "白"
+                  },
+                  {
+                    "value": "lime",
+                    "zh": "萊姆"
+                  },
+                  {
+                    "value": "green",
+                    "zh": "綠"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "index": "Index 編號",
+              "media": "Media 底部圖片"
+            },
+            "variantCount": 5
+          }
+        },
+        {
+          "id": "media-card",
+          "name": "Media Card 照片標籤卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "ratio"
+            ],
+            "by": {
+              "ratio": {
+                "axisName": "Ratio 比例",
+                "options": [
+                  {
+                    "value": "portrait",
+                    "zh": "直式 4:5"
+                  },
+                  {
+                    "value": "square",
+                    "zh": "方形 1:1"
+                  },
+                  {
+                    "value": "landscape",
+                    "zh": "橫式 4:3"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "label": "Label 標籤",
+              "selected": "Selected 已選取",
+              "tilt": "Tilt 傾斜"
+            },
+            "variantCount": 3
+          }
+        },
+        {
+          "id": "weather-card",
+          "name": "Weather Card 天氣卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "cond"
+            ],
+            "by": {
+              "cond": {
+                "axisName": "Condition 天氣",
+                "options": [
+                  {
+                    "value": "sunny",
+                    "zh": "晴"
+                  },
+                  {
+                    "value": "cloudy",
+                    "zh": "多雲"
+                  },
+                  {
+                    "value": "rain",
+                    "zh": "雨"
+                  },
+                  {
+                    "value": "storm",
+                    "zh": "雷雨"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "forecast": "Forecast 五日列"
+            },
+            "variantCount": 4
+          }
+        },
+        {
+          "id": "player-card",
+          "name": "Player Card 音樂播放卡",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "state"
+            ],
+            "by": {
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "paused",
+                    "zh": "暫停"
+                  },
+                  {
+                    "value": "playing",
+                    "zh": "播放中"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "likes": "Likes 按讚列"
+            },
+            "variantCount": 2
+          }
+        },
+        {
+          "id": "ticket-card",
+          "name": "Ticket Card 登機證",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "status"
+            ],
+            "by": {
+              "status": {
+                "axisName": "Status 狀態",
+                "options": [
+                  {
+                    "value": "on-time",
+                    "zh": "準時"
+                  },
+                  {
+                    "value": "boarding",
+                    "zh": "登機中"
+                  },
+                  {
+                    "value": "delayed",
+                    "zh": "延誤"
+                  },
+                  {
+                    "value": "cancelled",
+                    "zh": "取消"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "passenger": "Passenger 旅客列"
+            },
+            "variantCount": 4
           }
         }
       ]

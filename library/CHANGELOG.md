@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-11-05（六十五）　Card 新增 5 種單張牌卡
+
+- **Card 卡片**群組新增 5 張「單張」牌卡（NAV、DIAL_SPECS、BUILD、搜尋關鍵字、Token 綁定槽、registry 同步；標記 `CARDS5:v1`）：
+  - `trend-card` 趨勢卡：tone 5（墨黑／紫／白／萊姆／綠，綁 `--c-brand-800`／`--c-violet-400`／`--c-neutral-0`／`warning-300 × success-300` 混色／`--c-success-400`）；boolean `index`、`media`。
+  - `media-card` 照片標籤卡：ratio 3（4:5／1:1／4:3）；boolean `label`、`selected`（`--accent2` 虛線外框）、`tilt`（預設關）。照片沿用已內嵌的 CARD_PHOTO／PSC_ROT／CARD_COVER。
+  - `weather-card` 天氣卡：cond 4（晴／多雲／雨／雷雨，各綁 info／violet 色階漸層）；boolean `forecast`。五日列取用 Segmented 原子（`sgmEl`）＋磨砂情境樣式，溫度用 `chtxRoll`。
+  - `player-card` 音樂播放卡：state 2（暫停／播放中）；boolean `likes`。進度取用 Slider 原子（播放中以原子自身鍵盤步進每秒 +1，可拖曳）、控制鈕取用 Button（icon-only）、按讚列取用 Avatar＋`.avt-grp`、分隔線取用 Divider；封面為 token 漸層。
+  - `ticket-card` 登機證：status 4（準時／登機中／延誤／取消 → Tag success／info／warning／danger）；boolean `passenger`。兩側半圓缺口用 CSS mask（上下兩段各挖四分之一圓），撕線為 Divider dashed。
+- 網站版本紀錄新增 v12。
+
 ## 2026-11-05（六十四）　版本紀錄整理
 
 - 網站版本紀錄 v11 重新排序（新增 → 改善 → 修正）並更新標題為「Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正」，共 24 項。
