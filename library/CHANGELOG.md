@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-05（六十六）　牌卡整理
+
+- **新 5 張牌卡圓角**對齊其他牌卡：外框 `--r-xl`／`--r-2xl` → `--radius`（Token 綁定預設 `--r-sm`），趨勢卡配圖與播放器封面改 `--r-xs`。
+- **趨勢卡編號**改正體、實心淡字（`--trd-fg` 40%），拿掉傾斜與描邊。
+- **照片標籤卡**互動預覽預設不選取。
+- **移除** Card 卡片、Product Card 商品卡、Category Tile 分類磚：側欄、DIAL_SPECS（需求匯總）、AI 建議清單、開新專案產業對照表（教育／其他改推 Article Card）、registry（total 78／ready 72／withAxes 70）一併拿掉；Rating 頁說明不再連到商品卡。
+- **文章卡**三張示意圖改用網站內嵌照片（辦公室、人像、天空）；原本是 Unsplash 遠端圖，預覽環境會被擋。`imUrl()` 遇到 data／http 網址直接回傳。
+
 ## 2026-11-05（六十五）　Card 新增 5 種單張牌卡
 
 - **Card 卡片**群組新增 5 張「單張」牌卡（NAV、DIAL_SPECS、BUILD、搜尋關鍵字、Token 綁定槽、registry 同步；標記 `CARDS5:v1`）：

@@ -6046,20 +6046,19 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* ---------- trend-card 趨勢卡：直式實心色塊＋手寫感編號＋大寫標題＋底部圓角圖 ---------- */
   .trd{--trd-bg:var(--c-brand-800);--trd-fg:var(--c-neutral-0);position:relative;display:flex;flex-direction:column;width:var(--trd-w,240px);max-width:100%;aspect-ratio:5/7;
-    padding:var(--trd-pad,var(--sp-5));border-radius:var(--trd-radius,var(--r-xl));background:var(--trd-bg);color:var(--trd-fg);box-shadow:var(--e-md);
+    padding:var(--trd-pad,var(--sp-5));border-radius:var(--trd-radius,var(--radius));background:var(--trd-bg);color:var(--trd-fg);box-shadow:var(--e-md);
     border:1px solid color-mix(in srgb,var(--trd-fg) 8%,transparent);overflow:hidden;
     transition:transform calc(var(--dur-default) * 1.4) var(--ease-spring),box-shadow var(--dur-default) var(--ease-out);}
   .trd-t-violet{--trd-bg:var(--c-violet-400);--trd-fg:var(--c-neutral-900);}
   .trd-t-white{--trd-bg:var(--c-neutral-0);--trd-fg:var(--c-neutral-900);border-color:color-mix(in srgb,var(--c-neutral-900) 10%,transparent);}
   .trd-t-lime{--trd-bg:color-mix(in srgb,var(--c-warning-300) 62%,var(--c-success-300));--trd-fg:var(--c-neutral-900);}
   .trd-t-green{--trd-bg:var(--c-success-400);--trd-fg:var(--c-neutral-900);}
-  .trd-no{display:block;font-family:var(--font-display);font-style:italic;font-weight:var(--fw-bold);font-size:var(--fs-h6);line-height:1;letter-spacing:-.06em;
-    color:transparent;-webkit-text-stroke:1.25px currentColor;transform:skewX(-8deg) rotate(-6deg);transform-origin:left bottom;width:max-content;}
-  .trd-no{color:transparent;-webkit-text-stroke-color:var(--trd-fg);}
+  .trd-no{display:block;font-family:var(--font-display);font-weight:var(--fw-semibold);font-size:var(--fs-h6);line-height:1;letter-spacing:-.02em;width:max-content;
+    color:color-mix(in srgb,var(--trd-fg) 40%,transparent);font-variant-numeric:tabular-nums;}  /* 編號：正體、實心淡字（不傾斜、不描邊） */
   .trd-title{margin:var(--sp-4) 0 0;font-family:var(--font-display);font-size:var(--trd-title-fs,var(--fs-h8));font-weight:var(--fw-medium);line-height:var(--lh-snug);
     letter-spacing:.01em;text-transform:uppercase;color:var(--trd-fg);overflow-wrap:anywhere;}
   .trd-title span{display:block;}
-  .trd-media{margin-top:auto;aspect-ratio:4/3;border-radius:var(--r-md);overflow:hidden;background:color-mix(in srgb,var(--trd-fg) 12%,transparent);}
+  .trd-media{margin-top:auto;aspect-ratio:4/3;border-radius:var(--r-xs);overflow:hidden;background:color-mix(in srgb,var(--trd-fg) 12%,transparent);}
   .trd-media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform calc(var(--dur-slow) * 1.6) var(--ease-out);}
   .trd.no-media .trd-title{margin-top:auto;font-size:var(--fs-h6);line-height:var(--lh-tight);}
   .trd.live{cursor:pointer;}
@@ -6068,7 +6067,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .trd.live:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
   /* ---------- media-card 照片標籤卡：滿版照片＋大圓角＋右上半透明膠囊；selected＝虛線外框；tilt＝傾斜 ---------- */
-  .mdc{position:relative;display:block;width:var(--mdc-w,280px);max-width:100%;aspect-ratio:4/5;border-radius:var(--mdc-radius,var(--r-2xl));overflow:hidden;
+  .mdc{position:relative;display:block;width:var(--mdc-w,280px);max-width:100%;aspect-ratio:4/5;border-radius:var(--mdc-radius,var(--radius));overflow:hidden;
     background:var(--panel-2);box-shadow:var(--e-lg);outline:2px dashed transparent;outline-offset:3px;
     transition:transform calc(var(--dur-default) * 1.4) var(--ease-spring),outline-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-default) var(--ease-out);}
   .mdc-r-square{aspect-ratio:1/1;} .mdc-r-landscape{aspect-ratio:4/3;width:var(--mdc-w-wide,340px);}
@@ -6089,7 +6088,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* ---------- weather-card 天氣卡：info 色階漸層＋超大溫度＋磨砂五日列（Segmented 原子） ---------- */
   .wtc{--wtc-a:var(--c-info-600);--wtc-b:var(--c-info-400);--wtc-fg:var(--c-neutral-0);--wtc-sub:color-mix(in srgb,var(--c-neutral-0) 78%,transparent);
     position:relative;display:flex;flex-direction:column;width:var(--wtc-w,360px);max-width:100%;padding:var(--wtc-pad,var(--sp-6)) var(--wtc-pad,var(--sp-6)) var(--sp-4);
-    border-radius:var(--wtc-radius,var(--r-2xl));color:var(--wtc-fg);overflow:hidden;isolation:isolate;box-shadow:var(--e-lg);
+    border-radius:var(--wtc-radius,var(--radius));color:var(--wtc-fg);overflow:hidden;isolation:isolate;box-shadow:var(--e-lg);
     background:radial-gradient(120% 70% at 100% 100%,color-mix(in srgb,var(--c-neutral-0) 26%,transparent),transparent 60%),linear-gradient(165deg,var(--wtc-a),var(--wtc-b));
     transition:background var(--dur-slow) var(--ease-out);}
   .wtc-c-cloudy{--wtc-a:color-mix(in srgb,var(--c-info-700) 55%,var(--c-neutral-600));--wtc-b:color-mix(in srgb,var(--c-info-400) 45%,var(--c-neutral-400));}
@@ -6118,11 +6117,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .sgm.wtc-fc .sgm-it:focus-visible{outline-color:var(--c-neutral-0);}
 
   /* ---------- player-card 音樂播放卡：token 漸層封面＋Slider 進度＋Button 控制＋Avatar 群組 ---------- */
-  .plc{display:flex;flex-direction:column;width:var(--plc-w,360px);max-width:100%;padding:var(--plc-pad,var(--sp-6));border-radius:var(--plc-radius,var(--r-2xl));color:var(--ink);
+  .plc{display:flex;flex-direction:column;width:var(--plc-w,360px);max-width:100%;padding:var(--plc-pad,var(--sp-6));border-radius:var(--plc-radius,var(--radius));color:var(--ink);
     background:radial-gradient(90% 60% at 100% 0%,color-mix(in srgb,var(--c-violet-500) 16%,transparent),transparent 70%),
       radial-gradient(70% 50% at 0% 70%,color-mix(in srgb,var(--c-info-500) 10%,transparent),transparent 70%),var(--panel);
     border:1px solid color-mix(in srgb,var(--line) 60%,transparent);box-shadow:var(--e-lg);}
-  .plc-art{width:45%;max-width:132px;aspect-ratio:1;border-radius:var(--r-lg);box-shadow:var(--e-md),inset 0 0 0 1px color-mix(in srgb,var(--c-neutral-0) 18%,transparent);
+  .plc-art{width:45%;max-width:132px;aspect-ratio:1;border-radius:var(--r-xs);box-shadow:var(--e-md),inset 0 0 0 1px color-mix(in srgb,var(--c-neutral-0) 18%,transparent);
     background:radial-gradient(70% 55% at 45% 18%,color-mix(in srgb,var(--c-neutral-0) 70%,transparent),transparent 60%),
       radial-gradient(150% 62% at 20% 100%,var(--c-info-300) 0 46%,transparent 47%),
       radial-gradient(130% 70% at 90% 105%,var(--c-violet-700) 0 50%,transparent 51%),
@@ -6166,10 +6165,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   :root[data-theme="dark"] .tkc{--tkc-bg:var(--panel-2);}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tkc{--tkc-bg:var(--panel-2);}}
   .tkc-top,.tkc-bot{background:var(--tkc-bg);padding:var(--tkc-pad,var(--sp-6));}
-  .tkc-top{border-radius:var(--tkc-radius,var(--r-2xl)) var(--tkc-radius,var(--r-2xl)) 0 0;padding-bottom:var(--sp-5);
+  .tkc-top{border-radius:var(--tkc-radius,var(--radius)) var(--tkc-radius,var(--radius)) 0 0;padding-bottom:var(--sp-5);
     -webkit-mask:radial-gradient(circle var(--tkc-notch) at 0 100%,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 100%,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;
     mask:radial-gradient(circle var(--tkc-notch) at 0 100%,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 100%,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;}
-  .tkc-bot{position:relative;border-radius:0 0 var(--tkc-radius,var(--r-2xl)) var(--tkc-radius,var(--r-2xl));padding-top:var(--sp-5);
+  .tkc-bot{position:relative;border-radius:0 0 var(--tkc-radius,var(--radius)) var(--tkc-radius,var(--radius));padding-top:var(--sp-5);
     -webkit-mask:radial-gradient(circle var(--tkc-notch) at 0 0,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 0,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;
     mask:radial-gradient(circle var(--tkc-notch) at 0 0,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 0,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;}
   .tkc .dvd.tkc-perf{position:absolute;top:0;left:calc(var(--tkc-notch) + var(--sp-3));right:calc(var(--tkc-notch) + var(--sp-3));width:auto;--dvd-c:var(--line-strong);}
@@ -6558,9 +6557,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       {id:'descriptions',name:'Descriptions 資料清單',st:'ready'},
     ]},
     {group:'Card 卡片',emoji:'🃏',ic:'cards',items:[
-      {id:'card',name:'Card 卡片',st:'ready'},
-      {id:'product-card',name:'Product Card 商品卡',st:'ready'},
-      {id:'category-tile',name:'Category Tile 分類磚',st:'ready'},
       {id:'article-card',name:'Article Card 文章卡',st:'ready'},
       {id:'person-card',name:'Person Card 照片人物卡',st:'ready'},
       {id:'profile-card',name:'Profile Card 品牌檔案卡',st:'ready'},
@@ -6693,9 +6689,6 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     step:{label:'Step 步驟指示器',order:['type','orientation','variant'],axes:{type:['classic','compact','timeline'],orientation:['horizontal','vertical'],variant:['numbered','dotted','icon']},when:{orientation:{type:['classic']},variant:{type:['classic']}},bools:{description:'Description 每步說明',count:'Count 步驟 n / m',time:'Time 時間',expandable:'Expandable 可展開'},zh:{type:{classic:'經典',compact:'精簡進度',timeline:'時間軸'},orientation:{horizontal:'水平',vertical:'垂直'},variant:{numbered:'編號',dotted:'圓點',icon:'圖示'},axisName:{type:'Type 型式',orientation:'Orientation 方向（classic）',variant:'Variant 樣式（classic）'}}},
     quantity:{label:'Quantity 商品計數',order:['variant','size'],axes:{variant:['outline','pill','plain'],size:['s','m','l']},zh:{variant:{outline:'外框',pill:'膠囊',plain:'極簡'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
     progress:{label:'Progress 進度條',order:['variant','size'],axes:{variant:['bar','label','gradient'],size:['s','m','l']},zh:{variant:{bar:'基本',label:'帶百分比',gradient:'漸層'},size:{s:'細 s',m:'標準 m',l:'粗 l'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
-    card:{label:'Card 卡片',order:['variant','state','size'],axes:{variant:['elevated','outlined','filled'],state:['default','hover','selected','disabled'],size:['m','s']},zh:{variant:{elevated:'浮起',outlined:'外框',filled:'填色'},state:{default:'預設',hover:'滑過',selected:'選取',disabled:'停用'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 型態',state:'State 狀態',size:'Size 尺寸'}}},
-    'product-card':{label:'Product Card 商品卡',order:['variant','state','size'],axes:{variant:['vertical','horizontal','minimal'],state:['default','hover','soldout'],size:['m','s']},zh:{variant:{vertical:'直式',horizontal:'橫式',minimal:'精簡'},state:{default:'預設',hover:'滑過',soldout:'售完'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 型態',state:'State 狀態',size:'Size 尺寸'}}},
-    'category-tile':{label:'Category Tile 分類磚',order:['variant','state','size'],axes:{variant:['icon','image','gradient'],state:['default','hover','active'],size:['m','s']},zh:{variant:{icon:'圖示磚',image:'圖片磚',gradient:'漸層磚'},state:{default:'預設',hover:'滑過',active:'選中'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 磚型',state:'State 狀態',size:'Size 尺寸'}}},
     'article-card':{label:'Article Card 文章卡',order:['variant','state','size'],axes:{variant:['vertical','horizontal','overlay'],state:['default','hover'],size:['m','s']},zh:{variant:{vertical:'直式',horizontal:'橫式',overlay:'疊字'},state:{default:'預設',hover:'滑過'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 版式',state:'State 狀態',size:'Size 尺寸'}}},
     'person-card':{label:'Person Card 照片人物卡',order:['state','size'],axes:{state:['default','added'],size:['m','s']},bools:{tags:'Tags 照片標籤'},zh:{state:{default:'預設',added:'已加入'},size:{m:'標準 m',s:'精簡 s'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
     'profile-card':{label:'Profile Card 品牌檔案卡',order:['cover','state'],axes:{cover:['graphic','image','color'],state:['default','following']},bools:{verified:'Verified 認證徽章'},zh:{cover:{graphic:'圖形',image:'照片',color:'純色'},state:{default:'預設',following:'追蹤中'},axisName:{cover:'Cover 封面',state:'State 狀態'}}},
@@ -8459,7 +8452,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     note:'滑過時預覽分數（顏色稍淡）、離開還原；點下去星星會彈一下確認。再點一次相同分數＝清除。鍵盤用 ←→ 調整、Home／End 到 0／5。'});
   function buildRating(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Rating',title:'Rating 評分',
-      lede:'顯示或輸入 0～5 顆星的評分。把 <a href="#product-card">product-card</a> 裡的星星抽成獨立元件，三級 size × 三種狀態（<b>3 × 3 = 9</b>），支援半顆星。',
+      lede:'顯示或輸入 0～5 顆星的評分。把商品評分的星星抽成獨立元件，三級 size × 三種狀態（<b>3 × 3 = 9</b>），支援半顆星。',
       specRows:[['axes','<code>size × state</code>'],['formula','<code>3 × 3 = 9</code>'],['token-policy','<code>semantic.feedback.warning · semantic.border.strong</code>'],['features','half / value / count']]});
     const SZN={s:['小','s · 14'],m:['標準','m · 18'],l:['大','l · 26']},STN={default:['可評分','default'],readonly:['唯讀','readonly'],disabled:['停用','disabled']};
     const axes=DIAL_SPECS.rating.axes,zh=DIAL_SPECS.rating.zh,active=CHOICE.rating.active;let p;
@@ -10161,7 +10154,7 @@ function skelMedia(anim){
   const IM_CIRCLE='photo-1501785888041-af3ef285b470'; // circular 用構圖置中的風景（湖光山色）
   const IM_SIZE={s:40,m:64,l:120,xl:240}; // size → 高度（px）；寬度由 aspect-ratio 依比例算
   /* 組出固定方形的 Unsplash URL；一律帶 &h 強制正方，配 object-fit:cover 填滿 */
-  function imUrl(id,w){return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
+  function imUrl(id,w){if(/^(data:|https?:|\.{0,2}\/)/.test(id))return id;return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
   /* Image atom：variant=rectangular|rounded|circular；state=default|loading|error；size=s|m|l|xl
      opts={src:Unsplash 圖片 ID, alt:替代文字}。circular 為正方，rectangular/rounded 亦統一用正方最簡單 */
   function imEl(variant,state,size,opts){opts=opts||{};
@@ -12514,13 +12507,13 @@ function buildProductCard(view){
 const ART_DATA={
   vertical:{cat:'設計',title:'設計系統如何撐起跨平台的一致體驗',
     excerpt:'從 token、元件到文件化流程，拆解設計系統在多產品線團隊中的實際運作方式，以及導入時最常踩的三個坑。',
-    author:'楊鎮瑜',date:'2026/07/12',read:'5 分鐘',srcId:'photo-1531403009284-440f080d1e12'},
+    author:'楊鎮瑜',date:'2026/07/12',read:'5 分鐘',srcId:'@HX_TSM_BG'},
   horizontal:{cat:'產品',title:'從資料密集後台談資訊層級的取捨',
     excerpt:'當一個畫面要同時容納篩選、表格與批次操作，怎麼排才不會讓使用者迷路？以三個真實案例拆解。',
-    author:'陳美華',date:'2026/07/08',read:'8 分鐘',srcId:'photo-1551288049-bebda4e38f71'},
+    author:'陳美華',date:'2026/07/08',read:'8 分鐘',srcId:'@CARD_PHOTO'},
   overlay:{cat:'趨勢',title:'AI 輔助設計流程的一年實測記錄',
     excerpt:'把生成式工具放進真實交付流程一年後，哪些環節真的變快、哪些反而變慢。',
-    author:'王小明',date:'2026/07/01',read:'6 分鐘',srcId:'photo-1526378722484-bd91ca387e72'}
+    author:'王小明',date:'2026/07/01',read:'6 分鐘',srcId:'@CARD_COVER'}
 };
 
 /* 文章卡本體：variant=vertical|horizontal|overlay；state=default|hover（矩陣靜態用 is-hover）
@@ -12531,7 +12524,8 @@ function artCard(variant,state,opts){opts=opts||{};
   const card=ce('article','art-card v-'+variant+(state==='hover'?' is-hover':'')+(opts.live?' live':'')+(opts.size==='s'?' art-sz-s':''));
   // 封面：重用 Image 原子 imEl（16:9；橫式/疊字由 CSS 覆寫成填滿）
   const cover=ce('div','art-cover');
-  cover.appendChild(imEl('rectangular','default','l',{src:d.srcId,alt:d.title,ratio:'16:9'}));
+  const ART_IMG={'@HX_TSM_BG':()=>HX_TSM_BG,'@CARD_PHOTO':()=>CARD_PHOTO,'@CARD_COVER':()=>CARD_COVER};   // 內嵌照片（預覽環境會擋 Unsplash 遠端圖）
+  cover.appendChild(imEl('rectangular','default','l',{src:ART_IMG[d.srcId]?ART_IMG[d.srcId]():d.srcId,alt:d.title,ratio:'16:9'}));
   // 內容區
   const body=ce('div','art-body');
   if(on('category')){ // 分類標：重用 Tag 原子 .tg（疊字版改 v-solid 保對比）
@@ -14712,7 +14706,7 @@ function buildScheduleChart(view){
       const tg=()=>{sel=!sel;paint();if(o.onChange)o.onChange();};
       c.onclick=tg;c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}});}
     return c;}
-  LIVE['media-card']=(host)=>mountLive(host,{gate:'media-card',initial:{ratio:'portrait',label:true,selected:true,tilt:false},
+  LIVE['media-card']=(host)=>mountLive(host,{gate:'media-card',initial:{ratio:'portrait',label:true,selected:false,tilt:false},
     segs:[{key:'ratio',label:'Ratio',options:['portrait','square','landscape'],labels:['直式 4:5','方形 1:1','橫式 4:3']}],
     bools:[{key:'label',label:'label 標籤'},{key:'selected',label:'selected 已選取'},{key:'tilt',label:'tilt 傾斜'}],boolLabel:'Content',
     render:(st,sync)=>mdcEl(st.ratio,{live:true,label:st.label,selected:st.selected,tilt:st.tilt,onChange:sync}),
@@ -14890,7 +14884,7 @@ function buildScheduleChart(view){
     out._total=total;out._full=full;return out;
   }
   const SUMSEL=new Set(Object.keys(DIAL_SPECS)); // 手動選取要產出的元件（預設全選、跨切頁持久）
-  const RECOMMEND=['button','input','dropdown','checkbox','radio','tag','icon','tooltip','notification','modal','card','table','tab','pagination','menu']; // AI 建議＝最常見/使用機率最高的元件（預設推薦集）
+  const RECOMMEND=['button','input','dropdown','checkbox','radio','tag','icon','tooltip','notification','modal','table','tab','pagination','menu']; // AI 建議＝最常見/使用機率最高的元件（預設推薦集）
   let aiOn=false,aiSnapshot=null; // AI 建議 toggle 狀態＋開啟前的選擇快照
   let sumLayout='accordion'; // 匯出頁版型方案：accordion 分類展開／list 緊湊清單／grid 分組網格（跨切頁持久）
   const DIAL_PAGE={button:'button',input:'input',dropdown:'dropdown',checkbox:'selector',radio:'selector',tag:'tag',tab:'tab',notification:'notification',tooltip:'tooltip',skeleton:'skeleton',loader:'loader',menu:'menu','action-menu':'action-menu',breadcrumb:'breadcrumb',pagination:'pagination',icon:'icon',price:'price',image:'image',
@@ -15164,12 +15158,13 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
-    {v:'v12', date:'2026-11-05', title:'Card 新增 5 種單張牌卡', items:[
+    {v:'v12', date:'2026-11-05', title:'Card 新增 5 種單張牌卡 · 牌卡整理', items:[
       {tag:'add', t:'Trend Card 趨勢卡：直式實心色塊（墨黑／紫／白／萊姆／綠，皆綁色階 token）＋手寫感編號＋大寫標題＋底部圓角圖；index／media 為 boolean'},
       {tag:'add', t:'Media Card 照片標籤卡：滿版照片＋大圓角＋右上磨砂膠囊標籤（Tag 原子）；比例 3 種，selected 虛線外框、tilt 傾斜為 boolean'},
       {tag:'add', t:'Weather Card 天氣卡：info 色階漸層＋超大溫度（數字滾動）＋磨砂五日列（Segmented 原子），點任一天整張切換；天氣狀況 4 種'},
       {tag:'add', t:'Player Card 音樂播放卡：token 漸層封面、愛心、可拖曳進度（Slider 原子）、播放／暫停（Button 原子）、按讚頭像群（Avatar 原子）；播放中進度每秒前進，尊重減少動態'},
       {tag:'add', t:'Ticket Card 登機證：SFO → JFK 虛線航線、兩側半圓缺口（CSS mask）＋虛線撕線（Divider 原子）、Gate／Seat／Boards／Zone、狀態 Tag 與 Check in 按鈕；狀態 4 種'},
+      {tag:'improve', t:'Card 整理：移除 Card 卡片、Product Card 商品卡、Category Tile 分類磚；文章卡改用內嵌照片；新牌卡圓角對齊其他牌卡（--radius）、趨勢卡編號改正體淡字、照片標籤卡預設不選取'},
     ]},
     {v:'v11', date:'2026-11-05', title:'Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正', items:[
       {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
@@ -17997,16 +17992,16 @@ function buildScheduleChart(view){
                    {slot:'--wdg-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
                    {slot:'--wdg-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h9'}],
     /* CARDS5:v1 */
-    'trend-card':[{slot:'--trd-radius',label:'圓角 radius',cat:'radius',def:'--r-xl'},
+    'trend-card':[{slot:'--trd-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                   {slot:'--trd-pad',label:'內距 padding',cat:'spacing',def:'--sp-5'},
                   {slot:'--trd-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h8'}],
-    'media-card':[{slot:'--mdc-radius',label:'圓角 radius',cat:'radius',def:'--r-2xl'}],
-    'weather-card':[{slot:'--wtc-radius',label:'圓角 radius',cat:'radius',def:'--r-2xl'},
+    'media-card':[{slot:'--mdc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
+    'weather-card':[{slot:'--wtc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                     {slot:'--wtc-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'}],
-    'player-card':[{slot:'--plc-radius',label:'圓角 radius',cat:'radius',def:'--r-2xl'},
+    'player-card':[{slot:'--plc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--plc-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
                    {slot:'--plc-title-fs',label:'曲名文字級別 font-size',cat:'typography',def:'--fs-h6'}],
-    'ticket-card':[{slot:'--tkc-radius',label:'圓角 radius',cat:'radius',def:'--r-2xl'},
+    'ticket-card':[{slot:'--tkc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--tkc-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
                    {slot:'--tkc-code-fs',label:'機場代碼文字級別 font-size',cat:'typography',def:'--fs-h4'}],
     /* ── Table & Chart ── */
@@ -18276,13 +18271,13 @@ function buildScheduleChart(view){
       ['tooltip','補充說明不佔版面'],['alert','頁內常駐提示'],['notification','操作完成後的回饋'],['modal','需要使用者確認的對話'],['loader','載入中狀態'],['empty','沒有資料時的畫面']],
     web:[['header','網站頁首與主導覽'],['footer','網站頁尾資訊'],['breadcrumb','多層頁面的位置提示'],['pagination','列表分頁'],['tab','同頁內容切換'],['menu','導覽與下拉選單'],['popover','點擊後的浮出內容'],['link','文字連結']],
     app:[['tab','App 底部或頁內分頁'],['list','App 常見的清單版面'],['list-item','清單的單列資訊'],['drawer','App 側邊或底部抽屜'],['segmented','少量檢視方式切換'],['floating-line','固定在底部的主要動作列'],['avatar','會員與個人資料']],
-    ecommerce:[['product-card','商品列表的主要單位'],['price','售價、折扣與數值'],['quantity','購物車數量'],['carousel','首頁主視覺輪播'],['category-tile','分類入口'],['rating','商品評價'],['image','商品圖'],['step','結帳流程進度']],
+    ecommerce:[['price','售價、折扣與數值'],['quantity','購物車數量'],['carousel','首頁主視覺輪播'],['rating','商品評價'],['image','商品圖'],['step','結帳流程進度']],
     saas:[['table','資料管理的核心'],['table-toolbar','表格的篩選與批次操作'],['chart','儀表板數據'],['date-picker','日期篩選與設定'],['descriptions','詳細頁的欄位清單'],['tree-view','階層資料'],['app-shell','後台框架'],['command','進階使用者的快速指令'],['dropzone','檔案匯入']],
     finance:[['chart','走勢與資產配置'],['price','金額與百分比'],['table','交易明細'],['descriptions','帳戶資料'],['step','開戶與申請流程'],['progress','目標與進度'],['date-picker','查詢區間']],
     media:[['article-card','文章列表'],['image','內容圖片'],['carousel','精選內容'],['section-head','區段標題與更多連結'],['avatar','作者資訊']],
     public:[['step','申辦流程分步'],['date-picker','預約日期'],['dropzone','上傳證明文件'],['descriptions','申請資料確認'],['collapse','常見問題']],
-    education:[['progress','學習進度'],['step','課程章節'],['card','課程卡'],['list','課程清單'],['calendar','課表與行事曆'],['avatar','講師與學員']],
-    other:[['card','通用內容卡'],['list','通用清單']],
+    education:[['progress','學習進度'],['step','課程章節'],['article-card','課程卡'],['list','課程清單'],['calendar','課表與行事曆'],['avatar','講師與學員']],
+    other:[['article-card','通用內容卡'],['list','通用清單']],
   };
   const FLW_SAMPLE={brand:'果思咖啡',industry:'ecommerce',platform:'both',primary:'#2F6B4F',secondary:'#E0A458',font:'hei',tone:['溫暖','自然','親切'],density:'comfortable',radius:'round',
     text:'果思咖啡品牌規範（範例）\n主色：森林綠 #2F6B4F\n輔色：焦糖 #E0A458\n調性：溫暖、自然、親切\n產品：線上咖啡豆訂閱與門市點餐 App'};
