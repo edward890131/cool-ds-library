@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-05（五十二）　Tag 新增 size 軸；Step 標籤改 m
+
+- **Tag** 新增 `size` 軸（s／m／l）：s＝原本尺寸（22px、`--fs-h12`，預設、不加 class）、m＝26px（`--fs-h11`）、l＝32px（`--fs-h10`、左右 `--sp-4`）；icon 12／14／16px。
+  - `tagEl(variant,intent,state,corner,size)` 加第 5 參數；Tag 頁矩陣依 variant × size 分塊、Live 加 Size 切換；registry 補 `size` 軸，variantCount 126 → 378。
+- **首頁步驟牌卡**的 Step 標籤改用 m。
+
 ## 2026-11-05（五十一）　四個步驟說明改寫
 
 - **首頁四個步驟**的說明改寫成網站上的實際操作：開新專案填資料＋品牌問卷（草稿自動保存）／Design Token 頁自行輸入色碼、調整間距圓角字級陰影／變數篩選器勾選樣式意圖狀態尺寸、即時預覽與 HTML／CSS 同步、Token 綁定／寫入 Figma Variables 與 variant、下載 SCSS 樣式包與元件程式碼、差異檢查。說明寬度 34ch → 42ch。
