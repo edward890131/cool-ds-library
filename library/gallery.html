@@ -14755,7 +14755,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
-      {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用實心 Tag'},
+      {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用柔色 soft Tag'},
       {tag:'improve', t:'Token 試玩：操作控制欄位時，預覽整塊出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
       {tag:'improve', t:'首頁協作游標標籤依段落換字（yuu／component／about／motion／how2use／highlight／feedback／question），切換時打字動態'},
       {tag:'improve', t:'Header「此為母元件庫，若需更新請調整原始檔」移到 logo 右側，以淺色細線分隔'},
@@ -15992,7 +15992,7 @@ function buildScheduleChart(view){
       const n=prgEl('bar','s',{value:all?Math.round(done/all*100):0});tpb.replaceWith(n);tpb=n;};
     const task=(text,label,intent,done,first)=>{const r=ce('button','hx-task');r.type='button';r.setAttribute('role','checkbox');
       const paint=on=>{r.classList.toggle('is-done',on);r.setAttribute('aria-checked',String(on));const c=cbxEl(on?'checked':'default','s');const old=r.querySelector('.cbx');if(old)old.replaceWith(c);else r.prepend(c);};
-      const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('solid',intent,label));paint(done);
+      const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('soft',intent,label));paint(done);
       r.onclick=()=>{paint(!r.classList.contains('is-done'));recount();};if(first)list.prepend(r);else list.appendChild(r);recount();return r;};
     [['確認主色與輔助色','設計','brand',true],['圓角 token 定案','設計','brand',true],['Button 寫進 Figma','Figma','info',false],['跑 sync drift 檢查','前端','brand2',false],['Modal 文案校稿','內容','neutral',false],['活動頁 Hero 切版','前端','brand2',false]].forEach(a=>task(...a));
     /* 快速新增：新增／清除在標題列（size s）；欄位＝任務名稱／負責人（Dropdown）／截止日（Date Picker）／優先度（Segmented）／標籤（Dropdown 多選 chips）／通知（Switch）；HOME6:v1 拿掉說明 */
