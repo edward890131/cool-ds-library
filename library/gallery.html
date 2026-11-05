@@ -1894,7 +1894,7 @@
 
   /* ---- kind=popup：置中小卡（置中標題＋說明＋可選 icon／備註／記住帳號） ---- */
   .mdl-kind-popup{width:100%;max-width:360px;}
-  .mdl-pop-body{display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5) 0;}
+  .mdl-pop-body{display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-5) var(--sp-5) 0;}  /* 上距與左右、底部一致（原 --sp-4 偏小） */
   .mdl-illus{flex:0 0 auto;width:46px;height:46px;color:var(--i-primary);}  /* 頂部圓 icon：一般語意＝主色 */
   .mdl-illus.is-danger{color:var(--i-danger);}                              /* 警示語意＝紅，差異只在顏色 */
   .mdl-illus svg{width:100%;height:100%;}
@@ -14763,6 +14763,8 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'fix', t:'開新專案提案：色階與預覽改吃問卷色號；彩色主色在深色模式改用夠亮的色階，套用後全站元件與 Guideline 一起換色'},
+      {tag:'fix', t:'Modal popup（確認框）上方內距改與左右、底部一致'},
       {tag:'improve', t:'開新專案：彈窗寬度改左右各留 10vw、最大 1000px；提案步驟的建議元件依分類分組，高度與 Token 提案拉齊'},
       {tag:'fix', t:'首頁動態展示：折線圖自動 hover 示範只在牌卡內進行，不再把協作游標拉到圖表上'},
       {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用柔色 soft Tag'},
@@ -17850,8 +17852,16 @@ function buildScheduleChart(view){
   function flwBuildProposal(){
     const q=FLW.q,info=FLW.info;const root={},desktop={},why=[];
     const p=flwHex(q.primary);
-    Object.assign(root,flwScale('brand',p));why.push({k:'--c-brand-100 … 900',v:p,r:'主色錨點放在 500，其他 8 階依明度自動推出'});
+    const SC=flwScale('brand',p);Object.assign(root,SC);why.push({k:'--c-brand-100 … 900',v:p,r:'主色錨點放在 500，其他 8 階依明度自動推出'});
     const W=flwPrim('--c-neutral-0')||'#FFFFFF';
+    /* 深色模式：預設主色按鈕吃 --c-brand-200（為近黑的中性品牌設計）；彩色主色改挑「在深底上對比 ≥ 3:1」的最深一階，按鈕才看得出是品牌色 */
+    const dark={};
+    {const h=p.replace('#','');const rgb=[0,2,4].map(i=>parseInt(h.substr(i,2),16));const chroma=(Math.max(...rgb)-Math.min(...rgb))/255;
+      if(chroma>.18){const BG='#09090B';const k=[500,400,300,200].find(n=>flwContrast(SC['--c-brand-'+n],BG)>=3)||200;const v=n=>'var(--c-brand-'+Math.min(900,Math.max(100,n))+')';
+        Object.assign(dark,{'--s-action-primary':v(k),'--s-action-primary-hover':v(k-100),'--s-action-primary-press':v(k+100),
+          '--s-action-primary-tint':'color-mix(in srgb,'+v(k)+' 16%,transparent)','--s-action-primary-tint2':'color-mix(in srgb,'+v(k)+' 28%,transparent)',
+          '--s-on-primary':flwContrast(SC['--c-brand-'+k],W)>=4.5?'#FFFFFF':'#0B0B0C','--primary-on':'var(--s-on-primary)'});
+        why.push({k:'--s-action-primary（Dark）',v:'var(--c-brand-'+k+')',r:'深色模式改用 '+k+' 階，主色在深底上才夠亮（對比 ≥ 3:1），按鈕維持品牌色'});}}
     if(flwContrast(p,W)<4.5){root['--primary-on']='var(--c-neutral-900)';why.push({k:'--primary-on',v:'var(--c-neutral-900)',r:'主色偏亮，按鈕上的字改用深色才看得清楚'});}
     const s=flwHex(q.secondary);
     if(s){Object.assign(root,flwScale('brand2',s));why.push({k:'--c-brand2-100 … 900',v:s,r:'副色錨點放在 500，用於點綴與次要強調'});
@@ -17870,7 +17880,7 @@ function buildScheduleChart(view){
     add(FLW_RULES[info.industry]||FLW_RULES.other);
     const selected=[...picks.keys()];
     return {project:info.name,generatedBy:'website-flow · 固定規則（AI 之後接上）',createdAt:new Date().toISOString(),
-      tokens:{overrides:{root,dark:{},desktop,tablet:{},mobile:{}},logo:{light:null,dark:null}},
+      tokens:{overrides:{root,dark,desktop,tablet:{},mobile:{}},logo:{light:null,dark:null}},
       components:{selected,axes:{}},reasons:{tokens:why,components:selected.map(id=>({id,r:picks.get(id)}))}};
   }
   function flwApplyProposal(){
@@ -18394,14 +18404,21 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const tk=ce('section','flw-panel');tk.innerHTML='<h3 class="flw-ph">Token 提案</h3>';
     const sc=ce('div','flw-scale');const R=P.tokens.overrides.root;
     [['brand','主色'],['brand2','副色']].forEach(([k,lab])=>{if(!R['--c-'+k+'-500'])return;const row=ce('div','flw-scrow');const l=ce('span','flw-scl');l.textContent=lab;row.appendChild(l);
-      const bar=ce('div','flw-scbar');[100,200,300,400,500,600,700,800,900].forEach(n=>{const c=ce('span','flw-sw');c.style.background='var(--c-'+k+'-'+n+')';c.title=n+' '+R['--c-'+k+'-'+n];if(n===500)c.classList.add('is-anchor');bar.appendChild(c);});
+      const bar=ce('div','flw-scbar');[100,200,300,400,500,600,700,800,900].forEach(n=>{const c=ce('span','flw-sw');c.style.background=R['--c-'+k+'-'+n]||('var(--c-'+k+'-'+n+')');c.title=n+' '+R['--c-'+k+'-'+n];if(n===500)c.classList.add('is-anchor');bar.appendChild(c);});
       row.appendChild(bar);sc.appendChild(row);});
     tk.appendChild(sc);
     const ul=ce('ul','flw-why');P.reasons.tokens.forEach(t=>{const li=ce('li');li.innerHTML=`<code>${flwEsc(t.k)}</code><span class="flw-why-v">${flwEsc(t.v)}</span><span class="flw-why-r">${flwEsc(t.r)}</span>`;ul.appendChild(li);});
     tk.appendChild(ul);
     const pv=ce('div','flw-preview');pv.append(flwBtn('solid','primary','主要按鈕','s'),flwBtn('outline','primary','次要按鈕','s'));
     const t1=tagEl('solid','brand','default','round');t1.querySelector('span').textContent='主色標籤';const t2=tagEl('soft','brand2','default','round');t2.querySelector('span').textContent='副色標籤';pv.append(t1,t2);
-    const pvl=ce('p','flw-note');pvl.textContent='預覽：套用後這裡和整個網站會一起換色。';tk.append(pvl,pv);
+    /* 預覽直接吃提案色（還沒套用也看得到）：主色／副色語意變數寫在預覽容器上 */
+    {const D=P.tokens.overrides.dark||{},isDk=document.documentElement.dataset.theme==='dark';const pick=(k,f)=>{const v=(isDk&&D[k])||R[k];return v||f;};
+      const res=v=>String(v||'').replace(/var\((--c-brand2?-\d+)\)/g,(m,n)=>R[n]||m);
+      const prim=isDk?res(D['--s-action-primary']||(R['--c-brand-200']?'var(--c-brand-200)':'')):R['--c-brand-500'];
+      if(prim){pv.style.setProperty('--i-primary',prim);pv.style.setProperty('--accent',prim);pv.style.setProperty('--i-primary-tint','color-mix(in srgb,'+prim+' 16%,transparent)');}
+      const on=res(pick(isDk?'--s-on-primary':'--primary-on',''));if(on)pv.style.setProperty('--primary-on',on);
+      const a2=R[isDk?'--c-brand2-400':'--c-brand2-500'];if(a2){pv.style.setProperty('--accent2',a2);pv.style.setProperty('--accent2-tint','color-mix(in srgb,'+a2+' 12%,transparent)');}}
+    const pvl=ce('p','flw-note');pvl.textContent='預覽：依提案配色；套用後整個網站會換成這套顏色。';tk.append(pvl,pv);
     const cp=ce('section','flw-panel');cp.innerHTML=`<h3 class="flw-ph">建議元件 <span class="flw-cnt">${P.components.selected.length} 個</span></h3>`;
     /* 依側欄分類（NAV group）分組；分組標題 sticky，清單在面板內捲動 */
     const cl=ce('div','flw-comp');const grpOf=id=>{const g=NAV.find(g=>g.items.some(x=>x.id===id));return g?g.group:'其他';};
