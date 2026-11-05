@@ -2,6 +2,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>cool-ds-library</title>
 <script>/* SHELL8:v1 框內載入進度：文件開始解析 */try{if(/[?&]rwdframe=1(&|$)/.test(location.search)&&window.parent!==window)window.parent.postMessage({rwdframe:1,t:'stage',s:'head'},'*');}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap">
 <meta name="description" content="Cool Design Library：調一次 Design Token，整套元件一起更新；網站、程式碼與 Figma Variables 同步。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2309090B%22/%3E%3Cg%20transform%3D%22translate%286%2013%29%20scale%28.578%29%22%20fill%3D%22none%22%3E%3Cg%20stroke%3D%22%23F4F4F5%22%20stroke-width%3D%227%22%3E%3Cpath%20d%3D%22M25.96%2021.64A13%2013%200%201%200%2025.96%2038.36%22/%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2230%22%20r%3D%2213%22/%3E%3Cpath%20d%3D%22M61%202V46%22/%3E%3Cpath%20d%3D%22M75%202V46%22/%3E%3C/g%3E%3Crect%20x%3D%2281%22%20y%3D%2239%22%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%23FB923C%22/%3E%3C/g%3E%3C/svg%3E">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFk0lEQVR4nMWXX4hU1x3HP79z78ydu3dnd92lLu1m6rrGLH2IpNK8+BJsDQGlmkbEKDVgQBoLLS15iLZpGlLwrRgETQNaY5PVkiWQLU0hkSS1hErAB7MPJiF14xqflLqT3flz79y559eHmTs7o+tW2K39wjDnHH73fH/nd873/M5PaMABEs/zVos4PxeRzcAwkAGEpUGBGLiiqn9TTY5EUfRlyilpI5cLdovoyyLmG6q6RM6FISKo2uuq8sswLJ8GHAHI5YJdxsjpJnECGJa+8luhgAUcEcFa3R2G5TOSy+W+DWZSRHpSg2UmvhUJYFR1Fuw6A+ZZEdO7XOQismi/yWEbnOZZ8f3gS2BVar8UclVFVRGR5n539ttNm//T4vtBDLhLIU5hjCGTyZAkCfV6vdl3SRJLvV5f6JO6WQ5y13UJwwpbtmxmcvIiL774W8KwwqZNP2By8hMOHTpEGFZwnNt22F2Q3BiDMabVt9Zire2wEZHWhK7rYowhn89TKBRYuXIlqkp3dzeFQoHBwUHuJO3bHHAch0qlgrWdIQuCfGtPHcchiiIqlVKHTRzHWGuJ4xiAJEk6+v/VAWMMpdIso6PfYcuWzRQKBYrFIu+//wEfffQPstkc2WyWUmmWwcFvsm3bNh54YC2qynvvvUsmk8EYg4hpRanRX+Rs+36gvh9oEOQV0P37f6rF4tfaDmtVT5z4o/b3DyiIbtz4fb18eUpvRTr2+utvKKC7du1WVdXTp/+sgHZ392jKl/7cNOyl0hxPPLGdY8eOogpjY2c4f/6frFq1imee+Qmjo6MYYxgdHWV8fJyBgX4+/PDvTExMEAQBe/fuZWRk5M4rXSwCXV3d6nk5PX/+Y1VVPXjwV0pDqwroQw+t1xUrBhTQo0dfUVXV8fG3NJvNtmyGh0f0s88+V1XVU6f+dNcRMMYYwjBkeHg169Y9yPT0VY4dewXP8+np6SOf72VycpJqtYrn+Tz88PewVjl8+DC1Wo2+vn5WrBjgypUpjh8/AXCbYhaDC40bLJvNks1mKZfLxHGM67okSYKI0NXV1VKA53kAzM3N4bqNS8dxHIwxzMzcBBa8fjECjhHUgm1TpEnJr127xvT0VdasGWHDhg2Uy3NEUY1SabYpuQqVSonLl6cQga1bf0i9HlOtVikWZ7DW8vjjP1pwlUKD9OtKnXKtMzotB2Zm/s3Y2Bie5/Hqq3/gySd3MTKymkce2cg77/yV55//NZ6X47XXTiIiHDhwgOeeO8j9969h/fr1nDx5ikcf3dSKWhrZJEmo1ROG+7M89mAf372vC2t1Pumkh9D3u7S7O69vvz3RklWlUm21v/jiXzo0dJ8C+tJLv2uNR1Gt1a7VYlVVffPNcQV0z56nVFX1+Bvj+vut31J96zF992frFONr0NUmw0bGMsRxzM6dO9m3bx/bt29naGiIYrHI2bNnOXLkCDdv3iQI8rzwwm+4ePETnn56L2vXriVJEs6dO8fU1BQ7duzg0qVLGGO4ceMGFy5c4PNPP6XfGqJSnVJ0y5Xu+0HrSKQptFotY0yGnp481WqVKKqSyXhkMhlUFWMM5fIcIPT29pEkCaXSLACO07gNXdfF2kYWFBEGe33yvkMlSrg+Vyc9px0ONJwAYxystSRJ0posSZKOhOI4DqraInBdt6WUNKrtiogTS2IVI0LGmVfJbQ50OiN3zGLtNu2Ed7ZrqEGBdtNF3wJ38zq+2xe06vwzqB1mgbF7CgMs+Fa6R6gb4BrziedeIeX7yqjqROOIcPcZZOmwIKKqf/n/FyZhGF4F2S8NPTlNg//FdmhzbqfBJfvDMLxqACcMy2es1T0g10XEYfnrQgBpzK3XrdUfh2H5DGlxynx5Pizi/KJZnhcAbxmcUSACvmqW5y9HUXQl5fwPyfsXKo6Tm4IAAAAASUVORK5CYII=">
@@ -61,9 +63,9 @@
     /* ── Container（響應式：desktop 基準；tablet/mobile 於下方 media 覆寫）── */
     --container-max:1280px; --container-pad:32px;
     /* ── L1 Primitive · Typography（Geist 內嵌；size H1–H12、weight、line-height；對齊 Web Guideline 12 階）── */
-    --font-sans:'Geist',-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",system-ui,sans-serif;
-    --font-mono:'Geist Mono',ui-monospace,"SF Mono",Menlo,"PingFang TC","Noto Sans TC",monospace;
-    --font-display:'Epilogue','Geist',-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",system-ui,sans-serif;  /* 標題／側欄／hero 用 display 字 */
+    --font-sans:'Geist','Noto Sans TC',-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC",system-ui,sans-serif;
+    --font-mono:'Geist Mono',ui-monospace,"SF Mono",Menlo,'Noto Sans TC',"PingFang TC",monospace;
+    --font-display:'Epilogue','Geist','Noto Sans TC',-apple-system,BlinkMacSystemFont,"PingFang TC",system-ui,sans-serif;  /* 標題／側欄／hero 用 display 字 */
     --fs-h1:64px; --fs-h2:56px; --fs-h3:48px; --fs-h4:40px; --fs-h5:32px; --fs-h6:24px;
     --fs-h7:20px; --fs-h8:18px; --fs-h9:16px; --fs-h10:14px; --fs-h11:12px; --fs-h12:10px;
     --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
@@ -4195,8 +4197,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .dgc-cat-d{font-size:var(--fs-h11);color:var(--muted);}
   .dgc-row{display:flex;gap:var(--sp-5);flex-wrap:wrap;}
   .dgc-item{display:flex;flex-direction:column;gap:8px;width:88px;}
-  .dgc-chip{position:relative;width:88px;height:88px;border-radius:12px;background-image:linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%),linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%);background-size:16px 16px;background-position:0 0,8px 8px;}
-  .dgc-color{position:absolute;inset:0;border-radius:12px;border:1px solid var(--line);}
+  .dgc-chip{position:relative;width:88px;height:88px;border-radius:var(--r-sm);background-image:linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%),linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.08) 75%);background-size:16px 16px;background-position:0 0,8px 8px;}
+  .dgc-color{position:absolute;inset:0;border-radius:var(--r-sm);border:1px solid var(--line);}
   .dgc-name{font-size:var(--fs-h10);font-weight:600;color:var(--ink);line-height:1.4;}
   .dgc-hex{font-size:var(--fs-h11);color:var(--muted);line-height:1.4;}
   .dgc-item.dgc-off{opacity:.3;filter:grayscale(.5);}  /* token 頁停用的色號 → guideline 變淺 */
@@ -14649,7 +14651,7 @@ function buildScheduleChart(view){
       wrap.appendChild(logos);
       const roles=ce('div','dg-roles');
       [['--accent','主色 Primary'],['--c-brand2-500','副色 Secondary'],['--ink','文字 Ink'],['--panel','面板 Panel']].forEach(([n,lb])=>{
-        const v=val(n);if(!v)return;const r=ce('div','dg-role');const sw=ce('div','dg-role-sw');sw.style.background=v;sw.title=n+' '+v;
+        const v=val(n);if(!v)return;const r=ce('div','dg-role');const sw=ce('div','dg-role-sw');sw.style.background='var('+n+')';sw.title=n;
         const nm=ce('div','dg-role-nm');nm.textContent=lb;r.append(sw,nm);roles.appendChild(r);});
       wrap.appendChild(roles);s.appendChild(wrap);})();
 
@@ -14658,8 +14660,8 @@ function buildScheduleChart(view){
       const wrap=ce('div','dgc-wrap');
       const cat=(t,d,sws)=>{const c=ce('div','dgc-cat');const ch=ce('div','dgc-cathead');ch.innerHTML=`<span class="dgc-cat-t">${t}</span>`+(d?`<span class="dgc-cat-d">${d}</span>`:'');c.appendChild(ch);
         const row=ce('div','dgc-row');sws.forEach(o=>{const v=val(o.token);if(!v)return;const it=ce('div','dgc-item'+((window.__tokDisabled&&window.__tokDisabled.has(o.token))?' dgc-off':''));
-          const chip=ce('div','dgc-chip');const col=ce('div','dgc-color');col.style.background=v;col.title=o.token+' '+v;chip.appendChild(col);
-          const nm=ce('div','dgc-name');nm.textContent=o.name;const hx=ce('div','dgc-hex');hx.textContent=v.toUpperCase();
+          const chip=ce('div','dgc-chip');const col=ce('div','dgc-color');col.style.background='var('+o.token+')';col.title=o.token;chip.appendChild(col);
+          const nm=ce('div','dgc-name');nm.textContent=o.name;const hx=ce('div','dgc-hex');hx.dataset.tok=o.token;hx.textContent=v.toUpperCase();
           it.append(chip,nm,hx);row.appendChild(it);});c.appendChild(row);wrap.appendChild(c);};
       const st9=['100','200','300','400','500','600','700','800','900'];
       cat('Primary 主色','品牌主色，主要視覺代表',st9.map(x=>({name:'Brand '+x,token:'--c-brand-'+x})));
@@ -14763,6 +14765,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'improve', t:'字體堆疊補上 Noto Sans TC（Google Fonts 載入，緊接在 Geist／Epilogue 後）；Guideline 色塊圓角改 --r-sm，色塊與色號跟著主題切換／token 覆寫即時更新'},
       {tag:'fix', t:'預覽環境（artifact）擋掉動態 <style>，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
       {tag:'fix', t:'開新專案提案：色階與預覽改吃問卷色號；彩色主色在深色模式改用夠亮的色階，套用後全站元件與 Guideline 一起換色'},
       {tag:'fix', t:'Modal popup（確認框）上方內距改與左右、底部一致'},
@@ -17413,8 +17416,12 @@ function buildScheduleChart(view){
   /* 動態覆寫樣式（#tokenOverrides／#bindOverrides）：先照舊寫 <style> 的 textContent（Vercel／本機直接生效，也讓觀察者收得到改動）；
      若宿主環境的 CSP 擋掉動態 <style>（例：預覽 artifact 只放行頁面原本的樣式表，style.sheet 會是 null），改用 CSSOM insertRule 寫進頁面既有樣式表的最後面。
      CSSOM 不受 CSP 限制；每次重寫前先移除上一次插入的規則。 */
+  /* 色塊用 var() 即時跟著變；旁邊的色號文字（[data-tok]）在主題切換／token 覆寫後重讀一次 */
+  function tokTextRefresh(){requestAnimationFrame(()=>{const cs=getComputedStyle(document.documentElement);
+    document.querySelectorAll('[data-tok]').forEach(el=>{const v=cs.getPropertyValue(el.dataset.tok).trim();if(v)el.textContent=v.toUpperCase();});});}
+  new MutationObserver(tokTextRefresh).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   function dynCss(el,css){
-    el.textContent=css;
+    el.textContent=css;setTimeout(tokTextRefresh,0);
     const H=window.__dynCssRules||(window.__dynCssRules={}),id=el.id;
     let host=null;try{host=[...document.styleSheets].find(sh=>{try{return sh.ownerNode&&!sh.ownerNode.id&&sh.cssRules&&sh.cssRules.length>50;}catch(e){return false;}})||null;}catch(e){}
     if(host&&H[id]){H[id].forEach(r=>{const i=[...host.cssRules].indexOf(r);if(i>=0)try{host.deleteRule(i);}catch(e){}});}
@@ -18010,7 +18017,7 @@ ${s.text.trim()?'\n## 附錄：貼上的資料\n\n```\n'+s.text.trim()+'\n```\n'
       '  @else { @warn "Unsupported breakpoint: #{$bp}"; }\n}\n';
     // _font.scss：Latin 走 Geist / Geist Mono（Google Fonts），中文 CJK 走系統字 per-character fallback
     const F_FONT=HD('_font.scss｜字體設定')+
-      "@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Epilogue:wght@400..800&display=swap');\n\n"+
+      "@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Epilogue:wght@400..800&family=Noto+Sans+TC:wght@400..700&display=swap');\n\n"+
       ':root {\n  --font-sans: '+SANS+';\n  --font-mono: '+MONO+';\n  --font-display: '+DISP+';\n}\n\nbody {\n  font-family: var(--font-sans);\n  -webkit-font-smoothing: antialiased;\n}\n';
     // layout.scss：reset —— 清各瀏覽器原生樣式差異；保留 focus-visible（鍵盤操作仍看得到焦點，a11y）
     const F_LAYOUT=HD('layout.scss｜reset（清原生樣式、統一各瀏覽器基準）')+

@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-05（六十一）　Noto Sans TC、Guideline 色塊
+
+- **字體**：`--font-sans`／`--font-display`／`--font-mono` 在英文字體後緊接 `'Noto Sans TC'`（原本排在 PingFang TC 之後、且沒載入網路字型，Windows／Android 會落到系統字）；head 以 Google Fonts 載入 Noto Sans TC 400–700；SCSS 樣式包的 `@import` 一併補上。
+- **Guideline 色彩**：色塊圓角 12px → `--r-sm`。
+- **Guideline 色塊即時更新**：色塊背景改直接用 `var(--token)`（原本寫死渲染當下讀到的色號，切換深淺色或套用 token 後不會變，截圖中淺色頁面卻顯示深色值就是這個原因）；色號文字在主題切換、token／綁定覆寫寫入後自動重讀。
+
 ## 2026-11-05（六十）　套用 token 在預覽環境不生效（真正原因）
 
 - **症狀**：套用提案或在 Token 頁改色後，Token 頁欄位數值有變，但 Guideline、元件仍是預設色。
