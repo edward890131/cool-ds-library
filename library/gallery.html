@@ -12773,13 +12773,13 @@ function buildArticleCard(view){
     if(o.center)s+='<text x="60" y="50" class="cht-donut-sub" text-anchor="middle">完成率</text><text x="60" y="72" class="cht-donut-num" text-anchor="middle">46<tspan class="cht-donut-u">%</tspan></text>';
     return s+'</svg>';
   }
-  /* 半圓 semi：180° 弧（左→上→右），圓頭段、段間留縫；中央大數字壓在弧心下緣 */
+  /* 半圓 semi：180° 弧（左→上→右），平頭段、段間留細縫（同甜甜圈）；中央大數字壓在弧心下緣 */
   const chtPt=(cx,cy,r,a)=>[(cx+r*Math.cos(a)).toFixed(2),(cy+r*Math.sin(a)).toFixed(2)];
   function chtSemiSVG(o){
-    const cx=100,cy=100,r=86,sw=12,gap=0.13;let a=Math.PI,s='<svg viewBox="0 0 200 112" role="img" aria-label="半圓圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';
+    const cx=100,cy=100,r=86,sw=11.5,gap=Math.PI*2*.01;   /* 與甜甜圈同比例：環寬≈半徑 13.5%、段間縫＝圓周 1%、平頭 */let a=Math.PI,s='<svg viewBox="0 0 200 112" role="img" aria-label="半圓圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';
     CHT_DONUT_SEGS.forEach((g,gi)=>{const span=Math.PI*g.v/100;const a0=a+(gi?gap/2:0),a1=a+span-(gi<CHT_DONUT_SEGS.length-1?gap/2:0);
       const p0=chtPt(cx,cy,r,a0),p1=chtPt(cx,cy,r,a1);
-      s+='<path class="cht-seg" data-i="'+gi+'" d="M'+p0+'A'+r+' '+r+' 0 0 1 '+p1+'" fill="none" stroke="var('+g.c+')" stroke-width="'+sw+'" stroke-linecap="round"/>';a+=span;});
+      s+='<path class="cht-seg" data-i="'+gi+'" d="M'+p0+'A'+r+' '+r+' 0 0 1 '+p1+'" fill="none" stroke="var('+g.c+')" stroke-width="'+sw+'"/>';a+=span;});
     if(o.center)s+='<text x="100" y="66" class="cht-donut-sub" text-anchor="middle">完成率</text><text x="100" y="96" class="cht-donut-num cht-semi-num" text-anchor="middle">46<tspan class="cht-donut-u">%</tspan></text>';
     return s+'</svg>';
   }
@@ -14736,7 +14736,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'變數篩選器／Token 綁定／狀態一覽表展開收合改成高度補間＋內容淡入淡出，不再瞬間變 0'},
       {tag:'improve', t:'Slider 圓點縮小、軌道加粗（s：5px／12px；m：6px／14px）'},
       {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
-      {tag:'add', t:'Chart 新增 semi 半圓（180° 圓頭弧段）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
+      {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
