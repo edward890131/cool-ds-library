@@ -4240,6 +4240,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ds-badge-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:2px 6px;}
   .ds-badge-proj{font-weight:600;font-size:var(--fs-h11);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ds-badge-proj.full{max-width:none;overflow:visible;} /* 母庫提示文案完整呈現、不截斷 */
+  .topbar > .ds-badge-proj{position:relative;margin-left:var(--sp-3);padding-left:var(--sp-5);flex:0 1 auto;min-width:0;font-weight:var(--fw-medium);color:var(--muted);}  /* logo 右側：拉開距離＋淺細線分隔 */
+  .topbar > .ds-badge-proj::before{content:"";position:absolute;left:0;top:50%;width:1px;height:16px;transform:translateY(-50%);background:var(--line);}
   @media(max-width:900px){.ds-badge-proj,.ds-badge-lbl{display:none;}}
   @media(max-width:1199px){.ds-badge-proj.full{display:none;} .ss-trig{width:min(260px,26vw);}} /* 1024 附近 topbar 放不下母庫提示：先藏提示文案（側欄底部仍有同一句） */
   .ds-badge .gh-topbar{margin-right:var(--sp-2);}                       /* GitHub 入口與 CTA 間距 */
@@ -14744,6 +14746,7 @@ function buildScheduleChart(view){
       {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
+      {tag:'improve', t:'Header「此為母元件庫，若需更新請調整原始檔」移到 logo 右側，以淺色細線分隔'},
       {tag:'add', t:'Tag 新增 size 軸：s 22px（預設）／m 26px／l 32px；首頁步驟牌卡的 Step 標籤改用 m'},
       {tag:'improve', t:'首頁四個步驟說明改寫，具體寫出網站上的操作：編輯 token 數值、勾選元件與狀態樣式、即時預覽元件與程式碼、Token 綁定、匯出 Figma／SCSS'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
@@ -17707,6 +17710,7 @@ function buildScheduleChart(view){
       btn.onclick=()=>{ if(typeof FLW_UI!=='undefined'&&FLW_UI)return; if(location.hash==='#start')flwOpen(); else location.hash='start'; };} // 兩模式都 s
     wrap.appendChild(btn);
     tb.appendChild(wrap); // 匯出 badge 靠右（spacer 後）
+    { const pj=wrap.querySelector('#dsBadgeProj'),bd=tb.querySelector('.brand'); if(pj&&bd)bd.insertAdjacentElement('afterend',pj); }   // 母庫提示／專案名移到 logo 右側（細線分隔）
     updateBadgeVersion();
   }
   function applyProposal(p){
