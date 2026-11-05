@@ -15164,6 +15164,7 @@ function buildScheduleChart(view){
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
     {v:'v13', date:'2026-11-05', title:'元件修正', items:[
+      {tag:'fix', t:'版本紀錄頁只顯示最新幾筆：v11 內文含未跳脫的「&lt;style&gt;」字樣，被瀏覽器當成樣式標籤吞掉後面所有版本；改為跳脫'},
       {tag:'fix', t:'Dropdown 多選選單的勾選框改取用 Checkbox 原子（原本手刻，深色模式下勾勾與底色同為淺灰看不清）'},
     ]},
     {v:'v12', date:'2026-11-05', title:'Card 新增 5 種單張牌卡 · 牌卡整理', items:[
@@ -15184,7 +15185,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'Slider 圓點縮小、軌道加粗（s：5px／12px；m：6px／14px）'},
       {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
-      {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
+      {tag:'improve', t:'首頁「Code &lt;-&gt; Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
       {tag:'improve', t:'開新專案「重新開始」改為連網站一起回到元件庫預設（token、綁定、停用 token、元件勾選與軸篩選全部清掉）'},
       {tag:'improve', t:'字體堆疊補上 Noto Sans TC（Google Fonts 載入，緊接在 Geist／Epilogue 後）；Guideline 色塊圓角改 --r-sm，色塊與色號跟著主題切換／token 覆寫即時更新'},
@@ -15196,7 +15197,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'首頁四個步驟說明改寫，具體寫出網站上的操作：編輯 token 數值、勾選元件與狀態樣式、即時預覽元件與程式碼、Token 綁定、匯出 Figma／SCSS'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
       {tag:'fix', t:'token 覆寫寫入後抽查是否生效，沒生效時改以 inline style 套用（依主題／斷點重算），確保套用提案後全站換色'},
-      {tag:'fix', t:'預覽環境（artifact）擋掉動態 <style>，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
+      {tag:'fix', t:'預覽環境（artifact）擋掉動態 &lt;style&gt;，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
       {tag:'fix', t:'開新專案提案：色階與預覽改吃問卷色號；彩色主色在深色模式改用夠亮的色階，套用後全站元件與 Guideline 一起換色'},
       {tag:'fix', t:'Modal popup（確認框）上方內距改與左右、底部一致'},
       {tag:'fix', t:'首頁動態展示：折線圖自動 hover 示範只在牌卡內進行，不再把協作游標拉到圖表上'},
