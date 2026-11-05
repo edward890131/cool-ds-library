@@ -14765,6 +14765,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'improve', t:'開新專案「重新開始」改為連網站一起回到元件庫預設（token、綁定、停用 token、元件勾選與軸篩選全部清掉）'},
       {tag:'fix', t:'token 覆寫寫入後抽查是否生效，沒生效時改以 inline style 套用（依主題／斷點重算），確保套用提案後全站換色'},
       {tag:'improve', t:'字體堆疊補上 Noto Sans TC（Google Fonts 載入，緊接在 Geist／Epilogue 後）；Guideline 色塊圓角改 --r-sm，色塊與色號跟著主題切換／token 覆寫即時更新'},
       {tag:'fix', t:'預覽環境（artifact）擋掉動態 <style>，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
@@ -17924,6 +17925,15 @@ function buildScheduleChart(view){
       tokens:{overrides:{root,dark,desktop,tablet:{},mobile:{}},logo:{light:null,dark:null}},
       components:{selected,axes:{}},reasons:{tokens:why,components:selected.map(id=>({id,r:picks.get(id)}))}};
   }
+  /* 重新開始：網站回到元件庫預設——清 token 覆寫（含 inline 保底）、元件綁定、停用 token、需求匯總勾選、各元件軸篩選；背景頁重繪 */
+  function flwResetSite(){
+    window.__tokOverrides={root:{},dark:{},desktop:{},tablet:{},mobile:{}};applyTokOverrides();
+    window.__compBindings={};applyCompBindings();
+    window.__tokDisabled=new Set();
+    SUMSEL.clear();
+    Object.keys(DIAL_SPECS).forEach(id=>{const c=CHOICE[id];if(!c)return;DIAL_SPECS[id].order.forEach(k=>{const set=c.active[k];if(set&&set.clear){set.clear();DIAL_SPECS[id].axes[k].forEach(v=>set.add(v));}});});
+    try{const v=document.getElementById('view');const cur=window.__flwBg||(location.hash||'#home').slice(1);if(v&&cur&&cur!=='start')renderView(cur);}catch(e){}
+  }
   function flwApplyProposal(){
     const P=FLW.proposal;if(!P)return;
     window.__tokOverrides=JSON.parse(JSON.stringify(P.tokens.overrides));applyTokOverrides();  // 同 applyProposal：寫 window.__tokOverrides → 全站重新上色
@@ -18299,8 +18309,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const body=ce('div','mdl-content flw-body');const nav=ce('div','mdl-foot flw-nav');
     card.append(hd,body,nav);ovl.appendChild(card);
     FLW_UI={ovl,card,body,nav,prog,ret,rst,resume:!!(FLW.updated&&FLW.step>0)};
-    rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
-      onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();if(FLW_UI){FLW_UI.resume=false;flwRenderStep(true);}}});
+    rst.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案、提案和網站上已套用的 token、元件勾選都會清掉，回到元件庫預設。',okText:'清除並重來',cancelText:'取消',
+      onOk:()=>{flwResetSite();FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();if(FLW_UI){FLW_UI.resume=false;flwRenderStep(true);}}});
     x.onclick=()=>flwClose();
     /* 點遮罩：不關閉（避免誤觸丟掉進度），焦點留在對話框 */
     ovl.addEventListener('mousedown',e=>{if(e.target===ovl){e.preventDefault();if(!card.contains(document.activeElement))card.focus({preventScroll:true});}});
@@ -18565,8 +18575,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       const ex=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});ex.type='button';ex.classList.add('pjb-exp');
       const nx=mkBtn({variant:'solid',intent:'primary',size:'s',isLive:true,trail:true});nx.type='button';nx.classList.add('pjb-next');
       const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('pjb-rst');rs.querySelector('span').textContent='重新開始';
-      rs.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案與提案都會清掉，網站上已套用的 token 不會自動還原。',okText:'清除並重來',cancelText:'取消',
-        onOk:()=>{FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();flwOpen();}});   // 同流程內「重新開始」：清草稿後回到第 1 步
+      rs.onclick=()=>dsDialog({title:'清除這份草稿？',sub:'問卷答案、提案和網站上已套用的 token、元件勾選都會清掉，回到元件庫預設。',okText:'清除並重來',cancelText:'取消',
+        onOk:()=>{flwResetSite();FLW=flwBlank();FLW.active=true;FLW_FILES.length=0;flwSave();flwOpen();}});   // 同流程內「重新開始」：清草稿後回到第 1 步
       acts.append(rs,ex,nx);el.append(tg,cnt,acts);document.body.appendChild(el);el.__rs=rs;
       el.__tg=tg;el.__cnt=cnt;el.__ex=ex;el.__nx=nx;}
     const c=pjCounts(),last=FLW_STEPS.length-1;
