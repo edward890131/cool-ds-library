@@ -9121,7 +9121,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       menu.appendChild(searchInput);}
     const optEls={};
     OPTS.forEach(o=>{const it=ce('div','ddopt');it.setAttribute('role','option');it.tabIndex=-1;
-      if(opts.multi){const box=ce('span','ddcheck');const lab=document.createElement('span');lab.textContent=o.label;it.append(box,lab);}
+      if(opts.multi){const box=cbxEl('default','s');box.classList.add('dd-cbx');box.setAttribute('aria-hidden','true');const lab=document.createElement('span');lab.textContent=o.label;it.append(box,lab);}
       else it.textContent=o.label;
       it.onclick=()=>{ if(opts.multi){selected.has(o.value)?selected.delete(o.value):selected.add(o.value);syncMenu();renderTrg();opts.onChange&&opts.onChange([...selected]);}
         else{selected.clear();selected.add(o.value);syncMenu();renderTrg();toggle(false);trg.focus();opts.onChange&&opts.onChange(o.value);} };
@@ -9132,7 +9132,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
         x.onclick=e=>{e.stopPropagation();chip.classList.add('tg-out');afterAnim(chip,()=>{selected.delete(v);syncMenu();renderTrg();opts.onChange&&opts.onChange([...selected]);});};chip.appendChild(x);bodyEl.appendChild(chip);});}
       else{const val=ce('span','val');val.textContent=labelOf([...selected][0]);bodyEl.appendChild(val);}}
     function syncMenu(){OPTS.forEach(o=>{const el=optEls[o.value],on=selected.has(o.value);el.setAttribute('aria-selected',on?'true':'false');
-      if(opts.multi){el.classList.toggle('on',on);el.querySelector('.ddcheck').innerHTML=on?ICON_CHECK:'';}else el.classList.toggle('sel',on);});}
+      if(opts.multi){el.classList.toggle('on',on);const c=el.querySelector('.dd-cbx');if(c){c.classList.toggle('st-checked',on);c.classList.toggle('st-default',!on);c.innerHTML=on?ICON_CHECK:'';}}else el.classList.toggle('sel',on);});}
     let open=false;
     /* 開合（修正：原本只有 trigger 的 onclick 在切換，沒有任何「外點／Esc／焦點離開」的關閉路徑，trigger 也不能聚焦）。
        開啟時才在 document 掛 capture 監聽（pointerdown 外點、keydown Esc、focusin 焦點移出），關閉就拆掉，不累積；
@@ -15163,6 +15163,9 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v13', date:'2026-11-05', title:'元件修正', items:[
+      {tag:'fix', t:'Dropdown 多選選單的勾選框改取用 Checkbox 原子（原本手刻，深色模式下勾勾與底色同為淺灰看不清）'},
+    ]},
     {v:'v12', date:'2026-11-05', title:'Card 新增 5 種單張牌卡 · 牌卡整理', items:[
       {tag:'add', t:'Trend Card 趨勢卡：直式實心色塊（墨黑／紫／白／萊姆／綠，皆綁色階 token）＋手寫感編號＋大寫標題＋底部圓角圖；index／media 為 boolean'},
       {tag:'add', t:'Media Card 照片標籤卡：滿版照片＋大圓角＋右上磨砂膠囊標籤（Tag 原子）；比例 3 種，selected 虛線外框、tilt 傾斜為 boolean'},
