@@ -5177,6 +5177,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-cur{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:0;transition:opacity var(--dur-fast) var(--ease-out);--cur-c:var(--c-info-500);}
   .hx-cur.on{opacity:1;}
   .hx-cur svg{display:block;width:20px;height:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));}
+  .hx-cur.is-typing .hx-cur-tag::after{content:"";display:inline-block;width:1px;height:1em;margin-left:2px;vertical-align:-.12em;background:currentColor;}  /* 打字中游標 */
   .hx-cur-tag{position:absolute;left:16px;top:18px;padding:4px 12px;border-radius:var(--r-pill);background:var(--cur-c);color:var(--c-neutral-0);
     font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:var(--fw-semibold);line-height:1.4;white-space:nowrap;box-shadow:var(--e-md);}
   .hx.has-cur{cursor:none;} .hx.has-cur :is(a,button,input,[role=button],.btn,.hx-pgx){cursor:auto;} .hx.has-cur :is(a,button,[role=button],.btn){cursor:pointer;} .hx.has-cur .hx-tile,.hx.has-cur .hx-mq-vp{cursor:none;}
@@ -14746,6 +14747,7 @@ function buildScheduleChart(view){
       {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
+      {tag:'improve', t:'首頁協作游標標籤依段落換字（yuu／component／about／motion／how2use／highlight／feedback／question），切換時打字動態'},
       {tag:'improve', t:'Header「此為母元件庫，若需更新請調整原始檔」移到 logo 右側，以淺色細線分隔'},
       {tag:'add', t:'Tag 新增 size 軸：s 22px（預設）／m 26px／l 32px；首頁步驟牌卡的 Step 標籤改用 m'},
       {tag:'improve', t:'首頁四個步驟說明改寫，具體寫出網站上的操作：編輯 token 數值、勾選元件與狀態樣式、即時預覽元件與程式碼、Token 綁定、匯出 Figma／SCSS'},
@@ -16035,8 +16037,18 @@ function buildScheduleChart(view){
     document.body.appendChild(cur);let cx2=0,cy2=0,tx2=0,ty2=0,seen=false;const home=()=>hero.closest('.hx');requestAnimationFrame(()=>{const h=home();if(h)h.classList.add('has-cur');});   // 整個首頁都有協作游標
     const cloop=()=>{cx2+=(tx2-cx2)*.32;cy2+=(ty2-cy2)*.32;cur.style.transform='translate3d('+cx2.toFixed(1)+'px,'+cy2.toFixed(1)+'px,0)';
       if(Math.abs(tx2-cx2)>.3||Math.abs(ty2-cy2)>.3)requestAnimationFrame(cloop);else cur.__r=0;};
+    /* 游標標籤依段落換字（打字效果：先逐字刪到共同前綴，再逐字打出新字；減少動態時直接換） */
+    const CUR_LB=[['#hxHero','yuu'],['#hxWall','component'],['#hxStats','about'],['#hxShow','motion'],['#hxFlow','how2use'],['#hxFigma','highlight'],['#hxVoice','feedback'],['#hxNews','question']];
+    const ctag=cur.querySelector('.hx-cur-tag');let cWant='yuu',cT=0;
+    const cStep=()=>{cT=0;const now=ctag.textContent;
+      if(now===cWant){cur.classList.remove('is-typing');return;}
+      cur.classList.add('is-typing');
+      if(!cWant.startsWith(now)){ctag.textContent=now.slice(0,-1);cT=setTimeout(cStep,chtxMs('--dur-fast')*.25);}
+      else{ctag.textContent=cWant.slice(0,now.length+1);cT=setTimeout(cStep,chtxMs('--dur-fast')*.4);}};
+    const cSet=w=>{if(w===cWant)return;cWant=w;if(HX_REDUCE()){ctag.textContent=w;return;}if(!cT)cStep();};
     const onMove=e=>{if(!hero.isConnected){document.removeEventListener('pointermove',onMove);cur.remove();return;}
       if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;const h=home();if(!h||!h.contains(e.target)){cur.classList.remove('on');seen=false;return;}
+      {const hit=CUR_LB.find(([q])=>e.target.closest(q));if(hit)cSet(hit[1]);}
       if(hero.contains(e.target)){const r=bg.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;active=true;kick();}
       tx2=e.clientX;ty2=e.clientY;if(!seen){cx2=tx2;cy2=ty2;seen=true;}
       const over=!!e.target.closest('a,button,input,[role=button],.btn,.hx-pgx')&&!e.target.closest('.hx-tile');cur.classList.toggle('on',!over);
