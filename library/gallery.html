@@ -4987,7 +4987,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 外框＝library Modal（.mdl-overlay.mdl-fixed ＋ .mdl-card.mdl-kind-modal）：header 固定（標題＋stepper）、body 內部捲動、footer 固定（上一步／下一步）。
      間距一律走 4px 格線的 --sp-1/3/4/5/6/7；控制項高度統一 36px（= .field 原子高度）。 */
   .flw-ovl{z-index:1000;}
-  .flw-ovl .mdl-card.flw-m{max-width:960px;width:100%;max-height:90vh;max-height:90dvh;height:90vh;height:90dvh;}  /* 固定撐到最大高度，換步驟不跳動 */
+  .flw-ovl .mdl-card.flw-m{max-width:1000px;width:calc(100vw - 20vw);max-height:90vh;max-height:90dvh;height:90vh;height:90dvh;}  /* 固定撐到最大高度，換步驟不跳動 */
   /* ≥768：步驟改放左側（Steps 原子 vertical）；header 橫跨、右側＝內容＋底部操作 */
   @media (min-width:768px){
     .flw-ovl .flw-m.mdl-card{display:grid;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;}
@@ -5085,9 +5085,17 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .flw-why-v{color:var(--ink);text-align:right;overflow-wrap:anywhere;}
   .flw-why-r{grid-column:1 / -1;color:var(--muted);}
   .flw-preview{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-4);border-radius:var(--r-md);background:var(--panel-2);}
-  .flw-comp{max-height:420px;overflow:auto;}
+  .flw-comp{max-height:420px;overflow:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:var(--sp-4);}
+  .flw-cg-h{position:sticky;top:0;z-index:1;margin:0;display:flex;align-items:baseline;gap:var(--sp-2);padding:var(--sp-1) 0 var(--sp-2);background:var(--panel);font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--muted);letter-spacing:.02em;border-bottom:1px solid var(--line);}
+  .flw-cg-l{list-style:none;margin:0;padding:0;}
   .flw-comp li{display:flex;flex-direction:column;gap:var(--sp-1);padding:var(--sp-3) 0;border-top:1px solid var(--line);}
-  .flw-comp li:first-child{border-top:0;padding-top:0;}
+  .flw-comp li:first-child{border-top:0;}
+  /* ≥768 兩欄：建議元件高度跟左邊 Token 提案拉齊（右欄不撐高，清單在面板內捲動） */
+  @media (min-width:768px){
+    .flw-cols{align-items:stretch;}
+    .flw-panel.flw-panel-comp{contain:size;min-height:0;}
+    .flw-panel-comp .flw-comp{flex:1 1 0;min-height:0;max-height:none;}
+  }
   .flw-cn{font-size:var(--fs-h10);color:var(--ink);font-weight:var(--fw-medium);}
   .flw-cr{font-size:var(--fs-h11);color:var(--muted);}
   .flw-stack{display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;}
@@ -14755,6 +14763,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'improve', t:'開新專案：彈窗寬度改左右各留 10vw、最大 1000px；提案步驟的建議元件依分類分組，高度與 Token 提案拉齊'},
       {tag:'fix', t:'首頁動態展示：折線圖自動 hover 示範只在牌卡內進行，不再把協作游標拉到圖表上'},
       {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用柔色 soft Tag'},
       {tag:'improve', t:'Token 試玩：操作控制欄位時，整塊試玩（操作區＋預覽）出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
@@ -18394,8 +18403,14 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const t1=tagEl('solid','brand','default','round');t1.querySelector('span').textContent='主色標籤';const t2=tagEl('soft','brand2','default','round');t2.querySelector('span').textContent='副色標籤';pv.append(t1,t2);
     const pvl=ce('p','flw-note');pvl.textContent='預覽：套用後這裡和整個網站會一起換色。';tk.append(pvl,pv);
     const cp=ce('section','flw-panel');cp.innerHTML=`<h3 class="flw-ph">建議元件 <span class="flw-cnt">${P.components.selected.length} 個</span></h3>`;
-    const cl=ce('ul','flw-comp');P.reasons.components.forEach(c=>{const li=ce('li');const sp=DIAL_SPECS[c.id];li.innerHTML=`<span class="flw-cn">${flwEsc(sp?sp.label:c.id)}</span><span class="flw-cr">${flwEsc(c.r)}</span>`;cl.appendChild(li);});
-    cp.appendChild(cl);cols.append(tk,cp);
+    /* 依側欄分類（NAV group）分組；分組標題 sticky，清單在面板內捲動 */
+    const cl=ce('div','flw-comp');const grpOf=id=>{const g=NAV.find(g=>g.items.some(x=>x.id===id));return g?g.group:'其他';};
+    const byG=new Map();P.reasons.components.forEach(c=>{const k=grpOf(c.id);if(!byG.has(k))byG.set(k,[]);byG.get(k).push(c);});
+    const order=NAV.map(g=>g.group).concat(['其他']);
+    [...byG.keys()].sort((a,b)=>order.indexOf(a)-order.indexOf(b)).forEach(k=>{const sec=ce('section','flw-cg');const h=ce('h4','flw-cg-h');h.innerHTML=`<span>${flwEsc(k)}</span><span class="flw-cnt">${byG.get(k).length}</span>`;
+      const ul=ce('ul','flw-cg-l');byG.get(k).forEach(c=>{const li=ce('li');const sp=DIAL_SPECS[c.id];li.innerHTML=`<span class="flw-cn">${flwEsc(sp?sp.label:c.id)}</span><span class="flw-cr">${flwEsc(c.r)}</span>`;ul.appendChild(li);});
+      sec.append(h,ul);cl.appendChild(sec);});
+    cp.classList.add('flw-panel-comp');cp.appendChild(cl);cols.append(tk,cp);
     const act=ce('div','flw-apply');const st=ce('span','flw-note');st.setAttribute('aria-live','polite');
     const ap=flwBtn('solid','primary',FLW.applied?'重新套用提案':'套用到網站');
     const regen=flwBtn('outline','secondary','依問卷重算');
