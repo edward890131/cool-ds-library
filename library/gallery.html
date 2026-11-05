@@ -14765,6 +14765,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'fix', t:'token 覆寫寫入後抽查是否生效，沒生效時改以 inline style 套用（依主題／斷點重算），確保套用提案後全站換色'},
       {tag:'improve', t:'字體堆疊補上 Noto Sans TC（Google Fonts 載入，緊接在 Geist／Epilogue 後）；Guideline 色塊圓角改 --r-sm，色塊與色號跟著主題切換／token 覆寫即時更新'},
       {tag:'fix', t:'預覽環境（artifact）擋掉動態 <style>，導致套用提案／Token 頁改色後只有 Token 頁數值變、元件與 Guideline 不變；改以 CSSOM 寫入覆寫'},
       {tag:'fix', t:'開新專案提案：色階與預覽改吃問卷色號；彩色主色在深色模式改用夠亮的色階，套用後全站元件與 Guideline 一起換色'},
@@ -17420,8 +17421,26 @@ function buildScheduleChart(view){
   function tokTextRefresh(){requestAnimationFrame(()=>{const cs=getComputedStyle(document.documentElement);
     document.querySelectorAll('[data-tok]').forEach(el=>{const v=cs.getPropertyValue(el.dataset.tok).trim();if(v)el.textContent=v.toUpperCase();});});}
   new MutationObserver(tokTextRefresh).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  /* 最後保險：寫完 token 覆寫後抽查實際生效值；若樣式表路徑在此環境沒生效（computed 仍是舊值），改把覆寫直接寫到 <html> 的 inline style（CSSOM，任何環境都生效）。
+     inline 依目前主題／斷點合併：root ＋（深色時）dark ＋ 當前 tier；深色時略過 root 裡的 L2 light 值（--s-*），避免蓋掉深色定義。主題或斷點變了就重算。 */
+  const TOK_INLINE={on:false,keys:[]};
+  function tokInlineApply(){const R=document.documentElement,OV=window.__tokOverrides||{};
+    TOK_INLINE.keys.forEach(k=>R.style.removeProperty(k));TOK_INLINE.keys=[];if(!TOK_INLINE.on)return;
+    const dk=R.dataset.theme==='dark',w=innerWidth,m={};
+    Object.entries(OV.root||{}).forEach(([k,v])=>{if(dk&&/^--s-/.test(k))return;m[k]=v;});
+    if(dk)Object.assign(m,OV.dark||{});
+    Object.assign(m,(w>=1024?OV.desktop:w>=768?OV.tablet:OV.mobile)||{});
+    Object.entries(m).forEach(([k,v])=>{R.style.setProperty(k,v);TOK_INLINE.keys.push(k);});tokTextRefresh();}
+  function tokVerify(){const OV=window.__tokOverrides||{};const hexes=Object.entries(OV.root||{}).filter(([k,v])=>/^#[0-9a-f]{6}$/i.test(String(v).trim())&&!/^--s-/.test(k));
+    if(!hexes.length){if(TOK_INLINE.on){TOK_INLINE.on=false;tokInlineApply();}return;}
+    if(TOK_INLINE.on){tokInlineApply();return;}
+    const cs=getComputedStyle(document.documentElement);const bad=hexes.slice(0,3).some(([k,v])=>cs.getPropertyValue(k).trim().toLowerCase()!==String(v).trim().toLowerCase());
+    if(bad){TOK_INLINE.on=true;window.__tokApplyMode='inline';try{console.info('[cdl] token 覆寫改用 inline style 套用（樣式表路徑未生效）');}catch(e){}tokInlineApply();}
+    else window.__tokApplyMode='sheet';}
+  new MutationObserver(()=>{if(TOK_INLINE.on)tokInlineApply();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  {let rt;addEventListener('resize',()=>{if(!TOK_INLINE.on)return;clearTimeout(rt);rt=setTimeout(tokInlineApply,120);});}
   function dynCss(el,css){
-    el.textContent=css;setTimeout(tokTextRefresh,0);
+    el.textContent=css;setTimeout(tokTextRefresh,0);if(el.id==='tokenOverrides')setTimeout(tokVerify,0);
     const H=window.__dynCssRules||(window.__dynCssRules={}),id=el.id;
     let host=null;try{host=[...document.styleSheets].find(sh=>{try{return sh.ownerNode&&!sh.ownerNode.id&&sh.cssRules&&sh.cssRules.length>50;}catch(e){return false;}})||null;}catch(e){}
     if(host&&H[id]){H[id].forEach(r=>{const i=[...host.cssRules].indexOf(r);if(i>=0)try{host.deleteRule(i);}catch(e){}});}

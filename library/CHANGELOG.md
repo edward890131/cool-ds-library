@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-11-05（六十二）　token 覆寫加「生效抽查＋inline 保底」
+
+- 使用者環境回報：套用提案後專案浮動列顯示「已設定 31 項 token」（覆寫值確實存在），但 Guideline／元件仍是預設色；本機 Chromium（file://、http、模擬 CSP）皆無法重現。
+- 新增保底：每次寫入 `#tokenOverrides` 後抽查（取 root 層前 3 個 hex 值比對 computed）；若沒生效，改把覆寫直接寫到 `<html>` 的 inline style（`style.setProperty`，任何環境都生效），依目前主題／斷點合併 root＋dark＋當前 tier（深色時略過 root 的 L2 light `--s-*`），主題切換與視窗尺寸改變時重算。`window.__tokApplyMode` 會是 `sheet` 或 `inline`，主控台也會印出改用 inline 的提示，方便回報。
+
 ## 2026-11-05（六十一）　Noto Sans TC、Guideline 色塊
 
 - **字體**：`--font-sans`／`--font-display`／`--font-mono` 在英文字體後緊接 `'Noto Sans TC'`（原本排在 PingFang TC 之後、且沒載入網路字型，Windows／Android 會落到系統字）；head 以 Google Fonts 載入 Noto Sans TC 400–700；SCSS 樣式包的 `@import` 一併補上。
