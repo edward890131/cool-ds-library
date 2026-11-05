@@ -2728,8 +2728,15 @@
 .cht-line.cht-sz-s svg,.cht-curve.cht-sz-s svg,.cht-bar.cht-sz-s svg{width:170px;height:auto;}
 .cht-box.cht-wide.cht-sz-m svg{width:380px;}          /* Live／dashboard 加寬版 */
 .cht-box.cht-wide.cht-sz-s svg{width:210px;}
-.cht-donut.cht-sz-m svg{width:120px;height:auto;}
-.cht-donut.cht-sz-s svg{width:80px;height:auto;}
+.cht-donut.cht-sz-m svg{width:156px;height:auto;}
+.cht-donut.cht-sz-s svg{width:96px;height:auto;}
+.cht-pie.cht-sz-m svg{width:156px;height:auto;} .cht-pie.cht-sz-s svg{width:96px;height:auto;}
+.cht-semi.cht-sz-m svg{width:220px;height:auto;} .cht-semi.cht-sz-s svg{width:128px;height:auto;}
+.cht-box.cht-donut,.cht-box.cht-pie,.cht-box.cht-semi{flex-direction:column;align-items:center;gap:var(--sp-4);}
+.cht-pie-sl{stroke:var(--panel);stroke-width:1.2;stroke-linejoin:round;transition:opacity var(--dur-fast) var(--ease-out);}
+.cht-pie-lb{font-family:var(--font-sans);font-size:9px;font-weight:var(--fw-semibold);fill:var(--s-on-primary,#fff);pointer-events:none;font-variant-numeric:tabular-nums;}
+.cht-semi-num{font-size:30px;}
+.cht-donut-u{font-size:.55em;font-weight:var(--fw-medium);fill:var(--muted);}
 
 /* --- 互動繪圖區＋hover tooltip（folded 端點只在 hover 出現） --- */
 .cht-plot{position:relative;display:inline-block;max-width:100%;}
@@ -2750,8 +2757,8 @@
 .cht-tile-wide .cht-box,.cht-tile-wide .cht-plot,.cht-tile-wide .cht-plot svg{width:100%;}
 
 /* --- SVG 內文字（class 掛在 <text> 上，inline SVG 吃得到頁面 CSS；數字一律 tabular-nums） --- */
-.cht-donut-num{font-size:var(--fs-h7);font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
-.cht-donut-sub{font-size:var(--fs-h12);font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.04em;}
+.cht-donut-num{font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.cht-donut-sub{font-size:9px;font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.02em;}
 .cht-val{font-size:8.5px;font-weight:var(--fw-semibold);fill:var(--muted);font-variant-numeric:tabular-nums;}
 
 /* --- 矩陣格／Live 舞台的 dashboard tile 容器（panel 底＋細邊） --- */
@@ -2778,7 +2785,7 @@
 .cht-box.cht-sz-m .cht-fluid .cht-plot svg,.cht-box.cht-sz-s .cht-fluid .cht-plot svg{width:100%;height:auto;max-width:none;} /* 覆蓋舊的固定 300／380px */
 .cht-card .cht-plot{width:100%;}
 .cht-card .cht-line svg,.cht-card .cht-curve svg,.cht-card .cht-bar svg{width:100%;}
-.cht-card .cht-donut svg{width:110px;}
+.cht-card .cht-donut svg,.cht-card .cht-pie svg{width:140px;} .cht-card .cht-semi svg{width:200px;}
 @media(max-width:760px){.cht-card,.cht-card.cht-span-3{grid-column:span 6;}}
 
 /* --- Live 舞台 --- */
@@ -6491,7 +6498,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     'invite-card':{label:'Invite Card 邀請協作卡',order:['layout','members'],axes:{layout:['card','modal'],members:['empty','list']},zh:{layout:{card:'頁內卡片',modal:'對話框'},members:{empty:'空',list:'成員清單'},axisName:{layout:'Layout 版型',members:'Members 成員'}}},
     'widget-card':{label:'Widget Card 小工具卡',order:['kind'],axes:{kind:['message','todo','group','welcome','date']},zh:{kind:{message:'訊息',todo:'今日待辦',group:'群組訊息',welcome:'歡迎回來',date:'日期'},axisName:{kind:'Kind 種類'}}},
     table:{label:'Table 資料表格',order:['variant','density'],axes:{variant:['bordered','striped','plain'],density:['comfortable','compact']},zh:{variant:{bordered:'格線',striped:'斑馬紋',plain:'簡潔'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{variant:'Variant 型態',density:'Density 密度'}}},
-    chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut','spark','brush','area-stack','bar-stack','combo','bar-rank','gauge','funnel','heatmap'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈',spark:'趨勢小圖卡',brush:'刷選縮放折線','area-stack':'堆疊面積圖','bar-stack':'堆疊長條',combo:'長條＋折線組合圖','bar-rank':'橫向排名長條',gauge:'儀表',funnel:'漏斗圖',heatmap:'熱力圖'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
+    chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut','semi','pie','spark','brush','area-stack','bar-stack','combo','bar-rank','gauge','funnel','heatmap'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈',semi:'半圓',pie:'實心圓餅',spark:'趨勢小圖卡',brush:'刷選縮放折線','area-stack':'堆疊面積圖','bar-stack':'堆疊長條',combo:'長條＋折線組合圖','bar-rank':'橫向排名長條',gauge:'儀表',funnel:'漏斗圖',heatmap:'熱力圖'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
     'tree-view':{label:'Tree View 樹狀',order:['variant','state'],axes:{variant:['lines','plain','checkbox'],state:['default','hover','selected']},zh:{variant:{lines:'連接線',plain:'無線',checkbox:'勾選樹'},state:{default:'預設',hover:'滑過',selected:'選取'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
     'schedule-chart':{label:'Schedule Chart 排程圖',order:['variant','size'],axes:{variant:['gantt','week','timeline'],size:['m','s']},zh:{variant:{gantt:'甘特圖',week:'週排程',timeline:'時間軸'},size:{m:'標準',s:'精簡'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
     calendar:{label:'Calendar 日曆時間',order:['variant','size'],axes:{variant:['month','range','time'],size:['m','s']},zh:{variant:{month:'月曆',range:'區間',time:'時間'},size:{m:'M',s:'S'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}}
@@ -12754,16 +12761,36 @@ function buildArticleCard(view){
     svg.addEventListener('mouseleave',()=>{hl.style.opacity='0';tip.classList.remove('on');svg.querySelectorAll('.cht-b.is-dim').forEach(r=>r.classList.remove('is-dim'));});
   }
   /* 甜甜圈 SVG：pathLength=100 ＋ stroke-dasharray 分段畫環（各段綁 intent 色 token），o.center 顯示中央百分比 */
-  function chtDonutSVG(o){
+  function chtDonutSVG(o){   /* 2026-11-05 細緻化：環寬 15→7（約直徑 6%）、半徑 46→52、段間留 1% 細縫；中央改「小標在上＋大數字」 */
     let off=0,s='<svg viewBox="0 0 120 120" role="img" aria-label="甜甜圈圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';
     s+='<g transform="rotate(-90 60 60)">'; // 轉 -90 度讓第一段從 12 點鐘開始
+    const GAP=1;
     CHT_DONUT_SEGS.forEach((g,gi)=>{
-      s+='<circle class="cht-seg" data-i="'+gi+'" cx="60" cy="60" r="46" fill="none" stroke="var('+g.c+')" stroke-width="15" pathLength="100" stroke-dasharray="'+g.v+' '+(100-g.v)+'" stroke-dashoffset="'+(-off)+'"/>';
+      s+='<circle class="cht-seg" data-i="'+gi+'" cx="60" cy="60" r="52" fill="none" stroke="var('+g.c+')" stroke-width="7" pathLength="100" stroke-dasharray="'+(g.v-GAP)+' '+(100-g.v+GAP)+'" stroke-dashoffset="'+(-off)+'"/>';
       off+=g.v;
     });
     s+='</g>';
-    if(o.center)s+='<text x="60" y="58" class="cht-donut-num" text-anchor="middle">46%</text><text x="60" y="75" class="cht-donut-sub" text-anchor="middle">完成率</text>';
+    if(o.center)s+='<text x="60" y="50" class="cht-donut-sub" text-anchor="middle">完成率</text><text x="60" y="72" class="cht-donut-num" text-anchor="middle">46<tspan class="cht-donut-u">%</tspan></text>';
     return s+'</svg>';
+  }
+  /* 半圓 semi：180° 弧（左→上→右），圓頭段、段間留縫；中央大數字壓在弧心下緣 */
+  const chtPt=(cx,cy,r,a)=>[(cx+r*Math.cos(a)).toFixed(2),(cy+r*Math.sin(a)).toFixed(2)];
+  function chtSemiSVG(o){
+    const cx=100,cy=100,r=86,sw=12,gap=0.13;let a=Math.PI,s='<svg viewBox="0 0 200 112" role="img" aria-label="半圓圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';
+    CHT_DONUT_SEGS.forEach((g,gi)=>{const span=Math.PI*g.v/100;const a0=a+(gi?gap/2:0),a1=a+span-(gi<CHT_DONUT_SEGS.length-1?gap/2:0);
+      const p0=chtPt(cx,cy,r,a0),p1=chtPt(cx,cy,r,a1);
+      s+='<path class="cht-seg" data-i="'+gi+'" d="M'+p0+'A'+r+' '+r+' 0 0 1 '+p1+'" fill="none" stroke="var('+g.c+')" stroke-width="'+sw+'" stroke-linecap="round"/>';a+=span;});
+    if(o.center)s+='<text x="100" y="66" class="cht-donut-sub" text-anchor="middle">完成率</text><text x="100" y="96" class="cht-donut-num cht-semi-num" text-anchor="middle">46<tspan class="cht-donut-u">%</tspan></text>';
+    return s+'</svg>';
+  }
+  /* 實心 pie：扇形以面板色細線分隔，≥10% 的扇形內標百分比（文字色 --s-on-primary） */
+  function chtPieSVG(o){
+    const c=60,r=56;let a=-Math.PI/2,s='<svg viewBox="0 0 120 120" role="img" aria-label="圓餅圖：任務狀態分布，已完成 46%、進行中 26%、待處理 18%、逾期 10%">';let lb='';
+    CHT_DONUT_SEGS.forEach((g,gi)=>{const span=2*Math.PI*g.v/100;const p0=chtPt(c,c,r,a),p1=chtPt(c,c,r,a+span);
+      s+='<path class="cht-seg cht-pie-sl" data-i="'+gi+'" d="M'+c+' '+c+'L'+p0+'A'+r+' '+r+' 0 '+(span>Math.PI?1:0)+' 1 '+p1+'Z" fill="var('+g.c+')"/>';
+      if(o.labels!==false&&g.v>=10){const m=chtPt(c,c,r*.62,a+span/2);lb+='<text x="'+m[0]+'" y="'+m[1]+'" class="cht-pie-lb" text-anchor="middle" dominant-baseline="central">'+g.v+'%</text>';}
+      a+=span;});
+    return s+lb+'</svg>';
   }
   /* 甜甜圈 hover：跟折線／長條一樣浮 .cht-tip tooltip（label＋%），不動中央數字、不 focus 段 */
   function chtDonutHover(box){
@@ -12827,9 +12854,9 @@ function buildArticleCard(view){
       box.appendChild(chtFluid(chtBarNode,{w:s?170:340,h:s?76:150,
         series2:o.series2===undefined?!s:o.series2,
         vals:!!o.vals,xaxis:!!o.xaxis,yaxis:!!o.yaxis,interactive:!!o.interactive}));
-    }else{ // donut
+    }else{ // donut／semi 半圓／pie 實心
       const center=o.center===undefined?true:o.center;
-      box.innerHTML=chtDonutSVG({center});
+      box.innerHTML=variant==='pie'?chtPieSVG({labels:o.labels===undefined?!s:o.labels}):variant==='semi'?chtSemiSVG({center}):chtDonutSVG({center});
       chtDonutHover(box); // 滑段浮 tooltip（同折線／長條）
       if(o.legend===undefined?!s:o.legend)box.appendChild(chtLegend());
     }
@@ -12848,7 +12875,7 @@ function buildArticleCard(view){
     '趨勢 trend':'stat','單位 unit':'stat',
     '面積填充 area':['line','curve'],'漸層填充 gradient':['line','curve'],'格線 grid':['line','curve'],'X 軸月份':['line','curve'],'Y 軸數值':['line','curve'],
     '第二系列 series2':'bar','數值標 values':'bar','X 軸星期':'bar','Y 軸數量':'bar',
-    '中央數字 center':'donut','圖例 legend':'donut'
+    '中央數字 center':['donut','semi'],'圖例 legend':['donut','semi','pie'],'扇形百分比 labels':'pie'
   };
   function chtScopeBools(host,variant){
     requestAnimationFrame(()=>{ // render 回傳後控制列才在 DOM，延一拍再掃
@@ -12868,7 +12895,7 @@ function buildArticleCard(view){
      色彩：系列 1＝--accent（chart scope＝--c-brand2-500）、2–4＝--s-chart-2..4、熱力色階＝--s-chart-seq-0..5、門檻＝--s-feedback-*；動態讀 --dur-*／--ease-out。 */
   const CHTX={};
   const CHTX_GROUPS=[
-    {k:'base',t:'基礎',d:'單一數字與單一系列',vs:['stat','line','curve','bar','donut']},
+    {k:'base',t:'基礎',d:'單一數字與單一系列',vs:['stat','line','curve','bar','donut','semi','pie']},
     {k:'trend',t:'趨勢',d:'看數字隨時間怎麼走：切區間、縮放長時間序列',vs:['spark','brush']},
     {k:'comp',t:'組成',d:'總數由哪些部分組成、比例怎麼變',vs:['area-stack','bar-stack']},
     {k:'cmp',t:'比較',d:'多個項目或兩種指標放在一起比',vs:['combo','bar-rank']},
@@ -13282,8 +13309,8 @@ function buildArticleCard(view){
 
   function buildChart(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Chart',title:'Chart 圖表',
-      lede:'儀表板圖表共 <b>14 型</b>，依用途分五段：<b>基礎</b>（stat 統計數字＝重用 <b>prMetricEl</b>、line 折線、curve 曲線、bar 長條、donut 甜甜圈）、<b>趨勢</b>（spark KPI 趨勢小圖卡、brush 刷選縮放折線）、<b>組成</b>（area-stack 堆疊面積、bar-stack 堆疊長條）、<b>比較</b>（combo 長條＋折線、bar-rank 橫向排名）、<b>進度與分布</b>（gauge 儀表、funnel 漏斗、heatmap 熱力圖）。× 兩尺寸：<b>m 標準</b>＝完整配置、<b>s 精簡</b>＝收座標軸／圖例／切換的小卡版。全部 <b>inline SVG 手刻</b>、無外部 lib；系列 1 綁 <code>--accent</code>（chart 內＝品牌橘），系列 2–4 綁 <code>--s-chart-2..4</code>，熱力色階 <code>--s-chart-seq-*</code>，狀態只用 <code>--s-feedback-*</code>；卡內切換重用 <b>Segmented</b>、圖例與漲跌重用 <b>.tg</b>，數字一律 <code>tabular-nums</code>。',
-      specRows:[['axes','<code>variant × size</code>'],['formula','<code>14 × 2 = 28</code>'],['token-policy','<code>--accent / --s-chart-2..4 / --s-chart-seq-0..5 / --s-feedback-*</code>'],['tech','<code>inline SVG 手刻 · tabular-nums · --dur-* / --ease-out</code>']]});
+      lede:'儀表板圖表共 <b>16 型</b>，依用途分五段：<b>基礎</b>（stat 統計數字＝重用 <b>prMetricEl</b>、line 折線、curve 曲線、bar 長條、donut 甜甜圈、semi 半圓、pie 實心圓餅）、<b>趨勢</b>（spark KPI 趨勢小圖卡、brush 刷選縮放折線）、<b>組成</b>（area-stack 堆疊面積、bar-stack 堆疊長條）、<b>比較</b>（combo 長條＋折線、bar-rank 橫向排名）、<b>進度與分布</b>（gauge 儀表、funnel 漏斗、heatmap 熱力圖）。× 兩尺寸：<b>m 標準</b>＝完整配置、<b>s 精簡</b>＝收座標軸／圖例／切換的小卡版。全部 <b>inline SVG 手刻</b>、無外部 lib；系列 1 綁 <code>--accent</code>（chart 內＝品牌橘），系列 2–4 綁 <code>--s-chart-2..4</code>，熱力色階 <code>--s-chart-seq-*</code>，狀態只用 <code>--s-feedback-*</code>；卡內切換重用 <b>Segmented</b>、圖例與漲跌重用 <b>.tg</b>，數字一律 <code>tabular-nums</code>。',
+      specRows:[['axes','<code>variant × size</code>'],['formula','<code>16 × 2 = 32</code>'],['token-policy','<code>--accent / --s-chart-2..4 / --s-chart-seq-0..5 / --s-feedback-*</code>'],['tech','<code>inline SVG 手刻 · tabular-nums · --dur-* / --ease-out</code>']]});
     const axes=DIAL_SPECS.chart.axes, zh=DIAL_SPECS.chart.zh, active=CHOICE.chart.active; // 接中央 store
     const VN={};axes.variant.forEach(v=>VN[v]=[zh.variant[v]||v,v]);
     const SZN={m:['標準','m'],s:['精簡','s']};
@@ -13321,7 +13348,7 @@ function buildArticleCard(view){
         statTrend:true,statUnit:false,
         lineArea:true,lineGrid:true,lineXcat:true,lineYval:true,lineGrad:false,
         barSeries2:true,barVals:false,barXcat:true,barYval:true,
-        donutCenter:true,donutLegend:true,
+        donutCenter:true,donutLegend:true,pieLabels:true,
         sparkLine:true,sparkPeriod:true,brushMA:true,areaSeries:'4',areaToggle:true,stackScale:'count',comboLayout:'split',
         rankSort:'desc',rankVals:true,gaugeTarget:true,funnelStages:'5',funnelRates:true,heatSteps:'6',heatLegend:true},
       segs:[{key:'variant',label:'Variant',as:'select',options:vOpts,labels:vOpts.map(v=>zh.variant[v]||v)}, // BENTO-ALL:v1 圖表類型太多→下拉
@@ -13335,7 +13362,7 @@ function buildArticleCard(view){
       bools:[{key:'statTrend',label:'趨勢 trend'},{key:'statUnit',label:'單位 unit'},
              {key:'lineArea',label:'面積填充 area'},{key:'lineGrad',label:'漸層填充 gradient'},{key:'lineGrid',label:'格線 grid'},{key:'lineXcat',label:'X 軸月份'},{key:'lineYval',label:'Y 軸數值'},
              {key:'barSeries2',label:'第二系列 series2'},{key:'barVals',label:'數值標 values'},{key:'barXcat',label:'X 軸星期'},{key:'barYval',label:'Y 軸數量'},
-             {key:'donutCenter',label:'中央數字 center'},{key:'donutLegend',label:'圖例 legend'},
+             {key:'donutCenter',label:'中央數字 center'},{key:'donutLegend',label:'圖例 legend'},{key:'pieLabels',label:'扇形百分比 labels'},
              {key:'sparkLine',label:'小圖 sparkline'},{key:'sparkPeriod',label:'區間切換 period'},{key:'brushMA',label:'7 日平均 moving-avg'},
              {key:'areaToggle',label:'圖例可切換 legend toggle'},{key:'rankVals',label:'排名數值 values'},{key:'gaugeTarget',label:'目標線 target'},
              {key:'funnelRates',label:'步驟轉換率 rates'},{key:'heatLegend',label:'色階圖例 legend'}],
@@ -13355,13 +13382,13 @@ function buildArticleCard(view){
         else if(st.variant==='line')node=chtChart('line',st.size,{area:st.lineArea,grad:st.lineGrad,grid:st.lineGrid,xaxis:st.lineXcat,yaxis:st.lineYval,interactive:true,wide:true});
         else if(st.variant==='curve')node=chtChart('curve',st.size,{area:st.lineArea,grad:st.lineGrad,grid:st.lineGrid,xaxis:st.lineXcat,yaxis:st.lineYval,interactive:true,wide:true});
         else if(st.variant==='bar')node=chtChart('bar',st.size,{series2:st.barSeries2,vals:st.barVals,xaxis:st.barXcat,yaxis:st.barYval,interactive:true,wide:true});
-        else node=chtChart('donut',st.size,{center:st.donutCenter,legend:st.donutLegend});
+        else node=chtChart(st.variant,st.size,{center:st.donutCenter,legend:st.donutLegend,labels:st.pieLabels});
         const tile=ce('div','cht-tile'+(st.variant==='line'||st.variant==='curve'||st.variant==='bar'?' cht-tile-wide':''));tile.appendChild(node);
         stage.appendChild(tile);
         return stage;
       },
-      note:'↓ 基礎五型精簡尺寸快速對照（sparkline 式簡配）。系列色全綁 token（--accent／--s-chart-2..4／--s-feedback-*），明暗模式自動跟切；進階圖表的動態時長讀 --dur-*、曲線讀 --ease-out，系統開「減少動態」時直接跳到終點。',
-      free:()=>['stat','line','curve','bar','donut'].map(v=>{const t=ce('div','cht-tile');t.appendChild(chtChart(v,'s',{}));return t;})
+      note:'↓ 基礎七型精簡尺寸快速對照（sparkline 式簡配）。系列色全綁 token（--accent／--s-chart-2..4／--s-feedback-*），明暗模式自動跟切；進階圖表的動態時長讀 --dur-*、曲線讀 --ease-out，系統開「減少動態」時直接跳到終點。',
+      free:()=>['stat','line','curve','bar','donut','semi','pie'].map(v=>{const t=ce('div','cht-tile');t.appendChild(chtChart(v,'s',{}));return t;})
     });
   }
 
@@ -14709,6 +14736,8 @@ function buildScheduleChart(view){
       {tag:'improve', t:'變數篩選器／Token 綁定／狀態一覽表展開收合改成高度補間＋內容淡入淡出，不再瞬間變 0'},
       {tag:'improve', t:'Slider 圓點縮小、軌道加粗（s：5px／12px；m：6px／14px）'},
       {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
+      {tag:'add', t:'Chart 新增 semi 半圓（180° 圓頭弧段）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
+      {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
     ]},
