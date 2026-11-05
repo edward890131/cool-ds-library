@@ -3614,7 +3614,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .crs-vp:focus-visible{box-shadow:0 0 0 2px var(--accent);}
   .crs-track{display:flex;transition:transform calc(var(--dur-default) * 1.4) var(--ease-out);}
   .crs-track.is-drag{transition:none;}
-  .crs-slide{flex:0 0 100%;aspect-ratio:16 / 7;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--sp-1);padding:var(--sp-5);
+  .crs-slide{background-size:cover;background-position:center 35%;flex:0 0 100%;aspect-ratio:16 / 7;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--sp-1);padding:var(--sp-5);
     color:#FFFFFF;user-select:none;}
   .crs-slide b{font-size:var(--fs-h8);font-weight:var(--fw-semibold);} .crs-slide span{font-size:var(--fs-h11);opacity:.85;}
   .crs-s0{background:linear-gradient(135deg,var(--c-brand2-500),var(--c-brand2-800));}
@@ -6038,6 +6038,180 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media (prefers-reduced-motion:reduce){
     .psc *,.bpf *,.mtc *,.ivc *,.wdg *,.mtc .b,.mtc .mtc-band{transition:none !important;animation:none !important;}
   }
+  /* ===== CARDS5:v1 · Card 卡片第三批：5 種單張牌卡（trend／media／weather／player／ticket，2026-11-05）=====
+     全部走 token：色＝--c-*／--panel／--ink、圓角＝--r-*（各卡有 --xxx-radius 槽）、間距＝--sp-*、字級＝--fs-*、陰影＝--e-*、動態＝--dur-*／--ease-*。
+     寬度一律 width:固定偏好寬 + max-width:100%，手機上隨容器縮。 */
+  .trd,.mdc,.wtc,.plc,.tkc{box-sizing:border-box;font-family:var(--font-sans);text-align:left;min-width:0;}
+  .trd *,.mdc *,.wtc *,.plc *,.tkc *{box-sizing:border-box;}
+
+  /* ---------- trend-card 趨勢卡：直式實心色塊＋手寫感編號＋大寫標題＋底部圓角圖 ---------- */
+  .trd{--trd-bg:var(--c-brand-800);--trd-fg:var(--c-neutral-0);position:relative;display:flex;flex-direction:column;width:var(--trd-w,240px);max-width:100%;aspect-ratio:5/7;
+    padding:var(--trd-pad,var(--sp-5));border-radius:var(--trd-radius,var(--r-lg));background:var(--trd-bg);color:var(--trd-fg);box-shadow:var(--e-md);
+    border:1px solid color-mix(in srgb,var(--trd-fg) 8%,transparent);overflow:hidden;
+    transition:transform calc(var(--dur-default) * 1.4) var(--ease-spring),box-shadow var(--dur-default) var(--ease-out);}
+  .trd-t-violet{--trd-bg:var(--c-violet-400);--trd-fg:var(--c-neutral-900);}
+  .trd-t-white{--trd-bg:var(--c-neutral-0);--trd-fg:var(--c-neutral-900);border-color:color-mix(in srgb,var(--c-neutral-900) 10%,transparent);}
+  .trd-t-lime{--trd-bg:color-mix(in srgb,var(--c-warning-300) 62%,var(--c-success-300));--trd-fg:var(--c-neutral-900);}
+  .trd-t-green{--trd-bg:var(--c-success-400);--trd-fg:var(--c-neutral-900);}
+  .trd-no{display:block;font-family:var(--font-display);font-weight:var(--fw-semibold);font-size:var(--fs-h6);line-height:1;letter-spacing:-.02em;width:max-content;
+    color:color-mix(in srgb,var(--trd-fg) 40%,transparent);font-variant-numeric:tabular-nums;}  /* 編號：正體、實心淡字（不傾斜、不描邊） */
+  .trd-title{margin:var(--sp-4) 0 0;font-family:var(--font-display);font-size:var(--trd-title-fs,var(--fs-h8));font-weight:var(--fw-medium);line-height:var(--lh-snug);
+    letter-spacing:.01em;text-transform:uppercase;color:var(--trd-fg);overflow-wrap:anywhere;}
+  .trd-title span{display:block;}
+  .trd-media{margin-top:auto;aspect-ratio:4/3;border-radius:var(--r-xs);overflow:hidden;background:color-mix(in srgb,var(--trd-fg) 12%,transparent);}
+  .trd-media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform calc(var(--dur-slow) * 1.6) var(--ease-out);}
+  .trd.no-media .trd-title{margin-top:auto;font-size:var(--fs-h6);line-height:var(--lh-tight);}
+  .trd.live{cursor:pointer;}
+  .trd.live:hover,.trd.live:focus-visible{transform:translateY(-6px) rotate(-2deg);box-shadow:var(--e-xl);}
+  .trd.live:hover .trd-media img,.trd.live:focus-visible .trd-media img{transform:scale(1.06);}
+  .trd.live:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  /* ---------- media-card 照片標籤卡：滿版照片＋大圓角＋右上半透明膠囊；selected＝虛線外框；tilt＝傾斜 ---------- */
+  .mdc{position:relative;display:block;width:var(--mdc-w,280px);max-width:100%;aspect-ratio:4/5;border-radius:var(--mdc-radius,var(--r-lg));overflow:hidden;
+    background:var(--panel-2);box-shadow:var(--e-lg);outline:2px dashed transparent;outline-offset:3px;
+    transition:transform calc(var(--dur-default) * 1.4) var(--ease-spring),outline-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-default) var(--ease-out);}
+  .mdc-r-square{aspect-ratio:1/1;} .mdc-r-landscape{aspect-ratio:4/3;width:var(--mdc-w-wide,340px);}
+  .mdc > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%;transition:transform calc(var(--dur-slow) * 1.6) var(--ease-out);}
+  .mdc.is-selected{outline-color:var(--accent2);}
+  .mdc.is-tilt{transform:rotate(-4deg);}
+  .mdc-lab{position:absolute;top:var(--sp-4);right:var(--sp-4);z-index:1;}
+  /* 照片上的膠囊：Tag 原子＋深色磨砂修飾（固定白字，不隨主題翻色） */
+  .tg.tg-smoke{height:26px;padding:0 var(--sp-4);font-size:var(--fs-h11);font-weight:var(--fw-medium);letter-spacing:.04em;text-transform:uppercase;
+    background:color-mix(in srgb,var(--c-neutral-700) 55%,transparent);border-color:transparent!important;-webkit-backdrop-filter:blur(10px) saturate(1.3);backdrop-filter:blur(10px) saturate(1.3);}
+  .tg.tg-smoke span{color:var(--c-neutral-0);}
+  .mdc.live{cursor:pointer;}
+  .mdc.live:hover{transform:scale(1.02);box-shadow:var(--e-xl);} .mdc.live:hover > img{transform:scale(1.05);}
+  .mdc.live.is-tilt:hover{transform:rotate(0deg) scale(1.02);}
+  .mdc.live:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .mdc.live.is-selected:focus-visible{outline:2px dashed var(--accent2);}
+
+  /* ---------- weather-card 天氣卡：info 色階漸層＋超大溫度＋磨砂五日列（Segmented 原子） ---------- */
+  .wtc{--wtc-a:var(--c-info-600);--wtc-b:var(--c-info-400);--wtc-fg:var(--c-neutral-0);--wtc-sub:color-mix(in srgb,var(--c-neutral-0) 78%,transparent);
+    position:relative;display:flex;flex-direction:column;width:var(--wtc-w,360px);max-width:100%;padding:var(--wtc-pad,var(--sp-6)) var(--wtc-pad,var(--sp-6)) var(--sp-4);
+    border-radius:var(--wtc-radius,var(--r-lg));color:var(--wtc-fg);overflow:hidden;isolation:isolate;box-shadow:var(--e-lg);
+    background:radial-gradient(120% 70% at 100% 100%,color-mix(in srgb,var(--c-neutral-0) 26%,transparent),transparent 60%),linear-gradient(165deg,var(--wtc-a),var(--wtc-b));
+    transition:background var(--dur-slow) var(--ease-out);}
+  .wtc-c-cloudy{--wtc-a:color-mix(in srgb,var(--c-info-700) 55%,var(--c-neutral-600));--wtc-b:color-mix(in srgb,var(--c-info-400) 45%,var(--c-neutral-400));}
+  .wtc-c-rain{--wtc-a:var(--c-info-800);--wtc-b:color-mix(in srgb,var(--c-info-600) 70%,var(--c-neutral-500));}
+  .wtc-c-storm{--wtc-a:var(--c-violet-900);--wtc-b:var(--c-violet-600);}
+  .wtc-city{font-size:var(--fs-h7);font-weight:var(--fw-medium);line-height:var(--lh-snug);}
+  .wtc-day{margin-top:2px;font-size:var(--fs-h10);color:var(--wtc-sub);}
+  .wtc-mid{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);margin-top:var(--sp-4);}
+  .wtc-temp{display:inline-flex;align-items:flex-start;font-size:var(--wtc-temp-fs,calc(var(--fs-h1) * 1.2));font-weight:var(--fw-regular);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;}
+  .wtc-temp .chtx-roll{line-height:1;}
+  .wtc-ic{display:inline-flex;flex:0 0 auto;width:var(--sp-9);height:var(--sp-9);color:var(--c-neutral-0);margin-right:var(--sp-3);}
+  .wtc-ic svg{width:100%;height:100%;}
+  .wtc-c-sunny .wtc-ic,.wtc-c-storm .wtc-ic{color:var(--c-warning-300);}
+  .wtc-cond{margin-top:var(--sp-4);}
+  .wtc-cn{font-size:var(--fs-h9);font-weight:var(--fw-medium);}
+  .wtc-hl{margin-top:2px;font-size:var(--fs-h10);color:var(--wtc-sub);font-variant-numeric:tabular-nums;}
+  /* 五日列：Segmented 原子的「磨砂玻璃」情境樣式（半透明白軌＋白色滑塊、icon 疊在字上） */
+  .sgm.wtc-fc{margin:var(--sp-5) calc(var(--sp-3) * -1) 0;padding:var(--sp-1);--sgm-radius:var(--r-xl);
+    background:color-mix(in srgb,var(--c-neutral-900) 14%,transparent);border:1px solid color-mix(in srgb,var(--c-neutral-0) 16%,transparent);
+    -webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3);}
+  .sgm.wtc-fc .sgm-it{flex-direction:column;gap:var(--sp-1);height:auto;padding:var(--sp-3) 0;min-width:0;font-size:var(--fs-h10);font-weight:var(--fw-medium);color:var(--wtc-sub);}
+  .sgm.wtc-fc .sgm-it:hover:not(.is-active){color:var(--c-neutral-0);}
+  .sgm.wtc-fc .sgm-it.is-active{color:var(--c-neutral-0);}
+  .sgm.wtc-fc .sgm-ic svg{width:18px;height:18px;}
+  .sgm.wtc-fc .sgm-ind{top:var(--sp-1);bottom:var(--sp-1);background:color-mix(in srgb,var(--c-neutral-0) 24%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-neutral-0) 18%,transparent);}
+  .sgm.wtc-fc .sgm-it:focus-visible{outline-color:var(--c-neutral-0);}
+
+  /* ---------- player-card 音樂播放卡：token 漸層封面＋Slider 進度＋Button 控制＋Avatar 群組 ---------- */
+  .plc{display:flex;flex-direction:column;width:var(--plc-w,360px);max-width:100%;padding:var(--plc-pad,var(--sp-5));border-radius:var(--plc-radius,var(--r-lg));color:var(--ink);
+    background:radial-gradient(90% 60% at 100% 0%,color-mix(in srgb,var(--c-violet-500) 16%,transparent),transparent 70%),
+      radial-gradient(70% 50% at 0% 70%,color-mix(in srgb,var(--c-info-500) 10%,transparent),transparent 70%),var(--panel);
+    border:1px solid color-mix(in srgb,var(--line) 60%,transparent);box-shadow:var(--e-lg);}
+  .plc-art{width:45%;max-width:132px;aspect-ratio:1;border-radius:var(--r-xs);box-shadow:var(--e-md),inset 0 0 0 1px color-mix(in srgb,var(--c-neutral-0) 18%,transparent);
+    background:radial-gradient(70% 55% at 45% 18%,color-mix(in srgb,var(--c-neutral-0) 70%,transparent),transparent 60%),
+      radial-gradient(150% 62% at 20% 100%,var(--c-info-300) 0 46%,transparent 47%),
+      radial-gradient(130% 70% at 90% 105%,var(--c-violet-700) 0 50%,transparent 51%),
+      linear-gradient(160deg,var(--c-brand2-300) 0%,var(--c-violet-400) 42%,var(--c-violet-600) 100%);
+    transition:box-shadow var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-spring);}
+  .plc.is-playing .plc-art{box-shadow:var(--e-md),0 0 0 6px color-mix(in srgb,var(--c-violet-400) 22%,transparent);}
+  .plc-hd{display:flex;align-items:center;gap:var(--sp-3);margin-top:var(--sp-4);}
+  .plc-tx{flex:1 1 auto;min-width:0;}
+  .plc-title{font-size:var(--plc-title-fs,var(--fs-h6));font-weight:var(--fw-medium);line-height:var(--lh-tight);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .plc-artist{margin-top:var(--sp-1);font-size:var(--fs-h10);color:var(--muted);}
+  .plc .btn{--btn-radius:var(--r-pill);}
+  .plc-heart svg{width:22px;height:22px;}
+  .plc-heart.is-on{color:var(--accent2);}
+  .plc-heart.plc-pop svg{animation:plc-pop calc(var(--dur-default) * 1.6) var(--ease-spring);}
+  @keyframes plc-pop{40%{transform:scale(1.3);}}
+  .plc-prog{margin-top:var(--sp-4);}
+  .plc-prog .sld{max-width:none;}
+  .plc-prog .sld-track{margin:var(--sp-2) 0;}
+  .plc-prog .sld-thumb{opacity:0;transition:opacity var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);}
+  .plc-prog .sld:hover .sld-thumb,.plc-prog .sld-thumb:focus-visible,.plc-prog .sld-thumb.is-drag{opacity:1;}
+  .plc.is-playing .sld-fill{transition:width 1s linear;} .plc.is-playing .sld-thumb:not(.is-drag){transition:left 1s linear,opacity var(--dur-fast) var(--ease-out);}
+  .plc-time{display:flex;justify-content:space-between;margin-top:var(--sp-1);font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
+  .plc-ctl{display:flex;align-items:center;justify-content:center;gap:var(--sp-5);margin:var(--sp-4) 0 var(--sp-4);}
+  .plc-ctl .btn.sz-m svg{width:22px;height:22px;}
+  .btn.plc-pp{width:64px;height:64px;box-shadow:var(--e-md);}
+  .btn.plc-pp svg{width:24px;height:24px;}
+  .plc .dvd{--dvd-c:color-mix(in srgb,var(--line) 70%,transparent);}
+  .plc-ft{display:flex;align-items:center;gap:var(--sp-3);margin-top:var(--sp-3);}
+  .plc-ft .avt-grp .avt{font-size:calc(var(--avt-s) * .36);}
+  .plc-likes{flex:1 1 auto;font-size:var(--fs-h10);font-variant-numeric:tabular-nums;}
+  .plc-more svg{transition:transform var(--dur-default) var(--ease-out);}
+  .plc.is-open .plc-more svg{transform:rotate(180deg);}
+  .plc-who{max-height:0;overflow:hidden;font-size:var(--fs-h11);line-height:var(--lh-normal);color:var(--muted);opacity:0;
+    transition:max-height var(--dur-default) var(--ease-out),opacity var(--dur-default) var(--ease-out),margin var(--dur-default) var(--ease-out);}
+  .plc.is-open .plc-who{max-height:80px;opacity:1;margin-top:var(--sp-3);}
+
+  /* ---------- ticket-card 登機證：上下兩段各用 mask 挖四分之一圓，拼成兩側半圓缺口；撕線＝Divider dashed ---------- */
+  .tkc{--tkc-notch:12px;--tkc-bg:var(--panel);display:flex;flex-direction:column;width:var(--tkc-w,360px);max-width:100%;color:var(--ink);
+    filter:drop-shadow(0 0 1px color-mix(in srgb,var(--line-strong) 80%,transparent)) drop-shadow(0 8px 18px color-mix(in srgb,var(--c-neutral-900) 14%,transparent));}
+  /* 深色：卡片底拉高一階（--panel-2），才與頁面／預覽底分得開 */
+  :root[data-theme="dark"] .tkc{--tkc-bg:var(--panel-2);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tkc{--tkc-bg:var(--panel-2);}}
+  .tkc-top,.tkc-bot{background:var(--tkc-bg);padding:var(--tkc-pad,var(--sp-6));}
+  .tkc-top{border-radius:var(--tkc-radius,var(--radius)) var(--tkc-radius,var(--radius)) 0 0;padding-bottom:var(--sp-5);
+    -webkit-mask:radial-gradient(circle var(--tkc-notch) at 0 100%,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 100%,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;
+    mask:radial-gradient(circle var(--tkc-notch) at 0 100%,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 100%,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;}
+  .tkc-bot{position:relative;border-radius:0 0 var(--tkc-radius,var(--radius)) var(--tkc-radius,var(--radius));padding-top:var(--sp-5);
+    -webkit-mask:radial-gradient(circle var(--tkc-notch) at 0 0,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 0,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;
+    mask:radial-gradient(circle var(--tkc-notch) at 0 0,transparent 98%,var(--c-neutral-900)) top left/51% 100% no-repeat,radial-gradient(circle var(--tkc-notch) at 100% 0,transparent 98%,var(--c-neutral-900)) top right/51% 100% no-repeat;}
+  .tkc .dvd.tkc-perf{position:absolute;top:0;left:calc(var(--tkc-notch) + var(--sp-3));right:calc(var(--tkc-notch) + var(--sp-3));width:auto;--dvd-c:var(--line-strong);}
+  .tkc-hd{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);font-size:var(--fs-h10);color:var(--muted);}
+  .tkc-hd > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tkc-tag{flex:0 0 auto;}
+  .tkc-rt{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-3);margin-top:var(--sp-5);}
+  .tkc-pt{display:flex;flex-direction:column;min-width:0;}
+  .tkc-pt b{font-size:var(--tkc-code-fs,var(--fs-h4));font-weight:var(--fw-medium);line-height:1;letter-spacing:-.03em;}
+  .tkc-pt span{margin-top:var(--sp-3);font-size:var(--fs-h11);color:var(--muted);white-space:nowrap;}
+  .tkc-to{align-items:flex-end;text-align:right;}
+  .tkc-path{flex:1 1 auto;min-width:56px;display:flex;flex-direction:column;align-items:center;gap:var(--sp-2);padding-top:var(--sp-3);font-size:var(--fs-h11);color:var(--muted);white-space:nowrap;}
+  .tkc-line{position:relative;display:flex;align-items:center;width:100%;height:18px;}
+  .tkc-line::before{content:"";position:absolute;left:8px;right:8px;top:50%;border-top:1.5px dashed var(--line-strong);}
+  .tkc-line i{position:relative;z-index:1;width:7px;height:7px;border-radius:var(--r-pill);border:1.5px solid var(--faint);background:var(--tkc-bg);}
+  .tkc-line i:last-child{margin-left:auto;}
+  .tkc-plane{position:absolute;z-index:1;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;padding:1px;color:var(--muted);background:var(--tkc-bg);border-radius:var(--r-pill);
+    transition:left calc(var(--dur-slow) * 3) var(--ease-standard);}
+  .tkc-plane svg{display:block;width:100%;height:100%;transform:rotate(45deg);}
+  .tkc.live:hover .tkc-plane{left:calc(100% - 18px);}
+  .tkc-tm{display:flex;justify-content:space-between;margin-top:var(--sp-4);font-size:var(--fs-h9);font-variant-numeric:tabular-nums;}
+  .tkc-tm s{margin-right:var(--sp-1);font-size:var(--fs-h11);color:var(--faint);}
+  .tkc-s-delayed .tkc-tm span{color:var(--s-feedback-warning);} .tkc-s-delayed .tkc-tm s{color:var(--faint);}
+  .tkc-s-cancelled .tkc-rt,.tkc-s-cancelled .tkc-tm{opacity:.55;}
+  .tkc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-3);margin:0 0 var(--sp-5);}
+  .tkc-grid dt{font-size:var(--fs-h11);color:var(--muted);}
+  .tkc-grid dd{margin:var(--sp-1) 0 0;font-size:var(--fs-h9);font-variant-numeric:tabular-nums;}
+  .tkc .dvd:not(.tkc-perf){--dvd-c:color-mix(in srgb,var(--line) 80%,transparent);}
+  .tkc-ps{display:flex;align-items:center;gap:var(--sp-4);margin-top:var(--sp-5);}
+  .tkc-nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .tkc-nm b{font-size:var(--fs-h9);font-weight:var(--fw-medium);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tkc-nm span{font-size:var(--fs-h11);color:var(--muted);}
+  .tkc .btn.tkc-btn{--btn-radius:var(--r-pill);flex:0 0 auto;box-shadow:var(--e-sm);}
+
+  @media (max-width:420px){
+    .wtc,.plc{padding:var(--sp-5) var(--sp-5) var(--sp-4);} .tkc-top,.tkc-bot{padding-left:var(--sp-5);padding-right:var(--sp-5);}
+    .wtc-temp{font-size:calc(var(--fs-h1) * 1.4);} .tkc-pt b{font-size:var(--fs-h5);} .plc-ctl{gap:var(--sp-5);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .trd,.trd *,.mdc,.mdc *,.wtc,.wtc *,.plc *,.tkc *{transition:none !important;animation:none !important;}
+    .trd.live:hover,.trd.live:focus-visible{transform:none;} .mdc.live:hover{transform:none;} .mdc.live.is-tilt:hover{transform:rotate(-4deg);}
+  }
+  /* ===== /CARDS5:v1 ===== */
 
   /* rwdprev:v1 — 響應式預覽切換（topbar「上手指南」右側，取用 Segmented 原子 .sgm＋Tooltip 原子 .tt-tip）＋裝置框預覽 overlay
      裝置框：外框／動態島＝中性色深階 token（--c-neutral-900／700，不隨主題翻轉）；畫面內＝真實 CSS 尺寸 iframe，整框等比縮放塞進可視高度 */
@@ -6383,15 +6557,17 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
       {id:'descriptions',name:'Descriptions 資料清單',st:'ready'},
     ]},
     {group:'Card 卡片',emoji:'🃏',ic:'cards',items:[
-      {id:'card',name:'Card 卡片',st:'ready'},
-      {id:'product-card',name:'Product Card 商品卡',st:'ready'},
-      {id:'category-tile',name:'Category Tile 分類磚',st:'ready'},
       {id:'article-card',name:'Article Card 文章卡',st:'ready'},
       {id:'person-card',name:'Person Card 照片人物卡',st:'ready'},
       {id:'profile-card',name:'Profile Card 品牌檔案卡',st:'ready'},
       {id:'metric-card',name:'Metric Card 指標週卡',st:'ready'},
       {id:'invite-card',name:'Invite Card 邀請協作卡',st:'ready'},
       {id:'widget-card',name:'Widget Card 小工具卡',st:'ready'},
+      {id:'trend-card',name:'Trend Card 趨勢卡',st:'ready'},
+      {id:'media-card',name:'Media Card 照片標籤卡',st:'ready'},
+      {id:'weather-card',name:'Weather Card 天氣卡',st:'ready'},
+      {id:'player-card',name:'Player Card 音樂播放卡',st:'ready'},
+      {id:'ticket-card',name:'Ticket Card 登機證',st:'ready'},
     ]},
     {group:'Table & Chart 表格圖表',emoji:'📊',ic:'chart-bar',items:[
       {id:'table',name:'Table 表格',st:'ready'},
@@ -6513,15 +6689,18 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     step:{label:'Step 步驟指示器',order:['type','orientation','variant'],axes:{type:['classic','compact','timeline'],orientation:['horizontal','vertical'],variant:['numbered','dotted','icon']},when:{orientation:{type:['classic']},variant:{type:['classic']}},bools:{description:'Description 每步說明',count:'Count 步驟 n / m',time:'Time 時間',expandable:'Expandable 可展開'},zh:{type:{classic:'經典',compact:'精簡進度',timeline:'時間軸'},orientation:{horizontal:'水平',vertical:'垂直'},variant:{numbered:'編號',dotted:'圓點',icon:'圖示'},axisName:{type:'Type 型式',orientation:'Orientation 方向（classic）',variant:'Variant 樣式（classic）'}}},
     quantity:{label:'Quantity 商品計數',order:['variant','size'],axes:{variant:['outline','pill','plain'],size:['s','m','l']},zh:{variant:{outline:'外框',pill:'膠囊',plain:'極簡'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
     progress:{label:'Progress 進度條',order:['variant','size'],axes:{variant:['bar','label','gradient'],size:['s','m','l']},zh:{variant:{bar:'基本',label:'帶百分比',gradient:'漸層'},size:{s:'細 s',m:'標準 m',l:'粗 l'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
-    card:{label:'Card 卡片',order:['variant','state','size'],axes:{variant:['elevated','outlined','filled'],state:['default','hover','selected','disabled'],size:['m','s']},zh:{variant:{elevated:'浮起',outlined:'外框',filled:'填色'},state:{default:'預設',hover:'滑過',selected:'選取',disabled:'停用'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 型態',state:'State 狀態',size:'Size 尺寸'}}},
-    'product-card':{label:'Product Card 商品卡',order:['variant','state','size'],axes:{variant:['vertical','horizontal','minimal'],state:['default','hover','soldout'],size:['m','s']},zh:{variant:{vertical:'直式',horizontal:'橫式',minimal:'精簡'},state:{default:'預設',hover:'滑過',soldout:'售完'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 型態',state:'State 狀態',size:'Size 尺寸'}}},
-    'category-tile':{label:'Category Tile 分類磚',order:['variant','state','size'],axes:{variant:['icon','image','gradient'],state:['default','hover','active'],size:['m','s']},zh:{variant:{icon:'圖示磚',image:'圖片磚',gradient:'漸層磚'},state:{default:'預設',hover:'滑過',active:'選中'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 磚型',state:'State 狀態',size:'Size 尺寸'}}},
     'article-card':{label:'Article Card 文章卡',order:['variant','state','size'],axes:{variant:['vertical','horizontal','overlay'],state:['default','hover'],size:['m','s']},zh:{variant:{vertical:'直式',horizontal:'橫式',overlay:'疊字'},state:{default:'預設',hover:'滑過'},size:{m:'標準 m',s:'精簡 s'},axisName:{variant:'Variant 版式',state:'State 狀態',size:'Size 尺寸'}}},
     'person-card':{label:'Person Card 照片人物卡',order:['state','size'],axes:{state:['default','added'],size:['m','s']},bools:{tags:'Tags 照片標籤'},zh:{state:{default:'預設',added:'已加入'},size:{m:'標準 m',s:'精簡 s'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
     'profile-card':{label:'Profile Card 品牌檔案卡',order:['cover','state'],axes:{cover:['graphic','image','color'],state:['default','following']},bools:{verified:'Verified 認證徽章'},zh:{cover:{graphic:'圖形',image:'照片',color:'純色'},state:{default:'預設',following:'追蹤中'},axisName:{cover:'Cover 封面',state:'State 狀態'}}},
     'metric-card':{label:'Metric Card 指標週卡',order:['chart','tone'],axes:{chart:['daily-bar','weekly-bar','line'],tone:['brand','info','success','violet']},zh:{chart:{'daily-bar':'每日長條','weekly-bar':'每週長條',line:'折線'},tone:{brand:'品牌橘',info:'資訊藍',success:'成功綠',violet:'紫'},axisName:{chart:'Chart 圖型',tone:'Tone 色調'}}},
     'invite-card':{label:'Invite Card 邀請協作卡',order:['layout','members'],axes:{layout:['card','modal'],members:['empty','list']},zh:{layout:{card:'頁內卡片',modal:'對話框'},members:{empty:'空',list:'成員清單'},axisName:{layout:'Layout 版型',members:'Members 成員'}}},
     'widget-card':{label:'Widget Card 小工具卡',order:['kind'],axes:{kind:['message','todo','group','welcome','date']},zh:{kind:{message:'訊息',todo:'今日待辦',group:'群組訊息',welcome:'歡迎回來',date:'日期'},axisName:{kind:'Kind 種類'}}},
+    /* CARDS5:v1 單張牌卡 */
+    'trend-card':{label:'Trend Card 趨勢卡',order:['tone'],axes:{tone:['ink','violet','white','lime','green']},bools:{index:'Index 編號',media:'Media 底部圖片'},zh:{tone:{ink:'墨黑',violet:'紫',white:'白',lime:'萊姆',green:'綠'},axisName:{tone:'Tone 色調'}}},
+    'media-card':{label:'Media Card 照片標籤卡',order:['ratio'],axes:{ratio:['portrait','square','landscape']},bools:{label:'Label 標籤',selected:'Selected 已選取',tilt:'Tilt 傾斜'},zh:{ratio:{portrait:'直式 4:5',square:'方形 1:1',landscape:'橫式 4:3'},axisName:{ratio:'Ratio 比例'}}},
+    'weather-card':{label:'Weather Card 天氣卡',order:['cond'],axes:{cond:['sunny','cloudy','rain','storm']},bools:{forecast:'Forecast 五日列'},zh:{cond:{sunny:'晴',cloudy:'多雲',rain:'雨',storm:'雷雨'},axisName:{cond:'Condition 天氣'}}},
+    'player-card':{label:'Player Card 音樂播放卡',order:['state'],axes:{state:['paused','playing']},bools:{likes:'Likes 按讚列'},zh:{state:{paused:'暫停',playing:'播放中'},axisName:{state:'State 狀態'}}},
+    'ticket-card':{label:'Ticket Card 登機證',order:['status'],axes:{status:['on-time','boarding','delayed','cancelled']},bools:{passenger:'Passenger 旅客列'},zh:{status:{'on-time':'準時',boarding:'登機中',delayed:'延誤',cancelled:'取消'},axisName:{status:'Status 狀態'}}},
     table:{label:'Table 資料表格',order:['variant','density'],axes:{variant:['bordered','striped','plain'],density:['comfortable','compact']},zh:{variant:{bordered:'格線',striped:'斑馬紋',plain:'簡潔'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{variant:'Variant 型態',density:'Density 密度'}}},
     chart:{label:'Chart 圖表',order:['variant','size'],axes:{variant:['stat','line','curve','bar','donut','semi','pie','spark','brush','area-stack','bar-stack','combo','bar-rank','gauge','funnel','heatmap'],size:['m','s']},zh:{variant:{stat:'統計數字',line:'折線',curve:'曲線',bar:'長條',donut:'甜甜圈',semi:'半圓',pie:'實心圓餅',spark:'趨勢小圖卡',brush:'刷選縮放折線','area-stack':'堆疊面積圖','bar-stack':'堆疊長條',combo:'長條＋折線組合圖','bar-rank':'橫向排名長條',gauge:'儀表',funnel:'漏斗圖',heatmap:'熱力圖'},size:{m:'M',s:'S'},axisName:{variant:'Variant 圖型',size:'Size 尺寸'}}},
     'tree-view':{label:'Tree View 樹狀',order:['variant','state'],axes:{variant:['lines','plain','checkbox'],state:['default','hover','selected']},zh:{variant:{lines:'連接線',plain:'無線',checkbox:'勾選樹'},state:{default:'預設',hover:'滑過',selected:'選取'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
@@ -8273,7 +8452,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
     note:'滑過時預覽分數（顏色稍淡）、離開還原；點下去星星會彈一下確認。再點一次相同分數＝清除。鍵盤用 ←→ 調整、Home／End 到 0／5。'});
   function buildRating(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Rating',title:'Rating 評分',
-      lede:'顯示或輸入 0～5 顆星的評分。把 <a href="#product-card">product-card</a> 裡的星星抽成獨立元件，三級 size × 三種狀態（<b>3 × 3 = 9</b>），支援半顆星。',
+      lede:'顯示或輸入 0～5 顆星的評分。把商品評分的星星抽成獨立元件，三級 size × 三種狀態（<b>3 × 3 = 9</b>），支援半顆星。',
       specRows:[['axes','<code>size × state</code>'],['formula','<code>3 × 3 = 9</code>'],['token-policy','<code>semantic.feedback.warning · semantic.border.strong</code>'],['features','half / value / count']]});
     const SZN={s:['小','s · 14'],m:['標準','m · 18'],l:['大','l · 26']},STN={default:['可評分','default'],readonly:['唯讀','readonly'],disabled:['停用','disabled']};
     const axes=DIAL_SPECS.rating.axes,zh=DIAL_SPECS.rating.zh,active=CHOICE.rating.active;let p;
@@ -8288,10 +8467,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 
   /* ---------- CAROUSEL 輪播 ---------- */
   const CRS_SLIDES=[['雙 11 全館 85 折','11/01～11/11 · 結帳自動折抵'],['新會員首購免運','註冊即送 NT$100 購物金'],['秋冬新品上市','保暖外套 · 機能背包'],['設計師聯名系列','限量 300 組，售完為止'],['週末限時快閃','每週六 20:00 開搶']];
+  function crsPhoto(i){try{return [PSC_ROT[0],CARD_PHOTO,HX_TSM_BG,PSC_ROT[2],PSC_ROT[1]][i%5];}catch(e){return null;}}   // 輪播各張用內嵌照片
   function crsEl(arrows,indicator,o){o=o||{};const n=CRS_SLIDES.length;let idx=o.index||0;
     const root=ce('div',`crs crs-arrows-${arrows} crs-ind-${indicator}`);root.setAttribute('role','region');root.setAttribute('aria-roledescription','carousel');root.setAttribute('aria-label','活動 Banner');
     const main=ce('div','crs-main');const vp=ce('div','crs-vp');const tr=ce('div','crs-track');
     CRS_SLIDES.forEach(([t,s],i)=>{const sl=ce('div','crs-slide crs-s'+i);sl.setAttribute('role','group');sl.setAttribute('aria-roledescription','slide');sl.setAttribute('aria-label',`${i+1} / ${n}`);
+      {const ph=crsPhoto(i);if(ph)sl.style.backgroundImage='linear-gradient(180deg,color-mix(in srgb,var(--c-neutral-900) 10%,transparent),color-mix(in srgb,var(--c-neutral-900) 68%,transparent)),url("'+ph+'")';sl.style.backgroundSize='cover';sl.style.backgroundPosition='center 35%';sl.style.backgroundRepeat='no-repeat';}   // 照片底＋下方加深，文字維持可讀
       const b=ce('b');b.textContent=t;const sp=ce('span');sp.textContent=s;sl.append(b,sp);tr.appendChild(sl);});
     vp.appendChild(tr);main.appendChild(vp);
     const mkArrow=dir=>{const b=mkBtn({variant:'outline',intent:'secondary',size:'s',iconOnly:true,isLive:!!o.live});b.classList.add('crs-arrow',dir);b.innerHTML=ICON_CARET;b.setAttribute('aria-label',dir==='prev'?'上一張':'下一張');return b;};
@@ -9975,7 +10156,10 @@ function skelMedia(anim){
   const IM_CIRCLE='photo-1501785888041-af3ef285b470'; // circular 用構圖置中的風景（湖光山色）
   const IM_SIZE={s:40,m:64,l:120,xl:240}; // size → 高度（px）；寬度由 aspect-ratio 依比例算
   /* 組出固定方形的 Unsplash URL；一律帶 &h 強制正方，配 object-fit:cover 填滿 */
-  function imUrl(id,w){return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
+  /* 圖片池改用網站內嵌照片（預覽環境會擋 Unsplash 遠端圖）：IM_POOL／IM_CIRCLE 的 id 依序對應到內嵌照片，找不到才退回遠端 */
+  function imEmbed(id){try{const E=[HX_TSM_BG,CARD_COVER,PSC_ROT[0],PSC_ROT[1],PSC_ROT[2],CARD_PHOTO];
+    if(id===IM_CIRCLE)return CARD_PHOTO;const i=IM_POOL.indexOf(id);return i>=0?E[i%E.length]:null;}catch(e){return null;}}
+  function imUrl(id,w){if(/^(data:|https?:|\.{0,2}\/)/.test(id))return id;{const e=imEmbed(id);if(e)return e;}return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
   /* Image atom：variant=rectangular|rounded|circular；state=default|loading|error；size=s|m|l|xl
      opts={src:Unsplash 圖片 ID, alt:替代文字}。circular 為正方，rectangular/rounded 亦統一用正方最簡單 */
   function imEl(variant,state,size,opts){opts=opts||{};
@@ -12328,13 +12512,13 @@ function buildProductCard(view){
 const ART_DATA={
   vertical:{cat:'設計',title:'設計系統如何撐起跨平台的一致體驗',
     excerpt:'從 token、元件到文件化流程，拆解設計系統在多產品線團隊中的實際運作方式，以及導入時最常踩的三個坑。',
-    author:'楊鎮瑜',date:'2026/07/12',read:'5 分鐘',srcId:'photo-1531403009284-440f080d1e12'},
+    author:'楊鎮瑜',date:'2026/07/12',read:'5 分鐘',srcId:'@HX_TSM_BG'},
   horizontal:{cat:'產品',title:'從資料密集後台談資訊層級的取捨',
     excerpt:'當一個畫面要同時容納篩選、表格與批次操作，怎麼排才不會讓使用者迷路？以三個真實案例拆解。',
-    author:'陳美華',date:'2026/07/08',read:'8 分鐘',srcId:'photo-1551288049-bebda4e38f71'},
+    author:'陳美華',date:'2026/07/08',read:'8 分鐘',srcId:'@CARD_PHOTO'},
   overlay:{cat:'趨勢',title:'AI 輔助設計流程的一年實測記錄',
     excerpt:'把生成式工具放進真實交付流程一年後，哪些環節真的變快、哪些反而變慢。',
-    author:'王小明',date:'2026/07/01',read:'6 分鐘',srcId:'photo-1526378722484-bd91ca387e72'}
+    author:'王小明',date:'2026/07/01',read:'6 分鐘',srcId:'@CARD_COVER'}
 };
 
 /* 文章卡本體：variant=vertical|horizontal|overlay；state=default|hover（矩陣靜態用 is-hover）
@@ -12345,7 +12529,8 @@ function artCard(variant,state,opts){opts=opts||{};
   const card=ce('article','art-card v-'+variant+(state==='hover'?' is-hover':'')+(opts.live?' live':'')+(opts.size==='s'?' art-sz-s':''));
   // 封面：重用 Image 原子 imEl（16:9；橫式/疊字由 CSS 覆寫成填滿）
   const cover=ce('div','art-cover');
-  cover.appendChild(imEl('rectangular','default','l',{src:d.srcId,alt:d.title,ratio:'16:9'}));
+  const ART_IMG={'@HX_TSM_BG':()=>HX_TSM_BG,'@CARD_PHOTO':()=>CARD_PHOTO,'@CARD_COVER':()=>CARD_COVER};   // 內嵌照片（預覽環境會擋 Unsplash 遠端圖）
+  cover.appendChild(imEl('rectangular','default','l',{src:ART_IMG[d.srcId]?ART_IMG[d.srcId]():d.srcId,alt:d.title,ratio:'16:9'}));
   // 內容區
   const body=ce('div','art-body');
   if(on('category')){ // 分類標：重用 Tag 原子 .tg（疊字版改 v-solid 保對比）
@@ -14467,8 +14652,231 @@ function buildScheduleChart(view){
     const sl=section(body,'互動預覽與程式碼','切 kind，每張都可以操作。');LIVE['widget-card'](sl);
   }
   /* ==================== /CARDS:round2-v1 ==================== */
+  /* ==================== CARDS5:v1 · Card 卡片第三批：5 種單張牌卡（2026-11-05）====================
+     trend-card／media-card／weather-card／player-card／ticket-card。每顆都是「單張」卡片（不是卡片堆疊）。
+     內部一律取用既有原子（鐵則 5）：mkBtn（crdBtn 包裝，播放／上下首／愛心／Check in）、tagEl（crdTag：狀態、照片標籤）、
+     avtEl（頭像＋.avt-grp 疊放樣式）、sgmEl（天氣五日分段）、sldEl（播放進度，可拖曳／鍵盤）、dvdEl（分隔線／票根虛線）、chtxRoll（溫度數字滾動）。
+     照片沿用已內嵌的 CARD_PHOTO／PSC_ROT／CARD_COVER（data URI，CSP 預覽可用）；專輯封面用 token 漸層。卡片內容文字維持英文（同第二批）。 */
+  /* 新增 icon（Phosphor 風格 256 viewBox；play／pause／fast-forward 為 fill，其餘 regular）；sun／heart／airplane／caret-down 重用既有 IC_* */
+  const IC_PLAY_F='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27Z"/></svg>';
+  const IC_PAUSE_F='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"/></svg>';
+  const IC_FFWD_F='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M248,128a15.76,15.76,0,0,1-7.33,13.34L160.48,192.87A16,16,0,0,1,136,179.53V136.94L56.48,192.87A16,16,0,0,1,32,179.53V76.47A16,16,0,0,1,56.48,63.13L136,119.06V76.47a16,16,0,0,1,24.48-13.34l80.19,51.53A15.76,15.76,0,0,1,248,128Z"/></svg>';
+  const IC_RWND_F=IC_FFWD_F.replace('<path ','<path transform="matrix(-1 0 0 1 256 0)" ');
+  const IC_HEART_F='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M240,102c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,228.66,16,172,16,102A62.07,62.07,0,0,1,78,40c20.65,0,38.73,8.88,50,23.89C139.27,48.88,157.35,40,178,40A62.07,62.07,0,0,1,240,102Z"/></svg>';
+  const IC_CLOUD_P='M160,40A88.09,88.09,0,0,0,81.29,88.67,64,64,0,1,0,72,216h88a88,88,0,0,0,0-176Zm0,160H72a48,48,0,0,1,0-96c1.1,0,2.2,0,3.29.11A88,88,0,0,0,72,128a8,8,0,0,0,16,0,72,72,0,1,1,72,72Z';
+  const IC_CLOUD='<svg viewBox="0 0 256 256" fill="currentColor"><path d="'+IC_CLOUD_P+'"/></svg>';
+  const IC_RAIN='<svg viewBox="0 0 256 256" fill="currentColor"><path transform="translate(14 -14) scale(.86)" d="'+IC_CLOUD_P+'"/><path d="M92 214l-12 22M140 214l-12 22M188 214l-12 22" stroke="currentColor" stroke-width="16" stroke-linecap="round" fill="none"/></svg>';
+  const IC_BOLT='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg>';
 
-  const BUILD={'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar};
+  /* ---------- TREND CARD 趨勢卡 ---------- */
+  const TRD_DATA={ink:{n:'01',t:['Metaverse','Mayhem'],src:()=>PSC_ROT[0]},violet:{n:'02',t:['Digital','Fashion'],src:()=>CARD_PHOTO},
+    white:{n:'03',t:['Web','Kitsch'],src:()=>PSC_ROT[1]},lime:{n:'04',t:['3D Interactive','Elements'],src:()=>PSC_ROT[2]},green:{n:'05',t:['Zen','Energy'],src:()=>CARD_COVER}};
+  function trdEl(tone,o){o=o||{};const d=TRD_DATA[tone]||TRD_DATA.ink;
+    const c=ce('article','trd trd-t-'+tone+(o.media===false?' no-media':'')+(o.live?' live':''));c.setAttribute('aria-label','Trend '+d.n+': '+d.t.join(' '));
+    if(o.index!==false){const n=ce('span','trd-no');n.setAttribute('aria-hidden','true');n.textContent=d.n;c.appendChild(n);}
+    const h=ce('h3','trd-title');h.innerHTML=d.t.map(x=>`<span>${x}</span>`).join('');c.appendChild(h);
+    if(o.media!==false){const m=ce('div','trd-media');const i=document.createElement('img');i.src=d.src();i.alt='';i.decoding='async';m.appendChild(i);c.appendChild(m);}
+    if(o.live){c.tabIndex=0;}
+    return c;}
+  LIVE['trend-card']=(host)=>mountLive(host,{gate:'trend-card',initial:{tone:'ink',index:true,media:true},
+    segs:[{key:'tone',label:'Tone',options:['ink','violet','white','lime','green'],labels:['墨黑','紫','白','萊姆','綠'],as:'seg'}],
+    bools:[{key:'index',label:'index 編號'},{key:'media',label:'media 底部圖片'}],boolLabel:'Content',
+    render:st=>trdEl(st.tone,{live:true,index:st.index,media:st.media}),
+    note:'滑過（或 Tab 聚焦）卡片：整張微微上浮、輕轉 −2°，底部圖片放大；減少動態設定下只保留陰影變化。'});
+  function buildTrendCard(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Trend Card',title:'Trend Card 趨勢卡',
+      lede:'直式色塊卡：左上角手寫感編號、大寫多行標題、底部圓角圖片。整張實心底色是唯一的 variant 軸（<b>5</b>）：墨黑、紫、白、萊姆、綠，全部綁色階 token（萊姆＝<code>warning-300 × success-300</code> 混色）。編號與圖片是內容開關（boolean）。',
+      specRows:[['axes','<code>tone</code>'],['formula','<code>5</code>'],['boolean','<code>index · media</code>'],['atoms','<code>img（內嵌照片）· token 色階</code>'],['token-policy','<code>brand-800 · violet-400 · neutral-0 · success-300/400 · radius.xl</code>']]});
+    const TN={ink:['墨黑','ink'],violet:['紫','violet'],white:['白','white'],lime:['萊姆','lime'],green:['綠','green']};
+    const axes=DIAL_SPECS['trend-card'].axes,active=CHOICE['trend-card'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const ts=axes.tone.filter(v=>active.tone.has(v));
+      p.appendChild(matrixPanel({badge:'index · media on',name:'Tone',rows:['default'],cols:ts,rowLab:()=>labHTML('預設','default'),colLab:x=>labHTML(TN[x][0],TN[x][1]),cell:(r,t)=>trdEl(t,{}),mincol:200}));}
+    mountDial(body,{axes,zh:DIAL_SPECS['trend-card'].zh,active,onRender:renderM});
+    const sec=section(body,'Tone 色調','五種實心底色；深底（墨黑）配白字，其餘配深字，對比都 ≥ 4.5:1。白卡在淺色頁面上多一圈淡邊框。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','<code>index</code>、<code>media</code> 對應 Figma boolean property；關掉圖片時標題往下撐滿，卡片比例不變。');
+    capRow(cs,[['index · media',trdEl('lime',{})],['media = false',trdEl('lime',{media:false})],['index = false',trdEl('lime',{index:false})]]);
+    usageSection(body,[['用 Trend Card','年度回顧、主題策展、分類入口這類「一眼一個主題」的牌卡。'],['改用 Article Card','需要摘要、作者、日期等資訊時。'],['色調','同一排最多交錯 3 種色調；文字一律走 token 對應的 on-color，不另外改色。']]);
+    const sl=section(body,'互動預覽與程式碼','切色調、開關編號與圖片；滑過卡片看上浮。');LIVE['trend-card'](sl);
+  }
+
+  /* ---------- MEDIA CARD 照片標籤卡 ---------- */
+  const MDC_SRC={portrait:()=>CARD_PHOTO,square:()=>PSC_ROT[1],landscape:()=>CARD_COVER};
+  const MDC_LAB={portrait:'SORA 2',square:'KLING',landscape:'SEEDANCE 2.0'};
+  function mdcEl(ratio,o){o=o||{};let sel=!!o.selected;
+    const c=ce('article','mdc mdc-r-'+ratio+(o.tilt?' is-tilt':'')+(o.live?' live':''));c.setAttribute('aria-label',(MDC_LAB[ratio]||'Media')+' sample');
+    const i=document.createElement('img');i.src=MDC_SRC[ratio]();i.alt='';i.decoding='async';c.appendChild(i);
+    if(o.label!==false){const t=crdTag(MDC_LAB[ratio],'soft','neutral','tg-smoke');t.classList.add('mdc-lab');c.appendChild(t);}
+    const paint=()=>{c.classList.toggle('is-selected',sel);if(o.live)c.setAttribute('aria-pressed',String(sel));};paint();
+    if(o.live){c.tabIndex=0;c.setAttribute('role','button');
+      const tg=()=>{sel=!sel;paint();if(o.onChange)o.onChange();};
+      c.onclick=tg;c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}});}
+    return c;}
+  LIVE['media-card']=(host)=>mountLive(host,{gate:'media-card',initial:{ratio:'portrait',label:true,selected:false,tilt:false},
+    segs:[{key:'ratio',label:'Ratio',options:['portrait','square','landscape'],labels:['直式 4:5','方形 1:1','橫式 4:3']}],
+    bools:[{key:'label',label:'label 標籤'},{key:'selected',label:'selected 已選取'},{key:'tilt',label:'tilt 傾斜'}],boolLabel:'Content',
+    render:(st,sync)=>mdcEl(st.ratio,{live:true,label:st.label,selected:st.selected,tilt:st.tilt,onChange:sync}),
+    note:'點卡片（或聚焦後按 Enter／空白鍵）切換選取：外圈出現 <code>--accent2</code> 虛線框。傾斜開啟時卡片轉 −4°，滑過回正並放大一點。'});
+  function buildMediaCard(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Media Card',title:'Media Card 照片標籤卡',
+      lede:'整張滿版照片＋大圓角，右上角半透明膠囊標籤（取用 <a href="#tag">tag</a> 原子＋磨砂修飾）。比例是 variant 軸（<b>3</b>）；<code>label</code>、<code>selected</code>（虛線外框）、<code>tilt</code>（傾斜，預設關）是 boolean。適合模型／作品／素材挑選。',
+      specRows:[['axes','<code>ratio</code>'],['formula','<code>3</code>'],['boolean','<code>label · selected · tilt</code>'],['atoms','<code>.tg · img</code>'],['token-policy','<code>radius.2xl · --accent2（選取框）</code>']]});
+    const RN={portrait:['直式','4:5'],square:['方形','1:1'],landscape:['橫式','4:3']};
+    const axes=DIAL_SPECS['media-card'].axes,active=CHOICE['media-card'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const rs=axes.ratio.filter(v=>active.ratio.has(v));
+      p.appendChild(matrixPanel({badge:'label · on',name:'Ratio × Selected',rows:['off','on'],cols:rs,rowLab:x=>labHTML(x==='on'?'已選取':'未選取','selected · '+x),colLab:x=>labHTML(RN[x][0],RN[x][1]),cell:(s,r)=>mdcEl(r,{selected:s==='on'}),mincol:240}));}
+    mountDial(body,{axes,zh:DIAL_SPECS['media-card'].zh,active,onRender:renderM});
+    const sec=section(body,'Ratio × Selected 矩陣','選取＝外圈 2px 虛線（--accent2），不改變卡片尺寸，排在一起不會跳動。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','<code>label</code>／<code>tilt</code> 對應 Figma boolean property。');
+    capRow(cs,[['label = false',mdcEl('square',{label:false})],['tilt = true',mdcEl('square',{tilt:true})]]);
+    usageSection(body,[['用 Media Card','照片本身就是內容：作品集、AI 模型挑選、素材庫。'],['改用 Person Card','重點是「人」，需要名字與動作按鈕。'],['tilt','只在展示型版面（hero、拼貼）使用；清單與格狀排列一律關閉。']]);
+    const sl=section(body,'互動預覽與程式碼','點卡片切換選取；開 tilt 看傾斜。');LIVE['media-card'](sl);
+  }
+
+  /* ---------- WEATHER CARD 天氣卡 ---------- */
+  const WTC_DAYS=[{d:'Mon',day:'Monday',c:'sunny',t:24,h:26,l:17},{d:'Tue',day:'Tuesday',c:'cloudy',t:19,h:21,l:15},{d:'Wed',day:'Wednesday',c:'rain',t:17,h:18,l:13},
+    {d:'Thu',day:'Thursday',c:'storm',t:16,h:19,l:12},{d:'Fri',day:'Friday',c:'sunny',t:23,h:25,l:16}];
+  const WTC_COND={sunny:['Sunny',()=>IC_SUN],cloudy:['Cloudy',()=>IC_CLOUD],rain:['Light rain',()=>IC_RAIN],storm:['Thunderstorm',()=>IC_BOLT]};
+  function wtcEl(cond,o){o=o||{};let cur=Math.max(0,WTC_DAYS.findIndex(x=>x.c===cond));
+    const c=ce('article','wtc'+(o.live?' live':''));c.setAttribute('aria-label','San Francisco weather');
+    const top=ce('div','wtc-top');top.innerHTML='<div class="wtc-city">San Francisco</div><div class="wtc-day"></div>';
+    const mid=ce('div','wtc-mid');const tp=ce('div','wtc-temp');const roll=chtxRoll(String(WTC_DAYS[cur].t));tp.append(roll,document.createTextNode('°'));
+    const ic=ce('span','wtc-ic');ic.setAttribute('aria-hidden','true');mid.append(tp,ic);
+    const cd=ce('div','wtc-cond');cd.innerHTML='<div class="wtc-cn"></div><div class="wtc-hl"></div>';
+    c.append(top,mid,cd);
+    function show(i){cur=i;const w=WTC_DAYS[i];WTC_KEYS.forEach(k=>c.classList.toggle('wtc-c-'+k,k===w.c));
+      top.querySelector('.wtc-day').textContent=w.day;chtxSetRoll(roll,String(w.t));ic.innerHTML=WTC_COND[w.c][1]();
+      cd.querySelector('.wtc-cn').textContent=WTC_COND[w.c][0];cd.querySelector('.wtc-hl').textContent=`H:${w.h}° L:${w.l}°`;
+      c.setAttribute('aria-label',`San Francisco, ${w.day}: ${w.t}°, ${WTC_COND[w.c][0]}`);}
+    if(o.forecast!==false){const sg=sgmEl('soft','m',{items:WTC_DAYS.map(x=>x.d),active:cur,full:true,live:!!o.live,label:'Forecast day',onChange:i=>{show(i);if(o.onChange)o.onChange();}});
+      sg.classList.add('wtc-fc');sg.querySelectorAll('.sgm-it').forEach((b,i)=>{b.insertAdjacentHTML('afterbegin',`<span class="sgm-ic" aria-hidden="true">${WTC_COND[WTC_DAYS[i].c][1]()}</span>`);b.setAttribute('aria-label',WTC_DAYS[i].day);});
+      c.appendChild(sg);}
+    show(cur);return c;}
+  const WTC_KEYS=Object.keys(WTC_COND);
+  LIVE['weather-card']=(host)=>mountLive(host,{gate:'weather-card',initial:{cond:'sunny',forecast:true},
+    segs:[{key:'cond',label:'Condition',options:['sunny','cloudy','rain','storm'],labels:['晴','多雲','雨','雷雨']}],
+    bools:[{key:'forecast',label:'forecast 五日列'}],boolLabel:'Content',
+    render:(st,sync)=>wtcEl(st.cond,{live:true,forecast:st.forecast,onChange:sync}),
+    note:'點下方任一天（或聚焦後用 ← / →）：磨砂膠囊滑過去，上方星期、溫度（逐位滾動）、天氣圖示、H/L 與整張漸層一起換成那天。'});
+  function buildWeatherCard(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Weather Card',title:'Weather Card 天氣卡',
+      lede:'藍色漸層天氣小工具：城市＋星期、超大溫度、天氣圖示、狀況與高低溫，底部是磨砂玻璃的五日列。五日列直接取用 <a href="#segmented">segmented</a> 原子（滑動指示器＋方向鍵），只換成玻璃質感；溫度用圖表的數字滾動。天氣狀況是 variant 軸（<b>4</b>），每種綁不同色階漸層。',
+      specRows:[['axes','<code>cond</code>'],['formula','<code>4</code>'],['boolean','<code>forecast</code>'],['atoms','<code>sgmEl · chtxRoll · icon</code>'],['token-policy','<code>info-400–800 · violet-600/900 · warning-300（太陽／閃電）</code>']]});
+    const CN={sunny:['晴','sunny'],cloudy:['多雲','cloudy'],rain:['雨','rain'],storm:['雷雨','storm']};
+    const axes=DIAL_SPECS['weather-card'].axes,active=CHOICE['weather-card'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const cs=axes.cond.filter(v=>active.cond.has(v));
+      p.appendChild(matrixPanel({badge:'forecast · on',name:'Condition',rows:['default'],cols:cs,rowLab:()=>labHTML('預設','default'),colLab:x=>labHTML(CN[x][0],CN[x][1]),cell:(r,x)=>wtcEl(x,{}),mincol:340}));}
+    mountDial(body,{axes,zh:DIAL_SPECS['weather-card'].zh,active,onRender:renderM});
+    const sec=section(body,'Condition 天氣狀況','晴＝info 亮藍、多雲＝info 混中性灰、雨＝info 深藍、雷雨＝violet 深紫；字一律白色，深淺主題都一樣（卡片自帶底色）。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','<code>forecast</code> 對應 Figma boolean property：關掉五日列＝精簡版小工具。');
+    capRow(cs,[['forecast = false',wtcEl('cloudy',{forecast:false})]]);
+    usageSection(body,[['用 Weather Card','儀表板、旅遊行程、活動頁的天氣資訊。'],['改用 Widget Card','資訊不是天氣、也不需要逐日切換。'],['五日列','最多 5 天；超過改用可橫向捲動的清單。']]);
+    const sl=section(body,'互動預覽與程式碼','點任一天切換，看溫度滾動與漸層轉換。');LIVE['weather-card'](sl);
+  }
+
+  /* ---------- PLAYER CARD 音樂播放卡 ---------- */
+  const PLC_LEN=204,PLC_AT=72;
+  const plcFmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+  const PLC_LIKERS=[['MC','sec','Mei Chen'],['LP','sec','Leo Park'],['SI','sec','Sora Ito'],['OR','sec','Olivia Ruiz']];
+  function plcEl(state,o){o=o||{};let playing=state==='playing',liked=false,likes=24,t=PLC_AT,timer=null;
+    const c=ce('article','plc'+(playing?' is-playing':'')+(o.live?' live':''));c.setAttribute('aria-label','Now playing: Slow Tides by Juno Vale');
+    const art=ce('div','plc-art');art.setAttribute('role','img');art.setAttribute('aria-label','Album art');c.appendChild(art);
+    const hd=ce('div','plc-hd');const tx=ce('div','plc-tx');tx.innerHTML='<div class="plc-title">Slow Tides</div><div class="plc-artist">Juno Vale</div>';
+    const hb=crdBtn('text','secondary','m','Like',IC_HEART,{iconOnly:true,live:o.live});hb.classList.add('plc-heart');hd.append(tx,hb);c.appendChild(hd);
+    const pr=ce('div','plc-prog');const tm=ce('div','plc-time');tm.innerHTML='<span></span><span></span>';
+    const sl=sldEl('single','s','default',{live:!!o.live,label:false,min:0,max:PLC_LEN,step:1,value:t,title:'Seek',format:plcFmt,onChange:v=>{t=v;paintT();}});
+    pr.append(sl,tm);c.appendChild(pr);
+    const ctl=ce('div','plc-ctl');const pv=crdBtn('text','secondary','m','Previous',IC_RWND_F,{iconOnly:true,live:o.live});
+    const pp=crdBtn('solid','primary','l','Play',IC_PLAY_F,{iconOnly:true,live:o.live});pp.classList.add('plc-pp');
+    const nx=crdBtn('text','secondary','m','Next',IC_FFWD_F,{iconOnly:true,live:o.live});ctl.append(pv,pp,nx);c.appendChild(ctl);
+    if(o.likes!==false){c.appendChild(dvdEl('horizontal','solid'));
+      const ft=ce('div','plc-ft');const g=ce('span','avt-grp');g.setAttribute('role','group');g.setAttribute('aria-label','Liked by '+PLC_LIKERS.map(x=>x[2]).join(', '));
+      PLC_LIKERS.forEach(([ini,tone,nm])=>g.appendChild(avtEl('m','circle','initials',{initials:ini,tone,name:nm})));
+      const lk=ce('span','plc-likes');const more=crdBtn('text','secondary','s','Show likes',IC_CARET_DOWN,{iconOnly:true,live:o.live});more.classList.add('plc-more');more.setAttribute('aria-expanded','false');
+      ft.append(g,lk,more);c.appendChild(ft);
+      const who=ce('div','plc-who');who.textContent=PLC_LIKERS.map(x=>x[2]).join(', ')+' and 20 others';c.appendChild(who);
+      c.__lk=lk;if(o.live)more.onclick=()=>{const op=c.classList.toggle('is-open');more.setAttribute('aria-expanded',String(op));};}
+    const thumb=sl.querySelector('.sld-thumb');
+    function paintT(){tm.firstChild.textContent=plcFmt(t);tm.lastChild.textContent=plcFmt(PLC_LEN);}
+    function paint(){c.classList.toggle('is-playing',playing);pp.innerHTML=playing?IC_PAUSE_F:IC_PLAY_F;pp.setAttribute('aria-label',playing?'Pause':'Play');
+      hb.innerHTML=liked?IC_HEART_F:IC_HEART;hb.setAttribute('aria-pressed',String(liked));hb.setAttribute('aria-label',liked?'Unlike':'Like');hb.classList.toggle('is-on',liked);
+      if(c.__lk)c.__lk.textContent=likes+' likes';paintT();}
+    /* 播放中每秒推進：走 Slider 原子自己的鍵盤步進（ArrowRight＝+1 秒），內部值、aria、填色一起更新 */
+    const step=k=>{if(thumb)thumb.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true}));};
+    function tick(){if(!c.isConnected){clearInterval(timer);timer=null;return;}if(t>=PLC_LEN){playing=false;stop();step('Home');paint();if(o.onChange)o.onChange();return;}step('ArrowRight');}
+    function stop(){if(timer){clearInterval(timer);timer=null;}}
+    function run(){stop();if(playing&&o.live)timer=setInterval(tick,1000);}
+    paint();
+    if(o.live){pp.onclick=()=>{playing=!playing;paint();run();if(o.onChange)o.onChange();};
+      hb.onclick=()=>{liked=!liked;likes+=liked?1:-1;paint();hb.classList.remove('plc-pop');void hb.offsetWidth;hb.classList.add('plc-pop');if(o.onChange)o.onChange();};
+      pv.onclick=()=>step('Home');nx.onclick=()=>step('End');
+      requestAnimationFrame(run);}
+    return c;}
+  LIVE['player-card']=(host)=>mountLive(host,{gate:'player-card',initial:{state:'paused',likes:true},
+    segs:[{key:'state',label:'State',options:['paused','playing'],labels:['暫停','播放中']}],
+    bools:[{key:'likes',label:'likes 按讚列'}],boolLabel:'Content',
+    render:(st,sync)=>plcEl(st.state,{live:true,likes:st.likes,onChange:sync}),
+    note:'按圓形播放鍵切換播放／暫停：播放中進度每秒前進（減少動態設定下不做平滑補間），可直接拖曳或用方向鍵調進度；⏮ 回到開頭、⏭ 跳到結尾。愛心切換已按讚並 +1；右下角箭頭展開按讚名單。'});
+  function buildPlayerCard(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Player Card',title:'Player Card 音樂播放卡',
+      lede:'專輯封面＋曲名歌手＋愛心、進度條與時間、上一首／大圓播放鍵／下一首、分隔線、按讚頭像群。內部全數取用原子：<a href="#button">button</a>（icon-only；播放鍵為 solid l 加大成圓）、<a href="#slider">slider</a>（進度，可拖曳）、<a href="#divider">divider</a>、<a href="#avatar">avatar</a>（縮寫＋群組疊放）。封面用 token 漸層，不放外部圖片。',
+      specRows:[['axes','<code>state</code>'],['formula','<code>2</code>'],['boolean','<code>likes</code>'],['atoms','<code>.btn · .sld · .dvd · avtEl / .avt-grp</code>'],['token-policy','<code>violet / info / brand2 漸層 · radius.2xl</code>']]});
+    const SN={paused:['暫停','paused'],playing:['播放中','playing']};
+    const axes=DIAL_SPECS['player-card'].axes,active=CHOICE['player-card'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const ss=axes.state.filter(v=>active.state.has(v));
+      p.appendChild(matrixPanel({badge:'likes · on',name:'State',rows:['default'],cols:ss,rowLab:()=>labHTML('預設','default'),colLab:x=>labHTML(SN[x][0],SN[x][1]),cell:(r,s)=>plcEl(s,{}),mincol:340}));}
+    mountDial(body,{axes,zh:DIAL_SPECS['player-card'].zh,active,onRender:renderM});
+    const sec=section(body,'State 狀態','暫停＝播放三角；播放中＝暫停雙槓，封面多一圈柔光。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','<code>likes</code> 對應 Figma boolean property：分隔線＋按讚列整段開／關。');
+    capRow(cs,[['likes = false',plcEl('paused',{likes:false})]]);
+    usageSection(body,[['用 Player Card','單首曲目／Podcast 單集的迷你播放器、分享卡。'],['改用 List Item','播放清單：一次很多首，每首只需要一列。'],['播放鍵','整張卡只有一個 solid 主按鈕（播放），其他控制都用 text 按鈕。']]);
+    const sl=section(body,'互動預覽與程式碼','按播放看進度前進；拖進度、按愛心、展開按讚名單。');LIVE['player-card'](sl);
+  }
+
+  /* ---------- TICKET CARD 登機證 ---------- */
+  const TKC_ST={'on-time':['On time','success'],boarding:['Boarding','info'],delayed:['Delayed','warning'],cancelled:['Cancelled','danger']};
+  function tkcEl(status,o){o=o||{};const S=TKC_ST[status]||TKC_ST['on-time'];let done=false;
+    const c=ce('article','tkc tkc-s-'+status+(o.live?' live':''));c.setAttribute('aria-label','Boarding pass TA 482, San Francisco to New York, '+S[0]);
+    const top=ce('div','tkc-top');const hd=ce('div','tkc-hd');hd.innerHTML='<span>TA 482 · Wed, Jun 12</span>';hd.appendChild(crdTag(S[0],'soft',S[1],'tkc-tag'));top.appendChild(hd);
+    const rt=ce('div','tkc-rt');
+    rt.innerHTML=`<div class="tkc-pt"><b>SFO</b><span>San Francisco</span></div><div class="tkc-path" aria-label="Flight time 5h 20m"><div class="tkc-line"><i></i><span class="tkc-plane" aria-hidden="true">${IC_AIRPLANE}</span><i></i></div><span>5h 20m</span></div><div class="tkc-pt tkc-to"><b>JFK</b><span>New York</span></div>`;
+    top.appendChild(rt);
+    const tms=ce('div','tkc-tm');tms.innerHTML=status==='delayed'?'<span><s>08:45</s> 09:25</span><span><s>17:05</s> 17:45</span>':'<span>08:45</span><span>17:05</span>';top.appendChild(tms);
+    c.appendChild(top);
+    const bt=ce('div','tkc-bot');const perf=dvdEl('horizontal','dashed');perf.classList.add('tkc-perf');bt.appendChild(perf);
+    const gr=ce('dl','tkc-grid');[['Gate','B12'],['Seat','14A'],['Boards',status==='delayed'?'08:45':'08:05'],['Zone','2']].forEach(([k,v])=>{const d=ce('div');d.innerHTML=`<dt>${k}</dt><dd>${v}</dd>`;gr.appendChild(d);});bt.appendChild(gr);
+    if(o.passenger!==false){bt.appendChild(dvdEl('horizontal','solid'));const ps=ce('div','tkc-ps');
+      ps.appendChild(avtEl('l','circle','initials',{initials:'MC',tone:'sec',name:'Maya Chen'}));
+      const nm=ce('div','tkc-nm');nm.innerHTML='<b>Maya Chen</b><span>Economy</span>';ps.appendChild(nm);
+      const cancelled=status==='cancelled';
+      const b=mkBtn({variant:'solid',intent:'primary',size:'m',isLive:!!o.live,disabled:cancelled});b.type='button';b.classList.add('tkc-btn');
+      const paint=()=>{if(done){b.className=b.className.replace(/\bv-[a-z]+/,'v-outline').replace(/\bi-[a-z]+/,'i-secondary');b.innerHTML=IC_CHECK+'<span>Checked in</span>';}
+        else b.innerHTML='<span>'+(cancelled?'Rebook':'Check in')+'</span>';b.setAttribute('aria-pressed',String(done));};
+      paint();if(o.live&&!cancelled)b.onclick=()=>{if(done)return;done=true;paint();c.classList.add('is-done');if(o.onChange)o.onChange();};
+      ps.appendChild(b);bt.appendChild(ps);}
+    c.appendChild(bt);return c;}
+  LIVE['ticket-card']=(host)=>mountLive(host,{gate:'ticket-card',initial:{status:'on-time',passenger:true},
+    segs:[{key:'status',label:'Status',options:['on-time','boarding','delayed','cancelled'],labels:['準時','登機中','延誤','取消']}],
+    bools:[{key:'passenger',label:'passenger 旅客列'}],boolLabel:'Content',
+    render:(st,sync)=>tkcEl(st.status,{live:true,passenger:st.passenger,onChange:sync}),
+    note:'滑過票卡：航線上的飛機沿虛線滑到終點。按「Check in」→ 變成外框「Checked in」＋勾勾。延誤會劃掉原時間並顯示新時間；取消時按鈕停用。'});
+  function buildTicketCard(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Ticket Card',title:'Ticket Card 登機證',
+      lede:'票券型卡片：航班與日期＋狀態標籤、大字 SFO → JFK（虛線航線＋飛機＋飛行時間）、起降時間，中段兩側半圓缺口＋虛線撕線，下方 Gate／Seat／Boards／Zone 與旅客列。內部取用 <a href="#tag">tag</a>（狀態）、<a href="#divider">divider</a>（撕線／分隔）、<a href="#avatar">avatar</a>、<a href="#button">button</a>。狀態是 variant 軸（<b>4</b>）。',
+      specRows:[['axes','<code>status</code>'],['formula','<code>4</code>'],['boolean','<code>passenger</code>'],['atoms','<code>.tg · .dvd · avtEl · .btn</code>'],['token-policy','<code>semantic.feedback.* · radius.2xl · mask 缺口</code>']]});
+    const SN={'on-time':['準時','on-time'],boarding:['登機中','boarding'],delayed:['延誤','delayed'],cancelled:['取消','cancelled']};
+    const axes=DIAL_SPECS['ticket-card'].axes,active=CHOICE['ticket-card'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const ss=axes.status.filter(v=>active.status.has(v));
+      p.appendChild(matrixPanel({badge:'passenger · on',name:'Status',rows:['default'],cols:ss,rowLab:()=>labHTML('預設','default'),colLab:x=>labHTML(SN[x][0],SN[x][1]),cell:(r,s)=>tkcEl(s,{}),mincol:340}));}
+    mountDial(body,{axes,zh:DIAL_SPECS['ticket-card'].zh,active,onRender:renderM});
+    const sec=section(body,'Status 狀態','狀態標籤綁 feedback 語意色：準時 success、登機中 info、延誤 warning、取消 danger。缺口是 CSS mask 挖空，放在任何底色上都透出底色。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容軸（boolean）','<code>passenger</code> 對應 Figma boolean property：旅客列（頭像＋姓名艙等＋按鈕）整段開／關。');
+    capRow(cs,[['passenger = false',tkcEl('boarding',{passenger:false})]]);
+    usageSection(body,[['用 Ticket Card','登機證、電子票券、活動入場券等「有撕線」語意的憑證。'],['改用 Descriptions','只是列出訂單欄位，沒有票券的實體感。'],['缺口','只放在撕線那一列；一張票最多一條撕線。']]);
+    const sl=section(body,'互動預覽與程式碼','滑過看飛機滑行；按 Check in。');LIVE['ticket-card'](sl);
+  }
+  /* ==================== /CARDS5:v1 ==================== */
+
+  const BUILD={'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,'trend-card':buildTrendCard,'media-card':buildMediaCard,'weather-card':buildWeatherCard,'player-card':buildPlayerCard,'ticket-card':buildTicketCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar};
 
   /* ===== 複雜度確認總覽 ===== */
   function choiceReport(){
@@ -14481,7 +14889,7 @@ function buildScheduleChart(view){
     out._total=total;out._full=full;return out;
   }
   const SUMSEL=new Set(Object.keys(DIAL_SPECS)); // 手動選取要產出的元件（預設全選、跨切頁持久）
-  const RECOMMEND=['button','input','dropdown','checkbox','radio','tag','icon','tooltip','notification','modal','card','table','tab','pagination','menu']; // AI 建議＝最常見/使用機率最高的元件（預設推薦集）
+  const RECOMMEND=['button','input','dropdown','checkbox','radio','tag','icon','tooltip','notification','modal','table','tab','pagination','menu']; // AI 建議＝最常見/使用機率最高的元件（預設推薦集）
   let aiOn=false,aiSnapshot=null; // AI 建議 toggle 狀態＋開啟前的選擇快照
   let sumLayout='accordion'; // 匯出頁版型方案：accordion 分類展開／list 緊湊清單／grid 分組網格（跨切頁持久）
   const DIAL_PAGE={button:'button',input:'input',dropdown:'dropdown',checkbox:'selector',radio:'selector',tag:'tag',tab:'tab',notification:'notification',tooltip:'tooltip',skeleton:'skeleton',loader:'loader',menu:'menu','action-menu':'action-menu',breadcrumb:'breadcrumb',pagination:'pagination',icon:'icon',price:'price',image:'image',
@@ -14755,6 +15163,15 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v12', date:'2026-11-05', title:'Card 新增 5 種單張牌卡 · 牌卡整理', items:[
+      {tag:'add', t:'Trend Card 趨勢卡：直式實心色塊（墨黑／紫／白／萊姆／綠，皆綁色階 token）＋手寫感編號＋大寫標題＋底部圓角圖；index／media 為 boolean'},
+      {tag:'add', t:'Media Card 照片標籤卡：滿版照片＋大圓角＋右上磨砂膠囊標籤（Tag 原子）；比例 3 種，selected 虛線外框、tilt 傾斜為 boolean'},
+      {tag:'add', t:'Weather Card 天氣卡：info 色階漸層＋超大溫度（數字滾動）＋磨砂五日列（Segmented 原子），點任一天整張切換；天氣狀況 4 種'},
+      {tag:'add', t:'Player Card 音樂播放卡：token 漸層封面、愛心、可拖曳進度（Slider 原子）、播放／暫停（Button 原子）、按讚頭像群（Avatar 原子）；播放中進度每秒前進，尊重減少動態'},
+      {tag:'add', t:'Ticket Card 登機證：SFO → JFK 虛線航線、兩側半圓缺口（CSS mask）＋虛線撕線（Divider 原子）、Gate／Seat／Boards／Zone、狀態 Tag 與 Check in 按鈕；狀態 4 種'},
+      {tag:'improve', t:'Image 圖片與 Carousel 輪播改用網站內嵌照片（原本是 Unsplash 遠端圖／純漸層，預覽環境看不到圖）'},
+      {tag:'improve', t:'Card 整理：移除 Card 卡片、Product Card 商品卡、Category Tile 分類磚；文章卡改用內嵌照片；新牌卡圓角調整（趨勢／照片標籤／天氣／播放器 --r-lg，登機證 --radius）、趨勢卡預設墨黑、播放器間距收緊、趨勢卡編號改正體淡字、照片標籤卡預設不選取'},
+    ]},
     {v:'v11', date:'2026-11-05', title:'Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正', items:[
       {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
       {tag:'add', t:'Tag 新增 size 軸：s 22px（預設）／m 26px／l 32px；首頁步驟牌卡的 Step 標籤改用 m'},
@@ -17298,7 +17715,7 @@ function buildScheduleChart(view){
     alert:'警示 提示 banner',notification:'通知 toast 訊息 snackbar',tooltip:'提示 說明',popover:'氣泡 浮層','hover-card':'資訊卡 預覽卡',modal:'彈窗 對話框 dialog 視窗',
     drawer:'抽屜 側邊面板 sheet',progress:'進度條 progressbar',loader:'載入 loading spinner',skeleton:'骨架 載入',empty:'空狀態 無資料 empty state',tag:'標籤 chip badge',
     price:'價格 金額',image:'圖片 img 照片',rating:'評分 星星 star',carousel:'輪播 banner',list:'清單 列表','list-item':'清單項目 列',collapse:'折疊 accordion 手風琴',
-    descriptions:'資料清單 屬性 key value',card:'卡片',  'product-card':'商品卡 商品','category-tile':'分類',  'article-card':'文章卡 部落格','person-card':'人物卡 成員 照片 person','profile-card':'檔案卡 品牌 追蹤 profile follow','metric-card':'指標 週 KPI 數據 metric','invite-card':'邀請 協作 分享 成員 invite share','widget-card':'小工具 儀表板 widget dashboard 待辦',table:'表格 資料表 datagrid',
+    descriptions:'資料清單 屬性 key value',card:'卡片',  'product-card':'商品卡 商品','category-tile':'分類',  'article-card':'文章卡 部落格','person-card':'人物卡 成員 照片 person','profile-card':'檔案卡 品牌 追蹤 profile follow','metric-card':'指標 週 KPI 數據 metric','invite-card':'邀請 協作 分享 成員 invite share','widget-card':'小工具 儀表板 widget dashboard 待辦','trend-card':'趨勢 主題 色塊 trend','media-card':'照片 標籤 選取 media photo','weather-card':'天氣 溫度 weather forecast','player-card':'音樂 播放器 player music','ticket-card':'登機證 票券 機票 ticket boarding pass',table:'表格 資料表 datagrid',
     'table-toolbar':'篩選 批次 filter','tree-view':'樹狀 tree 資料夾',calendar:'日曆 行事曆',chart:'圖表 統計 graph','schedule-chart':'排程 甘特 gantt'};
   const SS_PAGES=[['home','首頁','首頁 home landing 元件牆 playground'],['start','開始新專案','專案 新專案 匯入 流程 精靈 start wizard onboarding'],['guide','上手指南','指南 教學 guide'],['tokens','Design Token','變數 顏色 色票 間距 token variables'],['guideline','Design Guideline','規範 設計指南 guideline'],
     ['summary','需求匯總','匯出 選取 export summary'],['changelog','更新紀錄','版本 changelog release'],['settings','偏好設定','設定 磨砂 深色 主題 settings preferences']];
@@ -17580,6 +17997,19 @@ function buildScheduleChart(view){
     'widget-card':[{slot:'--wdg-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
                    {slot:'--wdg-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
                    {slot:'--wdg-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h9'}],
+    /* CARDS5:v1 */
+    'trend-card':[{slot:'--trd-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+                  {slot:'--trd-pad',label:'內距 padding',cat:'spacing',def:'--sp-5'},
+                  {slot:'--trd-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h8'}],
+    'media-card':[{slot:'--mdc-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'}],
+    'weather-card':[{slot:'--wtc-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+                    {slot:'--wtc-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'}],
+    'player-card':[{slot:'--plc-radius',label:'圓角 radius',cat:'radius',def:'--r-lg'},
+                   {slot:'--plc-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
+                   {slot:'--plc-title-fs',label:'曲名文字級別 font-size',cat:'typography',def:'--fs-h6'}],
+    'ticket-card':[{slot:'--tkc-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},
+                   {slot:'--tkc-pad',label:'內距 padding',cat:'spacing',def:'--sp-6'},
+                   {slot:'--tkc-code-fs',label:'機場代碼文字級別 font-size',cat:'typography',def:'--fs-h4'}],
     /* ── Table & Chart ── */
     table:[{slot:'--tbl-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'}],
     chart:[{slot:'--cht-radius',label:'圖表卡圓角 radius',cat:'radius',def:'--r-sm'},
@@ -17847,13 +18277,13 @@ function buildScheduleChart(view){
       ['tooltip','補充說明不佔版面'],['alert','頁內常駐提示'],['notification','操作完成後的回饋'],['modal','需要使用者確認的對話'],['loader','載入中狀態'],['empty','沒有資料時的畫面']],
     web:[['header','網站頁首與主導覽'],['footer','網站頁尾資訊'],['breadcrumb','多層頁面的位置提示'],['pagination','列表分頁'],['tab','同頁內容切換'],['menu','導覽與下拉選單'],['popover','點擊後的浮出內容'],['link','文字連結']],
     app:[['tab','App 底部或頁內分頁'],['list','App 常見的清單版面'],['list-item','清單的單列資訊'],['drawer','App 側邊或底部抽屜'],['segmented','少量檢視方式切換'],['floating-line','固定在底部的主要動作列'],['avatar','會員與個人資料']],
-    ecommerce:[['product-card','商品列表的主要單位'],['price','售價、折扣與數值'],['quantity','購物車數量'],['carousel','首頁主視覺輪播'],['category-tile','分類入口'],['rating','商品評價'],['image','商品圖'],['step','結帳流程進度']],
+    ecommerce:[['price','售價、折扣與數值'],['quantity','購物車數量'],['carousel','首頁主視覺輪播'],['rating','商品評價'],['image','商品圖'],['step','結帳流程進度']],
     saas:[['table','資料管理的核心'],['table-toolbar','表格的篩選與批次操作'],['chart','儀表板數據'],['date-picker','日期篩選與設定'],['descriptions','詳細頁的欄位清單'],['tree-view','階層資料'],['app-shell','後台框架'],['command','進階使用者的快速指令'],['dropzone','檔案匯入']],
     finance:[['chart','走勢與資產配置'],['price','金額與百分比'],['table','交易明細'],['descriptions','帳戶資料'],['step','開戶與申請流程'],['progress','目標與進度'],['date-picker','查詢區間']],
     media:[['article-card','文章列表'],['image','內容圖片'],['carousel','精選內容'],['section-head','區段標題與更多連結'],['avatar','作者資訊']],
     public:[['step','申辦流程分步'],['date-picker','預約日期'],['dropzone','上傳證明文件'],['descriptions','申請資料確認'],['collapse','常見問題']],
-    education:[['progress','學習進度'],['step','課程章節'],['card','課程卡'],['list','課程清單'],['calendar','課表與行事曆'],['avatar','講師與學員']],
-    other:[['card','通用內容卡'],['list','通用清單']],
+    education:[['progress','學習進度'],['step','課程章節'],['article-card','課程卡'],['list','課程清單'],['calendar','課表與行事曆'],['avatar','講師與學員']],
+    other:[['article-card','通用內容卡'],['list','通用清單']],
   };
   const FLW_SAMPLE={brand:'果思咖啡',industry:'ecommerce',platform:'both',primary:'#2F6B4F',secondary:'#E0A458',font:'hei',tone:['溫暖','自然','親切'],density:'comfortable',radius:'round',
     text:'果思咖啡品牌規範（範例）\n主色：森林綠 #2F6B4F\n輔色：焦糖 #E0A458\n調性：溫暖、自然、親切\n產品：線上咖啡豆訂閱與門市點餐 App'};

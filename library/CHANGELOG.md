@@ -6,6 +6,35 @@
 
 ---
 
+## 2026-11-05（六十八）　Image／Carousel 換照片
+
+- **Image 圖片**：圖片池（`IM_POOL`／`IM_CIRCLE`）改對應網站內嵌照片（辦公室、天空、人像），新增 `imEmbed()`；`imUrl()` 先找內嵌照片、找不到才用 Unsplash。預覽環境（會擋遠端圖）也看得到圖，全站用到圖片池的地方一起換。
+- **Carousel 輪播**：五張投影片原本只有色塊漸層，改成內嵌照片底（`crsPhoto()`）＋下方加深遮罩（`--c-neutral-900` 混透明），文字維持可讀。
+
+## 2026-11-05（六十七）　新牌卡圓角與間距
+
+- **趨勢卡**互動預覽預設底色改墨黑（ink）。
+- **圓角**：趨勢卡、照片標籤卡、天氣卡、播放器卡外框 `--radius` → `--r-lg`（10px，Token 綁定預設同步）；登機證卡維持 `--radius`。
+- **播放器卡間距收緊**：內距 `--sp-6` → `--sp-5`；標題列、進度條上距 `--sp-5` → `--sp-4`；播放控制列上下 `--sp-5／--sp-6` → `--sp-4`、按鈕間距 `--sp-6` → `--sp-5`；按讚列上距與間距 `--sp-4` → `--sp-3`。
+
+## 2026-11-05（六十六）　牌卡整理
+
+- **新 5 張牌卡圓角**對齊其他牌卡：外框 `--r-xl`／`--r-2xl` → `--radius`（Token 綁定預設 `--r-sm`），趨勢卡配圖與播放器封面改 `--r-xs`。
+- **趨勢卡編號**改正體、實心淡字（`--trd-fg` 40%），拿掉傾斜與描邊。
+- **照片標籤卡**互動預覽預設不選取。
+- **移除** Card 卡片、Product Card 商品卡、Category Tile 分類磚：側欄、DIAL_SPECS（需求匯總）、AI 建議清單、開新專案產業對照表（教育／其他改推 Article Card）、registry（total 78／ready 72／withAxes 70）一併拿掉；Rating 頁說明不再連到商品卡。
+- **文章卡**三張示意圖改用網站內嵌照片（辦公室、人像、天空）；原本是 Unsplash 遠端圖，預覽環境會被擋。`imUrl()` 遇到 data／http 網址直接回傳。
+
+## 2026-11-05（六十五）　Card 新增 5 種單張牌卡
+
+- **Card 卡片**群組新增 5 張「單張」牌卡（NAV、DIAL_SPECS、BUILD、搜尋關鍵字、Token 綁定槽、registry 同步；標記 `CARDS5:v1`）：
+  - `trend-card` 趨勢卡：tone 5（墨黑／紫／白／萊姆／綠，綁 `--c-brand-800`／`--c-violet-400`／`--c-neutral-0`／`warning-300 × success-300` 混色／`--c-success-400`）；boolean `index`、`media`。
+  - `media-card` 照片標籤卡：ratio 3（4:5／1:1／4:3）；boolean `label`、`selected`（`--accent2` 虛線外框）、`tilt`（預設關）。照片沿用已內嵌的 CARD_PHOTO／PSC_ROT／CARD_COVER。
+  - `weather-card` 天氣卡：cond 4（晴／多雲／雨／雷雨，各綁 info／violet 色階漸層）；boolean `forecast`。五日列取用 Segmented 原子（`sgmEl`）＋磨砂情境樣式，溫度用 `chtxRoll`。
+  - `player-card` 音樂播放卡：state 2（暫停／播放中）；boolean `likes`。進度取用 Slider 原子（播放中以原子自身鍵盤步進每秒 +1，可拖曳）、控制鈕取用 Button（icon-only）、按讚列取用 Avatar＋`.avt-grp`、分隔線取用 Divider；封面為 token 漸層。
+  - `ticket-card` 登機證：status 4（準時／登機中／延誤／取消 → Tag success／info／warning／danger）；boolean `passenger`。兩側半圓缺口用 CSS mask（上下兩段各挖四分之一圓），撕線為 Divider dashed。
+- 網站版本紀錄新增 v12。
+
 ## 2026-11-05（六十四）　版本紀錄整理
 
 - 網站版本紀錄 v11 重新排序（新增 → 改善 → 修正）並更新標題為「Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正」，共 24 項。
