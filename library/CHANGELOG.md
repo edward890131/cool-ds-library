@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-05（六十九）　Dropdown 多選勾選框改用 Checkbox 原子
+
+- Dropdown 多選選單原本用手刻的 `.ddcheck`（勾勾顏色沒設，繼承文字色；深色模式下主色是淺灰 `--c-brand-200`，勾勾也是淺灰，看起來像灰底灰勾）。改為取用 Checkbox 原子 `cbxEl('default','s')`，勾選時切 `st-checked`，樣式與 Checkbox 元件完全一致（鐵則 5）。網站版本紀錄新增 v13。
+
 ## 2026-11-05（六十八）　Image／Carousel 換照片
 
 - **Image 圖片**：圖片池（`IM_POOL`／`IM_CIRCLE`）改對應網站內嵌照片（辦公室、天空、人像），新增 `imEmbed()`；`imUrl()` 先找內嵌照片、找不到才用 Unsplash。預覽環境（會擋遠端圖）也看得到圖，全站用到圖片池的地方一起換。
