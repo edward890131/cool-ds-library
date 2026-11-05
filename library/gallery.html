@@ -5354,7 +5354,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
      段距 40px（--sp-7＋--sp-3），段標題不畫底線、不放說明文字 */
   .hx > .hx-sec{margin:calc(var(--sp-9) + var(--sp-6)) 0 0;scroll-margin-top:var(--sp-6);}
   .hx > #hxFlow,.hx > #hxFigma,.hx > #hxNews{max-width:1180px;margin-left:auto;margin-right:auto;}
-  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxNews{margin-top:calc(var(--sp-9) * 2);}  /* 下方四段間距同上方段落 */  /* 與 hero 同最大寬 */
+  .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxNews{margin-top:calc(var(--sp-9) * 2);}
+  .hx > #hxNews{margin-bottom:calc(var(--sp-9) * 2);}  /* FAQ（首頁最後一段）與 footer 拉開，同段落間距 */  /* 下方四段間距同上方段落 */  /* 與 hero 同最大寬 */
   /* 宣言＋大數字 */
   .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(64px,10vw,144px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框；上下留白加倍 */
   .hx-manifesto{margin:0;max-width:none;text-wrap:balance;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
@@ -14738,7 +14739,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
       {tag:'add', t:'Chart 新增 semi 半圓（180° 弧段，樣式同甜甜圈）與 pie 實心圓餅（扇形內標百分比）兩型，共 16 型'},
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
-      {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級'},
+      {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
     ]},
     {v:'v10', date:'2026-11-04', title:'元件頁 bento 化 · RWD 裝置預覽 · 首頁改版 · CDL 品牌', items:[
