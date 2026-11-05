@@ -5403,6 +5403,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tile:hover .hx-tile-stage,.hx-tile:focus-visible .hx-tile-stage{border-color:var(--line-strong);box-shadow:var(--e-md);}
   /* 滑過＝Figma 式選取框：藍色 1px 外框＋四角白底方塊（選取色走 --c-info-500） */
   .hx-tile-wrap{position:relative;will-change:transform;}
+  #hxPv{position:relative;}
+  #hxPv > .hx-pv-sel{inset:var(--sp-2);z-index:3;transition:opacity var(--dur-default) var(--ease-out);}
+  #hxPv.is-sel > .hx-pv-sel{opacity:1;}
+  @media(max-width:599px){#hxPv > .hx-pv-sel{display:none;}}  /* 手機：控制項在 bottom sheet、預覽內部捲動會裁切四角，不顯示 */
   .hx-sel{position:absolute;inset:-1px;pointer-events:none;border:1px solid var(--c-info-500);opacity:0;transition:opacity var(--dur-fast) var(--ease-out);}
   .hx-sel i{position:absolute;width:7px;height:7px;box-sizing:border-box;background:var(--c-neutral-0);border:1px solid var(--c-info-500);}
   .hx-sel i:nth-child(1){left:-4px;top:-4px;} .hx-sel i:nth-child(2){right:-4px;top:-4px;} .hx-sel i:nth-child(3){left:-4px;bottom:-4px;} .hx-sel i:nth-child(4){right:-4px;bottom:-4px;}
@@ -14751,6 +14755,8 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用實心 Tag'},
+      {tag:'improve', t:'Token 試玩：操作控制欄位時，預覽整塊出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
       {tag:'improve', t:'首頁協作游標標籤依段落換字（yuu／component／about／motion／how2use／highlight／feedback／question），切換時打字動態'},
       {tag:'improve', t:'Header「此為母元件庫，若需更新請調整原始檔」移到 logo 右側，以淺色細線分隔'},
       {tag:'add', t:'Tag 新增 size 軸：s 22px（預設）／m 26px／l 32px；首頁步驟牌卡的 Step 標籤改用 m'},
@@ -15986,7 +15992,7 @@ function buildScheduleChart(view){
       const n=prgEl('bar','s',{value:all?Math.round(done/all*100):0});tpb.replaceWith(n);tpb=n;};
     const task=(text,label,intent,done,first)=>{const r=ce('button','hx-task');r.type='button';r.setAttribute('role','checkbox');
       const paint=on=>{r.classList.toggle('is-done',on);r.setAttribute('aria-checked',String(on));const c=cbxEl(on?'checked':'default','s');const old=r.querySelector('.cbx');if(old)old.replaceWith(c);else r.prepend(c);};
-      const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('outline',intent,label));paint(done);
+      const t=ce('span','hx-task-t');t.textContent=text;r.append(t,tag('solid',intent,label));paint(done);
       r.onclick=()=>{paint(!r.classList.contains('is-done'));recount();};if(first)list.prepend(r);else list.appendChild(r);recount();return r;};
     [['確認主色與輔助色','設計','brand',true],['圓角 token 定案','設計','brand',true],['Button 寫進 Figma','Figma','info',false],['跑 sync drift 檢查','前端','brand2',false],['Modal 文案校稿','內容','neutral',false],['活動頁 Hero 切版','前端','brand2',false]].forEach(a=>task(...a));
     /* 快速新增：新增／清除在標題列（size s）；欄位＝任務名稱／負責人（Dropdown）／截止日（Date Picker）／優先度（Segmented）／標籤（Dropdown 多選 chips）／通知（Switch）；HOME6:v1 拿掉說明 */
@@ -16163,7 +16169,13 @@ function buildScheduleChart(view){
     const go2=mkBtn({variant:'soft',intent:'secondary',size:'l',isLive:true});go2.querySelector('span').textContent='瀏覽元件';go2.onclick=()=>renderView('button');
     cta.append(go1,go2);
     const pv=hero.querySelector('#hxPv'),pnl=hero.querySelector('#hxPnl'),diff=hero.querySelector('#hxDiff'),cnt=hero.querySelector('#hxPnlN');
-    hxPreview(pv);
+    /* 操作控制欄位時：預覽整塊加上 Figma 式選取框（同元件牆 hover 的 .hx-sel：細框＋四角方點）；點到試玩區以外才收掉 */
+    {const sel=ce('span','hx-sel hx-pv-sel');sel.setAttribute('aria-hidden','true');sel.innerHTML='<i></i><i></i><i></i><i></i>';pv.__sel=sel;
+      const inCtl=t=>!!(t&&t.closest&&t.closest('#hxPnl,.hx-tok-ov,.hx-toktb,#hxActs'));
+      const on=()=>pv.classList.add('is-sel'),off=()=>pv.classList.remove('is-sel');
+      document.addEventListener('pointerdown',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();else if(!pv.contains(e.target))off();},true);
+      document.addEventListener('focusin',e=>{if(!pv.isConnected)return;if(inCtl(e.target))on();},true);}
+    hxPreview(pv);pv.appendChild(pv.__sel);   // hxPreview 會重寫內容，選取框之後再掛
     let reset,copy,last={},tokN=()=>{};
     const css=o=>'/* 貼到 :root（或專案的 tokens 覆寫） */\n:root {\n'+Object.entries(o).map(([k,v])=>'  '+k+': '+v+';').join('\n')+'\n}\n';
     const refresh=()=>{const o=hxApply(pv);last=o;const ks=Object.keys(o);
