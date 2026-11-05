@@ -5351,6 +5351,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* 宣言＋大數字 */
   .hx-stats-card{max-width:1180px;margin:0 auto;padding-block:clamp(64px,10vw,144px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);}  /* 同 hero 最大寬，無卡片外框；上下留白加倍 */
   .hx-manifesto{margin:0;max-width:none;text-wrap:balance;font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);text-wrap:pretty;}
+  :is(#hxFigma,#hxNews) > .gd-sec-h .gd-sec-t{font-family:var(--font-display);font-size:clamp(24px,3.4vw,44px);line-height:1.28;letter-spacing:-.02em;font-weight:var(--fw-semibold);}  /* 與宣言段「Every component grows…」同字級 */
   .hx-manifesto span{color:color-mix(in srgb,var(--ink) 18%,transparent);transition:color var(--dur-default) var(--ease-out);}
   .hx-manifesto span.on{color:var(--ink);}
   .hx-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-6);}
@@ -14708,6 +14709,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'變數篩選器／Token 綁定／狀態一覽表展開收合改成高度補間＋內容淡入淡出，不再瞬間變 0'},
       {tag:'improve', t:'Slider 圓點縮小、軌道加粗（s：5px／12px；m：6px／14px）'},
       {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
+      {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級'},
       {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
     ]},
     {v:'v10', date:'2026-11-04', title:'元件頁 bento 化 · RWD 裝置預覽 · 首頁改版 · CDL 品牌', items:[
