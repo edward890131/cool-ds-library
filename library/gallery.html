@@ -14755,6 +14755,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'甜甜圈細緻化：環寬 15→7、圓徑放大（m 156px／s 96px）、段間留細縫，中央改小標在上＋大數字'},
       {tag:'improve', t:'首頁「Code <-> Figma, Auto-connect」「常見問題 FAQ」標題字級改與宣言段同級；FAQ 下方與 footer 間距加大'},
       {tag:'improve', t:'首頁使用回饋背景圖加上視差滾動'},
+      {tag:'fix', t:'首頁動態展示：折線圖自動 hover 示範只在牌卡內進行，不再把協作游標拉到圖表上'},
       {tag:'improve', t:'Token 試玩待辦牌卡的標籤改用柔色 soft Tag'},
       {tag:'improve', t:'Token 試玩：操作控制欄位時，整塊試玩（操作區＋預覽）出現與元件牆 hover 相同的選取框（細框＋四角方點）'},
       {tag:'improve', t:'首頁協作游標標籤依段落換字（yuu／component／about／motion／how2use／highlight／feedback／question），切換時打字動態'},
@@ -16057,6 +16058,7 @@ function buildScheduleChart(view){
       else{ctag.textContent=cWant.slice(0,now.length+1);cT=setTimeout(cStep,chtxMs('--dur-fast')*.4);}};
     const cSet=w=>{if(w===cWant)return;cWant=w;if(HX_REDUCE()){ctag.textContent=w;return;}if(!cT)cStep();};
     const onMove=e=>{if(!hero.isConnected){document.removeEventListener('pointermove',onMove);cur.remove();return;}
+      if(!e.isTrusted)return;   // 動態展示的自動示範會派發合成 pointer 事件給圖表做 hover，協作游標只跟真實滑鼠
       if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;const h=home();if(!h||!h.contains(e.target)){cur.classList.remove('on');seen=false;return;}
       {const hit=CUR_LB.find(([q])=>e.target.closest(q));if(hit)cSet(hit[1]);}
       if(hero.contains(e.target)){const r=bg.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;active=true;kick();}
