@@ -1181,7 +1181,8 @@
   .dcard-head .dh-count b{color:var(--accent);}
   .dcard-head .dh-chevron{margin-left:auto;color:var(--faint);transition:transform var(--dur-fast);display:inline-flex;}
   .dcard-head .dh-chevron svg{width:16px;height:16px;display:block;}
-  .dcard.collapsed .dh-chevron{transform:rotate(-90deg);}
+  .dcard.collapsed .dh-chevron,.dcard.is-closing .dh-chevron{transform:rotate(-90deg);}
+  .dcard-head .dh-chevron{transition:transform var(--dur-default) var(--ease-out);}
   .dcard-body{padding:20px;}
   .dcard.collapsed .dcard-body{display:none;}
   .dcard-body .hint{color:var(--muted);font-size:13px;margin:0 0 16px;}
@@ -5190,6 +5191,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-h1{font-size:clamp(var(--fs-h2),5vw,var(--fs-h1));line-height:1.1;letter-spacing:-.03em;margin:0;font-weight:var(--fw-semibold);text-wrap:balance;}
   /* HOME3-TYPE:v1 尾字輪播：每個字一個顏色（primitive token；淺色取 600／700 階、深色取 400 階），換字時顏色漸變，游標 currentColor 跟著走 */
   .hx-type{--hx-tw:var(--c-violet-600);color:var(--hx-tw);white-space:nowrap;transition:color calc(var(--dur-slow) * 1.6) var(--ease-out);}
+  @media (max-width:599px){.hx-h1 .hx-type{display:block;}}  /* 手機：換字從第三行開頭打，不接在第二行尾巴（第三行高度固定，打字時不跳） */
   .hx-type[data-w="1"]{--hx-tw:var(--c-info-600);} .hx-type[data-w="2"]{--hx-tw:var(--c-brand2-600);} .hx-type[data-w="3"]{--hx-tw:var(--c-success-700);}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hx-type{--hx-tw:var(--c-violet-400);}
     :root:not([data-theme="light"]) .hx-type[data-w="1"]{--hx-tw:var(--c-info-400);} :root:not([data-theme="light"]) .hx-type[data-w="2"]{--hx-tw:var(--c-brand2-400);} :root:not([data-theme="light"]) .hx-type[data-w="3"]{--hx-tw:var(--c-success-400);}}
@@ -14700,6 +14702,37 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v11', date:'2026-11-05', title:'開新專案版型 · 搜尋位置 · 收合動畫', items:[
+      {tag:'improve', t:'開新專案：桌機／平板高度固定撐到最大、換步驟不跳動，步驟改放左側直排；手機改 bottom sheet（由下滑入），步驟維持置頂水平'},
+      {tag:'improve', t:'Header 搜尋在所有寬度（含 RWD 預覽框內）都放右側、深淺色切換左邊；搜尋彈窗圓角改與 Modal 一致並垂直置中'},
+      {tag:'improve', t:'變數篩選器／Token 綁定／狀態一覽表展開收合改成高度補間＋內容淡入淡出，不再瞬間變 0'},
+      {tag:'improve', t:'Slider 圓點縮小、軌道加粗（s：5px／12px；m：6px／14px）'},
+      {tag:'improve', t:'手機首頁 slogan 換字改從第三行開頭打字'},
+      {tag:'improve', t:'首頁：三大特色標題改首字母大寫；使用回饋牌卡圓角改 --radius、引言字級降一級；FAQ 可同時展開多個'},
+    ]},
+    {v:'v10', date:'2026-11-04', title:'元件頁 bento 化 · RWD 裝置預覽 · 首頁改版 · CDL 品牌', items:[
+      {tag:'add', t:'所有元件頁改 bento 版面：三欄可拖寬、程式碼左右並排、狀態一覽表預設收合；長選項改下拉'},
+      {tag:'add', t:'Header 新增 RWD 裝置預覽切換（電腦／平板／手機），框內有載入進度'},
+      {tag:'add', t:'Step、Table Toolbar 重新設計並進庫；Slider 新增填充式樣式與 Variant 樣式軸'},
+      {tag:'add', t:'首頁改版：英文 slogan、Token 試玩區（裝置外框、手機分組工具列＋bottom sheet）、元件牆跑馬燈、動態展示、四個步驟、Code ↔ Figma 雙筆電場景、使用回饋輪播、常見問題 FAQ'},
+      {tag:'add', t:'品牌：Logo 換成 CDL 字標、footer 改 YUUDESIGN；標題字改 Epilogue；favicon 換新 logo、補分享封面圖與 OG／Twitter meta'},
+      {tag:'improve', t:'網站預設深色；全站確認框改用 library Modal；牌卡與容器圓角統一走 --radius；磨砂時浮層不再透出背後內容'},
+      {tag:'improve', t:'Token 試玩預設無陰影、外框深淺 35%，預覽卡底色依深淺模式調整；需求匯總拿掉類別 icon；上手指南、偏好設定標示（待調整）並停用'},
+      {tag:'fix', t:'分段控制選取底色錯位、手機預覽顆粒疊層變灰、回饋背景切換閃爍與引言重疊'},
+    ]},
+    {v:'v9', date:'2026-11-03', title:'Motion v1 · P1／P2 元件全數完成 · 專案流程', items:[
+      {tag:'add', t:'Motion v1：按壓、浮層、內容三批動態規則上線（Button 按壓 scale .97）'},
+      {tag:'add', t:'P1 元件：Alert、Popover、Avatar、Segmented、Slider、Field、Stack、App Shell、Empty'},
+      {tag:'add', t:'P2 元件 17 顆：Button Group、Link、Kbd、Divider、Descriptions、Splitter、Scroll Area、Number Input、Rating、Carousel、Hover Card、Context Menu、Command、Date Picker、Dropzone、Table Toolbar 等'},
+      {tag:'add', t:'Chart 新增 9 種圖型、Card 新增 5 種牌卡'},
+      {tag:'add', t:'全站磨砂偏好、topbar 深淺色切換、模糊搜尋（⌘K）；分階段開新專案流程（#start）'},
+      {tag:'improve', t:'分類重整為 8 組；側欄圖示改用 Phosphor'},
+    ]},
+    {v:'v8', date:'2026-11-02', title:'元件接上字重／行高／陰影／動態 token', items:[
+      {tag:'improve', t:'元件內部改用字重、行高、陰影、動態 token，Token 頁調整即時反映到元件'},
+      {tag:'improve', t:'Tab pill 選中態改單一 token 做法；元件頁段落順序統一，「變數與 Token」左右並排'},
+      {tag:'improve', t:'Toggle 開啟態改用模式對比色，補互動預覽程式碼'},
+    ]},
     {v:'v7', date:'2026-07-27', title:'Design Token 頁與 SCSS 樣式包工程化', items:[
       {tag:'add', t:'Token 頁新增「輸出 · 樣式包（SCSS）」：把當前 token 產成比照工程慣例的樣式包——_variables.scss（token）＋_breakpoints.scss（斷點變數＋mixin）＋_font.scss（字體）＋layout.scss（reset，保留 focus-visible）＋README（Nuxt 引入與套 class 教學），每檔可複製／下載或一鍵「全部下載」'},
       {tag:'improve', t:'元件「互動預覽與程式碼」的 CSS 分頁改成 SCSS 風格：同元素的 variant／state／pseudo 用 & 巢狀、後代選擇器降一層；寫死的佈局屬性（position／margin／inset…）自動加註「可由使用端覆寫」'},
@@ -17110,7 +17143,22 @@ function buildScheduleChart(view){
   { const gb=document.getElementById('guideBtn'); if(gb){ const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true}); nb.id='guideBtn'; nb.type='button'; nb.innerHTML=NAV_IC['book-open-text']+'<span>上手指南</span>';nb.classList.add('has-lead'); nb.style.marginLeft='var(--sp-4)'; nb.onclick=()=>{location.hash='guide';}; gb.replaceWith(nb); } }
   { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>{location.hash='home';}; bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
-  document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(h)h.closest('.dcard').classList.toggle('collapsed');});
+  /* 變數篩選器／Token 綁定／狀態一覽表（.dcard）收合：高度補間＋內容淡入淡出，不再瞬間變 0（Motion token：--dur-default／--ease-out） */
+  document.addEventListener('click',e=>{const h=e.target.closest('.dcard-head');if(!h)return;const c=h.closest('.dcard');if(!c)return;
+    const body=c.querySelector(':scope > .dcard-body');
+    if(c.__anim){const a=c.__anim;c.__anim=null;a.onfinish=null;a.cancel();if(c.__done)c.__done();}   // 連點：先把上一段收尾到終點狀態
+    const willOpen=c.classList.contains('collapsed');
+    if(!body||matchMedia('(prefers-reduced-motion:reduce)').matches||!c.animate){c.classList.toggle('collapsed');return;}
+    const cs=getComputedStyle(document.documentElement);const dur=(parseFloat(cs.getPropertyValue('--dur-default'))||240)*1.25;const ease=cs.getPropertyValue('--ease-out').trim()||'cubic-bezier(.2,.8,.2,1)';
+    const from=c.getBoundingClientRect().height;
+    c.classList.toggle('collapsed',!willOpen);const to=c.getBoundingClientRect().height;   // 量終點高度
+    if(!willOpen)c.classList.remove('collapsed');                                          // 收合：先保持展開，播完再隱藏內容
+    const ov=c.style.overflow;c.style.overflow='hidden';
+    body.animate(willOpen?[{opacity:0,transform:'translateY(-4px)'},{opacity:1,transform:'none'}]:[{opacity:1},{opacity:0}],{duration:willOpen?dur:dur*.6,easing:ease,fill:'none'});
+    const an=c.animate([{height:from+'px'},{height:to+'px'}],{duration:dur,easing:ease});c.__anim=an;
+    if(!willOpen)c.classList.add('is-closing');
+    const done=()=>{c.__done=null;c.style.overflow=ov;c.classList.remove('is-closing');if(!willOpen)c.classList.add('collapsed');if(c.__anim===an)c.__anim=null;};
+    c.__done=done;an.onfinish=done;});
   (function(){ // 主題偏好：light／dark，存 localStorage；預設淺色（2026-11-03 拿掉跟隨系統）。控制入口＝topbar 右上角切換
     window.__applyThemePref=function(pref,persist){
       pref=pref==='dark'?'dark':'light';window.__themePref=pref;
