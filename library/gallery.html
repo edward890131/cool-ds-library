@@ -5817,18 +5817,18 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tw-dot{fill:var(--hx-tw-pc);stroke:var(--panel);stroke-width:2;opacity:0;transition:opacity var(--dur-fast);} .hx-tw-dot.is-on{opacity:1;}
   /* 提示膠囊＋游標 */
   .hx-tw-pill{position:absolute;left:4%;bottom:8%;z-index:7;display:inline-flex;align-items:center;gap:var(--sp-2);height:40px;padding:0 var(--sp-5) 0 var(--sp-4);border-radius:var(--r-pill);
-    background:var(--panel);color:var(--ink);border:1px solid var(--line-strong);font-family:var(--font-mono);font-size:var(--fs-h11);box-shadow:var(--e-xl);transition:box-shadow var(--dur-default);}
-  .hx-tw-pill.is-hit{box-shadow:var(--e-xl),0 0 0 3px color-mix(in srgb,var(--c-info-500) 55%,transparent);}
+    background:var(--panel);color:var(--ink);border:1px solid var(--line-strong);font-family:var(--font-mono);font-size:var(--fs-h11);box-shadow:var(--e-xl);transition:border-color var(--dur-default);}
+  .hx-tw-pill.is-hit{border-color:color-mix(in srgb,var(--hx-tw-pc) 40%,var(--line-strong));}  /* HOME19:v1 亮起只換成淡淡的主色細線 */
   .hx-tw-pk{width:8px;height:8px;border-radius:var(--r-pill);background:var(--hx-tw-pc);box-shadow:0 0 0 3px color-mix(in srgb,var(--hx-tw-pc) 25%,transparent);transition:background var(--dur-default);}
   .hx-tw-cur{position:absolute;left:0;top:0;z-index:9;display:flex;align-items:flex-start;gap:2px;color:var(--ink);  /* HOME19:v1 淺色黑、深色白 */opacity:0;pointer-events:none;transition:transform .6s var(--ease-out),opacity var(--dur-fast);}
   .hx-tw-cur.is-on{opacity:1;} .hx-tw-cur svg{width:22px;height:22px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));}
   .hx-tw-cur span{margin-top:16px;padding:2px var(--sp-2);border-radius:var(--r-pill);background:var(--ink);color:var(--panel);font-size:var(--fs-h12);font-weight:var(--fw-semibold);}
   .hx-tw-cur.is-click svg{animation:hxTwClick .35s var(--ease-out);} @keyframes hxTwClick{50%{transform:scale(.8);}}
-  @media(max-width:1180px){.hx-tw{height:600px;} .hx-tw-web{width:40%;} .hx-tw-code{left:16%;top:62%;width:42%;} .hx-tw-var{left:46%;width:50%;} .hx-tw-cmp{left:62%;top:46%;width:34%;}}
+  @media(max-width:1180px){.hx-tw{height:620px;} .hx-tw-web{width:37%;} .hx-tw-code{left:14%;top:64%;width:40%;} .hx-tw-var{left:51%;width:45%;} .hx-tw-cmp{left:61%;top:50%;width:35%;}}  /* HOME19:v1 拉開卡片間距，箭頭才看得出來 */
   /* 手機：維持交疊拼貼（參考 Razorpay RWD），卡片縮窄、錯位往下疊 */
   @media(max-width:767px){.hx-tw{height:860px;}
     .hx-tw-card{font-size:var(--fs-h12);}
-    .hx-tw-web{left:4%;top:2.5%;width:78%;} .hx-tw-var{left:18%;top:30%;width:78%;} .hx-tw-code{left:4%;top:55%;width:72%;} .hx-tw-cmp{left:34%;top:67%;width:62%;}
+    .hx-tw-web{left:4%;top:2.5%;width:78%;} .hx-tw-var{left:13%;top:30%;width:74%;} .hx-tw-code{left:4%;top:55%;width:72%;} .hx-tw-cmp{left:34%;top:67%;width:62%;}
     .hx-tw-vt{grid-template-columns:minmax(0,1fr);} .hx-tw-vc{display:none;}
     .hx-tw-wb{gap:var(--sp-2);padding:var(--sp-3);} .hx-tw-pv{min-height:64px;}
     .hx-tw-pill{left:4%;bottom:2%;height:36px;font-size:var(--fs-h12);padding-right:var(--sp-4);} .hx-tw-pk{width:7px;height:7px;}}
@@ -5883,11 +5883,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sy-ic line{fill:none;}
   .hx-sy-facts.is-in .hx-sy-ic polygon,.hx-sy-facts.is-in .hx-sy-ic line{stroke-dashoffset:0;}
   .hx-sy-f:hover .hx-sy-ic{color:var(--ink);}
-  .hx-sy-f[data-ic="layers"]:hover .bk{transform:scaleX(1.06);}
-  .hx-sy-f[data-ic="layers"]:hover .md{transform:scaleX(1.03);}
-  .hx-sy-f[data-ic="split"]:hover .bk{transform:rotate(22.5deg);}
-  .hx-sy-f[data-ic="drift"]:hover .bk{transform:translateX(-4px);}
-  .hx-sy-f[data-ic="drift"]:hover .fr{transform:translateX(4px);}
+  /* HOME19:v1 hover：線條從頭重新描繪（取代原本的微移） */
+  .hx-sy-facts.is-in .hx-sy-f:hover .hx-sy-ic :is(polygon,line){animation:hxSyRedraw 1.1s var(--ease-out) both;animation-delay:calc(var(--d,0) * 160ms);}
+  @keyframes hxSyRedraw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+  @media(prefers-reduced-motion:reduce){.hx-sy-facts.is-in .hx-sy-f:hover .hx-sy-ic :is(polygon,line){animation:none;}}
   .hx-sy-ft{margin:0 0 var(--sp-3);font-family:var(--font-display);font-size:var(--fs-h7);font-weight:var(--fw-medium,500);letter-spacing:.01em;line-height:1.2;color:var(--ink);}
   .hx-sy-fd{margin:0;font-size:var(--fs-h10);line-height:var(--lh-relaxed,1.7);color:var(--muted);max-width:34em;}
   @media(max-width:1024px){.hx-sy-f{padding:var(--sp-5);} .hx-sy-ic{margin-bottom:var(--sp-5);}}
@@ -15328,6 +15327,7 @@ function buildScheduleChart(view){
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
     {v:'v14', date:'2026-11-06', title:'中英切換 · 三方同步說明 · 首頁步驟示意', items:[
+      {tag:'improve', t:'三方同步箭頭在手機與平板也分開（手機：一條走左側、一條繞右側；平板拉開卡片間距）；同步膠囊亮起改為淡色細線；亮點 icon hover 時線條從頭重畫'},
       {tag:'improve', t:'三方同步箭頭：網站→程式碼改由網站卡底部往下彎入、網站→Variables 由右側往上拱入，兩條不再黏在一起；箭頭尖端跟著線變色；示範游標改為淺色黑、深色白'},
       {tag:'fix', t:'三方同步動畫的 class 與「動態展示」卡片撞名（hx-sc），導致動態展示卡片被套上格線底、固定高度與裁切；動畫改用 hx-tw 前綴，動態展示恢復原樣'},
       {tag:'improve', t:'Code ⇄ Figma 四個亮點說明精簡；手機改為水平輪播（滑動＋左右箭頭）；拿掉「看全部 Design Token」；同步膠囊改跟隨淺深色、圓點縮小、雙向箭頭拆成兩個'},
@@ -17489,10 +17489,14 @@ function buildScheduleChart(view){
     const MOB=matchMedia('(max-width:767px)');
     const pt=(R,gr,side,t,o)=>side==='b'?{x:R.left-gr.left+R.width*t,y:R.bottom-gr.top+o}:side==='t'?{x:R.left-gr.left+R.width*t,y:R.top-gr.top-o}:side==='l'?{x:R.left-gr.left-o,y:R.top-gr.top+R.height*t}:{x:R.right-gr.left+o,y:R.top-gr.top+R.height*t};
     const DESK={a:[['b',.2],['l',.3],'down'],b:[['r',.62],['l',.4],'up'],c:[['r',.32],['l',.42],'up']};
+    /* 手機：a 沿左側（Variables 卡左邊的空隙）往下進程式碼；b 從網站卡右側往右繞進 Variables 右側；c 從程式碼底部 L 形轉進元件左側 */
+    const MOBS={a:[['b',.08],['t',.1],'left'],b:[['r',.7],['r',.16],'right'],c:[['b',.22],['l',.5],'down']};
     const geo=()=>{const gr=g.getBoundingClientRect();if(!gr.width)return;
       Object.entries(PAIR).forEach(([k,[f,t]])=>{const A=W[f].getBoundingClientRect(),B=W[t].getBoundingClientRect();let p0,p1,c;
-        if(!MOB.matches){const [s0,s1,bow]=DESK[k];p0=pt(A,gr,s0[0],s0[1],6);p1=pt(B,gr,s1[0],s1[1],9);
+        if(true){const [s0,s1,bow]=(MOB.matches?MOBS:DESK)[k];p0=pt(A,gr,s0[0],s0[1],6);p1=pt(B,gr,s1[0],s1[1],9);
           if(bow==='down')c={x:p0.x,y:p1.y};  /* L 形二次曲線：先往下再轉進目標 */
+          else if(bow==='left')c={x:Math.min(p0.x,p1.x)-28,y:(p0.y+p1.y)/2};
+          else if(bow==='right')c={x:Math.min(Math.max(p0.x,p1.x)+24,gr.width-6),y:(p0.y+p1.y)/2};
           else{const len=Math.hypot(p1.x-p0.x,p1.y-p0.y);c={x:(p0.x+p1.x)/2,y:Math.min(p0.y,p1.y)-len*.28};}}
         else{const ca={x:A.left+A.width/2-gr.left,y:A.top+A.height/2-gr.top},cb={x:B.left+B.width/2-gr.left,y:B.top+B.height/2-gr.top};
           const dx=cb.x-ca.x,dy=cb.y-ca.y;
