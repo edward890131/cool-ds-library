@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-06（七十四）　三方同步拼貼：平放＋拋物線箭頭
+
+- **拼貼改平放**（`HOME17:v1`，參考 Razorpay）：四張卡不再旋轉、不漂浮，直角交疊排列；卡片間加 3 條細虛線拋物線箭頭（網站→程式碼、網站→Variables、程式碼→Button 元件），資料同步時箭頭換主色、虛線流動，一顆小點沿線移動（SVG `animateMotion`）；箭頭依卡片實際位置計算，視窗縮放時重算。
+- **網站卡**標題改用 cdl logo（網址保留在右側）；**間距**改為與主色一樣的輸入欄位、逐字打字切換（`--sp-4`→`--sp-5`→`--sp-6` 實際 px）；**顯示 icon** 改用 Checkbox 原子（Figma 元件卡的 Icon boolean 也改 Checkbox）。
+- **Variables 卡**改回前一版 Figma 面板樣式：左側 Collections（Semantic 選中）＋右側 Name／Value 表格（action/primary、spacing/inset、feedback/success、radius/sm）。
+- **程式碼卡**語法色比照 `.live-code`：淺色模式白底、深色模式深底。
+- **手機**維持交疊拼貼（不改直向堆疊）：卡片縮窄、左右錯位往下疊，Variables 收起 Collections 欄；直向箭頭改往右拱、箭頭朝下進入目標。
+- 補充：元件庫 Toggle 只有一種尺寸（44×24），沒有 size 軸。
+
 ## 2026-11-06（七十三）　段標題、三方同步拼貼動畫
 
 - **流程教學**加段標題「Start editing on this site」（與 Code ⇄ Figma 同字級），副標改為一般字重，移除「看 skill 路徑」按鈕；目錄改由段標題自動帶出。
