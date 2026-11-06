@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-06（七十三）　段標題、三方同步拼貼動畫
+
+- **流程教學**加段標題「Start editing on this site」（與 Code ⇄ Figma 同字級），副標改為一般字重，移除「看 skill 路徑」按鈕；目錄改由段標題自動帶出。
+- **Code ⇄ Figma**：段標題改為「Start from Claude, Code & Figma auto-sync」，副標改寫為下載 Skill 用 Claude 從訪談跑的說明；移除路徑 A／B 對比卡。
+- **三方同步動畫**改為拼貼式（`HOME16:v1`，參考 Razorpay）：格線底＋依主色變化的下方光帶，四張微傾斜、緩慢漂浮的卡片——專案網站（網址 `productname.vercel.app`，Design Token：主色色碼、間距 Slider、Button 狀態 Checkbox、顯示 icon Switch）、程式碼（tokens／components export）、Figma Local variables（color／spacing）、Figma Button 元件（Button 原子預覽＋State variant／Icon boolean／Size）。游標依序：輸入色碼 → 拖間距 → 勾 hover → 開 icon，對應列與卡片亮框，黑色提示膠囊顯示對應的 Figma 概念（Variables／Variant property／Boolean property）。手機改為直向堆疊。
+- 英文對照表補上新文案。
+
 ## 2026-11-06（七十二）　中英切換、三方同步說明、Figma logo
 
 - **中英切換**（標記 `I18N:v1`）：頂部列深淺色切換右邊新增 Segmented 原子（中／EN），預設中文、選擇存在 `localStorage['cdl-lang']`。做法是「對照表替換」：切到 EN 時把文字節點與 `aria-label`／`placeholder`／`title` 查 `I18N_EN`（約 480 條）與 `I18N_RX`（數字、日期、上傳進度等規則）換成英文，原文另存、切回中文還原；`MutationObserver` 追動畫與換頁的新文字。查不到的維持中文；側欄「Button 按鈕」這類英中並列的名稱，在 EN 時只留英文。第一階段範圍：外框、首頁全部段落、開新專案流程。人名轉拼音。
