@@ -5736,6 +5736,40 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sy-mid .tag{box-shadow:var(--e-md);white-space:nowrap;}
   @media(max-width:1180px){.hx-sy-g{--sy-b:170px;--sy-gap:44px;} .hx-sy-pnb{grid-template-columns:118px minmax(0,1fr);}}
   /* HOME12:v1 facts：無卡框三欄，細直線分隔；手機改單欄橫線分隔 */
+  /* HOME15:v1 路徑 A 引言、兩條路徑小卡、中央瀏覽器、Figma logo、亮點四欄 */
+  .ic-figma{flex:none;width:auto;height:1em;}
+  .tg .ic-figma{width:auto;height:12px;} .tg.sz-m .ic-figma,.tg.tg-m .ic-figma{height:14px;}
+  .hx-fl-file{font-family:var(--font-mono);}
+  .hx-fl-intro{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-3) var(--sp-5);margin:0 0 var(--sp-6);}
+  .hx-fl-lede{margin:0;max-width:62ch;font-size:var(--fs-h9);line-height:var(--lh-relaxed,1.7);color:var(--muted);text-wrap:pretty;}
+  .hx-fl-lede b{color:var(--ink);font-weight:var(--fw-semibold);}
+  .hx-sy-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5);}
+  .hx-sy-path{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-6);min-width:0;}
+  .hx-sy-pt{margin:0;font-family:var(--font-display);font-size:var(--fs-h8);font-weight:var(--fw-semibold);color:var(--ink);letter-spacing:-.01em;}
+  .hx-sy-pd{margin:0 0 var(--sp-2);font-size:var(--fs-h10);line-height:var(--lh-relaxed,1.7);color:var(--muted);text-wrap:pretty;}
+  .hx-sy-lede b{color:var(--ink);font-weight:var(--fw-semibold);}
+  .hx-sy-mid{gap:var(--sp-3);}
+  .hx-sy-web{width:240px;border-radius:var(--r-md);background:var(--panel);border:1px solid var(--line);box-shadow:var(--e-xl);overflow:hidden;transition:box-shadow var(--dur-default) var(--ease-out);}
+  .hx-sy-web.is-hit{box-shadow:var(--e-xl),0 0 0 3px color-mix(in srgb,var(--c-info-500) 45%,transparent);}
+  .hx-sy-wbar{display:flex;align-items:center;gap:var(--sp-2);height:28px;padding:0 var(--sp-3);background:var(--panel-2);border-bottom:1px solid var(--line);}
+  .hx-sy-wbar .hx-sy-dots{display:inline-flex;padding:0;gap:4px;} .hx-sy-wbar .hx-sy-dots i{width:7px;height:7px;background:var(--line-strong);}
+  .hx-sy-url{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px var(--sp-2);border-radius:var(--r-pill);background:var(--panel);font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);}
+  .hx-sy-url b{color:var(--ink);font-weight:var(--fw-semibold);}
+  .hx-sy-wb{display:flex;flex-direction:column;gap:var(--sp-2);padding:var(--sp-4);}
+  .hx-sy-wb small{font-size:var(--fs-h12);color:var(--muted);}
+  .hx-sy-wf{display:flex;align-items:center;gap:var(--sp-2);height:32px;padding:0 var(--sp-3);border:1px solid var(--line-strong);border-radius:var(--r-sm);font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);transition:border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);}
+  .hx-sy-wf .hx-sy-sw{width:14px;height:14px;}
+  .hx-sy-wf .hx-sy-cur{height:14px;background:var(--ink);}
+  .hx-sy-wf.is-typ{border-color:var(--c-info-500);box-shadow:0 0 0 3px color-mix(in srgb,var(--c-info-500) 22%,transparent);}
+  .hx-sy-wf.is-typ .hx-sy-cur{opacity:1;animation:hxSyBlink 1s steps(1) infinite;}
+  .hx-sy-pnn{display:inline-flex;align-items:center;gap:var(--sp-2);color:var(--s-text-1) !important;font-weight:var(--fw-semibold) !important;} .hx-sy-pnn .ic-figma{height:16px;}
+  .hx-sy-facts.hx-sy-facts{grid-template-columns:repeat(4,minmax(0,1fr));}
+  @media(max-width:1440px){.hx-sy-facts.hx-sy-facts{grid-template-columns:repeat(2,minmax(0,1fr));}}  /* 有側欄時內容寬不夠四欄 → 2×2 */
+  @media(max-width:1180px){.hx-sy-web{width:210px;}}
+  @media(max-width:767px){.hx-sy-paths{grid-template-columns:minmax(0,1fr);gap:var(--sp-4);} .hx-sy-path{padding:var(--sp-5);}
+    .hx-sy-facts.hx-sy-facts{grid-template-columns:minmax(0,1fr);}
+    .hx-sy-g .hx-sy-mid{flex-direction:column;align-self:stretch;} .hx-sy-web{width:min(300px,86%);}}
+  @media(prefers-reduced-motion:reduce){.hx-sy-web,.hx-sy-wf{transition:none;} .hx-sy-wf.is-typ .hx-sy-cur{animation:none;}}
   /* HOME14:v1 Code ⇄ Figma 段落說明＋skill 七步 */
   .hx-sy-intro{display:flex;flex-direction:column;gap:var(--sp-4);margin:calc(var(--sp-3) - var(--sp-5)) 0 var(--sp-6);}
   .hx-sy-lede{margin:0;max-width:72ch;font-size:var(--fs-h9);line-height:var(--lh-relaxed,1.7);color:var(--muted);text-wrap:pretty;}
@@ -6625,6 +6659,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   const FULL=144;
   const ICON_PENCIL='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/></svg>';
   const ICON_ARROW='<svg viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>';
+  /* HOME15:v1 Figma 官方 logo（品牌資產，維持官方色，不走 token） */
+  const ICON_FIGMA='<svg class="ic-figma" viewBox="0 0 38 57" aria-hidden="true" focusable="false"><path fill="#1ABCFE" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0ACF83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#FF7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#F24E1E" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#A259FF" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/></svg>';
   const ICON_GITHUB='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
 
   const active={}; for(const k in AXES) active[k]=new Set(AXES[k]);
@@ -17162,7 +17198,9 @@ function buildScheduleChart(view){
 
   function hxFlow(){ /* HOME9:v1 → HOME10:v1 arqe 式 sticky 堆疊大卡 → HOME11:v1 去區塊標題、Step 序號眉標、右側示意自動播放、只有第 4 步放 CTA */
     const sec=ce('section','gd-sec hx-sec');sec.id='hxFlow';sec.setAttribute('aria-label','四個步驟，開好一個新專案');
-    sec.innerHTML=`<ol class="hx-steps" id="hxSteps"></ol>`;
+    sec.innerHTML=`<div class="hx-fl-intro"><p class="hx-fl-lede"><b>從網站開始，不用寫程式。</b>打開元件庫網址、按「開啟新專案」進入編輯模式，四步調好你的樣式。</p></div><ol class="hx-steps" id="hxSteps"></ol>`;  /* HOME15:v1 路徑 A 引言 */
+    {const b=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true,trail:true});b.querySelector('span').textContent='想讓 Claude 從頭帶你跑？看 skill 路徑';
+      b.onclick=()=>{const f=document.getElementById('hxFigma');if(f)f.scrollIntoView({behavior:HX_REDUCE()?'auto':'smooth',block:'start'});};sec.querySelector('.hx-fl-intro').appendChild(b);}
     const tg=(v,i,t)=>{const g=tagEl(v,i,'default');g.querySelector('span').textContent=t;return g;};
     const stage=(cap,meta,...kids)=>{const s=ce('div','hx-step-stage bento-card');const c=ce('div','hx-step-cap');const a=ce('span');a.innerHTML=cap;const m=ce('span');m.textContent=meta;c.append(a,m);s.append(c,...kids);s.hxCap=(h,t)=>{if(h!=null)a.innerHTML=h;if(t!=null)m.textContent=t;};return s;};
     const btn=(v,i,t,o)=>{const b=mkBtn(Object.assign({variant:v,intent:i,size:'s'},o||{}));b.querySelector('span').textContent=t;return b;};
@@ -17224,20 +17262,21 @@ function buildScheduleChart(view){
       const tick=i=>R=>{set(i,'hover');R.later(()=>{set(i,'checked');cnt();},380);};
       return {el:s,end:()=>{rows.forEach((r,i)=>set(i,i<3?'checked':'default'));cnt();},beats:[
         [()=>{rows.forEach((r,i)=>set(i,'default'));cnt();},1200],[tick(0),1300],[tick(1),1300],[tick(2),3600]]};};
-    const visExport=()=>{const w=ce('div','hx-mcol');const bars=[['Figma Variables'],['SCSS 樣式包']].map(([t])=>{const p=prgEl('label','s',{value:0});const c=p.querySelector('.prg-cap');if(c)c.textContent=t;w.appendChild(p);return p;});
-      const br=ce('div','hx-mrow hx-wrap');const bw=btn('solid','primary','寫入 Figma'),bd=btn('outline','secondary','下載 SCSS');const ok=tg('soft','success','已寫入 Figma');ok.classList.add('hx-fl-ok');br.append(bw,bd,ok);
-      const s=stage('<b>Progress</b> · 匯出中','2 個目標',w,br);
+    const visExport=()=>{const w=ce('div','hx-mcol');const bars=['tokens.export.json','components.export.json'].map(t=>{const p=prgEl('label','s',{value:0});const c=p.querySelector('.prg-cap');if(c){c.textContent=t;c.classList.add('hx-fl-file');}w.appendChild(p);return p;});
+      const br=ce('div','hx-mrow hx-wrap');const bw=btn('solid','primary','輸出檔案'),bd=btn('outline','secondary','交給 Claude');const ok=tg('soft','success','已寫入 Figma');ok.insertAdjacentHTML('afterbegin',ICON_FIGMA);ok.classList.add('hx-fl-ok');br.append(bw,bd,ok);
+      const s=stage('<b>Progress</b> · 輸出中','2 個檔案',w,br);
       const press=(b,R)=>{b.classList.replace('st-default','st-pressed');R.later(()=>b.classList.replace('st-pressed','st-default'),240);};
-      return {el:s,end:()=>{bars.forEach(p=>setPrg(p,100));ok.classList.add('is-on');s.hxCap('<b>Progress</b> · 匯出完成','已同步');},beats:[
-        [()=>{bars.forEach(p=>setPrg(p,0));ok.classList.remove('is-on');s.hxCap('<b>Progress</b> · 匯出中','2 個目標');},600],
+      return {el:s,end:()=>{bars.forEach(p=>setPrg(p,100));ok.classList.add('is-on');s.hxCap('<b>Claude</b> · 已寫入 Figma','Variables · variant');},beats:[
+        [()=>{bars.forEach(p=>setPrg(p,0));ok.classList.remove('is-on');s.hxCap('<b>Progress</b> · 輸出中','2 個檔案');},600],
         [R=>tw(R,3000,p=>{setPrg(bars[0],Math.round(eo(p/.78)*100));setPrg(bars[1],Math.round(eo((p-.22)/.78)*100));}),3300],
-        [R=>press(bw,R),900],
-        [R=>{ok.classList.add('is-on');s.hxCap('<b>Progress</b> · 匯出完成','已同步');R.later(()=>press(bd,R),1400);},3400]]};};
+        [R=>{press(bw,R);s.hxCap('<b>Progress</b> · 輸出完成','2 個檔案');},1100],
+        [R=>{press(bd,R);s.hxCap('<b>Claude</b> · 寫入 Figma 中','ds-studio-flow');},1600],
+        [R=>{ok.classList.add('is-on');s.hxCap('<b>Claude</b> · 已寫入 Figma','Variables · variant');},3400]]};};
     const steps=[
       ['丟進你的品牌資料','按「開啟新專案」填好專案名稱、產業與平台，上傳品牌規範、logo 或 PRD，再回答幾題品牌問卷。網站會依答案提出第一版 token 與元件建議，草稿自動保存，隨時回來接著做。',visUpload],
       ['挑風格和主色','先選俐落、柔和或活潑當起點，再到 Design Token 頁自己輸入色碼，調整間距、圓角、字級與陰影。改一個值，整站元件立刻跟著換色換形，淺色、深色模式一起看。',visStyle],
       ['勾選要用的元件','到各元件頁用變數篩選器勾選需要的樣式、意圖、狀態和尺寸，狀態一覽表與變體數即時縮減。上方即時預覽可切換組合，HTML／CSS 程式碼同步更新，一鍵複製；圓角、間距也能用 Token 綁定換成別的 token。',visPick],
-      ['匯出到 Figma 和程式碼','確認後寫進 Figma Variables 與元件 variant，網站上的每個切換都對應到 Figma 的屬性。也能下載 SCSS 樣式包和元件程式碼，之後兩邊改了什麼，差異檢查會列出來。',visExport],
+      ['輸出檔案，交給 Claude 接上 Figma','確認後輸出 token 檔、元件清單和 SCSS 樣式包。把檔案交給裝好 ds-studio-flow skill 的 Claude，它會寫進 Figma Variables 和元件 variant，並記下這份專案的版本。之後哪一邊有改動，都能再跑一次同步。',visExport],
     ];
     const ol=sec.querySelector('#hxSteps');const runs=[];
     steps.forEach(([t,d,vis],i)=>{const li=ce('li','hx-step bento-card');li.style.setProperty('--hx-st-i',String(i));
@@ -17287,9 +17326,8 @@ function buildScheduleChart(view){
     const RV=(n,v,d)=>`<div class="hx-sy-row"><span><i class="hx-sy-sw" style="background:var(${v})"></i>${n}</span><code>${HX(v)}</code><em>${d||''}</em></div>`;
     const MODE=document.documentElement.dataset.theme==='dark'?'Dark':'Light';
     sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">Code &lt;-&gt; Figma, Auto-connect</h2><div class="hx-sec-x" id="hxFgX"></div></div>
-      <div class="hx-sy-intro"><p class="hx-sy-lede">下載 repo 裡的 <code>ds-studio-flow</code> skill 交給 Claude，它會照七個步驟帶你跑完：先訪談收齊品牌色、字體和目標 Figma 檔，提出第一版 token 與元件建議；你在網站上挑選、確認後匯出，Claude 再把 token 套進程式碼、寫進 Figma 的 Variables 和元件 variant，最後做一次雙向差異檢查。每個交棒點都會停下來等你確認，產出只寫進專案資料夾、不動母元件庫；Figma 裡的值全部綁 token、元件都是真的 instance，交給工程時不用再對一次規格。</p>
-        <ol class="hx-sy-steps" aria-label="skill 七個步驟"></ol></div>
-      <div class="hx-sy-g" role="img" aria-label="示意：程式碼裡的 token 改了，Figma 的 Variables 跟著更新；反過來也一樣">
+      <div class="hx-sy-intro"><div class="hx-sy-paths"></div><p class="hx-sy-lede">不論從哪條路開始，最後都會得到三個彼此對應的版本：<b>專案的 library 網址、程式碼、Figma 檔</b>。改其中一處，Claude 會列出差異讓你確認，再把另外兩邊對齊。</p></div>
+      <div class="hx-sy-g" role="img" aria-label="示意：專案的 library 網址、程式碼、Figma 三邊任一處改了 token，另外兩邊跟著對齊">
         <div class="hx-sy-dev" data-side="code"><div class="hx-sy-scr"><div class="hx-sy-ed">
           <div class="hx-sy-ex"><small>EXPLORER</small>${[[0,'cool-ds-library'],[1,'framework'],[1,'library'],[2,'gallery.html'],[2,'component-registry.json'],[1,'projects'],[2,'tokens.export.json',1],[2,'assets'],[1,'sync'],[2,'drift.mjs']].map(([x,t,on])=>`<span style="--x:${x}"${on?' class="is-on"':''}>${t}</span>`).join('')}</div>
           <div class="hx-sy-em"><div class="hx-sy-edt"><span class="hx-sy-dots"><i></i><i></i><i></i></span><span class="hx-sy-tab is-on">tokens.export.json<b></b></span><span class="hx-sy-tab">button.css</span><span class="hx-sy-tab">gallery.html</span></div>
@@ -17301,9 +17339,10 @@ function buildScheduleChart(view){
             L(`  ${P('},')}`),L(`  ${K('radius')}${P('{')} ${K('sm')}<span class="hx-sy-n">"${hxRootVar('--r-sm')||'4px'}"</span> ${P('}')}`),L(P('}'))].join('')}</div>
           <div class="hx-sy-esb"><span>main · tokens.export.json</span><span>JSON · UTF-8 · Ln 4</span></div></div>
         </div></div><div class="hx-sy-base"></div></div>
-        <div class="hx-sy-mid"><span class="hx-sy-ar">${AR}</span><span data-st></span></div>
+        <div class="hx-sy-mid"><div class="hx-sy-web" data-side="web"><div class="hx-sy-wbar"><span class="hx-sy-dots"><i></i><i></i><i></i></span><span class="hx-sy-url">…vercel.app/<b>acme</b></span></div>
+          <div class="hx-sy-wb"><small>Design Token · 主色</small><div class="hx-sy-wf"><i class="hx-sy-sw" data-sw></i><span><span data-v></span><span class="hx-sy-cur"></span></span></div></div></div><span data-st></span></div>
         <div class="hx-sy-dev" data-side="figma"><div class="hx-sy-scr"><div class="hx-sy-pn">
-          <div class="hx-sy-pnh">Local variables<span>✕</span></div>
+          <div class="hx-sy-pnh"><span class="hx-sy-pnn">${ICON_FIGMA}Local variables</span><span>✕</span></div>
           <div class="hx-sy-pnb"><div class="hx-sy-pnc"><small>Collections</small><span>Primitives</span><span class="is-on">Semantic</span><span>Spacing</span><span>Radius</span></div>
             <div class="hx-sy-pnt"><div class="hx-sy-row hx-sy-hd"><span>Name</span><span>${MODE}</span><em>Description</em></div>
               <div class="hx-sy-row" data-row><span><i class="hx-sy-sw" data-sw></i>action/primary</span><code data-v></code><em>主要按鈕、連結</em></div>
@@ -17313,9 +17352,13 @@ function buildScheduleChart(view){
       </div>
       <ul class="hx-sy-facts"></ul>`;
     const g=sec.querySelector('.hx-sy-g');g.inert=true;
-    /* HOME14:v1 七步清單取用 Tag 原子（outline／neutral／m） */
-    {const ol=sec.querySelector('.hx-sy-steps');['訪談','提案','網站挑選','匯出','套用 token','寫入 Figma','雙向同步'].forEach((t,i)=>{
-      const li=ce('li');const k=tagEl('outline','neutral','default','round','m');k.querySelector('span').textContent=(i+1)+'  '+t;li.appendChild(k);ol.appendChild(li);});}
+    /* HOME15:v1 兩條路徑小卡：Tag 原子當眉標與步驟標籤 */
+    {const host=sec.querySelector('.hx-sy-paths');
+      [['路徑 A · 從網站開始','適合想先看到畫面、邊試邊調的人。在網站上開新專案、調好樣式就輸出檔案，交給 Claude 寫進 Figma。',['開新專案','調樣式','輸出檔案','交給 Claude']],
+       ['路徑 B · 下載 skill 從頭跑','適合已經有品牌規範或 PRD、想一次跑完的人。把 ds-studio-flow skill 交給 Claude，它會從訪談開始，照七步帶你到 Figma。',['訪談','提案','網站挑選','匯出','套用 token','寫入 Figma','雙向同步']]]
+      .forEach(([h,d,st])=>{const c=ce('div','hx-sy-path bento-card');const t=ce('h3','hx-sy-pt');t.textContent=h;const p=ce('p','hx-sy-pd');p.textContent=d;
+        const ol=ce('ol','hx-sy-steps');ol.setAttribute('aria-label',h+' 步驟');st.forEach((x,i)=>{const li=ce('li');const k=tagEl('outline','neutral','default','round','m');k.querySelector('span').textContent=(i+1)+'  '+x;li.appendChild(k);ol.appendChild(li);});
+        c.append(t,p,ol);host.appendChild(c);});}
     const tg=(v,i,t)=>{const x=tagEl(v,i,'default');x.querySelector('span').textContent=t;return x;};
     /* HOME12:v1 三欄線稿：幾何八角形 icon（1px 線、currentColor）＋ display 標題＋說明；進入畫面時線條描繪 */
     const oct=(x,y,w,h,c)=>[[x+c,y],[x+w-c,y],[x+w,y+c],[x+w,y+h-c],[x+w-c,y+h],[x+c,y+h],[x,y+h-c],[x,y+c]].map(p=>p.join(',')).join(' ');
@@ -17326,12 +17369,14 @@ function buildScheduleChart(view){
     const ICONS={
       layers:pg(oct(4,10,34,34,9),'bk',0)+pg(oct(18,4,34,34,9),'fr',1)+ac(54,38),
       split:pg(reg(26,24,20,22.5),'bk',0)+`<line class="fr" x1="12" y1="38" x2="40" y2="10" pathLength="1" style="--d:1"/>`+ac(50,38),
-      drift:pg(oct(4,8,30,30,8),'bk',0)+pg(oct(20,14,30,30,8),'fr',1)+ac(54,6)
+      drift:pg(oct(4,8,30,30,8),'bk',0)+pg(oct(20,14,30,30,8),'fr',1)+ac(54,6),
+      web:pg('4,6 52,6 52,42 4,42','bk',0)+`<line class="fr" x1="4" y1="16" x2="52" y2="16" pathLength="1" style="--d:1"/>`+ac(56,0)   /* HOME15:v1 瀏覽器視窗 */
     };
     const FACTS=[
+      ['web','Library Edit','每個專案都有自己的 library 網址，直接在網頁上改 token、看元件即時預覽。改完輸出，Claude 會把同一份改動同步到程式碼和 Figma Variables，三邊記同一個版本號；別人打開網址時會提示「版本已更新」。'],
       ['layers','Variables','顏色、間距、圓角、字級和陰影都會寫成 Figma Variables，分成 Primitives、Semantic、Spacing、Radius 幾個集合，淺色和深色各是一個 mode。元件上的每個值都綁到 variable，不寫死色碼或 px，之後改一個 token，Figma 和網站會一起變。'],
       ['split','Variants','網站上能切換的軸（樣式、意圖、狀態、尺寸）會一對一變成 Figma 的 variant property，「顯示 icon」這類內容開關則變成 boolean。複合元件裡的按鈕、輸入框、icon 都是既有元件的 instance，不另外畫一份，工程拿到的組合方式跟 Figma 完全一樣。'],
-      ['drift','Drift Check','設計師在 Figma 改了、或工程在程式碼改了，跑一次差異檢查就會列出兩邊哪裡不同，並分成四類：token 值、結構（新元件或 variant）、內容（文案、圖片、logo）和互動原型。每一類都有固定的寫回位置，確認後才更新，兩邊不會互相覆蓋。']];
+      ['drift','Drift Check','網站、Figma、程式碼任何一邊有改動，跑一次差異檢查就會列出三邊哪裡不同，並分成四類：token 值、結構（新元件或 variant）、內容（文案、圖片、logo）和互動原型。每一類都有固定的寫回位置，確認後才更新，三邊不會互相覆蓋。']];
     const fl=sec.querySelector('.hx-sy-facts');
     FACTS.forEach(([ic,k,t])=>{const li=ce('li','hx-sy-f');li.dataset.ic=ic;
       li.innerHTML=`<svg class="hx-sy-ic" viewBox="0 0 64 48" aria-hidden="true" focusable="false">${ICONS[ic]}</svg><h3 class="hx-sy-ft"></h3><p class="hx-sy-fd"></p>`;
@@ -17350,10 +17395,13 @@ function buildScheduleChart(view){
     const flash=(el,cls,ms)=>{el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);later(()=>el.classList.remove(cls),ms);};
     const setCode=i=>{cV.textContent=hexOf(i);cSw.style.background='var('+TOK[i]+')';};
     const setFig=i=>{fV.textContent=hexOf(i);fSw.style.background='var('+TOK[i]+')';};
-    const clear=()=>{cLn.classList.remove('is-ed','is-typ');fRow.classList.remove('is-hit');dev.code.classList.remove('is-hit');dev.figma.classList.remove('is-hit');delete sec.dataset.dirty;};
-    const setSt=(busy,from)=>{st.classList.remove('i-success','i-info');st.classList.add(busy?'i-info':'i-success');st.querySelector('span').textContent=busy?'同步中':'已同步';if(from)sec.dataset.dir=from;};
+    const wEl=sec.querySelector('.hx-sy-web'),wF=wEl.querySelector('.hx-sy-wf'),wV=wF.querySelector('[data-v]'),wSw=wF.querySelector('[data-sw]');
+    const setWeb=i=>{wV.textContent=hexOf(i);wSw.style.background='var('+TOK[i]+')';};
+    const SRC={web:'網站',code:'程式碼',figma:'Figma'};
+    const clear=()=>{cLn.classList.remove('is-ed','is-typ');fRow.classList.remove('is-hit');dev.code.classList.remove('is-hit');dev.figma.classList.remove('is-hit');wEl.classList.remove('is-hit');wF.classList.remove('is-typ');delete sec.dataset.dirty;};
+    const setSt=(busy,from)=>{st.classList.remove('i-success','i-info');st.classList.add(busy?'i-info':'i-success');st.querySelector('span').textContent=busy?SRC[from||sec.dataset.dir]+'改動 · 同步中':'三邊已同步';if(from)sec.dataset.dir=from;};
     let k=0,n=0,vis=false,run=false;
-    setCode(0);setFig(0);
+    setCode(0);setFig(0);setWeb(0);
     const mq=matchMedia('(prefers-reduced-motion:reduce)');
     const stop=()=>{run=false;tms.forEach(clearTimeout);tms=[];};
     const done=()=>{setSt(false);later(()=>{clear();},900);later(tick,2600);};
@@ -17361,12 +17409,22 @@ function buildScheduleChart(view){
       let t=300;for(let c=old.length;c>=1;c--){const s=old.slice(0,c-1)||'';later(()=>{cV.textContent=s||'#';},t);t+=45;}
       for(let c=2;c<=nw.length;c++){const s=nw.slice(0,c);later(()=>{cV.textContent=s;if(c===nw.length)cSw.style.background='var('+TOK[i]+')';},t);t+=85;}
       later(()=>{cLn.classList.remove('is-typ');delete sec.dataset.dirty;cb();},t+350);};
+    /* HOME15:v1 網站上逐字輸入色碼 */
+    const typeWeb=(i,cb)=>{const old=wV.textContent,nw=hexOf(i);wF.classList.add('is-typ');
+      let t=300;for(let c=old.length;c>=1;c--){const s=old.slice(0,c-1)||'';later(()=>{wV.textContent=s||'#';},t);t+=45;}
+      for(let c=2;c<=nw.length;c++){const s=nw.slice(0,c);later(()=>{wV.textContent=s;if(c===nw.length)wSw.style.background='var('+TOK[i]+')';},t);t+=85;}
+      later(()=>{wF.classList.remove('is-typ');cb();},t+350);};
+    const toCode=()=>{setCode(k);cLn.classList.add('is-ed');flash(dev.code,'is-hit',900);};
+    const toFig=()=>{setFig(k);flash(fRow,'is-hit',1600);flash(dev.figma,'is-hit',900);};
+    const toWeb=()=>{setWeb(k);flash(wEl,'is-hit',1200);};
+    /* HOME15:v1 三邊輪流當起點：網站 → 程式碼＋Figma；Figma → 程式碼＋網站；程式碼 → 網站＋Figma */
     const tick=()=>{if(!sec.isConnected){cleanup();return;}tms=[];
-      k=(k+1)%TOK.length;const from=n++%2?'figma':'code';setSt(true,from);
-      if(from==='code'){flash(dev.code,'is-hit',1400);typeCode(k,()=>{setFig(k);flash(fRow,'is-hit',1600);flash(dev.figma,'is-hit',900);done();});}
+      k=(k+1)%TOK.length;const from=['web','figma','code'][n++%3];setSt(true,from);
+      if(from==='web'){flash(wEl,'is-hit',1600);typeWeb(k,()=>{toCode();later(toFig,450);later(done,500);});}
+      else if(from==='code'){flash(dev.code,'is-hit',1400);typeCode(k,()=>{toWeb();later(toFig,450);later(done,500);});}
       else{setFig(k);flash(fRow,'is-hit',2200);flash(dev.figma,'is-hit',900);
-        later(()=>{setCode(k);cLn.classList.add('is-ed');flash(dev.code,'is-hit',900);done();},1100);}};
-    const sync=()=>{const want=vis&&!document.hidden&&!mq.matches&&sec.isConnected;if(want&&!run){run=true;later(tick,1000);}else if(!want&&run){stop();clear();setCode(k);setFig(k);setSt(false);}};
+        later(()=>{toCode();later(toWeb,450);later(done,500);},1100);}};
+    const sync=()=>{const want=vis&&!document.hidden&&!mq.matches&&sec.isConnected;if(want&&!run){run=true;later(tick,1000);}else if(!want&&run){stop();clear();setCode(k);setFig(k);setWeb(k);setSt(false);}};
     const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;sync();},{threshold:.25});io.observe(g);
     const onVis=()=>sync();document.addEventListener('visibilitychange',onVis);mq.addEventListener('change',onVis);
     const cleanup=()=>{stop();io.disconnect();document.removeEventListener('visibilitychange',onVis);mq.removeEventListener('change',onVis);};
