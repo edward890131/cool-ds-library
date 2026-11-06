@@ -5812,16 +5812,17 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-tw-ln-a{fill:none;stroke:color-mix(in srgb,var(--ink) 45%,transparent);stroke-width:1.25;stroke-dasharray:3 5;transition:stroke var(--dur-default);}
   .hx-tw-ln-a.is-hit{stroke:var(--hx-tw-pc);stroke-width:1.5;animation:hxTwDash .9s linear infinite;}
   @keyframes hxTwDash{to{stroke-dashoffset:-16;}}
-  .hx-tw-mk{fill:none;stroke:color-mix(in srgb,var(--ink) 55%,transparent);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .hx-tw-mk{fill:none;stroke:color-mix(in srgb,var(--ink) 55%,transparent);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke var(--dur-default);}
+  .hx-tw-mk.is-hit{stroke:var(--hx-tw-pc);stroke-width:1.75;}  /* HOME19:v1 尖端跟著線變色 */
   .hx-tw-dot{fill:var(--hx-tw-pc);stroke:var(--panel);stroke-width:2;opacity:0;transition:opacity var(--dur-fast);} .hx-tw-dot.is-on{opacity:1;}
   /* 提示膠囊＋游標 */
   .hx-tw-pill{position:absolute;left:4%;bottom:8%;z-index:7;display:inline-flex;align-items:center;gap:var(--sp-2);height:40px;padding:0 var(--sp-5) 0 var(--sp-4);border-radius:var(--r-pill);
     background:var(--panel);color:var(--ink);border:1px solid var(--line-strong);font-family:var(--font-mono);font-size:var(--fs-h11);box-shadow:var(--e-xl);transition:box-shadow var(--dur-default);}
   .hx-tw-pill.is-hit{box-shadow:var(--e-xl),0 0 0 3px color-mix(in srgb,var(--c-info-500) 55%,transparent);}
   .hx-tw-pk{width:8px;height:8px;border-radius:var(--r-pill);background:var(--hx-tw-pc);box-shadow:0 0 0 3px color-mix(in srgb,var(--hx-tw-pc) 25%,transparent);transition:background var(--dur-default);}
-  .hx-tw-cur{position:absolute;left:0;top:0;z-index:9;display:flex;align-items:flex-start;gap:2px;color:var(--c-info-500);opacity:0;pointer-events:none;transition:transform .6s var(--ease-out),opacity var(--dur-fast);}
+  .hx-tw-cur{position:absolute;left:0;top:0;z-index:9;display:flex;align-items:flex-start;gap:2px;color:var(--ink);  /* HOME19:v1 淺色黑、深色白 */opacity:0;pointer-events:none;transition:transform .6s var(--ease-out),opacity var(--dur-fast);}
   .hx-tw-cur.is-on{opacity:1;} .hx-tw-cur svg{width:22px;height:22px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));}
-  .hx-tw-cur span{margin-top:16px;padding:2px var(--sp-2);border-radius:var(--r-pill);background:var(--c-info-500);color:var(--c-neutral-0);font-size:var(--fs-h12);font-weight:var(--fw-semibold);}
+  .hx-tw-cur span{margin-top:16px;padding:2px var(--sp-2);border-radius:var(--r-pill);background:var(--ink);color:var(--panel);font-size:var(--fs-h12);font-weight:var(--fw-semibold);}
   .hx-tw-cur.is-click svg{animation:hxTwClick .35s var(--ease-out);} @keyframes hxTwClick{50%{transform:scale(.8);}}
   @media(max-width:1180px){.hx-tw{height:600px;} .hx-tw-web{width:40%;} .hx-tw-code{left:16%;top:62%;width:42%;} .hx-tw-var{left:46%;width:50%;} .hx-tw-cmp{left:62%;top:46%;width:34%;}}
   /* 手機：維持交疊拼貼（參考 Razorpay RWD），卡片縮窄、錯位往下疊 */
@@ -15327,6 +15328,7 @@ function buildScheduleChart(view){
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
     {v:'v14', date:'2026-11-06', title:'中英切換 · 三方同步說明 · 首頁步驟示意', items:[
+      {tag:'improve', t:'三方同步箭頭：網站→程式碼改由網站卡底部往下彎入、網站→Variables 由右側往上拱入，兩條不再黏在一起；箭頭尖端跟著線變色；示範游標改為淺色黑、深色白'},
       {tag:'fix', t:'三方同步動畫的 class 與「動態展示」卡片撞名（hx-sc），導致動態展示卡片被套上格線底、固定高度與裁切；動畫改用 hx-tw 前綴，動態展示恢復原樣'},
       {tag:'improve', t:'Code ⇄ Figma 四個亮點說明精簡；手機改為水平輪播（滑動＋左右箭頭）；拿掉「看全部 Design Token」；同步膠囊改跟隨淺深色、圓點縮小、雙向箭頭拆成兩個'},
       {tag:'improve', t:'流程教學加段標題「Start editing on this site」；Code ⇄ Figma 段標題改為「Start from Claude, Code &amp; Figma auto-sync」並改寫副標，移除路徑 A／B 對比卡'},
@@ -17433,10 +17435,10 @@ function buildScheduleChart(view){
         <div class="hx-tw-card hx-tw-var"><div class="hx-tw-fh">${ICON_FIGMA}<b>Local variables</b><em>✕</em></div>
           <div class="hx-tw-vt"><div class="hx-tw-vc"><small>Collections</small><span>Primitives</span><span class="is-on">Semantic</span><span>Spacing</span><span>Radius</span></div><div class="hx-tw-vb"></div></div></div>
         <div class="hx-tw-card hx-tw-cmp"><div class="hx-tw-fh">${ICON_FIGMA}<b>Button</b><em>Component set</em></div><div class="hx-tw-pv"></div><div class="hx-tw-props"></div></div>
-        <svg class="hx-tw-arw" aria-hidden="true"><defs><marker id="${uid}m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="hx-tw-mk" d="M1 1 9 5 1 9"/></marker></defs>
-          ${['a','b','c'].map(k=>`<path id="${uid}${k}" class="hx-tw-ln-a" data-a="${k}" marker-end="url(#${uid}m)"/><circle class="hx-tw-dot" r="3.5" data-d="${k}"><animateMotion dur="0.9s" begin="indefinite" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1"><mpath href="#${uid}${k}"/></animateMotion></circle>`).join('')}</svg>
+        <svg class="hx-tw-arw" aria-hidden="true"><defs>${['a','b','c'].map(k=>`<marker id="${uid}m${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path class="hx-tw-mk" data-m="${k}" d="M1 1 9 5 1 9"/></marker>`).join('')}</defs>
+          ${['a','b','c'].map(k=>`<path id="${uid}${k}" class="hx-tw-ln-a" data-a="${k}" marker-end="url(#${uid}m${k})"/><circle class="hx-tw-dot" r="3.5" data-d="${k}"><animateMotion dur="0.9s" begin="indefinite" fill="freeze" calcMode="spline" keySplines=".4 0 .2 1" keyTimes="0;1"><mpath href="#${uid}${k}"/></animateMotion></circle>`).join('')}</svg>
         <div class="hx-tw-pill"><span class="hx-tw-pk"></span><span data-pill></span></div>
-        <div class="hx-tw-cur" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 2.5 20 11l-7.2 1.7L9.6 20z" fill="currentColor" stroke="var(--c-neutral-0)" stroke-width="1.5" stroke-linejoin="round"/></svg><span>you</span></div>
+        <div class="hx-tw-cur" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 2.5 20 11l-7.2 1.7L9.6 20z" fill="currentColor" stroke="var(--panel)" stroke-width="1.5" stroke-linejoin="round"/></svg><span>you</span></div>
       </div>
       <ul class="hx-sy-facts"></ul>`;
     const g=sec.querySelector('.hx-tw');g.inert=true;
@@ -17482,15 +17484,23 @@ function buildScheduleChart(view){
     /* 拋物線箭頭：依卡片實際位置算；a＝網站→程式碼、b＝網站→Variables、c＝程式碼→元件 */
     const W={web:sec.querySelector('.hx-tw-web'),code:sec.querySelector('.hx-tw-code'),var:sec.querySelector('.hx-tw-var'),cmp:sec.querySelector('.hx-tw-cmp')};
     const PAIR={a:['web','code'],b:['web','var'],c:['code','cmp']};
+    /* HOME19:v1 桌機箭頭照手繪：a＝網站卡底部左側 → 往下彎進程式碼卡左側；b＝網站卡右側偏下 → 往上拱進 Variables 左側；c＝程式碼右側 → 元件左側
+       手機（≤767）沿用依相對位置自動計算 */
+    const MOB=matchMedia('(max-width:767px)');
+    const pt=(R,gr,side,t,o)=>side==='b'?{x:R.left-gr.left+R.width*t,y:R.bottom-gr.top+o}:side==='t'?{x:R.left-gr.left+R.width*t,y:R.top-gr.top-o}:side==='l'?{x:R.left-gr.left-o,y:R.top-gr.top+R.height*t}:{x:R.right-gr.left+o,y:R.top-gr.top+R.height*t};
+    const DESK={a:[['b',.2],['l',.3],'down'],b:[['r',.62],['l',.4],'up'],c:[['r',.32],['l',.42],'up']};
     const geo=()=>{const gr=g.getBoundingClientRect();if(!gr.width)return;
-      Object.entries(PAIR).forEach(([k,[f,t]])=>{const A=W[f].getBoundingClientRect(),B=W[t].getBoundingClientRect();
-        const ca={x:A.left+A.width/2-gr.left,y:A.top+A.height/2-gr.top},cb={x:B.left+B.width/2-gr.left,y:B.top+B.height/2-gr.top};
-        const dx=cb.x-ca.x,dy=cb.y-ca.y;let p0,p1;
-        if(Math.abs(dx)>Math.abs(dy)){p0={x:(dx>0?A.right:A.left)-gr.left+(dx>0?6:-6),y:ca.y-A.height*.18};p1={x:(dx>0?B.left:B.right)-gr.left+(dx>0?-8:8),y:cb.y-B.height*.22};}
-        else{p0={x:ca.x+A.width*.18,y:(dy>0?A.bottom:A.top)-gr.top+(dy>0?6:-6)};p1={x:cb.x-B.width*.12,y:(dy>0?B.top:B.bottom)-gr.top+(dy>0?-8:8)};}
-        const mx=(p0.x+p1.x)/2,my=(p0.y+p1.y)/2,len=Math.hypot(p1.x-p0.x,p1.y-p0.y);
-        let nx=-(p1.y-p0.y)/len,ny=(p1.x-p0.x)/len;if(ny>0){nx=-nx;ny=-ny;}  /* 橫向：往上拱 */
-        const c=Math.abs(dx)>Math.abs(dy)?{x:mx+nx*len*.32,y:my+ny*len*.32}:{x:mx+len*.22,y:my-len*.12};  /* 直向：往右拱，箭頭朝下進入目標 */
+      Object.entries(PAIR).forEach(([k,[f,t]])=>{const A=W[f].getBoundingClientRect(),B=W[t].getBoundingClientRect();let p0,p1,c;
+        if(!MOB.matches){const [s0,s1,bow]=DESK[k];p0=pt(A,gr,s0[0],s0[1],6);p1=pt(B,gr,s1[0],s1[1],9);
+          if(bow==='down')c={x:p0.x,y:p1.y};  /* L 形二次曲線：先往下再轉進目標 */
+          else{const len=Math.hypot(p1.x-p0.x,p1.y-p0.y);c={x:(p0.x+p1.x)/2,y:Math.min(p0.y,p1.y)-len*.28};}}
+        else{const ca={x:A.left+A.width/2-gr.left,y:A.top+A.height/2-gr.top},cb={x:B.left+B.width/2-gr.left,y:B.top+B.height/2-gr.top};
+          const dx=cb.x-ca.x,dy=cb.y-ca.y;
+          if(Math.abs(dx)>Math.abs(dy)){p0={x:(dx>0?A.right:A.left)-gr.left+(dx>0?6:-6),y:ca.y-A.height*.18};p1={x:(dx>0?B.left:B.right)-gr.left+(dx>0?-8:8),y:cb.y-B.height*.22};}
+          else{p0={x:ca.x+A.width*.18,y:(dy>0?A.bottom:A.top)-gr.top+(dy>0?6:-6)};p1={x:cb.x-B.width*.12,y:(dy>0?B.top:B.bottom)-gr.top+(dy>0?-8:8)};}
+          const mx=(p0.x+p1.x)/2,my=(p0.y+p1.y)/2,len=Math.hypot(p1.x-p0.x,p1.y-p0.y);
+          let nx=-(p1.y-p0.y)/len,ny=(p1.x-p0.x)/len;if(ny>0){nx=-nx;ny=-ny;}
+          c=Math.abs(dx)>Math.abs(dy)?{x:mx+nx*len*.32,y:my+ny*len*.32}:{x:mx+len*.22,y:my-len*.12};}
         sec.querySelector(`[data-a="${k}"]`).setAttribute('d',`M${p0.x.toFixed(1)} ${p0.y.toFixed(1)} Q${c.x.toFixed(1)} ${c.y.toFixed(1)} ${p1.x.toFixed(1)} ${p1.y.toFixed(1)}`);});};
     const ro=window.ResizeObserver?new ResizeObserver(()=>geo()):null;if(ro)ro.observe(g);
     /* 游標＋同步提示 */
@@ -17499,7 +17509,7 @@ function buildScheduleChart(view){
     const click=()=>{cur.classList.remove('is-click');void cur.offsetWidth;cur.classList.add('is-click');};
     let tms=[],run=false,vis=false,n=0;const later=(f,ms)=>{tms.push(setTimeout(()=>{if(run)f();},ms));};
     const flash=el=>{el.classList.remove('is-hit');void el.offsetWidth;el.classList.add('is-hit');later(()=>el.classList.remove('is-hit'),1500);};
-    const flow=k=>{const pa=sec.querySelector(`[data-a="${k}"]`),d=sec.querySelector(`[data-d="${k}"]`);flash(pa);d.classList.add('is-on');try{d.querySelector('animateMotion').beginElement();}catch(e){}later(()=>d.classList.remove('is-on'),1100);};
+    const flow=k=>{const pa=sec.querySelector(`[data-a="${k}"]`),d=sec.querySelector(`[data-d="${k}"]`);flash(pa);flash(sec.querySelector(`[data-m="${k}"]`));d.classList.add('is-on');try{d.querySelector('animateMotion').beginElement();}catch(e){}later(()=>d.classList.remove('is-on'),1100);};
     const say=t=>{pill.textContent=t;flash(sec.querySelector('.hx-tw-pill'));};
     const typeIn=(box,vEl,to,t0)=>{const from=vEl.textContent;let t=t0;later(()=>{click();box.classList.add('is-typ');},t);t+=250;
       for(let c=from.length;c>=1;c--){later(()=>{vEl.textContent=from.slice(0,c-1);},t);t+=40;}
