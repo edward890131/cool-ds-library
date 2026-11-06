@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-06（七十一）　首頁步驟示意、Code ⇄ Figma 說明、本頁目錄、手機元件頁間距
+
+- **Step 04 進度條**：`prgEl('label','m')` → `'s'`，與 Step 01 Dropzone 內的細版一致。
+- **Step 02 挑風格和主色**示意改版（標記 `HOME14:v1`）：Segmented 選起始風格（俐落／柔和／活潑 → 圓角 `--r-xs`／`--r-md`／`--r-pill`，活潑主色換 brand2）→ Design Token 主色欄位逐字輸入色碼（`--c-info-600`）→ Slider 原子以鍵盤步進拖曳圓角 token（xs～pill 尺標）→ 下方淺色／深色兩個預覽（Button 原子）同時換色換形。兩個預覽以區域變數覆寫 `--panel`／`--ink`／`--i-primary` 等，全部綁 L1 token。
+- **Code ⇄ Figma**：標題下新增說明段，說明下載 `ds-studio-flow` skill 交給 Claude 的七步流程與優點，下方七步用 Tag 原子（outline／neutral／m）；三個亮點說明改寫得更完整。
+- **本頁目錄**：`buildTOC` 新增讀取 `[data-toc]`，首頁補上試玩區、元件跑馬燈、關於 CDL、動態 Demo、流程教學、用戶回饋。
+- **手機版元件內頁**（≤767px、有 bento 操作區的頁）：眉標上方加 `--sp-6`、說明到操作區 `--sp-6` → `--sp-8`。
+- 網站版本紀錄新增 v14。
+
 ## 2026-11-05（七十）　版本紀錄頁只顯示最新三筆
 
 - **原因**：v11 的一則內文寫了「動態 `<style>`」，版本紀錄是用 innerHTML 組出來的，未跳脫的 `<style>` 被瀏覽器當成真的樣式標籤，後面 v10 以前的內容全被吞掉，只剩 v13／v12／v11 前半。

@@ -693,6 +693,11 @@
   .famhead.bento-fam{border-top:0;padding-top:0;margin:var(--sp-8) 0 0;}
   .famhead.bento-fam:first-child{margin-top:var(--sp-6);}
   .famhead.bento-fam + .bento{margin-top:var(--sp-4);}
+  /* HOME14:v1 手機版元件內頁：標題區上方、說明文字到操作區都拉開一點（只作用在有 bento 操作區的元件頁） */
+  @media(max-width:767px){
+    #view:has(> .bento) > .eyebrow:first-child{margin-top:var(--sp-6);}   /* 上方 +16px */
+    #view > .lede + .bento{margin-top:var(--sp-8);}                        /* 說明 → 操作區 16 → 32px */
+  }
   /* 長選項清單（> 6 個或 as:'select'）→ library Dropdown（ddField）；控制項卡內滿寬 */
   .ctl-sel{width:100%;min-width:0;}
   .ctl-sel .field.dd{width:100%;min-width:0;box-sizing:border-box;}
@@ -5633,11 +5638,31 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-st2 .tg,.hx-st2 .hx-step-sw i{transition:background-color var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
   .hx-st2 .btn{transition:background var(--dur-default) var(--ease-out),border-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),border-radius var(--dur-default) var(--ease-out);}
   #hxFlow .prg-fill.hx-done{background:var(--s-feedback-success);transition:width calc(var(--dur-default) * 1.6) var(--ease-out),background var(--dur-default) var(--ease-out);}  /* 跑到 100% 轉綠 */
-  .hx-st2[data-sty="0"]{--btn-radius:var(--r-xs);} .hx-st2[data-sty="0"] .hx-step-sw i{border-radius:var(--r-xs);}
-  .hx-st2[data-sty="1"]{--btn-radius:var(--r-md);} .hx-st2[data-sty="1"] .hx-step-sw i{border-radius:var(--r-md);}
-  .hx-st2[data-sty="2"]{--btn-radius:var(--r-pill);--hx-lv1:var(--c-brand2-500);--hx-lv2:var(--c-violet-500);--i-primary:var(--hx-lv1);--i-primary-h:color-mix(in srgb,var(--hx-lv1) 88%,var(--ink));--i-primary-p:color-mix(in srgb,var(--hx-lv1) 78%,var(--ink));
-    --i-primary-tint:color-mix(in srgb,var(--hx-lv1) 16%,transparent);--i-primary-tint2:color-mix(in srgb,var(--hx-lv1) 26%,transparent);--primary-on:var(--accent2-on);--accent:var(--hx-lv1);--accent2:var(--hx-lv2);}  /* 活潑：主色橘、輔色紫，兩者不同 */
-  .hx-st2[data-sty="2"] .hx-step-sw i{border-radius:var(--r-pill);}
+  /* HOME14:v1 Step 02：起始風格 → 圓角／主色；淺色（--hx-pl）、深色（--hx-pd）兩套主色各自綁 token */
+  .hx-st2{--hx-tr:var(--r-sm);--hx-pl:var(--c-brand-500);--hx-pl-on:var(--c-neutral-0);--hx-pd:var(--c-brand-200);--hx-pd-on:var(--c-neutral-900);}
+  .hx-st2[data-sty="0"]{--hx-tr:var(--r-xs);}
+  .hx-st2[data-sty="1"]{--hx-tr:var(--r-md);}
+  .hx-st2[data-sty="2"]{--hx-tr:var(--r-pill);--hx-pl:var(--c-brand2-500);--hx-pd:var(--c-brand2-400);--hx-pd-on:var(--c-neutral-900);}  /* 活潑：主色換橘 */
+  .hx-st2[data-c="1"]{--hx-pl:var(--c-info-600);--hx-pl-on:var(--c-neutral-0);--hx-pd:var(--c-info-400);--hx-pd-on:var(--c-neutral-900);}  /* 輸入新色碼後 */
+  .hx-tk{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding-bottom:var(--sp-3);border-bottom:1px solid var(--line);font-size:var(--fs-h11);color:var(--muted);}
+  .hx-tk-n{font-weight:var(--fw-medium);color:var(--ink);}
+  .hx-tk-v{display:inline-flex;align-items:center;gap:var(--sp-2);padding:var(--sp-1) var(--sp-3);border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel);font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);min-width:12ch;transition:border-color var(--dur-fast) var(--ease-out);}
+  .hx-tk.is-typ .hx-tk-v{border-color:var(--c-info-500);}
+  .hx-tk-sw{width:12px;height:12px;border-radius:var(--r-xs);background:var(--hx-pl);box-shadow:inset 0 0 0 1px var(--line);transition:background-color var(--dur-default) var(--ease-out);}
+  .hx-tk-cur{display:inline-block;width:1.5px;height:1em;margin-left:-2px;background:var(--ink);opacity:0;}
+  .hx-tk.is-typ .hx-tk-cur{opacity:1;animation:hxSyBlink 1s steps(1) infinite;}
+  .hx-tk-sl{display:block;} .hx-tk-sl .sld{width:100%;max-width:none;}
+  .hx-st-pv{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);}
+  .hx-st-pm{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border-radius:var(--r-md);border:1px solid var(--line);background:var(--panel);color:var(--ink);min-width:0;
+    --btn-radius:var(--hx-tr);transition:background-color var(--dur-default) var(--ease-out);}
+  .hx-st-pm[data-m="light"]{--panel:var(--c-neutral-0);--ink:var(--c-neutral-900);--muted:var(--c-neutral-600);--line:var(--c-neutral-300);
+    --i-primary:var(--hx-pl);--i-primary-h:var(--hx-pl);--i-primary-p:var(--hx-pl);--primary-on:var(--hx-pl-on);
+    --i-sec-edge:var(--c-neutral-400);--i-sec-fg:var(--c-neutral-700);--i-sec-tint:color-mix(in srgb,var(--c-neutral-600) 10%,transparent);}
+  .hx-st-pm[data-m="dark"]{--panel:var(--c-neutral-900);--ink:var(--c-neutral-50);--muted:var(--c-neutral-500);--line:var(--c-neutral-700);
+    --i-primary:var(--hx-pd);--i-primary-h:var(--hx-pd);--i-primary-p:var(--hx-pd);--primary-on:var(--hx-pd-on);
+    --i-sec-edge:var(--c-neutral-600);--i-sec-fg:var(--c-neutral-300);--i-sec-tint:color-mix(in srgb,var(--c-neutral-400) 12%,transparent);}
+  .hx-st-pl{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);}
+  .hx-st-pm .hx-mrow{gap:var(--sp-2);flex-wrap:wrap;}
   .hx-fl-ok{opacity:0;transform:translateY(4px);transition:opacity var(--dur-default) var(--ease-out),transform var(--dur-default) var(--ease-out);}
   .hx-fl-ok.is-on{opacity:1;transform:none;}
   @media(prefers-reduced-motion:reduce){.hx-step-v .cbx.st-checked svg{animation:none;} .hx-st2 .tg,.hx-st2 .btn,.hx-st2 .hx-step-sw i,.hx-step-v .cbx,.hx-fl-ok{transition:none;}}
@@ -5711,6 +5736,12 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .hx-sy-mid .tag{box-shadow:var(--e-md);white-space:nowrap;}
   @media(max-width:1180px){.hx-sy-g{--sy-b:170px;--sy-gap:44px;} .hx-sy-pnb{grid-template-columns:118px minmax(0,1fr);}}
   /* HOME12:v1 facts：無卡框三欄，細直線分隔；手機改單欄橫線分隔 */
+  /* HOME14:v1 Code ⇄ Figma 段落說明＋skill 七步 */
+  .hx-sy-intro{display:flex;flex-direction:column;gap:var(--sp-4);margin:calc(var(--sp-3) - var(--sp-5)) 0 var(--sp-6);}
+  .hx-sy-lede{margin:0;max-width:72ch;font-size:var(--fs-h9);line-height:var(--lh-relaxed,1.7);color:var(--muted);text-wrap:pretty;}
+  .hx-sy-lede code{font-family:var(--font-mono);font-size:.9em;color:var(--ink);padding:0 var(--sp-1);border-radius:var(--r-xs);background:var(--panel-2);}
+  .hx-sy-steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .hx-sy-steps li{display:contents;}
   .hx-sy-facts{list-style:none;margin:var(--sp-5) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-5);}
   .hx-sy-f{display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:var(--sp-6);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--e-sm);}  /* 延續 bento 卡片 */
   .hx-sy-ic{width:64px;height:48px;margin:0 0 var(--sp-6);color:var(--muted);overflow:visible;}
@@ -15163,6 +15194,14 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v14', date:'2026-11-06', title:'首頁步驟示意 · Code ⇄ Figma 說明 · 本頁目錄', items:[
+      {tag:'add', t:'首頁本頁目錄補上試玩區、元件跑馬燈、關於 CDL、動態 Demo、流程教學、用戶回饋'},
+      {tag:'add', t:'Code ⇄ Figma 段落標題下方新增說明：下載 ds-studio-flow skill 交給 Claude 後的七個步驟與優點，並列出七步標籤'},
+      {tag:'improve', t:'Step 02「挑風格和主色」示意改版：選起始風格 → 輸入主色色碼 → 拖曳圓角 token → 淺色／深色預覽同時跟著變'},
+      {tag:'improve', t:'Code ⇄ Figma 三個亮點（Variables／Variants／Drift Check）說明寫得更完整'},
+      {tag:'improve', t:'手機版元件內頁：標題區上方、說明文字到操作區的間距加大'},
+      {tag:'fix', t:'Step 04 進度條改為細版，與 Step 01 一致'},
+    ]},
     {v:'v13', date:'2026-11-05', title:'元件修正', items:[
       {tag:'fix', t:'版本紀錄頁只顯示最新幾筆：v11 內文含未跳脫的「&lt;style&gt;」字樣，被瀏覽器當成樣式標籤吞掉後面所有版本；改為跳脫'},
       {tag:'fix', t:'Dropdown 多選選單的勾選框改取用 Checkbox 原子（原本手刻，深色模式下勾勾與底色同為淺灰看不清）'},
@@ -17144,16 +17183,39 @@ function buildScheduleChart(view){
         [()=>{f1.replaceWith(drzFile(A[0],A[1],'done'));f2=inF(B,'uploading');ul.appendChild(f2);s.hxCap(null,'2 個檔案');},700],
         [R=>tw(R,2200,p=>up(f2,B[1],Math.round(eo(p)*100))),2500],
         [()=>{f2.replaceWith(drzFile(B[0],B[1],'done'));s.hxCap('<b>Dropzone</b> · 上傳完成',null);},3400]]};};
+    /* HOME14:v1 Step 02 示意改成照文案走一遍：選起始風格 → Design Token 輸入主色色碼 → 拖圓角 → 淺色／深色兩個預覽同時跟著變 */
     const visStyle=()=>{const NM=['俐落','柔和','活潑'];const sg=sgmEl('soft','m',{items:NM,active:1,label:'起始風格',live:true});
-      const w=ce('div','hx-mcol hx-st2');const sw=ce('div','hx-step-sw');['var(--i-primary)','var(--i-primary-tint)','var(--line-strong)','var(--ink)'].forEach(c=>{const i=ce('i');i.style.background=c;sw.appendChild(i);});
-      const r=ce('div','hx-mrow hx-wrap');const t1=tg('soft','brand','主色'),t2=tg('soft','brand2','輔色'),t3=tg('outline','neutral','圓角 M');r.append(t1,t2,t3);
-      const br=ce('div','hx-mrow hx-wrap');br.append(btn('solid','primary','主要按鈕'),btn('outline','secondary','次要按鈕'));w.append(sw,r,br);
+      const w=ce('div','hx-mcol hx-st2');
+      /* token 欄位 1：主色（色票＋色碼逐字輸入） */
+      const rc=ce('div','hx-tk');rc.innerHTML='<span class="hx-tk-n">主色</span><code class="hx-tk-v"><i class="hx-tk-sw"></i><span data-v></span><span class="hx-tk-cur"></span></code>';
+      const hv=rc.querySelector('[data-v]');
+      /* token 欄位 2：圓角（取用 Slider 原子，刻度＝圓角 token 尺標） */
+      const RN=['--r-xs','--r-sm','--r-md','--r-lg','--r-xl','--r-pill'],STY_R=[0,2,5];
+      const rr=ce('div','hx-tk hx-tk-sl');let sl=null,slV=2;
+      const mkSl=i=>{slV=i;const n=sldEl('single','s','default',{min:0,max:RN.length-1,step:1,value:i,title:'圓角',live:true,
+          format:x=>RN[x].slice(2)+' · '+(RN[x]==='--r-pill'?'pill':hxRootVar(RN[x])),onChange:x=>{slV=x;w.style.setProperty('--hx-tr','var('+RN[x]+')');}});
+        if(sl)sl.replaceWith(n);else rr.appendChild(n);sl=n;};
+      mkSl(2);
+      /* 預覽：淺色／深色並排，同一組 Button 原子 */
+      const pv=ce('div','hx-st-pv');
+      [['light','淺色'],['dark','深色']].forEach(([m,t])=>{const h=ce('div','hx-st-pm');h.dataset.m=m;const lb=ce('span','hx-st-pl');lb.textContent=t;
+        const r=ce('div','hx-mrow');r.append(btn('solid','primary','主要'),btn('outline','secondary','次要'));h.append(lb,r);pv.appendChild(h);});
+      w.append(rc,rr,pv);
       const s=stage('<b>Segmented</b> · 起始風格','柔和',sg,w);
-      const V=['outline','soft','solid'],RD=['圓角 XS','圓角 M','圓角 Pill'];
+      const BASE=['--c-brand-500','--c-brand-500','--c-brand2-500'],NEW='--c-info-600';
+      const hexOf=n=>(hxRootVar(n)||'').toUpperCase();
       const go=k=>{const b=sg.querySelectorAll('.sgm-it')[k];if(b&&!b.classList.contains('is-active'))b.click();w.dataset.sty=String(k);
-        [t1,t2].forEach(t=>{V.forEach(v=>t.classList.toggle('v-'+v,v===V[k]));t.classList.toggle('c-rect',k===0);t.classList.toggle('c-round',k!==0);});
-        t3.classList.toggle('c-rect',k===0);t3.classList.toggle('c-round',k!==0);t3.querySelector('span').textContent=RD[k];s.hxCap(null,NM[k]);};
-      return {el:s,end:()=>go(1),beats:[[()=>go(0),3000],[()=>go(1),3000],[()=>go(2),3200]]};};
+        delete w.dataset.c;w.style.removeProperty('--hx-tr');rc.classList.remove('is-typ');hv.textContent=hexOf(BASE[k]);mkSl(STY_R[k]);
+        s.hxCap('<b>Segmented</b> · 起始風格',NM[k]);};
+      const typeHex=R=>{const k=+w.dataset.sty||0,from=hexOf(BASE[k]),to=hexOf(NEW);s.hxCap('<b>Design Token</b> · 主色','輸入色碼');rc.classList.add('is-typ');
+        let t=0;for(let i=from.length;i>=1;i--){R.later(()=>{hv.textContent=from.slice(0,i);},t);t+=55;}  /* 先逐字刪到「#」 */
+        for(let i=2;i<=to.length;i++){R.later(()=>{hv.textContent=to.slice(0,i);},t+=110);}
+        R.later(()=>{w.dataset.c='1';rc.classList.remove('is-typ');s.hxCap(null,'淺色、深色一起換');},t+240);};
+      const drag=R=>{s.hxCap('<b>Design Token</b> · 圓角','拖曳調整');let t=200;
+        for(let x=slV+1;x<=4;x++){R.later(()=>{const th=sl.querySelector('.sld-thumb');if(th)th.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));},t);t+=650;}  /* 用原子自己的鍵盤步進 */
+        R.later(()=>s.hxCap(null,'整站元件跟著變'),t);};
+      const end=()=>{go(1);hv.textContent=hexOf(NEW);w.dataset.c='1';s.hxCap('<b>Design Token</b> · 已套用','淺色、深色一起看');};
+      return {el:s,end,beats:[[()=>go(0),2200],[()=>go(1),2200],[()=>go(2),2400],[()=>go(1),900],[typeHex,3000],[drag,3200]]};};
     const visPick=()=>{const L=[['Button 按鈕','L3'],['Field 輸入欄','L3'],['Dropzone 上傳','L3'],['Carousel 輪播','L4'],['Gantt 甘特圖','L4']];const w=ce('div');
       const rows=L.map(([t,m])=>{const r=ce('div','hx-pick');r.append(cbxEl('default','m'));const l=ce('span');l.textContent=t;const mm=ce('span','hx-pick-m');mm.textContent=m;r.append(l,mm);w.appendChild(r);return r;});
       const s=stage('<b>Checkbox</b> · 元件清單','已選 0 / 5',w);
@@ -17162,7 +17224,7 @@ function buildScheduleChart(view){
       const tick=i=>R=>{set(i,'hover');R.later(()=>{set(i,'checked');cnt();},380);};
       return {el:s,end:()=>{rows.forEach((r,i)=>set(i,i<3?'checked':'default'));cnt();},beats:[
         [()=>{rows.forEach((r,i)=>set(i,'default'));cnt();},1200],[tick(0),1300],[tick(1),1300],[tick(2),3600]]};};
-    const visExport=()=>{const w=ce('div','hx-mcol');const bars=[['Figma Variables'],['SCSS 樣式包']].map(([t])=>{const p=prgEl('label','m',{value:0});const c=p.querySelector('.prg-cap');if(c)c.textContent=t;w.appendChild(p);return p;});
+    const visExport=()=>{const w=ce('div','hx-mcol');const bars=[['Figma Variables'],['SCSS 樣式包']].map(([t])=>{const p=prgEl('label','s',{value:0});const c=p.querySelector('.prg-cap');if(c)c.textContent=t;w.appendChild(p);return p;});
       const br=ce('div','hx-mrow hx-wrap');const bw=btn('solid','primary','寫入 Figma'),bd=btn('outline','secondary','下載 SCSS');const ok=tg('soft','success','已寫入 Figma');ok.classList.add('hx-fl-ok');br.append(bw,bd,ok);
       const s=stage('<b>Progress</b> · 匯出中','2 個目標',w,br);
       const press=(b,R)=>{b.classList.replace('st-default','st-pressed');R.later(()=>b.classList.replace('st-pressed','st-default'),240);};
@@ -17225,6 +17287,8 @@ function buildScheduleChart(view){
     const RV=(n,v,d)=>`<div class="hx-sy-row"><span><i class="hx-sy-sw" style="background:var(${v})"></i>${n}</span><code>${HX(v)}</code><em>${d||''}</em></div>`;
     const MODE=document.documentElement.dataset.theme==='dark'?'Dark':'Light';
     sec.innerHTML=`<div class="gd-sec-h"><h2 class="gd-sec-t">Code &lt;-&gt; Figma, Auto-connect</h2><div class="hx-sec-x" id="hxFgX"></div></div>
+      <div class="hx-sy-intro"><p class="hx-sy-lede">下載 repo 裡的 <code>ds-studio-flow</code> skill 交給 Claude，它會照七個步驟帶你跑完：先訪談收齊品牌色、字體和目標 Figma 檔，提出第一版 token 與元件建議；你在網站上挑選、確認後匯出，Claude 再把 token 套進程式碼、寫進 Figma 的 Variables 和元件 variant，最後做一次雙向差異檢查。每個交棒點都會停下來等你確認，產出只寫進專案資料夾、不動母元件庫；Figma 裡的值全部綁 token、元件都是真的 instance，交給工程時不用再對一次規格。</p>
+        <ol class="hx-sy-steps" aria-label="skill 七個步驟"></ol></div>
       <div class="hx-sy-g" role="img" aria-label="示意：程式碼裡的 token 改了，Figma 的 Variables 跟著更新；反過來也一樣">
         <div class="hx-sy-dev" data-side="code"><div class="hx-sy-scr"><div class="hx-sy-ed">
           <div class="hx-sy-ex"><small>EXPLORER</small>${[[0,'cool-ds-library'],[1,'framework'],[1,'library'],[2,'gallery.html'],[2,'component-registry.json'],[1,'projects'],[2,'tokens.export.json',1],[2,'assets'],[1,'sync'],[2,'drift.mjs']].map(([x,t,on])=>`<span style="--x:${x}"${on?' class="is-on"':''}>${t}</span>`).join('')}</div>
@@ -17249,6 +17313,9 @@ function buildScheduleChart(view){
       </div>
       <ul class="hx-sy-facts"></ul>`;
     const g=sec.querySelector('.hx-sy-g');g.inert=true;
+    /* HOME14:v1 七步清單取用 Tag 原子（outline／neutral／m） */
+    {const ol=sec.querySelector('.hx-sy-steps');['訪談','提案','網站挑選','匯出','套用 token','寫入 Figma','雙向同步'].forEach((t,i)=>{
+      const li=ce('li');const k=tagEl('outline','neutral','default','round','m');k.querySelector('span').textContent=(i+1)+'  '+t;li.appendChild(k);ol.appendChild(li);});}
     const tg=(v,i,t)=>{const x=tagEl(v,i,'default');x.querySelector('span').textContent=t;return x;};
     /* HOME12:v1 三欄線稿：幾何八角形 icon（1px 線、currentColor）＋ display 標題＋說明；進入畫面時線條描繪 */
     const oct=(x,y,w,h,c)=>[[x+c,y],[x+w-c,y],[x+w,y+c],[x+w,y+h-c],[x+w-c,y+h],[x+c,y+h],[x,y+h-c],[x,y+c]].map(p=>p.join(',')).join(' ');
@@ -17262,9 +17329,9 @@ function buildScheduleChart(view){
       drift:pg(oct(4,8,30,30,8),'bk',0)+pg(oct(20,14,30,30,8),'fr',1)+ac(54,6)
     };
     const FACTS=[
-      ['layers','Variables','顏色、間距、圓角和字級都綁 Figma Variables，數值只存在一個地方，不會各自寫死。'],
-      ['split','Variants','網站上能切換的樣式，在 Figma 變成 variant；內容開關變成 boolean，兩邊的組合方式一致。'],
-      ['drift','Drift Check','兩邊對不上時，差異檢查會列出改了哪裡，再依 token、結構、內容分類歸位。']];
+      ['layers','Variables','顏色、間距、圓角、字級和陰影都會寫成 Figma Variables，分成 Primitives、Semantic、Spacing、Radius 幾個集合，淺色和深色各是一個 mode。元件上的每個值都綁到 variable，不寫死色碼或 px，之後改一個 token，Figma 和網站會一起變。'],
+      ['split','Variants','網站上能切換的軸（樣式、意圖、狀態、尺寸）會一對一變成 Figma 的 variant property，「顯示 icon」這類內容開關則變成 boolean。複合元件裡的按鈕、輸入框、icon 都是既有元件的 instance，不另外畫一份，工程拿到的組合方式跟 Figma 完全一樣。'],
+      ['drift','Drift Check','設計師在 Figma 改了、或工程在程式碼改了，跑一次差異檢查就會列出兩邊哪裡不同，並分成四類：token 值、結構（新元件或 variant）、內容（文案、圖片、logo）和互動原型。每一類都有固定的寫回位置，確認後才更新，兩邊不會互相覆蓋。']];
     const fl=sec.querySelector('.hx-sy-facts');
     FACTS.forEach(([ic,k,t])=>{const li=ce('li','hx-sy-f');li.dataset.ic=ic;
       li.innerHTML=`<svg class="hx-sy-ic" viewBox="0 0 64 48" aria-hidden="true" focusable="false">${ICONS[ic]}</svg><h3 class="hx-sy-ft"></h3><p class="hx-sy-fd"></p>`;
@@ -17423,6 +17490,9 @@ function buildScheduleChart(view){
     view.innerHTML='';
     const root=ce('div','hx');root.id='hxHome';
     root.append(hxHero(),hxWall(),hxStats(),hxShow(),hxFlow(),hxFigma(),hxVoice(),hxNews());  /* HOME12:v1 hxVoice */
+    /* HOME14:v1 本頁目錄補齊沒有大標題的段落（buildTOC 讀 [data-toc]） */
+    [['.hx-pgx-w, #hxPv','試玩區'],['#hxWall','元件跑馬燈'],['#hxStats','關於 CDL'],['#hxShow','動態 Demo'],['#hxFlow','流程教學'],['#hxVoice','用戶回饋']]
+      .forEach(([q,t])=>{const el=root.querySelector(q);if(el)el.dataset.toc=t;});
     view.appendChild(root);
     root.querySelectorAll('.hx-faq a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();renderView(a.getAttribute('href').slice(1));}));
   }
@@ -17803,8 +17873,9 @@ function buildScheduleChart(view){
   function buildTOC(){
     const view=document.getElementById('view');
     tocItems=[];
-    view.querySelectorAll('.block > h2, .famhead, .dg-sectitle, .gd-sec-t, .tok-sec-head').forEach(el=>{ // ＋.tok-sec-head＝Design Token 段
-      if(el.classList.contains('famhead')){const t=el.querySelector('.fz');if(t)tocItems.push({el,lv:2,txt:t.textContent.trim()});}
+    view.querySelectorAll('.block > h2, .famhead, .dg-sectitle, .gd-sec-t, .tok-sec-head, [data-toc]').forEach(el=>{ // ＋.tok-sec-head＝Design Token 段；[data-toc]＝首頁無大標題段落
+      if(el.dataset.toc)tocItems.push({el,lv:1,txt:el.dataset.toc});
+      else if(el.classList.contains('famhead')){const t=el.querySelector('.fz');if(t)tocItems.push({el,lv:2,txt:t.textContent.trim()});}
       else if(el.classList.contains('tok-sec-head')){const t=el.querySelector('.tok-sec-t');tocItems.push({el,lv:1,txt:t?t.textContent.trim():el.textContent.trim()});}
       else if(el.matches('.block > h2')){const t=el.querySelector('.bh-t');tocItems.push({el,lv:1,txt:t?t.textContent.trim():el.textContent.trim()});} // 只取標題、不含同行副標
       else tocItems.push({el,lv:1,txt:el.textContent.trim()});
