@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-06（七十二）　中英切換、三方同步說明、Figma logo
+
+- **中英切換**（標記 `I18N:v1`）：頂部列深淺色切換右邊新增 Segmented 原子（中／EN），預設中文、選擇存在 `localStorage['cdl-lang']`。做法是「對照表替換」：切到 EN 時把文字節點與 `aria-label`／`placeholder`／`title` 查 `I18N_EN`（約 480 條）與 `I18N_RX`（數字、日期、上傳進度等規則）換成英文，原文另存、切回中文還原；`MutationObserver` 追動畫與換頁的新文字。查不到的維持中文；側欄「Button 按鈕」這類英中並列的名稱，在 EN 時只留英文。第一階段範圍：外框、首頁全部段落、開新專案流程。人名轉拼音。
+- **流程教學**加「從網站開始，不用寫程式」引言＋「看 skill 路徑」連結；**Step 04** 改為「輸出檔案，交給 Claude 接上 Figma」，動畫改為輸出 `tokens.export.json`／`components.export.json` → 交給 Claude → 已寫入 Figma（`HOME15:v1`）。
+- **Code ⇄ Figma 三方同步**：說明改為路徑 A／B 兩張卡（步驟用 Tag 原子）＋會合說明；中央 ⇄ 換成專案 library 網址的小瀏覽器，網站／Figma／程式碼輪流當起點；亮點新增 Library Edit（2×2，≥1441px 四欄），Drift Check 改為三邊。
+- **Figma logo**：新增 `ICON_FIGMA`（官方五色，屬品牌資產不綁 token），用在 Local variables 面板標題、「已寫入 Figma」標籤。
+- 手機（≤480px）頂部列「開啟新專案」只留＋圖示，文字保留給讀屏。
+
 ## 2026-11-06（七十一）　首頁步驟示意、Code ⇄ Figma 說明、本頁目錄、手機元件頁間距
 
 - **Step 04 進度條**：`prgEl('label','m')` → `'s'`，與 Step 01 Dropzone 內的細版一致。
