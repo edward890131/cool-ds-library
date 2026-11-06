@@ -6,6 +6,60 @@
 
 ---
 
+## 2026-11-06（七十七）　手機／平板箭頭分開、icon 重畫、膠囊細線
+
+- **手機（≤767，含 iPad mini 預覽）箭頭**改為指定路徑：網站→程式碼沿左側空隙往下、網站→Variables 從網站卡右側繞進 Variables 右側、程式碼→元件 L 形轉入；Variables 卡改 `left:13%／width:74%` 讓右側留走線空間，控制點不超出舞台。
+- **平板（768–1180）**拉開卡片間距（網站 37%、Variables 從 51% 起、元件從 61% 起），箭頭不再短到看不見。
+- **亮點 icon** hover 改為線條從頭重新描繪（`hxSyRedraw`，依序延遲），拿掉原本的縮放／旋轉／位移；減少動態時不播。
+- **同步膠囊**亮起不再加粗主色外框，只把邊框換成淡淡的主色細線。
+
+## 2026-11-06（七十六）　三方同步箭頭分開、尖端變色、游標黑白
+
+- **箭頭路徑**（`HOME19:v1`，照使用者手繪）：桌機改為指定出發／到達點——網站→程式碼從網站卡底部左側出發、L 形往下彎進程式碼卡左側；網站→Variables 從網站卡右側偏下出發、往上拱進 Variables 左側；程式碼→元件維持往上拱。手機沿用依相對位置自動計算。
+- **箭頭尖端**改為每條線各自的 marker，同步時與線一起換成主色。
+- **示範游標**改吃 `--ink`：淺色模式黑、深色模式白，標籤底色同色、文字 `--panel`。
+
+## 2026-11-06（七十五）　修正動態展示被波及、亮點精簡與手機輪播
+
+- **修正**：三方同步拼貼用的 class 前綴 `hx-sc-` 與首頁「動態展示」卡片（`.hx-sc`、`.hx-sc-stage`…）撞名，拼貼樣式（格線底、`height:560px`、`overflow:hidden`）套到動態展示每張卡，造成卡片被裁、排版留白。拼貼全部改用 `hx-tw-` 前綴（CSS、JS、`--hx-tw-pc`／`--hx-tw-pad`、keyframes），動態展示恢復與正式站一致。
+- **亮點**四則說明精簡成一句；**手機**改為水平輪播（scroll-snap 滑動、Button 原子左右箭頭、頁碼 n / 4，到頭尾箭頭停用）（`HOME18:v1`）。
+- 拿掉段落右上「看全部 Design Token」按鈕。
+- **同步膠囊**改跟隨淺／深色（`--panel` 底＋`--line-strong` 框，淺色模式白底）、主色圓點縮為 8px；「⇄」改為分開的「← →」。
+- 英文對照補上新文案。
+
+## 2026-11-06（七十四）　三方同步拼貼：平放＋拋物線箭頭
+
+- **拼貼改平放**（`HOME17:v1`，參考 Razorpay）：四張卡不再旋轉、不漂浮，直角交疊排列；卡片間加 3 條細虛線拋物線箭頭（網站→程式碼、網站→Variables、程式碼→Button 元件），資料同步時箭頭換主色、虛線流動，一顆小點沿線移動（SVG `animateMotion`）；箭頭依卡片實際位置計算，視窗縮放時重算。
+- **網站卡**標題改用 cdl logo（網址保留在右側）；**間距**改為與主色一樣的輸入欄位、逐字打字切換（`--sp-4`→`--sp-5`→`--sp-6` 實際 px）；**顯示 icon** 改用 Checkbox 原子（Figma 元件卡的 Icon boolean 也改 Checkbox）。
+- **Variables 卡**改回前一版 Figma 面板樣式：左側 Collections（Semantic 選中）＋右側 Name／Value 表格（action/primary、spacing/inset、feedback/success、radius/sm）。
+- **程式碼卡**語法色比照 `.live-code`：淺色模式白底、深色模式深底。
+- **手機**維持交疊拼貼（不改直向堆疊）：卡片縮窄、左右錯位往下疊，Variables 收起 Collections 欄；直向箭頭改往右拱、箭頭朝下進入目標。
+- 補充：元件庫 Toggle 只有一種尺寸（44×24），沒有 size 軸。
+
+## 2026-11-06（七十三）　段標題、三方同步拼貼動畫
+
+- **流程教學**加段標題「Start editing on this site」（與 Code ⇄ Figma 同字級），副標改為一般字重，移除「看 skill 路徑」按鈕；目錄改由段標題自動帶出。
+- **Code ⇄ Figma**：段標題改為「Start from Claude, Code & Figma auto-sync」，副標改寫為下載 Skill 用 Claude 從訪談跑的說明；移除路徑 A／B 對比卡。
+- **三方同步動畫**改為拼貼式（`HOME16:v1`，參考 Razorpay）：格線底＋依主色變化的下方光帶，四張微傾斜、緩慢漂浮的卡片——專案網站（網址 `productname.vercel.app`，Design Token：主色色碼、間距 Slider、Button 狀態 Checkbox、顯示 icon Switch）、程式碼（tokens／components export）、Figma Local variables（color／spacing）、Figma Button 元件（Button 原子預覽＋State variant／Icon boolean／Size）。游標依序：輸入色碼 → 拖間距 → 勾 hover → 開 icon，對應列與卡片亮框，黑色提示膠囊顯示對應的 Figma 概念（Variables／Variant property／Boolean property）。手機改為直向堆疊。
+- 英文對照表補上新文案。
+
+## 2026-11-06（七十二）　中英切換、三方同步說明、Figma logo
+
+- **中英切換**（標記 `I18N:v1`）：頂部列深淺色切換右邊新增 Segmented 原子（中／EN），預設中文、選擇存在 `localStorage['cdl-lang']`。做法是「對照表替換」：切到 EN 時把文字節點與 `aria-label`／`placeholder`／`title` 查 `I18N_EN`（約 480 條）與 `I18N_RX`（數字、日期、上傳進度等規則）換成英文，原文另存、切回中文還原；`MutationObserver` 追動畫與換頁的新文字。查不到的維持中文；側欄「Button 按鈕」這類英中並列的名稱，在 EN 時只留英文。第一階段範圍：外框、首頁全部段落、開新專案流程。人名轉拼音。
+- **流程教學**加「從網站開始，不用寫程式」引言＋「看 skill 路徑」連結；**Step 04** 改為「輸出檔案，交給 Claude 接上 Figma」，動畫改為輸出 `tokens.export.json`／`components.export.json` → 交給 Claude → 已寫入 Figma（`HOME15:v1`）。
+- **Code ⇄ Figma 三方同步**：說明改為路徑 A／B 兩張卡（步驟用 Tag 原子）＋會合說明；中央 ⇄ 換成專案 library 網址的小瀏覽器，網站／Figma／程式碼輪流當起點；亮點新增 Library Edit（2×2，≥1441px 四欄），Drift Check 改為三邊。
+- **Figma logo**：新增 `ICON_FIGMA`（官方五色，屬品牌資產不綁 token），用在 Local variables 面板標題、「已寫入 Figma」標籤。
+- 手機（≤480px）頂部列「開啟新專案」只留＋圖示，文字保留給讀屏。
+
+## 2026-11-06（七十一）　首頁步驟示意、Code ⇄ Figma 說明、本頁目錄、手機元件頁間距
+
+- **Step 04 進度條**：`prgEl('label','m')` → `'s'`，與 Step 01 Dropzone 內的細版一致。
+- **Step 02 挑風格和主色**示意改版（標記 `HOME14:v1`）：Segmented 選起始風格（俐落／柔和／活潑 → 圓角 `--r-xs`／`--r-md`／`--r-pill`，活潑主色換 brand2）→ Design Token 主色欄位逐字輸入色碼（`--c-info-600`）→ Slider 原子以鍵盤步進拖曳圓角 token（xs～pill 尺標）→ 下方淺色／深色兩個預覽（Button 原子）同時換色換形。兩個預覽以區域變數覆寫 `--panel`／`--ink`／`--i-primary` 等，全部綁 L1 token。
+- **Code ⇄ Figma**：標題下新增說明段，說明下載 `ds-studio-flow` skill 交給 Claude 的七步流程與優點，下方七步用 Tag 原子（outline／neutral／m）；三個亮點說明改寫得更完整。
+- **本頁目錄**：`buildTOC` 新增讀取 `[data-toc]`，首頁補上試玩區、元件跑馬燈、關於 CDL、動態 Demo、流程教學、用戶回饋。
+- **手機版元件內頁**（≤767px、有 bento 操作區的頁）：眉標上方加 `--sp-6`、說明到操作區 `--sp-6` → `--sp-8`。
+- 網站版本紀錄新增 v14。
+
 ## 2026-11-05（七十）　版本紀錄頁只顯示最新三筆
 
 - **原因**：v11 的一則內文寫了「動態 `<style>`」，版本紀錄是用 innerHTML 組出來的，未跳脫的 `<style>` 被瀏覽器當成真的樣式標籤，後面 v10 以前的內容全被吞掉，只剩 v13／v12／v11 前半。
