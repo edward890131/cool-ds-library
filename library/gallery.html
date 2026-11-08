@@ -1,5 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* iOS 聚焦輸入框不自動放大（2026-11-08）：Safari 遇到字級 <16px 的輸入框會在聚焦時放大畫面。iOS 10+ 加 maximum-scale=1 只擋這個自動放大、使用者仍可雙指縮放；
+   Android 上 maximum-scale 會擋掉縮放（無障礙問題）且本來就不會自動放大，所以只對 iPhone／iPad（含回報成 Mac 的 iPadOS）加。不改輸入框字級，元件預覽維持 token 原值。 */
+(function(){try{var u=navigator.userAgent;if(/iP(hone|ad|od)/.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)){var m=document.querySelector('meta[name=viewport]');if(m&&!/maximum-scale/.test(m.content))m.setAttribute('content',m.content+', maximum-scale=1');}}catch(e){}})();</script>
 <title>cool-ds-library</title>
 <script>/* SHELL8:v1 框內載入進度：文件開始解析 */try{if(/[?&]rwdframe=1(&|$)/.test(location.search)&&window.parent!==window)window.parent.postMessage({rwdframe:1,t:'stage',s:'head'},'*');}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
