@@ -7883,17 +7883,17 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
   /* ---- tab 容器 Live：3 個分頁 + 內容零件開關（icon／count）+ size ---- */
   /* TAB-JELLY:v1 果凍切換：移植 React Bits Jelly Radio 的彈簧參數（swell 0.2／shrink 0.05／barge 6px／stagger 22ms），
      不依賴 motion 函式庫，用 rAF 逐格積分彈簧（damping = 2√(k·m)·(1−bounce)）。
-     動作：選中那顆膨脹到 1.2、其餘縮到 0.95 並往兩側推開（推距＝選中寬×0.2/2＋6px），停留 120ms 後全部彈回原位，彈簧產生晃動。
-     scaleX 阻尼較低（晃比較多）、scaleY 晚 50ms，做出果凍感。減少動態時不播。 */
+     動作（v2 輕柔版，依使用者回饋收斂）：選中那顆微微膨脹（約 1.05）、其餘略縮並往兩側推開 3px，停 100ms 後以柔和彈簧回到 1 倍原樣，約 0.35 秒、幾乎不晃。
+     scaleY 晚 50ms、越遠的晚 30ms 起動。減少動態時不播。 */
   function tabJelly(bar){
-    const SW=.2,SH=.05,BG=6,ST=.022,HOLD=.12;
+    const SW=.08,SH=.02,BG=3,ST=.03,HOLD=.1,K=240,B=.1,BSX=.25;  /* TAB-JELLY:v2 輕柔版：縮放幅度、推距、晃動都收斂 */
     const spr=(k,m,b)=>({k,m,c:2*Math.sqrt(k*m)*(1-b)});
     let P=[],raf=0,last=0;
     function init(){P=[...bar.querySelectorAll('.tabi')].map(el=>({el,x:0,vx:0,sx:1,vsx:1*0,sy:1,vsy:0,tx:0,tsx:1,tsy:1,px:null,psx:null,psy:null,dx:0,dy:0,back:0}));}
     function play(sel){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(!P.length)init();
       const w=P[sel].el.offsetWidth,push=w*SW/2+BG,now=performance.now()/1000;
-      P.forEach((q,i)=>{const far=Math.abs(i-sel),k=580*(1-.12*Math.min(far,3)),busy=raf&&(Math.abs(q.vx)+Math.abs(q.vsx)>.01);
-        const d=busy?0:far*ST;q.px=spr(k,.9,.25);q.psx=spr(k*1.24,.8,.55);q.psy=spr(k*.86,.95,.25);
+      P.forEach((q,i)=>{const far=Math.abs(i-sel),k=K*(1-.12*Math.min(far,3)),busy=raf&&(Math.abs(q.vx)+Math.abs(q.vsx)>.01);
+        const d=busy?0:far*ST;q.px=spr(k,.9,B);q.psx=spr(k*1.24,.8,BSX);q.psy=spr(k*.86,.95,B);
         q.tx=i===sel?0:Math.sign(i-sel)*push;q.tsx=q.tsy=i===sel?1+SW:1-SH;
         q.dx=now+d;q.dy=now+d+.05;q.back=now+d+HOLD;});
       last=now;if(!raf)raf=requestAnimationFrame(step);}
