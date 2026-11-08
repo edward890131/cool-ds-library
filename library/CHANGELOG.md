@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-11-08（八十一）　Icon 換成 PulsoIcon、搜尋完整圖示庫、搜尋彈窗英文補齊
+
+- **全站 icon 從 Phosphor 換成 PulsoIcon**（`PULSO:BEGIN…END`＋`PULSO-RT:v1`）：網站內 125 種 Phosphor 圖示（含各元件內部用到的）依對照表全部換成 PulsoIcon 對應的 113 種＋裝置預覽工具列 9 種；寫法從寫死的 SVG 字串改成 `PI('key')`／`PI('key',{solid:1})`。用到的圖示資料與播放器（pulsoicon-core 6.1.0＋motion 12.43.0）由新腳本 `sync/build-pulso-icons.mjs` 打包內嵌，離線也能顯示與播放。實心版的遮罩 id 會在插入時自動去重。
+- **動態**：icon 在所在的按鈕、連結、分頁、選單項被滑過或聚焦時播放專屬動態（PulsoIcon 的觸發規則；第一次碰到才綁定），系統開「減少動態」時不動。
+- **Icon 元件**：新增 `style` 軸（`outline 線框／solid 實心`，對應 L0 line／solid），矩陣變成 `style × size × tone` = 2 × 4 × 4 = 32；新增線寬 token `--icon-stroke`（預設 2，Token 頁「Icon 圖示」群組可調，全站 icon 線寬吃它）；`animated` 登錄為 registry `codeOnlyProps`，Figma 不建屬性（使用者同意的鐵則 3 例外）。Icon Library 可切線框／實心；`icons.catalog.json` 改出 PulsoIcon（含 `solidSvg`），`ds-studio-flow` 的 Icon 圖庫寫入步驟同步更新（stroke／線寬綁 Variable、每顆 Style variant）。
+- **搜尋完整圖示庫**（`ICX:v1`）：Icon 頁新增搜尋 PulsoIcon 全庫 9,955 顆（名稱＋其他 icon 庫的別名），結果可切線框／實心、滑過會動；標示「網站已有」「已加入專案」。專案模式按「加入專案」→ `studio-server` 新端點 `POST /api/project/<name>/icons` 寫進 `projects/<name>/icons.json`（含 PulsoIcon 資料，可切實心、會動）；連不到 server 改下載 `icons.add.json`；母元件庫只能預覽、複製 SVG。資料從 jsDelivr 載入（鎖同版本），需要連網。「本專案 Icon」區同時顯示 Figma 同步與圖示庫加入的 icon。
+- **授權**：新增 `library/THIRD_PARTY_NOTICES.md`（PulsoIcon LICENSE 全文，含 Lucide／Tabler／Iconoir／Hugeicons／Phosphor 聲明＋motion MIT），由腳本產生；Icon 頁規格列加連結。
+- **搜尋彈窗英文**：補上「最近搜尋」「清除紀錄」「頁面」「規劃中」；Icon 頁與搜尋完整圖示庫的新文案全部有英文。
+- `studio-server` 擋掉 `../` 形式的專案名稱，避免寫到 `projects/` 以外。
+
 ## 2026-11-08（八十）　Tab 新增灰底 variant、容器／灰底果凍切換
 
 - **新增 variant `soft`（灰底）**：與 contained 同為獨立藥丸＋間距，未選中為 `--panel-2` 灰底、無框線，滑過 `--panel-3`，選中與其他 variant 一致（`--accent`／`--primary-on`）。Tab 軸變為 `variant(line／contained／soft／pill) × state × size` = 4 × 4 × 2；`component-registry.json` 同步新增 soft。寫入 Figma 時對應 Variant property 新增一個值（鐵則 3），尚未同步到 Figma。

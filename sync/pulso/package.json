@@ -1,0 +1,13 @@
+{
+  "name": "cdl-pulso-sync",
+  "private": true,
+  "type": "module",
+  "description": "PulsoIcon 同步工具：產生 gallery.html 內嵌的圖示資料與播放器（node sync/build-pulso-icons.mjs）。",
+  "dependencies": {
+    "pulsoicon-core": "6.1.0",
+    "motion": "12.43.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

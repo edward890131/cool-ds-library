@@ -166,10 +166,24 @@
           "l0Ref": "icon",
           "axes": {
             "order": [
+              "style",
               "size",
               "tone"
             ],
             "by": {
+              "style": {
+                "axisName": "Style 樣式",
+                "options": [
+                  {
+                    "value": "outline",
+                    "zh": "線框"
+                  },
+                  {
+                    "value": "solid",
+                    "zh": "實心"
+                  }
+                ]
+              },
               "size": {
                 "axisName": "Size 尺寸",
                 "options": [
@@ -214,7 +228,20 @@
               }
             },
             "variantCount": 16
-          }
+          },
+          "variantCount": 32,
+          "codeOnlyProps": [
+            {
+              "name": "animated",
+              "type": "boolean",
+              "default": true,
+              "note": "PulsoIcon 動態開關；Figma 無法表現動態，不建 boolean property（使用者 2026-11-08 同意的鐵則 3 例外）"
+            }
+          ],
+          "tokens": [
+            "--icon-stroke"
+          ],
+          "iconSet": "pulsoicon"
         },
         {
           "id": "link",

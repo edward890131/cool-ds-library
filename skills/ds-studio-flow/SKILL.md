@@ -213,13 +213,14 @@ node library/tools/studio-server.js          # 啟本地 server（:8899）
 
 ### Icon 圖庫批次寫入（HARD，別漏）
 
-registry 的 `icon` 那顆只有 `size × tone` 軸、示意圖案固定一顆 —— 它是 **Icon 用法示意 component**，**不是圖庫**。網站 Icon 頁那整套 Phosphor 子集（65 顆）另有正本：
+registry 的 `icon` 那顆是 `style × size × tone` 軸（style＝outline／solid → Figma Variant property）、示意圖案固定一顆 —— 它是 **Icon 用法示意 component**，**不是圖庫**。`animated` 是 registry `codeOnlyProps` 裡的程式碼專屬開關，**Figma 不建屬性**（動態畫不出來，使用者 2026-11-08 同意的鐵則 3 例外）。網站 Icon 頁那整套 PulsoIcon 子集（65 顆）另有正本：
 
-1. **先產正本**：`node sync/build-icon-catalog.mjs` → 生 `library/icons.catalog.json`（自動抽自 gallery `icLibrary()`；gallery 改過就重跑）。這是這一步的**唯一來源**，不要臨場從 gallery 手抄。
+1. **先產正本**：`cd sync/pulso && npm install`（第一次）→ `node sync/build-icon-catalog.mjs` → 生 `library/icons.catalog.json`（自動抽自 gallery `icLibrary()`，每顆含線框 `svg` 與實心 `solidSvg`；gallery 改過就重跑）。這是這一步的**唯一來源**，不要臨場從 gallery 手抄。
 2. **先盤點再建**：`search_design_system` / scan Components page，比對 catalog 的 `name`；**已存在的同名 icon 不重建**，只補缺的（沿用「找不到 ≠ 不存在，先 scan 再動工」）。
 3. **逐顆建成獨立 icon component**：每顆 catalog icon 建一顆 main component——
-   - 統一畫布 **24×24**（viewBox 256 → scale 到 24；fill-based，無 stroke 換算問題）。
-   - `fill` 綁 **`semantic.icon.default`**，不寫死色值（鐵則 4）；currentColor 交給 variable。
+   - 統一畫布 **24×24**（PulsoIcon 原生 viewBox 0 0 24 24，線條型）。
+   - 線框版：`stroke` 綁 **`semantic.icon.default`**、**stroke weight 綁 `--icon-stroke` 對應的 float Variable**；實心版另把 `fill` 綁同一個 color variable。不寫死色值與線寬（鐵則 4）。
+   - 每顆做成含 `Style=Outline／Solid` 兩個 variant 的 component set（來源：catalog 的 `svg`／`solidSvg`）。
    - 命名三層：schema-id `icon.<name>` / figma-master `Icon/<群組>/<name>` / 依 catalog 的 7 組（通用介面／工作／資料操作／購物／社群溝通／旅遊生活／品牌社群）歸頁。
 4. **整理成 Icon 專頁**：按 7 組分區陳列（對齊網站 Icon 頁的分類與顆數）。
 5. **這 65 顆用「一顆一 component」，不要塞成單一 Icon 的 65 個 `Glyph` variant**（component set 會爆肥、切換慢）。示意 component 與圖庫 component 分工並存。

@@ -31,6 +31,7 @@ const server = http.createServer((req, res) => {
     const action = parts[3];
     if (!name) return send(res, 400, 'text/plain', 'missing project name');
     const dir = path.join(PROJECTS, name);
+    if (!dir.startsWith(PROJECTS + path.sep)) return send(res, 400, 'text/plain', 'bad project name');  // 擋 ../ 跳出 projects/
 
     // GET：回傳 proposal + 已存 state + 版本資訊
     if (req.method === 'GET' && !action) {
@@ -66,6 +67,24 @@ const server = http.createServer((req, res) => {
           fs.writeFileSync(path.join(dir, 'selection.state.json'), JSON.stringify(data, null, 2)); written.push('selection.state.json');
         }
         return send(res, 200, MIME['.json'], JSON.stringify({ ok: true, dir, written }));
+      });
+      return;
+    }
+    // POST icons：從 Icon 頁「搜尋完整圖示庫」加入的 PulsoIcon，合併寫進 projects/<name>/icons.json（依 name 去重、同名覆蓋）
+    if (req.method === 'POST' && action === 'icons') {
+      let body = '';
+      req.on('data', c => body += c);
+      req.on('end', () => {
+        let data; try { data = JSON.parse(body); } catch (e) { return send(res, 400, 'text/plain', 'bad json'); }
+        const add = Array.isArray(data.icons) ? data.icons.filter(i => i && typeof i.name === 'string' && /^[a-z0-9-]+$/.test(i.name) && typeof i.svg === 'string') : [];
+        if (!add.length) return send(res, 400, 'text/plain', 'no icons');
+        fs.mkdirSync(dir, { recursive: true });
+        const fp = path.join(dir, 'icons.json');
+        const cur = readJSON(fp) || [];
+        const names = new Set(add.map(i => i.name));
+        const icons = cur.filter(i => !names.has(i.name)).concat(add.map(i => Object.assign({ addedAt: new Date().toISOString() }, i)));
+        fs.writeFileSync(fp, JSON.stringify(icons, null, 2));
+        return send(res, 200, MIME['.json'], JSON.stringify({ ok: true, added: [...names], icons }));
       });
       return;
     }
