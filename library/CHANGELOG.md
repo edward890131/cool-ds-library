@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-08（八十二）　checkbox 勾變細、Icon 頁線寬調整、Avatar 人物照片
+
+- **修正 checkbox 打勾太粗**：`.cbx`／`.ddcheck`／步驟完成勾原本加 `stroke-width:8`，那是 Phosphor 256 格的單位，換成 PulsoIcon（24 格）後粗了約十倍；改成 `calc(var(--icon-stroke) + .5)`，跟著線寬 token 走、略粗一點（＝原 Phosphor bold 粗細）。
+- **Icon 頁線寬調整**：互動預覽、Icon Library、搜尋完整圖示庫都加上「線寬」切換（1／1.5／2／2.5／3，Segmented 原子），只在該區覆寫 `--icon-stroke` 預覽，不改全站 token（全站值在 Token 頁「Icon 圖示」）。
+- **Avatar photo 型改人物照片**：原本是插畫風 SVG 人像，改用卡片類元件共用的內嵌人物照（`CARD_AV`，96×96，離線可顯示），依名字挑照片（同名同一人）。`CARD_AV` 定義移到 `avtEl` 前。
+- 英文對照補上新文案。
+
 ## 2026-11-08（八十一）　Icon 換成 PulsoIcon、搜尋完整圖示庫、搜尋彈窗英文補齊
 
 - **全站 icon 從 Phosphor 換成 PulsoIcon**（`PULSO:BEGIN…END`＋`PULSO-RT:v1`）：網站內 125 種 Phosphor 圖示（含各元件內部用到的）依對照表全部換成 PulsoIcon 對應的 113 種＋裝置預覽工具列 9 種；寫法從寫死的 SVG 字串改成 `PI('key')`／`PI('key',{solid:1})`。用到的圖示資料與播放器（pulsoicon-core 6.1.0＋motion 12.43.0）由新腳本 `sync/build-pulso-icons.mjs` 打包內嵌，離線也能顯示與播放。實心版的遮罩 id 會在插入時自動去重。
