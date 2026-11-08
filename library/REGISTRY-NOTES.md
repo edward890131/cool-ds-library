@@ -21,7 +21,7 @@
 | Table & Chart 表格圖表 | 6（含 table-toolbar） | 0 | 6 |
 | **合計** | **70** | **6** | **76** |
 
-- **toggle 升格**：原本收在 tab 頁，改為獨立元件頁（`buildToggle`），補 `DIAL_SPECS.toggle`（state 4 值），會進需求匯總與匯出。
+- **toggle 升格**：原本收在 tab 頁，改為獨立元件頁（`buildToggle`），補 `DIAL_SPECS.toggle`（state 4 值），會進選擇元件頁（原需求匯總）與匯出。
 - **P1 全部完成**（2026-11-03）：alert、popover、avatar、segmented、slider、field、stack、app-shell、empty。剩餘 23 顆為 P2／P3。
 - **P2 全部完成**（2026-11-03）：button-group、typography、link、kbd、divider、descriptions、splitter、scroll-area、number-input、rating、carousel、hover-card、context-menu、command、date-picker、dropzone、table-toolbar（17 顆）。剩餘 6 顆皆為 P3。
 - **牌卡第二版進庫**（2026-11-03）：person-card、profile-card、metric-card、invite-card、widget-card（library-first，無 L0 對應）。boolean property：person-card `tags`、profile-card `verified`（記在 DIAL_SPECS `bools`，registry 腳本尚未輸出此欄）。

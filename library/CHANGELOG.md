@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-08（八十三）　「需求匯總」改名「選擇元件」、原生 checkbox 對齊 Checkbox 元件
+
+- **改名**：「需求匯總」頁與流程改叫「**選擇元件**」（英文 **Select Comps**）：側欄、頁面眉標與標題、搜尋彈窗（舊名保留為搜尋關鍵字）、Design Guideline 說明、上手指南卡片（標籤 SUMMARY → SELECT）與步驟、首頁輪播與上手指南的模擬畫面、開新專案流程的步驟／套用提示／空狀態、規劃中元件說明；重複的句子順便潤飾（「在選擇元件頁勾要的元件」）。網址 `#summary`、程式內部名稱、註解與歷史版本紀錄不動。`HANDOFF.md`、`REGISTRY-NOTES.md` 同步。
+- **原生 checkbox 對齊 Checkbox 元件**：互動預覽的 content 勾選、變數篩選器等原生 `input[type=checkbox]` 的勾原本還是舊的 Phosphor 粗勾、半選是 Phosphor minus；改用與 `.cbx` 相同的 PulsoIcon check／minus（線寬 2.5）。checkbox、下拉多選勾、步驟節點裡的勾不再疊播 PulsoIcon 的滑過動態，統一只用勾選時的「由左往右揭開」。
+- 英文：補上改名後的文案，以及 Token 頁匯出視窗的「樣式包檔案／複製此檔／下載此檔／全部下載」、開新專案流程的套用狀態提示（先前漏翻）。
+
 ## 2026-11-08（八十二）　checkbox 勾變細、Icon 頁線寬調整、Avatar 人物照片
 
 - **修正 checkbox 打勾太粗**：`.cbx`／`.ddcheck`／步驟完成勾原本加 `stroke-width:8`，那是 Phosphor 256 格的單位，換成 PulsoIcon（24 格）後粗了約十倍；改成 `calc(var(--icon-stroke) + .5)`，跟著線寬 token 走、略粗一點（＝原 Phosphor bold 粗細）。

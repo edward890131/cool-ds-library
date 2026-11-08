@@ -19,7 +19,7 @@
   1. 更新 `library/CHANGELOG.md`：新條目插在最上面一筆 `## ` 之前，標題格式 `## 2026-11-05（七十）　標題`（括號內流水號遞增）。
   2. 更新網站內版本紀錄 `const CHANGELOG_DATA=[`（最新在最上；同一批改動加到最新版本的 `items`，大批新功能開新版號）。
      ⚠ `items[].t` 會被 innerHTML 渲染：**內文不可出現未跳脫的 `<` `>`**（寫成 `&lt;` `&gt;`），否則會吞掉後面所有版本（v13 才修過這個 bug）。
-  3. 新增／移除元件 → 同步 `NAV`（側欄）、`DIAL_SPECS`（軸定義，CHOICE/需求匯總/選取都從這裡長出來）、`BUILD`／`LIVE`、搜尋關鍵字、`TOKEN_SLOTS`、registry。
+  3. 新增／移除元件 → 同步 `NAV`（側欄）、`DIAL_SPECS`（軸定義，CHOICE/選擇元件頁（原需求匯總）/選取都從這裡長出來）、`BUILD`／`LIVE`、搜尋關鍵字、`TOKEN_SLOTS`、registry。
   4. 驗證（見第 4 節）→ commit → push → 使用者說「合併推」才開 PR 並 merge 到 main。
 - 使用者說「合併推上去」＝開 PR 到 `main` 並直接 merge（merge commit），之後把工作分支重設到最新 `main`。
 
