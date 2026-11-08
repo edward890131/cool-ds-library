@@ -1073,6 +1073,22 @@
   input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   input[type=checkbox]:disabled{opacity:.45;cursor:not-allowed;}
   @media (prefers-reduced-motion:reduce){input[type=checkbox]::after{animation:none !important;}}
+  /* CBX-IN:v1 原生 checkbox 一律換成 Checkbox 原子 .cbx（鐵則 5，2026-11-08）：
+     JS（cbxAdopt）在每個 <input type=checkbox> 後面插一顆 cbxEl()（.cbx 原子），兩者包在 .cbx-in；
+     input 透明、蓋在 .cbx 上，點擊／鍵盤／讀屏／表單值都還是原生 input 負責，程式改 checked（如全選）也會自動同步；
+     .cbx 的外觀、勾選一筆畫出、滑過重畫（PulsoIcon）全部沿用元件本身。 */
+  .cbx-in{position:relative;display:inline-grid;flex:0 0 auto;vertical-align:middle;}
+  .cbx-in > input[type=checkbox]{position:absolute;inset:0;width:100% !important;height:100% !important;margin:0;opacity:0;z-index:1;cursor:pointer;}
+  .cbx-in > input[type=checkbox]:disabled{cursor:not-allowed;}
+  .cbx-in > .cbx svg{display:none;}
+  .cbx-in > input:checked + .cbx,.cbx-in > input:indeterminate + .cbx{background:var(--accent);border-color:var(--accent);}
+  .cbx-in > input:checked + .cbx .cbx-ck,.cbx-in > input:indeterminate:not(:checked) + .cbx .cbx-ind{display:block;}
+  .cbx-in > input:hover:not(:disabled) + .cbx,label:hover > .cbx-in > input:not(:disabled) + .cbx,label:hover .cbx-in > input:not(:disabled) + .cbx{border-color:var(--accent);}
+  .cbx-in > input:focus-visible + .cbx{outline:2px solid var(--accent);outline-offset:2px;}
+  .cbx-in > input:disabled + .cbx{opacity:.45;}
+  .cbx-in > input:active:not(:disabled) + .cbx{transform:scale(.9);}
+  .cbx-in > input:checked + .cbx .cbx-ck path{animation:ck-draw .55s var(--ease-out) both;}
+  @media (prefers-reduced-motion:reduce){.cbx-in > input:checked + .cbx .cbx-ck path,.optrow .cbx.st-checked svg path,.livewrap .cbx.st-checked svg path{animation:none !important;}}
   .rdo{border:1.5px solid var(--i-sec-edge);background:var(--panel);border-radius:var(--r-pill);display:inline-flex;box-sizing:border-box;padding:0;flex:0 0 auto;
     align-items:center;justify-content:center;transition:var(--dur-fast);cursor:pointer;}
   .rdo.sz-s{width:16px;height:16px;} .rdo.sz-m{width:20px;height:20px;} .rdo.sz-l{width:24px;height:24px;}
@@ -4005,7 +4021,8 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .switch:not(.st-disabled):active::after{width:25px;}
   .switch.on:not(.st-disabled):active::after{transform:translateX(15px);}
   /* Checkbox：勾勾由左往右揭開（實心 icon 用 clip-path）；Radio：圓點 scale 彈出；按下微縮 */
-  .livewrap .cbx.st-checked svg{animation:cbx-reveal var(--dur-default) var(--ease-out) both;}
+  .livewrap .cbx.st-checked svg path,.optrow .cbx.st-checked svg path{animation:ck-draw .55s var(--ease-out) both;}   /* 2026-11-08 勾選＝勾勾一筆畫出（同 PulsoIcon check 的 draw 動態；path 帶 pathLength=1） */
+  @keyframes ck-draw{from{stroke-dashoffset:1;opacity:0;}8%{opacity:1;}to{stroke-dashoffset:0;opacity:1;}}
   @keyframes cbx-reveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}
   .rdo .dot{width:50%;height:50%;transform:scale(0);transition:transform calc(var(--dur-fast) * .9) var(--ease-in);}
   .rdo.st-checked .dot{transform:scale(1);transition:transform var(--dur-default) var(--ease-spring);}
@@ -6692,10 +6709,21 @@ function piArm(e){const el=e.target;if(!el||!el.closest)return;const T=PulsoCore
   const t=el.closest(T);let svgs;
   if(t)svgs=[...t.querySelectorAll('svg[data-pi]')].filter(s=>s.closest(T)===t);
   else{const s=el.closest('svg[data-pi]');svgs=s?[s]:[];}
-  svgs=svgs.filter(s=>!s.closest('[data-pi-off],.cbx,.ddcheck,.stp-node'));   // animated=false 完全靜態；checkbox／下拉勾／步驟節點自帶勾選動畫（cbx-reveal），不疊 PulsoIcon hover 動態
+  svgs=svgs.filter(s=>!s.closest('[data-pi-off]'));   // animated=false：完全靜態
   svgs.forEach(svg=>{if(svg.__pi!==undefined)return;svg.__pi=null;const d=PULSO_ICONS[svg.dataset.pi];if(!d)return;
     try{const fr=PulsoCore.iconFrame(d,{solid:svg.hasAttribute('data-pi-solid'),maskId:'pi-x'});svg.__pi=PulsoCore.playIcon(svg,fr,{});svg.__pi.startAnimation();}catch(err){}});}
 document.addEventListener('pointerover',piArm,{passive:true});document.addEventListener('focusin',piArm);
+/* CBX-IN:v1 原生 checkbox → Checkbox 原子（見 CSS CBX-IN:v1）。cbxEl 定義在後面，執行時（DOMContentLoaded 後）才呼叫。 */
+function cbxAdopt(root){if(!root||!root.querySelectorAll||typeof cbxEl!=='function')return;
+  const list=root.matches&&root.matches('input[type=checkbox]')?[root]:root.querySelectorAll('input[type=checkbox]');
+  list.forEach(i=>{if(i.hasAttribute('data-cbx')||!i.parentNode||i.closest('.cbx-in'))return;i.setAttribute('data-cbx','');
+    const w=document.createElement('span');w.className='cbx-in';i.parentNode.insertBefore(w,i);
+    const v=cbxEl('default','m');v.setAttribute('aria-hidden','true');v.innerHTML=ICON_CHECK+ICON_MINUS;
+    const sv=v.querySelectorAll('svg');sv[0].classList.add('cbx-ck');sv[1].classList.add('cbx-ind');w.append(i,v);});}
+new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes){if(n.nodeType!==1||n.classList.contains('cbx-in'))continue;
+  if(n.matches('input[type=checkbox]')||n.querySelector('input[type=checkbox]:not([data-cbx])'))cbxAdopt(n);}})
+  .observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
 
   /* SHELL8:v1 框內載入進度：主程式開始執行 */ try{if(/[?&]rwdframe=1(&|$)/.test(location.search)&&window.parent!==window)window.parent.postMessage({rwdframe:1,t:'stage',s:'js'},'*');}catch(e){}
   /* ===== 導覽（Yuu 自訂分類藍圖：60 顆 L3 併成 43 個陳列項目）===== */
