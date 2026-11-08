@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-08（八十）　Tab 新增灰底 variant、容器／灰底果凍切換
+
+- **新增 variant `soft`（灰底）**：與 contained 同為獨立藥丸＋間距，未選中為 `--panel-2` 灰底、無框線，滑過 `--panel-3`，選中與其他 variant 一致（`--accent`／`--primary-on`）。Tab 軸變為 `variant(line／contained／soft／pill) × state × size` = 4 × 4 × 2；`component-registry.json` 同步新增 soft。寫入 Figma 時對應 Variant property 新增一個值（鐵則 3），尚未同步到 Figma。
+- **果凍切換**（`TAB-JELLY:v1`，參考 React Bits「Jelly Radio」）：互動預覽中 contained／soft 點選時，選中那顆膨脹到 1.2、其餘縮到 0.95 並往兩側推開，停 120ms 後全部以彈簧回彈到 1 倍原樣（scaleX 阻尼低、scaleY 晚 50ms，越遠的晚 22ms 起動）。純 JS 彈簧積分，不引入動畫套件；鍵盤切換與「減少動態」時不播；按壓疊加 `scale:.97`。矩陣靜態格不受影響。
+- 英文對照補上新文案。
+
 ## 2026-11-08（七十九）　搜尋彈窗英文、版本紀錄標籤爆版
 
 - **搜尋彈窗**（⌘K）EN 模式補齊：placeholder、「常用」、底部提示、找不到結果訊息；結果名稱在 EN 只顯示英文（「Button Group 按鈕組」→ Button Group），中文關鍵字高亮不再把名稱切成碎片。
