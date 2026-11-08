@@ -59,3 +59,10 @@
 ## Figma 操作前置
 
 任何寫入 Figma 畫布前，先載入 `/figma-use` skill（強制前置，不跳過）。動工前先 `search_design_system` / scan Components page 盤點既有 token／component，缺漏先回報再決定補建或沿用，不用 hard-code 繞過。
+
+## Git 交付：有推送權限照常推，沒有才交 patch 檔
+
+先看這個 session 有沒有推送權限（`gh api repos/edward890131/cool-ds-library --jq .permissions.push`，或直接試推）：
+
+- **有權限**（例如使用者本機 Mac 的 session）：照常流程——開 branch、commit、push；使用者說「合併推上去」就開 PR 並 merge。
+- **沒權限**（例如 claude.ai 雲端 session）：不要嘗試 push／開 PR，也不要建議改權限或加協作者（不加協作者是刻意決定）。改完在本機 commit，用 `git format-patch origin/main -o <scratchpad>` 匯出 `.patch`，以 SendUserFile 傳給使用者並附一句改了什麼。使用者在本機套用：`git checkout main && git pull` → `git am <檔名>.patch` → `git push`；衝突時 `git am --abort`，把錯誤訊息貼回來處理。
