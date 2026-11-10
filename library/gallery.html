@@ -804,7 +804,8 @@
   .tok-preset-t{font-size:var(--fs-h9);font-weight:var(--fw-semibold);} .tok-preset-d{font-size:var(--fs-h11);color:var(--muted);margin-top:2px;}
   .tok-preset-sum{display:none;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-2);}
   .tok-preset.is-closed .tok-preset-sum{display:flex;} .tok-preset.is-closed .tok-preset-d{display:none;}
-  .tok-preset-acts{display:flex;align-items:center;gap:var(--sp-1);flex:0 0 auto;} .tok-preset-tg{flex:0 0 auto;} .tok-preset .btn.tok-preset-tg svg{transition:transform var(--dur-default) var(--ease-out);transform:rotate(180deg);} .tok-preset.is-closed .btn.tok-preset-tg svg{transform:none;}   /* 展開＝朝上（收合）、收合＝朝下（展開） */
+  .tok-preset-acts{display:flex;align-items:center;gap:var(--sp-1);flex:0 0 auto;} .tok-preset .btn.tok-preset-rs svg{display:none;}
+  @media (max-width:599px){.tok-preset .btn.tok-preset-rs{padding:0;aspect-ratio:1;width:32px;justify-content:center;} .tok-preset .btn.tok-preset-rs span{display:none;} .tok-preset .btn.tok-preset-rs svg{display:block;}}   /* 手機：回到預設改 reload icon button */ .tok-preset-tg{flex:0 0 auto;} .tok-preset .btn.tok-preset-tg svg{transition:transform var(--dur-default) var(--ease-out);transform:rotate(180deg);} .tok-preset.is-closed .btn.tok-preset-tg svg{transform:none;}   /* 展開＝朝上（收合）、收合＝朝下（展開） */
   .tok-preset-bw{display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--dur-slow) var(--ease-out);}   /* 收合：0fr↔1fr 高度過場 */
   .tok-preset.is-closed .tok-preset-bw{grid-template-rows:0fr;}
   .tok-preset-bi{min-height:0;overflow:hidden;}
@@ -18010,7 +18011,7 @@ function buildScheduleChart(view){
       (on.length?on.map(p=>p.t+'：'+p.opts.find(o=>o[0]===st[p.k])[1]):['全部預設']).forEach(t=>{const g=tagEl('soft','neutral','default','round');g.querySelector('span').textContent=t;sum.appendChild(g);});};
     tg.onclick=()=>{box.classList.toggle('is-closed');window.__tokPresetOpen=!box.classList.contains('is-closed');paintTg();paintSum();};
     // 回到預設：取用 Button 原子；全部已是預設時停用
-    const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('tok-preset-rs');rs.querySelector('span').textContent='回到預設';
+    const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('tok-preset-rs');rs.innerHTML=PI('refresh-cw')+'<span>回到預設</span>';rs.setAttribute('aria-label','回到預設');rs.title='回到預設';   /* 圖示只在手機顯示（CSS） */
     const allDef=()=>TOK_PRESETS.every(p=>st[p.k]===TOK_PRESET_DEF(p.k));
     rs.disabled=allDef();rs.classList.toggle('st-disabled',rs.disabled);rs.classList.toggle('st-default',!rs.disabled);
     rs.onclick=()=>{if(allDef())return;TOK_PRESETS.forEach(p=>{const d=TOK_PRESET_DEF(p.k);if(st[p.k]!==d){st[p.k]=d;p.apply(d,OV);}});onApply();};
