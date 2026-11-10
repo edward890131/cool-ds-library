@@ -5,11 +5,11 @@
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 85,
-      "ready": 79,
+      "total": 90,
+      "ready": 84,
       "planned": 6,
       "withAxes": 76,
-      "noAxes": 9
+      "noAxes": 14
     }
   },
   "groups": [
@@ -4171,6 +4171,119 @@
             "avatar",
             "segmented",
             "loader"
+          ]
+        },
+        {
+          "id": "tpl-admin-dashboard",
+          "name": "Admin Dashboard 後台儀表板",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "menu",
+            "avatar",
+            "button",
+            "logo",
+            "tab",
+            "price",
+            "table",
+            "link",
+            "segmented",
+            "chart",
+            "skeleton",
+            "empty",
+            "alert"
+          ]
+        },
+        {
+          "id": "tpl-admin-report",
+          "name": "Admin Report 後台統計報表",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "menu",
+            "avatar",
+            "button",
+            "logo",
+            "tab",
+            "segmented",
+            "chart",
+            "notification",
+            "skeleton",
+            "empty",
+            "alert"
+          ]
+        },
+        {
+          "id": "tpl-admin-list",
+          "name": "Admin List 後台資料列表",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "menu",
+            "avatar",
+            "button",
+            "logo",
+            "table-toolbar",
+            "table",
+            "tag",
+            "link",
+            "notification",
+            "skeleton",
+            "empty",
+            "alert"
+          ]
+        },
+        {
+          "id": "tpl-admin-detail",
+          "name": "Admin Detail 後台詳情頁",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "menu",
+            "avatar",
+            "button",
+            "logo",
+            "breadcrumb",
+            "tag",
+            "descriptions",
+            "table",
+            "step",
+            "skeleton",
+            "empty",
+            "alert"
+          ]
+        },
+        {
+          "id": "tpl-admin-form",
+          "name": "Admin Form 後台建立表單",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "menu",
+            "avatar",
+            "button",
+            "logo",
+            "breadcrumb",
+            "field",
+            "dropdown",
+            "quantity",
+            "date-picker",
+            "segmented",
+            "input",
+            "modal",
+            "notification",
+            "skeleton",
+            "alert"
           ]
         }
       ]

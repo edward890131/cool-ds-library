@@ -6,6 +6,21 @@
 
 ---
 
+## 2026-11-10（九十二）　Template 範本：後台五頁
+
+- **新增後台範本五頁**（`TPL:v2`）：Admin Dashboard 儀表板、Admin Report 統計報表、Admin List 資料列表、Admin Detail 詳情頁、Admin Form 建立表單。參考先前專案的後台流程稿（儀表板／統計資料／預約管理／詳情／建單），改成通用的電商訂單假資料。
+- **共用框架** `tadApp(page, device, scenario)`：電腦版側欄 232px 常駐（Logo＋Menu 分組＋使用者）、內容欄最寬 960px；平板 768 與手機 375 改成頂欄＋抽屜。五頁是同一個框架的不同起始頁，側欄、表格列、訂單編號、麵包屑、按鈕都會真的切換頁面。
+- **各頁內容**（全部取用既有元件，沒有新增元件）：
+  - 儀表板：Tab（營運摘要／統計報表）、KPI 用 Number 的 `prMetricEl`、待處理訂單用 Table＋Segmented 篩選、近 7 日營收用 Chart bar、Link「查看全部訂單」。
+  - 統計報表：Segmented 期間、下載 CSV（Button＋Notification）、Chart area-stack／bar-stack／bar-rank／funnel。
+  - 資料列表：直接用 Table Toolbar（搜尋、篩選、已存檢視、批次操作、列高）；訂單編號改成 Link 開詳情。
+  - 詳情頁：Breadcrumb、Tag 狀態、Descriptions 訂單資訊、Table 商品明細（含總計）、Avatar 客戶、Step timeline 處理進度。
+  - 建立表單：Field、Dropdown、Quantity、Date Picker、Segmented、Textarea；必填檢查換成 Field error 狀態 → Modal popup 確認 → Notification 完成提示 → 前往詳情。
+- **情境**：每頁都有正常、載入中（Skeleton）、空資料（Empty，引導下一步）、錯誤（Alert＋Empty，可重試）。
+- **registry**：新增 5 筆 `kind: template`＋`composedOf`；`build-registry.js` 支援 `Object.assign(TPL_COMPOSE, …)` 追加的範本。
+- 英文：新頁全部文案、aria-label、提示訊息；順手補上 Chart bar-rank 第 7、8 名與兩張圖表的 aria-label（原本 Chart 頁也沒翻）。網站版本紀錄加 v19。
+- 驗證：五頁中英文、深淺色、電腦／平板／手機截圖；流程自動測試（列表 → 詳情 → 編輯 → 必填錯誤 → 確認 → 建立 → 抽屜導覽 → 情境切換與重試）通過、無 JS 錯誤、無水平溢出；英文模式殘留中文 0。
+
 ## 2026-11-10（九十一）　首頁新增點陣世界地圖段落
 
 - **用戶回饋下方新增「From Taipei to every timezone」**（`HOME-MAP:v1`，`#hxMap`）：canvas 畫陸地點陣，依序高亮 Taipei → Tokyo → Seoul → Hong Kong → New York → London（每站約 3.6 秒），鏡頭平移把城市帶進畫面；隨機點會輕輕閃爍（三成重點色）。只放視覺，不放統計數字。

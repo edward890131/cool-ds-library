@@ -27,6 +27,11 @@ const DIAL_SPECS=eval('('+dsM[1].replace(/;$/,'')+')');
 // --- 範本組成（TPL_COMPOSE）與舊 registry 的手動欄位 ---
 const tplM=s.match(/const TPL_COMPOSE=(\{[^\n]*\});/);
 const TPL_COMPOSE=tplM?eval('('+tplM[1]+')'):{};
+// 後續以 Object.assign(TPL_COMPOSE,{...}) 追加的範本（可引用同檔的共用陣列，例如 TAD_SHELL）
+const shellM=s.match(/const TAD_SHELL=(\[[^\]]*\]);/);
+for(const m of s.matchAll(/Object\.assign\(TPL_COMPOSE,(\{[\s\S]*?\})\);/g)){
+  Object.assign(TPL_COMPOSE,new Function('TAD_SHELL','return ('+m[1]+');')(shellM?eval(shellM[1]):[]));
+}
 const PREV={};
 try{ const old=JSON.parse(fs.readFileSync(OUT,'utf8')); (old.groups||[]).forEach(g=>g.items.forEach(it=>{ PREV[it.id]=it; })); }catch(e){}
 
