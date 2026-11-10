@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-10（九十一）　首頁新增點陣世界地圖段落
+
+- **用戶回饋下方新增「From Taipei to every timezone」**（`HOME-MAP:v1`，`#hxMap`）：canvas 畫陸地點陣，依序高亮 Taipei → Tokyo → Seoul → Hong Kong → New York → London（每站約 3.6 秒），鏡頭平移把城市帶進畫面；目前城市是實心六角＋向外擴散的框、旁邊等寬大寫城市名，其他城市淡色六角；隨機點會輕輕閃爍（三成重點色）。只放視覺，不放統計數字。
+- 互動概念參考 Aceternity Inference Landing Page 的 Global network 段落；顏色全走 token（點＝`--ink` 加透明度、重點＝`--c-info-600`／深色 `--c-info-400`），深淺色切換會重畫。
+- 地圖資料：Natural Earth 50m 陸地（公有領域）以 Miller 投影、每格 2° 轉成 180×82 位元圖，base64 內嵌約 2.4KB，不外連任何資源。
+- 只有段落在畫面內才動畫（離開或分頁隱藏即停）；手機地圖置中、點距縮小；系統「減少動態」時停在 Taipei 不動。協作游標在此段顯示「worldwide」。
+
 ## 2026-11-10（九十）　首頁標語換字加上「方向感知選取」
 
 - **Hero 標語尾字（recolors／rounds…）滑鼠移上去**：出現 Figma 式選取框（沿用元件牆 hover 的 `.hx-sel` 細框＋四角方點），從滑鼠進來的那一側滑入；底色用當下字色的淡色、從同一側填進來；框下方有尺寸標籤即時顯示寬×高。離開時往滑出的那一側收掉。互動概念參考 Aceternity「Direction Aware Selection」，樣式全部用站內 token。
