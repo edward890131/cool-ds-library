@@ -5,11 +5,11 @@
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 90,
-      "ready": 84,
+      "total": 94,
+      "ready": 88,
       "planned": 6,
       "withAxes": 76,
-      "noAxes": 14
+      "noAxes": 18
     }
   },
   "groups": [
@@ -4286,6 +4286,92 @@
             "notification",
             "skeleton",
             "alert"
+          ]
+        },
+        {
+          "id": "tpl-web-product",
+          "name": "Product List 商品列表",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "header",
+            "footer",
+            "logo",
+            "button",
+            "segmented",
+            "selector",
+            "tag",
+            "slider",
+            "dropdown",
+            "image",
+            "price",
+            "pagination",
+            "skeleton",
+            "empty"
+          ]
+        },
+        {
+          "id": "tpl-web-blog",
+          "name": "Blog 部落格",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "header",
+            "footer",
+            "logo",
+            "button",
+            "selector",
+            "dropdown",
+            "article-card",
+            "image",
+            "tag",
+            "skeleton",
+            "empty"
+          ]
+        },
+        {
+          "id": "tpl-web-news",
+          "name": "News 最新消息",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "header",
+            "footer",
+            "logo",
+            "button",
+            "tab",
+            "dropdown",
+            "tag",
+            "pagination",
+            "skeleton",
+            "empty"
+          ]
+        },
+        {
+          "id": "tpl-web-article",
+          "name": "Article 文章內頁",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "header",
+            "footer",
+            "logo",
+            "button",
+            "link",
+            "image",
+            "alert",
+            "table",
+            "price",
+            "skeleton",
+            "empty"
           ]
         }
       ]
