@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-10（一百一十四）　說明文字連結改用 Link 元件
+
+- **問題**：元件頁標題下方說明（`.lede`）、段落副標（`.bh-d`）、首頁 FAQ 裡的 `<a>` 沒有任何 class，吃瀏覽器預設樣式（未造訪藍、已造訪紫、實線底線），深色模式特別突兀。全站盤點 39 頁、91 個（lede 86、FAQ 4、副標 1）。
+- **修正**（`LNK-ADOPT:v1`）：`renderView` 換頁後呼叫 `adoptTextLinks(view)`，替這三處沒有 class 的連結套上 Link 原子 inline（`.lnk.lnk-inline`：`--accent` 字色、35% 透明底線、hover 轉實色、focus 外框），不必逐頁改 lede 字串；元件示範與程式碼裡的連結不動。修正後盤點 0 個殘留。
+- 網站版本紀錄 v39 加一項；英文同步。
+
 ## 2026-11-10（一百一十三）　頂欄改用元件庫元件：Toggle（新增圓鈕圖示）、Input＋Kbd、Tag
 
 - **盤點**：頂欄 10 個元素中有 3 個沒取用元件庫（鐵則 5）：深淺色切換 `.theme-toggle`、搜尋入口 `.ss-trig`、專案名稱 `.ds-badge-proj`；其餘（選單／上手指南／Github／開啟新專案＝Button、裝置預覽／中 EN＝Segmented、logo＝品牌資產）已是原子。
