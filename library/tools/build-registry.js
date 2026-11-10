@@ -24,6 +24,12 @@ const FULL=144;
 const NAV=eval('('+navM[1].replace(/;$/,'')+')');
 const DIAL_SPECS=eval('('+dsM[1].replace(/;$/,'')+')');
 
+// --- 範本組成（TPL_COMPOSE）與舊 registry 的手動欄位 ---
+const tplM=s.match(/const TPL_COMPOSE=(\{[^\n]*\});/);
+const TPL_COMPOSE=tplM?eval('('+tplM[1]+')'):{};
+const PREV={};
+try{ const old=JSON.parse(fs.readFileSync(OUT,'utf8')); (old.groups||[]).forEach(g=>g.items.forEach(it=>{ PREV[it.id]=it; })); }catch(e){}
+
 // --- L0 元件 id 粗略比對（有同名就標，僅供參考、id 主權在 library）---
 const l0=fs.readFileSync(L0,'utf8');
 const L0_IDS=new Set([...l0.matchAll(/^\s*- id:\s*([a-z0-9-]+)/gm)].map(m=>m[1]));
@@ -60,6 +66,8 @@ const groups=NAV.map(g=>({
       axes
     };
     if(it.st==='planned'){ out.priority=it.pr||null; out.note=it.note||null; } // 規劃中：差距分析的優先級與理由
+    if(it.kind==='template'){ out.kind='template'; out.composedOf=TPL_COMPOSE[it.id]||[]; } // 範本：只排版、不建新元件，列出取用的元件 id
+    const prev=PREV[it.id]; if(prev) Object.keys(prev).forEach(k=>{ if(!(k in out)) out[k]=prev[k]; }); // 保留手動補的欄位（例：icon 的 tokens／codeOnlyProps）
     return out;
   })
 }));
@@ -116,5 +124,5 @@ console.log('OK 寫入 registry:',OUT);
 console.log('分組:',groups.map(g=>g.group+'('+g.items.length+')').join(' / '));
 console.log('總項目:',total,' 有軸:',withAxes,' 無軸(待補/複合):',noAxes);
 // 列出無軸項目（缺口候選）
-groups.forEach(g=>g.items.forEach(it=>{if(!it.axes&&it.kind!=='brand-asset'&&it.status!=='planned')console.log('  ⚠ 無軸定義:',g.group,'/',it.id,it.name);}));
+groups.forEach(g=>g.items.forEach(it=>{if(!it.axes&&it.kind!=='brand-asset'&&it.kind!=='template'&&it.status!=='planned')console.log('  ⚠ 無軸定義:',g.group,'/',it.id,it.name);}));
 console.log('ready:',ready,' planned:',planned);

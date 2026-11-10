@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "0.2.0",
-    "generated": "2026-11-05",
+    "generated": "2026-11-10",
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 78,
-      "ready": 72,
+      "total": 85,
+      "ready": 79,
       "planned": 6,
-      "withAxes": 70,
-      "noAxes": 8
+      "withAxes": 76,
+      "noAxes": 9
     }
   },
   "groups": [
@@ -227,7 +227,7 @@
                 ]
               }
             },
-            "variantCount": 16
+            "variantCount": 32
           },
           "variantCount": 32,
           "codeOnlyProps": [
@@ -889,7 +889,7 @@
                 ]
               }
             },
-            "variantCount": 24
+            "variantCount": 32
           }
         },
         {
@@ -3867,6 +3867,311 @@
             },
             "variantCount": 6
           }
+        }
+      ]
+    },
+    {
+      "group": "AI Chat 對話",
+      "emoji": "✨",
+      "items": [
+        {
+          "id": "ai-avatar",
+          "name": "AI Avatar 頭像",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "state",
+              "size"
+            ],
+            "by": {
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "idle",
+                    "zh": "待命"
+                  },
+                  {
+                    "value": "thinking",
+                    "zh": "思考中"
+                  },
+                  {
+                    "value": "streaming",
+                    "zh": "回覆中"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "S 24"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "M 32"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "L 48"
+                  }
+                ]
+              }
+            },
+            "variantCount": 9
+          }
+        },
+        {
+          "id": "chat-message",
+          "name": "Chat Message 訊息",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "role",
+              "state"
+            ],
+            "by": {
+              "role": {
+                "axisName": "Role 角色",
+                "options": [
+                  {
+                    "value": "user",
+                    "zh": "使用者"
+                  },
+                  {
+                    "value": "assistant",
+                    "zh": "AI"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "done",
+                    "zh": "完成"
+                  },
+                  {
+                    "value": "pending",
+                    "zh": "進行中"
+                  },
+                  {
+                    "value": "interrupted",
+                    "zh": "中斷"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "avatar": "Avatar 頭像",
+              "actions": "Actions 操作列",
+              "sources": "Sources 來源",
+              "files": "Files 附件"
+            },
+            "variantCount": 6
+          }
+        },
+        {
+          "id": "chat-thinking",
+          "name": "Chat Thinking 思考狀態",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "kind",
+              "state"
+            ],
+            "by": {
+              "kind": {
+                "axisName": "Kind 類型",
+                "options": [
+                  {
+                    "value": "thinking",
+                    "zh": "思考"
+                  },
+                  {
+                    "value": "searching",
+                    "zh": "搜尋"
+                  },
+                  {
+                    "value": "reasoning",
+                    "zh": "推理摘要"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "active",
+                    "zh": "進行中"
+                  },
+                  {
+                    "value": "done",
+                    "zh": "完成"
+                  }
+                ]
+              }
+            },
+            "variantCount": 6
+          }
+        },
+        {
+          "id": "chat-composer",
+          "name": "Chat Composer 輸入列",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "layout",
+              "state"
+            ],
+            "by": {
+              "layout": {
+                "axisName": "Layout 版型",
+                "options": [
+                  {
+                    "value": "standard",
+                    "zh": "標準"
+                  },
+                  {
+                    "value": "compact",
+                    "zh": "精簡"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "empty",
+                    "zh": "空白"
+                  },
+                  {
+                    "value": "typing",
+                    "zh": "輸入中"
+                  },
+                  {
+                    "value": "generating",
+                    "zh": "生成中"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "attach": "Attach 加入檔案",
+              "tools": "Tools 搜尋開關",
+              "model": "Model 模型選擇",
+              "voice": "Voice 語音",
+              "files": "Files 已附檔案"
+            },
+            "variantCount": 8
+          }
+        },
+        {
+          "id": "prompt-suggestion",
+          "name": "Prompt Suggestion 建議問題",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "variant"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 樣式",
+                "options": [
+                  {
+                    "value": "chip",
+                    "zh": "膠囊"
+                  },
+                  {
+                    "value": "card",
+                    "zh": "卡片"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "icon": "Icon 圖示"
+            },
+            "variantCount": 2
+          }
+        },
+        {
+          "id": "chat-error",
+          "name": "Chat Error 對話錯誤",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "kind"
+            ],
+            "by": {
+              "kind": {
+                "axisName": "Kind 情境",
+                "options": [
+                  {
+                    "value": "network",
+                    "zh": "網路中斷"
+                  },
+                  {
+                    "value": "server",
+                    "zh": "伺服器錯誤"
+                  },
+                  {
+                    "value": "rate-limit",
+                    "zh": "用量上限"
+                  },
+                  {
+                    "value": "auth",
+                    "zh": "登入過期"
+                  },
+                  {
+                    "value": "policy",
+                    "zh": "內容規範"
+                  }
+                ]
+              }
+            },
+            "variantCount": 5
+          }
+        }
+      ]
+    },
+    {
+      "group": "Template 範本",
+      "emoji": "🧩",
+      "items": [
+        {
+          "id": "tpl-ai-chat",
+          "name": "AI Chat 對話",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": null,
+          "kind": "template",
+          "composedOf": [
+            "ai-avatar",
+            "chat-message",
+            "chat-thinking",
+            "chat-composer",
+            "prompt-suggestion",
+            "chat-error",
+            "button",
+            "tag",
+            "popover",
+            "alert",
+            "avatar",
+            "segmented",
+            "loader"
+          ]
         }
       ]
     }

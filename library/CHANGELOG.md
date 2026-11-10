@@ -6,6 +6,22 @@
 
 ---
 
+## 2026-11-10（八十七）　AI Chat 對話元件系列＋Template 範本「AI 對話」
+
+- **盤點**：參考 ChatGPT／Claude／Gemini 共通的介面，整理出對話中常見的狀態（歡迎、送出中、思考、搜尋、推理摘要、串流、停止、錯誤）、元件與互動（Enter 送出／Shift＋Enter 換行、生成中送出鍵變停止鍵、複製／讚／倒讚／重新產生／分享、倒讚回饋原因、捲到最新、手機抽屜），拆成 6 顆元件，不照抄任何單一產品。
+- **新增 AI Chat 對話分類**（`AIC:v1`，皆有 DIAL_SPECS 軸、變數篩選器、互動預覽與程式碼）：
+  - **AI Avatar 頭像**：state（待命／思考中／回覆中）× size（24／32／48）＝ 9。由 cdl logo 延伸：c 弧線＋品牌橘點 `--accent2`，底色 `--ink` 深淺色自動翻轉；思考中弧線旋轉、橘點呼吸，回覆中橘點閃爍。
+  - **Chat Message 訊息**：role（使用者／AI）× state（完成／進行中／中斷）＝ 6；boolean：avatar／actions／sources／files。使用者用泡泡、AI 用頭像＋純文字；串流有游標；倒讚跳出回饋 Popover。
+  - **Chat Thinking 思考狀態**：kind（思考／搜尋／推理摘要）× state（進行中／完成）＝ 6；文字微光、可展開的「已思考 12 秒」。
+  - **Chat Composer 輸入列**：layout（標準／精簡）× state（空白／輸入中／生成中／停用）＝ 8；boolean：attach／tools／model／voice／files。輸入框隨內容長高，生成中送出鍵變停止鍵。
+  - **Prompt Suggestion 建議問題**：variant（膠囊／卡片）＝ 2；boolean：icon。
+  - **Chat Error 對話錯誤**：kind（網路中斷／伺服器錯誤／用量上限／登入過期／內容規範）＝ 5。
+  - 內部一律取用既有原子（鐵則 5）：Button、Tag、Popover、Alert、Avatar、Loader、Segmented；沒有新增其他原子。動態只在程式碼，Figma 以靜態 variant 表示。
+- **新增 Template 範本分類**（`TPL:v1`）與第一個範本 **AI 對話**：電腦版（1080，左側對話紀錄）與手機版（375，紀錄收進抽屜、輸入列精簡版）；情境：歡迎／對話中／思考中／串流中／錯誤。可直接打字送出，跑完整流程：思考 → 逐字串流 → 停止 → 重新產生 → 讚／倒讚回饋；開「搜尋」會先顯示搜尋狀態；歷史紀錄切換、新對話、捲到最新、Esc 關抽屜。假資料為通用情境（台南週末美食行程）。頁尾列出組成元件並可點去元件頁。
+- **registry**：新增 7 筆（範本標 `kind: template`＋`composedOf`）；`build-registry.js` 改為保留舊 registry 手動補的欄位（如 icon 的 `tokens`／`codeOnlyProps`），並順帶修正 Icon（16→32）、Tab（24→32）過期的組合數。
+- 英文：新頁全部文案、aria-label／placeholder、串流回覆內容（英文模式先整段翻好再逐字顯示）；側欄名稱改為「AI Avatar 頭像」「AI Chat 對話」以免英文抽取多帶一個 AI。網站版本紀錄加 v15。
+- 驗證：7 頁中英文、深淺色、電腦／手機截圖；範本流程（思考→串流→停止→重新產生→倒讚回饋→手機抽屜）自動測試通過、無 JS 錯誤；英文模式殘留中文 0。
+
 ## 2026-11-10（八十六）　英文模式：程式碼區按鈕、樣式包匯出、色票表
 
 - **程式碼區不再整區跳過翻譯**：`I18N_SKIP` 原本把 `.live-code`、`.tokexp` 整塊排除，連標題與按鈕都沒翻（元件頁 HTML／SCSS 面板的「複製」、Token 頁匯出區的「樣式包檔案／複製此檔／下載此檔／全部下載」）。改為只跳過程式碼本體（`.code-pre`、`.code-gutter`），程式碼內容維持原樣。
