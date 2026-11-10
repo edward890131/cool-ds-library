@@ -804,7 +804,7 @@
   .tok-preset-t{font-size:var(--fs-h9);font-weight:var(--fw-semibold);} .tok-preset-d{font-size:var(--fs-h11);color:var(--muted);margin-top:2px;}
   .tok-preset-sum{display:none;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-2);}
   .tok-preset.is-closed .tok-preset-sum{display:flex;} .tok-preset.is-closed .tok-preset-d{display:none;}
-  .tok-preset-tg{flex:0 0 auto;} .tok-preset .btn.tok-preset-tg svg{transition:transform var(--dur-default) var(--ease-out);transform:rotate(180deg);} .tok-preset.is-closed .btn.tok-preset-tg svg{transform:none;}   /* 展開＝朝上（收合）、收合＝朝下（展開） */
+  .tok-preset-acts{display:flex;align-items:center;gap:var(--sp-1);flex:0 0 auto;} .tok-preset-tg{flex:0 0 auto;} .tok-preset .btn.tok-preset-tg svg{transition:transform var(--dur-default) var(--ease-out);transform:rotate(180deg);} .tok-preset.is-closed .btn.tok-preset-tg svg{transform:none;}   /* 展開＝朝上（收合）、收合＝朝下（展開） */
   .tok-preset-bw{display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--dur-slow) var(--ease-out);}   /* 收合：0fr↔1fr 高度過場 */
   .tok-preset.is-closed .tok-preset-bw{grid-template-rows:0fr;}
   .tok-preset-bi{min-height:0;overflow:hidden;}
@@ -17083,6 +17083,7 @@ function buildScheduleChart(view){
   const CHANGELOG_DATA=[
     {v:'v36', date:'2026-11-10', title:'快速風格改兩欄、可收合', items:[
       {tag:'improve', t:'快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項'},
+      {tag:'add', t:'快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用'},
     ]},
     {v:'v35', date:'2026-11-10', title:'快速風格新增圓角、陰影、動態、文字對比', items:[
       {tag:'add', t:'快速風格新增四組：圓角（方正／柔和／圓潤／膠囊）、陰影（扁平／輕柔／立體）、動態（俐落／適中／悠緩／靜止）、文字對比（柔和／標準／高對比）'},
@@ -18008,7 +18009,13 @@ function buildScheduleChart(view){
     const paintSum=()=>{sum.innerHTML='';const on=TOK_PRESETS.filter(p=>st[p.k]!==TOK_PRESET_DEF(p.k));
       (on.length?on.map(p=>p.t+'：'+p.opts.find(o=>o[0]===st[p.k])[1]):['全部預設']).forEach(t=>{const g=tagEl('soft','neutral','default','round');g.querySelector('span').textContent=t;sum.appendChild(g);});};
     tg.onclick=()=>{box.classList.toggle('is-closed');window.__tokPresetOpen=!box.classList.contains('is-closed');paintTg();paintSum();};
-    h.append(hm,tg);box.appendChild(h);
+    // 回到預設：取用 Button 原子；全部已是預設時停用
+    const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('tok-preset-rs');rs.querySelector('span').textContent='回到預設';
+    const allDef=()=>TOK_PRESETS.every(p=>st[p.k]===TOK_PRESET_DEF(p.k));
+    rs.disabled=allDef();rs.classList.toggle('st-disabled',rs.disabled);rs.classList.toggle('st-default',!rs.disabled);
+    rs.onclick=()=>{if(allDef())return;TOK_PRESETS.forEach(p=>{const d=TOK_PRESET_DEF(p.k);if(st[p.k]!==d){st[p.k]=d;p.apply(d,OV);}});onApply();};
+    const acts=ce('div','tok-preset-acts');acts.append(rs,tg);
+    h.append(hm,acts);box.appendChild(h);
     const bw=ce('div','tok-preset-bw');bw.id='tokPresetBody';const bi=ce('div','tok-preset-bi');const grid=ce('div','tok-preset-g');bi.appendChild(grid);bw.appendChild(bi);box.appendChild(bw);
     const byK=Object.fromEntries(TOK_PRESETS.map(p=>[p.k,p]));
     TOK_PRESET_COLS.forEach(([ct,ks])=>{const col=ce('div','tok-preset-col');const chd=ce('div','tok-preset-ch');chd.textContent=ct;col.appendChild(chd);
@@ -20271,7 +20278,7 @@ function buildScheduleChart(view){
   I18N_RX.push(["^(.+) 範本$","{T:1} template"]);
   I18N_RX.push(["^加入購物車：(.+)$","Add to cart: {T:1}"]);
   I18N_RX.push(["^(間距|圓角|陰影|動態|用色|字級對比|字重|文字對比)：(.+)$","{T:1}: {T:2}"]);  /* TOK-PRESET:v2 收合摘要 */
-  Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
+  Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
   const I18N_S={'在線':'Online','離線':'Offline','離開':'Away'};
   const I18N_MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
