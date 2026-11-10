@@ -17648,7 +17648,7 @@ function buildScheduleChart(view){
     const catCard=(t,n)=>'<div class="hm-catcard"><span class="hm-catt">'+t+'</span><span class="hm-catn">'+n+'</span><span class="hm-catcaret">›</span></div>';
     const summaryMain='<div class="hm-main">'
       +'<div class="hm-eyebrow">Overview · 選擇元件</div>'
-      +'<div class="hm-headrow"><div class="hm-h1">選擇元件</div><span class="hm-copybtn">複製此頁 JSON</span></div>'
+      +'<div class="hm-headrow"><div class="hm-h1">選擇元件</div></div>'
       +'<p class="hm-lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡看該元件的<b>實際操作</b>，牌卡前的勾選框決定<b>要不要產出</b>。回各元件用「變數篩選器」調整組合，這裡即時彙整。</p>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-actions"><span class="hm-aitoggle">✦ AI 建議產出<span class="sw"></span></span><span class="hm-selall"><span class="ck">'+CK2+'</span>全選</span><span class="hm-total">已選 <b>39</b>/39 個元件 · 共 <b>860</b> 個變體將建立</span></div>'
@@ -18299,8 +18299,7 @@ function buildScheduleChart(view){
 
   function renderSummary(view){
     const rep=choiceReport();
-    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Overview · 選擇元件</p><h1>選擇元件</h1></div>
-        <button class="btn v-soft i-secondary sz-s st-default live" id="copyBtn"><span>複製此頁 JSON</span></button></div>
+    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Overview · 選擇元件</p><h1>選擇元件</h1></div></div>
       <p class="lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡<b>直接點選</b>要產出的變數，牌卡前的勾選框決定<b>要不要產出</b>；跟各元件頁的「變數篩選器」是同一份選擇。</p>
       <div class="head-rule"></div>
       <div class="sum-actions">
@@ -18412,12 +18411,7 @@ function buildScheduleChart(view){
       else{if(aiSnapshot){SUMSEL.clear();aiSnapshot.forEach(x=>SUMSEL.add(x));}aiSnapshot=null;aiOn=false;}
       aiBtn.classList.toggle('on',aiOn);renderBody();syncTotal();
     };
-    {const o=document.getElementById('copyBtn');const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});nb.type='button';nb.id='copyBtn';nb.querySelector('span').textContent='複製此頁 JSON';o.replaceWith(nb);} // PAGES10:v1 library Button 原子
-    document.getElementById('copyBtn').onclick=()=>{
-      const json={};allKeys.forEach(id=>{if(!SUMSEL.has(id))return;json[id]={};DIAL_SPECS[id].order.forEach(k=>json[id][k]=rep[id][k]);json[id].count=rep[id].count;});
-      json._selected=[...SUMSEL];json._total=[...SUMSEL].reduce((a,id)=>a+rep[id].count,0);
-      navigator.clipboard.writeText(JSON.stringify(json,null,2)).then(()=>{const s=document.getElementById('copyBtn').querySelector('span');swapText(s,'已複製 ✓');setTimeout(()=>swapText(s,'複製此頁 JSON'),1600);});
-    };
+    /* 2026-11-10「複製此頁 JSON」按鈕先移除（使用者要求）；要恢復請看 git 歷史的 renderSummary */
   }
 
   /* ===== 檢視切換 ===== */
