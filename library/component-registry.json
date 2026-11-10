@@ -4178,7 +4178,8 @@
               "tools": "Tools 已開啟工具",
               "model": "Model 模型選擇",
               "voice": "Voice 語音",
-              "files": "Files 已附檔案"
+              "files": "Files 已附檔案",
+              "usage": "Usage 方案使用量"
             },
             "variantCount": 8
           }
