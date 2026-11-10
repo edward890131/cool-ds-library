@@ -6,6 +6,17 @@
 
 ---
 
+## 2026-11-10（一百一十二）　新元件 Chip 選擇膠囊；快速風格改取用 Chip
+
+- **起因**：快速風格的選項膠囊是手刻的 `.tkp-pill`（`token-presets-pills` patch 加的），沒取用任何原子，違反鐵則 5；Tag 只顯示狀態、站內 `.chip` 不是 library 元件，都沒有單選狀態可用。照鐵則 5「沒有對應原子就先建原子」新增 Chip。
+- **Chip 選擇膠囊**（`CHIP:v1`，Form 表單，id `chip`）：`type` single／multi × `state` default／hover／selected／disabled × `size` s／m／l（**24**），boolean `dot` 色點、`icon` 前置圖示。高度綁 `--ctl-h-xs`／`--ctl-h-s`／`--ctl-h-m`（24／32／40）；未選 `--panel-2`、滑過 `--panel-3`、選中 `--ink` 底＋`--panel` 字，多選選中時前面多一個勾；圓角 `--r-pill`。**字級、字重對齊同高度的 Button**：m 32＝Button s（`--fs-h11` 12px）、l 40＝Button m（`--fs-h10` 14px）、s 24 也用 12px；字重 `--fw-semibold`。
+- **建構器**：`chpEl(type,state,size,o)` 單顆、`chpGroup(type,size,{items,value,onChange,label|labelledby})` 一組。單選＝`radiogroup`／`radio`（方向鍵移動並選取，跳過停用項，Tab 只停在選中項），多選＝`group`／`checkbox`；`aria-checked` 同步。
+- **元件頁**：State × Size 矩陣（每個 type 一塊）、Content 示範、使用時機（vs Segmented／Radio・Checkbox／Dropdown／Tag）、Live（Type、Size、dot、icon、停用一項）與自動產生的 HTML／SCSS。同步 NAV、DIAL_SPECS、BUILD／LIVE、搜尋關鍵字、TOKEN_SLOTS（`--chp-radius`／`--chp-pad-x`／`--chp-fs`）、ATOM_SET、registry（`build-registry.js` 重產，只多 chip 一筆，總數 96→97）。
+- **快速風格**改用 `chpGroup('single','m')`（用色帶 dot），刪除 `.tkp-*` 樣式；選項文字 14→12px、字重 400→600。
+- **順手修正**：TOKEN_SLOTS 裡 Segmented 圓角預設仍寫 `--r-md`，改成實際的 `--r-sm`。
+- **順手修正**：首頁地圖配圖的點狀過場在配圖框還沒有尺寸（換頁中、隱藏）時會用 0 寬畫布呼叫 `drawImage` 報錯；框寬或高 < 2px 時跳過過場直接換圖。
+- 網站版本紀錄加 v38；英文同步。
+
 ## 2026-11-10（一百一十一）　控制項高度後續：Segmented 圓角、按鈕 hover 底色、列高切換、甘特圖進場
 
 - **Segmented 圓角縮小**：外框預設 `--r-md`（8）→ `--r-sm`（4），滑塊／選項 −2px、最小 `--r-xs`（2）；`.sgm`（元件）與 `.seg`（站內控制項）兩套一起改，`--sgm-radius` 局部覆寫不受影響。

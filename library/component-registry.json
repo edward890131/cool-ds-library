@@ -5,10 +5,10 @@
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 96,
-      "ready": 90,
+      "total": 97,
+      "ready": 91,
       "planned": 6,
-      "withAxes": 78,
+      "withAxes": 79,
       "noAxes": 18
     }
   },
@@ -1643,6 +1643,77 @@
               }
             },
             "variantCount": 4
+          }
+        },
+        {
+          "id": "chip",
+          "name": "Chip 選擇膠囊",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "type",
+              "state",
+              "size"
+            ],
+            "by": {
+              "type": {
+                "axisName": "Type 類型",
+                "options": [
+                  {
+                    "value": "single",
+                    "zh": "單選"
+                  },
+                  {
+                    "value": "multi",
+                    "zh": "多選"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  },
+                  {
+                    "value": "selected",
+                    "zh": "選中"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "l"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "dot": "Dot 色點",
+              "icon": "Icon 圖示"
+            },
+            "variantCount": 24
           }
         },
         {

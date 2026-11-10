@@ -801,6 +801,27 @@
     transition:background-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),opacity var(--dur-default) var(--ease-out);}
   .sum-chip:hover{border-color:var(--ink);} .sum-chip.on:hover{border-color:transparent;filter:brightness(.97);} .sum-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .sum-chip.is-deny{animation:sum-deny 360ms var(--ease-out);} @keyframes sum-deny{25%{translate:-3px 0}50%{translate:3px 0}75%{translate:-2px 0}}
+  /* CHIP:v1 Chip 選擇膠囊（2026-11-10，原子）：type 單選 radio／多選 checkbox × state default／hover／selected／disabled × size s 24／m 32／l 40（綁 --ctl-h-*）
+     未選＝--panel-2 底、選中＝--ink 底＋--panel 字；多選選中時前面多一個勾。boolean：dot 色點、icon 前置圖示。 */
+  .chp-grp{display:flex;flex-wrap:wrap;gap:var(--chp-gap,var(--sp-2));}
+  .chp{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);margin:0;border:0;cursor:pointer;white-space:nowrap;user-select:none;
+    min-height:var(--chp-h,var(--ctl-h-s));padding:0 var(--chp-pad-x,var(--sp-4));border-radius:var(--chp-radius,var(--r-pill));
+    background:var(--chp-bg,var(--panel-2));color:var(--chp-fg,var(--ink));font-family:var(--font-sans);font-size:var(--chp-fs,var(--fs-h11));font-weight:var(--chp-fw,var(--fw-semibold));line-height:1.2;
+    transition:background-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out);}
+  /* 字級對齊同高度的 Button：m 32＝Button s（--fs-h11 12px）、l 40＝Button m（--fs-h10 14px）；s 24 也用 12px（10px 太小不好點） */
+  .chp.chp-sz-s{--chp-h:var(--ctl-h-xs);--chp-pad-x:var(--sp-3);--chp-fs:var(--fs-h11);gap:var(--sp-1);}
+  .chp.chp-sz-m{--chp-h:var(--ctl-h-s);--chp-pad-x:var(--sp-4);--chp-fs:var(--fs-h11);}
+  .chp.chp-sz-l{--chp-h:var(--ctl-h-m);--chp-pad-x:var(--sp-5);--chp-fs:var(--fs-h10);}
+  .chp.is-hover,.chp.live:hover:not(:disabled):not([aria-checked="true"]){background:var(--chp-bg-h,var(--panel-3));}
+  .chp[aria-checked="true"],.chp.is-on{background:var(--chp-bg-on,var(--ink));color:var(--chp-fg-on,var(--panel));}
+  .chp[aria-checked="true"].live:hover:not(:disabled){background:color-mix(in srgb,var(--chp-bg-on,var(--ink)) 88%,var(--panel));}
+  .chp:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .chp:disabled,.chp.is-disabled{opacity:.42;cursor:not-allowed;}
+  .chp svg{width:1.15em;height:1.15em;flex:0 0 auto;}
+  .chp-ck{display:none;} .chp.chp-multi[aria-checked="true"] .chp-ck{display:inline-flex;}   /* 多選：選中才出現勾 */
+  .chp-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;background:var(--chp-dot,var(--accent));box-shadow:0 0 0 1px color-mix(in srgb,currentColor 25%,transparent);}
+  .chp.chp-sz-s .chp-dot{width:8px;height:8px;}
+  @media (prefers-reduced-motion:reduce){.chp{transition:none;}}
   /* TOK-PRESET:v1 快速風格面板：單選膠囊（參考篩選面板的 chip 排法） */
   .tok-preset{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:var(--sp-5);margin:var(--sp-6) 0 var(--sp-6);}
   /* TOK-PRESET:v2（2026-11-10）兩欄表單式：左「版面」右「色彩與文字」，每列「固定寬標籤｜膠囊」對齊；可收合（預設展開），收合時摘要列出非預設選項 */
@@ -823,12 +844,7 @@
   @media (max-width:1100px){.tok-preset-g{grid-template-columns:minmax(0,1fr);}}
   @media (max-width:599px){.tok-preset-row{grid-template-columns:minmax(0,1fr);gap:var(--sp-2);}}   /* 手機：標籤在上、膠囊在下 */
   @media (prefers-reduced-motion:reduce){.tok-preset-bw,.tok-preset-tg svg{transition:none;}}
-  .tkp-pills{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
-  .tkp-pill{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--sp-2);height:32px;padding:0 var(--sp-4);border-radius:var(--r-pill);background:var(--panel-2);color:var(--ink);
-    font-size:var(--fs-h10);cursor:pointer;white-space:nowrap;transition:background-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out);}
-  .tkp-pill:hover{background:var(--panel-3);} .tkp-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .tkp-pill[aria-checked="true"]{background:var(--ink);color:var(--panel);}
-  .tkp-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 1px color-mix(in srgb,currentColor 25%,transparent);}
+  /* 2026-11-10 選項膠囊改取用 Chip 原子（CHIP:v1），原本手刻的 .tkp-* 已移除 */
   #view.pg10 .tok-preset + .tok-lead{margin:0 0 var(--sp-5);}
   @media (max-width:599px){.tok-preset{padding:var(--sp-4);} .tok-preset-g{gap:var(--sp-5);}}
   .sc-hint{font-size:var(--fs-h11);color:var(--muted);margin:2px 0 10px;}
@@ -7418,6 +7434,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
       {id:'selector',name:'Selector 選擇',st:'ready'},
       {id:'toggle',name:'Toggle 開關',st:'ready'},
       {id:'segmented',name:'Segmented 分段控制',st:'ready'},
+      {id:'chip',name:'Chip 選擇膠囊',st:'ready'},
       {id:'slider',name:'Slider 滑桿',st:'ready'},
       {id:'date-picker',name:'Date Picker 日期選擇',st:'ready'},
       {id:'time-picker',name:'Time Picker 時間選擇',st:'planned',pr:'P3',note:'時段預約等表單需要時再補；3／7 套有。'},
@@ -7555,6 +7572,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     'table-toolbar':{label:'Table Toolbar 表格工具列',order:['filter','bulk','density'],axes:{filter:['none','applied'],bulk:['hidden','page','all'],density:['comfortable','compact']},bools:{views:'Views 已存檢視分頁',densityToggle:'Density toggle 列高切換'},zh:{filter:{none:'無條件',applied:'已套用條件'},bulk:{hidden:'未選取',page:'選取本頁',all:'全選符合條件'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{filter:'Filter 篩選',bulk:'Bulk 批次列',density:'Density 列高'}}},
     avatar:{label:'Avatar 頭像',order:['size','shape','content'],axes:{size:['xs','s','m','l','xl'],shape:['circle','rounded'],content:['image','initials','icon']},zh:{size:{xs:'極小 xs',s:'小 s',m:'標準 m',l:'大 l',xl:'特大 xl'},shape:{circle:'圓形',rounded:'圓角方'},content:{image:'照片',initials:'縮寫',icon:'圖示'},axisName:{size:'Size 尺寸',shape:'Shape 形狀',content:'Content 內容'}}},
     segmented:{label:'Segmented 分段控制',order:['variant','size'],axes:{variant:['soft','outline'],size:['s','m']},zh:{variant:{soft:'柔色軌道',outline:'外框'},size:{s:'小 s',m:'標準 m'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
+    chip:{label:'Chip 選擇膠囊',order:['type','state','size'],axes:{type:['single','multi'],state:['default','hover','selected','disabled'],size:['s','m','l']},bools:{dot:'Dot 色點',icon:'Icon 圖示'},zh:{type:{single:'單選',multi:'多選'},state:{default:'預設',hover:'滑過',selected:'選中',disabled:'停用'},size:{s:'s',m:'m',l:'l'},axisName:{type:'Type 類型',state:'State 狀態',size:'Size 尺寸'}}},
     slider:{label:'Slider 滑桿',order:['variant','type','size','state'],axes:{variant:['track','fill'],type:['single','range'],size:['s','m'],state:['default','hover','focus','disabled']},zh:{variant:{track:'軌道',fill:'填充'},type:{single:'單值',range:'區間'},size:{s:'細 s',m:'標準 m'},state:{default:'預設',hover:'滑過',focus:'聚焦',disabled:'停用'},axisName:{variant:'Variant 樣式',type:'Type 型態',size:'Size 尺寸',state:'State 狀態'}}},
     field:{label:'Field 表單欄位',order:['layout','state'],axes:{layout:['vertical','horizontal'],state:['default','filled','error','disabled']},zh:{layout:{vertical:'標籤在上',horizontal:'標籤在左'},state:{default:'預設',filled:'已填值',error:'錯誤',disabled:'停用'},axisName:{layout:'Layout 版面',state:'State 狀態'}}},
     stack:{label:'Stack 版面排列',order:['direction','gap'],axes:{direction:['vertical','horizontal','grid'],gap:['sp-2','sp-3','sp-4','sp-5']},zh:{direction:{vertical:'Stack 直排',horizontal:'Inline 橫排',grid:'Grid 格狀'},gap:{'sp-2':'sp-2 · 6','sp-3':'sp-3 · 8','sp-4':'sp-4 · 12','sp-5':'sp-5 · 16'},axisName:{direction:'Direction 方向',gap:'Gap 間距'}}},
@@ -8044,7 +8062,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     const add=el=>{(el.getAttribute('class')||'').split(/\s+/).forEach(c=>{if(c)set.add(c);});};
     add(node); node.querySelectorAll('*').forEach(add); }
   const CSS_UTIL=new Set(['live','is-off','st-default']);           // 純運行期 class，不拿來配對（否則會撈到不相干全域規則）
-  const ATOM_SET=new Set(['btn','tg','chip','field','cbx','rdo','switch']); // 會被複合元件巢狀取用的原子 base（＋前綴 im-/pr- 為 image/price）
+  const ATOM_SET=new Set(['btn','tg','chip','chp','field','cbx','rdo','switch']); // 會被複合元件巢狀取用的原子 base（＋前綴 im-/pr- 為 image/price）
   const clsList=el=>((el&&el.getAttribute&&el.getAttribute('class'))||'').split(/\s+/).filter(Boolean);
   const isAtomCls=c=>ATOM_SET.has(c)||/^(im|pr)-/.test(c);          // 是否為「原子元件」的 base
   const isUtilCls=c=>/^(v|i|sz|st|is|live)-/.test(c)||CSS_UTIL.has(c); // 變體/狀態/運行期工具 class（不拿來當自己的 prefix）
@@ -8831,6 +8849,56 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     capRow(is,[['滑過（第一項）',sgmEl('soft','m',{hoverIndex:0})],['停用（最後一項）',sgmEl('soft','m',{disabledIndex:3})],['帶圖示',sgmEl('soft','m',{icon:true,items:['日','週','月']})]]);
     usageSection(body,[['用 Segmented','切換同一份資料的檢視方式，選了立刻生效。'],['改用 Tab','切換的是不同內容區塊（例如「基本資料／付款／通知」）。'],['改用 Radio','在表單裡選一個值、要按送出才生效。'],['改用 Dropdown','選項超過 5 個。']]);
     const sl=section(body,'互動預覽與程式碼','點選或用方向鍵切換，看指示器滑動。');LIVE.segmented(sl);
+  }
+
+  /* ---------- CHIP 選擇膠囊（CHIP:v1，2026-11-10）---------- */
+  /* chpEl(type,state,size,o)：單顆。type single｜multi；state default｜hover｜selected｜disabled；size s｜m｜l。
+     o.label 文字、o.dot 色點（CSS 顏色）、o.icon 前置圖示（SVG 字串）、o.live 真的可操作 */
+  function chpEl(type,state,size,o){o=o||{};const b=ce('button','chp chp-sz-'+size+' chp-'+type+(o.live?' live':'')+(state==='hover'?' is-hover':''));b.type='button';
+    b.setAttribute('role',type==='multi'?'checkbox':'radio');b.setAttribute('aria-checked',String(state==='selected'));if(state==='disabled')b.disabled=true;
+    let h='';if(type==='multi')h+='<span class="chp-ck">'+PI('check')+'</span>';if(o.dot)h+='<span class="chp-dot"></span>';if(o.icon)h+=o.icon;
+    b.innerHTML=h+'<span class="chp-t"></span>';b.querySelector('.chp-t').textContent=o.label||'選項';if(o.dot)b.querySelector('.chp-dot').style.setProperty('--chp-dot',o.dot);
+    if(o.key!=null)b.dataset.k=o.key;return b;}
+  /* chpGroup(type,size,o)：一組。o.items＝[{k,label,dot,icon,disabled}]；o.value 單選＝k、多選＝陣列；o.label 群組名稱（aria）；o.onChange(值)
+     單選：role=radiogroup，方向鍵移動並選取、Tab 只停在選中項；多選：role=group，各自切換 */
+  function chpGroup(type,size,o){o=o||{};const g=ce('div','chp-grp');g.setAttribute('role',type==='multi'?'group':'radiogroup');if(o.label)g.setAttribute('aria-label',o.label);if(o.labelledby)g.setAttribute('aria-labelledby',o.labelledby);
+    let val=type==='multi'?new Set(o.value||[]):o.value;
+    const btns=(o.items||[]).map(it=>{const b=chpEl(type,it.disabled?'disabled':'default',size,{label:it.label,dot:it.dot,icon:it.icon,live:o.live!==false,key:it.k});g.appendChild(b);return b;});
+    const paint=()=>btns.forEach(b=>{const on=type==='multi'?val.has(b.dataset.k):b.dataset.k===val;b.setAttribute('aria-checked',String(on));if(type!=='multi')b.tabIndex=on?0:-1;});
+    if(type!=='multi'&&!btns.some(b=>b.dataset.k===val)){const f=btns.find(b=>!b.disabled);if(f)val=f.dataset.k;}
+    const emit=()=>{if(o.onChange)o.onChange(type==='multi'?[...val]:val);};
+    btns.forEach((b,i)=>{b.onclick=()=>{if(b.disabled)return;const k=b.dataset.k;
+        if(type==='multi'){val.has(k)?val.delete(k):val.add(k);}else{if(val===k)return;val=k;}paint();emit();};
+      if(type!=='multi')b.onkeydown=e=>{const d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();
+        let n=i;do{n=(n+d+btns.length)%btns.length;}while(btns[n].disabled&&n!==i);const nb=btns[n];nb.focus();if(nb.dataset.k!==val){val=nb.dataset.k;paint();emit();}};});
+    paint();g.__btns=btns;return g;}
+  const CHP_DEMO=[{k:'dense',label:'密集'},{k:'mid',label:'適中'},{k:'loose',label:'寬鬆'},{k:'xl',label:'特寬'}];
+  const CHP_DOTS=['#1C1C20','#2563EB','#16A34A','#EA580C'];
+  LIVE.chip=(host)=>mountLive(host,{gate:'chip',
+    initial:{type:'single',size:'m',dot:false,icon:false,disabled:false},
+    segs:[{key:'type',label:'Type',options:['single','multi'],labels:['單選','多選']},{key:'size',label:'Size',options:['s','m','l']}],
+    bools:[{key:'dot',label:'dot 色點'},{key:'icon',label:'icon 圖示'},{key:'disabled',label:'disabled 停用一項'}],boolLabel:'Content',
+    render:(st,sync)=>{const items=CHP_DEMO.map((it,i)=>Object.assign({},it,{dot:st.dot?CHP_DOTS[i]:null,icon:st.icon?PI('sparkles'):null,disabled:st.disabled&&i===3}));
+      const w=ce('div');w.style.cssText='width:100%;max-width:460px;display:flex;justify-content:center;';
+      w.appendChild(chpGroup(st.type,st.size,{items,value:st.type==='multi'?['mid','loose']:'mid',label:'示範選項',onChange:()=>sync&&sync()}));return w;},
+    note:'單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換，選中時前面出現勾）。'});
+  function buildChip(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Chip',title:'Chip 選擇膠囊',
+      lede:'可點選的膠囊，給<b>少量選項的單選或多選</b>（風格方向、篩選條件、偏好）。<b>type × state × size（2 × 4 × 3 = 24）</b>；未選＝<code>--panel-2</code> 底、選中＝<code>--ink</code> 底＋<code>--panel</code> 字，多選選中時前面多一個勾。高度綁 <code>--ctl-h-xs／s／m</code>（24／32／40）。和 <a href="#tag">Tag</a> 的差別：Tag 只顯示狀態、不能點。',
+      specRows:[['axes','<code>type × state × size</code>'],['formula','<code>2 × 4 × 3 = 24</code>'],['boolean','<code>dot · icon</code>'],['token-policy','<code>--chp-*</code> → <code>--ctl-h-*</code>／<code>--r-pill</code>／<code>--panel-2</code>／<code>--ink</code>']]});
+    const TN={single:['單選','single'],multi:['多選','multi']},SN={default:['預設','default'],hover:['滑過','hover'],selected:['選中','selected'],disabled:['停用','disabled']},ZN={s:['24','s'],m:['32','m'],l:['40','l']};
+    const axes=DIAL_SPECS.chip.axes,zh=DIAL_SPECS.chip.zh,active=CHOICE.chip.active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';axes.type.filter(t=>active.type.has(t)).forEach(t=>{
+      const sts=axes.state.filter(v=>active.state.has(v)),szs=axes.size.filter(v=>active.size.has(v));
+      p.appendChild(matrixPanel({badge:'type · '+t,name:TN[t][0]+' '+TN[t][1],rows:sts,cols:szs,rowLab:v=>labHTML(SN[v][0],SN[v][1]),colLab:z=>labHTML(ZN[z][0],ZN[z][1]),
+        cell:(v,z)=>chpEl(t,v,z,{label:'適中'}),mincol:140}));});}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'State × Size 矩陣','每個 type 一塊；列＝狀態、欄＝尺寸。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容','boolean：dot 色點（用色選擇等）、icon 前置圖示。');
+    capRow(cs,[['dot 色點',chpGroup('single','m',{items:[{k:'a',label:'冷靜',dot:'#2563EB'},{k:'b',label:'自然',dot:'#16A34A'},{k:'c',label:'溫暖',dot:'#EA580C'}],value:'a',live:false})],
+      ['icon 圖示',chpGroup('multi','m',{items:[{k:'a',label:'精選',icon:PI('sparkles')},{k:'b',label:'免運',icon:PI('truck')}],value:['a'],live:false})]]);
+    usageSection(body,[['用 Chip','2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。'],['改用 Segmented','切換同一份內容的檢視方式、選項固定連成一條。'],['改用 Radio／Checkbox','在表單裡、選項文字較長或需要說明。'],['改用 Dropdown','選項超過 8 個。'],['改用 Tag','只是顯示狀態、不能點。']]);
+    const sl=section(body,'互動預覽與程式碼','點選或用方向鍵切換。');LIVE.chip(sl);
   }
 
   /* ---------- SLIDER 滑桿 ---------- */
@@ -16801,7 +16869,7 @@ function buildScheduleChart(view){
     'tpl-web-blog':[...TWS_SHELL,'selector','dropdown','article-card','image','tag','skeleton','empty'],
     'tpl-web-news':[...TWS_SHELL,'news-item','tab','dropdown','tag','pagination','skeleton','empty'],
     'tpl-web-article':[...TWS_SHELL,'product-tile','link','image','alert','table','price','skeleton','empty']});
-  const BUILD={'news-item':buildNewsItem,'product-tile':buildProductTile,'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,'trend-card':buildTrendCard,'media-card':buildMediaCard,'weather-card':buildWeatherCard,'player-card':buildPlayerCard,'ticket-card':buildTicketCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar,'ai-avatar':buildAiAvatar,'chat-message':buildChatMessage,'chat-thinking':buildChatThinking,'chat-composer':buildChatComposer,'prompt-suggestion':buildPromptSuggestion,'chat-error':buildChatError,'tpl-ai-chat':buildTplAiChat,'tpl-admin-dashboard':v=>buildTplAdmin(v,'dashboard'),'tpl-admin-report':v=>buildTplAdmin(v,'report'),'tpl-admin-list':v=>buildTplAdmin(v,'list'),'tpl-admin-detail':v=>buildTplAdmin(v,'detail'),'tpl-admin-form':v=>buildTplAdmin(v,'form'),'tpl-web-product':v=>buildTplWeb(v,'product'),'tpl-web-blog':v=>buildTplWeb(v,'blog'),'tpl-web-news':v=>buildTplWeb(v,'news'),'tpl-web-article':v=>buildTplWeb(v,'article')};
+  const BUILD={chip:buildChip,'news-item':buildNewsItem,'product-tile':buildProductTile,'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,'trend-card':buildTrendCard,'media-card':buildMediaCard,'weather-card':buildWeatherCard,'player-card':buildPlayerCard,'ticket-card':buildTicketCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar,'ai-avatar':buildAiAvatar,'chat-message':buildChatMessage,'chat-thinking':buildChatThinking,'chat-composer':buildChatComposer,'prompt-suggestion':buildPromptSuggestion,'chat-error':buildChatError,'tpl-ai-chat':buildTplAiChat,'tpl-admin-dashboard':v=>buildTplAdmin(v,'dashboard'),'tpl-admin-report':v=>buildTplAdmin(v,'report'),'tpl-admin-list':v=>buildTplAdmin(v,'list'),'tpl-admin-detail':v=>buildTplAdmin(v,'detail'),'tpl-admin-form':v=>buildTplAdmin(v,'form'),'tpl-web-product':v=>buildTplWeb(v,'product'),'tpl-web-blog':v=>buildTplWeb(v,'blog'),'tpl-web-news':v=>buildTplWeb(v,'news'),'tpl-web-article':v=>buildTplWeb(v,'article')};
 
   /* ===== 複雜度確認總覽 ===== */
   function choiceReport(){
@@ -17094,6 +17162,9 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v38', date:'2026-11-10', title:'新元件：Chip 選擇膠囊', items:[
+      {tag:'add', t:'新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button'},
+    ]},
     {v:'v37', date:'2026-11-10', title:'控制項高度 token：Button、Input、Dropdown', items:[
       {tag:'fix', t:'元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉'},
       {tag:'fix', t:'Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角'},
@@ -18040,14 +18111,10 @@ function buildScheduleChart(view){
     const byK=Object.fromEntries(TOK_PRESETS.map(p=>[p.k,p]));
     TOK_PRESET_COLS.forEach(([ct,ks])=>{const col=ce('div','tok-preset-col');const chd=ce('div','tok-preset-ch');chd.textContent=ct;col.appendChild(chd);
       ks.forEach(k=>{const p=byK[k];if(!p)return;const row=ce('div','tok-preset-row');const lb=ce('div','tok-preset-lb');lb.id='tokP-'+p.k;lb.textContent=p.t;
-      const pills=ce('div','tkp-pills');pills.setAttribute('role','radiogroup');pills.setAttribute('aria-labelledby',lb.id);
-      const btns=p.opts.map(([k,t])=>{const b=ce('button','tkp-pill');b.type='button';b.setAttribute('role','radio');b.dataset.k=k;
-        if(p.k==='color'){const d=ce('span','tkp-dot');d.style.background=TOK_DOT[k];b.appendChild(d);}
-        const tx=ce('span');tx.textContent=t;b.appendChild(tx);return b;});
-      const paint=()=>btns.forEach(b=>{const on=b.dataset.k===st[p.k];b.setAttribute('aria-checked',String(on));b.tabIndex=on?0:-1;});
-      const pick=b=>{if(st[p.k]===b.dataset.k)return;st[p.k]=b.dataset.k;paint();p.apply(st[p.k],OV);onApply();};
-      btns.forEach((b,i)=>{b.onclick=()=>pick(b);b.onkeydown=e=>{const d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();const n=btns[(i+d+btns.length)%btns.length];n.focus();pick(n);};pills.appendChild(b);});
-      if(!btns.some(b=>b.dataset.k===st[p.k]))st[p.k]=(p.opts.find(o=>o[0]==='mid'||o[0]==='neutral')||p.opts[0])[0];paint();
+      if(!p.opts.some(o=>o[0]===st[p.k]))st[p.k]=(p.opts.find(o=>o[0]==='mid'||o[0]==='neutral')||p.opts[0])[0];
+      // CHIP:v1 取用 Chip 原子（單選、m 32）；用色帶 dot 色點
+      const pills=chpGroup('single','m',{labelledby:lb.id,value:st[p.k],items:p.opts.map(([k,t])=>({k,label:t,dot:p.k==='color'?TOK_DOT[k]:null})),
+        onChange:k=>{st[p.k]=k;p.apply(k,OV);onApply();}});
       row.append(lb,pills);col.appendChild(row);});
       grid.appendChild(col);});
     paintTg();paintSum();
@@ -18095,7 +18162,7 @@ function buildScheduleChart(view){
     }
     const bodyEl=document.getElementById('tokBody');
     {const lead=view.querySelector('.tok-lead');if(lead)lead.before(tokPresetPanel(OV,()=>{apply();const m=document.querySelector('.main'),sy=m?m.scrollTop:0;   /* 快速風格：放在 L1／L2 分頁上方 */
-      clearTimeout(window.__tokPresetT);window.__tokPresetT=setTimeout(()=>{if(current!=='tokens')return;const f=document.activeElement&&document.activeElement.closest('.tkp-pills')?[document.activeElement.closest('.tok-preset-row').querySelector('.tok-preset-lb').id,document.activeElement.dataset.k]:null;
+      clearTimeout(window.__tokPresetT);window.__tokPresetT=setTimeout(()=>{if(current!=='tokens')return;const f=document.activeElement&&document.activeElement.closest('.chp-grp')?[document.activeElement.closest('.tok-preset-row').querySelector('.tok-preset-lb').id,document.activeElement.dataset.k]:null;
         renderTokens(view);if(m)m.scrollTop=sy;if(f){const n=document.querySelector(`[aria-labelledby="${f[0]}"] [data-k="${f[1]}"]`);if(n)n.focus({preventScroll:true});}},60);}));}
     const mkColorCtl=(name,cur,store)=>{ // 填滿式色票鈕（無白邊）＋ hex
       const ctl=ce('div','tok-ctl');
@@ -19657,6 +19724,7 @@ function buildScheduleChart(view){
     const gen=src=>{cancelAnimationFrame(genRaf);ph.classList.add('is-gen');gcv.style.opacity=1;
       if(HX_REDUCE()){gcv.style.opacity=0;phImg.src=src;ph.classList.remove('is-gen');return;}
       const im=new Image();im.src=src;const dpr=Math.min(2,devicePixelRatio||1),W=gcv.clientWidth,H=gcv.clientHeight,C=W<180?5:6,GX=Math.ceil(W/C),GY=Math.ceil(H/C);
+      if(W<2||H<2){gcv.style.opacity=0;phImg.src=src;ph.classList.remove('is-gen');return;}   /* 2026-11-10 框還沒有尺寸（換頁中、隱藏）時跳過過場，避免 0 寬畫布 drawImage 報錯 */
       gcv.width=lay.width=W*dpr;gcv.height=lay.height=H*dpr;pix.width=GX;pix.height=GY;const ord=Array.from({length:GX*GY},()=>Math.random()),ph0=Array.from({length:GX*GY},()=>Math.random()*6.28);
       const ink=getComputedStyle(ph).getPropertyValue('--hx-gm-hi').trim()||'#3b82f6';let t0=0,drawn=false;
       const fr=t=>{if(!t0)t0=t;const e=t-t0;if(!drawn&&im.complete&&im.naturalWidth){px.drawImage(im,0,0,GX,GY);drawn=true;}
@@ -20192,7 +20260,7 @@ function buildScheduleChart(view){
     'scroll-area':'捲軸 scroll',header:'頁首 導覽列 navbar',footer:'頁尾','section-head':'區塊標題','floating-line':'浮動 客服',tab:'頁籤 分頁 tabs',menu:'選單 側欄 nav sidebar',
     'action-menu':'更多 動作選單 dropdown menu','context-menu':'右鍵 選單',breadcrumb:'麵包屑 路徑',pagination:'分頁 頁碼',step:'步驟 stepper',command:'指令 搜尋 cmdk palette',
     input:'輸入框 文字框 textfield search password 密碼','number-input':'數字 number spinbutton',dropdown:'下拉 select 選擇器',selector:'勾選 checkbox radio 單選 複選',toggle:'開關 switch',
-    segmented:'分段 切換',slider:'滑桿 range','date-picker':'日期 datepicker',dropzone:'上傳 upload 檔案 file',quantity:'數量 計數',field:'表單 form 欄位 label',
+    segmented:'分段 切換',chip:'膠囊 選擇 篩選 chip pill filter',slider:'滑桿 range','date-picker':'日期 datepicker',dropzone:'上傳 upload 檔案 file',quantity:'數量 計數',field:'表單 form 欄位 label',
     alert:'警示 提示 banner',notification:'通知 toast 訊息 snackbar',tooltip:'提示 說明',popover:'氣泡 浮層','hover-card':'資訊卡 預覽卡',modal:'彈窗 對話框 dialog 視窗',
     drawer:'抽屜 側邊面板 sheet',progress:'進度條 progressbar',loader:'載入 loading spinner',skeleton:'骨架 載入',empty:'空狀態 無資料 empty state',tag:'標籤 chip badge',
     price:'價格 金額',image:'圖片 img 照片',rating:'評分 星星 star',carousel:'輪播 banner',list:'清單 列表','list-item':'清單項目 列',collapse:'折疊 accordion 手風琴',
@@ -20292,6 +20360,7 @@ function buildScheduleChart(view){
   I18N_RX.push(["^(.+) 範本$","{T:1} template"]);
   I18N_RX.push(["^加入購物車：(.+)$","Add to cart: {T:1}"]);
   I18N_RX.push(["^(間距|圓角|陰影|動態|用色|字級對比|字重|文字對比)：(.+)$","{T:1}: {T:2}"]);  /* TOK-PRESET:v2 收合摘要 */
+  Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，多選選中時前面多一個勾。高度綁": " text, and multi-select shows a check when selected. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換，選中時前面出現勾）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own and shows a check when selected).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
@@ -20515,7 +20584,8 @@ function buildScheduleChart(view){
                      {slot:'--ttb-gap',label:'工具列間距 gap',cat:'spacing',def:'--sp-3'}],
     descriptions:[{slot:'--dsc-gap',label:'列間距 gap',cat:'spacing',def:'--sp-4'},{slot:'--dsc-fs',label:'值文字級別 font-size',cat:'typography',def:'--fs-h10'}],
     avatar:[{slot:'--avt-radius',label:'圓角 radius（圓角方）',cat:'radius',def:'--r-md'}],
-    segmented:[{slot:'--sgm-radius',label:'圓角 radius',cat:'radius',def:'--r-md'},{slot:'--sgm-pad-x',label:'選項水平內距 padding-x',cat:'spacing',def:'--sp-4'},{slot:'--sgm-fs',label:'文字級別 font-size',cat:'typography',def:'--fs-h10'}],
+    chip:[{slot:'--chp-radius',label:'圓角 radius',cat:'radius',def:'--r-pill'},{slot:'--chp-pad-x',label:'水平內距 padding-x',cat:'spacing',def:'--sp-4'},{slot:'--chp-fs',label:'文字級別 font-size',cat:'typography',def:'--fs-h11'}],
+    segmented:[{slot:'--sgm-radius',label:'圓角 radius',cat:'radius',def:'--r-sm'},{slot:'--sgm-pad-x',label:'選項水平內距 padding-x',cat:'spacing',def:'--sp-4'},{slot:'--sgm-fs',label:'文字級別 font-size',cat:'typography',def:'--fs-h10'}],
     field:[{slot:'--fld-gap',label:'標籤↔欄位間距 gap',cat:'spacing',def:'--sp-2'},{slot:'--fld-label-fs',label:'標籤文字級別 font-size',cat:'typography',def:'--fs-h11'}],
     'app-shell':[{slot:'--shl-radius',label:'外框圓角 radius',cat:'radius',def:'--r-md'}],
     empty:[{slot:'--emp-pad',label:'上下內距 padding',cat:'spacing',def:'--sp-7'},{slot:'--emp-gap',label:'元素間距 gap',cat:'spacing',def:'--sp-3'},{slot:'--emp-title-fs',label:'標題文字級別 font-size',cat:'typography',def:'--fs-h9'}],
