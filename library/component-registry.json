@@ -4066,8 +4066,8 @@
               }
             },
             "bools": {
-              "attach": "Attach 加入檔案",
-              "tools": "Tools 搜尋開關",
+              "attach": "Attach ＋選單",
+              "tools": "Tools 已開啟工具",
               "model": "Model 模型選擇",
               "voice": "Voice 語音",
               "files": "Files 已附檔案"
