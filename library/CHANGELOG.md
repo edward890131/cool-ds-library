@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-11-10（一百零八）　快速風格新增圓角、陰影、動態、文字對比
+
+- **圓角**：方正（xs 0／sm 2／md 4／lg 6／xl 8／2xl 12／3xl 16）／柔和＝預設／圓潤（4／8／12／14／20／28／36）／膠囊（圓潤＋`--btn-radius`、`--field-radius` 改 pill）；lg、xl 依 desktop／tablet／mobile 各自給值（mobile 4／6、12／16）。
+- **陰影**：扁平（`--e-sm…2xl` 全部 none）／輕柔＝預設／立體（亮色濃度約加倍、模糊約 ×1.5；暗色另給一組 .6–.85）。
+- **動態**：俐落（fast 90／default 180／slow 300、hover-delay 150ms）／適中＝預設／悠緩（225／450／750、350ms）／靜止（全部 1ms、hover-delay 0）。
+- **文字對比**：柔和（亮：text-2 → neutral-500、text-3 → 400、border 200／300；暗另給）／標準＝預設／高對比（亮：text-2 → 700、text-3 → 600、border 400／500；暗：text-1 #FFF、text-2 #C4C6CC、text-3 #9A9CA4、border #3A3C42／#4A4D54）。
+- **修正**：L2 亮色值定義在 `:root[data-theme="light"]`，原本覆寫只寫 `:root` 蓋不過（手調 L2 亮色、陰影都沒生效）；覆寫改成 `:root,:root[data-theme="light"]`。
+- 字級對比選項改名「強烈／適中／含蓄」、動態「靜止」：原本「大／中／小」「關閉」的英文對照會蓋掉全站同字的翻譯（尺寸標籤、關閉按鈕），已還原為 Large／Small／Close。
+- 網站版本紀錄加 v35；英文同步。
+
 ## 2026-11-10（一百零七）　AI 輸入列使用量、首頁手機跑馬燈更順
 
 - **方案使用量**（`AIC-USAGE:v1`，Chat Composer 新 boolean `usage`，標準版）：送出鈕左邊一顆圓環顯示每週額度 %（≥80% warning、≥95% danger），滑過／聚焦／點擊浮出面板（參考 Claude Code）：「方案使用量限制 · Pro」＋查看全部、每週 · 所有模型與每 5 小時 · 對話兩列（重設時間＋%＋Progress 條）。Live 每送出一則 +1／+2%，圓環輕彈。AI 對話範本電腦版同步出現。
