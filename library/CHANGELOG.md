@@ -12,7 +12,8 @@
 - **修正**（`LNK-ADOPT:v1`）：`renderView` 換頁後呼叫 `adoptTextLinks(view)`，替這三處沒有 class 的連結套上 Link 原子 inline（`.lnk.lnk-inline`：`--accent` 字色、35% 透明底線、hover 轉實色、focus 外框），不必逐頁改 lede 字串；元件示範與程式碼裡的連結不動。修正後盤點 0 個殘留。
 - **說明文字不加粗**：`.lede b`／`.lede strong` 改成 `font-weight:inherit; color:inherit`，原本標粗（並加深成 `--ink`）的字跟內文一樣；字串裡的 `<b>` 保留不刪，之後要恢復只改這一條 CSS。全站 96 頁 256 處，量測確認沒有比內文粗的字。
 - **Link inline 字重**：`.lnk-inline` 加 `font-weight:var(--lnk-fw,var(--fw-medium))`（400→500），與 standalone 一致；改的是 Link 原子本身，全站段落內連結一起變（說明文字、FAQ、Link 元件頁、範本內 inline 連結）。
-- 網站版本紀錄 v39 加三項；英文同步。
+- **Link 顏色改資訊藍**（試用）：新增 `--lnk-c`，淺色 `--c-info-600`（#2563EB，對淺底 4.95:1）、深色 `--c-info-400`（#60A5FA，對深底 8.06:1），皆過 WCAG AA；聚焦外框同色；已造訪、停用維持原樣。改的是 Link 原子，全站文字連結一起變；要換回品牌色只改 `--lnk-c` 那三行。
+- 網站版本紀錄 v39 加四項；英文同步。
 
 ## 2026-11-10（一百一十三）　頂欄改用元件庫元件：Toggle（新增圓鈕圖示）、Input＋Kbd、Tag
 
