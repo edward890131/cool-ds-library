@@ -787,14 +787,12 @@
     background:transparent;color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h11);font-weight:600;cursor:pointer;transition:.13s;}
   .adjustbtn:hover{border-color:var(--accent);color:var(--accent);}
   .adjustbtn svg{width:14px;height:14px;flex:0 0 auto;}
-  .sum-axis{display:flex;align-items:baseline;gap:12px;padding:6px 0;}
-  .sum-axis .sa-name{flex:0 0 110px;font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding-top:3px;}
-  .sum-axis .sa-chips{flex:1;display:flex;flex-wrap:wrap;gap:6px;}
+  .sum-axis{display:flex;align-items:center;gap:12px;padding:6px 0;}
+  .sum-axis .sa-name{flex:0 0 110px;font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+  .sum-axis .sa-chips{flex:1;--chp-gap:6px;}
   .sum-axis .sa-n{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
-  .sum-chip{display:inline-flex;font-family:var(--font-mono);font-size:var(--fs-h11);padding:3px 9px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;color:inherit;cursor:pointer;
-    transition:background-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out),opacity var(--dur-default) var(--ease-out);}
-  .sum-chip:hover{border-color:var(--ink);} .sum-chip.on:hover{border-color:transparent;filter:brightness(.97);} .sum-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .sum-chip.is-deny{animation:sum-deny 360ms var(--ease-out);} @keyframes sum-deny{25%{translate:-3px 0}50%{translate:3px 0}75%{translate:-2px 0}}
+  /* 2026-11-10 變數選項改取用 Chip 原子（multi s），原本手刻的 .sum-chip 已移除；最後一個不能取消時輕晃提示 */
+  .sa-chips .chp.is-deny{animation:sum-deny 360ms var(--ease-out);} @keyframes sum-deny{25%{translate:-3px 0}50%{translate:3px 0}75%{translate:-2px 0}}
   /* CHIP:v1 Chip 選擇膠囊（2026-11-10，原子）：type 單選 radio／多選 checkbox × state default／hover／selected／disabled × size s 24／m 32／l 40（綁 --ctl-h-*）
      未選＝--panel-2 底、選中＝--ink 底＋--panel 字；多選選中時前面多一個勾。boolean：dot 色點、icon 前置圖示。 */
   .chp-grp{display:flex;flex-wrap:wrap;gap:var(--chp-gap,var(--sp-2));}
@@ -842,8 +840,6 @@
   #view.pg10 .tok-preset + .tok-lead{margin:0 0 var(--sp-5);}
   @media (max-width:599px){.tok-preset{padding:var(--sp-4);} .tok-preset-g{gap:var(--sp-5);}}
   .sc-hint{font-size:var(--fs-h11);color:var(--muted);margin:2px 0 10px;}
-  .sum-chip.on{background:var(--i-primary-tint);color:var(--accent);border-color:transparent;}
-  .sum-chip.off{color:var(--faint);text-decoration:line-through;opacity:.6;}
 
   /* ===== 匯出頁：方案 tab（AI toggle 右側）＋分類分層＋三種版型 ===== */
   .sum-tabs{display:inline-flex;gap:2px;padding:3px;border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);}
@@ -3813,7 +3809,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .cmd-it .cmd-meta{font-size:var(--fs-h10);color:var(--faint);font-family:var(--font-mono);}
   .cmd-it.is-active{background:var(--panel-2);}
   .cmd-it.is-active > svg{color:var(--ink);}
-  .cmd-foot{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-2) var(--sp-4);border-top:1px solid var(--line);background:var(--panel-2);font-size:var(--fs-h10);color:var(--muted);}
+  .cmd-foot{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-4);   /* 2026-11-10 上下 8→16，與左右一致 */border-top:1px solid var(--line);background:var(--panel-2);font-size:var(--fs-h10);color:var(--muted);}
   .cmd-foot > span{display:inline-flex;align-items:center;gap:var(--sp-1);}
   .cmd .emp{padding:var(--sp-6) var(--sp-4);margin:0 auto;} .cmd .emp-desc{font-size:var(--fs-h10);}
   .cmd-live{display:flex;flex-direction:column;align-items:center;gap:var(--sp-4);width:100%;}
@@ -17164,6 +17160,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v40', date:'2026-11-10', title:'選擇元件頁改用 Chip、搜尋彈窗內距', items:[
+      {tag:'improve', t:'選擇元件頁的變數選項改用 Chip 元件（多選）'},
+      {tag:'improve', t:'搜尋彈窗底部操作列上下內距加大，與左右一致'},
+    ]},
     {v:'v39', date:'2026-11-10', title:'頂欄改用元件庫元件', items:[
       {tag:'improve', t:'文字連結改用資訊藍（淺色 info-600、深色 info-400）'},
       {tag:'improve', t:'Link 段落內連結字重改為 medium（500），與獨立連結一致'},
@@ -18424,8 +18424,7 @@ function buildScheduleChart(view){
       const card=ce('div','sumcard collapsed');card.dataset.id=id;
       let axesHTML='';
       spec.order.forEach(k=>{const all=spec.axes[k];const sel=new Set(rec[k]);
-        const chips=all.map(v=>`<button type="button" class="sum-chip ${sel.has(v)?'on':'off'}" data-k="${k}" data-v="${v}" aria-pressed="${sel.has(v)}">${(spec.zh[k]&&spec.zh[k][v])||v}·${v}</button>`).join('');
-        axesHTML+=`<div class="sum-axis" data-k="${k}"><span class="sa-name">${spec.zh.axisName[k]}</span><span class="sa-chips">${chips}</span><span class="sa-n">${rec[k].length}/${all.length}</span></div>`;});
+        axesHTML+=`<div class="sum-axis" data-k="${k}"><span class="sa-name">${spec.zh.axisName[k]}</span><span class="sa-chips chp-grp" role="group" aria-label="${spec.zh.axisName[k]}"></span><span class="sa-n">${rec[k].length}/${all.length}</span></div>`;});
       card.innerHTML=`<div class="sc-head">
           <label class="sc-check"><input type="checkbox" ${SUMSEL.has(id)?'checked':''}></label>
           <span class="sc-name">${spec.label}</span>
@@ -18441,9 +18440,12 @@ function buildScheduleChart(view){
       const head=card.querySelector('.sc-head');
       head.onclick=()=>card.classList.toggle('collapsed');
       /* 2026-11-10 拿掉 Live 示範；軸選項直接在這裡點選（同元件頁的變數篩選器，共用 CHOICE） */
-      card.querySelectorAll('.sum-chip').forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=b.dataset.v,act=CHOICE[id].active[k];
+      /* CHIP:v1 每個軸值一顆 Chip（multi、s）；選中＝產出該變數 */
+      spec.order.forEach(k=>{const box=card.querySelector(`.sum-axis[data-k="${k}"] .sa-chips`);const sel=new Set(rec[k]);
+        spec.axes[k].forEach(v=>{const b=chpEl('multi',sel.has(v)?'selected':'default','s',{label:((spec.zh[k]&&spec.zh[k][v])||v)+'·'+v,live:true});b.dataset.k=k;b.dataset.v=v;box.appendChild(b);});});
+      card.querySelectorAll('.sa-chips .chp').forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=b.dataset.v,act=CHOICE[id].active[k];
         if(act.has(v)){if(act.size===1){b.classList.add('is-deny');setTimeout(()=>b.classList.remove('is-deny'),360);return;}act.delete(v);}else act.add(v);
-        const on=act.has(v);b.classList.toggle('on',on);b.classList.toggle('off',!on);b.setAttribute('aria-pressed',String(on));
+        const on=act.has(v);b.setAttribute('aria-checked',String(on));
         rep[id]=choiceReport()[id];const r=rep[id];
         card.querySelector(`.sum-axis[data-k="${k}"] .sa-n`).textContent=r[k].length+'/'+spec.axes[k].length;
         card.querySelector('.sc-count').innerHTML=`${spec.when?'有效組合':spec.order.map(q=>r[q].length).join(' × ')} = <b>${r.count}</b> <span class="full">/ ${r.full}</span>`;
@@ -20379,6 +20381,7 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"說明文字不再加粗：原本標粗的字改成跟內文同樣的字重與顏色": "Descriptions no longer use bold: emphasized words now match the body text in weight and color."});
   Object.assign(I18N_EN,{"Link 段落內連結字重改為 medium（500），與獨立連結一致": "Inline links now use medium weight (500), matching standalone links."});
   Object.assign(I18N_EN,{"文字連結改用資訊藍（淺色 info-600、深色 info-400）": "Text links now use info blue (info-600 in light, info-400 in dark)."});
+  Object.assign(I18N_EN,{"選擇元件頁改用 Chip、搜尋彈窗內距": "Select Comps uses Chip; search dialog padding", "選擇元件頁的變數選項改用 Chip 元件（多選）": "Variant options on the Select Comps page now use the Chip component (multi-select).", "搜尋彈窗底部操作列上下內距加大，與左右一致": "The search dialog’s bottom bar now has equal vertical and horizontal padding."});
   Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，多選選中時前面多一個勾。高度綁": " text, and multi-select shows a check when selected. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換，選中時前面出現勾）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own and shows a check when selected).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
