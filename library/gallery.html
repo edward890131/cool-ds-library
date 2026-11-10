@@ -295,13 +295,7 @@
   .brand .divider{width:1px;height:18px;background:var(--line-strong);flex:0 0 auto;}
   .brand-title{font-size:var(--fs-h10);font-weight:600;color:var(--ink);white-space:nowrap;letter-spacing:-.005em;}
   .spacer{flex:1}
-  .theme-toggle{position:relative;width:46px;height:26px;box-sizing:border-box;flex:0 0 auto;background:var(--panel-3);
-    border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:0;cursor:pointer;transition:background .18s,border-color .18s;}
-  .theme-toggle:hover{border-color:var(--accent);}
-  .theme-toggle .knob{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:var(--r-pill);background:var(--accent);color:var(--primary-on);
-    display:flex;align-items:center;justify-content:center;transition:transform .22s var(--ease-standard);}
-  .theme-toggle .knob svg{width:12px;height:12px;}
-  :root[data-theme="dark"] .theme-toggle .knob{transform:translateX(20px);}
+  /* 2026-11-10 頂欄深淺色切換改取用 Toggle 原子（switch＋icon），原本手刻的 .theme-toggle 已移除 */
 
   /* ---------- layout ---------- */
   @property --sb-w{syntax:'<length>';inherits:true;initial-value:0px;} /* 可動畫的側欄「當前寬」：展開＝--sb、收合＝0。註冊成 <length> 才能 transition，讓 grid 軌寬平滑縮放 */
@@ -1257,6 +1251,12 @@
   .switch.on::after{background:var(--primary-on);}   /* 開啟＝--accent 軌道＋--primary-on 圓鈕（同 checkbox 勾／tab 選中的模式對比色）：淺＝黑軌白鈕、深＝亮軌深鈕 */
   .switch.on::after{transform:translateX(20px);}
   .switch.st-disabled{opacity:.4;cursor:not-allowed;}
+  /* TOGGLE-IC:v1（2026-11-10）boolean icon：圓鈕裡放圖示，關＝ic-off、開＝ic-on，跟著圓鈕一起移動；關＝白鈕深色圖示、開＝--primary-on 鈕＋--accent 圖示 */
+  .switch-ic{position:absolute;z-index:1;top:2px;left:2px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--c-neutral-800);
+    transition:transform var(--dur-default) var(--ease-spring),color var(--dur-fast) var(--ease-out);}
+  .switch.on .switch-ic{transform:translateX(20px);color:var(--accent);}
+  .switch-ic svg{width:12px;height:12px;} .switch-ic .ic-on{display:none;} .switch.on .switch-ic .ic-on{display:flex;} .switch.on .switch-ic .ic-off{display:none;}
+  .switch:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .switch-label{font-size:13.5px;color:var(--ink);font-weight:var(--fw-medium);}
 
   /* ===== live 真實 hover（只作用在互動 demo，不影響 matrix 靜態格）===== */
@@ -4043,17 +4043,14 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   @media (max-width:640px){.pref-frost{grid-template-columns:minmax(0,1fr);}}
 
   /* topbar：搜尋入口＋深淺色切換 */
-  .ss-trig{display:inline-flex;align-items:center;gap:var(--sp-2);width:min(340px,32vw);height:34px;padding:0 6px 0 10px;box-sizing:border-box;border:1px solid var(--line-strong);border-radius:var(--r-sm);
-    background:var(--panel-2);color:var(--faint);font:inherit;font-size:var(--fs-h11);cursor:pointer;transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);}
-  .ss-trig:hover{border-color:var(--accent);color:var(--muted);}
-  .ss-trig:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .ss-trig > svg{width:15px;height:15px;flex:0 0 auto;} .ss-trig > span{flex:1;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:var(--fs-h10);}
+  /* 2026-11-10 搜尋入口取用 Input 原子（.field v-outline fsz-s live-field）＋Kbd 原子；這裡只留頂欄版面。手機改 Button 原子 icon-only（#ssTrigM） */
+  .ss-trig{width:min(340px,32vw);min-width:0;margin:0;cursor:pointer;text-align:left;gap:var(--sp-2);}
+  .ss-trig > svg{width:15px;height:15px;} .ss-trig .ph{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ss-trig .kbd-grp{flex:0 0 auto;} .ss-trig .kbd{min-width:0;padding:0 6px;font-family:var(--font-sans);letter-spacing:.02em;}
-  .topbar .theme-toggle{margin-left:var(--sp-2);}
+  #ssTrigM{display:none;}
+  .topbar #themeBtn{margin-left:var(--sp-2);}
   @media(max-width:480px){#dsNewProjBtn{width:32px;padding:0;} #dsNewProjBtn > span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}}  /* I18N:v1 手機頂部列放不下 → 新專案鈕只留＋（文字留給讀屏） */
   .topbar .lang-sgm{flex:0 0 auto;margin-left:var(--sp-2);} .topbar .lang-sgm .sgm-it{padding:0 var(--sp-2);min-width:30px;}  /* I18N:v1 語系切換 */
-  .theme-toggle .knob svg{transition:opacity var(--dur-fast) var(--ease-out);}
-  @media (max-width:899px){.ss-trig{width:36px;padding:0;justify-content:center;} .ss-trig > span,.ss-trig .kbd-grp{display:none;}}
 
   /* 搜尋面板：取用 Command 元件（.cmd）＋遮罩 */
   .ss-ovl{position:fixed;inset:0;z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px;box-sizing:border-box;
@@ -4367,10 +4364,11 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   /* Studio badge（topbar 專案指示 + 匯出）*/
   .ds-badge{display:inline-flex;align-items:center;gap:8px;margin-right:12px;}
   .ds-badge-lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:2px 6px;}
-  .ds-badge-proj{font-weight:600;font-size:var(--fs-h11);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  span.ds-badge-proj{font-weight:600;font-size:var(--fs-h11);color:var(--ink);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ds-badge-proj.full{max-width:none;overflow:visible;} /* 母庫提示文案完整呈現、不截斷 */
-  .topbar > .ds-badge-proj{position:relative;margin-left:var(--sp-3);padding-left:var(--sp-5);flex:0 1 auto;min-width:0;font-weight:var(--fw-medium);color:var(--muted);}  /* logo 右側：拉開距離＋淺細線分隔 */
-  .topbar > .ds-badge-proj::before{content:"";position:absolute;left:0;top:50%;width:1px;height:16px;transform:translateY(-50%);background:var(--line);}
+  .topbar > span.ds-badge-proj{position:relative;margin-left:var(--sp-3);padding-left:var(--sp-5);flex:0 1 auto;min-width:0;font-weight:var(--fw-medium);color:var(--muted);}
+  .topbar > .ds-badge-proj.tg{margin-left:var(--sp-3);flex:0 1 auto;min-width:0;max-width:240px;} .topbar > .ds-badge-proj.tg span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}   /* 專案名稱：Tag 原子 */  /* logo 右側：拉開距離＋淺細線分隔 */
+  .topbar > span.ds-badge-proj::before{content:"";position:absolute;left:0;top:50%;width:1px;height:16px;transform:translateY(-50%);background:var(--line);}
   @media(max-width:900px){.ds-badge-proj,.ds-badge-lbl{display:none;}}
   @media(max-width:1199px){.ds-badge-proj.full{display:none;} .ss-trig{width:min(260px,26vw);}} /* 1024 附近 topbar 放不下母庫提示：先藏提示文案（側欄底部仍有同一句） */
   .ds-badge .gh-topbar{margin-right:var(--sp-2);}                       /* GitHub 入口與 CTA 間距 */
@@ -6596,19 +6594,14 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
   @media(max-width:1023px){
     .topbar{gap:var(--sp-3);}
     .topbar #hambBtn{flex:0 0 32px;width:32px;height:32px;padding:0;}
-    .topbar .ss-trig{flex:0 1 220px;width:auto;min-width:140px;height:32px;padding:0 var(--sp-3);}
-    .topbar .ss-trig > span{display:block;}
+    .topbar .ss-trig{flex:0 1 220px;width:auto;min-width:140px;}
     .topbar .ss-trig .kbd-grp{display:none;}
-    .topbar .theme-toggle{margin-left:0;}
+    .topbar #themeBtn{margin-left:0;}
     .topbar .ds-badge{margin-right:0;}
   }
   @media(max-width:599px){
-    .topbar .ss-trig{flex:0 0 32px;width:32px;min-width:0;padding:0;justify-content:center;background:transparent;}
-    .topbar .ss-trig.ss-trig{color:var(--i-sec-fg);}  /* 與漢堡鈕同款：Button outline·secondary icon-only s */
-    .topbar .ss-trig:hover{border-color:var(--line);color:var(--i-sec-fg);}
-    @media(hover:hover){.topbar .ss-trig:hover{background:var(--i-sec-tint,var(--panel-2));}}
-    .topbar .ss-trig svg{width:14px;height:14px;}
-    .topbar .ss-trig > span{display:none;}
+    .topbar .ss-trig{display:none;}   /* 手機：搜尋欄位收起，改用 Button 原子 icon-only（與漢堡鈕同款） */
+    .topbar #ssTrigM{display:inline-flex;flex:0 0 32px;}
   }
   @media(max-width:374px){.topbar #dsNewProjBtn > svg{display:none;}}
 
@@ -7323,8 +7316,8 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
     <div class="brand"><svg class="brand-logo" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CDL"><g stroke="currentColor" stroke-width="6"><path d="M25.96 21.64A13 13 0 1 0 25.96 38.36"/><circle cx="48" cy="30" r="13"/><path d="M61 2V46"/><path d="M75 2V46"/></g><rect x="82" y="40" width="6" height="6" fill="var(--accent2)"/></svg></div>
     <button class="gd-entry" id="guideBtn" type="button" hidden>📖 上手指南</button>
     <div class="spacer"></div>
-    <button class="ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span>搜尋元件、頁面或 token…</span></button>
-    <button class="theme-toggle" id="themeBtn" type="button" role="switch" aria-checked="false" aria-label="切換為深色模式"><span class="knob"></span></button>
+    <button class="field v-outline st-default fsz-s live-field ss-trig" id="ssTrig" type="button" aria-label="搜尋元件、頁面或 token（⌘K）" aria-haspopup="dialog"><span class="ph">搜尋元件、頁面或 token…</span></button>
+    <button class="switch has-ic" id="themeBtn" type="button" role="switch" aria-checked="false" aria-label="切換為深色模式"><span class="switch-ic" aria-hidden="true"><span class="ic-off"></span><span class="ic-on"></span></span></button>
   </div>
 
   <div class="layout">
@@ -7580,7 +7573,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     empty:{label:'Empty 空狀態',order:['kind','size'],axes:{kind:['first','search','error','permission'],size:['s','m']},zh:{kind:{first:'首次使用',search:'搜尋無結果',error:'載入失敗',permission:'無權限'},size:{s:'小 s',m:'標準 m'},axisName:{kind:'Kind 情境',size:'Size 尺寸'}}},
     alert:{label:'Alert 提示橫幅',order:['variant','intent'],axes:{variant:['soft','outline','accent'],intent:['info','success','warning','error']},zh:{variant:{soft:'柔色',outline:'外框',accent:'左側色條'},intent:{info:'資訊',success:'成功',warning:'警告',error:'錯誤'},axisName:{variant:'Variant 風格',intent:'Intent 意圖'}}},
     popover:{label:'Popover 氣泡卡',order:['placement','size'],axes:{placement:['bottom','top','left','right'],size:['s','m','l']},zh:{placement:{bottom:'下方',top:'上方',left:'左側',right:'右側'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{placement:'Placement 方向',size:'Size 尺寸'}}},
-    toggle:{label:'Toggle 開關',order:['state'],axes:{state:['off','on','disabled-off','disabled-on']},zh:{state:{off:'關',on:'開','disabled-off':'停用（關）','disabled-on':'停用（開）'},axisName:{state:'State 狀態'}}},
+    toggle:{label:'Toggle 開關',order:['state'],axes:{state:['off','on','disabled-off','disabled-on']},bools:{icon:'Icon 圓鈕圖示'},zh:{state:{off:'關',on:'開','disabled-off':'停用（關）','disabled-on':'停用（開）'},axisName:{state:'State 狀態'}}},
     tab:{label:'Tab 分頁',order:['variant','state','size'],
       axes:{variant:['line','contained','soft','pill'],state:['default','hover','active','disabled'],size:['m','s']},
       zh:{variant:{line:'底線',contained:'容器',soft:'灰底',pill:'藥丸'},state:{default:'預設',hover:'滑過',active:'選中',disabled:'停用'},size:{m:'標準 m',s:'小 s'},axisName:{variant:'Variant 風格',state:'State 狀態',size:'Size 尺寸'}}},
@@ -8650,8 +8643,11 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     if(o.count!=null)ti.insertAdjacentHTML('beforeend',`<span class="tcount">${o.count}</span>`);
     bar.appendChild(ti);return bar;}
   /* ---- toggle 開關靜態 element ---- */
-  function switchEl(state){const on=state==='on'||state==='disabled-on';const dis=state.indexOf('disabled')===0;
-    return ce('div',`switch${on?' on':''}${dis?' st-disabled':''}`);}
+  function switchEl(state,o){o=o||{};const on=state==='on'||state==='disabled-on';const dis=state.indexOf('disabled')===0;
+    const w=ce('div',`switch${on?' on':''}${dis?' st-disabled':''}${o.icon?' has-ic':''}`);if(o.icon)w.appendChild(switchIc(o.icon));return w;}
+  /* TOGGLE-IC:v1 圓鈕圖示：icon＝{off,on}（SVG 字串）或 true（預設太陽／月亮） */
+  function switchIc(icon){const ic=ce('span','switch-ic');ic.setAttribute('aria-hidden','true');const I=icon===true?{off:PI('sun'),on:PI('moon')}:icon;
+    ic.innerHTML='<span class="ic-off">'+(I.off||'')+'</span><span class="ic-on">'+(I.on||I.off||'')+'</span>';return ic;}
   /* ---- tab 容器 Live：3 個分頁 + 內容零件開關（icon／count）+ size ---- */
   /* TAB-JELLY:v1 果凍切換：移植 React Bits Jelly Radio 的彈簧參數（swell 0.2／shrink 0.05／barge 6px／stagger 22ms），
      不依賴 motion 函式庫，用 rAF 逐格積分彈簧（damping = 2√(k·m)·(1−bounce)）。
@@ -8740,20 +8736,22 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   function buildToggle(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Toggle',title:'Toggle 開關',
       lede:'二元開關（on／off），用於「立即生效」的設定切換——不像 checkbox 需再按送出。狀態：關／開／停用。<b>單一 size</b>。原本收在 Tab 頁，2026-11-03 起獨立成元件。',
-      specRows:[['axes','<code>state</code>'],['formula','<code>4</code>'],['token-policy','<code>semantic.*.toggle.*</code>'],['features','label / disabled']]});
+      specRows:[['axes','<code>state</code>'],['formula','<code>4</code>'],['boolean','<code>icon</code>（圓鈕圖示）'],['token-policy','<code>semantic.*.toggle.*</code>'],['features','label / disabled / icon']]});
     const axes=DIAL_SPECS.toggle.axes, zh=DIAL_SPECS.toggle.zh, active=CHOICE.toggle.active;
     const CAP={off:'關 off',on:'開 on','disabled-off':'停用（關）','disabled-on':'停用（開）'};
-    let rd2;
+    let rd2,rd3;
     function renderM(){ if(!rd2)return; rd2.innerHTML='';
-      axes.state.filter(v=>active.state.has(v)).forEach(st=>{const it=ce('div','demo-item');it.appendChild(switchEl(st));const c=ce('div','cap');c.innerHTML=`<b>${CAP[st]}</b>`;it.appendChild(c);rd2.appendChild(it);}); }
+      axes.state.filter(v=>active.state.has(v)).forEach(st=>{const it=ce('div','demo-item');it.appendChild(switchEl(st));const c=ce('div','cap');c.innerHTML=`<b>${CAP[st]}</b>`;it.appendChild(c);rd2.appendChild(it);});
+      if(rd3){rd3.innerHTML='';axes.state.filter(v=>active.state.has(v)).forEach(st=>{const it=ce('div','demo-item');it.appendChild(switchEl(st,{icon:true}));const c=ce('div','cap');c.innerHTML=`<b>${CAP[st]}</b>`;it.appendChild(c);rd3.appendChild(it);});} }
     mountDial(body,{axes,zh,active,onRender:renderM});
     const sec=section(body,'State 狀態矩陣','四種狀態並排對照：關／開／停用（關）／停用（開）。');
-    rd2=ce('div','row-demo');rd2.style.marginBottom='16px';sec.appendChild(rd2);renderM();
+    rd2=ce('div','row-demo');rd2.style.marginBottom='16px';sec.appendChild(rd2);
+    const sec3=section(body,'icon 圓鈕圖示','boolean：圓鈕裡放圖示，關／開各一個（例：頂欄深淺色切換的太陽／月亮）。');rd3=ce('div','row-demo');rd3.style.marginBottom='16px';sec3.appendChild(rd3);renderM();
     const sl2=section(body,'互動預覽與程式碼','點開關可真的切換；勾 disabled 看停用態。');
-    mountLive(sl2,{initial:{on:false,disabled:false},bools:[{key:'disabled',label:'disabled'}],
-      render:(st,sync)=>{const row=ce('div','switchrow');const sw=ce('button',`switch${st.on?' on':''}${st.disabled?' st-disabled':''}`);
+    mountLive(sl2,{initial:{on:false,disabled:false,icon:false},bools:[{key:'icon',label:'icon 圓鈕圖示'},{key:'disabled',label:'disabled'}],
+      render:(st,sync)=>{const row=ce('div','switchrow');const sw=ce('button',`switch${st.on?' on':''}${st.disabled?' st-disabled':''}${st.icon?' has-ic':''}`);sw.type='button';sw.setAttribute('role','switch');sw.setAttribute('aria-checked',String(st.on));if(st.icon)sw.appendChild(switchIc(true));
         const lab=ce('span','switch-label');lab.textContent=st.on?'開啟':'關閉';
-        if(!st.disabled)sw.onclick=()=>{st.on=!st.on;sw.classList.toggle('on',st.on);lab.textContent=st.on?'開啟':'關閉';if(sync)sync();};
+        if(!st.disabled)sw.onclick=()=>{st.on=!st.on;sw.classList.toggle('on',st.on);sw.setAttribute('aria-checked',String(st.on));lab.textContent=st.on?'開啟':'關閉';if(sync)sync();};
         row.append(sw,lab);return row;}});
   }
 
@@ -17162,6 +17160,9 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v39', date:'2026-11-10', title:'頂欄改用元件庫元件', items:[
+      {tag:'improve', t:'頂欄深淺色切換改用 Toggle（新增 icon 圓鈕圖示 boolean）、搜尋框改用 Input＋Kbd（手機為 Button 圖示鈕）、專案名稱改用 Tag'},
+    ]},
     {v:'v38', date:'2026-11-10', title:'新元件：Chip 選擇膠囊', items:[
       {tag:'add', t:'新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button'},
     ]},
@@ -20326,7 +20327,8 @@ function buildScheduleChart(view){
     draw();setTimeout(()=>inp.focus(),10);}
   function ssClose(noRestore){const o=ssOpenEl;if(!o)return;ssOpenEl=null;o.classList.add('is-out');afterAnim(o,()=>o.remove());
     if(!noRestore&&ssBackFocus&&ssBackFocus.focus)ssBackFocus.focus({preventScroll:true});}
-  (function(){const t=document.getElementById('ssTrig');if(t){t.insertAdjacentHTML('afterbegin',ICON_SEARCH);t.appendChild(kbdEl([/Mac|iPhone|iPad/.test(navigator.platform)?'⌘K':'Ctrl K'],'m','ghost'));t.onclick=()=>ssOpen();}
+  (function(){const t=document.getElementById('ssTrig');if(t){t.insertAdjacentHTML('afterbegin',ICON_SEARCH);t.appendChild(kbdEl([/Mac|iPhone|iPad/.test(navigator.platform)?'⌘K':'Ctrl K'],'m','ghost'));t.onclick=()=>ssOpen();
+      const m=mkBtn({variant:'outline',intent:'secondary',size:'s',iconOnly:true,isLive:true});m.type='button';m.id='ssTrigM';m.innerHTML=ICON_SEARCH;m.setAttribute('aria-label','搜尋元件、頁面或 token');m.setAttribute('aria-haspopup','dialog');m.onclick=()=>ssOpen();t.insertAdjacentElement('afterend',m);}   /* 手機版：Button 原子 icon-only */
     document.addEventListener('keydown',e=>{const tg=e.target;const typing=tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.isContentEditable);
       if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){if(tg&&tg.closest&&tg.closest('.cmd-live'))return;e.preventDefault();ssOpen();}
       else if(e.key==='/'&&!typing&&!e.metaKey&&!e.ctrlKey){e.preventDefault();ssOpen();}});})();
@@ -20360,6 +20362,7 @@ function buildScheduleChart(view){
   I18N_RX.push(["^(.+) 範本$","{T:1} template"]);
   I18N_RX.push(["^加入購物車：(.+)$","Add to cart: {T:1}"]);
   I18N_RX.push(["^(間距|圓角|陰影|動態|用色|字級對比|字重|文字對比)：(.+)$","{T:1}: {T:2}"]);  /* TOK-PRESET:v2 收合摘要 */
+  Object.assign(I18N_EN,{"boolean：圓鈕裡放圖示，關／開各一個（例：頂欄深淺色切換的太陽／月亮）。": "Boolean: an icon inside the knob, one for off and one for on (e.g. the sun / moon in the top-bar theme switch).", "頂欄改用元件庫元件": "Top bar now uses library components", "頂欄深淺色切換改用 Toggle（新增 icon 圓鈕圖示 boolean）、搜尋框改用 Input＋Kbd（手機為 Button 圖示鈕）、專案名稱改用 Tag": "The top-bar theme switch now uses Toggle (with a new icon-in-knob boolean), the search box uses Input + Kbd (an icon Button on phones), and the project name uses Tag."});  /* TOGGLE-IC:v1／頂欄取用原子 */
   Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，多選選中時前面多一個勾。高度綁": " text, and multi-select shows a check when selected. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換，選中時前面出現勾）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own and shows a check when selected).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
@@ -20442,7 +20445,8 @@ function buildScheduleChart(view){
   /* ==================== topbar 深淺色切換 ==================== */
   (function(){const b=document.getElementById('themeBtn');if(!b)return;
     const sync=()=>{const dark=document.documentElement.getAttribute('data-theme')==='dark';b.setAttribute('aria-checked',String(dark));b.setAttribute('aria-label',dark?'切換為淺色模式':'切換為深色模式');
-      b.querySelector('.knob').innerHTML=dark?IC_MOON:IC_SUN;};
+      b.classList.toggle('on',dark);};   /* Toggle 原子：開＝深色 */
+    {const ic=b.querySelector('.switch-ic');if(ic){ic.querySelector('.ic-off').innerHTML=IC_SUN;ic.querySelector('.ic-on').innerHTML=IC_MOON;}}
     b.onclick=()=>{window.__applyThemePref(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark',true);sync();};sync();})();
 
   (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} // 漸層模式偏好：存 localStorage，無選擇→預設經典；舊值 on→classic、off 維持；initHeroShader 會讀取
@@ -20756,7 +20760,7 @@ function buildScheduleChart(view){
   function dsToast(msg){const b=document.getElementById('dsExportBtn');if(!b)return;const s=b.querySelector('span');const o=s.dataset.o||s.textContent;s.textContent=msg;setTimeout(()=>{s.textContent=o;},1800);}
   function updateBadgeVersion(){
     const b=document.getElementById('dsExportBtn');if(b){const s=b.querySelector('span');s.textContent=window.__dsProject?'儲存並更新':'匯出（下載）';s.dataset.o=s.textContent;}
-    const pj=document.getElementById('dsBadgeProj');if(pj&&window.__dsProject){pj.textContent=window.__dsProject+' · v'+(window.__dsVersion||0);} // 版本號跟著專案名走
+    const pj=document.getElementById('dsBadgeProj');if(pj&&window.__dsProject){(pj.querySelector('span')||pj).textContent=window.__dsProject+' · v'+(window.__dsVersion||0);}   /* Tag 原子：改內層文字 */ // 版本號跟著專案名走
     const sf=document.getElementById('sbFoot');if(sf)sf.innerHTML=sbFootHTML(); // 選單底部版本號同步
     const fv=document.getElementById('ftrVer');if(fv){const ver=window.__dsProject?('v'+(window.__dsVersion||0)):((CHANGELOG_DATA[0]&&CHANGELOG_DATA[0].v)||'');fv.textContent=ver?' · '+ver:'';} // footer 尾端版本號
   }
@@ -20880,7 +20884,8 @@ function buildScheduleChart(view){
   function showStudioBadge(proj){
     const tb=document.querySelector('.topbar'); if(!tb||document.getElementById('dsBadge'))return;
     const wrap=document.createElement('div');wrap.id='dsBadge';wrap.className='ds-badge';
-    wrap.innerHTML='<span class="ds-badge-proj'+(proj?'':' full')+'" id="dsBadgeProj">'+(proj||'此為母元件庫，若需更新請調整原始檔')+'</span>';
+    if(proj){const tg=tagEl('soft','neutral','default','round','m');tg.classList.add('ds-badge-proj');tg.id='dsBadgeProj';tg.querySelector('span').textContent=proj;wrap.appendChild(tg);}   /* 2026-11-10 專案名稱取用 Tag 原子 */
+    else wrap.innerHTML='<span class="ds-badge-proj full" id="dsBadgeProj">此為母元件庫，若需更新請調整原始檔</span>';   /* 母庫提示是一句說明，維持文字 */
     const ghb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});ghb.type='button';ghb.classList.add('gh-topbar'); // CTA 左邊的 GitHub 外連入口（library 外框次要原子）
     ghb.querySelector('span').textContent='Github';ghb.insertAdjacentHTML('afterbegin',ICON_GITHUB);
     ghb.onclick=()=>window.open('https://github.com/edward890131/cool-ds-library','_blank','noopener');
@@ -21880,7 +21885,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       if(typeof ttEl==='function'){const t=ttEl('bottom','s',true);t.classList.add('tt-float','tt-fp-bottom');t.setAttribute('aria-hidden','true');
         t.querySelector('span').textContent=d.name?d.label+' · '+d.name:d.tip;b.appendChild(t);} else b.title=d.label;});
     {const th=document.getElementById('themeBtn');if(th)th.insertAdjacentElement('beforebegin',grp);else gb.insertAdjacentElement('afterend',grp);
-      const ss=document.getElementById('ssTrig');if(ss)grp.insertAdjacentElement('beforebegin',ss);}   // 搜尋框放在 RWD 切換左邊（深淺色切換左邊）
+      const ss=document.getElementById('ssTrig');if(ss){grp.insertAdjacentElement('beforebegin',ss);const sm=document.getElementById('ssTrigM');if(sm)ss.insertAdjacentElement('afterend',sm);}}   // 搜尋框放在 RWD 切換左邊（深淺色切換左邊）
     tb.classList.add('has-rwd');   // 2026-11-10 修正：這行先前被併進上一行的註解、從沒執行 → topbar 沒疊在預覽層（z 39）之上，tooltip 被蓋住
     const segBtns=[...grp.querySelectorAll('.sgm-it')];
 

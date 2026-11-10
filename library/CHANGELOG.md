@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-10（一百一十三）　頂欄改用元件庫元件：Toggle（新增圓鈕圖示）、Input＋Kbd、Tag
+
+- **盤點**：頂欄 10 個元素中有 3 個沒取用元件庫（鐵則 5）：深淺色切換 `.theme-toggle`、搜尋入口 `.ss-trig`、專案名稱 `.ds-badge-proj`；其餘（選單／上手指南／Github／開啟新專案＝Button、裝置預覽／中 EN＝Segmented、logo＝品牌資產）已是原子。
+- **Toggle 新增 boolean `icon`**（`TOGGLE-IC:v1`）：圓鈕裡放圖示，關＝`ic-off`、開＝`ic-on`，跟著圓鈕彈簧移動；關＝白鈕＋`--c-neutral-800` 圖示、開＝`--primary-on` 鈕＋`--accent` 圖示。`switchEl(state,{icon})`、`switchIc(icon)`；Toggle 頁新增「icon 圓鈕圖示」四態示範、Live 多一個 icon 開關；DIAL_SPECS／registry 加 `bools.icon`。另補 `.switch:focus-visible` 外框。
+- **深淺色切換**改用 Toggle（`switch has-ic`，開＝深色＋月亮、關＝淺色＋太陽，`role=switch`＋`aria-checked`），尺寸 46×26 → Toggle 的 44×24；刪除 `.theme-toggle`／`.knob`。
+- **搜尋入口**改用 Input 原子（`.field v-outline fsz-s live-field`，32 高）＋既有 Kbd（⌘K），頂欄只留寬度與彈性設定；平板 220 寬、隱藏 ⌘K；**手機**改用 Button 原子 outline／secondary／icon-only s（`#ssTrigM`，跟漢堡鈕同款），不再用 CSS 把欄位硬改成圖示鈕。兩個入口都開同一個搜尋面板。
+- **專案名稱**（專案模式）改用 Tag 原子 soft／neutral／round／m；母庫模式的提示是一整句說明，維持文字。版本號更新改寫 Tag 內層文字。
+- 網站版本紀錄加 v39；英文同步。
+
 ## 2026-11-10（一百一十二）　新元件 Chip 選擇膠囊；快速風格改取用 Chip
 
 - **起因**：快速風格的選項膠囊是手刻的 `.tkp-pill`（`token-presets-pills` patch 加的），沒取用任何原子，違反鐵則 5；Tag 只顯示狀態、站內 `.chip` 不是 library 元件，都沒有單選狀態可用。照鐵則 5「沒有對應原子就先建原子」新增 Chip。
