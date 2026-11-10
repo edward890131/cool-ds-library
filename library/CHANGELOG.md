@@ -6,6 +6,53 @@
 
 ---
 
+## 2026-11-10（一百一十四）　說明文字連結改用 Link 元件、不再加粗
+
+- **問題**：元件頁標題下方說明（`.lede`）、段落副標（`.bh-d`）、首頁 FAQ 裡的 `<a>` 沒有任何 class，吃瀏覽器預設樣式（未造訪藍、已造訪紫、實線底線），深色模式特別突兀。全站盤點 39 頁、91 個（lede 86、FAQ 4、副標 1）。
+- **修正**（`LNK-ADOPT:v1`）：`renderView` 換頁後呼叫 `adoptTextLinks(view)`，替這三處沒有 class 的連結套上 Link 原子 inline（`.lnk.lnk-inline`：`--accent` 字色、35% 透明底線、hover 轉實色、focus 外框），不必逐頁改 lede 字串；元件示範與程式碼裡的連結不動。修正後盤點 0 個殘留。
+- **說明文字不加粗**：`.lede b`／`.lede strong` 改成 `font-weight:inherit; color:inherit`，原本標粗（並加深成 `--ink`）的字跟內文一樣；字串裡的 `<b>` 保留不刪，之後要恢復只改這一條 CSS。全站 96 頁 256 處，量測確認沒有比內文粗的字。
+- **Link inline 字重**：`.lnk-inline` 加 `font-weight:var(--lnk-fw,var(--fw-medium))`（400→500），與 standalone 一致；改的是 Link 原子本身，全站段落內連結一起變（說明文字、FAQ、Link 元件頁、範本內 inline 連結）。
+- **Link 顏色改資訊藍**（試用）：新增 `--lnk-c`，淺色 `--c-info-600`（#2563EB，對淺底 4.95:1）、深色 `--c-info-400`（#60A5FA，對深底 8.06:1），皆過 WCAG AA；聚焦外框同色；已造訪、停用維持原樣。改的是 Link 原子，全站文字連結一起變；要換回品牌色只改 `--lnk-c` 那三行。
+- 網站版本紀錄 v39 加四項；英文同步。
+
+## 2026-11-10（一百一十三）　頂欄改用元件庫元件：Toggle（新增圓鈕圖示）、Input＋Kbd、Tag
+
+- **盤點**：頂欄 10 個元素中有 3 個沒取用元件庫（鐵則 5）：深淺色切換 `.theme-toggle`、搜尋入口 `.ss-trig`、專案名稱 `.ds-badge-proj`；其餘（選單／上手指南／Github／開啟新專案＝Button、裝置預覽／中 EN＝Segmented、logo＝品牌資產）已是原子。
+- **Toggle 新增 boolean `icon`**（`TOGGLE-IC:v1`）：圓鈕裡放圖示，關＝`ic-off`、開＝`ic-on`，跟著圓鈕彈簧移動；關＝白鈕＋`--c-neutral-800` 圖示、開＝`--primary-on` 鈕＋`--accent` 圖示。`switchEl(state,{icon})`、`switchIc(icon)`；Toggle 頁新增「icon 圓鈕圖示」四態示範、Live 多一個 icon 開關；DIAL_SPECS／registry 加 `bools.icon`。另補 `.switch:focus-visible` 外框。
+- **深淺色切換**改用 Toggle（`switch has-ic`，開＝深色＋月亮、關＝淺色＋太陽，`role=switch`＋`aria-checked`），尺寸 46×26 → Toggle 的 44×24；刪除 `.theme-toggle`／`.knob`。
+- **搜尋入口**改用 Input 原子（`.field v-outline fsz-s live-field`，32 高）＋既有 Kbd（⌘K），頂欄只留寬度與彈性設定；平板 220 寬、隱藏 ⌘K；**手機**改用 Button 原子 outline／secondary／icon-only s（`#ssTrigM`，跟漢堡鈕同款），不再用 CSS 把欄位硬改成圖示鈕。兩個入口都開同一個搜尋面板。
+- **專案名稱**（專案模式）改用 Tag 原子 soft／neutral／round／m；母庫模式的提示是一整句說明，維持文字。版本號更新改寫 Tag 內層文字。
+- 網站版本紀錄加 v39；英文同步。
+
+## 2026-11-10（一百一十二）　新元件 Chip 選擇膠囊；快速風格改取用 Chip
+
+- **起因**：快速風格的選項膠囊是手刻的 `.tkp-pill`（`token-presets-pills` patch 加的），沒取用任何原子，違反鐵則 5；Tag 只顯示狀態、站內 `.chip` 不是 library 元件，都沒有單選狀態可用。照鐵則 5「沒有對應原子就先建原子」新增 Chip。
+- **Chip 選擇膠囊**（`CHIP:v1`，Form 表單，id `chip`）：`type` single／multi × `state` default／hover／selected／disabled × `size` s／m／l（**24**），boolean `dot` 色點、`icon` 前置圖示。高度綁 `--ctl-h-xs`／`--ctl-h-s`／`--ctl-h-m`（24／32／40）；未選 `--panel-2`、滑過 `--panel-3`、選中 `--ink` 底＋`--panel` 字，多選選中時前面多一個勾；圓角 `--r-pill`。**字級、字重對齊同高度的 Button**：m 32＝Button s（`--fs-h11` 12px）、l 40＝Button m（`--fs-h10` 14px）、s 24 也用 12px；字重 `--fw-semibold`。
+- **建構器**：`chpEl(type,state,size,o)` 單顆、`chpGroup(type,size,{items,value,onChange,label|labelledby})` 一組。單選＝`radiogroup`／`radio`（方向鍵移動並選取，跳過停用項，Tab 只停在選中項），多選＝`group`／`checkbox`；`aria-checked` 同步。
+- **元件頁**：State × Size 矩陣（每個 type 一塊）、Content 示範、使用時機（vs Segmented／Radio・Checkbox／Dropdown／Tag）、Live（Type、Size、dot、icon、停用一項）與自動產生的 HTML／SCSS。同步 NAV、DIAL_SPECS、BUILD／LIVE、搜尋關鍵字、TOKEN_SLOTS（`--chp-radius`／`--chp-pad-x`／`--chp-fs`）、ATOM_SET、registry（`build-registry.js` 重產，只多 chip 一筆，總數 96→97）。
+- **快速風格**改用 `chpGroup('single','m')`（用色帶 dot），刪除 `.tkp-*` 樣式；選項文字 14→12px、字重 400→600。
+- **順手修正**：TOKEN_SLOTS 裡 Segmented 圓角預設仍寫 `--r-md`，改成實際的 `--r-sm`。
+- **順手修正**：首頁地圖配圖的點狀過場在配圖框還沒有尺寸（換頁中、隱藏）時會用 0 寬畫布呼叫 `drawImage` 報錯；框寬或高 < 2px 時跳過過場直接換圖。
+- 網站版本紀錄加 v38；英文同步。
+
+## 2026-11-10（一百一十一）　控制項高度後續：Segmented 圓角、按鈕 hover 底色、列高切換、甘特圖進場
+
+- **Segmented 圓角縮小**：外框預設 `--r-md`（8）→ `--r-sm`（4），滑塊／選項 −2px、最小 `--r-xs`（2）；`.sgm`（元件）與 `.seg`（站內控制項）兩套一起改，`--sgm-radius` 局部覆寫不受影響。
+- **text／soft 按鈕 hover 底色變小一圈**：hover 掃入底色畫在 `::before`（inset:0），只蓋到 0.75px 透明邊框內側；旁邊的 solid 按鈕邊框與底色同色，所以看起來比較大（表單「清除」vs「建立帳號」、篩選浮層「清除」vs「套用」）。改成 `inset:-0.75px`，text／soft 的 `.live` 不裁切，底色與 solid 同大。
+- **Table Toolbar 列高切換**（寬鬆／緊湊）：boolean `densityToggle` 預設改關，demo 與矩陣不再顯示；需要時可在 Content 打開。
+- **甘特圖進場**：`gnt-reveal` 的 clip-path 拿掉 pill 圓角，長條進場時就是直角。
+- **頂欄裝置預覽的 tooltip 被切掉**：開啟平板／手機預覽時，頂欄 tooltip 下半被預覽層（z 39）蓋住。原因是 `tb.classList.add('has-rwd')` 先前被併進上一行的 `//` 註解、從沒執行，`.topbar.has-rwd{position:relative;z-index:41}` 沒生效；拆回獨立一行。
+- **元件頁左側控制面板 Size 選項統一**：一律由小到大（xs → s → m → l → xl），只顯示 s／m／l 英文，拿掉「小／標準／大／精簡／寬」等中文與大寫 S／M／L（23 處 `mountLive` segs＋Calendar）。原本反序的：Tab、Article Card、Person Card、Calendar、Chart、Schedule Chart；Price 的 sm／md／lg 顯示成 s／m／l；Icon 維持 16／20／24／32（px）。預設選取與切換不變。
+
+## 2026-11-10（一百一十）　控制項高度 token：Button、Input、Dropdown（第一包）
+
+- **新 token**（`CTL-H:v1`，L1「間距與尺寸」新增 Control Height 群組，可在 Token 頁手調）：`--ctl-h-xs 24`、`--ctl-h-s 32`、`--ctl-h-m 40`、`--ctl-h-l 48`；手機先不另給。
+- **Button**：`.btn.sz-*` 從固定 `height` 改成 `min-height:var(--ctl-h-*)`＋上下 padding（s 6／m 8／l 12px），平常一樣高，字放大時跟著長；icon-only 維持正方形（寬＝token）。刻意做小的按鈕（邀請卡 accept 連結、AI 專案＋、小月曆箭頭、商品卡購物車）明確解除最小高度。
+- **Input／Dropdown**：`.field` 改 `min-height:var(--field-h,var(--ctl-h-m))`＋上下 4px；新增尺寸 class `fsz-s`／`fsz-l`（`inputEl(v,s,size)`、`ddEl(…,size)`、`ddField({size})`）；DIAL_SPECS 的 input、dropdown 加上 `size` 軸（s／m／l），元件頁矩陣依尺寸分塊、Live 多一個 Size 切換；registry 同步。**預設 m 從 36 改為 40**，跟 Button m 對齊。
+- **清掉局部寫死**：表格工具列、圖表卡內下拉、清單選單、Token 頁預覽欄位改用 `--field-h`；邀請卡輸入框拿掉 40px（預設即 40）。範本（後台、網站、AI 對話控制卡）工具列與卡片標題列的下拉、搜尋框改用 s，跟旁邊的 s 按鈕同為 32。
+- **稽核**：寫了一支全站高度比對腳本（106 頁逐一量每顆 `.btn`／`.field`），改動後 Button 高度零變動；Input／Dropdown 只有預設 36→40 與範本工具列 36→32 兩種預期變化。
+- 網站版本紀錄加 v37；英文同步。
+
 ## 2026-11-10（一百零九）　快速風格改兩欄表單式、可收合
 
 - **排版**（`TOK-PRESET:v2`）：原本 8 組依寬度自動換行，上下兩排起點對不齊。改成兩欄：左「版面」（間距、圓角、陰影、動態）、右「色彩與文字」（用色、字級對比、字重、文字對比），欄首小標＋細線；每列「固定寬標籤（5.5em）｜膠囊」，同欄膠囊起點對齊。≤1100px 單欄、≤599px 標籤在上膠囊在下。
