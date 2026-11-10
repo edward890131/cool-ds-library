@@ -8395,7 +8395,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   });
   LIVE.tag=(host)=>mountLive(host,{gate:'tag',
     initial:{variant:'soft',corner:'round',intent:'brand',size:'s',icon:false,close:false},
-    segs:[{key:'variant',label:'Variant',options:['solid','outline','soft']},{key:'size',label:'Size',options:['s','m','l'],labels:['S','M','L']},{key:'corner',label:'Corner',options:['round','rect']},{key:'intent',label:'Intent',options:['brand','brand2','neutral','danger','success','warning','info']}],
+    segs:[{key:'variant',label:'Variant',options:['solid','outline','soft']},{key:'size',label:'Size',options:['s','m','l']},{key:'corner',label:'Corner',options:['round','rect']},{key:'intent',label:'Intent',options:['brand','brand2','neutral','danger','success','warning','info']}],
     bools:[{key:'icon',label:'icon'},{key:'close',label:'removable ×'}],
     render:st=>{
       const t=ce('div',`tg v-${st.variant} c-${st.corner} i-${st.intent} st-default`+(st.size&&st.size!=='s'?' sz-'+st.size:''));
@@ -8406,7 +8406,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   });
   LIVE.tab=(host)=>mountLive(host,{gate:'tab',
     initial:{variant:'line',size:'m',icon:false,count:false},
-    segs:[{key:'variant',label:'Variant',options:['line','contained','soft','pill']},{key:'size',label:'Size',options:['m','s']}],
+    segs:[{key:'variant',label:'Variant',options:['line','contained','soft','pill']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'icon',label:'leading icon'},{key:'count',label:'count badge'}],
     render:st=>tabBarLive(st.variant,st)
   });
@@ -8811,7 +8811,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     return g;}
   LIVE.segmented=(host)=>mountLive(host,{gate:'segmented',
     initial:{variant:'soft',size:'m',icon:false,full:false,disabled:false},
-    segs:[{key:'variant',label:'Variant',options:['soft','outline'],labels:['柔色軌道','外框']},{key:'size',label:'Size',options:['s','m'],labels:['小 s','標準 m']}],
+    segs:[{key:'variant',label:'Variant',options:['soft','outline'],labels:['柔色軌道','外框']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'icon',label:'icon 圖示'},{key:'full',label:'full-width 填滿'},{key:'disabled',label:'disabled 停用一項'}],boolLabel:'Content',
     render:(st,sync)=>{const w=ce('div');w.style.cssText='width:100%;max-width:420px;display:flex;justify-content:center;';
       w.appendChild(sgmEl(st.variant,st.size,{live:true,icon:st.icon,full:st.full,disabledIndex:st.disabled?3:null,onChange:()=>sync&&sync()}));return w;},
@@ -8897,7 +8897,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   const SLD_PRICE={min:0,max:5000,step:100,format:x=>'NT$ '+x.toLocaleString('en-US')};
   LIVE.slider=(host)=>mountLive(host,{gate:'slider',
     initial:{variant:'track',type:'range',size:'m',label:true,tip:true,marks:false,disabled:false},
-    segs:[{key:'variant',label:'Variant',options:['track','fill'],labels:['軌道','填充']},{key:'type',label:'Type',options:['single','range'],labels:['單值','區間']},{key:'size',label:'Size',options:['s','m'],labels:['細 s','標準 m']}],
+    segs:[{key:'variant',label:'Variant',options:['track','fill'],labels:['軌道','填充']},{key:'type',label:'Type',options:['single','range'],labels:['單值','區間']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'label',label:'label 標題與數值'},{key:'tip',label:'tip 拖曳時顯示數值'},{key:'marks',label:'marks 刻度'},{key:'disabled',label:'disabled 停用'}],boolLabel:'Content',
     render:(st,sync)=>{const o=st.type==='range'?Object.assign({value:[500,2000],title:'價格區間'},SLD_PRICE):{value:60,title:'音量',format:x=>x+'%'};
       const w=ce('div');w.style.cssText='width:100%;max-width:360px;padding-top:var(--sp-4);';
@@ -9097,7 +9097,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
       e.appendChild(ac);}
     return e;}
   LIVE.empty=(host)=>mountLive(host,{gate:'empty',initial:{kind:'first',size:'m',icon:true,desc:true,primary:true,secondary:true},
-    segs:[{key:'kind',label:'Kind',options:['first','search','error','permission'],labels:['首次使用','搜尋無結果','載入失敗','無權限']},{key:'size',label:'Size',options:['s','m'],labels:['小（卡片內）','標準（整頁）']}],
+    segs:[{key:'kind',label:'Kind',options:['first','search','error','permission'],labels:['首次使用','搜尋無結果','載入失敗','無權限']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'icon',label:'icon 圖示'},{key:'desc',label:'description 說明'},{key:'primary',label:'主要動作'},{key:'secondary',label:'次要動作'}],boolLabel:'Content',
     render:st=>{const e=empEl(st.kind,st.size,{live:true,icon:st.icon,desc:st.desc,primary:st.primary,secondary:st.secondary});e.classList.add('emp-in');return e;},
     note:'切換時內容逐行淡入（與 skeleton 轉內容同一套）。標題寫「發生了什麼」、說明寫「接下來可以怎麼做」，動作鈕直接給出路。'});
@@ -9506,7 +9506,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     wrap.addEventListener('keydown',e=>{if(e.key==='Escape'&&card.classList.contains('is-open')){close(true);lk.focus();}});
     return stage;}
   LIVE['hover-card']=(host)=>mountLive(host,{gate:'hover-card',initial:{placement:'bottom',size:'m',arrow:true,footer:true},
-    segs:[{key:'placement',label:'Placement',options:['bottom','top','left','right'],labels:['下方','上方','左側','右側']},{key:'size',label:'Size',options:['s','m','l'],labels:['精簡 s','標準 m','寬 l']}],
+    segs:[{key:'placement',label:'Placement',options:['bottom','top','left','right'],labels:['下方','上方','左側','右側']},{key:'size',label:'Size',options:['s','m','l']}],
     bools:[{key:'arrow',label:'arrow 箭頭'},{key:'footer',label:'footer 動作列'}],boolLabel:'Content',
     render:st=>hvcLive(st.placement,st.size,{arrow:st.arrow,footer:st.footer}),
     note:'滑過人名停一下（--dur-hover-delay，250ms）才出現，避免滑鼠路過就跳出來；移開後有 150ms 緩衝，可以把滑鼠移進卡片按按鈕。Tab 聚焦也會打開，Esc 關閉。'});
@@ -9555,7 +9555,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     document.addEventListener('pointerdown',outside);
     return z;}
   LIVE['context-menu']=(host)=>mountLive(host,{gate:'context-menu',initial:{variant:'with-shortcut',size:'m'},
-    segs:[{key:'variant',label:'Variant',options:['default','with-icon','with-shortcut'],labels:['純文字','帶圖示','帶快捷鍵']},{key:'size',label:'Size',options:['s','m','l'],labels:['小 s','標準 m','大 l']}],
+    segs:[{key:'variant',label:'Variant',options:['default','with-icon','with-shortcut'],labels:['純文字','帶圖示','帶快捷鍵']},{key:'size',label:'Size',options:['s','m','l']}],
     render:st=>ctxLive(st.variant,st.size),
     note:'選單從游標位置展開，靠右／靠下時自動往反方向開，展開原點跟著換角。鍵盤：Shift＋F10 開啟、↑↓ 移動、Enter 執行、Esc 關閉並把焦點還給原本的區塊。'});
   function buildContextMenu(view){
@@ -9613,7 +9613,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     w.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();mount();}});
     w.append(trg,msg);mount();return w;}
   LIVE.command=(host)=>mountLive(host,{gate:'command',initial:{size:'m'},
-    segs:[{key:'size',label:'Size',options:['m','l'],labels:['標準 m','寬 l']}],
+    segs:[{key:'size',label:'Size',options:['m','l']}],
     render:st=>cmdLive(st.size),
     note:'這裡搜的是元件庫自己的元件清單（即時讀側欄）。打字即時篩選並標出命中的字；↑↓ 移動、Enter 選取、Esc 關閉。滑鼠移動也會同步「目前項目」，鍵盤與滑鼠不會打架。'});
   function buildCommand(view){
@@ -9708,7 +9708,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     let k=0;demo.onclick=()=>{const S=[['商品主圖.jpg',2516582],['規格書.pdf',860160],['開箱影片.mov',48234496]];const [n,b]=S[k++%3];add(n,b);};
     w.insertBefore(demo,ul);return w;}
   LIVE.dropzone=(host)=>mountLive(host,{gate:'dropzone',initial:{size:'m'},
-    segs:[{key:'size',label:'Size',options:['s','m'],labels:['精簡 s','標準 m']}],
+    segs:[{key:'size',label:'Size',options:['s','m']}],
     render:st=>drzLive(st.size),
     note:'把檔案拖進框內，邊框轉實線、圖示往上浮，提示放開；點框或 Enter 開檔案選擇。上傳中的檔案可取消，超過 10 MB 直接標錯不送出。沒有檔案可拖時，按「加入範例檔」模擬。'});
   function buildDropzone(view){
@@ -10018,7 +10018,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   LIVE.popover=(host)=>mountLive(host,{gate:'popover',
     initial:{placement:'bottom',size:'m',arrow:true,header:true,footer:true,close:true},
     segs:[{key:'placement',label:'Placement',options:['bottom','top','left','right'],labels:['下方','上方','左側','右側']},
-          {key:'size',label:'Size',options:['s','m','l'],labels:['小 s','標準 m','大 l']}],
+          {key:'size',label:'Size',options:['s','m','l']}],
     bools:[{key:'arrow',label:'arrow 箭頭'},{key:'header',label:'header 標題列'},{key:'close',label:'close ×'},{key:'footer',label:'footer 動作列'}],
     boolLabel:'Content',
     render:(st,syncCode)=>popLive(st.placement,st.size,{arrow:st.arrow,header:st.header,close:st.close,footer:st.footer},syncCode),
@@ -10427,7 +10427,7 @@ function skelMedia(anim){
   LIVE.loader=(host)=>mountLive(host,{gate:'loader',
     initial:{variant:'circular',size:'m',intent:'primary',label:false,progress:false,inline:false},
     segs:[{key:'variant',label:'Variant',options:['circular','dots','bar'],labels:['旋轉圈','跳動點','進度條']},
-          {key:'size',label:'Size',options:['s','m','l'],labels:['小','標準','大']},
+          {key:'size',label:'Size',options:['s','m','l']},
           {key:'intent',label:'Intent',options:['neutral','primary'],labels:['中性','品牌']}],
     bools:[{key:'label',label:'with-label 旁配文字'},{key:'progress',label:'with-progress %（進度條）'},{key:'inline',label:'inline 內嵌'}],
     render:st=>loaderEl(st.variant,st.intent,st.size,{label:st.label,labelText:'載入中…',progress:st.progress,pct:65,inline:st.inline}),
@@ -10642,7 +10642,7 @@ function skelMedia(anim){
     initial:{variant:'with-icon',size:'m',open:true},
     segs:[
       {key:'variant',label:'Variant',options:['default','with-icon','with-divider'],labels:['純文字','帶圖示','含分隔線']},
-      {key:'size',label:'Size',options:['s','m','l'],labels:['小 s','標準 m','大 l']},
+      {key:'size',label:'Size',options:['s','m','l']},
     ],
     bools:[{key:'open',label:'open 展開'}],
     boolLabel:'State',
@@ -11167,7 +11167,7 @@ function skelMedia(anim){
     mountLive(host,{gate:'price',
       initial:{variant:'discount',size:'md'},
       segs:[{key:'variant',label:'Variant',options:['normal','discount','sale','free'],labels:['一般','折扣','特價','免費']},
-            {key:'size',label:'Size',options:['sm','md','lg']}],
+            {key:'size',label:'Size',options:['sm','md','lg'],labels:['s','m','l']}],
       render:st=>{const box=ce('div','pr-live-box');box.appendChild(prEl(st.variant,st.size));return box;},
       note:'價格 price：discount 用 &lt;s&gt; 包原價（螢幕報讀「原價 X、優惠價 Y」）；free 容器加 <code>aria-label=免費</code>。',
       free:()=>['normal','discount','sale','free'].map(v=>prEl(v,'md'))
@@ -11175,7 +11175,7 @@ function skelMedia(anim){
     /* 第二段：數值 metric（dashboard KPI），獨立控制列避免與價格軸互相干擾；標題／單位／趨勢皆可各自開關 */
     mountLive(host,{gate:'price',
       initial:{size:'md',trend:'up',showUnit:false,showTitle:false},
-      segs:[{key:'size',label:'Size',options:['sm','md','lg']},
+      segs:[{key:'size',label:'Size',options:['sm','md','lg'],labels:['s','m','l']},
             {key:'trend',label:'Trend 趨勢',options:['none','up','down'],labels:['無','上升','下降']}],
       bools:[{key:'showTitle',label:'標題 title'},{key:'showUnit',label:'單位 unit'}],
       boolLabel:'顯示欄位',
@@ -11677,7 +11677,7 @@ function skelMedia(anim){
       initial:{align:'left',size:'m',eyebrow:true,subtitle:true,action:true,count:false,divider:false},
       segs:[
         {key:'align',label:'Align',options:['left','center'],labels:['靠左','置中']},
-        {key:'size',label:'Size',options:['m','l'],labels:['標準 m','大 l']},
+        {key:'size',label:'Size',options:['m','l']},
       ],
       bools:[
         {key:'eyebrow',label:'eyebrow 小標'},
@@ -12577,7 +12577,7 @@ function skelMedia(anim){
       initial:{side:'left',size:'m',header:true,backdrop:true,footer:false},
       segs:[
         {key:'side',label:'Side',options:['left','right'],labels:['左側','右側']},
-        {key:'size',label:'Size',options:['s','m','l'],labels:['窄 s','標準 m','寬 l']},
+        {key:'size',label:'Size',options:['s','m','l']},
       ],
       bools:[{key:'header',label:'header 標題列'},{key:'backdrop',label:'backdrop 遮罩'},{key:'footer',label:'footer 動作列'}],
       boolLabel:'Content',
@@ -13324,7 +13324,7 @@ function skelMedia(anim){
     const sl=section(body,'互動預覽與程式碼','切換容器型態，勾選開關各個 slot（媒體圖／角標／描述／動作鈕）與停用；整卡支援真實 hover——移上去看陰影／邊框／底色加深。');
     mountLive(sl,{
       initial:{variant:'elevated',size:'m',media:true,badge:true,description:true,actions:true,disabled:false},
-      segs:[{key:'variant',label:'Variant',options:['elevated','outlined','filled'],labels:['浮起','外框','填色']},{key:'size',label:'Size',options:['m','s']}],
+      segs:[{key:'variant',label:'Variant',options:['elevated','outlined','filled'],labels:['浮起','外框','填色']},{key:'size',label:'Size',options:['s','m']}],
       bools:[{key:'media',label:'media 媒體圖'},{key:'badge',label:'badge 角標'},{key:'description',label:'description 描述'},{key:'actions',label:'footer actions'},{key:'disabled',label:'disabled'}],
       boolLabel:'Slots',
       render:st=>{
@@ -13477,7 +13477,7 @@ function buildProductCard(view){
   const sl=section(body,'互動預覽與程式碼','切 variant，勾選角標／評分／收藏／折扣價／售完即時重組卡片；愛心可點（切換收藏、轉紅實心），售完時整卡灰階、按鈕與愛心停用。');
   mountLive(sl,{
     initial:{variant:'vertical',size:'m',badge:true,rating:true,wishlist:true,discount:false,soldout:false},
-    segs:[{key:'variant',label:'Variant',options:['vertical','horizontal','minimal'],labels:['直式','橫式','精簡']},{key:'size',label:'Size',options:['m','s']}],
+    segs:[{key:'variant',label:'Variant',options:['vertical','horizontal','minimal'],labels:['直式','橫式','精簡']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'badge',label:'badge 角標'},{key:'rating',label:'rating 評分'},
            {key:'wishlist',label:'wishlist 收藏'},{key:'discount',label:'discount 折扣價'},
            {key:'soldout',label:'soldout 售完'}],
@@ -13587,7 +13587,7 @@ function buildProductCard(view){
     const sl=section(body,'互動預覽與程式碼','切磚型、勾數量／描述／箭頭／選中即時預覽；hover 為真實互動、可與選中疊加。');
     mountLive(sl,{
       initial:{variant:'icon',size:'m',count:true,description:false,arrow:true,active:false},
-      segs:[{key:'variant',label:'Variant',options:['icon','image','gradient'],labels:['圖示磚','圖片磚','漸層磚']},{key:'size',label:'Size',options:['m','s']}],
+      segs:[{key:'variant',label:'Variant',options:['icon','image','gradient'],labels:['圖示磚','圖片磚','漸層磚']},{key:'size',label:'Size',options:['s','m']}],
       bools:[{key:'count',label:'count 數量'},{key:'description',label:'description 描述'},{key:'arrow',label:'arrow 箭頭'},{key:'active',label:'active 選中'}],
       boolLabel:'內容／狀態',
       render:st=>{
@@ -13686,7 +13686,7 @@ function buildArticleCard(view){
   const sl=section(body,'互動預覽與程式碼','切版式並開關內容 slot 即時預覽；整張卡吃真實 hover（浮起＋封面微放大＋標題轉主色）。');
   mountLive(sl,{
     initial:{variant:'vertical',size:'m',category:true,excerpt:true,author:true,meta:true},
-    segs:[{key:'variant',label:'Variant',options:['vertical','horizontal','overlay'],labels:['直式','橫式','疊字']},{key:'size',label:'Size',options:['m','s']}],
+    segs:[{key:'variant',label:'Variant',options:['vertical','horizontal','overlay'],labels:['直式','橫式','疊字']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'category',label:'category 分類標'},{key:'excerpt',label:'excerpt 摘要'},{key:'author',label:'author 作者'},{key:'meta',label:'meta 日期／閱讀'}],
     boolLabel:'內容',
     render:st=>artCard(st.variant,'default',{live:true,size:st.size,category:st.category,excerpt:st.excerpt,author:st.author,meta:st.meta}),
@@ -14643,7 +14643,7 @@ function buildArticleCard(view){
         sparkLine:true,sparkPeriod:true,brushMA:true,areaSeries:'4',areaToggle:true,stackScale:'count',
         rankVals:true,funnelStages:'5',funnelRates:true,heatSteps:'6',heatLegend:true},
       segs:[{key:'variant',label:'Variant',as:'select',options:vOpts,labels:vOpts.map(v=>zh.variant[v]||v)}, // BENTO-ALL:v1 圖表類型太多→下拉
-            {key:'size',label:'Size',options:['m','s'],labels:['M','S']},
+            {key:'size',label:'Size',options:['s','m']},
             {key:'areaSeries',label:'系列數 series',options:['2','3','4']},
             {key:'stackScale',label:'刻度 scale',options:['count','percent'],labels:['筆數','百分比']},
             {key:'funnelStages',label:'步驟數 stages',options:['3','4','5']},
@@ -15090,7 +15090,7 @@ function buildScheduleChart(view){
   mountLive(sl,{
     initial:{variant:'gantt',size:'m',prog:true,wkend:true,today:true,times:true,detail:true,tags:true,line:true},
     segs:[{key:'variant',label:'Variant',options:['gantt','week','timeline'],labels:['甘特圖','週排程','時間軸']},
-          {key:'size',label:'Size',options:['m','s'],labels:['m 標準','s 精簡']}],
+          {key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'prog',label:'進度填色'},{key:'wkend',label:'週末標記'},{key:'today',label:'今日線'},
            {key:'times',label:'時段標籤'},{key:'detail',label:'事件細節'},
            {key:'tags',label:'狀態 tag'},{key:'line',label:'連接線'}],
@@ -15370,7 +15370,7 @@ function buildScheduleChart(view){
         i.onchange=()=>{st[k]=i.checked;draw();};
         l.append(i,document.createTextNode(lb));checks.appendChild(l);});}
     ctlRow.appendChild(calSeg('variant','Variant',['month','range','time'],['月曆','區間','時間']));
-    ctlRow.appendChild(calSeg('size','Size',['m','s'],['M','S']));
+    ctlRow.appendChild(calSeg('size','Size',['s','m'],['s','m']));   /* 2026-11-10 由小到大、只用英文 */
     ctlRow.appendChild(boolC);
     wrap.append(ctlRow,stage);
     const note=ce('p','live-note');
@@ -15476,7 +15476,7 @@ function buildScheduleChart(view){
     if(o.live)b.onclick=()=>{on=!on;paint();b.classList.remove('psc-pop');void b.offsetWidth;b.classList.add('psc-pop');if(o.onChange)o.onChange();};
     ft.appendChild(b);c.appendChild(ft);return c;}
   LIVE['person-card']=(host)=>mountLive(host,{gate:'person-card',initial:{state:'default',size:'m',tags:true},
-    segs:[{key:'state',label:'State',options:['default','added'],labels:['預設','已加入']},{key:'size',label:'Size',options:['m','s'],labels:['標準 m','精簡 s']}],
+    segs:[{key:'state',label:'State',options:['default','added'],labels:['預設','已加入']},{key:'size',label:'Size',options:['s','m']}],
     bools:[{key:'tags',label:'tags 照片標籤'}],boolLabel:'Content',
     render:(st,sync)=>pscEl(st.state,st.size,{live:true,tags:st.tags,onChange:sync}),
     note:'點「Add member」切換成「Added」：文字與 icon 一起換、按鈕從實心變外框；精簡 s 只留 icon（aria-label 跟著換）。滑過照片會微微放大，「Available」的綠點持續脈動。'});
@@ -17095,6 +17095,7 @@ function buildScheduleChart(view){
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
     {v:'v37', date:'2026-11-10', title:'控制項高度 token：Button、Input、Dropdown', items:[
+      {tag:'fix', t:'元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉'},
       {tag:'fix', t:'Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角'},
       {tag:'add', t:'新增控制項高度 token（24／32／40／48），Button、Input、Dropdown 改成「內容＋上下 padding、至少這麼高」'},
       {tag:'add', t:'Input、Dropdown 新增 s／m／l 尺寸，高度 32／40／48 跟 Button 對齊；預設 m 從 36 改為 40'},
@@ -20291,6 +20292,7 @@ function buildScheduleChart(view){
   I18N_RX.push(["^(.+) 範本$","{T:1} template"]);
   I18N_RX.push(["^加入購物車：(.+)$","Add to cart: {T:1}"]);
   I18N_RX.push(["^(間距|圓角|陰影|動態|用色|字級對比|字重|文字對比)：(.+)$","{T:1}: {T:2}"]);  /* TOK-PRESET:v2 收合摘要 */
+  Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
@@ -21808,7 +21810,8 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       if(typeof ttEl==='function'){const t=ttEl('bottom','s',true);t.classList.add('tt-float','tt-fp-bottom');t.setAttribute('aria-hidden','true');
         t.querySelector('span').textContent=d.name?d.label+' · '+d.name:d.tip;b.appendChild(t);} else b.title=d.label;});
     {const th=document.getElementById('themeBtn');if(th)th.insertAdjacentElement('beforebegin',grp);else gb.insertAdjacentElement('afterend',grp);
-      const ss=document.getElementById('ssTrig');if(ss)grp.insertAdjacentElement('beforebegin',ss);}   // 搜尋框放在 RWD 切換左邊 tb.classList.add('has-rwd');   // 深淺色切換左邊
+      const ss=document.getElementById('ssTrig');if(ss)grp.insertAdjacentElement('beforebegin',ss);}   // 搜尋框放在 RWD 切換左邊（深淺色切換左邊）
+    tb.classList.add('has-rwd');   // 2026-11-10 修正：這行先前被併進上一行的註解、從沒執行 → topbar 沒疊在預覽層（z 39）之上，tooltip 被蓋住
     const segBtns=[...grp.querySelectorAll('.sgm-it')];
 
     function themeMsg(){const r=document.documentElement;return {rwdframe:1,t:'theme',theme:r.getAttribute('data-theme')==='dark'?'dark':'light',frost:window.__frost||0};}

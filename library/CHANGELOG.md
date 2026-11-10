@@ -12,6 +12,8 @@
 - **text／soft 按鈕 hover 底色變小一圈**：hover 掃入底色畫在 `::before`（inset:0），只蓋到 0.75px 透明邊框內側；旁邊的 solid 按鈕邊框與底色同色，所以看起來比較大（表單「清除」vs「建立帳號」、篩選浮層「清除」vs「套用」）。改成 `inset:-0.75px`，text／soft 的 `.live` 不裁切，底色與 solid 同大。
 - **Table Toolbar 列高切換**（寬鬆／緊湊）：boolean `densityToggle` 預設改關，demo 與矩陣不再顯示；需要時可在 Content 打開。
 - **甘特圖進場**：`gnt-reveal` 的 clip-path 拿掉 pill 圓角，長條進場時就是直角。
+- **頂欄裝置預覽的 tooltip 被切掉**：開啟平板／手機預覽時，頂欄 tooltip 下半被預覽層（z 39）蓋住。原因是 `tb.classList.add('has-rwd')` 先前被併進上一行的 `//` 註解、從沒執行，`.topbar.has-rwd{position:relative;z-index:41}` 沒生效；拆回獨立一行。
+- **元件頁左側控制面板 Size 選項統一**：一律由小到大（xs → s → m → l → xl），只顯示 s／m／l 英文，拿掉「小／標準／大／精簡／寬」等中文與大寫 S／M／L（23 處 `mountLive` segs＋Calendar）。原本反序的：Tab、Article Card、Person Card、Calendar、Chart、Schedule Chart；Price 的 sm／md／lg 顯示成 s／m／l；Icon 維持 16／20／24／32（px）。預設選取與切換不變。
 
 ## 2026-11-10（一百一十）　控制項高度 token：Button、Input、Dropdown（第一包）
 
