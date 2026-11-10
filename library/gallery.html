@@ -792,9 +792,10 @@
   .sum-axis .sa-chips{flex:1;--chp-gap:6px;}
   .sum-axis .sa-n{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
   /* 2026-11-10 變數選項改取用 Chip 原子（multi s），原本手刻的 .sum-chip 已移除；最後一個不能取消時輕晃提示 */
+  .sum-l-en{display:none;} html[lang="en"] .sum-l-en{display:inline;} html[lang="en"] .sum-l-zh{display:none;}   /* 變數文案：依網站語言只顯示中文或英文 */
   .sa-chips .chp.is-deny{animation:sum-deny 360ms var(--ease-out);} @keyframes sum-deny{25%{translate:-3px 0}50%{translate:3px 0}75%{translate:-2px 0}}
   /* CHIP:v1 Chip 選擇膠囊（2026-11-10，原子）：type 單選 radio／多選 checkbox × state default／hover／selected／disabled × size s 24／m 32／l 40（綁 --ctl-h-*）
-     未選＝--panel-2 底、選中＝--ink 底＋--panel 字；多選選中時前面多一個勾。boolean：dot 色點、icon 前置圖示。 */
+     未選＝--panel-2 底、選中＝--ink 底＋--panel 字（單選、多選外觀相同，2026-11-10 拿掉多選的勾）。boolean：dot 色點、icon 前置圖示。 */
   .chp-grp{display:flex;flex-wrap:wrap;gap:var(--chp-gap,var(--sp-2));}
   .chp{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);margin:0;border:0;cursor:pointer;white-space:nowrap;user-select:none;
     min-height:var(--chp-h,var(--ctl-h-s));padding:0 var(--chp-pad-x,var(--sp-4));border-radius:var(--chp-radius,var(--r-pill));
@@ -810,7 +811,6 @@
   .chp:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .chp:disabled,.chp.is-disabled{opacity:.42;cursor:not-allowed;}
   .chp svg{width:1.15em;height:1.15em;flex:0 0 auto;}
-  .chp-ck{display:none;} .chp.chp-multi[aria-checked="true"] .chp-ck{display:inline-flex;}   /* 多選：選中才出現勾 */
   .chp-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;background:var(--chp-dot,var(--accent));box-shadow:0 0 0 1px color-mix(in srgb,currentColor 25%,transparent);}
   .chp.chp-sz-s .chp-dot{width:8px;height:8px;}
   @media (prefers-reduced-motion:reduce){.chp{transition:none;}}
@@ -8854,7 +8854,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
      o.label 文字、o.dot 色點（CSS 顏色）、o.icon 前置圖示（SVG 字串）、o.live 真的可操作 */
   function chpEl(type,state,size,o){o=o||{};const b=ce('button','chp chp-sz-'+size+' chp-'+type+(o.live?' live':'')+(state==='hover'?' is-hover':''));b.type='button';
     b.setAttribute('role',type==='multi'?'checkbox':'radio');b.setAttribute('aria-checked',String(state==='selected'));if(state==='disabled')b.disabled=true;
-    let h='';if(type==='multi')h+='<span class="chp-ck">'+PI('check')+'</span>';if(o.dot)h+='<span class="chp-dot"></span>';if(o.icon)h+=o.icon;
+    let h='';if(o.dot)h+='<span class="chp-dot"></span>';if(o.icon)h+=o.icon;
     b.innerHTML=h+'<span class="chp-t"></span>';b.querySelector('.chp-t').textContent=o.label||'選項';if(o.dot)b.querySelector('.chp-dot').style.setProperty('--chp-dot',o.dot);
     if(o.key!=null)b.dataset.k=o.key;return b;}
   /* chpGroup(type,size,o)：一組。o.items＝[{k,label,dot,icon,disabled}]；o.value 單選＝k、多選＝陣列；o.label 群組名稱（aria）；o.onChange(值)
@@ -8879,10 +8879,10 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     render:(st,sync)=>{const items=CHP_DEMO.map((it,i)=>Object.assign({},it,{dot:st.dot?CHP_DOTS[i]:null,icon:st.icon?PI('sparkles'):null,disabled:st.disabled&&i===3}));
       const w=ce('div');w.style.cssText='width:100%;max-width:460px;display:flex;justify-content:center;';
       w.appendChild(chpGroup(st.type,st.size,{items,value:st.type==='multi'?['mid','loose']:'mid',label:'示範選項',onChange:()=>sync&&sync()}));return w;},
-    note:'單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換，選中時前面出現勾）。'});
+    note:'單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換）。'});
   function buildChip(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Chip',title:'Chip 選擇膠囊',
-      lede:'可點選的膠囊，給<b>少量選項的單選或多選</b>（風格方向、篩選條件、偏好）。<b>type × state × size（2 × 4 × 3 = 24）</b>；未選＝<code>--panel-2</code> 底、選中＝<code>--ink</code> 底＋<code>--panel</code> 字，多選選中時前面多一個勾。高度綁 <code>--ctl-h-xs／s／m</code>（24／32／40）。和 <a href="#tag">Tag</a> 的差別：Tag 只顯示狀態、不能點。',
+      lede:'可點選的膠囊，給<b>少量選項的單選或多選</b>（風格方向、篩選條件、偏好）。<b>type × state × size（2 × 4 × 3 = 24）</b>；未選＝<code>--panel-2</code> 底、選中＝<code>--ink</code> 底＋<code>--panel</code> 字，單選與多選外觀相同。高度綁 <code>--ctl-h-xs／s／m</code>（24／32／40）。和 <a href="#tag">Tag</a> 的差別：Tag 只顯示狀態、不能點。',
       specRows:[['axes','<code>type × state × size</code>'],['formula','<code>2 × 4 × 3 = 24</code>'],['boolean','<code>dot · icon</code>'],['token-policy','<code>--chp-*</code> → <code>--ctl-h-*</code>／<code>--r-pill</code>／<code>--panel-2</code>／<code>--ink</code>']]});
     const TN={single:['單選','single'],multi:['多選','multi']},SN={default:['預設','default'],hover:['滑過','hover'],selected:['選中','selected'],disabled:['停用','disabled']},ZN={s:['24','s'],m:['32','m'],l:['40','l']};
     const axes=DIAL_SPECS.chip.axes,zh=DIAL_SPECS.chip.zh,active=CHOICE.chip.active;let p;
@@ -17161,6 +17161,8 @@ function buildScheduleChart(view){
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
     {v:'v40', date:'2026-11-10', title:'選擇元件頁改用 Chip、搜尋彈窗內距', items:[
+      {tag:'improve', t:'Chip 多選不再顯示勾，單選與多選外觀相同'},
+      {tag:'improve', t:'選擇元件頁的變數改用 m 尺寸，文字依網站語言只顯示中文或英文'},
       {tag:'improve', t:'選擇元件頁的變數選項改用 Chip 元件（多選）'},
       {tag:'improve', t:'搜尋彈窗底部操作列上下內距加大，與左右一致'},
     ]},
@@ -18442,7 +18444,10 @@ function buildScheduleChart(view){
       /* 2026-11-10 拿掉 Live 示範；軸選項直接在這裡點選（同元件頁的變數篩選器，共用 CHOICE） */
       /* CHIP:v1 每個軸值一顆 Chip（multi、s）；選中＝產出該變數 */
       spec.order.forEach(k=>{const box=card.querySelector(`.sum-axis[data-k="${k}"] .sa-chips`);const sel=new Set(rec[k]);
-        spec.axes[k].forEach(v=>{const b=chpEl('multi',sel.has(v)?'selected':'default','s',{label:((spec.zh[k]&&spec.zh[k][v])||v)+'·'+v,live:true});b.dataset.k=k;b.dataset.v=v;box.appendChild(b);});});
+        spec.axes[k].forEach(v=>{const b=chpEl('multi',sel.has(v)?'selected':'default','m',{label:v,live:true});b.dataset.k=k;b.dataset.v=v;
+          const zr=String((spec.zh[k]&&spec.zh[k][v])||v);const zhT=k==='size'?v:(/[\u3400-\u9fff]/.test(zr)?zr.replace(/\s+[A-Za-z0-9-]+$/,'').replace(/^[A-Za-z0-9-]+\s+(?=[\u3400-\u9fff])/,''):zr);   /* 只有含中文的標籤才去掉附帶英文（「sp-2 · 8px」這類純英數照原樣） */   /* 中文：去掉前後附的英文（「標準 m」→「標準」、「Stack 直排」→「直排」）；Size 一律英文 */
+          const t=b.querySelector('.chp-t');t.innerHTML='';t.setAttribute('data-i18n-skip','');const z=ce('span','sum-l-zh'),e=ce('span','sum-l-en');z.textContent=zhT;e.textContent=v;t.append(z,e);   /* 只顯示目前語言 */
+          box.appendChild(b);});});
       card.querySelectorAll('.sa-chips .chp').forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=b.dataset.v,act=CHOICE[id].active[k];
         if(act.has(v)){if(act.size===1){b.classList.add('is-deny');setTimeout(()=>b.classList.remove('is-deny'),360);return;}act.delete(v);}else act.add(v);
         const on=act.has(v);b.setAttribute('aria-checked',String(on));
@@ -20382,7 +20387,8 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"Link 段落內連結字重改為 medium（500），與獨立連結一致": "Inline links now use medium weight (500), matching standalone links."});
   Object.assign(I18N_EN,{"文字連結改用資訊藍（淺色 info-600、深色 info-400）": "Text links now use info blue (info-600 in light, info-400 in dark)."});
   Object.assign(I18N_EN,{"選擇元件頁改用 Chip、搜尋彈窗內距": "Select Comps uses Chip; search dialog padding", "選擇元件頁的變數選項改用 Chip 元件（多選）": "Variant options on the Select Comps page now use the Chip component (multi-select).", "搜尋彈窗底部操作列上下內距加大，與左右一致": "The search dialog’s bottom bar now has equal vertical and horizontal padding."});
-  Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，多選選中時前面多一個勾。高度綁": " text, and multi-select shows a check when selected. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換，選中時前面出現勾）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own and shows a check when selected).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
+  Object.assign(I18N_EN,{"Chip 多選不再顯示勾，單選與多選外觀相同": "Multi-select Chips no longer show a check; single and multi-select look the same.", "選擇元件頁的變數改用 m 尺寸，文字依網站語言只顯示中文或英文": "Variant options on Select Comps use size m and show only Chinese or English, following the site language."});
+  Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，單選與多選外觀相同。高度綁": " text; single and multi-select look the same. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
