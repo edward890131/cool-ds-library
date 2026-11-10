@@ -3,7 +3,17 @@
 首頁「From Taipei to every timezone」地圖段落：鏡頭移到某個地標時，旁邊浮出這張配圖（藍色四角框）。
 網站以檔名讀圖，**只要用相同檔名覆蓋檔案即可換圖，不用改程式**。
 
-目前的檔案是暫代示意圖，由 `library/assets/photos/` 的照片裁切而來，正式圖還沒換上。
+2026-11-10 已換成使用者提供的正式圖（Unsplash，依 Unsplash License 免費使用、不強制標註）：
+
+| 檔名 | 攝影師（Unsplash） |
+|---|---|
+| `taipei.webp` | Poh Soo Donald Soh |
+| `tokyo.webp` | Annie Spratt |
+| `seoul.webp` | Arkin Si |
+| `hongkong.webp` | Manson |
+| `newyork.webp` | Israel Andrade |
+| `london.webp` | Yibei Geng |
+| `home-office.webp` | Microsoft Copilot |
 
 | 檔名 | 地標 | 建議放的圖（使用者 2026-11-10 提供） |
 |---|---|---|
