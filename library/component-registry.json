@@ -960,6 +960,11 @@
                 ]
               }
             },
+            "bools": {
+              "icon": "Icon 左側圖示",
+              "groups": "Groups 分類小標題（vertical）",
+              "nested": "Nested 內層展開收合（vertical）"
+            },
             "variantCount": 30
           }
         },
@@ -3793,10 +3798,6 @@
                     "zh": "橫向排名長條"
                   },
                   {
-                    "value": "gauge",
-                    "zh": "儀表"
-                  },
-                  {
                     "value": "funnel",
                     "zh": "漏斗圖"
                   },
@@ -3820,7 +3821,7 @@
                 ]
               }
             },
-            "variantCount": 32
+            "variantCount": 30
           }
         },
         {

@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-11-10（一百）　首頁手機與地圖過場、圖表同步範本、Menu 側欄結構、行動版頁尾
+
+- **首頁手機跑馬燈**（`HOME-PHONES:v1`）：Figma 外框已移除狀態列，程式畫的 9:41／訊號／電量一併拿掉，只留動態島下方留白；拿掉段落小標題、每支手機下方字幕與「看所有範本」按鈕。改成滑過段落時游標變成跟隨的「查看範本」按鈕（同首屏 mockup 的 cursor pill 作法），點哪支手機就開對應範本；段落可用 Tab 聚焦、Enter 開 AI 對話範本。手機內自動送出的程式點擊不會誤觸換頁（只接受 `isTrusted` 點擊）。滑過不再減速；畫面捲動改成 easeInOutSine 連續緩動（每段 140px／2.8 秒，到底停 2.2 秒再 4 秒慢慢回頂）。AI 對話畫面高度改成剛好填滿螢幕（742px），輸入列底部多留 22px 避開圓角。
+- **地圖配圖過場**：參考 transitions.dev「Image generation placeholder」（Dot noise wakes, then resolves into the image；該效果為 Pro 付費、拿不到原始碼，依描述重做）。canvas 點陣雜訊（地標藍）先亮起，再依亂數順序逐點換成照片取色（小圖放大＋點遮罩，`file://` 也不需讀像素），最後原圖由模糊淡入、點陣淡出，全程約 1.6 秒；減少動態時直接換圖。
+- **Chart 圖表同步後台範本**：長條（bar、bar-rank、combo）預設細柱，funnel／bar-rank 列高改 10px（s 8px）；卡內切換預設改 Dropdown（`o.dropdown===false` 才用 Segmented），bar-rank 排序改一顆按鈕切換，Live 控制列的「排序 sort」分段移除；下拉寬 112px 改為全域。**移除 gauge 儀表**（DIAL_SPECS、群組、Live 選項、CSS、繪製程式），圖型 16 → 15，矩陣 32 → 30；「進度與分布」段改名「分布」。
+- **Schedule Chart 排程圖**：甘特條 16 → 12px（s 10 → 8px），圓角 pill → 直角，跟長條圖細柱一致。
+- **Menu 選單**（`MENU-TREE:v1`）：後台範本側欄用的就是 Menu（vertical）。新增三個 boolean property：`icon` 左側圖示、`groups` 分類小標題（`o.sections=[{title,items}]`）、`nested` 內層列表展開收合（`item.children`，父層帶箭頭、aria-expanded，含當前頁的父層預設展開，收合時內層 inert）。hover 底色改用 rect 定位以支援分組與巢狀；葉節點可用 Tab／Enter 操作。元件頁新增「Sidebar 結構」段落，Live 新增 groups／nested 勾選（水平時隱藏）。後台範本側欄改直接用 `mnBar` 的 sections，不再自己拼小標題。registry 的 menu 補上 bools。
+- **Footer 頁尾**：行動版連結欄改兩欄並排、間距收緊；底列改成版權一行＋一列動作（社群靠左、語言＋回到頂部靠右），回到頂部在行動版只留上箭頭（icon-only）。社群拿掉 Twitter、Instagram，改 Gmail（`mailto:edward890131@gmail.com`）；GitHub 連到 repo；LinkedIn 連到 `linkedin.com/in/chenyu-yang-023886201`，另開分頁。回到頂部按鈕實際可捲回頂端。Icon Library 品牌社群分類補上 Gmail。
+- 網站版本紀錄加 v27；英文同步。
+
 ## 2026-11-10（九十九）　地圖配圖與部落格換成正式照片
 
 - **首頁地圖配圖**：`library/assets/map/` 六座城市換成使用者提供的正式圖（台北 101、木屋筆電會議、現代建築庭園、維多利亞港、吊燈開放式辦公室、高樓會議室），另補備用 `home-office.webp`；檔名不變，程式不用改。
