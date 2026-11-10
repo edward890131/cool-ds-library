@@ -5,10 +5,10 @@
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
-      "total": 94,
-      "ready": 88,
+      "total": 96,
+      "ready": 90,
       "planned": 6,
-      "withAxes": 76,
+      "withAxes": 78,
       "noAxes": 18
     }
   },
@@ -3522,6 +3522,113 @@
             },
             "variantCount": 4
           }
+        },
+        {
+          "id": "news-item",
+          "name": "News Item 消息列表項",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "type",
+              "state"
+            ],
+            "by": {
+              "type": {
+                "axisName": "Type 類型",
+                "options": [
+                  {
+                    "value": "important",
+                    "zh": "重要公告"
+                  },
+                  {
+                    "value": "news",
+                    "zh": "最新消息"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "date": "Date 日期",
+              "summary": "Summary 摘要"
+            },
+            "variantCount": 4
+          }
+        },
+        {
+          "id": "product-tile",
+          "name": "Product Tile 商品格",
+          "status": "ready",
+          "l0Ref": null,
+          "axes": {
+            "order": [
+              "badge",
+              "price",
+              "state"
+            ],
+            "by": {
+              "badge": {
+                "axisName": "Badge 角標",
+                "options": [
+                  {
+                    "value": "none",
+                    "zh": "無角標"
+                  },
+                  {
+                    "value": "new",
+                    "zh": "新品"
+                  },
+                  {
+                    "value": "hot",
+                    "zh": "熱門"
+                  }
+                ]
+              },
+              "price": {
+                "axisName": "Price 價格",
+                "options": [
+                  {
+                    "value": "normal",
+                    "zh": "一般價"
+                  },
+                  {
+                    "value": "discount",
+                    "zh": "折扣價"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "cart": "Cart 加入購物車按鈕"
+            },
+            "variantCount": 12
+          }
         }
       ]
     },
@@ -4159,6 +4266,7 @@
           "axes": null,
           "kind": "template",
           "composedOf": [
+            "menu",
             "ai-avatar",
             "chat-message",
             "chat-thinking",
@@ -4301,6 +4409,7 @@
             "footer",
             "logo",
             "button",
+            "product-tile",
             "segmented",
             "selector",
             "tag",
@@ -4346,6 +4455,7 @@
             "footer",
             "logo",
             "button",
+            "news-item",
             "tab",
             "dropdown",
             "tag",
@@ -4366,6 +4476,7 @@
             "footer",
             "logo",
             "button",
+            "product-tile",
             "link",
             "image",
             "alert",
