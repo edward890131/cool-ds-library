@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-10（一百一十一）　控制項高度後續：Segmented 圓角、按鈕 hover 底色、列高切換、甘特圖進場
+
+- **Segmented 圓角縮小**：外框預設 `--r-md`（8）→ `--r-sm`（4），滑塊／選項 −2px、最小 `--r-xs`（2）；`.sgm`（元件）與 `.seg`（站內控制項）兩套一起改，`--sgm-radius` 局部覆寫不受影響。
+- **text／soft 按鈕 hover 底色變小一圈**：hover 掃入底色畫在 `::before`（inset:0），只蓋到 0.75px 透明邊框內側；旁邊的 solid 按鈕邊框與底色同色，所以看起來比較大（表單「清除」vs「建立帳號」、篩選浮層「清除」vs「套用」）。改成 `inset:-0.75px`，text／soft 的 `.live` 不裁切，底色與 solid 同大。
+- **Table Toolbar 列高切換**（寬鬆／緊湊）：boolean `densityToggle` 預設改關，demo 與矩陣不再顯示；需要時可在 Content 打開。
+- **甘特圖進場**：`gnt-reveal` 的 clip-path 拿掉 pill 圓角，長條進場時就是直角。
+
 ## 2026-11-10（一百一十）　控制項高度 token：Button、Input、Dropdown（第一包）
 
 - **新 token**（`CTL-H:v1`，L1「間距與尺寸」新增 Control Height 群組，可在 Token 頁手調）：`--ctl-h-xs 24`、`--ctl-h-s 32`、`--ctl-h-m 40`、`--ctl-h-l 48`；手機先不另給。
