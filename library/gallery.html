@@ -798,11 +798,26 @@
   .sum-chip.is-deny{animation:sum-deny 360ms var(--ease-out);} @keyframes sum-deny{25%{translate:-3px 0}50%{translate:3px 0}75%{translate:-2px 0}}
   /* TOK-PRESET:v1 快速風格面板：單選膠囊（參考篩選面板的 chip 排法） */
   .tok-preset{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:var(--sp-5);margin:var(--sp-6) 0 var(--sp-6);}
-  .tok-preset-h{margin-bottom:var(--sp-5);}
+  /* TOK-PRESET:v2（2026-11-10）兩欄表單式：左「版面」右「色彩與文字」，每列「固定寬標籤｜膠囊」對齊；可收合（預設展開），收合時摘要列出非預設選項 */
+  .tok-preset-h{display:flex;align-items:flex-start;gap:var(--sp-4);}
+  .tok-preset-hm{flex:1 1 auto;min-width:0;}
   .tok-preset-t{font-size:var(--fs-h9);font-weight:var(--fw-semibold);} .tok-preset-d{font-size:var(--fs-h11);color:var(--muted);margin-top:2px;}
-  .tok-preset-g{display:flex;flex-wrap:wrap;gap:var(--sp-5) var(--sp-8);}   /* 每組依選項寬度排開，放不下才換行 */
-  .tok-preset-row{display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;flex:0 1 auto;}
+  .tok-preset-sum{display:none;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-2);}
+  .tok-preset.is-closed .tok-preset-sum{display:flex;} .tok-preset.is-closed .tok-preset-d{display:none;}
+  .tok-preset-acts{display:flex;align-items:center;gap:var(--sp-1);flex:0 0 auto;} .tok-preset .btn.tok-preset-rs svg{display:none;}
+  @media (max-width:599px){.tok-preset .btn.tok-preset-rs{padding:0;aspect-ratio:1;width:32px;justify-content:center;} .tok-preset .btn.tok-preset-rs span{display:none;} .tok-preset .btn.tok-preset-rs svg{display:block;}}   /* 手機：回到預設改 reload icon button */ .tok-preset-tg{flex:0 0 auto;} .tok-preset .btn.tok-preset-tg svg{transition:transform var(--dur-default) var(--ease-out);transform:rotate(180deg);} .tok-preset.is-closed .btn.tok-preset-tg svg{transform:none;}   /* 展開＝朝上（收合）、收合＝朝下（展開） */
+  .tok-preset-bw{display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--dur-slow) var(--ease-out);}   /* 收合：0fr↔1fr 高度過場 */
+  .tok-preset.is-closed .tok-preset-bw{grid-template-rows:0fr;}
+  .tok-preset-bi{min-height:0;overflow:hidden;}
+  .tok-preset-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5) var(--sp-8);padding-top:var(--sp-5);}
+  .tok-preset-col{display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
+  .tok-preset-ch{display:flex;align-items:center;gap:var(--sp-3);font:var(--fw-medium) var(--fs-h11)/1 var(--font-mono);color:var(--muted);letter-spacing:.04em;margin-bottom:var(--sp-1);}
+  .tok-preset-ch::after{content:"";flex:1 1 auto;height:1px;background:var(--line);}
+  .tok-preset-row{display:grid;grid-template-columns:5.5em minmax(0,1fr);align-items:center;gap:var(--sp-3);min-width:0;}
   .tok-preset-lb{font-size:var(--fs-h10);font-weight:var(--fw-semibold);}
+  @media (max-width:1100px){.tok-preset-g{grid-template-columns:minmax(0,1fr);}}
+  @media (max-width:599px){.tok-preset-row{grid-template-columns:minmax(0,1fr);gap:var(--sp-2);}}   /* 手機：標籤在上、膠囊在下 */
+  @media (prefers-reduced-motion:reduce){.tok-preset-bw,.tok-preset-tg svg{transition:none;}}
   .tkp-pills{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
   .tkp-pill{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--sp-2);height:32px;padding:0 var(--sp-4);border-radius:var(--r-pill);background:var(--panel-2);color:var(--ink);
     font-size:var(--fs-h10);cursor:pointer;white-space:nowrap;transition:background-color var(--dur-default) var(--ease-out),color var(--dur-default) var(--ease-out);}
@@ -17067,6 +17082,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v36', date:'2026-11-10', title:'快速風格改兩欄、可收合', items:[
+      {tag:'improve', t:'快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項'},
+      {tag:'add', t:'快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用'},
+    ]},
     {v:'v35', date:'2026-11-10', title:'快速風格新增圓角、陰影、動態、文字對比', items:[
       {tag:'add', t:'快速風格新增四組：圓角（方正／柔和／圓潤／膠囊）、陰影（扁平／輕柔／立體）、動態（俐落／適中／悠緩／靜止）、文字對比（柔和／標準／高對比）'},
       {tag:'fix', t:'Design Token 手調的 L2 亮色數值在淺色主題下沒生效，已修正'},
@@ -17629,7 +17648,7 @@ function buildScheduleChart(view){
     const catCard=(t,n)=>'<div class="hm-catcard"><span class="hm-catt">'+t+'</span><span class="hm-catn">'+n+'</span><span class="hm-catcaret">›</span></div>';
     const summaryMain='<div class="hm-main">'
       +'<div class="hm-eyebrow">Overview · 選擇元件</div>'
-      +'<div class="hm-headrow"><div class="hm-h1">選擇元件</div><span class="hm-copybtn">複製此頁 JSON</span></div>'
+      +'<div class="hm-headrow"><div class="hm-h1">選擇元件</div></div>'
       +'<p class="hm-lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡看該元件的<b>實際操作</b>，牌卡前的勾選框決定<b>要不要產出</b>。回各元件用「變數篩選器」調整組合，這裡即時彙整。</p>'
       +'<div class="hm-rule"></div>'
       +'<div class="hm-actions"><span class="hm-aitoggle">✦ AI 建議產出<span class="sw"></span></span><span class="hm-selall"><span class="ck">'+CK2+'</span>全選</span><span class="hm-total">已選 <b>39</b>/39 個元件 · 共 <b>860</b> 個變體將建立</span></div>'
@@ -17976,11 +17995,32 @@ function buildScheduleChart(view){
      apply:(v,OV)=>{const T=TOK_TEXT[v];['--s-text-1','--s-text-2','--s-text-3','--s-border-1','--s-border-2'].forEach(n=>{delete OV.root[n];delete OV.dark[n];});
        if(T){Object.assign(OV.root,T.l);Object.assign(OV.dark,T.d);}}});
   const TOK_DOT={neutral:'#1C1C20',cool:'#2563EB',natural:'#16A34A',warm:'#EA580C',lively:'#DB2777'};
+  const TOK_PRESET_COLS=[['版面',['space','radius','shadow','motion']],['色彩與文字',['color','type','weight','text']]];   /* 相關設定排同一欄 */
+  const TOK_PRESET_DEF=k=>k==='color'?'neutral':'mid';
   function tokPresetPanel(OV,onApply){const st=window.__tokPreset||(window.__tokPreset={space:'mid',type:'mid',weight:'mid',color:'neutral',radius:'mid',shadow:'mid',motion:'mid',text:'mid'});
-    const box=ce('section','tok-preset');box.setAttribute('aria-labelledby','tokPresetT');
-    const h=ce('div','tok-preset-h');h.innerHTML='<div class="tok-preset-t" id="tokPresetT">快速風格</div><div class="tok-preset-d">選一個方向，對應的 token 會直接帶入；之後仍可在下方逐一微調。</div>';box.appendChild(h);
-    const grid=ce('div','tok-preset-g');box.appendChild(grid);
-    TOK_PRESETS.forEach(p=>{const row=ce('div','tok-preset-row');const lb=ce('div','tok-preset-lb');lb.id='tokP-'+p.k;lb.textContent=p.t;
+    if(window.__tokPresetOpen===undefined)window.__tokPresetOpen=true;   // 預設展開；選項觸發重繪時保留收合狀態
+    const box=ce('section','tok-preset'+(window.__tokPresetOpen?'':' is-closed'));box.setAttribute('aria-labelledby','tokPresetT');
+    const h=ce('div','tok-preset-h');const hm=ce('div','tok-preset-hm');
+    hm.innerHTML='<div class="tok-preset-t" id="tokPresetT">快速風格</div><div class="tok-preset-d">選一個方向，對應的 token 會直接帶入；之後仍可在下方逐一微調。</div>';
+    const sum=ce('div','tok-preset-sum');hm.appendChild(sum);
+    // 收合鈕：取用 Button 原子（text／secondary／s）＋chevron
+    const tg=mkBtn({variant:'text',intent:'secondary',size:'s',trail:true,isLive:true});tg.type='button';tg.classList.add('tok-preset-tg');tg.setAttribute('aria-controls','tokPresetBody');
+    const paintTg=()=>{const open=!box.classList.contains('is-closed');tg.innerHTML='<span>'+(open?'收合':'展開')+'</span>'+PI('chevron-down');tg.setAttribute('aria-expanded',String(open));};
+    // 摘要：非預設選項用 Tag 原子列出；全部預設顯示「預設」
+    const paintSum=()=>{sum.innerHTML='';const on=TOK_PRESETS.filter(p=>st[p.k]!==TOK_PRESET_DEF(p.k));
+      (on.length?on.map(p=>p.t+'：'+p.opts.find(o=>o[0]===st[p.k])[1]):['全部預設']).forEach(t=>{const g=tagEl('soft','neutral','default','round');g.querySelector('span').textContent=t;sum.appendChild(g);});};
+    tg.onclick=()=>{box.classList.toggle('is-closed');window.__tokPresetOpen=!box.classList.contains('is-closed');paintTg();paintSum();};
+    // 回到預設：取用 Button 原子；全部已是預設時停用
+    const rs=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});rs.type='button';rs.classList.add('tok-preset-rs');rs.innerHTML=PI('refresh-cw')+'<span>回到預設</span>';rs.setAttribute('aria-label','回到預設');rs.title='回到預設';   /* 圖示只在手機顯示（CSS） */
+    const allDef=()=>TOK_PRESETS.every(p=>st[p.k]===TOK_PRESET_DEF(p.k));
+    rs.disabled=allDef();rs.classList.toggle('st-disabled',rs.disabled);rs.classList.toggle('st-default',!rs.disabled);
+    rs.onclick=()=>{if(allDef())return;TOK_PRESETS.forEach(p=>{const d=TOK_PRESET_DEF(p.k);if(st[p.k]!==d){st[p.k]=d;p.apply(d,OV);}});onApply();};
+    const acts=ce('div','tok-preset-acts');acts.append(rs,tg);
+    h.append(hm,acts);box.appendChild(h);
+    const bw=ce('div','tok-preset-bw');bw.id='tokPresetBody';const bi=ce('div','tok-preset-bi');const grid=ce('div','tok-preset-g');bi.appendChild(grid);bw.appendChild(bi);box.appendChild(bw);
+    const byK=Object.fromEntries(TOK_PRESETS.map(p=>[p.k,p]));
+    TOK_PRESET_COLS.forEach(([ct,ks])=>{const col=ce('div','tok-preset-col');const chd=ce('div','tok-preset-ch');chd.textContent=ct;col.appendChild(chd);
+      ks.forEach(k=>{const p=byK[k];if(!p)return;const row=ce('div','tok-preset-row');const lb=ce('div','tok-preset-lb');lb.id='tokP-'+p.k;lb.textContent=p.t;
       const pills=ce('div','tkp-pills');pills.setAttribute('role','radiogroup');pills.setAttribute('aria-labelledby',lb.id);
       const btns=p.opts.map(([k,t])=>{const b=ce('button','tkp-pill');b.type='button';b.setAttribute('role','radio');b.dataset.k=k;
         if(p.k==='color'){const d=ce('span','tkp-dot');d.style.background=TOK_DOT[k];b.appendChild(d);}
@@ -17989,7 +18029,9 @@ function buildScheduleChart(view){
       const pick=b=>{if(st[p.k]===b.dataset.k)return;st[p.k]=b.dataset.k;paint();p.apply(st[p.k],OV);onApply();};
       btns.forEach((b,i)=>{b.onclick=()=>pick(b);b.onkeydown=e=>{const d={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];if(!d)return;e.preventDefault();const n=btns[(i+d+btns.length)%btns.length];n.focus();pick(n);};pills.appendChild(b);});
       if(!btns.some(b=>b.dataset.k===st[p.k]))st[p.k]=(p.opts.find(o=>o[0]==='mid'||o[0]==='neutral')||p.opts[0])[0];paint();
-      row.append(lb,pills);grid.appendChild(row);});
+      row.append(lb,pills);col.appendChild(row);});
+      grid.appendChild(col);});
+    paintTg();paintSum();
     return box;}
   function renderTokens(view){
     let ovr=document.getElementById('tokenOverrides');
@@ -18257,8 +18299,7 @@ function buildScheduleChart(view){
 
   function renderSummary(view){
     const rep=choiceReport();
-    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Overview · 選擇元件</p><h1>選擇元件</h1></div>
-        <button class="btn v-soft i-secondary sz-s st-default live" id="copyBtn"><span>複製此頁 JSON</span></button></div>
+    view.innerHTML=`<div class="sum-top"><div class="sum-head"><p class="eyebrow">Overview · 選擇元件</p><h1>選擇元件</h1></div></div>
       <p class="lede">每個元件<b>最後選定的複雜度</b>——先依<b>四大分類</b>展開，再展開牌卡<b>直接點選</b>要產出的變數，牌卡前的勾選框決定<b>要不要產出</b>；跟各元件頁的「變數篩選器」是同一份選擇。</p>
       <div class="head-rule"></div>
       <div class="sum-actions">
@@ -18370,12 +18411,7 @@ function buildScheduleChart(view){
       else{if(aiSnapshot){SUMSEL.clear();aiSnapshot.forEach(x=>SUMSEL.add(x));}aiSnapshot=null;aiOn=false;}
       aiBtn.classList.toggle('on',aiOn);renderBody();syncTotal();
     };
-    {const o=document.getElementById('copyBtn');const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true});nb.type='button';nb.id='copyBtn';nb.querySelector('span').textContent='複製此頁 JSON';o.replaceWith(nb);} // PAGES10:v1 library Button 原子
-    document.getElementById('copyBtn').onclick=()=>{
-      const json={};allKeys.forEach(id=>{if(!SUMSEL.has(id))return;json[id]={};DIAL_SPECS[id].order.forEach(k=>json[id][k]=rep[id][k]);json[id].count=rep[id].count;});
-      json._selected=[...SUMSEL];json._total=[...SUMSEL].reduce((a,id)=>a+rep[id].count,0);
-      navigator.clipboard.writeText(JSON.stringify(json,null,2)).then(()=>{const s=document.getElementById('copyBtn').querySelector('span');swapText(s,'已複製 ✓');setTimeout(()=>swapText(s,'複製此頁 JSON'),1600);});
-    };
+    /* 2026-11-10「複製此頁 JSON」按鈕先移除（使用者要求）；要恢復請看 git 歷史的 renderSummary */
   }
 
   /* ===== 檢視切換 ===== */
@@ -20236,6 +20272,8 @@ function buildScheduleChart(view){
   const I18N_SGM={'日':'Day','週':'Week','月':'Month','年':'Year'};
   I18N_RX.push(["^(.+) 範本$","{T:1} template"]);
   I18N_RX.push(["^加入購物車：(.+)$","Add to cart: {T:1}"]);
+  I18N_RX.push(["^(間距|圓角|陰影|動態|用色|字級對比|字重|文字對比)：(.+)$","{T:1}: {T:2}"]);  /* TOK-PRESET:v2 收合摘要 */
+  Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
   const I18N_S={'在線':'Online','離線':'Offline','離開':'Away'};
   const I18N_MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
