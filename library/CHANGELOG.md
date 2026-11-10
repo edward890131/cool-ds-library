@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-10（一百一十）　控制項高度 token：Button、Input、Dropdown（第一包）
+
+- **新 token**（`CTL-H:v1`，L1「間距與尺寸」新增 Control Height 群組，可在 Token 頁手調）：`--ctl-h-xs 24`、`--ctl-h-s 32`、`--ctl-h-m 40`、`--ctl-h-l 48`；手機先不另給。
+- **Button**：`.btn.sz-*` 從固定 `height` 改成 `min-height:var(--ctl-h-*)`＋上下 padding（s 6／m 8／l 12px），平常一樣高，字放大時跟著長；icon-only 維持正方形（寬＝token）。刻意做小的按鈕（邀請卡 accept 連結、AI 專案＋、小月曆箭頭、商品卡購物車）明確解除最小高度。
+- **Input／Dropdown**：`.field` 改 `min-height:var(--field-h,var(--ctl-h-m))`＋上下 4px；新增尺寸 class `fsz-s`／`fsz-l`（`inputEl(v,s,size)`、`ddEl(…,size)`、`ddField({size})`）；DIAL_SPECS 的 input、dropdown 加上 `size` 軸（s／m／l），元件頁矩陣依尺寸分塊、Live 多一個 Size 切換；registry 同步。**預設 m 從 36 改為 40**，跟 Button m 對齊。
+- **清掉局部寫死**：表格工具列、圖表卡內下拉、清單選單、Token 頁預覽欄位改用 `--field-h`；邀請卡輸入框拿掉 40px（預設即 40）。範本（後台、網站、AI 對話控制卡）工具列與卡片標題列的下拉、搜尋框改用 s，跟旁邊的 s 按鈕同為 32。
+- **稽核**：寫了一支全站高度比對腳本（106 頁逐一量每顆 `.btn`／`.field`），改動後 Button 高度零變動；Input／Dropdown 只有預設 36→40 與範本工具列 36→32 兩種預期變化。
+- 網站版本紀錄加 v37；英文同步。
+
 ## 2026-11-10（一百零九）　快速風格改兩欄表單式、可收合
 
 - **排版**（`TOK-PRESET:v2`）：原本 8 組依寬度自動換行，上下兩排起點對不齊。改成兩欄：左「版面」（間距、圓角、陰影、動態）、右「色彩與文字」（用色、字級對比、字重、文字對比），欄首小標＋細線；每列「固定寬標籤（5.5em）｜膠囊」，同欄膠囊起點對齊。≤1100px 單欄、≤599px 標籤在上膠囊在下。

@@ -1348,7 +1348,8 @@
           "axes": {
             "order": [
               "variant",
-              "state"
+              "state",
+              "size"
             ],
             "by": {
               "variant": {
@@ -1392,9 +1393,26 @@
                     "zh": "錯誤"
                   }
                 ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
               }
             },
-            "variantCount": 12
+            "variantCount": 36
           }
         },
         {
@@ -1455,7 +1473,8 @@
             "order": [
               "variant",
               "type",
-              "state"
+              "state",
+              "size"
             ],
             "by": {
               "variant": {
@@ -1516,9 +1535,26 @@
                     "zh": "錯誤"
                   }
                 ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
+                  }
+                ]
               }
             },
-            "variantCount": 28
+            "variantCount": 84
           }
         },
         {
