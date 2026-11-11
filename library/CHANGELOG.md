@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-11-11（一百二十八）　Tag／Chip 中文置中 v3：只補純中文、拿掉 text-box-trim、Mac 另一組數值
+
+- 使用者回報其他頁面英數變低、部分中文也偏低。原因：①補正套在所有文字上（含英數），且沒標尺寸的預設 Tag 也被補；②`text-box-trim` 在 10px 與縮放範本裡造成 0.5～1px 落差。
+- **TXT-OPTICAL:v3**：拿掉 text-box-trim；JS 以 MutationObserver（只看有變動的節點）替「純中文」的 `.tg > span`、`.chp-t` 加 `data-cjk`，只有它們往下補，英文、數字、中英混合不動，切英文自動取消。補正量：一般系統 Tag s 0／m .05em／l .025em、Chip .05em／l .025em；Mac（`html.os-mac`，依使用者截圖實測）Tag s 0／m .09em／l .13em、Chip .09em／l .13em。
+
 ## 2026-11-11（一百二十七）　Tag／Chip 中文置中改用 text-box-trim（Mac 一致）
 
 - **TXT-OPTICAL:v2**：使用者在 Mac 實測 Tag L、Chip L 仍偏高約 1.5px、Chip M 約 0.5px。原因是 Mac 的 Chrome 用不同的字體行高數值算行框，固定像素補正在不同系統結果不同。改成兩步：`.tg > span`、`.chp-t` 加 `text-box: trim-both cap alphabetic`（文字框裁到大寫高度～基線，位置不再受行高數值影響；實測行高 1～2.4 位置都不動），再沿用中文模式的 `translateY` 補正（.05em／s 0／l .025em）。Linux 實測六種尺寸上下差 ≤ 0.25px。
