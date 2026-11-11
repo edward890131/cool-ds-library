@@ -6,6 +6,15 @@
 
 ---
 
+## 2026-11-11（一百二十）　控制項高度第二包：Tab、Segmented、Pagination 對齊 32／40／48
+
+延續一百一十的控制項高度 token（`--ctl-h-s／m／l`），把另外三顆會跟 Button 並排的控制項也綁上去。
+
+- **Tab**（`CTL-H:v2`）：`.tabi` 高度改走 `--tab-h`（預設 `--ctl-h-m`）；s 30→32、m 38→40，新增 l 48（字級 h10、左右 sp-6）。size 軸改成 s／m／l。範本工具列的檢視分頁（`.ttb-views`）原本寫死 40／緊湊 36，改成 `--ctl-h-m`／緊湊 `--ctl-h-s`。
+- **Segmented**：外框高度 s 34→32、m 維持 40，新增 l 48；選項高度＝`--ctl-h-*` − 8（軌道 padding 3＋邊框 1）。size 軸改成 s／m／l，公式 2 × 3 = 6。
+- **Pagination**：頁碼方鈕 s 28→32、m 34→40、l 40→48，m 字級改 h10。
+- Token 頁「控制項高度」說明補上這三顆；registry 重新產生；英文翻譯（`CTL-H:v2`）。
+
 ## 2026-11-11（一百一十九）　P3 六顆元件完成：Time Picker／Color Picker／Cascader／Tree Select／Tour／Menubar
 
 側欄「規劃中」清空（0 顆），六顆都有元件頁（矩陣、展開的樣子／內容組合、什麼時候用、互動預覽＋程式碼）、選擇元件頁、站內搜尋、registry、英文。

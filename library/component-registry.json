@@ -879,17 +879,21 @@
                 "axisName": "Size 尺寸",
                 "options": [
                   {
+                    "value": "s",
+                    "zh": "小 s"
+                  },
+                  {
                     "value": "m",
                     "zh": "標準 m"
                   },
                   {
-                    "value": "s",
-                    "zh": "小 s"
+                    "value": "l",
+                    "zh": "大 l"
                   }
                 ]
               }
             },
-            "variantCount": 32
+            "variantCount": 48
           }
         },
         {
@@ -1747,11 +1751,15 @@
                   {
                     "value": "m",
                     "zh": "標準 m"
+                  },
+                  {
+                    "value": "l",
+                    "zh": "大 l"
                   }
                 ]
               }
             },
-            "variantCount": 4
+            "variantCount": 6
           }
         },
         {

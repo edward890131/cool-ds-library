@@ -1192,7 +1192,7 @@
   .tabbar{display:inline-flex;align-items:stretch;gap:2px;}
   .tabbar.v-line{gap:0;border-bottom:1px solid var(--line);}
   .tabbar.v-contained,.tabbar.v-soft{gap:var(--sp-2);} .tabbar.v-pill{gap:var(--sp-1);background:var(--panel-2);padding:var(--sp-1);border-radius:var(--r-pill);}
-  .tabi{display:inline-flex;align-items:center;gap:var(--tab-gap,var(--sp-2));height:38px;padding:0 var(--tab-pad-x,var(--sp-5));font-size:var(--tab-fs,var(--fs-h11));font-weight:var(--fw-semibold);
+  .tabi{display:inline-flex;align-items:center;gap:var(--tab-gap,var(--sp-2));box-sizing:border-box;height:var(--tab-h,var(--ctl-h-m));padding:0 var(--tab-pad-x,var(--sp-5));font-size:var(--tab-fs,var(--fs-h11));font-weight:var(--fw-semibold);
     color:var(--muted);cursor:pointer;border:1px solid transparent;background:transparent;font-family:var(--font-sans);transition:var(--dur-fast);white-space:nowrap;}
   .v-line .tabi{border-radius:0;margin-bottom:-1px;box-shadow:inset 0 -2px 0 transparent;}
   .v-line .tabi.st-hover{color:var(--ink);}
@@ -1209,7 +1209,8 @@
   .v-pill .tabi.st-active{background:var(--accent);color:var(--primary-on);}   /* 與 line／contained 同一套：選中＝--accent 模式對比色，深淺由 token 自動切換、不另寫主題覆寫 */
   .tabi.st-disabled{opacity:.4;cursor:not-allowed;}
   /* size：sz-m 為標準（base 值），sz-s 較小 */
-  .tabi.sz-s{height:30px;padding:0 var(--sp-4);font-size:var(--tab-fs,var(--fs-h11));gap:var(--sp-1);}
+  .tabi.sz-s{--tab-h:var(--ctl-h-s);padding:0 var(--sp-4);font-size:var(--tab-fs,var(--fs-h11));gap:var(--sp-1);}
+  .tabi.sz-l{--tab-h:var(--ctl-h-l);padding:0 var(--sp-6);font-size:var(--tab-fs,var(--fs-h10));}   /* CTL-H:v2 Tab 高度 32／40／48 */
   /* tab-item 內容零件：leading icon／count badge */
   .tabi .ticon{display:inline-flex;flex:0 0 auto;}
   .tabi .ticon svg{width:16px;height:16px;}
@@ -1598,9 +1599,10 @@
 /* ---- PAGINATION 分頁器 ---- */
   .pg-bar{display:flex;align-items:center;gap:var(--pg-gap,var(--sp-2));flex-wrap:wrap;font-family:var(--font-sans);}
   .pg-btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;background:transparent;color:var(--ink);border:1px solid transparent;border-radius:var(--pg-btn-radius,var(--r-sm));font-family:var(--font-sans);font-weight:var(--fw-semibold);line-height:1;cursor:pointer;padding:0;transition:background var(--dur-fast),border-color var(--dur-fast),color var(--dur-fast);}
-  .pg-btn.pg-sz-s{min-width:28px;height:28px;font-size:var(--fs-h11);}
-  .pg-btn.pg-sz-m{min-width:34px;height:34px;font-size:var(--fs-h11);}
-  .pg-btn.pg-sz-l{min-width:40px;height:40px;font-size:var(--fs-h9);}
+  /* CTL-H:v2 Pagination 頁碼方鈕 32／40／48（綁 --ctl-h-*） */
+  .pg-btn.pg-sz-s{min-width:var(--ctl-h-s);height:var(--ctl-h-s);font-size:var(--fs-h11);}
+  .pg-btn.pg-sz-m{min-width:var(--ctl-h-m);height:var(--ctl-h-m);font-size:var(--fs-h10);}
+  .pg-btn.pg-sz-l{min-width:var(--ctl-h-l);height:var(--ctl-h-l);font-size:var(--fs-h9);}
   .pg-btn.pg-sz-s svg{width:14px;height:14px;}
   .pg-btn.pg-sz-m svg{width:16px;height:16px;}
   .pg-btn.pg-sz-l svg{width:18px;height:18px;}
@@ -3448,8 +3450,10 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .sgm-full{display:flex;width:100%;} .sgm-full .sgm-it{flex:1 1 0;}
   .sgm-it{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);border:0;background:transparent;color:var(--muted);cursor:pointer;
     border-radius:max(var(--r-xs),calc(var(--sgm-radius,var(--r-sm)) - 2px));font:inherit;font-weight:var(--fw-medium);white-space:nowrap;transition:color var(--dur-fast) var(--ease-out);}
-  .sgm-sz-s .sgm-it{height:26px;padding:0 var(--sp-3);font-size:var(--fs-h11);}
-  .sgm-sz-m .sgm-it{height:32px;padding:0 var(--sgm-pad-x,var(--sp-4));font-size:var(--sgm-fs,var(--fs-h10));}
+  /* CTL-H:v2 Segmented 外框高 32／40／48（軌道 padding 3＋邊框 1，選項＝高度 − 8） */
+  .sgm-sz-s .sgm-it{height:calc(var(--ctl-h-s) - 8px);padding:0 var(--sp-3);font-size:var(--fs-h11);}
+  .sgm-sz-m .sgm-it{height:calc(var(--ctl-h-m) - 8px);padding:0 var(--sgm-pad-x,var(--sp-4));font-size:var(--sgm-fs,var(--fs-h10));}
+  .sgm-sz-l .sgm-it{height:calc(var(--ctl-h-l) - 8px);padding:0 var(--sp-5);font-size:var(--fs-h9);}
   .sgm-it:hover:not(.is-active):not(:disabled),.sgm-it.is-hover{color:var(--ink);}
   .sgm-it.is-active{color:var(--primary-on);}
   .sgm-it:disabled{opacity:.4;cursor:not-allowed;}
@@ -3977,7 +3981,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ttb-views{display:flex;align-items:center;gap:var(--sp-1);padding:0 var(--sp-3);border-bottom:1px solid var(--line);min-width:0;}
   .ttb-views .tabbar{border-bottom:0;flex:0 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none;}
   .ttb-views .tabbar::-webkit-scrollbar{display:none;}
-  .ttb-views .tabi{height:40px;padding:0 var(--sp-3);margin-bottom:0;color:var(--muted);background:transparent;border:0;font-family:inherit;}
+  .ttb-views .tabi{--tab-h:var(--ctl-h-m);padding:0 var(--sp-3);margin-bottom:0;color:var(--muted);background:transparent;border:0;font-family:inherit;}
   .ttb-views .tabi.st-active{color:var(--ink);}
   .ttb-views button.tabi{cursor:pointer;} .ttb-views button.tabi:hover{color:var(--ink);}
   .ttb-views .tabi:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:var(--r-sm);}
@@ -4050,7 +4054,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .ttb-msg{min-height:1.4em;font-size:var(--fs-h11);color:var(--muted);}
   /* 緊湊：工具列與分頁一起收；窄容器：批次列與「另存為檢視」只留圖示 */
   .ttb-dn-compact .ttb,.ttb-dn-compact .ttb-chips{padding-block:var(--sp-2);}
-  .ttb-dn-compact .ttb-views .tabi{height:36px;}
+  .ttb-dn-compact .ttb-views .tabi{--tab-h:var(--ctl-h-s);}
   @container ttb (max-width:560px){
     .ttb-bar .btn.v-text > span,.ttb-save > span{display:none;}
     .ttb-bar .btn.v-text,.ttb-save{width:32px;padding:0;}
@@ -7679,7 +7683,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     dropzone:{label:'Dropzone 檔案上傳',order:['state','size'],axes:{state:['default','dragover','uploading','done','error'],size:['s','m']},zh:{state:{default:'預設',dragover:'拖曳中',uploading:'上傳中',done:'完成',error:'錯誤'},size:{s:'精簡 s',m:'標準 m'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
     'table-toolbar':{label:'Table Toolbar 表格工具列',order:['filter','bulk','density'],axes:{filter:['none','applied'],bulk:['hidden','page','all'],density:['comfortable','compact']},bools:{views:'Views 已存檢視分頁',densityToggle:'Density toggle 列高切換'},zh:{filter:{none:'無條件',applied:'已套用條件'},bulk:{hidden:'未選取',page:'選取本頁',all:'全選符合條件'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{filter:'Filter 篩選',bulk:'Bulk 批次列',density:'Density 列高'}}},
     avatar:{label:'Avatar 頭像',order:['size','shape','content'],axes:{size:['xs','s','m','l','xl'],shape:['circle','rounded'],content:['image','initials','icon']},zh:{size:{xs:'極小 xs',s:'小 s',m:'標準 m',l:'大 l',xl:'特大 xl'},shape:{circle:'圓形',rounded:'圓角方'},content:{image:'照片',initials:'縮寫',icon:'圖示'},axisName:{size:'Size 尺寸',shape:'Shape 形狀',content:'Content 內容'}}},
-    segmented:{label:'Segmented 分段控制',order:['variant','size'],axes:{variant:['soft','outline'],size:['s','m']},zh:{variant:{soft:'柔色軌道',outline:'外框'},size:{s:'小 s',m:'標準 m'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
+    segmented:{label:'Segmented 分段控制',order:['variant','size'],axes:{variant:['soft','outline'],size:['s','m','l']},zh:{variant:{soft:'柔色軌道',outline:'外框'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 風格',size:'Size 尺寸'}}},
     chip:{label:'Chip 選擇膠囊',order:['type','state','size'],axes:{type:['single','multi'],state:['default','hover','selected','disabled'],size:['s','m','l']},bools:{dot:'Dot 色點',icon:'Icon 圖示'},zh:{type:{single:'單選',multi:'多選'},state:{default:'預設',hover:'滑過',selected:'選中',disabled:'停用'},size:{s:'s',m:'m',l:'l'},axisName:{type:'Type 類型',state:'State 狀態',size:'Size 尺寸'}}},
     slider:{label:'Slider 滑桿',order:['variant','type','size','state'],axes:{variant:['track','fill'],type:['single','range'],size:['s','m'],state:['default','hover','focus','disabled']},zh:{variant:{track:'軌道',fill:'填充'},type:{single:'單值',range:'區間'},size:{s:'細 s',m:'標準 m'},state:{default:'預設',hover:'滑過',focus:'聚焦',disabled:'停用'},axisName:{variant:'Variant 樣式',type:'Type 型態',size:'Size 尺寸',state:'State 狀態'}}},
     field:{label:'Field 表單欄位',order:['layout','state'],axes:{layout:['vertical','horizontal'],state:['default','filled','error','disabled']},zh:{layout:{vertical:'標籤在上',horizontal:'標籤在左'},state:{default:'預設',filled:'已填值',error:'錯誤',disabled:'停用'},axisName:{layout:'Layout 版面',state:'State 狀態'}}},
@@ -7690,8 +7694,8 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     popover:{label:'Popover 氣泡卡',order:['placement','size'],axes:{placement:['bottom','top','left','right'],size:['s','m','l']},zh:{placement:{bottom:'下方',top:'上方',left:'左側',right:'右側'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{placement:'Placement 方向',size:'Size 尺寸'}}},
     toggle:{label:'Toggle 開關',order:['state'],axes:{state:['off','on','disabled-off','disabled-on']},bools:{icon:'Icon 圓鈕圖示'},zh:{state:{off:'關',on:'開','disabled-off':'停用（關）','disabled-on':'停用（開）'},axisName:{state:'State 狀態'}}},
     tab:{label:'Tab 分頁',order:['variant','state','size'],
-      axes:{variant:['line','contained','soft','pill'],state:['default','hover','active','disabled'],size:['m','s']},
-      zh:{variant:{line:'底線',contained:'容器',soft:'灰底',pill:'藥丸'},state:{default:'預設',hover:'滑過',active:'選中',disabled:'停用'},size:{m:'標準 m',s:'小 s'},axisName:{variant:'Variant 風格',state:'State 狀態',size:'Size 尺寸'}}},
+      axes:{variant:['line','contained','soft','pill'],state:['default','hover','active','disabled'],size:['s','m','l']},
+      zh:{variant:{line:'底線',contained:'容器',soft:'灰底',pill:'藥丸'},state:{default:'預設',hover:'滑過',active:'選中',disabled:'停用'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 風格',state:'State 狀態',size:'Size 尺寸'}}},
     notification:{label:'Notification 通知',order:['variant','intent'],
       axes:{variant:['solid','outline','soft','dark'],intent:['success','warning','error','info']},
       zh:{axisName:{variant:'Variant 視覺風格',intent:'Intent 意圖'},variant:{solid:'實心',outline:'外框',soft:'柔色',dark:'半透明黑'},intent:{success:'成功',warning:'警告',error:'錯誤',info:'資訊'}}},
@@ -8534,7 +8538,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   });
   LIVE.tab=(host)=>mountLive(host,{gate:'tab',
     initial:{variant:'line',size:'m',icon:false,count:false},
-    segs:[{key:'variant',label:'Variant',options:['line','contained','soft','pill']},{key:'size',label:'Size',options:['s','m']}],
+    segs:[{key:'variant',label:'Variant',options:['line','contained','soft','pill']},{key:'size',label:'Size',options:['s','m','l']}],
     bools:[{key:'icon',label:'leading icon'},{key:'count',label:'count badge'}],
     render:st=>tabBarLive(st.variant,st)
   });
@@ -8820,10 +8824,10 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
   function buildTab(view){
     const body=viewScaffold(view,{eyebrow:'L3 Family · Tab',title:'Tab 分頁',
       lede:'Tab 家族：<b>分頁容器 tab、分頁項 tab-item、開關 toggle</b>。容器決定排版與 variant（<b>line 底線／contained 容器／soft 灰底／pill 藥丸</b>）；tab-item 是被 INSTANCE_SWAP 進去的原子（可帶 leading icon／count badge）；toggle 則是家族內的二元開關 atom。',
-      specRows:[['axes','tab-item：<code>variant × state × size</code>'],['formula','<code>4 × 4 × 2</code>（+ toggle 3 態）'],['token-policy','<code>semantic.surface/text/border.* / action.*</code>'],['composition','tab → N × tab-item（INSTANCE_SWAP）']]});
+      specRows:[['axes','tab-item：<code>variant × state × size</code>'],['formula','<code>4 × 4 × 3</code>（+ toggle 3 態）'],['token-policy','<code>semantic.surface/text/border.* / action.*</code>'],['composition','tab → N × tab-item（INSTANCE_SWAP）']]});
     const Z={default:['預設','default'],hover:['滑過','hover'],active:['選中','active'],disabled:['停用','disabled']};
     const VZ={line:'底線',contained:'容器',soft:'灰底',pill:'藥丸'};
-    const SZN={m:'標準 m',s:'小 s'};
+    const SZN={s:'小 s · 32',m:'標準 m · 40',l:'大 l · 48'};
     const axes=DIAL_SPECS.tab.axes, zh=DIAL_SPECS.tab.zh, active=CHOICE.tab.active; // 接中央 store
     let p;
     function renderM(){ if(!p)return; p.innerHTML='';
@@ -8831,7 +8835,7 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
       szs.forEach(sz=>p.appendChild(matrixPanel({badge:`size · ${sz}`,name:`${SZN[sz]}　底線／容器／灰底／藥丸 對照`,rows:ss,cols:vs,
         rowLab:s=>labHTML(Z[s][0],Z[s][1]),colLab:v=>labHTML(VZ[v],v),cell:(s,v)=>tabCell(v,s,sz),mincol:150}))); }
     mountDial(body,{axes,zh,active,onRender:renderM});
-    const sec=section(body,'State × Variant 矩陣','列＝狀態、欄＝四個 variant（底線／容器／灰底／藥丸）並排對照。size 有 <b>標準 m／小 s</b> 兩級——轉盤勾 size 會各出一張對照表。');p=panelsIn(sec);renderM();
+    const sec=section(body,'State × Variant 矩陣','列＝狀態、欄＝四個 variant（底線／容器／灰底／藥丸）並排對照。size 有 <b>小 s／標準 m／大 l</b> 三級（高度 32／40／48，對齊 Button）——轉盤勾 size 會各出一張對照表。');p=panelsIn(sec);renderM();
     const sl=section(body,'互動預覽與程式碼','切 variant／內容零件，下面分頁列可真的點擊切換選中；容器／灰底點選時有果凍彈跳。');
     LIVE.tab(sl);
 
@@ -8944,16 +8948,16 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     return g;}
   LIVE.segmented=(host)=>mountLive(host,{gate:'segmented',
     initial:{variant:'soft',size:'m',icon:false,full:false,disabled:false},
-    segs:[{key:'variant',label:'Variant',options:['soft','outline'],labels:['柔色軌道','外框']},{key:'size',label:'Size',options:['s','m']}],
+    segs:[{key:'variant',label:'Variant',options:['soft','outline'],labels:['柔色軌道','外框']},{key:'size',label:'Size',options:['s','m','l']}],
     bools:[{key:'icon',label:'icon 圖示'},{key:'full',label:'full-width 填滿'},{key:'disabled',label:'disabled 停用一項'}],boolLabel:'Content',
     render:(st,sync)=>{const w=ce('div');w.style.cssText='width:100%;max-width:420px;display:flex;justify-content:center;';
       w.appendChild(sgmEl(st.variant,st.size,{live:true,icon:st.icon,full:st.full,disabledIndex:st.disabled?3:null,onChange:()=>sync&&sync()}));return w;},
     note:'選中底色是一塊會滑動的指示器（與 tab pill 同一套 --accent 對比色）；可用方向鍵切換，Tab 只會停在選中的那一項。'});
   function buildSegmented(view){
     const body=viewScaffold(view,{eyebrow:'L3 Component · Segmented',title:'Segmented 分段控制',
-      lede:'在 2～5 個互斥選項間切換<b>同一份內容的呈現方式</b>（日／週／月、清單／格狀）。兩種 variant × 兩級 size（<b>2 × 2 = 4</b>）。選中樣式與 <a href="#tab">tab</a> pill 同一套：<code>--accent</code> 底＋<code>--primary-on</code> 字，深淺模式自動切換。',
-      specRows:[['axes','<code>variant × size</code>'],['formula','<code>2 × 2 = 4</code>'],['token-policy','<code>semantic.*.segmented.*</code>'],['features','icon / full-width / disabled-item']]});
-    const VN={soft:['柔色軌道','soft'],outline:['外框','outline']},SZN={s:['小','s · 26'],m:['標準','m · 32']};
+      lede:'在 2～5 個互斥選項間切換<b>同一份內容的呈現方式</b>（日／週／月、清單／格狀）。兩種 variant × 三級 size（<b>2 × 3 = 6</b>，高度 32／40／48 對齊 Button）。選中樣式與 <a href="#tab">tab</a> pill 同一套：<code>--accent</code> 底＋<code>--primary-on</code> 字，深淺模式自動切換。',
+      specRows:[['axes','<code>variant × size</code>'],['formula','<code>2 × 3 = 6</code>'],['token-policy','<code>semantic.*.segmented.*</code>'],['features','icon / full-width / disabled-item']]});
+    const VN={soft:['柔色軌道','soft'],outline:['外框','outline']},SZN={s:['小','s · 32'],m:['標準','m · 40'],l:['大','l · 48']};
     const axes=DIAL_SPECS.segmented.axes,zh=DIAL_SPECS.segmented.zh,active=CHOICE.segmented.active;let p;
     function renderM(){if(!p)return;p.innerHTML='';const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.size.filter(v=>active.size.has(v));
       p.appendChild(matrixPanel({badge:'item · 第二項選中',name:'Variant × Size',rows:vs,cols:ss,rowLab:v=>labHTML(VN[v][0],VN[v][1]),colLab:s=>labHTML(SZN[s][0],SZN[s][1]),
@@ -17532,7 +17536,7 @@ function buildScheduleChart(view){
     {g:'Container 容器',kind:'text',resp:true,note:'響應式：內容最大寬與頁面 gutter 隨裝置變（gutter 已接到頁面 .main）。',
      rows:[['--container-max','max width'],['--container-pad','gutter']],
      def:{'--container-max':['1280px','1024px','100%'],'--container-pad':['32px','24px','16px']}},
-    {g:'Control Height 控制項高度',kind:'text',note:'Button、Input、Dropdown 的最小高度：高度＝內容＋上下 padding，至少這麼高（字放大會跟著長）。',
+    {g:'Control Height 控制項高度',kind:'text',note:'Button、Input、Dropdown、Tab、Segmented、Pagination 的高度：s／m／l 三級共用這組數值；Button、Input、Dropdown 為最小高度（字放大會跟著長）。',
      rows:[['--ctl-h-xs','xs'],['--ctl-h-s','s'],['--ctl-h-m','m（預設）'],['--ctl-h-l','l']],
      def:{'--ctl-h-xs':'24px','--ctl-h-s':'32px','--ctl-h-m':'40px','--ctl-h-l':'48px'}},
     {g:'Font Weight 字重',kind:'text',
@@ -17748,6 +17752,10 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v42', date:'2026-11-11', title:'Tab、Segmented、Pagination 高度對齊 Button', items:[
+      {tag:'improve', t:'Tab、Segmented、Pagination 的高度改成跟 Button 一樣的 32／40／48，三種尺寸都綁控制項高度 token'},
+      {tag:'new', t:'Tab 與 Segmented 新增大尺寸 l（48）'},
+    ]},
     {v:'v41', date:'2026-11-11', title:'P3 元件全部完成', items:[
       {tag:'new', t:'新增 6 個元件：Time Picker、Color Picker、Cascader、Tree Select、Tour、Menubar（P3 全部完成）'},
     ]},
@@ -20993,6 +21001,7 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，單選與多選外觀相同。高度綁": " text; single and multi-select look the same. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
+  Object.assign(I18N_EN,{"Button、Input、Dropdown、Tab、Segmented、Pagination 的高度：s／m／l 三級共用這組數值；Button、Input、Dropdown 為最小高度（字放大會跟著長）。": "Heights for Button, Input, Dropdown, Tab, Segmented and Pagination: all s / m / l sizes share these values; for Button, Input and Dropdown they are minimum heights (they grow when text gets bigger).", "Tab、Segmented、Pagination 高度對齊 Button": "Tab, Segmented and Pagination heights match Button", "Tab、Segmented、Pagination 的高度改成跟 Button 一樣的 32／40／48，三種尺寸都綁控制項高度 token": "Tab, Segmented and Pagination now use the same 32 / 40 / 48 heights as Button, with all three sizes bound to the control-height tokens", "Tab 與 Segmented 新增大尺寸 l（48）": "Added a large size l (48) to Tab and Segmented", "小 s · 32": "Small s · 32", "標準 m · 40": "Default m · 40", "大 l · 48": "Large l · 48", "s · 32": "s · 32", "m · 40": "m · 40", "l · 48": "l · 48", "小 s · 32　底線／容器／灰底／藥丸 對照": "Small s · 32　line / contained / soft / pill compared", "標準 m · 40　底線／容器／灰底／藥丸 對照": "Regular m · 40　line / contained / soft / pill compared", "大 l · 48　底線／容器／灰底／藥丸 對照": "Large l · 48　line / contained / soft / pill compared", "（日／週／月、清單／格狀）。兩種 variant × 三級 size（": " (day / week / month, list / grid). Two variants × three sizes (", "，高度 32／40／48 對齊 Button）。選中樣式與": ", heights 32 / 40 / 48 match Button). The selected style matches the ", "三級（高度 32／40／48，對齊 Button）——轉盤勾 size 會各出一張對照表。": " — three sizes (heights 32 / 40 / 48, matching Button). Each size checked in the dial gets its own table.", "小 s／標準 m／大 l": "small s / regular m / large l"}); // CTL-H:v2
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
   const I18N_S={'在線':'Online','離線':'Offline','離開':'Away'};
