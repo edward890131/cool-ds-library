@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "0.2.0",
-    "generated": "2026-11-10",
+    "generated": "2026-11-11",
     "source": "library/gallery.html",
     "principle": "library-first canonical id；框架 L0 僅供 l0Ref 參考，id 主權在 library。",
     "counts": {
       "total": 97,
-      "ready": 91,
-      "planned": 6,
-      "withAxes": 79,
-      "noAxes": 18
+      "ready": 97,
+      "planned": 0,
+      "withAxes": 85,
+      "noAxes": 12
     }
   },
   "groups": [
@@ -1319,18 +1319,124 @@
         {
           "id": "tour",
           "name": "Tour 新手導覽",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
+          "axes": {
+            "order": [
+              "placement",
+              "step"
+            ],
+            "by": {
+              "placement": {
+                "axisName": "Placement 方向",
+                "options": [
+                  {
+                    "value": "bottom",
+                    "zh": "下方"
+                  },
+                  {
+                    "value": "top",
+                    "zh": "上方"
+                  },
+                  {
+                    "value": "left",
+                    "zh": "左側"
+                  },
+                  {
+                    "value": "right",
+                    "zh": "右側"
+                  }
+                ]
+              },
+              "step": {
+                "axisName": "Step 步驟",
+                "options": [
+                  {
+                    "value": "first",
+                    "zh": "第一步"
+                  },
+                  {
+                    "value": "middle",
+                    "zh": "中間步"
+                  },
+                  {
+                    "value": "last",
+                    "zh": "最後一步"
+                  }
+                ]
+              }
+            },
+            "bools": {
+              "progress": "Progress 進度",
+              "close": "Close 關閉鈕"
+            },
+            "variantCount": 12
+          },
           "priority": "P3",
           "note": "逐步導覽提示，可用在上手指南；3／7 套有。"
         },
         {
           "id": "menubar",
           "name": "Menubar 選單列",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
+          "axes": {
+            "order": [
+              "variant",
+              "state",
+              "size"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "bar",
+                    "zh": "外框"
+                  },
+                  {
+                    "value": "plain",
+                    "zh": "無框"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "hover",
+                    "zh": "滑過"
+                  },
+                  {
+                    "value": "open",
+                    "zh": "展開"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  }
+                ]
+              },
+              "size": {
+                "axisName": "Size 尺寸",
+                "options": [
+                  {
+                    "value": "s",
+                    "zh": "s"
+                  },
+                  {
+                    "value": "m",
+                    "zh": "m"
+                  }
+                ]
+              }
+            },
+            "variantCount": 16
+          },
           "priority": "P3",
           "note": "桌面 App 式選單列，工具型產品才需要；2／7 套有。"
         }
@@ -1852,36 +1958,220 @@
         {
           "id": "time-picker",
           "name": "Time Picker 時間選擇",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": "time-picker",
-          "axes": null,
+          "axes": {
+            "order": [
+              "variant",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "single",
+                    "zh": "單一時間"
+                  },
+                  {
+                    "value": "range",
+                    "zh": "時段"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "已選"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            },
+            "variantCount": 10
+          },
           "priority": "P3",
           "note": "時段預約等表單需要時再補；3／7 套有。"
         },
         {
           "id": "cascader",
           "name": "Cascader 多層選擇",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": "cascader",
-          "axes": null,
+          "axes": {
+            "order": [
+              "variant",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "single",
+                    "zh": "單選"
+                  },
+                  {
+                    "value": "multi",
+                    "zh": "多選"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "已選"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            },
+            "variantCount": 10
+          },
           "priority": "P3",
           "note": "地址（縣市→區）等多層選擇；2／7 套有。"
         },
         {
           "id": "tree-select",
           "name": "Tree Select 樹狀選擇",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
+          "axes": {
+            "order": [
+              "variant",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "single",
+                    "zh": "單選"
+                  },
+                  {
+                    "value": "multi",
+                    "zh": "多選"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "已選"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            },
+            "variantCount": 10
+          },
           "priority": "P3",
           "note": "tree-view＋dropdown 的組合；2／7 套有。"
         },
         {
           "id": "color-picker",
           "name": "Color Picker 選色器",
-          "status": "planned",
+          "status": "ready",
           "l0Ref": null,
-          "axes": null,
+          "axes": {
+            "order": [
+              "variant",
+              "state"
+            ],
+            "by": {
+              "variant": {
+                "axisName": "Variant 型態",
+                "options": [
+                  {
+                    "value": "swatch",
+                    "zh": "色票"
+                  },
+                  {
+                    "value": "full",
+                    "zh": "完整"
+                  }
+                ]
+              },
+              "state": {
+                "axisName": "State 狀態",
+                "options": [
+                  {
+                    "value": "default",
+                    "zh": "預設"
+                  },
+                  {
+                    "value": "focus",
+                    "zh": "聚焦"
+                  },
+                  {
+                    "value": "filled",
+                    "zh": "已選"
+                  },
+                  {
+                    "value": "disabled",
+                    "zh": "停用"
+                  },
+                  {
+                    "value": "error",
+                    "zh": "錯誤"
+                  }
+                ]
+              }
+            },
+            "variantCount": 10
+          },
           "priority": "P3",
           "note": "讓使用者自訂顏色時才需要；3／7 套有。"
         },

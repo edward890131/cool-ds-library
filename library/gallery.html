@@ -3833,6 +3833,108 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
   .dpk-pop-static{position:relative;top:auto;margin-top:6px;}
   .dpk-live-stage{align-items:flex-start;min-height:440px;}
 
+  /* ===== P3 表單選擇器共用（PKR-FIELD:v1）：Time Picker／Color Picker／Cascader／Tree Select 的欄位與浮層，同 Date Picker 的 .dpk 做法 ===== */
+  .pkr{position:relative;display:inline-flex;flex-direction:column;}
+  .pkr > .field{width:var(--pkr-w,220px);box-sizing:border-box;cursor:pointer;text-align:left;font:inherit;font-size:var(--fs-h10);}
+  .pkr > .field.st-disabled{cursor:not-allowed;}
+  .pkr > .field:focus-visible{outline:none;border-color:var(--accent);}
+  .pkr-body{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-1);}
+  .pkr-body .val{flex:1;min-width:0;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pkr-body .ph{flex:1;color:var(--faint);}
+  .pkr-chips{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-1);}
+  .pkr-more{font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
+  .pkr-err{margin-top:var(--sp-1);font-size:var(--fs-h12);color:var(--i-danger);}
+  .pkr-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:30;width:auto;padding:var(--sp-2);transform-origin:top left;}
+  .pkr-pop.pop-float{left:0;translate:none;}
+  .pkr-pop-static{position:relative;top:auto;margin-top:6px;}
+  .pkr-live-stage{align-items:flex-start;min-height:420px;}
+  .row-demo.pkr-demo-row{align-items:flex-start;}
+  /* Time Picker（tpk-）：時、分兩欄 */
+  .tpk-range{--pkr-w:240px;}
+  .tpk-panel{display:flex;flex-direction:column;gap:var(--sp-2);width:184px;}
+  .tpk-cols{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-1);}
+  .tpk-colwrap{display:flex;flex-direction:column;min-width:0;}
+  .tpk-col-h{font-size:var(--fs-h12);color:var(--muted);text-align:center;padding:var(--sp-1) 0;}
+  .tpk-col{position:relative;height:196px;overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:2px;padding:2px;scroll-behavior:smooth;}
+  .tpk-opt{justify-content:center;flex:0 0 auto;padding:var(--sp-2) 0;font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+  .tpk-opt.sel{background:var(--i-primary-tint);}
+  .tpk-foot{display:flex;justify-content:space-between;align-items:center;padding-top:var(--sp-2);border-top:1px solid var(--line);}
+  @media (prefers-reduced-motion:reduce){.tpk-col{scroll-behavior:auto;}}
+  /* Color Picker（cpk-）：色塊＝四邊等距正方形；平面與色相的漸層是選色器本身的色彩空間，不是 UI 色，所以用固定色 */
+  .cpk-sw{width:22px;height:22px;border-radius:var(--r-xs);border:1px solid var(--line-strong);box-sizing:border-box;flex:0 0 auto;background:var(--cpk-c,transparent);}
+  .cpk-sw.is-empty{background:linear-gradient(135deg,transparent 46%,var(--i-danger) 47%,var(--i-danger) 53%,transparent 54%);}
+  .cpk > .field .val{font-family:var(--font-mono);font-size:var(--fs-h11);text-transform:uppercase;}
+  .cpk-panel{display:flex;flex-direction:column;gap:var(--sp-3);width:236px;padding:var(--sp-1);}
+  .cpk-plane{position:relative;height:140px;border-radius:var(--r-sm);background:hsl(var(--cpk-h,20) 100% 50%);cursor:crosshair;touch-action:none;}
+  .cpk-plane::before,.cpk-plane::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;}
+  .cpk-plane::before{background:linear-gradient(90deg,#fff,rgba(255,255,255,0));}
+  .cpk-plane::after{background:linear-gradient(0deg,#000,rgba(0,0,0,0));}
+  .cpk-knob{position:absolute;z-index:1;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid #fff;box-sizing:border-box;box-shadow:0 0 0 1px rgba(0,0,0,.35),var(--e-sm);background:var(--cpk-c);outline:none;}
+  .cpk-knob:focus-visible{box-shadow:0 0 0 2px var(--accent),var(--e-sm);}
+  .cpk-hue .sld-track{background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);}
+  .cpk-hue .sld-fill{display:none;}
+  .cpk-row{display:flex;align-items:center;gap:var(--sp-2);}
+  .cpk-row .field{flex:1;min-width:0;}
+  .cpk-row .field input{font-family:var(--font-mono);text-transform:uppercase;}
+  .cpk-prev{width:var(--ctl-h-s);height:var(--ctl-h-s);}
+  .cpk-panel .chp-grp{--chp-gap:var(--sp-1);}
+  /* Cascader（csc-）：多欄並排 */
+  .csc{--pkr-w:260px;}
+  .csc-panel{display:flex;max-height:248px;}
+  .csc-col{width:136px;overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:2px;padding:2px;}
+  .csc-col + .csc-col{border-left:1px solid var(--line);margin-left:var(--sp-1);padding-left:calc(var(--sp-1) + 2px);}
+  .csc-opt{flex:0 0 auto;}
+  .csc-opt .csc-l{flex:1;min-width:0;}
+  .csc-opt > svg{width:14px;height:14px;color:var(--muted);flex:0 0 auto;}
+  .csc-opt.is-act{background:var(--panel-2);}
+  .csc-n{font-size:var(--fs-h12);color:var(--accent);font-family:var(--font-mono);}
+  /* Tree Select（tsl-）：浮層裡直接放 Tree View */
+  .tsl{--pkr-w:260px;}
+  .tsl-panel{width:236px;max-height:260px;overflow-y:auto;scrollbar-width:thin;}
+  .tsl-panel .trv-row{outline:none;}
+  .tsl-panel .trv-row:focus-visible{box-shadow:inset 0 0 0 1px var(--accent);}
+  /* Tour（tur-）：導覽卡沿用 .pop；遮罩色取用 modal 的 --s-scrim */
+  .tur-card{--pop-w:280px;}
+  .tur-card .tur-text{margin:0;color:var(--muted);line-height:1.6;}
+  .tur-foot{justify-content:space-between;align-items:center;}
+  .tur-acts{display:flex;gap:var(--sp-2);margin-left:auto;}
+  .tur-prog{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+  .tur-cell{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3);}
+  .tur-cell.pl-bottom{flex-direction:column;} .tur-cell.pl-top{flex-direction:column-reverse;} .tur-cell.pl-right{flex-direction:row;} .tur-cell.pl-left{flex-direction:row-reverse;}
+  .tur-ring{box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--accent);}
+  .tur-stage{display:flex;flex-direction:column;align-items:center;gap:var(--sp-4);width:100%;}
+  .tur-app{position:relative;width:100%;max-width:600px;min-height:330px;box-sizing:border-box;border:1px solid var(--line);border-radius:var(--r-md);background:var(--panel);overflow:hidden;}
+  .tur-bar{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-3);border-bottom:1px solid var(--line);}
+  .tur-bar .field{flex:1;min-width:0;}
+  .tur-rows{display:flex;flex-direction:column;}
+  .tur-row{display:grid;grid-template-columns:1fr 1fr auto;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--line);font-size:var(--fs-h11);color:var(--ink);}
+  .tur-row span:first-child{font-family:var(--font-mono);color:var(--muted);} .tur-row span:last-child{font-variant-numeric:tabular-nums;}
+  .tur-spot{position:absolute;left:0;top:0;z-index:5;width:0;height:0;border-radius:var(--r-sm);pointer-events:none;opacity:0;box-shadow:0 0 0 9999px var(--s-scrim);
+    transition:transform var(--dur-default) var(--ease-out),width var(--dur-default) var(--ease-out),height var(--dur-default) var(--ease-out),opacity var(--dur-fast) var(--ease-out);}
+  .tur-spot.is-on{opacity:1;}
+  .tur-app .tur-card.tur-float{position:absolute;z-index:6;animation:tur-in var(--dur-default) var(--ease-out);}
+  @keyframes tur-in{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.tur-spot{transition:none;}.tur-app .tur-card.tur-float{animation:none;}}
+  /* Menubar（mbr-）：上層＝Menu item、面板＝Action Menu */
+  .mbr{display:inline-flex;align-items:center;gap:2px;font-family:var(--font-sans);}
+  .mbr.mbr-v-bar{padding:var(--sp-1);border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);}
+  .mbr-it{position:relative;}
+  .mbr .mn-item{cursor:pointer;} .mbr .mn-item .mn-ind{display:none;}
+  .mbr .mn-item.is-open,.mbr .mn-item.is-open:hover{background:var(--panel-2);color:var(--ink);}
+  .mbr .mn-item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
+  .mbr-menu{position:absolute;top:calc(100% + 6px);left:0;z-index:30;}
+  .mbr-menu.is-end{left:auto;right:0;}
+  .mbr-menu .am-item .kbd-grp{margin-left:auto;padding-left:var(--sp-4);}
+  .mbr-menu .am-item{outline:none;}
+  .mbr-menu .am-item:not(.st-disabled):hover,.mbr-menu .am-item:not(.st-disabled):focus-visible{background:var(--panel-2);}
+  .mbr-menu.mbr-float{opacity:0;transform:translateY(-4px);transition:opacity var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);}
+  .mbr-menu.mbr-float.is-open{opacity:1;transform:none;}
+  .mbr-menu.mbr-float.no-anim{transition:none;}
+  .mbr-cell.is-open{min-height:250px;align-self:flex-start;}
+  .mbr-stage{display:flex;flex-direction:column;align-items:center;gap:var(--sp-4);width:100%;min-height:300px;}
+  .mbr-status{margin:auto 0 0;font-size:var(--fs-h11);color:var(--muted);}
+  @media (prefers-reduced-motion:reduce){.mbr-menu.mbr-float{transition:none;}}
+
   /* ── Dropzone 檔案上傳（drz-）：拖曳區＋檔案列；進度取用 Progress、按鈕取用 Button ── */
   .drz{display:flex;flex-direction:column;gap:var(--sp-3);width:100%;max-width:var(--drz-w,480px);font-family:var(--font-sans);}
   .drz-area{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--sp-2);padding:var(--sp-6) var(--sp-4);box-sizing:border-box;text-align:center;
@@ -7424,8 +7526,8 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
       {id:'pagination',name:'Pagination 分頁器',st:'ready'},
       {id:'step',name:'Step 步驟',st:'ready'},
       {id:'command',name:'Command 指令面板',st:'ready'},
-      {id:'tour',name:'Tour 新手導覽',st:'planned',pr:'P3',note:'逐步導覽提示，可用在上手指南；3／7 套有。'},
-      {id:'menubar',name:'Menubar 選單列',st:'planned',pr:'P3',note:'桌面 App 式選單列，工具型產品才需要；2／7 套有。'},
+      {id:'tour',name:'Tour 新手導覽',st:'ready'},
+      {id:'menubar',name:'Menubar 選單列',st:'ready'},
     ]},
     {group:'Form 表單',emoji:'✍️',ic:'textbox',items:[
       {id:'input',name:'Input 輸入框',st:'ready'},
@@ -7437,10 +7539,10 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
       {id:'chip',name:'Chip 選擇膠囊',st:'ready'},
       {id:'slider',name:'Slider 滑桿',st:'ready'},
       {id:'date-picker',name:'Date Picker 日期選擇',st:'ready'},
-      {id:'time-picker',name:'Time Picker 時間選擇',st:'planned',pr:'P3',note:'時段預約等表單需要時再補；3／7 套有。'},
-      {id:'cascader',name:'Cascader 多層選擇',st:'planned',pr:'P3',note:'地址（縣市→區）等多層選擇；2／7 套有。'},
-      {id:'tree-select',name:'Tree Select 樹狀選擇',st:'planned',pr:'P3',note:'tree-view＋dropdown 的組合；2／7 套有。'},
-      {id:'color-picker',name:'Color Picker 選色器',st:'planned',pr:'P3',note:'讓使用者自訂顏色時才需要；3／7 套有。'},
+      {id:'time-picker',name:'Time Picker 時間選擇',st:'ready'},
+      {id:'cascader',name:'Cascader 多層選擇',st:'ready'},
+      {id:'tree-select',name:'Tree Select 樹狀選擇',st:'ready'},
+      {id:'color-picker',name:'Color Picker 選色器',st:'ready'},
       {id:'dropzone',name:'Dropzone 檔案上傳',st:'ready'},
       {id:'quantity',name:'Quantity 商品計數',st:'ready'},
       {id:'field',name:'Field 表單欄位',st:'ready'},
@@ -7568,6 +7670,12 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     'context-menu':{label:'Context Menu 右鍵選單',order:['variant','size'],axes:{variant:['default','with-icon','with-shortcut'],size:['s','m','l']},zh:{variant:{default:'純文字','with-icon':'帶圖示','with-shortcut':'帶快捷鍵'},size:{s:'小 s',m:'標準 m',l:'大 l'},axisName:{variant:'Variant 型態',size:'Size 尺寸'}}},
     command:{label:'Command 指令面板',order:['state','size'],axes:{state:['default','results','empty'],size:['m','l']},zh:{state:{default:'預設（建議）',results:'搜尋結果',empty:'無結果'},size:{m:'標準 m',l:'寬 l'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
     'date-picker':{label:'Date Picker 日期選擇',order:['variant','state'],axes:{variant:['single','range'],state:['default','focus','filled','disabled','error']},zh:{variant:{single:'單日',range:'區間'},state:{default:'預設',focus:'聚焦',filled:'已選',disabled:'停用',error:'錯誤'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
+    'time-picker':{label:'Time Picker 時間選擇',order:['variant','state'],axes:{variant:['single','range'],state:['default','focus','filled','disabled','error']},zh:{variant:{single:'單一時間',range:'時段'},state:{default:'預設',focus:'聚焦',filled:'已選',disabled:'停用',error:'錯誤'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
+    'color-picker':{label:'Color Picker 選色器',order:['variant','state'],axes:{variant:['swatch','full'],state:['default','focus','filled','disabled','error']},zh:{variant:{swatch:'色票',full:'完整'},state:{default:'預設',focus:'聚焦',filled:'已選',disabled:'停用',error:'錯誤'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
+    cascader:{label:'Cascader 多層選擇',order:['variant','state'],axes:{variant:['single','multi'],state:['default','focus','filled','disabled','error']},zh:{variant:{single:'單選',multi:'多選'},state:{default:'預設',focus:'聚焦',filled:'已選',disabled:'停用',error:'錯誤'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
+    'tree-select':{label:'Tree Select 樹狀選擇',order:['variant','state'],axes:{variant:['single','multi'],state:['default','focus','filled','disabled','error']},zh:{variant:{single:'單選',multi:'多選'},state:{default:'預設',focus:'聚焦',filled:'已選',disabled:'停用',error:'錯誤'},axisName:{variant:'Variant 型態',state:'State 狀態'}}},
+    tour:{label:'Tour 新手導覽',order:['placement','step'],bools:{progress:'Progress 進度',close:'Close 關閉鈕'},axes:{placement:['bottom','top','left','right'],step:['first','middle','last']},zh:{placement:{bottom:'下方',top:'上方',left:'左側',right:'右側'},step:{first:'第一步',middle:'中間步',last:'最後一步'},axisName:{placement:'Placement 方向',step:'Step 步驟'}}},
+    menubar:{label:'Menubar 選單列',order:['variant','state','size'],axes:{variant:['bar','plain'],state:['default','hover','open','disabled'],size:['s','m']},zh:{variant:{bar:'外框',plain:'無框'},state:{default:'預設',hover:'滑過',open:'展開',disabled:'停用'},size:{s:'s',m:'m'},axisName:{variant:'Variant 型態',state:'State 狀態',size:'Size 尺寸'}}},
     dropzone:{label:'Dropzone 檔案上傳',order:['state','size'],axes:{state:['default','dragover','uploading','done','error'],size:['s','m']},zh:{state:{default:'預設',dragover:'拖曳中',uploading:'上傳中',done:'完成',error:'錯誤'},size:{s:'精簡 s',m:'標準 m'},axisName:{state:'State 狀態',size:'Size 尺寸'}}},
     'table-toolbar':{label:'Table Toolbar 表格工具列',order:['filter','bulk','density'],axes:{filter:['none','applied'],bulk:['hidden','page','all'],density:['comfortable','compact']},bools:{views:'Views 已存檢視分頁',densityToggle:'Density toggle 列高切換'},zh:{filter:{none:'無條件',applied:'已套用條件'},bulk:{hidden:'未選取',page:'選取本頁',all:'全選符合條件'},density:{comfortable:'寬鬆',compact:'緊湊'},axisName:{filter:'Filter 篩選',bulk:'Bulk 批次列',density:'Density 列高'}}},
     avatar:{label:'Avatar 頭像',order:['size','shape','content'],axes:{size:['xs','s','m','l','xl'],shape:['circle','rounded'],content:['image','initials','icon']},zh:{size:{xs:'極小 xs',s:'小 s',m:'標準 m',l:'大 l',xl:'特大 xl'},shape:{circle:'圓形',rounded:'圓角方'},content:{image:'照片',initials:'縮寫',icon:'圖示'},axisName:{size:'Size 尺寸',shape:'Shape 形狀',content:'Content 內容'}}},
@@ -9746,6 +9854,459 @@ document.addEventListener('DOMContentLoaded',()=>cbxAdopt(document));
     const os=section(body,'展開的樣子','浮層裡就是 calendar 元件本身，不另外畫一套日曆。');capRow(os,[['單日',dpkEl('single','focus',{panel:true})],['區間',dpkEl('range','focus',{panel:true})]]);
     usageSection(body,[['用 Date Picker','近期、需要看星期的日期（預約、出貨、活動）。'],['改成直接輸入','生日這類很久以前的日期 —— 用三個欄位或可打字的欄位，不要逼人翻幾十年。'],['改用 Calendar','日曆本身就是畫面主體（排班、行程）。']]);
     const sl=section(body,'互動預覽與程式碼','點欄位選日期。');LIVE['date-picker'](sl);
+  }
+
+  /* ======================================================================
+     P3 元件（2026-11-11）：Time Picker／Color Picker／Cascader／Tree Select／Tour／Menubar
+     ====================================================================== */
+
+  /* ---------- 選擇器共用（PKR-FIELD:v1）：欄位取用 Input 的 .field、浮層取用 Popover（.pop.pop-float），開合／外點／Esc 行為同 Date Picker ---------- */
+  /* pkrField(o)：o.cls 外層 class、o.icon 前置 SVG、o.state 狀態、o.ph 佔位、o.val 值（字串或節點）、o.label 讀屏名稱、o.caret 下拉箭頭、o.err 錯誤訊息 */
+  function pkrField(o){const w=ce('div','pkr '+o.cls);
+    const f=ce('div','field v-outline st-'+o.state+(o.caret?' dd':''));f.setAttribute('role','combobox');f.setAttribute('aria-haspopup',o.popup||'dialog');
+    f.setAttribute('aria-expanded','false');f.setAttribute('aria-label',o.label);if(o.state==='disabled')f.setAttribute('aria-disabled','true');else f.tabIndex=0;
+    if(o.icon)f.insertAdjacentHTML('beforeend',o.icon);
+    const body=ce('span','pkr-body');f.appendChild(body);
+    if(o.caret){const c=ce('span','ddcaret');c.innerHTML=ICON_CARET;f.appendChild(c);}
+    w.appendChild(f);w.__f=f;w.__body=body;w.__ph=o.ph;pkrSet(w,o.val);
+    if(o.state==='error'&&o.err)pkrErr(w,o.err);
+    return w;}
+  /* 換欄位顯示值：空值顯示佔位字；節點直接放入（多選 chip 等） */
+  function pkrSet(w,val){const b=w.__body;b.innerHTML='';
+    if(val==null||val===''||(Array.isArray(val)&&!val.length)){const p=ce('span','ph');p.textContent=w.__ph||'請選擇';b.appendChild(p);}
+    else if(val instanceof Node)b.appendChild(val);
+    else{const v=ce('span','val');v.textContent=val;b.appendChild(v);}}
+  /* 錯誤訊息：msg 為空就清掉紅框 */
+  function pkrErr(w,msg){const f=w.__f;let e=w.querySelector(':scope > .pkr-err');
+    if(!msg){f.classList.remove('st-error');if(e)e.remove();return;}
+    f.classList.add('st-error');if(!e){e=ce('div','pkr-err');f.after(e);}e.textContent=msg;}
+  /* 靜態展開（矩陣／展開的樣子用）：直接把面板放在欄位下方 */
+  function pkrStatic(w,panel){const pp=ce('div','pop pkr-pop pkr-pop-static');pp.appendChild(panel);w.appendChild(pp);w.__f.classList.add('st-open');const c=w.__f.querySelector('.ddcaret');if(c)c.classList.add('up');return w;}
+  /* 開合控制：panelFn(close) 回傳浮層內容 */
+  function pkrPop(stage,w,panelFn,o){o=o||{};const f=w.__f;let pp=null;
+    const caret=v=>{const c=f.querySelector('.ddcaret');if(c)c.classList.toggle('up',v);};
+    const close=back=>{if(!pp)return;pp.classList.remove('is-open');f.setAttribute('aria-expanded','false');f.classList.remove('st-open');caret(false);
+      const old=pp;pp=null;afterTransition(old,()=>old.remove());if(back)f.focus({preventScroll:true});};
+    const open=()=>{if(pp)return;pp=ce('div','pop pkr-pop pop-float'+(o.popCls?' '+o.popCls:''));pp.setAttribute('role',o.role||'dialog');pp.setAttribute('aria-label',o.label||'');
+      pp.appendChild(panelFn(close));w.appendChild(pp);void pp.offsetWidth;pp.classList.add('is-open');f.setAttribute('aria-expanded','true');f.classList.add('st-open');caret(true);
+      setTimeout(()=>{if(!pp)return;const t=pp.querySelector('[data-pkr-focus]')||pp.querySelector('[tabindex="0"],button:not(:disabled)');if(t)t.focus({preventScroll:true});},40);};
+    f.addEventListener('click',e=>{if(e.target.closest('.x'))return;pp?close(false):open();});
+    f.addEventListener('keydown',e=>{if(e.target!==f)return;if(['Enter',' ','ArrowDown'].includes(e.key)){e.preventDefault();open();}});
+    w.addEventListener('keydown',e=>{if(e.key==='Escape'&&pp){e.preventDefault();e.stopPropagation();close(true);}});
+    const outside=e=>{if(!stage.isConnected){document.removeEventListener('pointerdown',outside);return;}if(pp&&!w.contains(e.target))close(false);};
+    document.addEventListener('pointerdown',outside);
+    return {open,close,isOpen:()=>!!pp};}
+  /* 取用 Button 原子（s），改成指定文字 */
+  function pkrBtn(label,variant,intent){const b=mkBtn({variant,intent,size:'s',isLive:true});b.type='button';b.querySelector('span').textContent=label;return b;}
+  /* 多選欄位內容：取用 Dropdown 的 .ddchip；超過 max 顆收成「+N」；onRemove 給了才有 × */
+  function pkrChips(labels,o){o=o||{};const max=o.max||3;const frag=document.createDocumentFragment();
+    labels.slice(0,max).forEach(l=>{const c=ce('span','ddchip');const t=ce('span');t.textContent=l;c.appendChild(t);
+      if(o.onRemove){const x=ce('span','x');x.innerHTML=ICON_CLOSE;x.setAttribute('role','button');x.setAttribute('aria-label','移除 '+l);x.onclick=e=>{e.stopPropagation();o.onRemove(l);};c.appendChild(x);}
+      frag.appendChild(c);});
+    if(labels.length>max){const m=ce('span','pkr-more');m.textContent='+'+(labels.length-max);frag.appendChild(m);}
+    const s=ce('span','pkr-chips');s.appendChild(frag);return s;}
+  const PKR_STN={default:['預設','default'],focus:['聚焦','focus'],filled:['已選','filled'],disabled:['停用','disabled'],error:['錯誤','error']};
+
+  /* ---------- TIME PICKER 時間選擇（TPK:v1）：24 小時制；時、分兩欄捲動（分鐘 5 分一格），選項取用 Dropdown 的 .ddopt ---------- */
+  const TPK_H=[...Array(24)].map((_,i)=>i),TPK_M=[...Array(12)].map((_,i)=>i*5);
+  const tpkP2=n=>(n<10?'0':'')+n,tpkFmt=t=>tpkP2(t[0])+':'+tpkP2(t[1]);
+  /* tpkPanel(o)：o.range 時段；o.val 單一＝[時,分]、時段＝{s:[時,分],e:[時,分]}；o.live 可操作；o.onChange(值)、o.onDone() */
+  function tpkPanel(o){const box=ce('div','tpk-panel'+(o.range?' tpk-panel-range':''));
+    const v=o.range?{s:(o.val&&o.val.s||[9,0]).slice(),e:(o.val&&o.val.e||[18,0]).slice()}:(o.val||[14,30]).slice();
+    let which='s';const cur=()=>o.range?v[which]:v;
+    if(o.range)box.appendChild(sgmEl('soft','s',{live:!!o.live,full:true,items:['開始','結束'],active:0,onChange:i=>{which=i?'e':'s';paint(true);}}));
+    const cols=ce('div','tpk-cols');const lists=[];
+    [[TPK_H,'時'],[TPK_M,'分']].forEach(([list,lab],k)=>{const cw=ce('div','tpk-colwrap');const hd=ce('div','tpk-col-h');hd.textContent=lab;
+      const c=ce('div','tpk-col');c.setAttribute('role','listbox');c.setAttribute('aria-label',lab);
+      list.forEach(n=>{const b=ce('div','ddopt tpk-opt');b.setAttribute('role','option');b.tabIndex=-1;b.textContent=tpkP2(n);b.dataset.n=n;
+        if(o.live)b.onclick=()=>{cur()[k]=n;paint();emit();b.focus({preventScroll:true});};c.appendChild(b);});
+      if(o.live)c.addEventListener('keydown',e=>{const opts=[...c.children],i=opts.findIndex(x=>+x.dataset.n===cur()[k]);
+        if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=opts[(i+(e.key==='ArrowDown'?1:-1)+opts.length)%opts.length];cur()[k]=+n.dataset.n;paint(true);emit();n.focus({preventScroll:true});}
+        else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const t=lists[k?0:1].querySelector('.sel');if(t)t.focus({preventScroll:true});}
+        else if(e.key==='Enter'){e.preventDefault();if(o.onDone)o.onDone();}});
+      cw.append(hd,c);cols.appendChild(cw);lists.push(c);});
+    box.appendChild(cols);
+    /* 把選中項標起來並捲到欄位中間 */
+    function paint(scroll){lists.forEach((c,k)=>[...c.children].forEach(b=>{const on=+b.dataset.n===cur()[k];b.classList.toggle('sel',on);b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;
+      if(on&&scroll!==false)c.scrollTop=b.offsetTop-c.clientHeight/2+b.offsetHeight/2;}));
+      const s=lists[0].querySelector('.sel');if(s)s.dataset.pkrFocus='1';}
+    function emit(){if(o.onChange)o.onChange(o.range?{s:v.s.slice(),e:v.e.slice()}:v.slice());}
+    if(o.live){const ft=ce('div','tpk-foot');const now=pkrBtn('現在','text','secondary'),ok=pkrBtn('確定','solid','primary');
+      now.onclick=()=>{const d=new Date();const t=cur();t[0]=d.getHours();t[1]=Math.floor(d.getMinutes()/5)*5;paint(true);emit();};ok.onclick=()=>{if(o.onDone)o.onDone();};
+      ft.append(now,ok);box.appendChild(ft);}
+    paint(false);requestAnimationFrame(()=>paint(true));   /* 面板掛上去量得到高度後再捲到選中項 */
+    return box;}
+  function tpkEl(variant,state,o){o=o||{};const range=variant==='range';
+    const filled=['filled','error'].includes(state);
+    const val=o.value||(filled?(range?(state==='error'?'18:00 – 09:00':'09:00 – 18:00'):(state==='error'?'22:30':'14:30')):'');
+    const w=pkrField({cls:'tpk tpk-'+variant,icon:IC_CLOCK,state,ph:range?'開始 – 結束':'時:分',val,label:range?'選擇時段':'選擇時間',
+      err:range?'結束時間要晚於開始時間':'請選 09:00–18:00 之間的時間'});
+    if(o.panel)pkrStatic(w,tpkPanel({range,val:range?{s:[9,0],e:[18,0]}:[14,30]}));
+    return w;}
+  function tpkLive(variant){const range=variant==='range';const stage=ce('div','pop-live-stage pkr-live-stage');const w=tpkEl(variant,'default',{});
+    let val=range?{s:[9,0],e:[18,0]}:[14,30];
+    const show=()=>{pkrSet(w,range?tpkFmt(val.s)+' – '+tpkFmt(val.e):tpkFmt(val));
+      if(range){const a=val.s[0]*60+val.s[1],b=val.e[0]*60+val.e[1];pkrErr(w,b<=a?'結束時間要晚於開始時間':null);}};
+    pkrPop(stage,w,close=>tpkPanel({range,val,live:true,onChange:v=>{val=v;show();},onDone:()=>close(true)}),{label:range?'選擇時段':'選擇時間'});
+    stage.appendChild(w);return stage;}
+  LIVE['time-picker']=(host)=>mountLive(host,{gate:'time-picker',initial:{variant:'single'},
+    segs:[{key:'variant',label:'Variant',options:['single','range'],labels:['單一時間','時段']}],
+    render:st=>tpkLive(st.variant),
+    note:'24 小時制。點欄位（或 Enter／↓）打開；點時、分直接寫回欄位。↑↓ 換數字、←→ 換欄、Enter 或「確定」關閉；時段先切「開始／結束」再選，結束早於開始會即時標紅。'});
+  function buildTimePicker(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Time Picker',title:'Time Picker 時間選擇',
+      lede:'表單裡選時間的欄位，<b>一律 24 小時制</b>（09:00、18:30），不用上午／下午。欄位取用 <a href="#input">input</a> 的 field、浮層沿用 <a href="#popover">popover</a>、選項取用 <a href="#dropdown">dropdown</a> 的選項列，時段的開始／結束切換取用 <a href="#segmented">segmented</a>。兩種 variant × 五種狀態（<b>2 × 5 = 10</b>）。',
+      specRows:[['axes','<code>variant × state</code>'],['formula','<code>2 × 5 = 10</code>'],['token-policy','<code>semantic.*.input.* · semantic.*.popover.*</code>'],['features','24h / 5 分一格 / keyboard / range 檢查']]});
+    const VN={single:['單一時間','single'],range:['時段','range']};
+    const axes=DIAL_SPECS['time-picker'].axes,zh=DIAL_SPECS['time-picker'].zh,active=CHOICE['time-picker'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.state.filter(v=>active.state.has(v));
+      p.appendChild(matrixPanel({badge:'field · 收合',name:'State × Variant',rows:ss,cols:vs,rowLab:s=>labHTML(PKR_STN[s][0],PKR_STN[s][1]),colLab:v=>labHTML(VN[v][0],VN[v][1]),cell:(s,v)=>tpkEl(v,s,{}),mincol:300}));}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'State × Variant 矩陣','欄位外觀與 input 完全一致；時間一律 時:分（兩位數）與等寬數字，時段用「–」連接。');p=panelsIn(sec);renderM();
+    const os=section(body,'展開的樣子','時、分兩欄各自捲動，選中項置中；時段多一列「開始／結束」切換。');capRow(os,[['單一時間',tpkEl('single','filled',{panel:true})],['時段',tpkEl('range','filled',{panel:true})]]);os.querySelector('.row-demo').classList.add('pkr-demo-row');
+    usageSection(body,[['用 Time Picker','預約、營業時間、提醒這類要選「幾點幾分」的欄位。'],['改成直接輸入','熟手常打的時間（例如工時登錄），欄位可以直接打 0930。'],['改用 Chip','只有少數固定時段可選（10:00／14:00／16:00）。'],['搭配 Date Picker','同時要日期和時間時，兩個欄位並排，不要塞進同一個浮層。']]);
+    const sl=section(body,'互動預覽與程式碼','點欄位選時間。');LIVE['time-picker'](sl);
+  }
+
+  /* ---------- COLOR PICKER 選色器（CPK:v1）：色票版＝取用 Chip（帶色點）；完整版＝彩度平面＋色相滑桿（取用 Slider）＋色碼欄（取用 Input）＋色票 ---------- */
+  const CPK_PRESETS=[['#1C1C20','品牌黑'],['#2563EB','藍'],['#16A34A','綠'],['#EA580C','橘'],['#DB2777','桃紅'],['#7C3AED','紫']];
+  /* 色彩換算：hex ↔ HSV（h 0–360、s／v 0–1） */
+  function cpkHex2Hsv(hex){const m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return null;const n=parseInt(m[1],16),r=(n>>16&255)/255,g=(n>>8&255)/255,b=(n&255)/255;
+    const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;let h=0;
+    if(d){if(mx===r)h=((g-b)/d)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;if(h<0)h+=360;}
+    return {h,s:mx?d/mx:0,v:mx};}
+  function cpkHsv2Hex(h,s,v){const f=n=>{const k=(n+h/60)%6;return v-v*s*Math.max(0,Math.min(k,4-k,1));};
+    return '#'+[f(5),f(3),f(1)].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('').toUpperCase();}
+  /* cpkPanel(o)：o.variant swatch｜full；o.hex 目前色；o.live；o.onChange(hex) */
+  function cpkPanel(o){const box=ce('div','cpk-panel cpk-panel-'+o.variant);let hex=(o.hex||'#EA580C').toUpperCase();let hsv=cpkHex2Hsv(hex)||{h:20,s:.9,v:.9};
+    let chips=null;
+    const emit=()=>{if(o.onChange)o.onChange(hex);};
+    const presetVal=()=>{const f=CPK_PRESETS.find(x=>x[0]===hex);return f?f[0]:null;};
+    const mkChips=()=>chpGroup('single','s',{items:CPK_PRESETS.map(([c,l])=>({k:c,label:l,dot:c})),value:presetVal(),label:'預設顏色',live:!!o.live,
+      onChange:k=>{hex=k;hsv=cpkHex2Hsv(hex);paint('chip');emit();if(o.variant==='swatch'&&o.onDone)o.onDone();}});
+    let plane,knob,hue,hexIn,prev;
+    if(o.variant==='full'){
+      plane=ce('div','cpk-plane');knob=ce('span','cpk-knob');knob.setAttribute('role','slider');knob.setAttribute('aria-label','彩度與明度');knob.tabIndex=o.live?0:-1;knob.dataset.pkrFocus='1';plane.appendChild(knob);
+      hue=sldEl('single','s',o.live?'default':'default',{label:false,min:0,max:359,step:1,value:Math.round(hsv.h),title:'色相',live:!!o.live,onChange:x=>{hsv.h=x;hex=cpkHsv2Hex(hsv.h,hsv.s,hsv.v);paint('hue');emit();}});
+      hue.classList.add('cpk-hue');
+      const row=ce('div','cpk-row');prev=ce('span','cpk-sw cpk-prev');
+      const fld=ce('div','field v-outline fsz-s live-field');hexIn=document.createElement('input');hexIn.className='bare';hexIn.maxLength=7;hexIn.spellcheck=false;hexIn.setAttribute('aria-label','色碼');
+      if(!o.live)hexIn.tabIndex=-1;fld.appendChild(hexIn);row.append(prev,fld);
+      box.append(plane,hue,row);
+      if(o.live){
+        const at=e=>{const r=plane.getBoundingClientRect();hsv.s=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));hsv.v=Math.min(1,Math.max(0,1-(e.clientY-r.top)/r.height));hex=cpkHsv2Hex(hsv.h,hsv.s,hsv.v);paint('plane');emit();};
+        plane.addEventListener('pointerdown',e=>{e.preventDefault();plane.setPointerCapture(e.pointerId);at(e);knob.focus({preventScroll:true});
+          const mv=ev=>at(ev),up=()=>{plane.removeEventListener('pointermove',mv);plane.removeEventListener('pointerup',up);plane.removeEventListener('pointercancel',up);};
+          plane.addEventListener('pointermove',mv);plane.addEventListener('pointerup',up);plane.addEventListener('pointercancel',up);});
+        knob.addEventListener('keydown',e=>{const d={ArrowRight:[.02,0],ArrowLeft:[-.02,0],ArrowUp:[0,.02],ArrowDown:[0,-.02]}[e.key];if(!d)return;e.preventDefault();
+          hsv.s=Math.min(1,Math.max(0,hsv.s+d[0]));hsv.v=Math.min(1,Math.max(0,hsv.v+d[1]));hex=cpkHsv2Hex(hsv.h,hsv.s,hsv.v);paint('plane');emit();});
+        hexIn.addEventListener('input',()=>{let t=hexIn.value.trim();if(t&&t[0]!=='#')t='#'+t;const n=cpkHex2Hsv(t);fld.classList.toggle('st-error',!!t&&!n);
+          if(n){hex=t.toUpperCase();hsv=n;paint('input');emit();}});}
+    }
+    chips=mkChips();box.appendChild(chips);
+    /* 依來源更新其他部件（不改正在操作的那個，避免游標跳動） */
+    function paint(src){box.style.setProperty('--cpk-h',Math.round(hsv.h));box.style.setProperty('--cpk-c',hex);
+      if(plane){knob.style.left=(hsv.s*100)+'%';knob.style.top=((1-hsv.v)*100)+'%';knob.setAttribute('aria-valuetext',hex);
+        if(src!=='input')hexIn.value=hex;prev.style.setProperty('--cpk-c',hex);
+        if(src==='chip'||src==='input'){{/* 色相從色票／色碼來時，重建一顆同設定的 Slider（維持取用原子） */const nhue=sldEl('single','s','default',{label:false,min:0,max:359,step:1,value:Math.round(hsv.h),title:'色相',live:!!o.live,onChange:x=>{hsv.h=x;hex=cpkHsv2Hex(hsv.h,hsv.s,hsv.v);paint('hue');emit();}});nhue.classList.add('cpk-hue');hue.replaceWith(nhue);hue=nhue;}}}
+      if(chips&&src!=='chip')chips.__btns.forEach(b=>{const on=b.dataset.k===hex;b.setAttribute('aria-checked',String(on));});}
+    paint('init');return box;}
+  function cpkSwatch(hex){return '<span class="cpk-sw'+(hex?'':' is-empty')+'"'+(hex?' style="--cpk-c:'+hex+'"':'')+'></span>';}
+  function cpkEl(variant,state,o){o=o||{};const filled=['filled','error'].includes(state);
+    const hex=o.value||(state==='error'?'':(filled?'#EA580C':''));
+    const w=pkrField({cls:'cpk cpk-'+variant,icon:cpkSwatch(hex),state,ph:'#RRGGBB',val:state==='error'?'#EA58G0':hex,label:'選擇顏色',err:'色碼要是 # 加 6 位 0–9、A–F'});
+    if(o.panel)pkrStatic(w,cpkPanel({variant,hex:'#EA580C'}));
+    return w;}
+  function cpkLive(variant){const stage=ce('div','pop-live-stage pkr-live-stage');let hex='#EA580C';const w=cpkEl(variant,'filled',{value:hex});
+    const show=()=>{pkrSet(w,hex);const sw=w.__f.querySelector('.cpk-sw');sw.classList.remove('is-empty');sw.style.setProperty('--cpk-c',hex);};
+    pkrPop(stage,w,close=>cpkPanel({variant,hex,live:true,onChange:h=>{hex=h;show();},onDone:()=>close(true)}),{label:'選色器'});
+    stage.appendChild(w);return stage;}
+  LIVE['color-picker']=(host)=>mountLive(host,{gate:'color-picker',initial:{variant:'full'},
+    segs:[{key:'variant',label:'Variant',options:['swatch','full'],labels:['色票','完整']}],
+    render:st=>cpkLive(st.variant),
+    note:'色票版點一顆就套用並關閉；完整版可拖彩度平面（或聚焦後用方向鍵）、拉色相、直接打色碼，欄位即時跟著變。Esc 或點外面關閉。'});
+  function buildColorPicker(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Color Picker',title:'Color Picker 選色器',
+      lede:'讓使用者自訂顏色的欄位（標籤顏色、品牌主色）。欄位取用 <a href="#input">input</a> 的 field、浮層沿用 <a href="#popover">popover</a>；<b>色票版</b>的預設色取用 <a href="#chip">chip</a>（帶色點），<b>完整版</b>再加彩度平面、色相取用 <a href="#slider">slider</a>、色碼欄取用 input。兩種 variant × 五種狀態（<b>2 × 5 = 10</b>）。',
+      specRows:[['axes','<code>variant × state</code>'],['formula','<code>2 × 5 = 10</code>'],['token-policy','<code>semantic.*.input.* · semantic.*.popover.*</code>'],['features','HSV 平面 / hue / hex 輸入 / 預設色']]});
+    const VN={swatch:['色票','swatch'],full:['完整','full']};
+    const axes=DIAL_SPECS['color-picker'].axes,zh=DIAL_SPECS['color-picker'].zh,active=CHOICE['color-picker'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.state.filter(v=>active.state.has(v));
+      p.appendChild(matrixPanel({badge:'field · 收合',name:'State × Variant',rows:ss,cols:vs,rowLab:s=>labHTML(PKR_STN[s][0],PKR_STN[s][1]),colLab:v=>labHTML(VN[v][0],VN[v][1]),cell:(s,v)=>cpkEl(v,s,{}),mincol:280}));}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'State × Variant 矩陣','欄位左側色塊＝目前顏色（四邊等距的正方形），右側是等寬大寫色碼；沒選時色塊畫斜線。');p=panelsIn(sec);renderM();
+    const os=section(body,'展開的樣子','色票版只有預設色；完整版上面是彩度平面與色相，下面保留同一組預設色。');capRow(os,[['色票',cpkEl('swatch','filled',{panel:true})],['完整',cpkEl('full','filled',{panel:true})]]);os.querySelector('.row-demo').classList.add('pkr-demo-row');
+    usageSection(body,[['用 Color Picker','使用者真的需要「任意顏色」：標籤、行事曆分類、品牌設定。'],['只給色票','多數情境給 6～12 個預設色就夠，避免挑出看不清的顏色。'],['改用 Chip','只有幾個固定選項、而且每個都有名字（冷靜／自然／溫暖）。']]);
+    const sl=section(body,'互動預覽與程式碼','點欄位選顏色。');LIVE['color-picker'](sl);
+  }
+
+  /* ---------- CASCADER 多層選擇（CSC:v1）：欄位取用 Dropdown 的 .field.dd；面板多欄並排，選項取用 .ddopt、多選勾選框取用 Checkbox（cbxEl） ---------- */
+  const CSC_DATA=[{l:'台北市',c:['中正區','大安區','信義區','松山區','中山區']},{l:'新北市',c:['板橋區','永和區','中和區','新店區']},{l:'台中市',c:['西屯區','北屯區','南屯區']},
+    {l:'高雄市',c:['苓雅區','前鎮區','左營區']},{l:'花蓮縣',c:['花蓮市','吉安鄉']}];
+  /* cscPanel(o)：o.multi；o.val 單選＝[縣市索引,區索引]、多選＝Set('縣市索引:區索引')；o.live；o.onPick(值) */
+  function cscPanel(o){const box=ce('div','csc-panel');const multi=!!o.multi;let act=multi?(o.act||0):(o.val?o.val[0]:0);const sel=multi?new Set(o.val||[]):null;
+    const c1=ce('div','csc-col');c1.setAttribute('role','listbox');c1.setAttribute('aria-label','縣市');
+    const c2=ce('div','csc-col');c2.setAttribute('role','listbox');c2.setAttribute('aria-label','鄉鎮市區');if(multi)c2.setAttribute('aria-multiselectable','true');
+    box.append(c1,c2);
+    const cnt=ci=>[...sel].filter(k=>k.split(':')[0]==ci).length;
+    function draw1(){c1.innerHTML='';CSC_DATA.forEach((city,ci)=>{const it=ce('div','ddopt csc-opt'+(ci===act?' is-act':''));it.setAttribute('role','option');it.tabIndex=ci===act?0:-1;it.setAttribute('aria-expanded',String(ci===act));
+      const l=ce('span','csc-l');l.textContent=city.l;it.appendChild(l);
+      if(multi&&cnt(ci)){const n=ce('span','csc-n');n.textContent=cnt(ci);it.appendChild(n);}
+      it.insertAdjacentHTML('beforeend',PI('chevron-right'));
+      if(!multi&&o.val&&o.val[0]===ci)it.classList.add('sel');
+      if(o.live){it.onclick=()=>{act=ci;draw1();draw2();c1.children[ci].focus({preventScroll:true});};it.onmouseenter=()=>{if(act!==ci){act=ci;draw1();draw2();}};}
+      if(ci===act)it.dataset.pkrFocus='1';c1.appendChild(it);});}
+    function draw2(){c2.innerHTML='';CSC_DATA[act].c.forEach((d,di)=>{const k=act+':'+di;const it=ce('div','ddopt csc-opt');it.setAttribute('role','option');it.tabIndex=di?-1:0;
+      const on=multi?sel.has(k):(o.val&&o.val[0]===act&&o.val[1]===di);it.setAttribute('aria-selected',String(!!on));
+      if(multi){const cb=cbxEl(on?'checked':'default','s');cb.setAttribute('aria-hidden','true');it.appendChild(cb);}else if(on)it.classList.add('sel');
+      const l=ce('span','csc-l');l.textContent=d;it.appendChild(l);
+      if(o.live)it.onclick=()=>{if(multi){sel.has(k)?sel.delete(k):sel.add(k);draw1();draw2();c2.children[di].focus({preventScroll:true});if(o.onPick)o.onPick(new Set(sel));}
+        else{o.val=[act,di];if(o.onPick)o.onPick([act,di]);}};
+      c2.appendChild(it);});}
+    if(o.live)box.addEventListener('keydown',e=>{const col=e.target.closest('.csc-col');if(!col)return;const opts=[...col.children],i=opts.indexOf(e.target);
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=opts[(i+(e.key==='ArrowDown'?1:-1)+opts.length)%opts.length];
+        if(col===c1){n.click();}else n.focus({preventScroll:true});}
+      else if(e.key==='ArrowRight'&&col===c1){e.preventDefault();const f=c2.firstElementChild;if(f)f.focus({preventScroll:true});}
+      else if(e.key==='ArrowLeft'&&col===c2){e.preventDefault();c1.children[act].focus({preventScroll:true});}
+      else if((e.key==='Enter'||e.key===' ')&&i>=0){e.preventDefault();e.target.click();}});
+    draw1();draw2();return box;}
+  const cscLabel=v=>CSC_DATA[v[0]].l+' / '+CSC_DATA[v[0]].c[v[1]];
+  const cscNames=set=>[...set].map(k=>{const [a,b]=k.split(':');return CSC_DATA[a].c[b];});
+  function cscEl(variant,state,o){o=o||{};const multi=variant==='multi',filled=['filled','error'].includes(state);
+    let val='';if(filled)val=multi?pkrChips(['大安區','信義區','板橋區','永和區']):(state==='error'?'台北市':cscLabel([0,1]));
+    const w=pkrField({cls:'csc csc-'+variant,state,ph:'縣市 / 鄉鎮市區',val,label:'選擇地區',caret:true,popup:'listbox',err:multi?'最多選 3 區':'請選到鄉鎮市區'});
+    if(multi&&filled)w.__f.classList.add('multi');
+    if(o.panel)pkrStatic(w,cscPanel(multi?{multi,val:['0:1','0:2','1:0','1:1'],act:0}:{val:[0,1]}));
+    return w;}
+  function cscLive(variant){const multi=variant==='multi';const stage=ce('div','pop-live-stage pkr-live-stage');const w=cscEl(variant,'default',{});
+    let val=multi?new Set():null;
+    const show=()=>{if(multi){const names=cscNames(val);w.__f.classList.toggle('multi',!!names.length);
+        pkrSet(w,names.length?pkrChips(names,{onRemove:n=>{[...val].forEach(k=>{if(cscNames([k])[0]===n)val.delete(k);});show();}}):'');}
+      else pkrSet(w,val?cscLabel(val):'');};
+    pkrPop(stage,w,close=>cscPanel({multi,val:multi?val:val,live:true,onPick:v=>{val=v;show();if(!multi)close(true);}}),{label:'選擇地區',role:'group'});
+    stage.appendChild(w);return stage;}
+  LIVE.cascader=(host)=>mountLive(host,{gate:'cascader',initial:{variant:'single'},
+    segs:[{key:'variant',label:'Variant',options:['single','multi'],labels:['單選','多選']}],
+    render:st=>cscLive(st.variant),
+    note:'滑過或點縣市，右欄換成該縣市的區；單選點到區就寫回並關閉，多選可跨縣市勾選、縣市旁顯示已選數量。↑↓ 移動、→ 進下一層、← 回上一層、Enter 選取、Esc 關閉。'});
+  function buildCascader(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Cascader',title:'Cascader 多層選擇',
+      lede:'有上下層關係的選項，一層一欄往右展開（縣市 → 鄉鎮市區）。欄位取用 <a href="#dropdown">dropdown</a> 的 field 與選項列、浮層沿用 <a href="#popover">popover</a>、多選勾選框取用 <a href="#selector">checkbox</a>、已選項取用 dropdown 的 chip。兩種 variant × 五種狀態（<b>2 × 5 = 10</b>）。',
+      specRows:[['axes','<code>variant × state</code>'],['formula','<code>2 × 5 = 10</code>'],['token-policy','<code>semantic.*.input.* · semantic.*.popover.*</code>'],['features','hover 展開 / 跨層多選 / keyboard']]});
+    const VN={single:['單選','single'],multi:['多選','multi']};
+    const axes=DIAL_SPECS.cascader.axes,zh=DIAL_SPECS.cascader.zh,active=CHOICE.cascader.active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.state.filter(v=>active.state.has(v));
+      p.appendChild(matrixPanel({badge:'field · 收合',name:'State × Variant',rows:ss,cols:vs,rowLab:s=>labHTML(PKR_STN[s][0],PKR_STN[s][1]),colLab:v=>labHTML(VN[v][0],VN[v][1]),cell:(s,v)=>cscEl(v,s,{}),mincol:300}));}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'State × Variant 矩陣','單選在欄位顯示完整路徑（台北市 / 大安區）；多選只顯示最後一層，超過 3 個收成 +N。');p=panelsIn(sec);renderM();
+    const os=section(body,'展開的樣子','左欄是上層、右欄是目前上層的下一層；目前展開的上層用灰底標出。');capRow(os,[['單選',cscEl('single','filled',{panel:true})],['多選',cscEl('multi','filled',{panel:true})]]);os.querySelector('.row-demo').classList.add('pkr-demo-row');
+    usageSection(body,[['用 Cascader','2～3 層、每層選項不多的固定分類：地址、商品類別。'],['改用兩個 Dropdown','只有兩層、而且使用者習慣分開選（先選縣市再選區）。'],['改用 Tree Select','層數不固定、或要能選中間層（整個部門）。']]);
+    const sl=section(body,'互動預覽與程式碼','點欄位選地區。');LIVE.cascader(sl);
+  }
+
+  /* ---------- TREE SELECT 樹狀選擇（TSL:v1）：欄位取用 Dropdown 的 .field.dd；面板直接取用 Tree View（trvTree），多選＝Tree View 的 checkbox variant ---------- */
+  function tslData(){return [
+    {name:'產品部',ic:'folder',open:true,children:[{name:'設計組',ic:'file'},{name:'前端組',ic:'file'},{name:'後端組',ic:'file'}]},
+    {name:'營運部',ic:'folder',open:true,children:[{name:'客服組',ic:'file'},{name:'行銷組',ic:'file'}]},
+    {name:'管理部',ic:'folder',open:false,children:[{name:'人資組',ic:'file'},{name:'財務組',ic:'file'}]}];}
+  /* tslPanel(o)：o.multi；o.val 單選＝名稱、多選＝名稱陣列（只算最底層）；o.live；o.onPick(值) */
+  function tslPanel(o){const box=ce('div','tsl-panel');const multi=!!o.multi;const pre=new Set(multi?(o.val||[]):[]);
+    const mark=d=>{if(d.children){d.children.forEach(mark);d.checked=d.children.every(c=>c.checked);}else d.checked=pre.has(d.name);if(!multi&&d.name===o.val)d.sel=true;};
+    const data=tslData();data.forEach(mark);
+    const tree=trvTree(data,{variant:multi?'checkbox':'plain',live:!!o.live,showIcon:false,showCount:false,
+      onPick:(row,d)=>{if(multi){const cb=row.querySelector('.cbx');if(cb)cb.click();return;}
+        tree.querySelectorAll('.trv-row.is-selected').forEach(r=>r.classList.remove('is-selected'));row.classList.add('is-selected');if(o.onPick)o.onPick(d.name);}});
+    box.appendChild(tree);
+    const setCb=(cb,on)=>{cb.classList.toggle('st-checked',on);cb.classList.toggle('st-default',!on);cb.innerHTML=on?ICON_CHECK:'';cb.setAttribute('aria-checked',String(on));};
+    if(multi&&o.live){
+      /* Tree View 的勾選框只切換自己：這裡補上「勾上層＝整組、下層全勾＝上層自動勾」 */
+      tree.addEventListener('click',e=>{const cb=e.target.closest&&e.target.closest('.cbx');if(!cb)return;setTimeout(()=>{   /* 等 Tree View 自己的切換跑完再讀（capture 階段先到） */
+        const li=cb.closest('.trv-item'),on=cb.classList.contains('st-checked');
+        li.querySelectorAll('.trv-children .cbx').forEach(c=>setCb(c,on));
+        tree.querySelectorAll(':scope > .trv-item').forEach(top=>{const kids=[...top.querySelectorAll('.trv-children .cbx')];if(kids.length)setCb(top.querySelector('.trv-row .cbx'),kids.every(c=>c.classList.contains('st-checked')));});
+        if(o.onPick)o.onPick([...tree.querySelectorAll('.trv-children .cbx.st-checked')].map(c=>c.closest('.trv-row').querySelector('.trv-name').textContent));},0);},true);}
+    tree.querySelectorAll('.trv-row').forEach((r,i)=>{if(o.live){r.tabIndex=i?-1:0;}});
+    if(o.live)tree.addEventListener('keydown',e=>{const rows=[...tree.querySelectorAll('.trv-row')].filter(r=>r.offsetParent!==null),i=rows.indexOf(e.target);if(i<0)return;
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=rows[Math.min(rows.length-1,Math.max(0,i+(e.key==='ArrowDown'?1:-1)))];n.tabIndex=0;n.focus({preventScroll:true});}
+      else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const li=e.target.closest('.trv-item');const want=e.key==='ArrowRight';if(li.querySelector(':scope > .trv-children')&&li.classList.contains('is-open')!==want){e.preventDefault();li.querySelector('.trv-caret').click();}}
+      else if(e.key==='Enter'||e.key===' '){e.preventDefault();e.target.click();}});
+    const first=tree.querySelector('.trv-row');if(first)first.dataset.pkrFocus='1';
+    return box;}
+  function tslEl(variant,state,o){o=o||{};const multi=variant==='multi',filled=['filled','error'].includes(state);
+    let val='';if(filled)val=multi?pkrChips(['設計組','前端組','後端組','客服組']):(state==='error'?'管理部':'設計組');
+    const w=pkrField({cls:'tsl tsl-'+variant,state,ph:'選擇部門',val,label:'選擇部門',caret:true,popup:'tree',err:multi?'至少選一個組':'請選到組別，不能只選部門'});
+    if(multi&&filled)w.__f.classList.add('multi');
+    if(o.panel)pkrStatic(w,tslPanel(multi?{multi,val:['設計組','前端組','後端組','客服組']}:{val:'設計組'}));
+    return w;}
+  function tslLive(variant){const multi=variant==='multi';const stage=ce('div','pop-live-stage pkr-live-stage');const w=tslEl(variant,'default',{});let val=multi?[]:'';
+    let ctl=null;
+    const show=()=>{if(multi){w.__f.classList.toggle('multi',!!val.length);pkrSet(w,val.length?pkrChips(val,{onRemove:n=>{val=val.filter(x=>x!==n);show();if(ctl&&ctl.isOpen()){ctl.close(false);ctl.open();}}}):'');}else pkrSet(w,val);};
+    ctl=pkrPop(stage,w,close=>tslPanel({multi,val,live:true,onPick:v=>{val=v;show();if(!multi)close(true);}}),{label:'選擇部門',role:'group'});
+    stage.appendChild(w);return stage;}
+  LIVE['tree-select']=(host)=>mountLive(host,{gate:'tree-select',initial:{variant:'single'},
+    segs:[{key:'variant',label:'Variant',options:['single','multi'],labels:['單選','多選']}],
+    render:st=>tslLive(st.variant),
+    note:'面板就是 Tree View：點箭頭展開收合、點列選取。多選勾上層＝整組一起勾，下層全勾時上層自動勾上；欄位 chip 的 × 可以直接移除。↑↓ 移動、→ 展開、← 收合、Enter 選取、Esc 關閉。'});
+  function buildTreeSelect(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Tree Select',title:'Tree Select 樹狀選擇',
+      lede:'從階層資料裡選一個或多個項目（部門、資料夾、分類）。<b>就是 <a href="#dropdown">dropdown</a> 的欄位＋浮層裡放 <a href="#tree-view">tree view</a></b>：單選用 tree view 的 plain、多選用它的 checkbox variant，已選項取用 dropdown 的 chip。兩種 variant × 五種狀態（<b>2 × 5 = 10</b>）。',
+      specRows:[['axes','<code>variant × state</code>'],['formula','<code>2 × 5 = 10</code>'],['token-policy','<code>semantic.*.input.* · semantic.*.tree.*</code>'],['reuse','tree-view / dropdown field / ddchip / .cbx']]});
+    const VN={single:['單選','single'],multi:['多選','multi']};
+    const axes=DIAL_SPECS['tree-select'].axes,zh=DIAL_SPECS['tree-select'].zh,active=CHOICE['tree-select'].active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.state.filter(v=>active.state.has(v));
+      p.appendChild(matrixPanel({badge:'field · 收合',name:'State × Variant',rows:ss,cols:vs,rowLab:s=>labHTML(PKR_STN[s][0],PKR_STN[s][1]),colLab:v=>labHTML(VN[v][0],VN[v][1]),cell:(s,v)=>tslEl(v,s,{}),mincol:300}));}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'State × Variant 矩陣','單選顯示選中項名稱；多選顯示最底層的已選項，超過 3 個收成 +N。');p=panelsIn(sec);renderM();
+    const os=section(body,'展開的樣子','浮層裡就是 tree view 元件本身，不另外畫一套樹。');capRow(os,[['單選',tslEl('single','filled',{panel:true})],['多選',tslEl('multi','filled',{panel:true})]]);os.querySelector('.row-demo').classList.add('pkr-demo-row');
+    usageSection(body,[['用 Tree Select','階層深淺不一、或要能選到中間層的資料。'],['改用 Cascader','固定 2～3 層、每層一定要選到底（地址）。'],['改用 Tree View','樹本身就是畫面主體（檔案總管、側欄），不需要收進欄位。']]);
+    const sl=section(body,'互動預覽與程式碼','點欄位選部門。');LIVE['tree-select'](sl);
+  }
+
+  /* ---------- TOUR 新手導覽（TUR:v1）：卡片沿用 Popover（.pop＋箭頭＋標題列＋動作列），按鈕取用 Button；導覽時用遮罩把目標以外的區域壓暗 ---------- */
+  const TUR_STEPS=[{t:'search',title:'搜尋訂單',body:'輸入訂單編號或顧客名稱，結果會即時篩選。',pl:'bottom'},
+    {t:'filter',title:'篩選條件',body:'依狀態、日期篩選，條件會保留到下次打開。',pl:'bottom'},
+    {t:'add',title:'新增訂單',body:'電話或現場下單時，從這裡手動建立一筆訂單。',pl:'left'}];
+  /* turCard(placement,step,o)：step first｜middle｜last；o.progress 進度、o.close ×、o.idx／o.total、o.title／o.body、o.live、o.onPrev／onNext／onClose */
+  function turCard(placement,step,o){o=o||{};const pp=ce('div','pop tur-card pop-p-'+placement+' sz-m');pp.setAttribute('role','dialog');pp.setAttribute('aria-label',o.title||'新手導覽');
+    pp.appendChild(ce('span','pop-arrow'));
+    const hd=ce('div','pop-head');const t=ce('div','pop-title');t.textContent=o.title||'篩選條件';hd.appendChild(t);
+    if(o.close!==false){const x=ce('button','pop-x');x.type='button';x.setAttribute('aria-label','結束導覽');x.innerHTML=ICON_CLOSE;if(o.live)x.onclick=()=>o.onClose&&o.onClose();else x.tabIndex=-1;hd.appendChild(x);}
+    pp.appendChild(hd);
+    const bd=ce('div','pop-body');const tx=ce('p','tur-text');tx.textContent=o.body||'依狀態、日期篩選，條件會保留到下次打開。';bd.appendChild(tx);pp.appendChild(bd);
+    const ft=ce('div','pop-foot tur-foot');
+    const total=o.total||3,idx=o.idx!=null?o.idx:{first:0,middle:1,last:total-1}[step];
+    if(o.progress!==false){const pg=ce('span','tur-prog');pg.textContent=(idx+1)+' / '+total;pg.setAttribute('aria-label','第 '+(idx+1)+' 步，共 '+total+' 步');ft.appendChild(pg);}
+    const acts=ce('div','tur-acts');
+    const back=step==='first'?pkrBtn('略過','text','secondary'):pkrBtn('上一步','outline','secondary');
+    const next=pkrBtn(step==='last'?'完成':'下一步','solid','primary');next.dataset.pkrFocus='1';
+    if(o.live){back.onclick=()=>step==='first'?(o.onClose&&o.onClose()):(o.onPrev&&o.onPrev());next.onclick=()=>step==='last'?(o.onClose&&o.onClose()):(o.onNext&&o.onNext());}
+    else{back.tabIndex=-1;next.tabIndex=-1;}
+    acts.append(back,next);ft.appendChild(acts);pp.appendChild(ft);return pp;}
+  /* 矩陣格：目標（取用 Button＋聚光框）＋導覽卡，依 placement 排在目標的上下左右 */
+  const TUR_DEMO={title:'新增訂單',body:'電話或現場下單時，從這裡手動建立一筆訂單。'};
+  function turCell(placement,step,o){const c=ce('div','tur-cell pl-'+placement);const tg=pkrBtn('新增訂單','solid','primary');tg.tabIndex=-1;tg.classList.add('tur-ring');
+    c.append(tg,turCard(placement,step,Object.assign({},TUR_DEMO,o||{})));return c;}
+  function turLive(o){const stage=ce('div','tur-stage');const app=ce('div','tur-app');
+    /* 示範畫面：搜尋欄取用 Input、按鈕取用 Button、列表取用 List Item 的文字層級 */
+    const bar=ce('div','tur-bar');
+    const sf=ce('div','field v-outline fsz-s live-field');sf.innerHTML=PI('search');const si=document.createElement('input');si.className='bare';si.placeholder='搜尋訂單編號、顧客';sf.appendChild(si);sf.dataset.tur='search';
+    const fb=pkrBtn('篩選','outline','secondary');fb.dataset.tur='filter';const ab=pkrBtn('新增訂單','solid','primary');ab.dataset.tur='add';
+    bar.append(sf,fb,ab);app.appendChild(bar);
+    const rows=ce('div','tur-rows');[['ORD-1043','林志豪','NT$ 1,280'],['ORD-1046','吳佩珊','NT$ 3,560'],['ORD-1042','王小明','NT$ 860'],['ORD-1047','周子淇','NT$ 2,140']].forEach(r=>{const d=ce('div','tur-row');r.forEach(x=>{const s=ce('span');s.textContent=x;d.appendChild(s);});rows.appendChild(d);});
+    app.appendChild(rows);
+    const spot=ce('div','tur-spot');app.appendChild(spot);
+    const start=pkrBtn('開始導覽','solid','primary');start.classList.add('tur-start');
+    stage.append(app,start);
+    let i=-1,card=null,returnTo=null;
+    const end=()=>{if(card){card.remove();card=null;}spot.classList.remove('is-on');app.classList.remove('is-touring');i=-1;(returnTo||start).focus({preventScroll:true});};
+    const go=n=>{i=n;const s=TUR_STEPS[i];const tg=app.querySelector('[data-tur="'+s.t+'"]');const step=i===0?'first':i===TUR_STEPS.length-1?'last':'middle';
+      if(card)card.remove();
+      card=turCard(s.pl,step,{live:true,title:s.title,body:s.body,idx:i,total:TUR_STEPS.length,progress:o.progress,close:o.close,onPrev:()=>go(i-1),onNext:()=>go(i+1),onClose:end});
+      card.classList.add('tur-float');app.appendChild(card);app.classList.add('is-touring');
+      /* 用元件座標定位（外層被縮放時換算） */
+      const ar=app.getBoundingClientRect(),k=ar.width?app.offsetWidth/ar.width:1,r=tg.getBoundingClientRect();
+      const x=(r.left-ar.left)*k,y=(r.top-ar.top)*k,w=r.width*k,h=r.height*k,pad=4,gap=12;
+      spot.style.transform=`translate(${x-pad}px,${y-pad}px)`;spot.style.width=(w+pad*2)+'px';spot.style.height=(h+pad*2)+'px';spot.classList.add('is-on');
+      const cw=card.offsetWidth,ch=card.offsetHeight,W=app.clientWidth;let cx,cy;
+      if(s.pl==='bottom'){cx=Math.min(W-cw-8,Math.max(8,x+w/2-cw/2));cy=y+h+pad+gap;}
+      else if(s.pl==='top'){cx=Math.min(W-cw-8,Math.max(8,x+w/2-cw/2));cy=y-pad-gap-ch;}
+      else if(s.pl==='left'){cx=x-pad-gap-cw;cy=y+h/2-ch/2;}else{cx=x+w+pad+gap;cy=y+h/2-ch/2;}
+      if(s.pl==='left'&&cx<8){/* 左邊放不下就改放下方 */card.classList.replace('pop-p-left','pop-p-bottom');cx=Math.min(W-cw-8,Math.max(8,x+w/2-cw/2));cy=y+h+pad+gap;}
+      cy=Math.max(8,cy);card.style.left=cx+'px';card.style.top=cy+'px';
+      /* 卡片被推離置中位置時，箭頭仍對準目標中心 */
+      const arw=card.querySelector('.pop-arrow');if(card.classList.contains('pop-p-bottom')||card.classList.contains('pop-p-top'))arw.style.left=(x+w/2-cx-5)+'px';
+      else arw.style.top=Math.min(ch-18,Math.max(8,y+h/2-cy-5))+'px';
+      setTimeout(()=>{const f=card&&card.querySelector('[data-pkr-focus]');if(f)f.focus({preventScroll:true});},30);};
+    start.onclick=()=>{returnTo=start;go(0);};
+    app.addEventListener('keydown',e=>{if(i<0)return;if(e.key==='Escape'){e.preventDefault();e.stopPropagation();end();}
+      else if(e.key==='ArrowRight'&&i<TUR_STEPS.length-1){e.preventDefault();go(i+1);}else if(e.key==='ArrowLeft'&&i>0){e.preventDefault();go(i-1);}});
+    if(window.ResizeObserver)new ResizeObserver(()=>{if(i>=0&&card)go(i);}).observe(app);
+    return stage;}
+  LIVE.tour=(host)=>mountLive(host,{gate:'tour',initial:{progress:true,close:true},
+    bools:[{key:'progress',label:'progress 進度'},{key:'close',label:'close ×'}],boolLabel:'Content',
+    render:st=>turLive(st),
+    note:'按「開始導覽」，遮罩把目標以外壓暗、導覽卡指向目標；右邊放不下時自動改放下方。→／← 換步、Esc 或 × 結束，結束後焦點回到「開始導覽」。'});
+  function buildTour(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Tour',title:'Tour 新手導覽',
+      lede:'第一次使用時，一步步指出畫面上的重點。導覽卡沿用 <a href="#popover">popover</a>（箭頭、標題列、動作列）、按鈕取用 <a href="#button">button</a>；導覽時用和 <a href="#modal">modal</a> 相同的遮罩色把目標以外壓暗。<b>placement × step（4 × 3 = 12）</b>，進度與關閉鈕是 boolean。',
+      specRows:[['axes','<code>placement × step</code>'],['formula','<code>4 × 3 = 12</code>'],['boolean','<code>progress · close</code>'],['token-policy','<code>semantic.*.popover.* · --s-scrim</code>']]});
+    const PN={bottom:['下方','bottom'],top:['上方','top'],left:['左側','left'],right:['右側','right']},SN={first:['第一步','first'],middle:['中間步','middle'],last:['最後一步','last']};
+    const axes=DIAL_SPECS.tour.axes,zh=DIAL_SPECS.tour.zh,active=CHOICE.tour.active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const ps=axes.placement.filter(v=>active.placement.has(v)),ss=axes.step.filter(v=>active.step.has(v));
+      ps.forEach(pl=>p.appendChild(matrixPanel({badge:'placement · '+pl,name:PN[pl][0]+' '+PN[pl][1],rows:['card'],cols:ss,rowLab:()=>labHTML('導覽卡','card'),colLab:s=>labHTML(SN[s][0],SN[s][1]),cell:(r,s)=>turCell(pl,s,{}),mincol:pl==='left'||pl==='right'?440:300})));}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'Placement × Step 矩陣','每個方向一塊；欄＝步驟。第一步左鈕是「略過」、中間步是「上一步」、最後一步主鈕變「完成」。');p=panelsIn(sec);renderM();
+    const cs=section(body,'Content 內容','boolean：progress 進度（1 / 3）、close 右上角 ×。');
+    capRow(cs,[['完整',turCard('bottom','middle',TUR_DEMO)],['無進度',turCard('bottom','middle',Object.assign({progress:false},TUR_DEMO))],['無 ×',turCard('bottom','middle',Object.assign({close:false},TUR_DEMO))]]);
+    usageSection(body,[['用 Tour','新功能上線、或第一次進到複雜頁面時，3～5 步帶過重點。'],['不要用來教基本操作','需要導覽才會用的介面，先改介面本身。'],['改用 Tooltip','只想補充一個按鈕的說明，不需要步驟。'],['改用 Empty','頁面還沒有資料時，用空狀態說明下一步就好。']]);
+    const sl=section(body,'互動預覽與程式碼','按「開始導覽」試一次。');LIVE.tour(sl);
+  }
+
+  /* ---------- MENUBAR 選單列（MBR:v1）：上層取用 Menu item（mnItem），下拉面板取用 Action Menu（.am-panel／.am-item），快捷鍵取用 Kbd ---------- */
+  const MBR_MENUS=[
+    {l:'檔案',items:[{l:'新增檔案',k:['mod','N']},{l:'開啟…',k:['mod','O']},{div:1},{l:'儲存',k:['mod','S']},{l:'另存新檔…',k:['shift','mod','S']}]},
+    {l:'編輯',items:[{l:'復原',k:['mod','Z']},{l:'重做',k:['shift','mod','Z']},{div:1},{l:'剪下',k:['mod','X']},{l:'複製',k:['mod','C']},{l:'貼上',k:['mod','V']}]},
+    {l:'檢視',items:[{l:'放大',k:['mod','+']},{l:'縮小',k:['mod','-']},{div:1},{l:'顯示側欄',k:['mod','B']},{l:'全螢幕',k:['ctrl','mod','F'],dis:true}]},
+    {l:'說明',items:[{l:'快捷鍵一覽',k:['mod','/']},{l:'回報問題'}]}];
+  /* 下拉面板：取用 Action Menu 的面板與項目，右側放 Kbd */
+  function mbrMenu(menu,o){o=o||{};const p=ce('div','am-panel sz-l mbr-menu');p.setAttribute('role','menu');p.setAttribute('aria-label',menu.l);
+    menu.items.forEach((it,i)=>{if(it.div){const d=ce('div','am-divider');d.setAttribute('role','separator');p.appendChild(d);return;}
+      const a=amItem(it.l,{state:it.dis?'disabled':(o.hover===i?'hover':null)});a.setAttribute('role','menuitem');a.tabIndex=-1;if(it.dis)a.setAttribute('aria-disabled','true');
+      if(it.k)a.appendChild(kbdEl(it.k,'s','ghost',{platform:'mac'}));p.appendChild(a);});
+    return p;}
+  /* mbrEl(variant,state,size,o)：state 套在第二個選單（編輯）上；open＝展開它的面板 */
+  function mbrEl(variant,state,size,o){o=o||{};const bar=ce('div','mbr mbr-v-'+variant+' mbr-sz-'+size);bar.setAttribute('role','menubar');bar.setAttribute('aria-label','應用程式選單');
+    MBR_MENUS.forEach((m,i)=>{const wrap=ce('div','mbr-it');const st=i===1?state:'default';
+      const t=mnItem(st==='open'?'hover':st==='disabled'?'disabled':st==='hover'?'hover':'default',size,{label:m.l});t.setAttribute('role','menuitem');t.setAttribute('aria-haspopup','menu');t.setAttribute('aria-expanded',String(st==='open'));
+      if(st==='open')t.classList.add('is-open');if(!o.live)t.tabIndex=-1;
+      wrap.appendChild(t);if(st==='open')wrap.appendChild(mbrMenu(m,{hover:0}));bar.appendChild(wrap);});
+    return bar;}
+  function mbrLive(variant,size,syncCode){const stage=ce('div','mbr-stage');const bar=mbrEl(variant,'default',size,{live:true});const status=ce('p','mbr-status');status.setAttribute('aria-live','polite');status.textContent='還沒執行任何指令';
+    stage.append(bar,status);
+    const tops=[...bar.querySelectorAll(':scope > .mbr-it > .mn-item')];let cur=-1,menu=null;
+    tops.forEach((t,i)=>{t.tabIndex=i?-1:0;});
+    const items=()=>menu?[...menu.querySelectorAll('.am-item:not(.st-disabled)')]:[];
+    const close=back=>{if(menu){const m=menu;m.classList.remove('is-open');afterTransition(m,()=>m.remove());menu=null;}
+      if(cur>=0){tops[cur].classList.remove('is-open');tops[cur].setAttribute('aria-expanded','false');if(back)tops[cur].focus({preventScroll:true});}cur=-1;};
+    const open=(i,focusFirst)=>{if(cur===i&&menu)return;const was=cur>=0;close(false);cur=i;const t=tops[i];tops.forEach((x,j)=>x.tabIndex=j===i?0:-1);
+      t.classList.add('is-open');t.setAttribute('aria-expanded','true');menu=mbrMenu(MBR_MENUS[i]);menu.classList.add('mbr-float');if(was)menu.classList.add('no-anim');
+      t.parentNode.appendChild(menu);
+      /* 右邊放不下就改成靠右對齊（預覽欄較窄時，快捷鍵不會被切掉） */
+      const sr=stage.getBoundingClientRect(),mr=menu.getBoundingClientRect();if(mr.right>sr.right-4)menu.classList.add('is-end');
+      void menu.offsetWidth;menu.classList.add('is-open');
+      items().forEach((a,j)=>{a.onclick=()=>{status.textContent='已執行：'+MBR_MENUS[i].l+' › '+a.querySelector('.am-lb').textContent;close(true);};});
+      if(focusFirst){const f=items()[0];if(f)f.focus({preventScroll:true});}
+      if(syncCode)syncCode();};
+    tops.forEach((t,i)=>{t.addEventListener('click',()=>{cur===i?close(false):open(i,false);});
+      t.addEventListener('mouseenter',()=>{if(cur>=0&&cur!==i){const kb=bar.contains(document.activeElement);open(i,false);if(kb)t.focus({preventScroll:true});}});});   /* 焦點跟著滑鼠換到的選單，鍵盤接著操作才不會錯位 */
+    bar.addEventListener('keydown',e=>{const ti=tops.indexOf(e.target),its=items(),ii=its.indexOf(e.target);
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const base=ti>=0?ti:cur;const n=(base+(e.key==='ArrowRight'?1:-1)+tops.length)%tops.length;
+        if(menu)open(n,ii>=0);else{tops.forEach((x,j)=>x.tabIndex=j===n?0:-1);tops[n].focus({preventScroll:true});}}
+      else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();if(ti>=0){open(ti,false);const l=items();const f=e.key==='ArrowDown'?l[0]:l[l.length-1];if(f)f.focus({preventScroll:true});}
+        else if(ii>=0){const n=its[(ii+(e.key==='ArrowDown'?1:-1)+its.length)%its.length];n.focus({preventScroll:true});}}
+      else if(e.key==='Enter'||e.key===' '){if(ti>=0){e.preventDefault();open(ti,true);}else if(ii>=0){e.preventDefault();e.target.click();}}
+      else if(e.key==='Escape'&&menu){e.preventDefault();e.stopPropagation();close(true);}
+      else if(e.key==='Tab'&&menu)close(false);});
+    const outside=e=>{if(!stage.isConnected){document.removeEventListener('pointerdown',outside);return;}if(menu&&!bar.contains(e.target))close(false);};
+    document.addEventListener('pointerdown',outside);
+    return stage;}
+  LIVE.menubar=(host)=>mountLive(host,{gate:'menubar',initial:{variant:'bar',size:'m'},
+    segs:[{key:'variant',label:'Variant',options:['bar','plain'],labels:['外框','無框']},{key:'size',label:'Size',options:['s','m']}],
+    render:(st,sync)=>mbrLive(st.variant,st.size,sync),
+    note:'點「檔案」打開後，滑鼠滑到其他選單會直接切換（不用再點）。←→ 換選單、↓ 進入項目、↑↓ 移動、Enter 執行、Esc 關閉並回到上層；停用項目會被跳過。'});
+  function buildMenubar(view){
+    const body=viewScaffold(view,{eyebrow:'L3 Component · Menubar',title:'Menubar 選單列',
+      lede:'桌面 App 式的「檔案／編輯／檢視」選單列，給編輯器、後台這類工具型產品。上層取用 <a href="#menu">menu</a> 的項目、下拉面板取用 <a href="#action-menu">action menu</a>、快捷鍵取用 <a href="#kbd">kbd</a>。<b>variant × state × size（2 × 4 × 2 = 16）</b>。',
+      specRows:[['axes','<code>variant × state × size</code>'],['formula','<code>2 × 4 × 2 = 16</code>'],['token-policy','<code>semantic.*.menu.* · semantic.*.popover.*</code>'],['reuse','menu item / action menu / kbd']]});
+    const VN={bar:['外框','bar'],plain:['無框','plain']},SN={default:['預設','default'],hover:['滑過','hover'],open:['展開','open'],disabled:['停用','disabled']};
+    const axes=DIAL_SPECS.menubar.axes,zh=DIAL_SPECS.menubar.zh,active=CHOICE.menubar.active;let p;
+    function renderM(){if(!p)return;p.innerHTML='';const vs=axes.variant.filter(v=>active.variant.has(v)),ss=axes.state.filter(v=>active.state.has(v)),zs=axes.size.filter(v=>active.size.has(v));
+      zs.forEach(z=>p.appendChild(matrixPanel({badge:'size · '+z,name:'State × Variant',rows:ss,cols:vs,rowLab:s=>labHTML(SN[s][0],SN[s][1]),colLab:v=>labHTML(VN[v][0],VN[v][1]),
+        cell:(s,v)=>{const c=ce('div','mbr-cell'+(s==='open'?' is-open':''));c.appendChild(mbrEl(v,s,z,{}));return c;},mincol:340})));}
+    mountDial(body,{axes,zh,active,onRender:renderM});
+    const sec=section(body,'State × Variant 矩陣','狀態示範在「編輯」上；展開時面板接在選單下方，項目右側對齊快捷鍵。');p=panelsIn(sec);renderM();
+    usageSection(body,[['用 Menubar','桌面型的工具產品，指令多、使用者會記快捷鍵（編輯器、設計工具）。'],['改用 Header＋Action Menu','一般網站或後台：主要導覽放 header，少數動作收進「更多」。'],['改用 Command','指令很多但不想佔畫面空間，讓熟手用 ⌘K 叫出來。']]);
+    const sl=section(body,'互動預覽與程式碼','點「檔案」打開，再滑到其他選單。');LIVE.menubar(sl);
   }
 
   /* ---------- DROPZONE 檔案上傳 ---------- */
@@ -16894,7 +17455,7 @@ function buildScheduleChart(view){
     'tpl-web-blog':[...TWS_SHELL,'selector','dropdown','article-card','image','tag','skeleton','empty'],
     'tpl-web-news':[...TWS_SHELL,'news-item','tab','dropdown','tag','pagination','skeleton','empty'],
     'tpl-web-article':[...TWS_SHELL,'product-tile','link','image','alert','table','price','skeleton','empty']});
-  const BUILD={chip:buildChip,'news-item':buildNewsItem,'product-tile':buildProductTile,'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,'trend-card':buildTrendCard,'media-card':buildMediaCard,'weather-card':buildWeatherCard,'player-card':buildPlayerCard,'ticket-card':buildTicketCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar,'ai-avatar':buildAiAvatar,'chat-message':buildChatMessage,'chat-thinking':buildChatThinking,'chat-composer':buildChatComposer,'prompt-suggestion':buildPromptSuggestion,'chat-error':buildChatError,'tpl-ai-chat':buildTplAiChat,'tpl-admin-dashboard':v=>buildTplAdmin(v,'dashboard'),'tpl-admin-report':v=>buildTplAdmin(v,'report'),'tpl-admin-list':v=>buildTplAdmin(v,'list'),'tpl-admin-detail':v=>buildTplAdmin(v,'detail'),'tpl-admin-form':v=>buildTplAdmin(v,'form'),'tpl-web-product':v=>buildTplWeb(v,'product'),'tpl-web-blog':v=>buildTplWeb(v,'blog'),'tpl-web-news':v=>buildTplWeb(v,'news'),'tpl-web-article':v=>buildTplWeb(v,'article')};
+  const BUILD={'time-picker':buildTimePicker,'color-picker':buildColorPicker,cascader:buildCascader,'tree-select':buildTreeSelect,tour:buildTour,menubar:buildMenubar,chip:buildChip,'news-item':buildNewsItem,'product-tile':buildProductTile,'context-menu':buildContextMenu,command:buildCommand,'date-picker':buildDatePicker,dropzone:buildDropzone,'table-toolbar':buildTableToolbar,splitter:buildSplitter,'scroll-area':buildScrollArea,'number-input':buildNumberInput,rating:buildRating,'person-card':buildPersonCard,'profile-card':buildProfileCard,'metric-card':buildMetricCard,'invite-card':buildInviteCard,'widget-card':buildWidgetCard,'trend-card':buildTrendCard,'media-card':buildMediaCard,'weather-card':buildWeatherCard,'player-card':buildPlayerCard,'ticket-card':buildTicketCard,carousel:buildCarousel,'hover-card':buildHoverCard,'button-group':buildButtonGroup,link:buildLink,kbd:buildKbd,divider:buildDivider,descriptions:buildDescriptions,avatar:buildAvatar,segmented:buildSegmented,slider:buildSlider,field:buildField,stack:buildStack,'app-shell':buildAppShell,empty:buildEmpty,alert:buildAlert,popover:buildPopover,toggle:buildToggle,logo:buildLogo,input:buildInput,dropdown:buildDropdown,selector:buildSelector,tag:buildTag,tab:buildTab,tooltip:buildTooltip,notification:buildNotification,skeleton:buildSkeleton,loader:buildLoader,menu:buildMenu,'action-menu':buildActionMenu,breadcrumb:buildBreadcrumb,pagination:buildPagination,icon:buildIcon,price:buildPrice,image:buildImage,header:buildHeader,footer:buildFooter,'section-head':buildSectionHead,list:buildList,'list-item':buildListItem,collapse:buildCollapse,modal:buildModal,drawer:buildDrawer,'floating-line':buildFloatingLine,step:buildStep,quantity:buildQuantity,progress:buildProgress,card:buildCard,'product-card':buildProductCard,'category-tile':buildCategoryTile,'article-card':buildArticleCard,table:buildTable,chart:buildChart,'tree-view':buildTreeView,'schedule-chart':buildScheduleChart,calendar:buildCalendar,'ai-avatar':buildAiAvatar,'chat-message':buildChatMessage,'chat-thinking':buildChatThinking,'chat-composer':buildChatComposer,'prompt-suggestion':buildPromptSuggestion,'chat-error':buildChatError,'tpl-ai-chat':buildTplAiChat,'tpl-admin-dashboard':v=>buildTplAdmin(v,'dashboard'),'tpl-admin-report':v=>buildTplAdmin(v,'report'),'tpl-admin-list':v=>buildTplAdmin(v,'list'),'tpl-admin-detail':v=>buildTplAdmin(v,'detail'),'tpl-admin-form':v=>buildTplAdmin(v,'form'),'tpl-web-product':v=>buildTplWeb(v,'product'),'tpl-web-blog':v=>buildTplWeb(v,'blog'),'tpl-web-news':v=>buildTplWeb(v,'news'),'tpl-web-article':v=>buildTplWeb(v,'article')};
 
   /* ===== 複雜度確認總覽 ===== */
   function choiceReport(){
@@ -17187,6 +17748,9 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v41', date:'2026-11-11', title:'P3 元件全部完成', items:[
+      {tag:'new', t:'新增 6 個元件：Time Picker、Color Picker、Cascader、Tree Select、Tour、Menubar（P3 全部完成）'},
+    ]},
     {v:'v40', date:'2026-11-10', title:'選擇元件頁改用 Chip、搜尋彈窗內距', items:[
       {tag:'improve', t:'首頁手機跑馬燈拿掉左右漸層'},
       {tag:'fix', t:'色號欄左側色票改成正方形，上下左右距離一致'},
@@ -20312,7 +20876,7 @@ function buildScheduleChart(view){
     'scroll-area':'捲軸 scroll',header:'頁首 導覽列 navbar',footer:'頁尾','section-head':'區塊標題','floating-line':'浮動 客服',tab:'頁籤 分頁 tabs',menu:'選單 側欄 nav sidebar',
     'action-menu':'更多 動作選單 dropdown menu','context-menu':'右鍵 選單',breadcrumb:'麵包屑 路徑',pagination:'分頁 頁碼',step:'步驟 stepper',command:'指令 搜尋 cmdk palette',
     input:'輸入框 文字框 textfield search password 密碼','number-input':'數字 number spinbutton',dropdown:'下拉 select 選擇器',selector:'勾選 checkbox radio 單選 複選',toggle:'開關 switch',
-    segmented:'分段 切換',chip:'膠囊 選擇 篩選 chip pill filter',slider:'滑桿 range','date-picker':'日期 datepicker',dropzone:'上傳 upload 檔案 file',quantity:'數量 計數',field:'表單 form 欄位 label',
+    segmented:'分段 切換',chip:'膠囊 選擇 篩選 chip pill filter',slider:'滑桿 range','date-picker':'日期 datepicker','time-picker':'時間 timepicker 時刻 24h','color-picker':'選色 顏色 colorpicker hex',cascader:'多層 地址 縣市 cascade','tree-select':'樹狀 部門 treeselect',tour:'導覽 新手 onboarding walkthrough',menubar:'選單列 檔案 編輯 menubar',dropzone:'上傳 upload 檔案 file',quantity:'數量 計數',field:'表單 form 欄位 label',
     alert:'警示 提示 banner',notification:'通知 toast 訊息 snackbar',tooltip:'提示 說明',popover:'氣泡 浮層','hover-card':'資訊卡 預覽卡',modal:'彈窗 對話框 dialog 視窗',
     drawer:'抽屜 側邊面板 sheet',progress:'進度條 progressbar',loader:'載入 loading spinner',skeleton:'骨架 載入',empty:'空狀態 無資料 empty state',tag:'標籤 chip badge',
     price:'價格 金額',image:'圖片 img 照片',rating:'評分 星星 star',carousel:'輪播 banner',list:'清單 列表','list-item':'清單項目 列',collapse:'折疊 accordion 手風琴',
@@ -20389,6 +20953,7 @@ function buildScheduleChart(view){
      MutationObserver 追動畫、換頁產生的新文字。對照表查不到的維持中文；中文模式完全不碰畫面。 */
   const I18N_EN={"每個專案有自己的 library 網址，在網頁上改 token、即時預覽元件，輸出後由 Claude 同步到程式碼和 Figma。": "Each project has its own library URL. Edit tokens and preview components live, then export and let Claude sync code and Figma.", "顏色、間距、圓角、字級和陰影都寫成 Figma Variables，淺色、深色各一個 mode，元件數值全部綁定、不寫死。": "Color, spacing, radius, type and shadows become Figma Variables with light and dark modes. Every component value is bound, never hard-coded.", "網站上的樣式、意圖、狀態、尺寸一對一變成 Figma variant，內容開關變成 boolean，兩邊組合方式一致。": "Style, intent, state and size on the site map one-to-one to Figma variants, and content toggles become booleans — the same structure on both sides.", "任一邊有改動，差異檢查會列出哪裡不同並分類，確認後才寫回，三邊不會互相覆蓋。": "When any side changes, the drift check lists and sorts the differences. Nothing is written back until you confirm, so no side overwrites another.", "上一張": "Previous", "下一張": "Next", "從網站開始，不用寫程式。打開元件庫網址、按「開啟新專案」進入編輯模式，四步調好你的樣式。": "Start on the website — no code needed. Open the library URL, click “New project” to enter edit mode, and tune your styles in four steps.", "你也可以從 Github 下載 Skill 檔案，用 Claude 從訪談階段一步步帶你執行。AI 會根據你的品牌規範、PRD、Wireframe 等輸入資料，提供更客製化的元件庫推薦。": "You can also download the skill from GitHub and let Claude walk you through it step by step, starting from the interview. Based on your brand guidelines, PRD, wireframes and other inputs, the AI recommends a more tailored component library.", "示意：在專案網站改色碼、間距、元件狀態與 icon，程式碼和 Figma 的 Variables、元件 property 跟著同步": "Illustration: change a hex value, spacing, component states or the icon on the project site, and the code plus Figma Variables and component properties sync along", "間距": "Spacing", "Button 狀態": "Button states", "顯示 icon": "Show icon", "projects/<名稱>/": "projects/<name>/", "此為母元件庫，若需更新請調整原始檔": "This is the master library. To update it, edit the source file.","上手指南": "Getting started","上手指南（待調整）": "Getting started (WIP)","偏好設定（待調整）": "Preferences (WIP)","搜尋元件、頁面或 token…": "Search components, pages or tokens…","搜尋元件、頁面或 token（⌘K）": "Search components, pages or tokens (⌘K)","桌機（一般檢視）": "Desktop (default)","平板 · iPad Pro 13\"": "Tablet · iPad Pro 13\"","小平板 · iPad mini": "Small tablet · iPad mini","手機 · iPhone 16": "Phone · iPhone 16","平板預覽 · iPad Pro 13\" 1024 × 1366": "Tablet preview · iPad Pro 13\" 1024 × 1366","小平板預覽 · iPad mini 744 × 1133": "Small tablet preview · iPad mini 744 × 1133","手機預覽 · iPhone 16 393 × 852": "Phone preview · iPhone 16 393 × 852","響應式預覽": "Responsive preview","開啟新專案": "New project","首頁": "Home","需求匯總": "Summary","版本紀錄": "Changelog","切換為淺色模式": "Switch to light mode","切換為深色模式": "Switch to dark mode","切換元件選單": "Toggle component menu","回首頁": "Back to home","調整側邊欄寬度": "Resize sidebar","拖曳調整寬度 · 雙擊還原": "Drag to resize · double-click to reset","待調整，暫不開放": "Work in progress, not available yet","本頁目錄": "On this page","試玩區": "Playground","元件跑馬燈": "Component marquee","關於 CDL": "About CDL","動態 Demo": "Motion demo","流程教學": "How it works","用戶回饋": "Testimonials","常見問題 FAQ": "FAQ","元件牆": "Component wall","動態展示": "Motion showcase","使用回饋": "Testimonials","四個步驟，開好一個新專案": "Four steps to a new project","看版本紀錄": "View changelog","語言": "Language","開始新專案": "Start a new project","瀏覽元件": "Browse components","主色": "Primary","輔助色": "Secondary","預覽主題": "Preview theme","淺色": "Light","深色": "Dark","元件圓角": "Corner radius","外框粗細": "Border width","外框深淺": "Border contrast","陰影": "Shadow","無": "None","淡": "Light","預設": "Default","重": "Strong","字體": "Typeface","系統黑體": "System sans","明體": "Serif","字重": "Weight","細": "Light","標準": "Regular","粗": "Bold","字級比例": "Type scale","間距密度（--sp-*）": "Spacing density (--sp-*)","動態速度（--dur-*）": "Motion speed (--dur-*)","重設": "Reset","複製 CSS 變數": "Copy CSS variables","調整 token": "Adjust tokens","顏色": "Color","形狀": "Shape","文字": "Text","間距與動態": "Spacing & motion","調整顏色": "Adjust color","調整形狀": "Adjust shape","調整文字": "Adjust text","調整間距與動態": "Adjust spacing & motion","主色 色號": "Primary hex","輔助色 色號": "Secondary hex","開啟選色器": "Open color picker","關閉": "Close","春": "S","春季活動頁": "Spring campaign page","進行中": "In progress","專案總覽 · 3 分鐘前更新": "Project overview · updated 3 min ago","分享": "Share","新增任務": "New task","整體進度": "Overall progress","本週": "This week","元件交付": "Components shipped","本月": "This month","比上週多": "vs. last week","待審項目": "Pending review","今天": "Today","項": "items","今天到期": "Due today","設計交付趨勢": "Design delivery trend","月份": "Month","團隊成員": "Team","邀請": "Invite","設計主責": "Design lead","前端工程": "Front-end","專案經理": "Project manager","品質測試": "QA","視覺設計": "Visual design","內容策略": "Content strategy","待辦任務": "To-do","確認主色與輔助色": "Confirm primary & secondary colors","設計": "Design","圓角 token 定案": "Finalize radius tokens","跑 sync drift 檢查": "Run sync drift check","前端": "Front-end","內容": "Content","活動頁 Hero 切版": "Build campaign hero","快速新增": "Quick add","清除": "Clear","新增": "Add","任務名稱": "Task name","負責人": "Assignee","截止日": "Due date","年/月/日": "YYYY/MM/DD","優先度": "Priority","低": "Low","中": "Medium","高": "High","標籤": "Tags","通知成員": "Notify members","搜尋任務": "Search tasks","搜尋任務…": "Search tasks…","例如：Card 元件驗收": "e.g. Card component review","選擇負責人": "Choose assignee","選擇日期": "Choose date","林語晨": "Lin Yu-chen","陳柏宇": "Chen Po-yu","王思妤": "Wang Szu-yu","李承恩": "Lee Cheng-en","張家豪": "Chang Chia-hao","黃詩涵": "Huang Shih-han","林佳穎": "Lin Chia-ying","陳柏翰": "Chen Po-han","張育誠": "Chang Yu-cheng","吳宜蓁": "Wu Yi-chen","王小明": "Wang Hsiao-ming","林": "L","陳": "C","王": "W","李": "L","張": "C","黃": "H","周": "C","開始使用": "Get started","稍後再說": "Maybe later","了解更多": "Learn more","按鈕": "Button","查看元件": "View component","台中市": "Taichung","台北市": "Taipei","高雄市": "Kaohsiung","花蓮縣": "Hualien","下拉": "Dropdown","儲存成功": "Saved","你的變更已同步到雲端。": "Your changes are synced to the cloud.","有新版本": "New version available","通知": "Notification","設計中": "In design","已上線": "Live","待審": "In review","需修正": "Needs fixes","新功能": "New","通過": "Passed","草稿": "Draft","頭像": "Avatar","自動同步": "Auto sync","公開專案": "Public project","開關": "Toggle","價格區間": "Price range","音量": "Volume","滑桿": "Slider","最低": "Min","最高": "Max","已選": "Selected","日期選擇": "Date picker","元件覆蓋率": "Component coverage","進度條": "Progress","總覽": "Overview","明細": "Details","設定": "Settings","分頁": "Tabs","照片人物卡": "Person card","指標週卡": "Metric card","分段控制": "Segmented","小工具卡": "Widget card","分享元件": "Share component","複製元件連結": "Copy component link","提示": "Tooltip","暫停": "Pause","暫停自動播放": "Pause autoplay","營收": "Revenue","建立帳號": "Create account","填完寄送驗證信": "We’ll send a verification email","姓名": "Name","電子郵件": "Email","格式正確，驗證信會寄到這裡": "Looks good — the verification email goes here","我們會寄送驗證信到這個信箱。": "We’ll send a verification email to this address.","任務清單": "Task list","全部": "All","已完成": "Done","排程上線": "Scheduled launch","上線日": "Launch date","檢視範圍": "Range","統計區間": "Period","區間": "Range","狀態": "Status","上一月": "Previous month","下一月": "Next month","上一則": "Previous","下一則": "Next","折線圖：近 10 期呈上升趨勢": "Line chart: rising over the last 10 periods","營收趨勢小圖，方向鍵逐日查看": "Revenue sparkline — use arrow keys to step through days","已完成 / 全部（含規劃中）": "Done / all (incl. planned)","（5 天）": "(5 days)","30 天": "30 days","7 天": "7 days","90 天": "90 days","2026 年 7 月": "July 2026","Button 寫進 Figma": "Button written to Figma","PNG、JPG、PDF，單檔 10 MB 以內": "PNG, JPG, PDF · up to 10 MB each","品牌規範.pdf": "brand-guidelines.pdf","元件修正": "Component fixes","72 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。": "72 components share one set of Design Tokens. Change a value and the site, code and Figma Variables update together.","從網站開始，不用寫程式。": "Start on the website — no code needed.","打開元件庫網址、按「開啟新專案」進入編輯模式，四步調好你的樣式。": "Open the library URL, click “New project” to enter edit mode, and tune your styles in four steps.","想讓 Claude 從頭帶你跑？看 skill 路徑": "Want Claude to guide you end to end? See the skill path","丟進你的品牌資料": "Drop in your brand assets","按「開啟新專案」填好專案名稱、產業與平台，上傳品牌規範、logo 或 PRD，再回答幾題品牌問卷。網站會依答案提出第一版 token 與元件建議，草稿自動保存，隨時回來接著做。": "Click “New project”, fill in the name, industry and platform, upload brand guidelines, a logo or a PRD, then answer a short brand survey. The site proposes a first set of tokens and components from your answers. Drafts save automatically, so you can pick up anytime.","挑風格和主色": "Pick a style and primary color","先選俐落、柔和或活潑當起點，再到 Design Token 頁自己輸入色碼，調整間距、圓角、字級與陰影。改一個值，整站元件立刻跟著換色換形，淺色、深色模式一起看。": "Start from Crisp, Soft or Playful, then enter your own hex values on the Design Token page and tune spacing, radius, type and shadows. Change one value and every component updates instantly — in light and dark mode side by side.","勾選要用的元件": "Choose your components","到各元件頁用變數篩選器勾選需要的樣式、意圖、狀態和尺寸，狀態一覽表與變體數即時縮減。上方即時預覽可切換組合，HTML／CSS 程式碼同步更新，一鍵複製；圓角、間距也能用 Token 綁定換成別的 token。": "On each component page, use the variant filter to pick the styles, intents, states and sizes you need — the state matrix and variant count shrink as you go. The live preview switches combinations while the HTML/CSS updates alongside, ready to copy. Radius and spacing can be rebound to other tokens too.","輸出檔案，交給 Claude 接上 Figma": "Export files and let Claude connect Figma","確認後輸出 token 檔、元件清單和 SCSS 樣式包。把檔案交給裝好 ds-studio-flow skill 的 Claude，它會寫進 Figma Variables 和元件 variant，並記下這份專案的版本。之後哪一邊有改動，都能再跑一次同步。": "When you’re happy, export the token file, component list and SCSS bundle. Hand them to Claude with the ds-studio-flow skill installed — it writes Figma Variables and component variants and records the project version. Whenever either side changes, just run the sync again.","看 Figma 同步": "See Figma sync","中途關掉也沒關係，草稿會幫你留著。": "Close anytime — your draft is saved.","上傳中": "Uploading","上傳完成": "Upload complete","拖曳檔案到這裡，或": "Drag files here, or","選擇檔案": "choose files","上傳檔案：拖曳到這裡或按 Enter 選擇": "Upload files: drag here or press Enter to choose","起始風格": "Starting style","俐落": "Crisp","柔和": "Soft","活潑": "Playful","圓角": "Radius","主要": "Primary","次要": "Secondary","輸入色碼": "Typing a hex","淺色、深色一起換": "Light and dark update together","淺色、深色一起看": "Light and dark side by side","拖曳調整": "Dragging","整站元件跟著變": "Every component follows","已套用": "Applied","元件清單": "Component list","輸出中": "Exporting","輸出完成": "Export complete","寫入 Figma 中": "Writing to Figma","已寫入 Figma": "Written to Figma","輸出檔案": "Export files","交給 Claude": "Hand to Claude","看全部 Design Token": "View all Design Tokens","路徑 A · 從網站開始": "Path A · Start on the website","路徑 B · 下載 skill 從頭跑": "Path B · Run the skill end to end","路徑 A · 從網站開始 步驟": "Path A steps","路徑 B · 下載 skill 從頭跑 步驟": "Path B steps","適合想先看到畫面、邊試邊調的人。在網站上開新專案、調好樣式就輸出檔案，交給 Claude 寫進 Figma。": "For people who want to see it first and tweak as they go. Start a project on the site, tune the styles, export the files and let Claude write them into Figma.","適合已經有品牌規範或 PRD、想一次跑完的人。把 ds-studio-flow skill 交給 Claude，它會從訪談開始，照七步帶你到 Figma。": "For people who already have brand guidelines or a PRD and want to run it all at once. Give Claude the ds-studio-flow skill and it walks you from interview to Figma in seven steps.","開新專案": "New project","調樣式": "Tune styles","訪談": "Interview","提案": "Proposal","網站挑選": "Pick on site","匯出": "Export","套用 token": "Apply tokens","寫入 Figma": "Write to Figma","雙向同步": "Two-way sync","不論從哪條路開始，最後都會得到三個彼此對應的版本：": "Whichever path you take, you end up with three versions that stay in step: ","專案的 library 網址、程式碼、Figma 檔": "the project’s library URL, the code and the Figma file","。改其中一處，Claude 會列出差異讓你確認，再把另外兩邊對齊。": ". Change any one of them and Claude lists the differences for you to confirm, then aligns the other two.","示意：專案的 library 網址、程式碼、Figma 三邊任一處改了 token，另外兩邊跟著對齊": "Illustration: change a token on the library URL, in code or in Figma and the other two follow","Design Token · 主色": "Design Token · Primary","已同步": "Synced","三邊已同步": "All three in sync","網站改動": "Site edit","程式碼改動": "Code edit","Figma改動": "Figma edit","同步中": "Syncing","主要按鈕、連結": "Primary buttons, links","滑過狀態": "Hover state","刪除、危險操作": "Delete, destructive actions","提示訊息": "Info messages","成功狀態": "Success state","每個專案都有自己的 library 網址，直接在網頁上改 token、看元件即時預覽。改完輸出，Claude 會把同一份改動同步到程式碼和 Figma Variables，三邊記同一個版本號；別人打開網址時會提示「版本已更新」。": "Every project gets its own library URL where you edit tokens and preview components live. Export when you’re done and Claude syncs the same change into code and Figma Variables, with all three sharing one version number — anyone opening the URL sees “Version updated”.","顏色、間距、圓角、字級和陰影都會寫成 Figma Variables，分成 Primitives、Semantic、Spacing、Radius 幾個集合，淺色和深色各是一個 mode。元件上的每個值都綁到 variable，不寫死色碼或 px，之後改一個 token，Figma 和網站會一起變。": "Color, spacing, radius, type and shadows become Figma Variables, grouped into Primitives, Semantic, Spacing and Radius collections, with light and dark as modes. Every value on a component is bound to a variable — no hard-coded hex or px — so changing one token updates Figma and the site together.","網站上能切換的軸（樣式、意圖、狀態、尺寸）會一對一變成 Figma 的 variant property，「顯示 icon」這類內容開關則變成 boolean。複合元件裡的按鈕、輸入框、icon 都是既有元件的 instance，不另外畫一份，工程拿到的組合方式跟 Figma 完全一樣。": "Every axis you can switch on the site (style, intent, state, size) maps one-to-one to a Figma variant property, while content toggles like “show icon” become booleans. Buttons, inputs and icons inside composite components are instances of existing components, never redrawn, so engineering gets exactly the same structure as Figma.","網站、Figma、程式碼任何一邊有改動，跑一次差異檢查就會列出三邊哪裡不同，並分成四類：token 值、結構（新元件或 variant）、內容（文案、圖片、logo）和互動原型。每一類都有固定的寫回位置，確認後才更新，三邊不會互相覆蓋。": "When the site, Figma or code changes, one drift check lists where the three differ, sorted into four groups: token values, structure (new components or variants), content (copy, images, logos) and prototypes. Each group has a fixed place to write back to and nothing updates until you confirm, so no side overwrites another.","以前改主色要逐個元件檢查，現在在 CDL 調好 token，Figma 的 Variables 就跟著更新，省下整整兩天。": "Changing the primary color used to mean checking every component. Now I tune the token in CDL and Figma Variables follow — it saves us two full days.","元件頁的 HTML 和 CSS 複製就能用，variant 名稱跟 Figma 一模一樣，跟設計師對規格再也不用猜。": "The HTML and CSS on each component page work as-is, and variant names match Figma exactly. No more guessing when reviewing specs with designers.","三條產品線共用一套母庫，各專案只改自己的 token。差異檢查會列出誰動了什麼，審稿快很多。": "Three product lines share one master library and each project only changes its own tokens. The drift check shows who changed what, so reviews are much faster.","開新案時先在網站上挑元件、調顏色，客戶當場就看得到樣子，提案到定稿從三週縮到一週。": "On new projects we pick components and colors on the site so clients see it right away — proposal to sign-off went from three weeks to one.","我們只有一位設計師，靠 CDL 直接拿到整套元件和 Figma 檔，第一版 App 一個月就上線了。": "We have one designer. CDL gave us a full component set and Figma file, and our first app shipped in a month.","產品設計師 · 森果數位": "Product Designer · Senguo Digital","前端工程師 · 好住科技": "Front-end Engineer · Haozhu Tech","設計主管 · 拾光金融": "Design Lead · Shiguang Finance","產品經理 · 綠點物流": "Product Manager · Greenpoint Logistics","創辦人 · 小步健康": "Founder · Littlestep Health","使用回饋輪播，可用左右方向鍵切換": "Testimonials carousel — use left and right arrow keys","最近的版本": "Recent releases","看全部": "View all","網站和 Figma 檔是什麼關係？": "How does the site relate to the Figma file?","網站是元件和 token 的正本。寫進 Figma 時，元件的樣式切換會變成 variant 或 boolean，顏色和圓角綁 Variables，不會寫死數值。": "The site is the source of truth for components and tokens. When written to Figma, style switches become variants or booleans, and colors and radii are bound to Variables — never hard-coded.","首頁上面的調色會改到整個網站嗎？": "Does the playground on the home page change the whole site?","不會，只影響首頁那一塊，重新整理就還原。要正式改，請到": "No — it only affects that block and resets on refresh. To make real changes, go to the","頁調整後儲存。": "page, adjust and save.","母庫改了 token，進行中的專案會跟著變嗎？": "If the master library changes a token, do ongoing projects change too?","不會自動變。每個專案有自己的 tokens.export.json，母庫更新後由專案成員決定要不要同步。": "Not automatically. Each project has its own tokens.export.json, and the project team decides whether to sync after the master library updates.","可以直接複製程式碼嗎？": "Can I copy the code directly?","可以。每個元件頁都有 HTML 和 CSS 可以一鍵複製；": "Yes. Every component page has HTML and CSS you can copy in one click; the","頁還能下載整包 SCSS。": "page also lets you download the full SCSS bundle.","首頁步驟示意 · Code ⇄ Figma 說明 · 本頁目錄": "Home step demos · Code ⇄ Figma intro · Page outline","Card 新增 5 種單張牌卡 · 牌卡整理": "5 new single cards · card cleanup","Chart 半圓／實心圓餅 · Tag 尺寸 · 開新專案改版 · 套用 token 修正": "Chart half/solid pie · Tag sizes · New-project redesign · Token apply fix","基本資料": "Basics","專案與品牌": "Project & brand","匯入資料": "Import","CI／PRD": "CI / PRD","品牌問卷": "Brand survey","色彩與調性": "Color & tone","Token 與元件": "Tokens & components","調整": "Adjust","在網站上改": "Edit on site","專案檔案": "Project files","電商／零售": "E-commerce / Retail","SaaS／後台工具": "SaaS / Back-office","金融／保險": "Finance / Insurance","內容／媒體": "Content / Media","醫療／公部門": "Healthcare / Public sector","教育": "Education","其他": "Other","兩者": "Both","黑體": "Sans","舒適": "Comfortable","緊湊": "Compact","銳利": "Sharp","圓潤": "Round","立即建": "Now","之後補": "Later","不需要": "Not needed","專業": "Professional","溫暖": "Warm","簡約": "Minimal","高級": "Premium","科技": "Tech","自然": "Natural","親切": "Friendly","可靠": "Reliable","大膽": "Bold","上一步": "Back","下一步": "Next","下載": "Download","完成": "Done","取消": "Cancel","匯出專案檔": "Export project files","全部下載（.zip）": "Download all (.zip)","專案基本資料": "Project basics","專案名稱": "Project name","品牌名": "Brand name","產業": "Industry","平台": "Platform","Figma 檔": "Figma file","選填": "Optional","例如：果思咖啡": "e.g. Goons Coffee","會出現在訪談紀錄與 Figma 檔名": "Used in the interview notes and the Figma file name","沒有的話之後由 Claude Code 開新檔": "If you don’t have one, Claude Code will create it later","用來推薦常用元件": "Used to recommend common components","預設「品牌-日期」，只能用英數、中文、- 和 _": "Defaults to “brand-date”; letters, numbers, Chinese, - and _ only","名稱只能用英數、中文、- 和 _，不能有空白": "Letters, numbers, Chinese, - and _ only — no spaces","請填品牌名": "Please enter a brand name","請選擇產業": "Please choose an industry","未命名專案": "Untitled project","CI／PRD 檔案": "CI / PRD files","貼上文字": "Paste text","參考連結": "Reference links","品牌官網、Notion、雲端資料夾等": "Brand site, Notion, cloud folder, etc.","PDF、圖片、文件皆可 · 只留在這個分頁，不會上傳": "PDF, images or docs · kept in this tab only, never uploaded","有 CI 品牌規範、PRD 或規格書就放進來。沒有也可以先跳過，下一步直接填問卷。": "Add CI guidelines, a PRD or specs if you have them. If not, skip ahead to the survey.","貼上品牌規範、需求說明或任何文字。內含色碼（例如 #2F6B4F）會自動帶到問卷。": "Paste brand guidelines, requirements or any text. Hex codes (e.g. #2F6B4F) are carried into the survey.","找到的前兩個色碼會當成主色／副色的預設值": "The first two hex codes found become the default primary / secondary colors","放開以加入": "Drop to add","拖曳檔案到這裡，或 選擇檔案": "Drag files here, or choose files","從資料自動萃取品牌錨點": "Auto-extract brand anchors from your files","之後會由 AI 讀上傳的 CI／PRD，自動抓出主色、副色、字體與調性，再讓你確認。": "Later, AI will read your CI / PRD to pull out colors, fonts and tone for you to confirm.","AI 之後接上": "AI coming later","AI 依 CI／PRD 擬提案": "AI drafts a proposal from CI / PRD","匯出前 AI 檢查": "AI pre-export check","副色": "Secondary","圓角感": "Corners","字體偏好": "Font preference","密度": "Density","深色模式": "Dark mode","調性關鍵字": "Tone keywords","品牌最主要的顏色，用在主要按鈕與選中狀態": "Your main brand color, used for primary buttons and selected states","點綴與次要強調；沒有就維持預設": "Accents and secondary emphasis; leave as default if none","影響按鈕、輸入框、卡片的圓角": "Affects corners on buttons, inputs and cards","緊湊會縮小桌機版的區塊間距": "Compact tightens section spacing on desktop","預設＝Geist 英文＋系統黑體；明體適合文藝、高級感品牌": "Default = Geist + system sans; serif suits literary or premium brands","選「之後補」會先預留 dark 的位置": "Choosing “Later” reserves a slot for dark mode","可多選，會寫進訪談紀錄給設計判斷用": "Pick several; saved to the interview notes for design decisions","色碼格式不對，請用 #RRGGBB": "Invalid hex — use #RRGGBB","色碼格式不對，請用 #RRGGBB，或清空": "Invalid hex — use #RRGGBB or leave empty","請先給一個主色（品牌錨點）才能繼續": "Add a primary color (brand anchor) to continue","填入範例": "Fill example","已填入範例品牌資料，下一步可以直接看到答案。": "Example brand filled in — the next step shows the result.","已從匯入資料帶入答案": "Answers filled from your imported data","Token 提案": "Token proposal","建議元件": "Suggested components","依問卷重算": "Recalculate from survey","套用到網站": "Apply to site","重新套用提案": "Re-apply proposal","依你的答案推出的初始 token 與元件清單。按「套用到網站」後整個網站會換成這套樣子。": "Starter tokens and components based on your answers. Click “Apply to site” to restyle the whole site.","預覽：依提案配色；套用後整個網站會換成這套顏色。": "Preview in the proposed palette; applying restyles the whole site.","還沒套用，按下後才會改到網站。": "Not applied yet — the site changes when you click.","主色標籤": "Primary tag","副色標籤": "Secondary tag","主要按鈕": "Primary button","次要按鈕": "Secondary button","之後會由 AI 讀匯入資料判斷色階、字級與需要的元件；現在先用固定規則。": "Later, AI will read your imported data to set color scales, type and components; fixed rules for now.","固定規則：色階依錨點推算、元件依平台＋產業對照表。": "Fixed rules: scales derived from your anchors, components from the platform + industry table.","提案只是起點。到下面三個頁面改到滿意，改完按右下角「回到流程」回來這裡匯出。": "The proposal is just a start. Tune it on the three pages below, then click “Back to flow” at bottom right to export.","改主色、副色的九階色號、字級、間距、圓角，整站即時套用。": "Edit the nine-step primary and secondary scales, type, spacing and radius — applied site-wide instantly.","勾選要產出的元件；回各元件頁用「變數篩選器」挑要的樣式。": "Check the components to export; use the variant filter on each page to choose styles.","把目前的 token 與元件整頁攤開，匯出前最後看一次。": "See all current tokens and components on one page for a final check before export.","到網站上調整": "Adjust on site","請先按「套用到網站」，下一步要在網站上調整。": "Click “Apply to site” first — the next step happens on the site.","先在「提案」步驟按「套用到網站」": "First click “Apply to site” in the Proposal step","已套用提案，在這裡調整 token": "Proposal applied — adjust tokens here","匯出前檢查": "Pre-export check","之後會由 AI 檢查色彩可讀性、元件是否漏選、與 PRD 是否對得上；現在先跑固定規則。": "Later, AI will check color contrast, missing components and PRD alignment; fixed rules for now.","還是可以匯出，但建議先回「調整」修好。": "You can still export, but we suggest fixing it in “Adjust” first.","還沒選元件，回「調整」到需求匯總勾選。": "No components selected — go back to “Adjust” and check them in Summary.","檔案": "Files","文件": "Docs","樣式包": "Style bundle","元件程式碼": "Component code","接下來在 Claude Code": "Next, in Claude Code","複製說明": "Copy instructions","已複製": "Copied","正在打包…": "Packing…","回到流程": "Back to flow","回到「匯出」步驟": "Back to the Export step","直接到「匯出」步驟下載專案 zip": "Go straight to Export to download the project zip","重新開始": "Start over","清除並重來": "Clear and restart","清除這份草稿？": "Clear this draft?","關閉（草稿會保留）": "Close (draft is kept)","儲存並更新": "Save and update","問卷答案、提案和網站上已套用的 token、元件勾選都會清掉，回到元件庫預設。": "Survey answers, the proposal, applied tokens and component selections will be cleared, restoring the library defaults.","已接續上次的草稿": "Resumed your last draft","專案模式": "Project mode","專案進度": "Project progress","專案編輯中：要開新專案請先用底部的「重新開始」或完成匯出": "Editing a project: use “Start over” at the bottom or finish exporting to start a new one","目前先用：": "Using for now:","精簡版 Phase 0 訪談。": "A short Phase 0 interview.","主色一定要有": "A primary color is required","——沒有品牌色錨點，流程不會往下走。": " — without a brand color anchor, the flow can’t continue.","先決定專案叫什麼、給誰用。專案名稱會變成": "First decide the project name and audience. The project name becomes the","資料夾名。": "folder name.","決定要不要帶入 App 專用元件": "Decides whether to include app-only components"};
   const I18N_RX=[["^步驟 (\\d+) / (\\d+)$", "Step $1 / $2"], ["^(\\d+(?:\\.\\d+)?) (MB|KB) · 上傳中 (\\d+)%$", "$1 $2 · Uploading $3%"], ["^(\\d+(?:\\.\\d+)?) (MB|KB) · 上傳完成$", "$1 $2 · Uploaded"], ["^已選 (\\d+) / (\\d+)$", "$1 / $2 selected"], ["^(\\d+) 個檔案$", "$1 file(s)"], ["^(\\d+)月$", "MONTH"], ["^(\\d+) / (\\d+) 筆$", "$1 / $2 items"], ["^(\\d+) / (\\d+) 完成$", "$1 / $2 done"], ["^(\\d+) 項$", "$1 items"], ["^(\\d+) 位成員$", "$1 members"], ["^另外 (\\d+) 位$", "$1 more"], ["^表現較好，上升 ([\\d.]+)%$", "Trending up $1%"], ["^對比前 (\\d+) 天（(.+)）$", "vs. previous $1 days ($2)"], ["^近 (\\d+) 天合計$", "Last $1 days total"], ["^比上月多交付 (\\d+) 個元件$", "$1 more components than last month"], ["^已改 (\\d+) 個 token$", "$1 tokens changed"], ["^元件 (\\d+)$", "Components $1"], ["^(\\d+) 月最高$", "Peak: month $1"], ["^查看 .+（(.+)）$", "View $1"], ["^取消上傳 (.+)$", "Cancel upload {T:1}"], ["^移除 (.+)$", "Remove {T:1}"], ["^(.+)（(在線|離線|離開)）$", "{T:1} ({S:2})"], ["^(\\d+)/(\\d+)（(.)）$", "{W:3} $1/$2"], ["^(\\d+)/(\\d+)（(.)）,?，營收 (NT\\$ [\\d,]+)$", "{W:3} $1/$2 · Revenue $4"], ["^(\\d+)\\s{2}(.+)$", "$1  {T:2}"]].map(([p,r])=>[new RegExp(p),r]);
+  I18N_RX.push(...[["^已執行：(.+) › (.+)$","Ran: {T:1} › {T:2}"],["^第 (\\d+) 步，共 (\\d+) 步$","Step $1 of $2"],["^移除 (.+)$","Remove {T:1}"],["^([\\u4e00-\\u9fff]{2,3}[市縣]) / ([\\u4e00-\\u9fff]{2,4})$","{T:1} / {T:2}"]]);   /* P3-I18N:v1 動態字串 */
   I18N_RX.push(["^(\\d+) 個元件共用同一套 Design Token。改一個值，網站、程式碼與 Figma Variables 會一起更新。$","$1 components share one set of Design Tokens. Change a value and the site, code and Figma Variables update together."]);  /* 元件數會變，不寫死數字 */
   I18N_RX.push(["^/(\\d+) 個元件 · 共$","/$1 components · "]);
   I18N_RX.push(["^排序：(.+)，點擊切換$","Sort: {T:1}; click to switch"]);
@@ -20423,6 +20988,8 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"Header 等水平選單的選中底線會滑到新選項（同 Tab 底線動態）":"The active underline in horizontal menus such as the Header now slides to the new item (same motion as the Tab underline)","後台儀表板與最新消息範本的分頁，點擊時補回 Tab 元件的果凍切換動態":"Tabs in the Admin Dashboard and News templates now play the Tab component’s jelly switch motion on click"});
   Object.assign(I18N_EN,{"首頁手機跑馬燈拿掉左右漸層":"Removed the side fades from the home phone marquee","色號欄左側色票改成正方形，上下左右距離一致":"The swatch in color fields is now square with equal spacing on all sides"});
   Object.assign(I18N_EN,{"元件頁與範本頁標題上方的小標只留分類，拿掉跟大標重複的元件名":"The small label above component and template page titles now shows only the category, dropping the name that repeated the title"});
+  /* P3-I18N:v1 P3 六顆元件的英文 */
+  Object.assign(I18N_EN,{"表單裡選時間的欄位，":"A form field for picking a time,","一律 24 小時制":"always in 24-hour format","（09:00、18:30），不用上午／下午。欄位取用":"(09:00, 18:30), never AM/PM. The field uses the","、選項取用":", options use","的選項列，時段的開始／結束切換取用":"option rows, and the start/end switch for ranges uses","單一時間":"Single time","時段":"Range","時:分":"HH:MM","時":"Hour","分":"Minute","開始":"Start","結束":"End","時、分兩欄各自捲動，選中項置中；時段多一列「開始／結束」切換。":"Hour and minute columns scroll separately with the selection centered; ranges add a Start/End switch.","：預約、營業時間、提醒這類要選「幾點幾分」的欄位。":": fields that need an exact time — bookings, opening hours, reminders.","：熟手常打的時間（例如工時登錄），欄位可以直接打 0930。":": times power users type often (such as timesheets) — let the field accept 0930 directly.","：只有少數固定時段可選（10:00／14:00／16:00）。":": only a few fixed slots are available (10:00 / 14:00 / 16:00).","：同時要日期和時間時，兩個欄位並排，不要塞進同一個浮層。":": when you need both date and time, put two fields side by side instead of one popover.","用 Time Picker":"Use Time Picker","改用 Chip":"Use Chip instead","搭配 Date Picker":"Pair with Date Picker","開始 – 結束":"Start – End","請選 09:00–18:00 之間的時間":"Choose a time between 09:00 and 18:00","結束時間要晚於開始時間":"End time must be after start time","選擇時段":"Choose time range","現在":"Now","確定":"OK","點欄位選時間。":"Click the field to pick a time.","State × Variant 矩陣":"State × Variant matrix","欄位外觀與 input 完全一致；時間一律 時:分（兩位數）與等寬數字，時段用「–」連接。":"The field looks exactly like Input. Times are always HH:MM (two digits) in tabular figures; ranges are joined with “–”.","24 小時制。點欄位（或 Enter／↓）打開；點時、分直接寫回欄位。↑↓ 換數字、←→ 換欄、Enter 或「確定」關閉；時段先切「開始／結束」再選，結束早於開始會即時標紅。":"24-hour format. Click the field (or Enter / ↓) to open; picking an hour or minute writes back immediately. ↑↓ change the value, ←→ switch columns, Enter or OK closes. For ranges, switch Start/End first; an end before the start turns red right away.","讓使用者自訂顏色的欄位（標籤顏色、品牌主色）。欄位取用":"A field that lets people choose any color (label colors, brand color). The field uses the","色票版":"Swatch","的預設色取用":"presets use","（帶色點），":"(with color dots);","完整版":"Full","再加彩度平面、色相取用":"adds a saturation plane, a hue control using","、色碼欄取用 input。兩種 variant × 五種狀態（":", and a hex field using Input. Two variants × five states (","色票":"Swatch","完整":"Full","色票版只有預設色；完整版上面是彩度平面與色相，下面保留同一組預設色。":"Swatch only shows presets; Full adds the saturation plane and hue on top and keeps the same presets below.","欄位左側色塊＝目前顏色（四邊等距的正方形），右側是等寬大寫色碼；沒選時色塊畫斜線。":"The square on the left shows the current color (equal spacing on all sides), followed by the uppercase hex code; when empty the square shows a slash.","品牌黑":"Brand black","藍":"Blue","綠":"Green","橘":"Orange","桃紅":"Pink","用 Color Picker":"Use Color Picker","只給色票":"Swatches only","：使用者真的需要「任意顏色」：標籤、行事曆分類、品牌設定。":": people truly need any color — labels, calendar categories, brand settings.","：多數情境給 6～12 個預設色就夠，避免挑出看不清的顏色。":": 6–12 presets are enough for most cases and avoid colors that end up unreadable.","：只有幾個固定選項、而且每個都有名字（冷靜／自然／溫暖）。":": just a few fixed options, each with a name (Calm / Natural / Warm).","色碼要是 # 加 6 位 0–9、A–F":"Hex must be # plus 6 characters 0–9, A–F","選擇顏色":"Choose color","預設顏色":"Preset colors","彩度與明度":"Saturation and brightness","色相":"Hue","色碼":"Hex","選色器":"Color picker","點欄位選顏色。":"Click the field to pick a color.","色票版點一顆就套用並關閉；完整版可拖彩度平面（或聚焦後用方向鍵）、拉色相、直接打色碼，欄位即時跟著變。Esc 或點外面關閉。":"In Swatch, clicking a preset applies it and closes. In Full, drag the plane (or use arrow keys when focused), slide the hue, or type a hex code — the field updates live. Esc or clicking outside closes.","有上下層關係的選項，一層一欄往右展開（縣市 → 鄉鎮市區）。欄位取用":"For options with parent–child levels, each level opens in a new column to the right (city → district). The field uses","的 field 與選項列、浮層沿用":"’s field and option rows, the panel uses","、多選勾選框取用":", multi-select boxes use","、已選項取用 dropdown 的 chip。兩種 variant × 五種狀態（":", and selections use Dropdown’s chips. Two variants × five states (","縣市 / 鄉鎮市區":"City / District","左欄是上層、右欄是目前上層的下一層；目前展開的上層用灰底標出。":"The left column is the parent level and the right column its children; the open parent is shaded.","單選在欄位顯示完整路徑（台北市 / 大安區）；多選只顯示最後一層，超過 3 個收成 +N。":"Single shows the full path (Taipei / Da’an); Multi shows only the last level and collapses beyond 3 into +N.","新北市":"New Taipei","台中市":"Taichung","高雄市":"Kaohsiung","花蓮縣":"Hualien","中正區":"Zhongzheng","大安區":"Da’an","信義區":"Xinyi","松山區":"Songshan","中山區":"Zhongshan","板橋區":"Banqiao","永和區":"Yonghe","中和區":"Zhonghe","新店區":"Xindian","西屯區":"Xitun","北屯區":"Beitun","南屯區":"Nantun","苓雅區":"Lingya","前鎮區":"Qianzhen","左營區":"Zuoying","花蓮市":"Hualien City","吉安鄉":"Ji’an","用 Cascader":"Use Cascader","改用兩個 Dropdown":"Use two Dropdowns instead","改用 Tree Select":"Use Tree Select instead","：2～3 層、每層選項不多的固定分類：地址、商品類別。":": fixed categories with 2–3 levels and few options per level — addresses, product categories.","：只有兩層、而且使用者習慣分開選（先選縣市再選區）。":": only two levels and people are used to choosing them separately (city, then district).","：層數不固定、或要能選中間層（整個部門）。":": depth varies, or people need to pick a middle level (a whole department).","請選到鄉鎮市區":"Choose down to a district","最多選 3 區":"Choose up to 3 districts","選擇地區":"Choose area","鄉鎮市區":"District","點欄位選地區。":"Click the field to pick an area.","滑過或點縣市，右欄換成該縣市的區；單選點到區就寫回並關閉，多選可跨縣市勾選、縣市旁顯示已選數量。↑↓ 移動、→ 進下一層、← 回上一層、Enter 選取、Esc 關閉。":"Hover or click a city to show its districts on the right. Single writes back and closes when you pick a district; Multi lets you check across cities, with a count next to each city. ↑↓ move, → next level, ← back, Enter selects, Esc closes.","從階層資料裡選一個或多個項目（部門、資料夾、分類）。":"Pick one or more items from hierarchical data (departments, folders, categories).","就是":"It is","的欄位＋浮層裡放":"’s field with a","：單選用 tree view 的 plain、多選用它的 checkbox variant，已選項取用 dropdown 的 chip。兩種 variant × 五種狀態（":"in the panel: Single uses Tree View’s plain variant, Multi its checkbox variant, and selections use Dropdown’s chips. Two variants × five states (","選擇部門":"Choose department","浮層裡就是 tree view 元件本身，不另外畫一套樹。":"The panel is the Tree View component itself — no separate tree is drawn.","單選顯示選中項名稱；多選顯示最底層的已選項，超過 3 個收成 +N。":"Single shows the selected name; Multi shows the selected leaf items and collapses beyond 3 into +N.","設計組":"Design","產品部":"Product","前端組":"Frontend","後端組":"Backend","營運部":"Operations","客服組":"Support","行銷組":"Marketing","管理部":"Admin","人資組":"HR","財務組":"Finance","用 Tree Select":"Use Tree Select","改用 Cascader":"Use Cascader instead","改用 Tree View":"Use Tree View instead","：階層深淺不一、或要能選到中間層的資料。":": hierarchies of uneven depth, or when middle levels can be selected.","：固定 2～3 層、每層一定要選到底（地址）。":": a fixed 2–3 levels where people must go all the way down (addresses).","：樹本身就是畫面主體（檔案總管、側欄），不需要收進欄位。":": the tree is the main content (file explorer, sidebar) and doesn’t belong in a field.","請選到組別，不能只選部門":"Choose a team, not just a department","至少選一個組":"Choose at least one team","點欄位選部門。":"Click the field to pick a department.","面板就是 Tree View：點箭頭展開收合、點列選取。多選勾上層＝整組一起勾，下層全勾時上層自動勾上；欄位 chip 的 × 可以直接移除。↑↓ 移動、→ 展開、← 收合、Enter 選取、Esc 關閉。":"The panel is Tree View: click the arrow to expand or collapse, click a row to select. In Multi, checking a parent checks the whole group, and the parent checks itself when all children are checked; the × on a chip removes it. ↑↓ move, → expand, ← collapse, Enter selects, Esc closes.","第一次使用時，一步步指出畫面上的重點。導覽卡沿用":"Points out key parts of the screen step by step on first use. The card uses","（箭頭、標題列、動作列）、按鈕取用":"(arrow, header, action row), buttons use","；導覽時用和":"; during the tour, the same scrim as","相同的遮罩色把目標以外壓暗。":"dims everything except the target.","，進度與關閉鈕是 boolean。":"; progress and the close button are booleans.","開始導覽":"Start tour","Placement × Step 矩陣":"Placement × Step matrix","每個方向一塊；欄＝步驟。第一步左鈕是「略過」、中間步是「上一步」、最後一步主鈕變「完成」。":"One panel per direction; columns are steps. The first step’s left button is “Skip”, middle steps show “Back”, and the last step’s main button becomes “Done”.","boolean：progress 進度（1 / 3）、close 右上角 ×。":"Booleans: progress (1 / 3) and the close × in the corner.","新增訂單":"New order","電話或現場下單時，從這裡手動建立一筆訂單。":"For phone or walk-in orders, create one manually here.","搜尋訂單":"Search orders","輸入訂單編號或顧客名稱，結果會即時篩選。":"Type an order number or customer name and results filter instantly.","篩選條件":"Filters","依狀態、日期篩選，條件會保留到下次打開。":"Filter by status or date; your filters are kept for next time.","無進度":"No progress","無 ×":"No ×","用 Tour":"Use Tour","不要用來教基本操作":"Don’t use it to teach basics","改用 Tooltip":"Use Tooltip instead","改用 Empty":"Use Empty instead","：新功能上線、或第一次進到複雜頁面時，3～5 步帶過重點。":": when a feature launches or someone first opens a complex page — cover the essentials in 3–5 steps.","：需要導覽才會用的介面，先改介面本身。":": if people need a tour to use it, fix the interface first.","：只想補充一個按鈕的說明，不需要步驟。":": you only need to explain one button, without steps.","：頁面還沒有資料時，用空狀態說明下一步就好。":": when a page has no data yet, an empty state can explain the next step.","第一步":"First","中間步":"Middle","最後一步":"Last","導覽卡":"Card","略過":"Skip","搜尋訂單編號、顧客":"Search order number, customer","結束導覽":"End tour","新手導覽":"Tour","按「開始導覽」試一次。":"Press “Start tour” to try it.","按「開始導覽」，遮罩把目標以外壓暗、導覽卡指向目標；右邊放不下時自動改放下方。→／← 換步、Esc 或 × 結束，結束後焦點回到「開始導覽」。":"Press “Start tour”: the scrim dims everything but the target and the card points at it; if there’s no room at the side it moves below. → / ← change steps, Esc or × ends, and focus returns to “Start tour”.","林志豪":"Lin Chih-hao","吳佩珊":"Wu Pei-shan","王小明":"Wang Hsiao-ming","周子淇":"Chou Tzu-chi","桌面 App 式的「檔案／編輯／檢視」選單列，給編輯器、後台這類工具型產品。上層取用":"A desktop-app style File / Edit / View menu bar for tool-like products such as editors and back offices. Top items use","的項目、下拉面板取用":"items, dropdown panels use","、快捷鍵取用":", and shortcuts use","無框":"Plain","狀態示範在「編輯」上；展開時面板接在選單下方，項目右側對齊快捷鍵。":"States are shown on “Edit”; when open, the panel sits below the menu with shortcuts aligned on the right.","還沒執行任何指令":"No command run yet","用 Menubar":"Use Menubar","改用 Header＋Action Menu":"Use Header + Action Menu instead","改用 Command":"Use Command instead","：桌面型的工具產品，指令多、使用者會記快捷鍵（編輯器、設計工具）。":": desktop-style tools with many commands where people learn shortcuts (editors, design tools).","：一般網站或後台：主要導覽放 header，少數動作收進「更多」。":": regular sites or back offices — main navigation in the header, a few actions under “More”.","：指令很多但不想佔畫面空間，讓熟手用 ⌘K 叫出來。":": many commands but no room on screen — let power users open them with ⌘K.","復原":"Undo","重做":"Redo","剪下":"Cut","貼上":"Paste","應用程式選單":"Application menu","新增檔案":"New file","開啟…":"Open…","另存新檔…":"Save as…","放大":"Zoom in","縮小":"Zoom out","顯示側欄":"Show sidebar","全螢幕":"Full screen","快捷鍵一覽":"Keyboard shortcuts","回報問題":"Report a problem","檢視":"View","點「檔案」打開，再滑到其他選單。":"Open “File”, then move to the other menus.","點「檔案」打開後，滑鼠滑到其他選單會直接切換（不用再點）。←→ 換選單、↓ 進入項目、↑↓ 移動、Enter 執行、Esc 關閉並回到上層；停用項目會被跳過。":"Once “File” is open, hovering another menu switches to it without clicking. ←→ switch menus, ↓ enters items, ↑↓ move, Enter runs, Esc closes and returns to the bar; disabled items are skipped.","P3 元件全部完成":"All P3 components done","新增 6 個元件：Time Picker、Color Picker、Cascader、Tree Select、Tour、Menubar（P3 全部完成）":"Added 6 components: Time Picker, Color Picker, Cascader, Tree Select, Tour and Menubar (all P3 items done)"});
   Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，單選與多選外觀相同。高度綁": " text; single and multi-select look the same. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
@@ -20441,6 +21008,7 @@ function buildScheduleChart(view){
   const I18N_TXT=new Map(),I18N_ATR=new Map();let I18N_MO=null;
   function i18nCore(k,el){
     if(el&&el.closest&&el.closest('.sgm')&&I18N_SGM[k])return I18N_SGM[k];
+    if(el&&el.closest&&el.closest('.mbr,.mbr-stage')&&({'檔案':1,'說明':1})[k])return k==='檔案'?'File':'Help';   /* P3-I18N:v1 選單列語境 */
     if(el&&el.closest&&el.closest('.tad-kpi-u')&&I18N_UNIT[k]!=null)return I18N_UNIT[k];
     if(el&&el.closest&&el.closest('.tad-kpi-p')&&k==='元')return 'NT$';
     if(el&&el.closest&&el.closest('.tad-per-u')&&k==='筆')return '';
