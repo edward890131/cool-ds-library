@@ -6756,6 +6756,8 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
   .ds-pj-tag{max-width:220px;flex:0 1 auto;min-width:0;}
   .ds-pj-tag > span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
   .ds-pj-rst.btn{flex:0 0 auto;} .ds-pj-rst svg{width:16px;height:16px;}
+  @media(max-width:1279px){.topbar .ds-pj-rst.btn{width:var(--ctl-h-s);min-width:var(--ctl-h-s);padding:0;justify-content:center;gap:0;}   /* 頂欄擠：重新開始只留 reload icon（文字留給讀屏） */
+    .topbar .ds-pj-rst > span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}}
   .nav-mode{display:none;}
   @media(max-width:1023px){.ds-pj-tag{max-width:140px;}}
   @media(max-width:767px){.topbar .ds-mode-sw,.topbar .ds-pj-rst{display:none;}
@@ -6774,37 +6776,39 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
   .tok-top-acts{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
   /* 引導小卡：距右下 24px（手機 12px）；字級 14／12、內距放大；展開收合由 JS 補間寬高 */
   .pjg{position:fixed;right:calc(24px + env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:34;
-    width:300px;box-sizing:border-box;overflow:hidden;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--e-xl);
+    width:300px;box-sizing:border-box;overflow:hidden;background:var(--ink);color:var(--panel);border:1px solid transparent;border-radius:var(--r-lg);box-shadow:var(--e-xl);
+    --pjg-mute:color-mix(in srgb,var(--panel) 66%,transparent);--pjg-tint:color-mix(in srgb,var(--panel) 10%,transparent);--pjg-line:color-mix(in srgb,var(--panel) 34%,transparent);
     padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);font-family:var(--font-sans);animation:pjg-in var(--dur-default) var(--ease-out) both;}
   .pjg.is-min{width:auto;padding:0;border-radius:var(--r-pill);box-shadow:var(--e-lg);}
   @keyframes pjg-in{from{opacity:0;transform:translateY(8px) scale(.98);}}
   .pjg-hd{display:flex;align-items:center;gap:var(--sp-3);padding-left:var(--sp-2);}
   .pjg-t{font-size:var(--fs-h9);font-weight:var(--fw-semibold);flex:1;min-width:0;}
-  .pjg-n{font-size:var(--fs-h10);color:var(--muted);font-variant-numeric:tabular-nums;}
+  .pjg-n{font-size:var(--fs-h10);color:var(--pjg-mute);font-variant-numeric:tabular-nums;}
   .pjg-min.btn svg{width:18px;height:18px;}
+  .pjg .pjg-min.btn{--fg:var(--pjg-mute);--tint:var(--pjg-tint);color:var(--fg);} .pjg .pjg-min.btn:hover{background:var(--pjg-tint);color:var(--panel);} .pjg .pjg-min.btn:focus-visible{outline:2px solid var(--panel);outline-offset:1px;}
   .pjg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--sp-1);}
   .pjg-it{display:flex;flex-direction:column;}
   .pjg-b{all:unset;box-sizing:border-box;display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3);border-radius:var(--r-md);cursor:pointer;
     transition:background-color var(--dur-fast) var(--ease-out);}
-  .pjg-b:hover{background:var(--panel-2);}
-  .pjg-b:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
-  .pjg-it.is-next .pjg-b{background:color-mix(in srgb,var(--accent) 8%,transparent);}
-  .pjg-ic{width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:1.5px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;margin-top:1px;box-sizing:border-box;}
+  .pjg-b:hover{background:var(--pjg-tint);}
+  .pjg-b:focus-visible{outline:2px solid var(--panel);outline-offset:-2px;}
+  .pjg-it.is-next .pjg-b{background:color-mix(in srgb,var(--panel) 14%,transparent);}
+  .pjg-ic{width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:1.5px solid var(--pjg-line);display:inline-flex;align-items:center;justify-content:center;margin-top:1px;box-sizing:border-box;}
   .pjg-ic svg{width:13px;height:13px;stroke-width:3;}
   .pjg-it.is-done .pjg-ic{background:var(--s-success,#16A34A);border-color:transparent;color:#fff;}
-  .pjg-it.is-skip .pjg-ic{background:var(--panel-3);border-color:transparent;color:var(--muted);}
-  .pjg-it.is-next .pjg-ic{border-color:var(--accent);}
+  .pjg-it.is-skip .pjg-ic{background:var(--pjg-tint);border-color:transparent;color:var(--pjg-mute);}
+  .pjg-it.is-next .pjg-ic{border-color:var(--panel);}
   .pjg-tx{display:flex;flex-direction:column;gap:2px;min-width:0;}
   .pjg-lb{font-size:var(--fs-h10);font-weight:var(--fw-medium);line-height:1.4;}
-  .pjg-d{font-size:var(--fs-h11);color:var(--muted);line-height:1.45;}
+  .pjg-d{font-size:var(--fs-h11);color:var(--pjg-mute);line-height:1.45;}
   .pjg-it.is-next .pjg-lb{font-weight:var(--fw-semibold);}
   .pjg-pill{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--sp-3);cursor:pointer;white-space:nowrap;
-    padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-5);border-radius:var(--r-pill);font-size:var(--fs-h10);font-weight:var(--fw-semibold);font-family:var(--font-sans);color:var(--ink);}
-  .pjg-pill:hover{background:var(--panel-2);}
-  .pjg-pill:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
-  .pjg-pn{color:var(--muted);font-variant-numeric:tabular-nums;font-weight:var(--fw-medium);}
-  .pjg-ring{width:24px;height:24px;border-radius:50%;background:conic-gradient(var(--s-success,#16A34A) calc(var(--p) * 1%),var(--line) 0);display:inline-flex;align-items:center;justify-content:center;}
-  .pjg-ring::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--panel);}
+    padding:var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-5);border-radius:var(--r-pill);font-size:var(--fs-h10);font-weight:var(--fw-semibold);font-family:var(--font-sans);color:var(--panel);}
+  .pjg-pill:hover{background:var(--pjg-tint);}
+  .pjg-pill:focus-visible{outline:2px solid var(--panel);outline-offset:-2px;}
+  .pjg-pn{color:var(--pjg-mute);font-variant-numeric:tabular-nums;font-weight:var(--fw-medium);}
+  .pjg-ring{width:24px;height:24px;border-radius:50%;background:conic-gradient(var(--s-success,#16A34A) calc(var(--p) * 1%),var(--pjg-line) 0);display:inline-flex;align-items:center;justify-content:center;}
+  .pjg-ring::after{content:"";width:16px;height:16px;border-radius:50%;background:var(--ink);}
   @media(max-width:767px){
     .pjg{left:calc(12px + env(safe-area-inset-left,0px));right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;max-height:70vh;overflow:auto;padding:var(--sp-4);}
     .pjg.is-min{left:auto;}
@@ -17845,6 +17849,8 @@ function buildScheduleChart(view){
     {v:'v46', date:'2026-11-11', title:'模式切換移到頂欄、引導小卡放大', items:[
       {tag:'improve', t:'頂欄 logo 右邊改成「瀏覽｜編輯」切換，重新開始拉到專案名稱旁；手機放在選單最上方'},
       {tag:'improve', t:'頂欄的裝置預覽切換改成下拉選單'},
+      {tag:'improve', t:'頂欄寬度不夠時（1279px 以下），重新開始只留 reload 圖示'},
+      {tag:'improve', t:'建立流程小卡與收合膠囊改成跟外層相反的底色（淺色模式深底、深色模式淺底），同底部浮動列'},
       {tag:'improve', t:'建立流程小卡離右下邊界 24px，字級與內距放大，展開收合有補間動態'},
       {tag:'new', t:'Design Token 頁右上新增「沿用提案」：有改動時確認後改回提案的值'},
       {tag:'improve', t:'品牌問卷「其他」的字體與深色模式改用 Chip 單選；編輯模式側欄隱藏版本紀錄、下載元件庫停用'},
@@ -21167,6 +21173,7 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"瀏覽": "Browse", "瀏覽或編輯模式": "Browse or edit mode", "瀏覽：只看不改｜編輯：開專案調整": "Browse: view only | Edit: open a project and adjust", "清除這份草稿，回到第 1 步": "Clear this draft and go back to step 1", "已沿用提案": "Proposal kept", "改回提案的值？": "Revert to the proposed values?", "改回提案": "Revert to proposal", "不調整，直接用提案的值": "Skip adjusting and keep the proposed values", "編輯模式請用右上「匯出檔案」": "In edit mode, use Export files at the top right"}); // MODE:v2
   I18N_RX.push(...[["^響應式預覽：(.+)$", "Responsive preview: {T:1}"], ["^專案：(.+)$", "Project: $1"], ["^目前改了 (\\d+) 個 token，會全部改回提案的值（快速風格也一起回到提案）。$", "You've changed $1 tokens. They'll all go back to the proposed values (quick styles too)."], ["^目前改了 (\\d+) 個，按下會改回提案的值$", "$1 changed. Press to revert to the proposed values"]]);
   Object.assign(I18N_EN,{"模式切換移到頂欄、引導小卡放大": "Mode switch in the top bar, larger setup guide", "頂欄 logo 右邊改成「瀏覽｜編輯」切換，重新開始拉到專案名稱旁；手機放在選單最上方": "A Browse | Edit switch now sits next to the logo, with Start over beside the project name; on phones they're at the top of the menu", "頂欄的裝置預覽切換改成下拉選單": "The device preview switch in the top bar is now a dropdown", "建立流程小卡離右下邊界 24px，字級與內距放大，展開收合有補間動態": "The setup guide sits 24px from the bottom-right edge, with larger text and padding, and animates smoothly when it expands or collapses", "Design Token 頁右上新增「沿用提案」：有改動時確認後改回提案的值": "New Keep proposal button at the top right of Design Token: if you've made changes, it reverts them to the proposed values after you confirm", "品牌問卷「其他」的字體與深色模式改用 Chip 單選；編輯模式側欄隱藏版本紀錄、下載元件庫停用": "Font and dark mode in the questionnaire's Other section now use single-select chips; in edit mode the sidebar hides Changelog and disables Download library"}); // MODE:v2 changelog
+  Object.assign(I18N_EN,{"頂欄寬度不夠時（1279px 以下），重新開始只留 reload 圖示": "When the top bar is narrow (1279px and below), Start over shows only the reload icon", "建立流程小卡與收合膠囊改成跟外層相反的底色（淺色模式深底、深色模式淺底），同底部浮動列": "The setup guide and its collapsed pill now use the opposite background to the page (dark on light, light on dark), like the floating bar"}); // MODE:v3
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
   const I18N_S={'在線':'Online','離線':'Offline','離開':'Away'};
@@ -22552,7 +22559,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
   function dsModeSw(){const g=sgmEl('soft','s',{live:true,items:['瀏覽','編輯'],active:FLW.active?1:0,label:'瀏覽或編輯模式',onChange:i=>{i===1?dsGoEdit():dsGoBrowse();}});
     g.classList.add('ds-mode-sw');g.title='瀏覽：只看不改｜編輯：開專案調整';return g;}
   function dsRstBtn(){const b=mkBtn({variant:'text',intent:'secondary',size:'s',isLive:true});b.type='button';b.classList.add('has-lead','ds-pj-rst');
-    b.innerHTML=PI('refresh-cw')+'<span>重新開始</span>';b.title='清除這份草稿，回到第 1 步';b.onclick=dsRestart;return b;}
+    b.innerHTML=PI('refresh-cw')+'<span>重新開始</span>';b.title='清除這份草稿，回到第 1 步';b.setAttribute('aria-label','重新開始');b.onclick=dsRestart;return b;}
   function dsSyncTopbar(){if(window.__dsProject)return;const btn=document.getElementById('dsNewProjBtn');if(!btn)return;
     const ed=!!FLW.active,note=document.getElementById('dsBadgeProj'),tb=document.querySelector('.topbar');
     let sw=document.getElementById('dsModeSw');
