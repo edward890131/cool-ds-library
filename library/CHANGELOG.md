@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-11（一百二十七）　Tag／Chip 中文置中改用 text-box-trim（Mac 一致）
+
+- **TXT-OPTICAL:v2**：使用者在 Mac 實測 Tag L、Chip L 仍偏高約 1.5px、Chip M 約 0.5px。原因是 Mac 的 Chrome 用不同的字體行高數值算行框，固定像素補正在不同系統結果不同。改成兩步：`.tg > span`、`.chp-t` 加 `text-box: trim-both cap alphabetic`（文字框裁到大寫高度～基線，位置不再受行高數值影響；實測行高 1～2.4 位置都不動），再沿用中文模式的 `translateY` 補正（.05em／s 0／l .025em）。Linux 實測六種尺寸上下差 ≤ 0.25px。
+
 ## 2026-11-11（一百二十六）　Tag／Chip 中文字垂直置中、建立流程小卡更精緻
 
 - **中文字視覺置中**（`TXT-OPTICAL:v1`）：實測文字框本身已置中，但 Noto Sans TC 疊在 Geist 的行框裡，中文筆畫重心比中心高約 0.6px（12px 字）。中文模式下 `.tg > span`、`.chp-t` 以 `transform: translateY(--txt-optical)` 往下補正（`top` 會被對齊整數像素、無效）：預設 .05em、Tag s 0、Tag／Chip l .025em。補正後六種尺寸上下差都在 0.25px 內；英文模式不補。Button 也有相同偏移，這次未動。

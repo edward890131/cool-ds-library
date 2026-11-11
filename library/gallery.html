@@ -814,7 +814,10 @@
   .chp[aria-checked="true"].live:hover:not(:disabled){background:color-mix(in srgb,var(--chp-bg-on,var(--ink)) 88%,var(--panel));}
   .chp:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   /* TXT-OPTICAL:v1 中文字形（Noto Sans TC 疊在 Geist 的行框裡）墨色重心比框中心高約 0.05em：中文模式下文字往下補正，英文模式不動 */
-  html:not([lang="en"]) .tg > span,html:not([lang="en"]) .chp-t{display:inline-block;transform:translateY(var(--txt-optical,.05em));}   /* top 會被對齊整數像素，改用 transform 才能補 0.5px 級的位移 */
+  /* TXT-OPTICAL:v2 兩步：①文字框裁到「大寫高度～英文基線」（text-box-trim）再置中——不靠各系統不同的行高數值，Mac 與 Windows／Linux 位置一致
+     （Mac 的 Chrome 行高算法不同，原本中文多偏高約 1.5px）；②中文字形重心比英文大寫高約 0.05em，中文模式再往下補（transform，top 會被對齊整數像素）。英文模式不補 */
+  .tg > span,.chp-t{text-box:trim-both cap alphabetic;}
+  html:not([lang="en"]) .tg > span,html:not([lang="en"]) .chp-t{display:inline-block;transform:translateY(var(--txt-optical,.05em));}
   .tg.sz-s{--txt-optical:0;} .tg.sz-l,.chp.chp-sz-l{--txt-optical:.025em;}   /* 依字級實測：10px 本來就置中、14px 只差一半 */
   .chp:disabled,.chp.is-disabled{opacity:.42;cursor:not-allowed;}
   .chp svg{width:1.15em;height:1.15em;flex:0 0 auto;}
@@ -17863,7 +17866,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'頂欄的裝置預覽切換改成下拉選單'},
       {tag:'improve', t:'頂欄寬度不夠時（1279px 以下），重新開始只留 reload 圖示'},
       {tag:'improve', t:'浮動鈕展開子項改成依序彈出（離主鈕近的先出），收合時遠的先收回'},
-      {tag:'fix', t:'Tag 與 Chip 的中文字垂直置中（中文字形原本偏高約半像素）'},
+      {tag:'fix', t:'Tag 與 Chip 的中文字垂直置中：文字框先裁到大寫高度與基線再置中，Mac 與其他系統位置一致（Mac 原本偏高約 1.5px）'},
       {tag:'improve', t:'建立流程小卡圓角與內距縮小，更精緻'},
       {tag:'improve', t:'建立流程小卡與收合膠囊改成跟外層相反的底色（淺色模式深底、深色模式淺底），同底部浮動列'},
       {tag:'improve', t:'建立流程小卡離右下邊界 24px，字級與內距放大，展開收合有補間動態'},
@@ -21191,6 +21194,7 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"頂欄寬度不夠時（1279px 以下），重新開始只留 reload 圖示": "When the top bar is narrow (1279px and below), Start over shows only the reload icon", "建立流程小卡與收合膠囊改成跟外層相反的底色（淺色模式深底、深色模式淺底），同底部浮動列": "The setup guide and its collapsed pill now use the opposite background to the page (dark on light, light on dark), like the floating bar"}); // MODE:v3
   Object.assign(I18N_EN,{"浮動鈕展開子項改成依序彈出（離主鈕近的先出），收合時遠的先收回": "The floating button's items now pop out one by one (nearest first) and tuck back in from the farthest when it closes"}); // FAB-MOTION:v1
   Object.assign(I18N_EN,{"Tag 與 Chip 的中文字垂直置中（中文字形原本偏高約半像素）": "Chinese text in Tag and Chip is now vertically centered (it sat about half a pixel high)", "建立流程小卡圓角與內距縮小，更精緻": "The setup guide has smaller corners and tighter padding"}); // TXT-OPTICAL:v1
+  Object.assign(I18N_EN,{"Tag 與 Chip 的中文字垂直置中：文字框先裁到大寫高度與基線再置中，Mac 與其他系統位置一致（Mac 原本偏高約 1.5px）": "Chinese text in Tag and Chip is vertically centered: the text box is trimmed to cap height and baseline before centering, so Mac matches other systems (it sat about 1.5px high on Mac)"}); // TXT-OPTICAL:v2
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
   const I18N_S={'在線':'Online','離線':'Offline','離開':'Away'};
