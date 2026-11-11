@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-11-11（一百二十六）　Tag／Chip 中文字垂直置中、建立流程小卡更精緻
+
+- **中文字視覺置中**（`TXT-OPTICAL:v1`）：實測文字框本身已置中，但 Noto Sans TC 疊在 Geist 的行框裡，中文筆畫重心比中心高約 0.6px（12px 字）。中文模式下 `.tg > span`、`.chp-t` 以 `transform: translateY(--txt-optical)` 往下補正（`top` 會被對齊整數像素、無效）：預設 .05em、Tag s 0、Tag／Chip l .025em。補正後六種尺寸上下差都在 0.25px 內；英文模式不補。Button 也有相同偏移，這次未動。
+- **建立流程小卡**：圓角 `--r-lg`→`--r-md`、外距 16→6px、項目內距 8→6／8px、項目圓角 `--r-sm`、寬 300→272；標題與項目文字左緣對齊；膠囊內距同步縮小。
+
 ## 2026-11-11（一百二十五）　浮動鈕展開／收合動態
 
 - **Floating Line · FAB**（`FAB-MOTION:v1`）：子項不再用 `display` 切換，改成常駐 DOM、以 `.is-open` 切換。展開＝離主鈕近的先出（上移＋放大＋淡入，`--ease-spring`，每顆間隔 45ms）；收合＝遠的先收、往主鈕縮回（`--ease-in`，間隔 30ms）。主鈕 ＋→× 旋轉改彈性曲線。收合時子項 `inert`，不會被 Tab 到。reduced-motion 只淡入淡出。
