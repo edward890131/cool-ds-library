@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-12（一百三十六）　Button 新增圓形（shape）
+
+- **Button shape**（`BTN-SHAPE:v1`）：`mkBtn({shape:'circle'})` 加 `.shape-circle`，只把 `--btn-radius` 換成 `--r-pill`（icon-only 本來是正方形，套上就是正圓；有文字則是膠囊）。預設 `rect` 不變。
+- **Button 頁**：新增「Shape 形狀」段落（rect／circle × 文字、icon-only s／m／l 對照）；互動預覽加 Shape 切換，程式碼區與 CSS 分頁帶出 `shape-circle`。
+- **Player Card**：上一輪拿掉的膠囊覆寫改用正式的 `shape:'circle'`（播放、上一首、下一首、喜歡、展開），`crdBtn` 支援傳 shape。
+- Figma 端之後要對應成 Button 的 `shape` variant property（rect／circle）。
+
 ## 2026-11-12（一百三十五）　日文版試做（首頁）＋語言切換改下拉
 
 - **日文**（`I18N-JA:v1`）：新增 `I18N_JA`（約 590 句，首頁＋頂欄＋側欄＋按鈕提示）與 `I18N_JA_RX`（41 種動態句型，`{T:n}` 子片段再翻）。`i18nCore` 在日文模式先查日文，查不到退回英文（其他頁目前顯示英文）。日文命中時保留全形標點、不補英文空格；純標點節點只把「，」換成「、」。`i18nSet` 切換前先還原中文，en ↔ ja 可直接切。
