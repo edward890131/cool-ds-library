@@ -17139,7 +17139,7 @@ function buildScheduleChart(view){
       lede:'用 AI Chat 元件與既有原子組成的完整對話介面：<b>電腦版</b>左側是對話紀錄，<b>手機版</b>紀錄收進抽屜。可以直接打字試玩：思考 → 逐字回覆 → 停止／重新產生 → 讚、倒讚回饋。範本只負責排版，元件或 token 一改，這頁跟著更新。',
       specRows:[['type','<code>template</code>'],['devices','desktop 1080 ／ mobile 375'],['scenarios','歡迎 · 對話中 · 思考中 · 串流中 · 錯誤'],['data','通用假資料']]});
     const sec=section(body,'互動範本','切換裝置與情境；在輸入框打字、按 Enter 送出。從「＋」開啟網頁搜尋，會先顯示搜尋狀態。');
-    let dev='desktop',scn='conversation';const bar=ce('div','tpl-bar bento-card bento-ctl');const stage=ce('div','tpl-stage');
+    let dev=tplDefDev(),scn='conversation';const bar=ce('div','tpl-bar bento-card bento-ctl');const stage=ce('div','tpl-stage');
     const seg=(label,items,act,on)=>{const c=ce('div','ctl');const l=ce('span','lab');l.textContent=label;
       const g=items.length>4?ddField('outline',{size:'s',options:items.map(x=>({value:x[0],label:x[1]})),value:act,onChange:v=>on(v)})   /* 選項多：改下拉，左欄放得下 */
         :sgmEl('soft','s',{items:items.map(x=>x[1]),active:items.findIndex(x=>x[0]===act),label,live:true,full:true,onChange:i=>on(items[i][0])});c.append(l,g);return c;};
@@ -17152,6 +17152,8 @@ function buildScheduleChart(view){
     usageSection(body,[['電腦版','對話紀錄常駐左側，主區最寬 720px，長回覆好讀。'],['手機版','紀錄收進抽屜，輸入列改精簡版；鍵盤彈出時送出鍵仍可見。'],['生成中','送出鍵變停止鍵；停止後保留已產生的內容並可重新產生。']]);}
   /* 範本預覽縮放：節點以原寬度排版，預覽區不夠寬時等比縮小（transform），外框高度跟著縮 */
   /* 範本版型：左控制卡｜拖曳把手（沿用 .bento-rz）｜預覽；寬度記在 localStorage */
+  /* TPL-MDEV:v1 範本預設裝置：手機（≤767px，含裝置預覽的手機框）開範本頁直接看手機版，其他照舊電腦版 */
+  function tplDefDev(){try{return matchMedia('(max-width:767px)').matches?'mobile':'desktop';}catch(e){return 'desktop';}}
   function tplLay(bar,stage){const lay=ce('div','tpl-lay');const rz=ce('div','bento-rz tpl-rz');rz.setAttribute('role','separator');rz.setAttribute('aria-orientation','vertical');rz.setAttribute('aria-label','調整控制區寬度');rz.tabIndex=0;
     let w=240;try{w=+localStorage.getItem('cdl-tpl-ctl')||240;}catch(e){}
     const set=v=>{w=Math.max(200,Math.min(400,Math.round(v)));lay.style.setProperty('--tpl-c1',w+'px');rz.setAttribute('aria-valuenow',w);try{localStorage.setItem('cdl-tpl-ctl',w);}catch(e){}};set(w);
@@ -17385,7 +17387,7 @@ function buildScheduleChart(view){
       lede:'後台範本的「'+meta[0]+'」：'+meta[1]+'五個後台範本共用同一個框架（側欄、頁首、960 內容欄），<b>側欄可以直接切換頁面</b>；電腦版側欄常駐，平板與手機收進抽屜。畫面由既有元件組成，元件或 token 一改，範本跟著更新。',
       specRows:[['type','<code>template</code>'],['devices','desktop 1180 ／ tablet 768 ／ mobile 375'],['scenarios','正常 · 載入中 · 空資料 · 錯誤'],['data','通用假資料（電商訂單）']]});
     const sec=section(body,'互動範本','切換裝置與情境；點側欄、表格列、按鈕都會真的切換頁面。');
-    let dev='desktop',scn='normal';const bar=ce('div','tpl-bar bento-card bento-ctl');const stage=ce('div','tpl-stage');
+    let dev=tplDefDev(),scn='normal';const bar=ce('div','tpl-bar bento-card bento-ctl');const stage=ce('div','tpl-stage');
     const seg=(label,items,act,on)=>{const c=ce('div','ctl');const l=ce('span','lab');l.textContent=label;
       const g=items.length>4?ddField('outline',{size:'s',options:items.map(x=>({value:x[0],label:x[1]})),value:act,onChange:v=>on(v)})   /* 選項多：改下拉，左欄放得下 */
         :sgmEl('soft','s',{items:items.map(x=>x[1]),active:items.findIndex(x=>x[0]===act),label,live:true,full:true,onChange:i=>on(items[i][0])});c.append(l,g);return c;};
@@ -17569,7 +17571,7 @@ function buildScheduleChart(view){
       lede:'網站內容頁範本的「'+m[1]+'」：'+m[2]+'只參考版型架構（頁首 → 頁面橫幅 → 內容 → 頁尾），畫面全部由既有元件組成；點文章或消息會切到文章內頁。',
       specRows:[['type','<code>template</code>'],['devices','desktop 1280 ／ mobile 375'],['scenarios','正常 · 載入中 · 空資料'],['data','通用假資料']]});
     const sec=section(body,'互動範本','切換裝置與情境；篩選、排序、分頁、文章連結都可以操作。');
-    let dev='desktop',scn='normal';const bar=ce('div','tpl-bar bento-card bento-ctl');const stage=ce('div','tpl-stage');
+    let dev=tplDefDev(),scn='normal';const bar=ce('div','tpl-bar bento-card bento-ctl');const stage=ce('div','tpl-stage');
     const seg=(label,items,act,on)=>{const c=ce('div','ctl');const l=ce('span','lab');l.textContent=label;
       const g=sgmEl('soft','s',{items:items.map(x=>x[1]),active:items.findIndex(x=>x[0]===act),label,live:true,full:true,onChange:i=>on(items[i][0])});c.append(l,g);return c;};
     const draw=()=>{stage.innerHTML='';tplFit(stage,twsApp(page,dev,scn));};
@@ -17880,6 +17882,9 @@ function buildScheduleChart(view){
 
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
+    {v:'v50', date:'2026-11-11', title:'手機開範本頁預設看手機版', items:[
+      {tag:'improve', t:'用手機開範本頁時，預覽直接顯示手機版（仍可切回電腦、平板）'},
+    ]},
     {v:'v49', date:'2026-11-11', title:'品牌問卷選項用滿寬度', items:[
       {tag:'fix', t:'品牌問卷的選項不再在一半寬度就換行，改成用滿整張卡片'},
     ]},
@@ -21231,6 +21236,7 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"建立流程小卡改用元件原子":"Setup guide card now uses library atoms","建立流程小卡的步驟圓圈與標題垂直置中":"Step circles in the setup guide card are now vertically centered with their titles","手機版的深淺色、語言切換移到側欄選單裡":"On mobile, the theme and language switches have moved into the sidebar menu","建立流程小卡的步驟圓圈改用 Stepper 節點、縮小膠囊改用 Button 元件":"The setup guide card's step circles now use Stepper nodes, and the collapsed pill uses the Button component","建立流程小卡的完成色改綁成功色 token（原本吃到寫死的綠色）":"The setup guide card's done color now binds to the success token (it was falling back to a hard-coded green)"});  /* GUIDE-ATOM:v1 */
   Object.assign(I18N_EN,{"Tag 置中修正、模式切換文案":"Tag centering fix and mode switch wording","瀏覽模式":"Browse mode","首頁三方同步段的說明文字下方加上「Download Skill」按鈕（連到 GitHub）":"Added a Download Skill button (links to GitHub) below the intro text of the home page’s three-way sync section","Download Skill（GitHub，另開分頁）":"Download Skill (GitHub, opens in a new tab)","編輯模式":"Edit mode","頂欄拿掉「此為母元件庫」提示，模式切換文案改成「瀏覽模式／編輯模式」":"Removed the master-library note from the top bar; the mode switch now reads Browse mode / Edit mode","Tag 固定自己的行高，放在任何區塊裡中文都一樣置中（原本首頁專案卡的標籤文字偏上）":"Tags now set their own line height, so Chinese text stays centered wherever they’re placed (the tag on the home project card used to sit high)"});  /* TAG-LH:v1 */
   Object.assign(I18N_EN,{"品牌問卷選項用滿寬度":"Brand survey options use the full width","品牌問卷的選項不再在一半寬度就換行，改成用滿整張卡片":"Brand survey options no longer wrap at half width; they now use the full card"});  /* FLW-QW:v1 */
+  Object.assign(I18N_EN,{"手機開範本頁預設看手機版":"Templates open in mobile view on phones","用手機開範本頁時，預覽直接顯示手機版（仍可切回電腦、平板）":"On a phone, template pages now start in the mobile preview (you can still switch to desktop or tablet)"});  /* TPL-MDEV:v1 */
   Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，單選與多選外觀相同。高度綁": " text; single and multi-select look the same. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});
   Object.assign(I18N_EN,{"Segmented 圓角縮小（8→4px）；text／soft 按鈕 hover 底色改成與 solid 按鈕同大；Table Toolbar 列高切換預設關閉；甘特圖進場不再出現圓角":"Segmented corners are smaller (8→4px); text and soft button hover fills now match solid buttons in size; the Table Toolbar density toggle is off by default; Gantt bars no longer show rounded corners while animating in."});
