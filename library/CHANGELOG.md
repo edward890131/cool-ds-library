@@ -11,6 +11,7 @@
 - **日文**（`I18N-JA:v1`）：新增 `I18N_JA`（約 590 句，首頁＋頂欄＋側欄＋按鈕提示）與 `I18N_JA_RX`（41 種動態句型，`{T:n}` 子片段再翻）。`i18nCore` 在日文模式先查日文，查不到退回英文（其他頁目前顯示英文）。日文命中時保留全形標點、不補英文空格；純標點節點只把「，」換成「、」。`i18nSet` 切換前先還原中文，en ↔ ja 可直接切。
 - **日文字形與換行**：切到日文才載入 Google Fonts 的 Noto Sans JP；`:root[lang=ja]` 改 `--font-sans／display／mono` 的 CJK 字型；`word-break:auto-phrase` 讓日文依詞組換行，不在詞中間斷開。
 - **語言切換改下拉**：頂欄與手機側欄的 Segmented（中／EN）改成 Dropdown 原子（`ddField`），選項「中文／English／日本語」；`langDd().__sync` 讓兩顆同步。
+- **英文原文也翻日文**（`I18N-JA:v2`）：首頁展示卡（睡眠、人物、群組訊息卡）、數字區標籤、游標標籤原本就是英文寫的，新增 `I18N_JA_LAT`／`I18N_JA_LATRX`（英文 → 日文），只在日文模式、且只限 `#hxShowGrid`／`#hxStats`／`.hx-cur` 內生效，不誤翻元件頁的英文。宣言段（Every component grows…）改成依語言產生字塊：日文一字一塊逐字亮起，切換語言時重建。建立流程小卡 7 個步驟與狀態文字補日文。
 - 手機寬度下會被截斷的日文改用較短譯法（主按鈕「新規プロジェクト」、商品名等）。英文原文的段標題（Tune one token…、Try to change the token setting.）維持英文。
 
 ## 2026-11-11（一百三十四）　手機開範本頁預設看手機版
