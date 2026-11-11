@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-11（一百三十三）　品牌問卷選項用滿卡片寬
+
+- **問卷選項寬度**（`FLW-QW:v1`）：問卷題目卡（`.flw-q`）裡橫跨整列的欄位仍吃 Field 原子預設的 `max-width:420px`，卡片 719px 寬時膠囊在 420px 就換行。只在 `.flw-q .fld.flw-span` 解除上限，Field 原子本身不動。桌機第 1、3 題改為一行；第 4 題四個選項合計約 750px，仍會換一行。
+
 ## 2026-11-11（一百三十二）　首頁三方同步段加「Download Skill」主按鈕
 
 - **GitHub 按鈕**（`HOME-GH:v1`）：首頁「Start from Claude, Code & Figma auto-sync」說明文字下方加一顆 Button 原子（solid／primary／m，前置 GitHub 圖示，文案「Download Skill」），點擊另開分頁到 repo，網址與頂欄 GitHub 按鈕相同。
