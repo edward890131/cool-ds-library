@@ -5407,6 +5407,9 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
   .hx-color{--flw-ctl-h:36px;height:var(--flw-ctl-h);width:100%;box-sizing:border-box;}
   .hx-color .tok-sw-btn{width:28px;height:24px;border-radius:var(--r-xs);}
   .hx-color.is-bad{border-color:var(--i-danger);}
+  /* SWATCH-SQ:v1 色號欄左側色票：上下內距跟左側一樣（--sp-1），色票撐滿內高、做成正方形 → 四邊距離相等，欄位高度變了也會跟著 */
+  .flw-color,.hx-color{padding-top:var(--sp-1);padding-bottom:var(--sp-1);padding-left:var(--sp-1);align-items:stretch;}
+  .flw-color .tok-sw-btn,.hx-color .tok-sw-btn{align-self:stretch;height:auto;width:auto;aspect-ratio:1/1;border-radius:var(--r-xs);}
   .hx-sws{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
   .hx-sw-b{--sw:var(--sw-l);position:relative;width:26px;height:26px;border-radius:var(--hx-sw-r);border:0;padding:0;cursor:pointer;background:var(--sw);
     box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 14%,transparent);transition:transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);}
@@ -5522,8 +5525,7 @@ html[lang=en] .cl-tag{width:76px;}  /* I18N:v2 英文標籤（Improved）比中�
   .hx > #hxFlow,.hx > #hxFigma,.hx > #hxNews{max-width:1180px;margin-left:auto;margin-right:auto;}
   .hx > #hxFlow,.hx > #hxFigma,.hx > #hxVoice,.hx > #hxMap,.hx > #hxNews{margin-top:calc(var(--sp-9) * 2);}
   /* HOME-PHONES:v1 首頁手機跑馬燈：外框 PNG 疊在螢幕上，螢幕內是縮小的手機版範本 */
-  .hx-phs-view{position:relative;overflow:hidden;margin:0 calc(var(--sp-5) * -1);padding:var(--sp-4) 0 var(--sp-2);
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+  .hx-phs-view{position:relative;overflow:hidden;margin:0 calc(var(--sp-5) * -1);padding:var(--sp-4) 0 var(--sp-2);}   /* PHS-NOFADE:v1 拿掉左右 6% 漸層遮罩，手機直接切邊 */
   .hx-phs-track{display:flex;column-gap:var(--sp-7);width:max-content;will-change:transform;padding-left:var(--sp-5);}
   .hx-ph{--ph-w:248px;position:relative;margin:0;width:var(--ph-w);flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);}
   .hx-ph-frame{position:relative;z-index:2;width:100%;height:auto;display:block;pointer-events:none;user-select:none;filter:drop-shadow(0 18px 30px rgba(0,0,0,.18));}
@@ -17186,6 +17188,8 @@ function buildScheduleChart(view){
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[
     {v:'v40', date:'2026-11-10', title:'選擇元件頁改用 Chip、搜尋彈窗內距', items:[
+      {tag:'improve', t:'首頁手機跑馬燈拿掉左右漸層'},
+      {tag:'fix', t:'色號欄左側色票改成正方形，上下左右距離一致'},
       {tag:'improve', t:'元件頁與範本頁標題上方的小標只留分類，拿掉跟大標重複的元件名'},
       {tag:'improve', t:'Header 等水平選單的選中底線會滑到新選項（同 Tab 底線動態）'},
       {tag:'fix', t:'後台儀表板與最新消息範本的分頁，點擊時補回 Tab 元件的果凍切換動態'},
@@ -20417,6 +20421,7 @@ function buildScheduleChart(view){
   Object.assign(I18N_EN,{"選擇元件頁改用 Chip、搜尋彈窗內距": "Select Comps uses Chip; search dialog padding", "選擇元件頁的變數選項改用 Chip 元件（多選）": "Variant options on the Select Comps page now use the Chip component (multi-select).", "搜尋彈窗底部操作列上下內距加大，與左右一致": "The search dialog’s bottom bar now has equal vertical and horizontal padding."});
   Object.assign(I18N_EN,{"Chip 多選不再顯示勾，單選與多選外觀相同": "Multi-select Chips no longer show a check; single and multi-select look the same.", "選擇元件頁的變數改用 m 尺寸，文字依網站語言只顯示中文或英文": "Variant options on Select Comps use size m and show only Chinese or English, following the site language."});
   Object.assign(I18N_EN,{"Header 等水平選單的選中底線會滑到新選項（同 Tab 底線動態）":"The active underline in horizontal menus such as the Header now slides to the new item (same motion as the Tab underline)","後台儀表板與最新消息範本的分頁，點擊時補回 Tab 元件的果凍切換動態":"Tabs in the Admin Dashboard and News templates now play the Tab component’s jelly switch motion on click"});
+  Object.assign(I18N_EN,{"首頁手機跑馬燈拿掉左右漸層":"Removed the side fades from the home phone marquee","色號欄左側色票改成正方形，上下左右距離一致":"The swatch in color fields is now square with equal spacing on all sides"});
   Object.assign(I18N_EN,{"元件頁與範本頁標題上方的小標只留分類，拿掉跟大標重複的元件名":"The small label above component and template page titles now shows only the category, dropping the name that repeated the title"});
   Object.assign(I18N_EN,{"可點選的膠囊，給": "Clickable pills for ", "少量選項的單選或多選": "single or multiple choice among a few options", "（風格方向、篩選條件、偏好）。": " (style directions, filters, preferences). ", "；未選＝": "; unselected = ", "底、選中＝": " background, selected = ", "字，單選與多選外觀相同。高度綁": " text; single and multi-select look the same. Height binds to ", "（24／32／40）。和": " (24 / 32 / 40). Compared with ", "的差別：Tag 只顯示狀態、不能點。": ": Tag only shows status and can’t be clicked.", "特寬": "Extra wide", "boolean：dot 色點（用色選擇等）、icon 前置圖示。": "Booleans: dot (for color choices, etc.) and a leading icon.", "精選": "Featured", "：2～8 個選項、想讓所有選項一眼看完，例如風格方向、篩選條件。": ": 2–8 options you want visible at a glance, such as style directions or filters.", "：切換同一份內容的檢視方式、選項固定連成一條。": ": switching how the same content is viewed, with options joined in one bar.", "改用 Radio／Checkbox": "Use Radio / Checkbox instead", "：在表單裡、選項文字較長或需要說明。": ": inside forms, or when option text is long or needs a description.", "：選項超過 8 個。": ": more than 8 options.", "：只是顯示狀態、不能點。": ": it only shows status and can’t be clicked.", "示範選項": "Demo options", "Chip 選擇膠囊": "Chip", "Type 類型": "Type", "dot 色點": "dot", "disabled 停用一項": "disabled (one item)", "Content 內容": "Content", "點選或用方向鍵切換。": "Click or use the arrow keys to switch.", "每個 type 一塊；列＝狀態、欄＝尺寸。": "One block per type; rows = state, columns = size.", "單選＝radiogroup（方向鍵移動並選取，Tab 只停在選中項）；多選＝group（各自切換）。": "Single = radiogroup (arrow keys move and select; Tab stops only on the selected item). Multi = group (each toggles on its own).", "新增原子元件 Chip 選擇膠囊（單選／多選 × 4 狀態 × s 24／m 32／l 40），快速風格的選項改用 Chip；字級、字重對齊同高度的 Button": "New atom: Chip (single / multi × 4 states × s 24 / m 32 / l 40). Quick-style options now use Chip; type size and weight match Buttons of the same height.", "新元件：Chip 選擇膠囊": "New component: Chip"});  /* CHIP:v1 */
   Object.assign(I18N_EN,{"元件頁左側控制面板的 Size 選項統一由小到大、只顯示 s／m／l；修正開啟裝置預覽時頂欄 tooltip 被切掉":"Size options in the component control panels now run small to large and show only s / m / l; fixed the top-bar tooltip being cut off while a device preview is open."});

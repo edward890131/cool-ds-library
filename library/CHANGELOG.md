@@ -6,6 +6,11 @@
 
 ---
 
+## 2026-11-11（一百一十八）　色號欄色票四邊等距；手機跑馬燈拿掉左右漸層
+
+- **色號欄色票**（`SWATCH-SQ:v1`）：首頁快速風格「主色／輔助色」與開新專案流程的色號欄，左側色票原本 28×24 長方形，在 40 高欄位裡左距 5px、上下各 8px。改成上下內距同左側（`--sp-1`），色票撐滿內高並固定正方形（40 高時為 30×30），四邊都是 5px；欄位高度改變也會跟著等距。
+- **手機跑馬燈**（`PHS-NOFADE:v1`）：拿掉 `.hx-phs-view` 左右 6% 的漸層遮罩，手機在畫面邊緣直接切齊。
+
 ## 2026-11-11（一百一十七）　頁面小標只留分類
 
 - **頁面標題上方小標**（`EYEBROW-TRIM:v1`）：元件頁、範本頁的小標原本是「L3 Component · Button Group」，後半跟大標重複，改成只留分類（L3 Component／L3 Family／Template／Basic）。共用 `ebTrim()` 套在 `viewScaffold`、`bentoHTML`，Button 與 Logo 頁的寫死小標一起改。Design Token、選擇元件、上手指南等非元件頁的小標（如「Foundation · Design Token」）維持原樣。
