@@ -6,9 +6,9 @@
 
 ---
 
-## 2026-11-11（一百三十二）　首頁三方同步段加 GitHub 主按鈕
+## 2026-11-11（一百三十二）　首頁三方同步段加「Download Skill」主按鈕
 
-- **GitHub 按鈕**（`HOME-GH:v1`）：首頁「Start from Claude, Code & Figma auto-sync」說明文字下方加一顆 Button 原子（solid／primary／m，前置 GitHub 圖示），點擊另開分頁到 repo，網址與頂欄 GitHub 按鈕相同。
+- **GitHub 按鈕**（`HOME-GH:v1`）：首頁「Start from Claude, Code & Figma auto-sync」說明文字下方加一顆 Button 原子（solid／primary／m，前置 GitHub 圖示，文案「Download Skill」），點擊另開分頁到 repo，網址與頂欄 GitHub 按鈕相同。
 
 ## 2026-11-11（一百三十一）　拿掉母庫提示、模式切換文案改「瀏覽模式／編輯模式」
 
