@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-11（一百一十七）　頁面小標只留分類
+
+- **頁面標題上方小標**（`EYEBROW-TRIM:v1`）：元件頁、範本頁的小標原本是「L3 Component · Button Group」，後半跟大標重複，改成只留分類（L3 Component／L3 Family／Template／Basic）。共用 `ebTrim()` 套在 `viewScaffold`、`bentoHTML`，Button 與 Logo 頁的寫死小標一起改。Design Token、選擇元件、上手指南等非元件頁的小標（如「Foundation · Design Token」）維持原樣。
+
 ## 2026-11-10（一百一十六）　範本分頁補回切換動態；水平選單加滑動底線
 
 - **範本分頁動態**（`TAB-KEEP:v1`）：後台儀表板（營運摘要／統計報表）和網站範本最新消息（全部／重要公告／最新消息）的 Tab 用的是 contained 元件，但點擊後整頁重畫、分頁列被重建，元件的果凍切換動態還沒播就被換掉。改成分頁列只建一次、重畫時搬回同一條，點擊就看得到跟 Tab 元件頁一樣的果凍彈跳。
