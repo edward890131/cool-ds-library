@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-11（一百三十二）　首頁三方同步段加 GitHub 主按鈕
+
+- **GitHub 按鈕**（`HOME-GH:v1`）：首頁「Start from Claude, Code & Figma auto-sync」說明文字下方加一顆 Button 原子（solid／primary／m，前置 GitHub 圖示），點擊另開分頁到 repo，網址與頂欄 GitHub 按鈕相同。
+
 ## 2026-11-11（一百三十一）　拿掉母庫提示、模式切換文案改「瀏覽模式／編輯模式」
 
 - **母庫提示移除**（`MODE-COPY:v1`）：頂欄 logo 右側「此為母元件庫，若需更新請調整原始檔」與手機側欄底部同一句一起拿掉（頂欄已有模式切換，不需要再提示）；提示專用 CSS（`span.ds-badge-proj`、`.full`、`.sb-foot-note`）清掉，專案名 Tag 保留。母庫沒有底部內容時不放 `.sb-foot`。
