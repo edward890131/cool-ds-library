@@ -2499,7 +2499,7 @@
 /* 圖片上的標籤：半透明黑玻璃＋背景模糊（card / product 共用，壓在照片上）*/
 .tg.tg-glass{background:rgba(18,20,26,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:transparent!important;color:#fff;box-shadow:none;}
 .tg.tg-glass span{color:#fff;}
-.crd-badge .tg{box-shadow:var(--e-sm);} /* 壓在照片上補一點分離度 */
+/* CARD-ATOM:v2 照片角落徽章 Tag 不再加陰影，同元件庫 Tag */
 /* body：標題＋描述 */
 .crd-body{display:flex;flex-direction:column;gap:var(--crd-body-gap,var(--sp-2));padding:var(--sp-4) var(--sp-1) 0;}
 .crd-title{font-size:var(--crd-title-fs,var(--fs-h10));font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink);}
@@ -6586,7 +6586,7 @@ html[lang=en] .cl-tag,html[lang=ja] .cl-tag{width:76px;}  /* I18N:v2 英文標�
   .plc-tx{flex:1 1 auto;min-width:0;}
   .plc-title{font-size:var(--plc-title-fs,var(--fs-h6));font-weight:var(--fw-medium);line-height:var(--lh-tight);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .plc-artist{margin-top:var(--sp-1);font-size:var(--fs-h10);color:var(--muted);}
-  .plc .btn{--btn-radius:var(--r-pill);}
+  /* CARD-ATOM:v2 播放卡按鈕不再改成膠囊形，直接用元件庫按鈕圓角 */
   .plc-heart svg{width:22px;height:22px;}
   .plc-heart.is-on{color:var(--accent2);}
   .plc-heart.plc-pop svg{animation:plc-pop calc(var(--dur-default) * 1.6) var(--ease-spring);}
@@ -6655,7 +6655,7 @@ html[lang=en] .cl-tag,html[lang=ja] .cl-tag{width:76px;}  /* I18N:v2 英文標�
   .tkc-nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px;}
   .tkc-nm b{font-size:var(--fs-h9);font-weight:var(--fw-medium);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .tkc-nm span{font-size:var(--fs-h11);color:var(--muted);}
-  .tkc .btn.tkc-btn{--btn-radius:var(--r-pill);flex:0 0 auto;box-shadow:var(--e-sm);}
+  .tkc .btn.tkc-btn{flex:0 0 auto;}   /* CARD-ATOM:v2 拿掉膠囊圓角與陰影 */
 
   @media (max-width:420px){
     .wtc,.plc{padding:var(--sp-5) var(--sp-5) var(--sp-4);} .tkc-top,.tkc-bot{padding-left:var(--sp-5);padding-right:var(--sp-5);}
