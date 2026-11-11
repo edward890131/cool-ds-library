@@ -6,6 +6,19 @@
 
 ---
 
+## 2026-11-11（一百一十九）　P3 六顆元件完成：Time Picker／Color Picker／Cascader／Tree Select／Tour／Menubar
+
+側欄「規劃中」清空（0 顆），六顆都有元件頁（矩陣、展開的樣子／內容組合、什麼時候用、互動預覽＋程式碼）、選擇元件頁、站內搜尋、registry、英文。
+
+- **共用欄位（`PKR-FIELD:v1`）**：四顆表單選擇器共用 `pkrField／pkrPop`：欄位取用 Input 的 `.field`、浮層沿用 Popover（`.pop.pop-float`），開合、點外面、Esc、焦點回欄位的行為同 Date Picker；多選已選項取用 Dropdown 的 `.ddchip`（超過 3 個收成 +N）。軸同 Date Picker：variant × state（預設／聚焦／已選／停用／錯誤）。
+- **Time Picker 時間選擇**（`TPK:v1`）：一律 24 小時制；時、分兩欄捲動（分鐘 5 分一格），選項取用 Dropdown 的 `.ddopt`；時段（range）用 Segmented 切「開始／結束」，結束早於開始即時標紅；底部「現在／確定」取用 Button。↑↓ 換數字、←→ 換欄。
+- **Color Picker 選色器**（`CPK:v1`）：色票版＝Chip（帶色點）；完整版＝彩度平面＋色相（取用 Slider，軌道換成色相漸層）＋色碼欄（Input）＋同一組色票。欄位左側色塊沿用四邊等距正方形。平面／色相漸層是色彩空間本身，用固定色。
+- **Cascader 多層選擇**（`CSC:v1`）：縣市 → 鄉鎮市區兩欄並排，滑過即展開；多選取用 Checkbox（`cbxEl`），縣市旁顯示已選數量。→ 進下一層、← 回上一層。
+- **Tree Select 樹狀選擇**（`TSL:v1`）：浮層直接放 Tree View（單選 plain、多選 checkbox variant）；多選補上「勾上層＝整組、下層全勾＝上層自動勾」。
+- **Tour 新手導覽**（`TUR:v1`）：placement × step（4 × 3），boolean progress／close。卡片沿用 Popover（箭頭、標題列、動作列），按鈕取用 Button；導覽遮罩用 modal 的 `--s-scrim`。互動預覽是一個小訂單頁，三步依序框出搜尋、篩選、新增；側邊放不下自動改放下方，箭頭始終對準目標。
+- **Menubar 選單列**（`MBR:v1`）：variant（外框／無框）× state × size（2 × 4 × 2）。上層取用 Menu item、下拉面板取用 Action Menu、快捷鍵取用 Kbd；打開後滑到其他選單直接切換、←→↑↓ Enter Esc 完整鍵盤操作，右邊放不下時面板靠右。
+- **英文**（`P3-I18N:v1`）：196 條字串＋動態字串規則；6 個和既有譯法衝突的詞（說明、展開、外框…）不覆蓋，選單列內的「檔案／說明」另外譯成 File／Help。
+
 ## 2026-11-11（一百一十八）　色號欄色票四邊等距；手機跑馬燈拿掉左右漸層
 
 - **色號欄色票**（`SWATCH-SQ:v1`）：首頁快速風格「主色／輔助色」與開新專案流程的色號欄，左側色票原本 28×24 長方形，在 40 高欄位裡左距 5px、上下各 8px。改成上下內距同左側（`--sp-1`），色票撐滿內高並固定正方形（40 高時為 30×30），四邊都是 5px；欄位高度改變也會跟著等距。
