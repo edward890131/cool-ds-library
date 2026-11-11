@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-12（一百三十七）　範本控制區不再隨捲動固定
+
+- `TPL-NOSTICKY:v1`：拿掉 `.tpl-bar` 的 `position:sticky`（2026-11-10 b07d8ea 加的），控制區跟著頁面一起捲；≤1100px 的 `position:static` 覆寫一併移除。拖曳調寬把手不變。
+
 ## 2026-11-12（一百三十六）　Button 新增圓形（shape）
 
 - **Button shape**（`BTN-SHAPE:v1`）：`mkBtn({shape:'circle'})` 加 `.shape-circle`，只把 `--btn-radius` 換成 `--r-pill`（icon-only 本來是正方形，套上就是正圓；有文字則是膠囊）。預設 `rect` 不變。
