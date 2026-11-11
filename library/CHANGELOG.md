@@ -6,6 +6,41 @@
 
 ---
 
+## 2026-11-12（一百三十八）　手機頂欄：深淺色回頂欄、專案名 Tag 加寬
+
+- `NAV-PREF:v2`：≤767px 不再隱藏頂欄 `#themeBtn`，側欄選單拿掉「深色模式」列、只留「語言」下拉。專案名 Tag 拿掉 56px 上限（`max-width:none`、`flex:0 1 auto`），吃滿頂欄剩餘空間，放不下才刪節號；375／393／430 寬可完整顯示 project-20261111，長名稱截斷不溢出。≤374px 仍隱藏 Tag。
+
+## 2026-11-12（一百三十七）　範本控制區不再隨捲動固定
+
+- `TPL-NOSTICKY:v1`：拿掉 `.tpl-bar` 的 `position:sticky`（2026-11-10 b07d8ea 加的），控制區跟著頁面一起捲；≤1100px 的 `position:static` 覆寫一併移除。拖曳調寬把手不變。
+
+## 2026-11-12（一百三十六）　Button 新增圓形（shape）
+
+- **Button shape**（`BTN-SHAPE:v1`）：`mkBtn({shape:'circle'})` 加 `.shape-circle`，只把 `--btn-radius` 換成 `--r-pill`（icon-only 本來是正方形，套上就是正圓；有文字則是膠囊）。預設 `rect` 不變。
+- **Button 頁**：新增「Shape 形狀」段落（rect／circle × 文字、icon-only s／m／l 對照）；互動預覽加 Shape 切換，程式碼區與 CSS 分頁帶出 `shape-circle`。
+- **Player Card**：上一輪拿掉的膠囊覆寫改用正式的 `shape:'circle'`（播放、上一首、下一首、喜歡、展開），`crdBtn` 支援傳 shape。
+- Figma 端之後要對應成 Button 的 `shape` variant property（rect／circle）。
+
+## 2026-11-12（一百三十五）　日文版試做（首頁）＋語言切換改下拉
+
+- **日文**（`I18N-JA:v1`）：新增 `I18N_JA`（約 590 句，首頁＋頂欄＋側欄＋按鈕提示）與 `I18N_JA_RX`（41 種動態句型，`{T:n}` 子片段再翻）。`i18nCore` 在日文模式先查日文，查不到退回英文（其他頁目前顯示英文）。日文命中時保留全形標點、不補英文空格；純標點節點只把「，」換成「、」。`i18nSet` 切換前先還原中文，en ↔ ja 可直接切。
+- **日文字形與換行**：切到日文才載入 Google Fonts 的 Noto Sans JP；`:root[lang=ja]` 改 `--font-sans／display／mono` 的 CJK 字型；`word-break:auto-phrase` 讓日文依詞組換行，不在詞中間斷開。
+- **語言切換改下拉**：頂欄與手機側欄的 Segmented（中／EN）改成 Dropdown 原子（`ddField`），選項「中文／English／日本語」；`langDd().__sync` 讓兩顆同步。
+- **原文改中文、三語統一**（`LOC-SRC:v1`，取代 I18N-JA:v2 的英文 → 日文特殊對照）：原本直接寫英文的地方改成中文原文，英文、日文都走字典。
+  - Metric Card（睡眠／步行／活動消耗／體重、近 8 週、本週平均、第 N 週平均、小時／分、平均、選擇週次）；英文模式在 `.mtc` 內把「分／小時／平均」縮成 min／h／avg（「分」全站英文是 Minute，不動）。
+  - Person Card（可合作、設計師、台北、12 分鐘前）、Widget 群組卡（N 則新訊息、+ N 人）、首頁數字區（元件、變體組合、Design Token 數）。
+  - 宣言段三語各一句（中日文逐字亮起、英文逐詞）；游標標籤用 `CUR_T` 依語言選字（逐字打字，加 `data-i18n-skip`）。
+  - 首頁大標：打字輪播改成依網站語言換整組（中文「調一個 token，所有元件跟著 換色／變圓／換字重／變緊湊」、日文「token ひとつで、全コンポーネントが 色を変える／丸くなる／太くなる／引き締まる」、英文維持）；「Try to change the token setting.」原文改「動手調調看 token 設定。」。切換語言即時重建。
+  - **其餘卡片元件**（`LOC-SRC:v2`）：Profile、Invite、Widget（訊息／待辦／歡迎回來／日期）、Trend、Media、Weather、Player、Ticket Card 的範例文字、按鈕、讀屏說明改中文原文，英日文走字典（約 90 句＋11 種句型）。人名依原本的 email 改中文（王大明、陳美華、張雅婷…）；品牌、作品與航班代碼（Lumen Studio、Slow Tides、Juno Vale、SORA 2、TA 482、SFO／JFK）與播放卡的外國人名維持原文。頁面說明中提到的按鈕名同步改中文。頭像狀態句型補「忙碌」（Busy／取り込み中）。已有英文翻譯的 4 個 key（張雅婷、已加入、今日待辦、已取消）沿用現有寫法。三語逐頁掃過無殘留。
+- **卡片對齊元件庫**（`CARD-ATOM:v1`）：Person Card 照片上的霧面 Tag 拿掉陰影（元件庫 Tag 沒有陰影，霧面底保留以便在照片上閱讀）；Profile Card「追蹤」拿掉膠囊圓角與固定 96px 寬，直接用元件庫主按鈕；Widget 訊息卡的傳送／刪除 icon 按鈕 s（32）→ m（40、圖示 16）。
+- **同類盤點一併對齊**（`CARD-ATOM:v2`）：Player Card 全部按鈕原本覆寫成膠囊形（`--btn-radius:var(--r-pill)`）、Ticket Card「報到」膠囊＋陰影、Article Card 照片角落徽章 Tag 加陰影（`.crd-badge .tg`），三處覆寫都拿掉，回到元件庫的 4px 圓角、無陰影。保留的膠囊形：浮動列 FAB（浮動鈕本身就是圓形）、建立流程小卡縮小膠囊（外框就是膠囊）。
+  - 英文模式首頁、Metric／Person／Widget Card 頁無殘留中文。建立流程小卡 7 個步驟與狀態文字補日文。
+- 手機寬度下會被截斷的日文改用較短譯法（主按鈕「新規プロジェクト」、商品名等）。英文原文的段標題（Tune one token…、Try to change the token setting.）維持英文。
+
+## 2026-11-11（一百三十四）　手機開範本頁預設看手機版
+
+- **範本預設裝置**（`TPL-MDEV:v1`）：AI Chat、後台 5 頁、網站 4 頁原本都寫死 `dev='desktop'`；新增 `tplDefDev()`，螢幕 ≤767px（全站手機斷點，含裝置預覽的手機框）時預設「手機」，其他照舊「電腦」。切換鈕照常可改。10 頁在 390／1280 寬皆驗證。
+
 ## 2026-11-11（一百三十三）　品牌問卷選項用滿卡片寬
 
 - **問卷選項寬度**（`FLW-QW:v1`）：問卷題目卡（`.flw-q`）裡橫跨整列的欄位仍吃 Field 原子預設的 `max-width:420px`，卡片 719px 寬時膠囊在 420px 就換行。只在 `.flw-q .fld.flw-span` 解除上限，Field 原子本身不動。桌機第 1、3 題改為一行；第 4 題四個選項合計約 750px，仍會換一行。
