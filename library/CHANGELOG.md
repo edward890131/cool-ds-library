@@ -6,6 +6,10 @@
 
 ---
 
+## 2026-11-11（一百三十）　Tag 行高固定，中文置中不再因位置而偏
+
+- **Tag 行高**（`TAG-LH:v1`）：`.tg` 原本沒有自己的行高、繼承外層，首頁同一頁就有 15px／normal／12px／12.5px 四種，中文置中補正（TXT-OPTICAL:v3）只在 1.5 時準，首頁專案卡的「進行中」因此偏上。改成 `line-height:var(--lh-normal)`；AI Chat 的連結膠囊（`.aic-chip`）仍刻意用 1。首頁、Tag、Table、後台範本、List 量過，所有 Tag 文字中心偏差 ≤ 0.6px。
+
 ## 2026-11-11（一百二十九）　建立流程小卡改用元件原子
 
 - **步驟圓圈**（`GUIDE-ATOM:v1`，鐵則 5）：原本手刻的 `.pjg-ic` 圓圈改用 Stepper 的 `stpNode()`（numbered）：下一步＝current、未做＝todo（顯示編號）、完成＝done（勾勾）、略過＝done＋淡色。反色卡片上只覆寫尺寸（20px）與配色。
