@@ -6291,7 +6291,7 @@ html[lang=en] .cl-tag,html[lang=ja] .cl-tag{width:76px;}  /* I18N:v2 英文標�
   /* 照片上的標籤：Tag 原子＋白色磨砂修飾（同 .tg-glass 的作法，壓在照片上固定淺底深字，不隨主題翻色） */
   .tg.tg-frost{--tg-h:var(--tag-h-m);padding:0 var(--sp-3);gap:var(--sp-1);font-size:var(--fs-h11);font-weight:var(--fw-medium);
     background:color-mix(in srgb,var(--c-neutral-0) 76%,transparent);color:var(--c-neutral-900);border-color:transparent!important;
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:var(--e-sm);transition:background var(--dur-fast) var(--ease-out);}
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background var(--dur-fast) var(--ease-out);}   /* CARD-ATOM:v1 拿掉陰影，同元件庫 Tag */
   .tg.tg-frost span{color:var(--c-neutral-900);}
   .psc.live .tg.tg-frost:hover{background:color-mix(in srgb,var(--c-neutral-0) 92%,transparent);}
   .psc-dot{width:8px;height:8px;border-radius:var(--r-pill);background:var(--c-success-600);box-shadow:0 0 0 0 color-mix(in srgb,var(--c-success-600) 50%,transparent);animation:psc-pulse calc(var(--dur-slow) * 3.2) var(--ease-out) infinite;}
@@ -6320,7 +6320,7 @@ html[lang=en] .cl-tag,html[lang=ja] .cl-tag{width:76px;}  /* I18N:v2 英文標�
     transition:transform var(--dur-slow) var(--ease-spring);}
   .bpf.live:hover .bpf-logo{transform:rotate(-8deg) scale(1.03);}
   .bpf-logo svg{width:40px;height:40px;fill:var(--c-neutral-0);}
-  .bpf-top .btn{border-radius:var(--r-pill);min-width:96px;}
+  /* CARD-ATOM:v1 追蹤按鈕不再覆寫圓角／寬度，直接用元件庫主按鈕 */
   .bpf-name{display:flex;align-items:center;gap:var(--sp-1);margin-top:var(--sp-1);font-size:var(--bpf-name-fs,var(--fs-h8));font-weight:var(--fw-semibold);line-height:var(--lh-tight);}
   .bpf-ver{display:inline-flex;color:var(--bpf-accent);} .bpf-ver svg{width:18px;height:18px;}
   .bpf-handle{margin-top:-4px;font-size:var(--fs-h11);color:var(--faint);}
@@ -16461,7 +16461,7 @@ function buildScheduleChart(view){
   /* ---------- WIDGET CARD 小工具卡 ---------- */
   function wdgMsg(o){const L=!!o.live;const c=ce('article','wdg-msg');c.setAttribute('aria-label','林語晨的訊息');
     const h=ce('div','wdg-msg-h');h.appendChild(crdAv(1,'l'));const who=ce('div','wdg-who');who.innerHTML='<div class="wdg-t">林語晨<span>昨天 上午 10:12</span></div><div class="wdg-m">yuchen@goons.design</div>';h.appendChild(who);
-    const acts=ce('div','wdg-acts');acts.append(crdBtn('text','secondary','s','傳送',IC_SEND,{iconOnly:true,live:L}),crdBtn('text','danger','s','刪除',IC_TRASH,{iconOnly:true,live:L}));h.appendChild(acts);
+    const acts=ce('div','wdg-acts');acts.append(crdBtn('text','secondary','m','傳送',IC_SEND,{iconOnly:true,live:L}),crdBtn('text','danger','m','刪除',IC_TRASH,{iconOnly:true,live:L}));h.appendChild(acts);
     const p=ce('p');p.textContent='對，新的動態 token 上線了。按鈕、抽屜和通知現在共用同一條 ease-out 曲線，每個轉場都像出自同一個產品。';
     const rx=ce('div','wdg-rx');rx.setAttribute('aria-live','polite');
     const ft=ce('div','wdg-ft');ft.innerHTML='<input type="text" placeholder="輸入回覆…" aria-label="回覆">';

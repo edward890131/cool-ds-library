@@ -17,6 +17,7 @@
   - 宣言段三語各一句（中日文逐字亮起、英文逐詞）；游標標籤用 `CUR_T` 依語言選字（逐字打字，加 `data-i18n-skip`）。
   - 首頁大標：打字輪播改成依網站語言換整組（中文「調一個 token，所有元件跟著 換色／變圓／換字重／變緊湊」、日文「token ひとつで、全コンポーネントが 色を変える／丸くなる／太くなる／引き締まる」、英文維持）；「Try to change the token setting.」原文改「動手調調看 token 設定。」。切換語言即時重建。
   - **其餘卡片元件**（`LOC-SRC:v2`）：Profile、Invite、Widget（訊息／待辦／歡迎回來／日期）、Trend、Media、Weather、Player、Ticket Card 的範例文字、按鈕、讀屏說明改中文原文，英日文走字典（約 90 句＋11 種句型）。人名依原本的 email 改中文（王大明、陳美華、張雅婷…）；品牌、作品與航班代碼（Lumen Studio、Slow Tides、Juno Vale、SORA 2、TA 482、SFO／JFK）與播放卡的外國人名維持原文。頁面說明中提到的按鈕名同步改中文。頭像狀態句型補「忙碌」（Busy／取り込み中）。已有英文翻譯的 4 個 key（張雅婷、已加入、今日待辦、已取消）沿用現有寫法。三語逐頁掃過無殘留。
+- **卡片對齊元件庫**（`CARD-ATOM:v1`）：Person Card 照片上的霧面 Tag 拿掉陰影（元件庫 Tag 沒有陰影，霧面底保留以便在照片上閱讀）；Profile Card「追蹤」拿掉膠囊圓角與固定 96px 寬，直接用元件庫主按鈕；Widget 訊息卡的傳送／刪除 icon 按鈕 s（32）→ m（40、圖示 16）。
   - 英文模式首頁、Metric／Person／Widget Card 頁無殘留中文。建立流程小卡 7 個步驟與狀態文字補日文。
 - 手機寬度下會被截斷的日文改用較短譯法（主按鈕「新規プロジェクト」、商品名等）。英文原文的段標題（Tune one token…、Try to change the token setting.）維持英文。
 
