@@ -2243,7 +2243,7 @@
   /* 3) FAB 浮動主鈕：圓形（沿用 .btn v-solid i-primary，僅改圓角＋尺寸） */
   .flo-fabwrap{flex-direction:column;align-items:flex-end;gap:var(--sp-4);}
   .flo-fab.btn{border-radius:var(--r-pill);width:52px;height:52px;padding:0;box-shadow:var(--e-lg);}
-  .flo-fab.btn svg{width:24px;height:24px;transition:transform var(--dur-fast) ease;}
+  .flo-fab.btn svg{width:24px;height:24px;transition:transform var(--dur-default) var(--ease-spring,cubic-bezier(.34,1.56,.64,1));}
   .flo-fab.is-open svg{transform:rotate(45deg);} /* 展開時＋旋轉成×，暗示可收合 */
   /* FAB 展開的子項：單顆白底膠囊按鈕（icon＋文字整顆可點）；白底＋外框＋陰影，明顯浮於灰底之上 */
   .flo-fab-child-btn.btn{align-self:flex-end;border-radius:var(--r-pill);background:var(--panel);color:var(--ink);
@@ -2251,6 +2251,13 @@
   .flo-fab-child-btn.btn:hover{background:var(--panel-2);border-color:var(--line-strong);}
   .flo-fab-child-btn.btn:active{background:var(--panel-3);transform:translateY(1px);}
   .flo-fab-child-btn.btn svg{color:var(--muted);}
+  /* FAB-MOTION:v1 展開：離主鈕近的先彈出（上移＋放大＋淡入，彈性曲線）；收合：遠的先收、往主鈕縮回 */
+  .flo-fabwrap.is-anim .flo-fab-child-btn{transform-origin:right center;opacity:0;visibility:hidden;transform:translateY(calc(16px + var(--fab-i) * 10px)) scale(.86);
+    transition:opacity var(--dur-fast) var(--ease-in,ease-in) calc(var(--fab-j) * 30ms),transform var(--dur-fast) var(--ease-in,ease-in) calc(var(--fab-j) * 30ms),visibility 0s linear calc(var(--dur-fast) + var(--fab-j) * 30ms),background-color var(--dur-fast),border-color var(--dur-fast);}
+  .flo-fabwrap.is-anim.is-open .flo-fab-child-btn{opacity:1;visibility:visible;transform:none;
+    transition:opacity var(--dur-default) var(--ease-out) calc(var(--fab-i) * 45ms),transform var(--dur-default) var(--ease-spring,cubic-bezier(.34,1.56,.64,1)) calc(var(--fab-i) * 45ms),visibility 0s,background-color var(--dur-fast),border-color var(--dur-fast);}
+  .flo-fabwrap.is-anim.is-open .flo-fab-child-btn:active{transform:translateY(1px);}
+  @media(prefers-reduced-motion:reduce){.flo-fabwrap.is-anim .flo-fab-child-btn,.flo-fabwrap.is-anim.is-open .flo-fab-child-btn{transition:opacity var(--dur-fast),visibility 0s;transform:none;}.flo-fab.btn svg{transition:none;}}
 
   /* 型態細節區塊：三型態並排說明 */
   .flo-detail{display:flex;flex-wrap:wrap;gap:var(--sp-6);}
@@ -13440,18 +13447,20 @@ function skelMedia(anim){
     const kids=[];
     // 子項＝單顆白底 library 按鈕（icon＋文字同在一顆、整顆可點）；interactive 時先建好、預設隱藏，點主鈕再展開
     if(o.expanded||o.interactive){
-      FLO_FAB_CHILD.forEach(c=>{
+      const n=FLO_FAB_CHILD.length;
+      FLO_FAB_CHILD.forEach((c,i)=>{
         const b=floBtn('flo-fab-child-btn sz-m',c.label,c.icon);
-        if(o.interactive&&!o.expanded)b.style.display='none';
+        b.style.setProperty('--fab-i',n-1-i);b.style.setProperty('--fab-j',i);   // FAB-MOTION:v1 i＝離主鈕的距離（展開先出近的）、j＝收合順序（遠的先收）
+        if(o.interactive&&!o.expanded)b.inert=true;
         wrap.appendChild(b);kids.push(b);
       });
     }
     const main=floBtn('v-solid i-primary flo-fab icon-only'+(o.interactive?' live':''),null,FLO_ICON_PLUS);
     main.setAttribute('aria-label','新增');
     if(o.interactive){                                   // 點主鈕即時展開／收合子項（＋ 旋轉成 ×）
-      let open=!!o.expanded;
+      let open=!!o.expanded;wrap.classList.add('is-anim');wrap.classList.toggle('is-open',open);   // FAB-MOTION:v1 子項常駐 DOM，用 class 切換做彈出／收合動態
       main.classList.toggle('is-open',open);main.setAttribute('aria-expanded',open);
-      main.onclick=()=>{open=!open;kids.forEach(k=>k.style.display=open?'':'none');main.classList.toggle('is-open',open);main.setAttribute('aria-expanded',open);};
+      main.onclick=()=>{open=!open;kids.forEach(k=>k.inert=!open);wrap.classList.toggle('is-open',open);main.classList.toggle('is-open',open);main.setAttribute('aria-expanded',open);};
     }
     wrap.appendChild(main);
     return wrap;
@@ -17850,6 +17859,7 @@ function buildScheduleChart(view){
       {tag:'improve', t:'頂欄 logo 右邊改成「瀏覽｜編輯」切換，重新開始拉到專案名稱旁；手機放在選單最上方'},
       {tag:'improve', t:'頂欄的裝置預覽切換改成下拉選單'},
       {tag:'improve', t:'頂欄寬度不夠時（1279px 以下），重新開始只留 reload 圖示'},
+      {tag:'improve', t:'浮動鈕展開子項改成依序彈出（離主鈕近的先出），收合時遠的先收回'},
       {tag:'improve', t:'建立流程小卡與收合膠囊改成跟外層相反的底色（淺色模式深底、深色模式淺底），同底部浮動列'},
       {tag:'improve', t:'建立流程小卡離右下邊界 24px，字級與內距放大，展開收合有補間動態'},
       {tag:'new', t:'Design Token 頁右上新增「沿用提案」：有改動時確認後改回提案的值'},
@@ -21174,6 +21184,7 @@ function buildScheduleChart(view){
   I18N_RX.push(...[["^響應式預覽：(.+)$", "Responsive preview: {T:1}"], ["^專案：(.+)$", "Project: $1"], ["^目前改了 (\\d+) 個 token，會全部改回提案的值（快速風格也一起回到提案）。$", "You've changed $1 tokens. They'll all go back to the proposed values (quick styles too)."], ["^目前改了 (\\d+) 個，按下會改回提案的值$", "$1 changed. Press to revert to the proposed values"]]);
   Object.assign(I18N_EN,{"模式切換移到頂欄、引導小卡放大": "Mode switch in the top bar, larger setup guide", "頂欄 logo 右邊改成「瀏覽｜編輯」切換，重新開始拉到專案名稱旁；手機放在選單最上方": "A Browse | Edit switch now sits next to the logo, with Start over beside the project name; on phones they're at the top of the menu", "頂欄的裝置預覽切換改成下拉選單": "The device preview switch in the top bar is now a dropdown", "建立流程小卡離右下邊界 24px，字級與內距放大，展開收合有補間動態": "The setup guide sits 24px from the bottom-right edge, with larger text and padding, and animates smoothly when it expands or collapses", "Design Token 頁右上新增「沿用提案」：有改動時確認後改回提案的值": "New Keep proposal button at the top right of Design Token: if you've made changes, it reverts them to the proposed values after you confirm", "品牌問卷「其他」的字體與深色模式改用 Chip 單選；編輯模式側欄隱藏版本紀錄、下載元件庫停用": "Font and dark mode in the questionnaire's Other section now use single-select chips; in edit mode the sidebar hides Changelog and disables Download library"}); // MODE:v2 changelog
   Object.assign(I18N_EN,{"頂欄寬度不夠時（1279px 以下），重新開始只留 reload 圖示": "When the top bar is narrow (1279px and below), Start over shows only the reload icon", "建立流程小卡與收合膠囊改成跟外層相反的底色（淺色模式深底、深色模式淺底），同底部浮動列": "The setup guide and its collapsed pill now use the opposite background to the page (dark on light, light on dark), like the floating bar"}); // MODE:v3
+  Object.assign(I18N_EN,{"浮動鈕展開子項改成依序彈出（離主鈕近的先出），收合時遠的先收回": "The floating button's items now pop out one by one (nearest first) and tuck back in from the farthest when it closes"}); // FAB-MOTION:v1
   Object.assign(I18N_EN,{"色彩與文字":"Color & type","全部預設":"All default","回到預設":"Back to default","快速風格改兩欄、可收合":"Quick styles: two columns, collapsible","快速風格新增「回到預設」：只把八組選項還原，手調的其他 token 保留；全部預設時停用":"Quick styles get a Back to default button: it resets only the eight presets and keeps your other token tweaks; disabled when everything is default.","快速風格改成兩欄表單排版（左：版面，右：色彩與文字），標籤固定寬、膠囊起點對齊；可收合，收合時列出目前改過的選項":"Quick styles now use a two-column form layout (layout on the left, color & type on the right) with fixed-width labels so the pills line up. The panel can collapse and then lists the options you changed."});
   const I18N_UNIT={'元':'NTD','筆':'','件':''};   /* 後台 KPI 單位：英文標籤已說明是什麼（Orders today…），計數單位省略，避免撐爆 */  /* 分段控制裡的「日週月年」 */
   const I18N_S={'在線':'Online','離線':'Offline','離開':'Away'};
