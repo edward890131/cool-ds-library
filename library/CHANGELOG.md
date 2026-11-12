@@ -6,6 +6,18 @@
 
 ---
 
+## 2026-11-12（一百四十四）　首頁聯絡我段落
+
+- `HOME-CONTACT:v1`：首頁 FAQ（`#hxNews`）與手機範本跑馬燈（`#hxPhones`）之間新增 `hxContact()`（前綴 `hx-cm-`，grep 為 0）。版面照 Figma「Web Guideline_建置中」17778:34849：
+  - 「Contact Me」小標（display 字、`--fs-h6`）。
+  - 大字 `YUU｜頭像｜DESIGN@GMAIL`：整列是 `mailto:edward890131@gmail.com` 連結。字級＝段落寬（`100cqi`）÷ 字寬係數 `--hx-cm-k`（JS 依實際字寬量測、字體載入後重量），收合與撐開時都剛好填滿寬度，上限 200px。
+  - 滑過時 `--hx-cm-o`（`@property` 註冊、可過渡）0→1：YUU 與 DESIGN 中間撐開、藍色圓形頭像從中間放大出現，字級同步縮小保持填滿。列高固定在收合字高，撐開時滑鼠不會滑出去造成閃爍。觸控裝置頭像一直顯示。
+  - 頭像看向滑鼠：`assets/avatar/yuu-look.webp`（5×5＝25 個角度 sprite，約 160KB）。從 Figma 原圖用影像變形產生：臉部五官、鼻子、眼珠依方向用高斯權重位移。滑鼠相對頭像中心的方向換成最接近的那一格。
+  - 跟隨游標的「Let's Talk」按鈕：`mkBtn` solid／secondary／s，前置 icon 換信封 `IC_MAIL`，寫法同手機跑馬燈的「查看範本」；連結上隱藏原生游標。
+  - 段落其他區塊：協作游標標籤 `Talk`（`CUR_LB` 加 `#hxContact`）。
+  - 頁尾列：版權＋版號（同 `#ftrVer` 邏輯）、社群連結直接用 Footer 元件的 `ftrSocial()`。
+- 首頁不顯示原本的 `.site-footer`（`body:has(#hxHome)`），其他頁面照舊。本頁目錄加「聯絡我」。
+
 ## 2026-11-12（一百四十三）　後台範本手機版：分頁與年份／下載同一列
 
 - `TAD-TABROW:v1`：`@container tad (max-width:420px)` 原本把有工具的分頁列（`.tad-tabs:has(.is-tools)`）強制改成上下兩列。改成同一列換行排（分頁靠左、年份切換＋下載靠右，間距收成 --sp-2），合計約 334px／可用 341px；放不下時自動換行。中文、英文一列；日文分頁字較長（運営サマリー／統計レポート）會換到第二列、不溢出。
