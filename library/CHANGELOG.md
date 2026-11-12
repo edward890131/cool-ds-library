@@ -25,6 +25,9 @@
 - `HOME-CONTACT:v3`（同日調整）：
   - 聯絡我段內間距加大：標題→email 16→32（`--sp-7`，選擇器 `.hx > .hx-cm > .gd-sec-h` 蓋過 `.hx .gd-sec-h`），email→版權列 32→48（`--sp-8`）。
   - 首頁最後一段改成跑馬燈後，底部留白原本是 `#hxPhones` margin 128＋`.main` padding 96。改成 `#hxPhones` margin 0、`.hx-phs-view` 下 padding 0、`.main:has(#hxHome)` 下 padding＝`--container-pad`（32／24／16，跟左右 gutter 一樣）；有浮動專案列時另加列高。量測：1440 寬手機底到畫面底 32px、390 寬 16px。
+- `HOME-CONTACT:v4`（同日調整）：
+  - 頭像畫布縮到藍色圓的 80%（`.hx-cm-face` 改 grid 置中；靜態退路圖 `background-size:80%`），藍底多露一圈。
+  - 地圖段標題 `#hxMapT` 改中文來源「從台北到每個時區」，英文 From Taipei to every timezone、日文「台北から、すべてのタイムゾーンへ」，跟著語系切換。
 
 ## 2026-11-12（一百四十三）　後台範本手機版：分頁與年份／下載同一列
 
