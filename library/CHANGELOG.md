@@ -6,6 +6,29 @@
 
 ---
 
+## 2026-11-12（一百四十四）　首頁聯絡我段落
+
+- `HOME-CONTACT:v1`：首頁 FAQ（`#hxNews`）與手機範本跑馬燈（`#hxPhones`）之間新增 `hxContact()`（前綴 `hx-cm-`，grep 為 0）。版面照 Figma「Web Guideline_建置中」17778:34849：
+  - 「Contact Me」小標（display 字、`--fs-h6`）。
+  - 大字 `YUU｜頭像｜DESIGN@GMAIL`：整列是 `mailto:edward890131@gmail.com` 連結。字級＝段落寬（`100cqi`）÷ 字寬係數 `--hx-cm-k`（JS 依實際字寬量測、字體載入後重量），收合與撐開時都剛好填滿寬度，上限 200px。
+  - 滑過時 `--hx-cm-o`（`@property` 註冊、可過渡）0→1：YUU 與 DESIGN 中間撐開、藍色圓形頭像從中間放大出現，字級同步縮小保持填滿。列高固定在收合字高，撐開時滑鼠不會滑出去造成閃爍。觸控裝置頭像一直顯示。
+  - 頭像看向滑鼠：`assets/avatar/yuu-look.webp`（5×5＝25 個角度 sprite，約 160KB）。從 Figma 原圖用影像變形產生：臉部五官、鼻子、眼珠依方向用高斯權重位移。滑鼠相對頭像中心的方向換成最接近的那一格。
+  - 跟隨游標的「Let's Talk」按鈕：`mkBtn` solid／secondary／s，前置 icon 換信封 `IC_MAIL`，寫法同手機跑馬燈的「查看範本」；連結上隱藏原生游標。
+  - 段落其他區塊：協作游標標籤 `Talk`（`CUR_LB` 加 `#hxContact`）。
+  - 頁尾列：版權＋版號（同 `#ftrVer` 邏輯）、社群連結直接用 Footer 元件的 `ftrSocial()`。
+- 首頁不顯示原本的 `.site-footer`（`body:has(#hxHome)`），其他頁面照舊。
+- `HOME-CONTACT:v2`（同日調整）：
+  - 標題改用段落標題原子 `.gd-sec-h > h2.gd-sec-t`，跟「From Taipei to every timezone」同字級字重（18px／600，display 字 Epilogue）；中文來源「聯絡我」，英文 Contact Me、日文お問い合わせ。本頁目錄直接讀這個標題。
+  - 版權列拿掉「Powered by Yuu」與版號，只留 `© 2026 YUUDESIGN, all rights reserved.`。
+  - 頭像垂直置中：flex 置中的是行框（含下伸部），比大寫字母中線低約 0.094em，`.hx-cm-av` 加 `translate:0 -.094em`，量測頭像中心與 YUU 字母中線同一個 y。
+  - 看向滑鼠改成 WebGL 即時變形（`hxCmFace()`）：把 v1 產 sprite 的同一組位移（臉部五官、整顆頭、眼珠、鼻子的高斯權重）搬進 fragment shader，角度連續、每幀用緩動（0.14）追上滑鼠，畫布本身再跟著微移、微歪 2°；離開時轉回正面。素材換成單張 `assets/avatar/yuu-face.webp`（480px，約 21KB），刪掉 25 格 sprite。不支援 WebGL 時退回正面靜態圖。
+- `HOME-CONTACT:v3`（同日調整）：
+  - 聯絡我段內間距加大：標題→email 16→32（`--sp-7`，選擇器 `.hx > .hx-cm > .gd-sec-h` 蓋過 `.hx .gd-sec-h`），email→版權列 32→48（`--sp-8`）。
+  - 首頁最後一段改成跑馬燈後，底部留白原本是 `#hxPhones` margin 128＋`.main` padding 96。改成 `#hxPhones` margin 0、`.hx-phs-view` 下 padding 0、`.main:has(#hxHome)` 下 padding＝`--container-pad`（32／24／16，跟左右 gutter 一樣）；有浮動專案列時另加列高。量測：1440 寬手機底到畫面底 32px、390 寬 16px。
+- `HOME-CONTACT:v4`（同日調整）：
+  - 頭像畫布縮到藍色圓的 80%（`.hx-cm-face` 改 grid 置中；靜態退路圖 `background-size:80%`），藍底多露一圈。
+  - 地圖段標題 `#hxMapT` 改中文來源「從台北到每個時區」，英文 From Taipei to every timezone、日文「台北から、すべてのタイムゾーンへ」，跟著語系切換。
+
 ## 2026-11-12（一百四十三）　後台範本手機版：分頁與年份／下載同一列
 
 - `TAD-TABROW:v1`：`@container tad (max-width:420px)` 原本把有工具的分頁列（`.tad-tabs:has(.is-tools)`）強制改成上下兩列。改成同一列換行排（分頁靠左、年份切換＋下載靠右，間距收成 --sp-2），合計約 334px／可用 341px；放不下時自動換行。中文、英文一列；日文分頁字較長（運営サマリー／統計レポート）會換到第二列、不溢出。
