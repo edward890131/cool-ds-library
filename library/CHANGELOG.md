@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-12（一百四十五）　首頁英文段落標題改成三語
+
+- `LOC-SRC:v3`：首頁剩下兩個英文來源的段落標題（`hxFlow`「Start editing on this site」、`hxFigma`「Start from Claude, Code & Figma auto-sync」）字典裡沒有對應，三種語系都顯示英文。改成中文來源＋EN／JA 字典，跟「從台北到每個時區」「聯絡我」同做法：
+  - 從網站開始編輯／Start editing on this site／このサイトで編集をはじめる
+  - 從 Claude 開始，程式碼與 Figma 自動同步／Start from Claude, Code & Figma auto-sync／Claude からはじめて、コードと Figma を自動同期
+- 盤點首頁所有 `.gd-sec-t`，已無英文來源標題。
+
 ## 2026-11-12（一百四十四）　首頁聯絡我段落
 
 - `HOME-CONTACT:v1`：首頁 FAQ（`#hxNews`）與手機範本跑馬燈（`#hxPhones`）之間新增 `hxContact()`（前綴 `hx-cm-`，grep 為 0）。版面照 Figma「Web Guideline_建置中」17778:34849：
