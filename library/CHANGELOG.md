@@ -16,7 +16,12 @@
   - 跟隨游標的「Let's Talk」按鈕：`mkBtn` solid／secondary／s，前置 icon 換信封 `IC_MAIL`，寫法同手機跑馬燈的「查看範本」；連結上隱藏原生游標。
   - 段落其他區塊：協作游標標籤 `Talk`（`CUR_LB` 加 `#hxContact`）。
   - 頁尾列：版權＋版號（同 `#ftrVer` 邏輯）、社群連結直接用 Footer 元件的 `ftrSocial()`。
-- 首頁不顯示原本的 `.site-footer`（`body:has(#hxHome)`），其他頁面照舊。本頁目錄加「聯絡我」。
+- 首頁不顯示原本的 `.site-footer`（`body:has(#hxHome)`），其他頁面照舊。
+- `HOME-CONTACT:v2`（同日調整）：
+  - 標題改用段落標題原子 `.gd-sec-h > h2.gd-sec-t`，跟「From Taipei to every timezone」同字級字重（18px／600，display 字 Epilogue）；中文來源「聯絡我」，英文 Contact Me、日文お問い合わせ。本頁目錄直接讀這個標題。
+  - 版權列拿掉「Powered by Yuu」與版號，只留 `© 2026 YUUDESIGN, all rights reserved.`。
+  - 頭像垂直置中：flex 置中的是行框（含下伸部），比大寫字母中線低約 0.094em，`.hx-cm-av` 加 `translate:0 -.094em`，量測頭像中心與 YUU 字母中線同一個 y。
+  - 看向滑鼠改成 WebGL 即時變形（`hxCmFace()`）：把 v1 產 sprite 的同一組位移（臉部五官、整顆頭、眼珠、鼻子的高斯權重）搬進 fragment shader，角度連續、每幀用緩動（0.14）追上滑鼠，畫布本身再跟著微移、微歪 2°；離開時轉回正面。素材換成單張 `assets/avatar/yuu-face.webp`（480px，約 21KB），刪掉 25 格 sprite。不支援 WebGL 時退回正面靜態圖。
 
 ## 2026-11-12（一百四十三）　後台範本手機版：分頁與年份／下載同一列
 
