@@ -3158,6 +3158,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 .gnt-bar,.gnt-evt{--gc:var(--accent);}
 /* 圖表（Chart＋Schedule Chart）主色黑→品牌藍：scoped 覆寫 --accent，狀態色(ok/warn/danger)不受影響 */
 .cht-box,.cht-tile,.cht-card,.cht-dash,.gnt-box{--accent:var(--c-brand2-500);}
+.tad :is(.cht-bar-rank,.cht-funnel){--accent:var(--s-chart-2);--cs1:var(--s-chart-2);}   /* TPL-CHT-BLUE:v1 後台統計報表：排行、漏斗兩張單系列長條改資訊藍，減少整頁橘色（其他圖表不動） */
 .gnt-bar.c-ok,.gnt-evt.c-ok{--gc:var(--ok);}
 .gnt-bar.c-warn,.gnt-evt.c-warn{--gc:var(--warn);}
 .gnt-bar.c-danger,.gnt-evt.c-danger{--gc:var(--i-danger);}
