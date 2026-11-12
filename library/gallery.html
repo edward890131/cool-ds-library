@@ -7404,7 +7404,7 @@ html[lang=en] .cl-tag,html[lang=ja] .cl-tag{width:76px;}  /* I18N:v2 英文標�
     .tad-filters{grid-template-columns:repeat(2,minmax(0,1fr));} .tad-filters > :first-child{grid-column:1 / -1;}}
   @container tad (max-width:420px){
     .tad-pg{grid-template-columns:auto 1fr;} .tad-pg .tad-pg-rng{justify-self:end;} .tad-pg .tad-pg-nav{grid-column:1 / -1;justify-self:center;}
-    .tad-tabs:has(.is-tools){flex-wrap:wrap;align-items:center;column-gap:var(--sp-2);} .tad-tabs .tad-acts.is-tools{margin-left:auto;gap:var(--sp-2);}   /* TAD-TABROW:v1 手機：分頁與年份／下載同一列（放不下才自動換行） */
+    .tad-tabs:has(.is-tools){flex-wrap:wrap;align-items:center;column-gap:var(--sp-2);} .tad-tabs .tad-acts.is-tools{margin-left:0;flex:1 0 auto;justify-content:space-between;gap:var(--sp-2);}   /* TAD-TABROW:v2 手機：同一列放得下就同一列；換行時照舊（年份靠左、下載靠右） */
     .tad-donut{grid-template-columns:minmax(0,1fr);justify-items:center;gap:var(--sp-5);} .tad-donut-fig{width:160px;} .tad-donut-list{width:100%;}
     .tad-card{padding:var(--sp-5);gap:var(--sp-5);} .tad-kpi{padding:0 var(--sp-5);} .tad-kpi-n{font-size:var(--fs-h7);}
     .tad-card.is-flush > .tad-card-h,.tad-card-f{padding-left:var(--sp-5);padding-right:var(--sp-5);}
