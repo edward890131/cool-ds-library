@@ -28,6 +28,8 @@
 - `HOME-CONTACT:v4`（同日調整）：
   - 頭像畫布縮到藍色圓的 80%（`.hx-cm-face` 改 grid 置中；靜態退路圖 `background-size:80%`），藍底多露一圈。
   - 地圖段標題 `#hxMapT` 改中文來源「從台北到每個時區」，英文 From Taipei to every timezone、日文「台北から、すべてのタイムゾーンへ」，跟著語系切換。
+- `HOME-CONTACT:v5`（同日修正）：正式站首頁網址是 `/`（vercel.json 改寫到 `/library/gallery`），頭像用的相對路徑 `assets/avatar/yuu-face.webp` 會去找 `/assets/...` 而 404，只剩藍色圓。改成跟其他照片一樣內嵌 data URI（`HX_CM_FACE`，約 29KB base64），WebGL 貼圖與靜態退路（`--hx-cm-img`）都讀它；原檔留在 `library/assets/avatar/`。
+- `HOME-CONTACT:v6`（同日調整）：聯絡我段落加 `padding-block:var(--sp-9)`，與上方 FAQ、下方跑馬燈的距離各從 88 拉到 152px。
 
 ## 2026-11-12（一百四十三）　後台範本手機版：分頁與年份／下載同一列
 
