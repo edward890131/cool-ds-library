@@ -880,6 +880,9 @@
     .hx-grp-hl{animation:hx-grp-hl 1.2s var(--ease-out);border-radius:var(--r-sm);}
     @keyframes hx-grp-hl{0%,40%{background:color-mix(in srgb,var(--accent) 10%,transparent);}100%{background:transparent;}}
   }
+  @media(max-width:389px){   /* HERO-CTA:v1 窄手機（iPhone mini／SE、多數 Android）兩顆並排放不下英日文 → 上下堆疊、各自滿版 */
+    .hx-cta{grid-template-columns:1fr;}
+  }
 
   @media(max-width:599px){.hx-pv{max-height:80vh;max-height:80dvh;overflow-y:auto;overscroll-behavior:contain;}}  /* 手機：試玩預覽限高、內部捲動 */
   @media(prefers-reduced-motion:reduce){

@@ -24,7 +24,6 @@
     .topbar .ss-trig{display:none;}   /* 手機：搜尋欄位收起，改用 Button 原子 icon-only（與漢堡鈕同款） */
     .topbar #ssTrigM{display:inline-flex;flex:0 0 32px;}
   }
-  @media(max-width:374px){.topbar #dsNewProjBtn > svg{display:none;}}
 
   /* ⑤ 專案浮動列：Floating Line 原子（toolbar 型態的白底圓角陰影面）置中底部；Tag＋計數＋Button（匯出 outline／下一步 solid） */
   .pjb{position:fixed;left:50%;bottom:calc(var(--sp-5) + env(safe-area-inset-bottom,0px));z-index:34;transform:translateX(-50%);
