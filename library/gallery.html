@@ -21112,7 +21112,7 @@ function buildScheduleChart(view){
       box.appendChild(navPin('tokens','Design Token'+(zh?' 設計變數':''),'nav-mono'));box.appendChild(ce('div','nav-sep'));
       box.appendChild(navPin('guideline','Design Guideline'+(zh?' 設計規範':''),'nav-mono'));
       if(typeof dsEditing==='function'&&dsEditing()){box.appendChild(ce('div','nav-sep'));box.appendChild(navPin('summary','選擇元件'));}}   // MODE:v1 選擇元件只在編輯模式出現
-    if(sec==='components'||sec==='templates'){box.appendChild(navPin(sec,sec==='components'?'全部元件':'全部範本'));box.appendChild(ce('div','nav-sep'));}   /* IA-PAGES:v1 總覽頁入口 */
+    if(sec==='components'||sec==='templates'){box.appendChild(navPin(sec,sec==='components'?'全部元件':'全部範本'));if(sec==='templates')box.appendChild(ce('div','nav-sep'));}   /* IA-PAGES:v1 總覽頁入口；元件區下面的分類群組自帶上框線，不再多加分隔線 */
     if(sec==='templates'){const t=NAV_TPL();if(t)t.items.forEach(it=>box.appendChild(navPin(it.id,it.name)));}   /* 範本：不收合，直接平鋪 */
     if(sec==='history'){box.appendChild(navPin('changelog',window.__dsProject?'更新紀錄':'版本紀錄'));}
     if(sec==='components'){
