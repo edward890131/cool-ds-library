@@ -17,13 +17,13 @@
     backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));-webkit-backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));}
   /* 元件預覽區：surface 釘回實心（元件不跟著變） */
   /* 浮層（彈窗、對話框、下拉、選單、浮出卡、搜尋）：磨砂時仍要讀得清楚——只淡淡透一點、背景強模糊，內容不會透出來 */
-  html[data-frost] :is(.mdl-card,.ds-dlg,.ddmenu,.am-panel,.pop,.ss-panel,.tt,.cmd){
+  html[data-frost] :is(.mdl-card,.ddmenu,.am-panel,.pop,.ss-panel,.tt,.cmd){
     --panel:color-mix(in srgb,var(--s-surface-1) calc(100% - var(--frost) * 14%),transparent);
     --panel-2:color-mix(in srgb,var(--s-surface-2) calc(100% - var(--frost) * 14%),transparent);
     --panel-3:color-mix(in srgb,var(--s-surface-3) calc(100% - var(--frost) * 14%),transparent);
     backdrop-filter:blur(calc(16px + var(--frost) * 24px)) saturate(1.3);-webkit-backdrop-filter:blur(calc(16px + var(--frost) * 24px)) saturate(1.3);}
   /* 浮層裡面的區塊（步驟條、表單、內容卷軸區）用浮層自己的底，不再各自半透明疊加 */
-  html[data-frost] :is(.mdl-card,.ds-dlg) :is(.mdl-content,.mdl-foot,.mdl-head,.flw-body,.flw-nav){background-color:transparent;}
+  html[data-frost] :is(.mdl-card) :is(.mdl-content,.mdl-foot,.mdl-head,.flw-body,.flw-nav){background-color:transparent;}
   html[data-frost] :is(.mcell,.live-stage,.row-demo){--panel:var(--s-surface-1);--panel-2:var(--s-surface-2);--panel-3:var(--s-surface-3);}
   html[data-frost] .mcell{background:var(--s-surface-1);}
   html[data-frost] .row-demo,html[data-frost] .live-stage{background:var(--s-surface-1);}

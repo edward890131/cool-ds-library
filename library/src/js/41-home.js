@@ -1,4 +1,4 @@
-  /* ===== 首頁 Home（2026-11 改版 HOME3:v1：無 hash 時的預設首屏；上手指南為 #guide 文件頁）=====
+  /* ===== 首頁 Home（2026-11 改版 HOME3:v1：無 hash 時的預設首屏；上手指南頁 2026-11-13 已刪除，內容併入首頁）=====
      1 Hero：版面參考 designsystems.surf（靠左大標＋尾字輪播、左 CTA／右說明、細線＋分組數字列）
        試玩區：左側控制面板（sticky）＋右側預覽（3～4 個真元件）。所有覆寫只寫在預覽容器 #hxPv 的 custom properties，
        不動 :root；預覽容器會重新宣告 :root 的別名鏈（--panel→--s-surface-1…），語意層與 primitive 的覆寫才會沿鏈生效。
@@ -1565,7 +1565,7 @@
     view.appendChild(root);
     root.querySelectorAll('.hx-faq a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();renderView(a.getAttribute('href').slice(1));}));
   }
-  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='start')return h;if(h==='summary'||h==='tokens'||h==='guideline'||h==='guide'||h==='changelog'||h==='settings'||h==='home'||h==='components'||h==='templates')return h;   /* IA-PAGES:v1 總覽頁 */
+  function hashId(){const h=decodeURIComponent(location.hash.replace(/^#/,''));if(h==='start')return h;if(h==='summary'||h==='tokens'||h==='guideline'||h==='changelog'||h==='settings'||h==='home'||h==='components'||h==='templates')return h;   /* IA-PAGES:v1 總覽頁 */
     const ids=NAV.flatMap(g=>g.items).map(x=>x.id);return ids.includes(h)?h:null;}
   /* 元件頁段落統一順序：互動預覽與程式碼 → 變數與 Token → State × Variant 矩陣 → 其餘（維持原相對順序）。
      各元件 BUILD 自行決定 append 順序，這裡在渲染後集中重排，避免逐頁改。只搬「主要」那一段（第一個互動預覽／第一個矩陣），
@@ -1597,12 +1597,11 @@
     viewEnd();   // VIEW-LIFE:v1 先關掉上一頁登記的常駐監聽／觀察器／計時器
     LIVE_REFRESH.clear(); // 換頁清掉舊 Live 篩選器連動註冊，避免累積
     current=id;const view=document.getElementById('view');
-    view.classList.toggle('pg10',['tokens','guideline','summary','changelog','settings','guide'].includes(id)); // PAGES10:v1 非元件頁 bento 版型
+    view.classList.toggle('pg10',['tokens','guideline','summary','changelog','settings'].includes(id)); // PAGES10:v1 非元件頁 bento 版型
     if(hashId()!==id)location.hash=id; // 寫入 hash 供重整後還原
     const item=NAV.flatMap(g=>g.items).find(x=>x.id===id);
     if(id==='home'){renderHome(view);}
     else if(id==='summary'){if(dsEditing())renderSummary(view);else renderSummaryLocked(view);}   // MODE:v1
-    else if(id==='guide'){renderGuide(view);}
     else if(id==='changelog'){renderChangelog(view);}
     else if(id==='guideline'){renderGuideline(view);}
     else if(id==='settings'){renderSettings(view);}
@@ -1635,10 +1634,9 @@
     if(matchMedia('(prefers-reduced-motion:reduce)').matches) return; // 尊重系統「減少動態」設定：不隱藏、不動畫
     const SECT='.gd-sec,.block,.tok-sec,.cl-entry,.dg-sec,.sumcat,.placeholder'; // 內容段落單位（hero 有自己的載入動畫，不納入）
     const SKIP='.head-rule'; // 分隔線等非內容元素排除：不加 opacity:0，避免動畫沒播到時整條消失
-    const guide=view.querySelector(':scope > .gd-guide');
-    const root=guide||view; // guide 頁降一層進 .gd-guide（跳過 hero）；其餘頁以 #view 為根
-    const units=[...root.querySelectorAll(SECT)].filter(el=>!el.parentElement.closest(SECT) && !el.closest('.gd-hero')); // 最外層段落單位（去巢狀、排除 hero 內）
-    const loose=[...root.children].filter(el=>!el.classList.contains('gd-hero') && el.tagName!=='FOOTER' && !el.matches(SKIP) && !el.matches(SECT) && !el.querySelector(SECT)); // 頂層區塊本身不含段落單位者（各頁標題頭部、tokens 卡片區等）整塊納入 → 讓「第一個段落」也淡入
+    const root=view;
+    const units=[...root.querySelectorAll(SECT)].filter(el=>!el.parentElement.closest(SECT)); // 最外層段落單位（去巢狀、排除 hero 內）
+    const loose=[...root.children].filter(el=>el.tagName!=='FOOTER' && !el.matches(SKIP) && !el.matches(SECT) && !el.querySelector(SECT)); // 頂層區塊本身不含段落單位者（各頁標題頭部、tokens 卡片區等）整塊納入 → 讓「第一個段落」也淡入
     const targets=[...loose,...units].sort((a,b)=> (a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1); // 依 DOM 順序排序，stagger 才正確
     if(!targets.length) return;
     const main=document.querySelector('.main'); // 捲動容器＝IntersectionObserver 的 root
@@ -1655,22 +1653,15 @@
       inView.forEach((el,i)=>{ el.style.setProperty('--rv-d',Math.min(i,5)*70+'ms'); el.classList.add('rv-in'); }); // 首屏內：確定性淡入＋小幅 stagger（上限 5×70ms）
     });
   }
-  function renderSettings(view){ // 偏好設定頁：磨砂材質＋背景漸層＋互動預覽版型，皆持久化到 localStorage（深淺色已移到 topbar）
+  function renderSettings(view){ // 偏好設定頁：磨砂材質＋互動預覽版型，皆持久化到 localStorage（深淺色已移到 topbar）
     const CHK='<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0L3.22 8.28a.75.75 0 0 1 1.06-1.06L7 9.94l5.72-5.72a.75.75 0 0 1 1.06 0Z"/></svg>';
     const ptPage='<div class="pt-top"><span class="pt-dot"></span><span class="pt-dot"></span><span class="pt-dot"></span></div>'+
       '<div class="pt-body"><div class="pt-side"><span></span><span></span><span></span><span></span></div>'+
       '<div class="pt-main"><span class="pt-h"></span><span></span><span></span><span></span><span></span></div></div>';
-    const ptHero='<span class="pt-hb pt-hb1"></span><span class="pt-hb pt-hb2"></span><span class="pt-hcta"></span>';
     const THEME=[ // 縮圖＝我們頁面的化簡（topbar 圓點＋側欄列＋內容列）
       {k:'light',name:'淺色',thumb:'<div class="pt pt-light">'+ptPage+'</div>'},
       {k:'dark',name:'深色',thumb:'<div class="pt pt-dark">'+ptPage+'</div>'},
       {k:'system',name:'跟隨系統',thumb:'<div class="pt pt-light">'+ptPage+'</div><div class="pt pt-dark pt-split">'+ptPage+'</div>'},
-    ];
-    const GRAD=[ // 縮圖＝化簡首屏 hero；經典流動/靜態＝珊瑚暖色（動/不動）、主色/輔色流動＝依當前 token 錨點色即時生成
-      {k:'classic',name:'經典流動',thumb:'<div class="pt pt-hero pt-grad-classic">'+ptHero+'</div>'},
-      {k:'static',name:'經典靜態',thumb:'<div class="pt pt-hero pt-grad-classic-static">'+ptHero+'</div>'},
-      {k:'primary',name:'主色流動',thumb:'<div class="pt pt-hero pt-grad-primary">'+ptHero+'</div>'},
-      {k:'secondary',name:'輔色流動',thumb:'<div class="pt pt-hero pt-grad-secondary">'+ptHero+'</div>'},
     ];
     const plA='<div class="pl-a"><span class="pl-seg"></span><span class="pl-seg"></span><span class="pl-btn"></span></div>'; // 控制項條＋預覽鈕
     const plB='<div class="pl-b"><i></i><i></i><i></i><i></i></div>'; // 程式碼行（含語法色）
@@ -1679,7 +1670,6 @@
       {k:'v',name:'垂直排列',thumb:'<div class="pt pt-lay pt-lay-v">'+plA+plB+'</div>'},
     ];
     const curTheme=window.__themePref||'system';
-    const curGrad=window.__shaderMode||'classic';
     const curLay=(window.__liveLayoutPref==='v')?'v':'h';
     const isMobile=window.matchMedia('(max-width:767px)').matches; // 手機：水平版型無法呈現（版面已強制單欄）
     const effLay=isMobile?'v':curLay;                              // 手機一律以垂直為當前選中
@@ -1697,10 +1687,6 @@
             <div id="pfPre"></div></div></div>
       </section>
       <section class="block pref-sec">
-        <div class="pref-sec-h"><h2>背景漸層</h2><p>上手指南首屏的背景效果。主色／輔助色會依當前 Design Token 的主／副色即時生成，改了 token 色號漸層也跟著變。</p></div>
-        <div class="pref-cards" id="prefGrad">${GRAD.map(o=>card(o,o.k===curGrad)).join('')}</div>
-      </section>
-      <section class="block pref-sec">
         <div class="pref-sec-h"><h2>互動預覽版型</h2><p>元件頁「互動預覽與程式碼」的排列方式。水平＝控制項與預覽在左、程式碼在右（可拖拉調寬）；垂直＝由上而下堆疊。</p></div>
         <div class="pref-cards" id="prefLay">${LAY.map(layCard).join('')}</div>
         ${isMobile?'<p class="pref-note">📱 手機上無法水平顯示，僅能垂直排列。</p>':''}
@@ -1716,12 +1702,6 @@
       rg.addEventListener('pointerdown',()=>sl.classList.add('is-drag'));['pointerup','pointercancel','blur'].forEach(t=>rg.addEventListener(t,()=>sl.classList.remove('is-drag')));
       set(window.__frost||0,false);
     })();
-    view.querySelectorAll('#prefGrad .pref-card').forEach(c=>c.onclick=()=>{ // 漸層：記模式偏好＋持久化；在 guide 頁即時套用（classic/primary/secondary/off）
-      const mode=c.dataset.k; window.__shaderMode=mode;
-      try{localStorage.setItem('ds-shader',mode);}catch(e){}
-      if(current==='guide' && window.__shaderApply)window.__shaderApply(mode);
-      view.querySelectorAll('#prefGrad .pref-card').forEach(x=>x.classList.toggle('sel',x===c));
-    });
     view.querySelectorAll('#prefLay .pref-card').forEach(c=>c.onclick=()=>{ // 互動預覽版型：記偏好＋持久化（元件頁下次載入即套用）
       if(c.classList.contains('pref-disabled'))return; // 手機的水平排列不可選
       window.__liveLayoutPref=c.dataset.k==='v'?'v':'h';
@@ -1739,7 +1719,7 @@
   const NAV_TPL=()=>NAV.find(g=>/^Template/.test(g.group));
   const NAV_SECS=[{id:'tokens',lb:'Token',zh:'設計變數',go:()=>'tokens'},{id:'components',lb:'Components',zh:'元件',go:()=>'components'},
     {id:'templates',lb:'Templates',zh:'範本',go:()=>'templates'},{id:'history',lb:'History',zh:'版本紀錄',go:()=>'changelog'}];
-  function secOf(id){if(!id||id==='home'||id==='start')return 'home';if(['tokens','guideline','summary','settings'].includes(id))return 'tokens';if(['changelog','guide'].includes(id))return 'history';if(id==='templates')return 'templates';
+  function secOf(id){if(!id||id==='home'||id==='start')return 'home';if(['tokens','guideline','summary','settings'].includes(id))return 'tokens';if(id==='changelog')return 'history';if(id==='templates')return 'templates';
     const t=NAV_TPL();return t&&t.items.some(x=>x.id===id)?'templates':'components';}
   const navZh=()=>typeof I18N_LANG==='undefined'||I18N_LANG==='zh';   /* 英文名稱後面補中文只在中文介面 */
   function navPin(id,label,cls){const b=document.createElement('button');b.className='nav-item nav-pin'+(cls?' '+cls:'');b.dataset.id=id;b.setAttribute('aria-current',current===id);

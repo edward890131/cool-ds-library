@@ -16,7 +16,6 @@
   .brand-logo{width:40px;height:auto;display:block;color:var(--ink);flex:0 0 auto;}
   .brand-logo-img{width:66px;height:auto;display:block;flex:0 0 auto;}
   .brand .divider{width:1px;height:18px;background:var(--line-strong);flex:0 0 auto;}
-  .brand-title{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);white-space:nowrap;letter-spacing:-.005em;}
   .spacer{flex:1}
   /* 2026-11-10 頂欄深淺色切換改取用 Toggle 原子（switch＋icon），原本手刻的 .theme-toggle 已移除 */
 
@@ -81,7 +80,6 @@
   .nav-ic svg{width:16px;height:16px;display:block;}
   .nav-group .gh{gap:var(--sp-2);} .nav-group .gh:hover .nav-ic,.nav-item:hover .nav-ic,.nav-item[aria-current="true"] .nav-ic{color:var(--ink);}
   .sumcat-t{display:inline-flex;align-items:center;gap:var(--sp-2);}
-  .hm-nav .nav-ic{width:12px;height:12px;margin-right:var(--sp-1);vertical-align:-2px;} .hm-nav .nav-ic svg{width:12px;height:12px;}
   .nav-group.collapsed .gh .gh-caret{transform:rotate(-90deg);}
   /* 群組展開/收合：內容手風琴平滑推開（比照 Collapse／FAQ 手法），取代即時 display:none */
   .ng-items{display:grid;grid-template-rows:1fr;overflow:hidden;transition:grid-template-rows var(--ng-dur) var(--ng-ease);}

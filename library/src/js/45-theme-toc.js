@@ -5,9 +5,6 @@
     {const ic=b.querySelector('.switch-ic');if(ic){ic.querySelector('.ic-off').innerHTML=IC_SUN;ic.querySelector('.ic-on').innerHTML=IC_MOON;}}
     b.onclick=()=>{window.__applyThemePref(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark',true);sync();};sync();})();
 
-  (function(){ let s; try{s=localStorage.getItem('ds-shader');}catch(e){} // 漸層模式偏好：存 localStorage，無選擇→預設經典；舊值 on→classic、off 維持；initHeroShader 會讀取
-    const map={on:'classic',off:'static',classic:'classic',static:'static',primary:'primary',secondary:'secondary'};
-    window.__shaderMode=map[s]||'classic'; })();
   (function(){ let s; try{s=localStorage.getItem('ds-livelayout');}catch(e){} window.__liveLayoutPref=(s==='v')?'v':'h'; })(); // 互動預覽版型：存 localStorage，無選擇 → 預設水平(h)；applyLiveLayout 會讀取
 
   /* ===== 右緣本頁目錄（滑到右緣浮出 → 點擊 scroll 到段落；含當前段落高亮）===== */

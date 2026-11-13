@@ -6,6 +6,13 @@
 
 ---
 
+## 2026-11-13（一百五十七）　移除上手指南頁
+
+- Yuu 決定：上手指南（`#guide`）的資訊已經放到首頁，整頁刪除，之後掃寫死值也不用再顧它。`gallery.html` 3.34MB → 3.20MB。
+- JS：刪 `renderGuide`（574 行，含 GitHub／MacBook／iPhone 示意畫面、ShaderGradient 背景——連帶不再從 esm.sh 載入 react／three）；路由（`hashId`、`renderView`、`secOf`、`pg10` 清單）、站內搜尋「上手指南」與常用項、頂欄隱藏的 `#guideBtn`、偏好設定的「背景漸層」區塊與 `ds-shader` 偏好、進場動畫裡 `.gd-guide`／`.gd-hero` 分支一併拿掉。響應式預覽切換原本以 `#guideBtn` 定位，改以深淺色切換 `#themeBtn` 定位（位置不變）。
+- CSS：刪 `gd-*`、`hm-*`、`gm-*`、`.hm`、`sb-shader*`、`nav-guide-m`、背景漸層縮圖 `pt-hero`／`pt-grad-*`／`pt-hb*`／`pt-hcta`、`@keyframes gd-*`（共約 550 條規則）；保留首頁與總覽頁還在用的 `gd-sec`／`gd-sec-h`／`gd-sec-t`。順便刪掉早已沒有引用的 `brand-title`、`ds-dlg-*`、`ds-badge-lbl`、`dg-muted`、`theme-toggle-left`。
+- 驗證：計算樣式逐頁比對（基準＝上一個 commit），除上手指南外各頁無差異。
+
 ## 2026-11-13（一百五十六）　CSS 寫死值換 token 第二批：元件
 
 - 規則（Yuu 2026-11-13 決定）：刻度外的值靠到最近的 token（字級剛好在中間往上、間距／圓角往下）；16px 以上間距、24px 以上字級改用會隨平板／手機縮放的 token；照片上的字與遮罩用新的專用 token。另定：1～3px 的視覺微調、無限循環動畫的轉速、`calc()` 公式、選色器色盤、遮罩用的 `#000` 不換（色盤標 `hc-ok`）。

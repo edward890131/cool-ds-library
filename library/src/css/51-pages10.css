@@ -7,12 +7,12 @@
   #view.pg10 section.block{margin:40px 0 0;}
   #view.pg10 .block > h2{border-bottom:0;padding-bottom:0;margin:0 0 var(--sp-4);}
   /* 共用卡片外觀 */
-  #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,.gd-faq-item,
+  #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,
     .dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,
-    .pref-sec > .pref-frost,.pref-sec > .pref-cards,.gd-sec > .gd-grid,.sum-actions){background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-sizing:border-box;min-width:0;}
+    .pref-sec > .pref-frost,.pref-sec > .pref-cards,.sum-actions){background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-sizing:border-box;min-width:0;}
   #view.pg10 :is(.dgc-cat,.dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,
-    .pref-sec > .pref-frost,.pref-sec > .pref-cards,.gd-sec > .gd-grid,.cl-entry){padding:var(--sp-5);margin:0;}
-  html[data-frost] #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,.dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,.pref-sec > .pref-frost,.pref-sec > .pref-cards,.gd-sec > .gd-grid,.sum-actions){backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));-webkit-backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));}
+    .pref-sec > .pref-frost,.pref-sec > .pref-cards,.cl-entry){padding:var(--sp-5);margin:0;}
+  html[data-frost] #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,.dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,.pref-sec > .pref-frost,.pref-sec > .pref-cards,.sum-actions){backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));-webkit-backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));}
   /* Design Token */
   #view.pg10 .tok-lead{margin:var(--sp-6) 0 0;gap:var(--sp-3);}
   #view.pg10 #tokBody{margin-top:var(--sp-6);}
@@ -53,10 +53,6 @@
   /* 上手指南 */
   #view.pg10 .gd-sec{margin:40px 0 0;}
   #view.pg10 .gd-sec-h{border-bottom:0;padding-bottom:0;margin-bottom:var(--sp-4);align-items:center;}
-  #view.pg10 .gd-card{border-radius:var(--radius);}
-  #view.pg10 .gd-card:not(.now){background:var(--panel);}
-  #view.pg10 .gd-faq{gap:var(--sp-3);}
-  #view.pg10 .gd-hero-mock .gd-mocktoggle-sgm{margin-top:var(--sp-5);box-shadow:var(--e-md);}
   /* HOME-MAP:v1 點陣世界地圖（#hxMap，用戶回饋下方）：canvas 畫陸地點陣，依序高亮城市、鏡頭平移；邊緣漸隱融入頁面底色 */
   .hx > #hxMap{max-width:1180px;margin-left:auto;margin-right:auto;}
   .hx-gm-stage{position:relative;height:560px;overflow:hidden;--hx-gm-hi:var(--c-info-600);

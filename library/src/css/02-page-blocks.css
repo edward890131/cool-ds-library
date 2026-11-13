@@ -47,7 +47,7 @@
   .block > h2 .bh-d{font-size:var(--fs-h11);color:var(--muted);} .block > h2 .bh-d code{font-family:var(--font-mono);background:var(--panel-2);padding:1px 5px;border-radius:var(--r-sm);}
   .block > .sub{color:var(--faint);font-size:var(--fs-h11);margin:0 0 var(--sp-5);} .block > .sub code{font-family:var(--font-mono);background:var(--panel-2);padding:1px 5px;border-radius:var(--r-sm);}
   /* 站台 chrome 文字（2026-11-04 起）：標題類用 display 字（Epilogue），說明文字回到內文 sans；Geist Mono 只留給程式碼、token 名稱與小型標籤 */
-  .brand-title,h1,.dial h2,.vpanel .vtitle .vname,.nav-item .nm,.nav-item,.nav-pin,.nav-group .gh .gh-t,
+  h1,.dial h2,.vpanel .vtitle .vname,.nav-item .nm,.nav-item,.nav-pin,.nav-group .gh .gh-t,
   .famhead .fz,.placeholder h2,.sc-name,.sumcat-t,.sr-name,.st-name,.tok-gh .t,.dh-title,.block > h2 .bh-t,.hx-h1{font-family:var(--font-display);}
   .lede,.block>.sub,.dial .hint,.spec .cell .v,.vpanel .vtitle .vdesc,.placeholder p,.site-footer,.tok-gh .d{font-family:var(--font-sans);}
   .tok-tab,.tokbtn,.copybtn{font-family:var(--font-mono);}

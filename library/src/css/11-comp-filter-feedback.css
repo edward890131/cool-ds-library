@@ -113,7 +113,6 @@
 .nt-v-dark .nt-action{color:var(--s-media-on);border-color:color-mix(in srgb,var(--s-media-on) 34%,transparent);}
 .nt-v-dark .nt-action:hover{background:color-mix(in srgb,var(--s-media-on) 12%,transparent);}
 
-
 /* Position 示意：小螢幕 + mini toast 停靠 */
 .nt-screen{position:relative;width:200px;height:130px;border:1px solid var(--line-strong);
   border-radius:var(--r-sm);background:var(--panel-2);overflow:hidden;}
