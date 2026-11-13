@@ -1,0 +1,57 @@
+  /* ===== alert 提示橫幅（前綴 al-）===== 頁內常駐、不自動消失的提示；意圖色綁 --s-feedback-*（深淺自動切換） */
+  .al{--al-c:var(--s-feedback-info);display:flex;align-items:flex-start;gap:var(--al-gap,var(--sp-3));width:100%;max-width:560px;box-sizing:border-box;
+    padding:var(--al-pad,var(--sp-4));border-radius:var(--al-radius,var(--r-md));border:1px solid transparent;font-family:var(--font-sans);color:var(--ink);text-align:left;}
+  .al-i-info{--al-c:var(--s-feedback-info);} .al-i-success{--al-c:var(--s-feedback-success);}
+  .al-i-warning{--al-c:var(--s-feedback-warning);} .al-i-error{--al-c:var(--s-feedback-error);}
+  .al-v-soft{background:color-mix(in srgb,var(--al-c) 10%,var(--panel));border-color:color-mix(in srgb,var(--al-c) 30%,transparent);}
+  .al-v-outline{background:var(--panel);border-color:color-mix(in srgb,var(--al-c) 60%,var(--line));}
+  .al-v-accent{background:var(--panel);border-color:var(--line);border-left:3px solid var(--al-c);}
+  .al-ico{flex:0 0 auto;display:inline-flex;width:20px;height:20px;color:var(--al-c);margin-top:1px;}
+  .al-ico svg{width:100%;height:100%;display:block;}
+  .al-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:var(--sp-1);}
+  .al-title{font-size:var(--al-title-fs,var(--fs-h10));font-weight:var(--fw-semibold);line-height:var(--lh-snug);}
+  .al-desc{font-size:var(--fs-h11);line-height:var(--lh-normal);color:var(--muted);}
+  .al-body:not(:has(.al-title)) .al-desc{color:var(--ink);font-size:var(--fs-h10);}   /* 只有說明時，說明就是主文字 */
+  .al-actions{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-2);}
+  .al-close{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:var(--close-h-s);height:var(--close-h-s);margin:-2px -4px 0 0;padding:0;border:0;border-radius:var(--r-sm);
+    background:transparent;color:var(--muted);cursor:pointer;transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .al-close:hover{background:color-mix(in srgb,var(--al-c) 12%,transparent);color:var(--ink);}
+  .al-close svg{width:14px;height:14px;}
+  .al-close:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .al.al-out{animation:al-out calc(var(--dur-fast) * .93) var(--ease-in) forwards;}
+  .al.al-in{animation:al-in var(--dur-default) var(--ease-out) both;}
+  @keyframes al-out{to{opacity:0;transform:translateY(-4px);}}
+  @keyframes al-in{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+  .al-stack{display:flex;flex-direction:column;gap:var(--sp-3);width:100%;max-width:560px;}
+
+  /* ===== popover 氣泡卡（前綴 pop-）===== 可放互動內容的浮層；定位用獨立 translate，開合動畫用 transform，兩者不互相覆蓋 */
+  .pop{position:relative;width:var(--pop-w,280px);max-width:calc(100vw - 32px);box-sizing:border-box;background:var(--panel);border:1px solid var(--line);
+    border-radius:var(--pop-radius,var(--r-md));box-shadow:var(--e-lg);font-family:var(--font-sans);color:var(--ink);text-align:left;}
+  .pop.sz-s{--pop-w:220px;} .pop.sz-m{--pop-w:280px;} .pop.sz-l{--pop-w:340px;}
+  .pop{padding:0;height:auto;}   /* 歸零裸 .sz-* 撞名漏進來的按鈕 padding／height */
+  .pop-head{display:flex;align-items:center;gap:var(--sp-2);padding:var(--pop-pad,var(--sp-4)) var(--pop-pad,var(--sp-4)) 0;}
+  .pop-title{flex:1;min-width:0;font-size:var(--pop-title-fs,var(--fs-h10));font-weight:var(--fw-semibold);}
+  .pop-x{display:inline-flex;align-items:center;justify-content:center;width:var(--close-h-s);height:var(--close-h-s);margin:-4px -4px -4px 0;padding:0;border:0;border-radius:var(--r-sm);background:transparent;color:var(--muted);cursor:pointer;
+    transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);}
+  .pop-x:hover{background:var(--panel-2);color:var(--ink);} .pop-x svg{width:14px;height:14px;}
+  .pop-x:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .pop-body{display:flex;flex-direction:column;gap:var(--pop-gap,var(--sp-3));padding:var(--pop-pad,var(--sp-4));font-size:var(--fs-h11);color:var(--muted);}
+  .pop-foot{display:flex;justify-content:flex-end;gap:var(--sp-2);padding:var(--sp-3) var(--pop-pad,var(--sp-4));border-top:1px solid var(--line);}
+  .pop-arrow{position:absolute;width:10px;height:10px;background:var(--panel);border:1px solid var(--line);transform:rotate(45deg);}
+  .pop-p-bottom .pop-arrow{top:-6px;left:calc(50% - 5px);border-right:0;border-bottom:0;}
+  .pop-p-top .pop-arrow{bottom:-6px;left:calc(50% - 5px);border-left:0;border-top:0;}
+  .pop-p-left .pop-arrow{right:-6px;top:calc(50% - 5px);border-left:0;border-bottom:0;}
+  .pop-p-right .pop-arrow{left:-6px;top:calc(50% - 5px);border-right:0;border-top:0;}
+  /* 浮出：相對 trigger 定位（.pop-wrap），從 trigger 所在方向縮放展開 */
+  .pop-wrap{position:relative;display:inline-flex;}
+  .pop-float{position:absolute;z-index:30;opacity:0;visibility:hidden;pointer-events:none;transform:scale(.95);
+    transition:opacity calc(var(--dur-fast) * .73) var(--ease-in),transform calc(var(--dur-fast) * .73) var(--ease-in),visibility 0s linear calc(var(--dur-fast) * .73);}
+  .pop-float.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:none;
+    transition:opacity calc(var(--dur-fast) * 1.07) var(--ease-out),transform calc(var(--dur-default) * .73) var(--ease-out),visibility 0s;}
+  .pop-float.pop-p-bottom{top:calc(100% + 10px);left:50%;translate:-50% 0;transform-origin:top center;}
+  .pop-float.pop-p-top{bottom:calc(100% + 10px);left:50%;translate:-50% 0;transform-origin:bottom center;}
+  .pop-float.pop-p-left{right:calc(100% + 10px);top:50%;translate:0 -50%;transform-origin:center right;}
+  .pop-float.pop-p-right{left:calc(100% + 10px);top:50%;translate:0 -50%;transform-origin:center left;}
+  .pop-live-stage{position:relative;display:flex;align-items:center;justify-content:center;width:100%;min-height:340px;padding:var(--sp-6);box-sizing:border-box;}
+  @media (prefers-reduced-motion:reduce){.pop-float,.al.al-out,.al.al-in{transition:none !important;animation:none !important;}}
+

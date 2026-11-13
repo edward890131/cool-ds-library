@@ -1,0 +1,622 @@
+  /* ===== Table&Chart group: table ===== */
+/* ===================== Table 資料表格（tbl-） =====================
+   variant：tbl-v-bordered 格線 / tbl-v-striped 斑馬紋 / tbl-v-plain 簡潔
+   density：tbl-dn-comfortable 寬鬆 / tbl-dn-compact 緊湊
+   斑馬紋實際生效用 .tbl-zebra（v-striped 或 Live stripe 開關都會加上）
+   矩陣用靜態 .is-hover / .is-selected；Live／showcase 在 .tbl-wrap 加 .live 走真實 :hover
+   全部顏色綁 token，明暗色自動跟切 */
+
+/* ---- 外框容器 ---- */
+.tbl-wrap{background:var(--panel);border:1px solid var(--line);border-radius:var(--tbl-radius,var(--radius));overflow-x:auto;overflow-y:hidden;max-width:100%;font-family:var(--font-sans);}
+.tbl-wrap.tbl-v-plain{border-color:transparent;}                     /* 簡潔款：拿掉外框 */
+
+/* ---- 表格本體 ---- */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;color:var(--ink);}
+.tbl-wrap.tbl-dn-compact .tbl{font-size:var(--fs-h11);}
+
+/* ---- 表頭 ---- */
+.tbl-th{text-align:left;font-size:var(--fs-h12);font-weight:var(--fw-semibold);color:var(--muted);background:var(--panel-2);
+  border-bottom:1px solid var(--line-strong);white-space:nowrap;}
+.tbl-wrap.tbl-dn-compact .tbl-th{font-size:var(--fs-h12);}
+.tbl-wrap.tbl-v-plain .tbl-th{background:transparent;}               /* 簡潔款：表頭不鋪底，只留底線 */
+
+/* ---- 資料格 ---- */
+.tbl-td{border-bottom:1px solid var(--line);vertical-align:middle;}
+.tbl-wrap.tbl-v-plain .tbl-td{border-bottom:0;}                      /* 簡潔款：無列線 */
+
+/* ---- density 兩級 padding ---- */
+.tbl-wrap.tbl-dn-comfortable .tbl-th{padding:var(--sp-3) var(--sp-4);}
+.tbl-wrap.tbl-dn-comfortable .tbl-td{padding:var(--sp-4) var(--sp-4);}
+.tbl-wrap.tbl-dn-compact .tbl-th{padding:var(--sp-2) var(--sp-3);}
+.tbl-wrap.tbl-dn-compact .tbl-td{padding:var(--sp-2) var(--sp-3);}
+.tbl-wrap.tbl-dn-compact .tg{--tg-h:var(--tag-h-s);font-size:var(--fs-h12);}          /* 緊湊時狀態標籤同步縮小（scoped 覆寫） */
+
+/* ---- variant：bordered 直向格線 ---- */
+.tbl-wrap.tbl-v-bordered .tbl-th+.tbl-th,
+.tbl-wrap.tbl-v-bordered .tbl-td+.tbl-td{border-left:1px solid var(--line);}
+
+/* ---- variant：striped／stripe 開關 → 斑馬紋（偶數列鋪淺灰；讓給選取態） ---- */
+.tbl-wrap.tbl-zebra .tbl tbody tr:nth-child(even):not(.is-selected)>td{background:var(--panel-2);}
+
+/* ---- 列 hover：矩陣靜態 .is-hover ＋ Live/showcase 真實 :hover（.live）---- */
+.tbl-wrap .tbl tbody tr.is-hover:not(.is-selected)>td,
+.tbl-wrap.live .tbl tbody tr:hover:not(.is-selected)>td{background:var(--panel-2);}
+/* 斑馬紋表 hover 要壓過偶數列底色 → 用更深一階 */
+.tbl-wrap.tbl-zebra .tbl tbody tr.is-hover:not(.is-selected)>td,
+.tbl-wrap.tbl-zebra.live .tbl tbody tr:hover:not(.is-selected)>td{background:var(--panel-3);}
+
+/* ---- 列 selected：淡藍底＋姓名轉主色（勾選框由 JS 同步 .st-checked） ---- */
+.tbl-wrap .tbl tbody tr.is-selected>td{background:var(--i-primary-tint);}
+.tbl-wrap .tbl tbody tr.is-selected .tbl-name{color:var(--accent);font-weight:var(--fw-semibold);}
+
+/* ---- 欄位型別 ---- */
+.tbl-num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;} /* 金額：右對齊＋等寬數字，不換行 */
+.tbl-mut{color:var(--muted);}                                        /* 日期等次要文字 */
+.tbl-col-cbx{width:36px;text-align:center;}                          /* 勾選欄（重用 .cbx 原子） */
+.tbl-col-cbx .cbx{vertical-align:middle;cursor:pointer;}
+
+/* ---- 表頭排序鈕（重用 .btn v-text 原子，去殼貼齊表頭字） ---- */
+.tbl-th .tbl-sortbtn{padding:0;height:auto;min-height:0;background:none;border:none;
+  font:inherit;font-weight:var(--fw-semibold);color:inherit;gap:var(--sp-1);}
+.tbl-th .tbl-sortbtn:hover{background:none;color:var(--ink);}
+.tbl-sortbtn svg{width:12px;height:12px;flex:0 0 auto;}
+.tbl-sortic{display:inline-flex;color:var(--faint);}                 /* 未排序：中性雙箭頭（TBL_IC_SORT，淡色） */
+.tbl-sortbtn.is-active{color:var(--accent);}                         /* 排序中：整鈕轉主色 */
+.tbl-sortbtn.is-active .tbl-sortic{color:var(--accent);}
+.tbl-sortic.tbl-asc svg{transform:rotate(180deg);}                   /* 升冪：ICON_CARET 轉 180 度朝上 */
+.tbl-th.tbl-num .tbl-sortbtn{justify-content:flex-end;width:100%;}   /* 金額欄表頭同步右對齊 */
+
+/* ---- 表尾總計列 ---- */
+.tbl-ft{background:var(--panel-2);border-top:1px solid var(--line-strong);border-bottom:0;font-weight:var(--fw-semibold);}
+.tbl-ft.tbl-ft-lab{color:var(--muted);font-size:var(--fs-h12);}
+.tbl-wrap.tbl-v-plain .tbl-ft{background:transparent;}
+
+/* ---- 分頁列（重用 .btn 原子；showcase 示意） ---- */
+.tbl-pgbar{display:flex;align-items:center;justify-content:flex-end;gap:var(--sp-1);
+  padding:var(--sp-3) var(--sp-4);border-top:1px solid var(--line);background:var(--panel);}
+.tbl-wrap.tbl-v-plain .tbl-pgbar{background:transparent;}
+.tbl-pginfo{font-size:var(--fs-h12);color:var(--muted);margin-right:auto;font-variant-numeric:tabular-nums;}
+.tbl-pgnav{display:flex;align-items:center;}                         /* 包住 library pgBar 元件 */
+.tbl-pgnav .pg-bar{margin:0;}
+
+/* ---- Cell Types 欄位型別表：Dropdown 選單需溢出可見、儲存格內原子縮排 ---- */
+.tbl-wrap.tbl-celltypes{overflow:visible;}                           /* 讓 Dropdown 展開選單不被裁切 */
+.tbl-celltypes .tbl-owner{width:158px;}
+.tbl-celltypes .tbl-dd{min-width:138px;}
+.tbl-celltypes .tbl-dd .field.dd{min-height:32px;padding:var(--sp-1) var(--sp-3);font-size:var(--fs-h11);} /* 收窄成表格內尺寸 */
+.tbl-celltypes .ddmenu{z-index:40;}
+.tbl-celltypes .tbl-td{overflow:visible;}
+@media(max-width:767px){.tbl-wrap.tbl-celltypes{overflow-x:auto;overflow-y:hidden;}}  /* 手機：寬表格改卡內橫向卷動優先（Dropdown 展開在手機較少用，讓五種欄位型別可完整滑閱） */
+.tbl-actbtn{padding:2px var(--sp-1);min-height:0;}                           /* 文字按鈕儲存格：貼齊列高 */
+
+/* ---- 陳列容器 ---- */
+.tbl-demo{max-width:100%;}
+/* ⚠ 不要再用 .tbl-row 當並排容器：Table 元件的資料列 <tr> 已用 class="tbl-row"，
+   若對 .tbl-row 下 display:grid 會把每一列 <tr> 變成 grid、整張表欄位錯位（2026-07-16 踩過）。
+   未來要並排等分 table，用 .tbl-cols 這種不撞名的容器類。 */
+.tbl-cols{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:var(--sp-5);align-items:start;}
+.tbl-cols>.tbl-wrap,.tbl-cols>.tbl-demo{min-width:0;max-width:100%;}
+/* 矩陣小表：格內文字一律不換行（狀態 pill／金額不再擠爆成兩行）；欄寬夠時各欄自然排開，
+   欄寬不足時整個矩陣走 .grid-scroll 橫向捲動（見 mincol），而非把內容擠爛 */
+.tbl-mini .tbl-td,.tbl-mini .tbl-th{white-space:nowrap;}
+  /* ===== Table&Chart group: chart ===== */
+/* ==================== CHART 圖表（cht-）==================== */
+/* 儀表板圖表：stat 統計數字卡（重用 prMetricEl 原子）＋ line 折線／bar 長條／donut 甜甜圈（inline SVG 手刻）。
+   系列色一律綁 token：--accent 主／--ok 成功／--warn 警告／--i-danger 危險；格線 --line、軸線 --line-strong。 */
+
+/* --- 基礎容器 --- */
+.cht-box{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--cht-gap,var(--sp-3));font-family:var(--font-sans);color:var(--ink);max-width:100%;}
+.cht-box svg{display:block;overflow:visible;max-width:100%;}
+.cht-box svg text{font-family:var(--font-sans);}
+
+/* --- 尺寸：m 標準／s 精簡（SVG 用 viewBox 等比縮放，只控顯示寬；2026-07-16 加寬） --- */
+.cht-line.cht-sz-m svg,.cht-curve.cht-sz-m svg,.cht-bar.cht-sz-m svg{width:300px;height:auto;}
+.cht-line.cht-sz-s svg,.cht-curve.cht-sz-s svg,.cht-bar.cht-sz-s svg{width:170px;height:auto;}
+.cht-box.cht-wide.cht-sz-m svg{width:380px;}          /* Live／dashboard 加寬版 */
+.cht-box.cht-wide.cht-sz-s svg{width:210px;}
+.cht-donut.cht-sz-m svg{width:156px;height:auto;}
+.cht-donut.cht-sz-s svg{width:96px;height:auto;}
+.cht-pie.cht-sz-m svg{width:156px;height:auto;} .cht-pie.cht-sz-s svg{width:96px;height:auto;}
+.cht-semi.cht-sz-m svg{width:220px;height:auto;} .cht-semi.cht-sz-s svg{width:128px;height:auto;}
+.cht-box.cht-donut,.cht-box.cht-pie,.cht-box.cht-semi{flex-direction:column;align-items:center;gap:var(--sp-4);}
+.cht-pie-sl{stroke:var(--panel);stroke-width:1.2;stroke-linejoin:round;transition:opacity var(--dur-fast) var(--ease-out);}
+.cht-pie-lb{font-family:var(--font-sans);font-size:9px;font-weight:var(--fw-semibold);fill:var(--s-on-primary,#fff);pointer-events:none;font-variant-numeric:tabular-nums;}
+.cht-semi-num{font-size:30px;}
+.cht-donut-u{font-size:.55em;font-weight:var(--fw-medium);fill:var(--muted);}
+
+/* --- 互動繪圖區＋hover tooltip（folded 端點只在 hover 出現） --- */
+.cht-plot{position:relative;display:inline-block;max-width:100%;}
+.cht-plot svg{display:block;}
+.cht-guide{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 3;pointer-events:none;}
+.cht-hdot{fill:var(--accent);stroke:var(--panel);stroke-width:1.6;pointer-events:none;}
+.cht-seg{cursor:default;}
+.cht-bhl{fill:var(--accent);pointer-events:none;}
+.cht-axis{font-size:8px;fill:var(--muted);font-variant-numeric:tabular-nums;}
+.cht-tip{position:absolute;transform:translate(-50%,calc(-100% - 9px));background:var(--ink);color:var(--canvas);
+  font-size:var(--fs-h12);line-height:var(--lh-snug);padding:var(--sp-1) var(--sp-3);border-radius:var(--r-sm);white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity var(--dur-fast);z-index:6;display:flex;flex-direction:column;align-items:center;gap:1px;
+  box-shadow:var(--e-md);}
+.cht-tip.on{opacity:1;}
+.cht-tip b{font-weight:var(--fw-semibold);font-variant-numeric:tabular-nums;}
+.cht-tip span{font-size:var(--fs-h12);font-weight:var(--fw-medium);opacity:.68;}
+.cht-tile-wide{width:100%;max-width:440px;}
+.cht-tile-wide .cht-box,.cht-tile-wide .cht-plot,.cht-tile-wide .cht-plot svg{width:100%;}
+
+/* --- SVG 內文字（class 掛在 <text> 上，inline SVG 吃得到頁面 CSS；數字一律 tabular-nums） --- */
+.cht-donut-num{font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.cht-donut-sub{font-size:9px;font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.02em;}
+.cht-val{font-size:8.5px;font-weight:var(--fw-semibold);fill:var(--muted);font-variant-numeric:tabular-nums;}
+
+/* --- 矩陣格／Live 舞台的 dashboard tile 容器（panel 底＋細邊） --- */
+.cht-tile{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--sp-3);background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-4) var(--sp-5);max-width:100%;}
+
+/* --- 圖例：重用 .tg 原子（v-soft i-neutral），前置色點綁各系列色 token --- */
+.cht-legend{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+.cht-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;display:inline-block;}
+.cht-dot.c-accent{background:var(--accent);}
+.cht-dot.c-ok{background:var(--ok);}
+.cht-dot.c-warn{background:var(--warn);}
+.cht-dot.c-danger{background:var(--i-danger);}
+
+/* --- Showcase：dashboard 組合（6 欄 grid：stat 2＋stat 2＋donut 2／line 3＋bar 3） --- */
+.cht-dash{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--sp-4);width:100%;}
+.cht-card{grid-column:span 2;background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
+.cht-card.cht-span-3{grid-column:span 3;}
+.cht-card-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);width:100%;}
+.cht-card-t{font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--muted);letter-spacing:.02em;}
+/* 卡內圖表撐滿卡寬（donut 例外：維持固定圓徑不變形拉伸） */
+.cht-card .cht-box{width:100%;}
+.cht-box.cht-line,.cht-box.cht-curve,.cht-box.cht-bar{width:100%;align-items:stretch;}
+.cht-fluid{width:100%;min-width:0;} .cht-fluid .cht-plot{display:block;width:100%;}
+.cht-box.cht-sz-m .cht-fluid .cht-plot svg,.cht-box.cht-sz-s .cht-fluid .cht-plot svg{width:100%;height:auto;max-width:none;} /* 覆蓋舊的固定 300／380px */
+.cht-card .cht-plot{width:100%;}
+.cht-card .cht-line svg,.cht-card .cht-curve svg,.cht-card .cht-bar svg{width:100%;}
+.cht-card .cht-donut svg,.cht-card .cht-pie svg{width:140px;} .cht-card .cht-semi svg{width:200px;}
+@media(max-width:760px){.cht-card,.cht-card.cht-span-3{grid-column:span 6;}}
+
+/* --- Live 舞台 --- */
+.cht-live-stage{display:flex;justify-content:center;padding:var(--sp-3) 0;}
+
+/* --- 進階圖表（cht-x，2026-11-03 擴充 9 型：spark／brush／area-stack／bar-stack／combo／bar-rank／gauge／funnel／heatmap）---
+   系列色：1＝--accent（chart scope 內＝--c-brand2-500）、2–4＝--s-chart-2..4；熱力圖色階＝--s-chart-seq-0..5；狀態色只用 --s-feedback-*。
+   圓角只用 --r-xs／--r-sm／--cht-radius；動態只用 --dur-*／--ease-*。 */
+.cht-x{--cs1:var(--accent);--cs2:var(--s-chart-2);--cs3:var(--s-chart-3);--cs4:var(--s-chart-4);
+  display:flex;flex-direction:column;align-items:stretch;gap:var(--cht-gap,var(--sp-3));width:320px;max-width:100%;min-width:0;position:relative;}
+.cht-x.cht-sz-s{width:196px;gap:var(--sp-2);}
+.cht-x.is-live{width:100%;}
+.cht-x .sgm{--accent:var(--s-action-primary);}          /* 卡內切換沿用 Segmented 原子原色（不吃 chart 的品牌橘） */
+.chtx-h{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;min-width:0;}
+.chtx-ht{min-width:0;}
+.chtx-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);line-height:var(--lh-snug);}
+.cht-sz-s .chtx-t{font-size:var(--fs-h11);color:var(--muted);}
+.chtx-sub{font-size:var(--fs-h11);color:var(--muted);line-height:var(--lh-snug);margin-top:2px;}
+.chtx-tools{display:flex;gap:var(--sp-3);flex-wrap:wrap;}
+.chtx-plot{position:relative;width:100%;min-width:0;}
+.chtx-plot svg{display:block;width:100%;max-width:none;overflow:visible;touch-action:pan-y;}
+.chtx-plot svg:focus-visible,.chtx-focus:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-xs);}
+.chtx-ax{font-size:var(--fs-h12);fill:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-axc{font-size:var(--fs-h12);fill:var(--muted);}
+.cht-sz-s .chtx-ax,.cht-sz-s .chtx-axc{font-size:var(--fs-h12);}
+.chtx-gl{stroke:var(--line);stroke-width:1;shape-rendering:crispEdges;}
+.chtx-bl{stroke:var(--line-strong);stroke-width:1;shape-rendering:crispEdges;}
+.chtx-xh{stroke:var(--line-strong);stroke-width:1;stroke-dasharray:3 3;pointer-events:none;}
+.chtx-dim{transition:opacity var(--dur-fast) var(--ease-out);}
+.chtx-dim.is-dim{opacity:.32;}
+.chtx-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.chtx-hint{font-size:var(--fs-h12);color:var(--muted);}
+/* 圖例：.tg 原子（v-soft／i-neutral）＋色塊；可切換時為 <button>，關閉＝空心色塊＋淡字 */
+.chtx-legend{gap:var(--sp-2);}
+.chtx-lgi{gap:var(--sp-2);font-weight:var(--fw-medium);}
+button.chtx-lgi{cursor:pointer;font-family:var(--font-sans);}
+button.chtx-lgi:hover{background:var(--ttint2);}
+button.chtx-lgi:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.chtx-sw{border-radius:var(--r-xs);width:8px;height:8px;transition:background var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);}
+.chtx-sw.is-ln{width:12px;height:2px;border-radius:var(--r-xs);}
+button.chtx-lgi[aria-pressed="false"]{color:var(--muted);background:transparent;border-color:var(--line-strong);border-style:dashed;}
+button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important;box-shadow:inset 0 0 0 1.5px var(--line-strong);}
+/* tooltip：沿用 .cht-tip 視覺（--ink 底／--canvas 字／--r-sm／--e-md），改成跟游標＋多列 */
+.cht-tip.chtx-tip{left:0;top:0;transform:none;align-items:stretch;display:grid;gap:3px;padding:var(--sp-2) var(--sp-3);min-width:104px;
+  transition:opacity var(--dur-fast) var(--ease-out),transform calc(var(--dur-fast) * .93) var(--ease-out);z-index:8;}
+.chtx-tip .chtx-th{font-size:var(--fs-h12);opacity:.68;margin-bottom:1px;}
+.chtx-tip .chtx-tr{display:grid;grid-template-columns:10px auto auto;align-items:center;justify-content:start;gap:var(--sp-2);}
+.chtx-tip .chtx-tr i{width:10px;height:2px;border-radius:var(--r-xs);}
+.chtx-tip .chtx-tr b{font-size:var(--fs-h11);}
+.chtx-tip .chtx-tr span{font-size:var(--fs-h12);}
+.chtx-tip .chtx-tr.tot{border-top:1px solid color-mix(in srgb,var(--canvas) 20%,transparent);padding-top:4px;margin-top:2px;}
+.chtx-tip .chtx-tr.neg b{color:color-mix(in srgb,var(--s-feedback-error) 65%,var(--canvas));}
+/* 數字逐位滾動 */
+.chtx-roll{display:inline-flex;font-variant-numeric:tabular-nums;line-height:1;overflow:hidden;vertical-align:bottom;}
+.chtx-roll .d{display:inline-block;height:1em;overflow:hidden;}
+.chtx-roll .d>span{display:flex;flex-direction:column;transition:transform calc(var(--dur-slow) * 1.4) var(--ease-out);}
+.chtx-roll .d>span>i{font-style:normal;height:1em;display:block;}
+/* 漲跌標籤：.tg 原子＋箭頭（ICON_ARROW 旋轉） */
+.chtx-delta svg{width:11px;height:11px;}
+.chtx-delta.is-up svg{transform:rotate(-90deg);} .chtx-delta.is-dn svg{transform:rotate(90deg);}
+
+/* spark：KPI 趨勢小圖卡（數字沿用 Number 原子 .pr-metric 字級） */
+.chtx-kpi-top{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;}
+.chtx-kpis{display:grid;gap:var(--sp-4);}
+.chtx-kpis.is-multi{grid-template-columns:repeat(auto-fit,minmax(176px,1fr));}
+.chtx-kpis.is-multi .pr-m-sz-md{font-size:var(--fs-h7);}
+.chtx-kpi{display:grid;gap:var(--sp-1);min-width:0;}
+.chtx-kpis.is-multi .chtx-kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-5) var(--sp-5) var(--sp-4);}
+.chtx-kpi-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);}
+.chtx-kpi .pr-metric{gap:0;}
+.chtx-kpi .pr-numrow{margin-top:var(--sp-1);}
+.chtx-kpi .chtx-plot{margin-top:var(--sp-3);}
+.chtx-kpi.is-live .chtx-plot{cursor:crosshair;}
+.chtx-kpi-x{display:flex;justify-content:space-between;font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+/* brush：總覽條 */
+.chtx-ov svg{cursor:crosshair;}
+.chtx-ov.is-static svg{cursor:default;}
+.chtx-brwin{fill:color-mix(in srgb,var(--cs1) 12%,transparent);stroke:var(--cs1);stroke-width:1;cursor:grab;}
+.chtx-brh{fill:var(--panel);stroke:var(--cs1);stroke-width:1.25;cursor:ew-resize;}
+.chtx-brshade{fill:var(--panel);opacity:.55;pointer-events:none;}
+/* bar-rank：橫向排名（FLIP 換位） */
+.chtx-rk{display:grid;gap:2px;position:relative;--rk-lab:72px;}
+.chtx-rk-axis,.chtx-rk-row{display:grid;grid-template-columns:16px minmax(0,7.5em) minmax(0,1fr);gap:var(--sp-3);}
+.cht-sz-s .chtx-rk-axis,.cht-sz-s .chtx-rk-row{grid-template-columns:12px minmax(0,5.5em) minmax(0,1fr);gap:var(--sp-2);}
+.chtx-rk-axis{font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:2px;}
+.chtx-rk-axis div{position:relative;height:14px;margin-right:var(--rk-lab);}
+.chtx-rk-axis div span{position:absolute;top:0;translate:-50% 0;white-space:nowrap;}
+.chtx-rk-row{align-items:center;min-height:28px;border-radius:var(--r-sm);outline-offset:1px;transition:transform calc(var(--dur-slow) * 1.1) var(--ease-out),background var(--dur-fast) var(--ease-out);}
+.cht-sz-s .chtx-rk-row{min-height:20px;}
+.chtx-rk.is-live .chtx-rk-row:hover,.chtx-rk-row:focus-visible{background:var(--panel-2);}
+.chtx-rk-row:focus-visible{outline:2px solid var(--accent);}
+.chtx-rk-n{font-size:var(--fs-h12);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;}
+.chtx-rk-name{font-size:var(--fs-h11);line-height:var(--lh-snug);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cht-sz-s .chtx-rk-name{font-size:var(--fs-h12);}
+.chtx-rk-bar{position:relative;height:10px;border-left:1px solid var(--line-strong);}
+.cht-sz-s .chtx-rk-bar{height:8px;}   /* 2026-11-10 細柱同後台範本 */
+.chtx-rk-bar i{position:absolute;left:0;top:1px;bottom:1px;width:calc(var(--p,0) * (100% - var(--rk-lab)));background:var(--cs1);border-radius:0 var(--r-xs) var(--r-xs) 0;
+  transition:width calc(var(--dur-slow) * 1.1) var(--ease-out),opacity var(--dur-fast) var(--ease-out);}
+.chtx-rk-bar b{position:absolute;top:50%;translate:0 -50%;left:calc(var(--p,0) * (100% - var(--rk-lab)) + 6px);font-size:var(--fs-h12);font-weight:var(--fw-medium);color:var(--muted);
+  transition:left calc(var(--dur-slow) * 1.1) var(--ease-out);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.chtx-rk.no-vals{--rk-lab:8px;} .chtx-rk.no-vals .chtx-rk-bar b{display:none;}
+.chtx-rk.hov .chtx-rk-row:not(:hover):not(:focus-visible) .chtx-rk-bar i{opacity:.35;}
+/* funnel：漏斗 */
+.chtx-fn{display:grid;}
+.chtx-fn-row{display:grid;gap:var(--sp-1);padding:var(--sp-2) var(--sp-2);margin:0 calc(var(--sp-2) * -1);border-radius:var(--r-sm);outline-offset:1px;transition:background var(--dur-fast) var(--ease-out),opacity var(--dur-fast) var(--ease-out);}
+.cht-sz-s .chtx-fn-row{padding:2px 0;gap:2px;}
+.chtx-fn.is-live .chtx-fn-row:hover,.chtx-fn-row:focus-visible{background:var(--panel-2);}
+.chtx-fn-row:focus-visible{outline:2px solid var(--accent);}
+.chtx-fn-l{display:flex;justify-content:space-between;gap:var(--sp-3);font-size:var(--fs-h11);}
+.cht-sz-s .chtx-fn-l{font-size:var(--fs-h12);}
+.chtx-fn-l b{font-weight:var(--fw-semibold);font-variant-numeric:tabular-nums;}
+.chtx-fn-l span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-fn-bar{position:relative;height:10px;border-left:1px solid var(--line-strong);}
+.cht-sz-s .chtx-fn-bar{height:8px;}
+.chtx-fn-bar .loss{position:absolute;top:1px;bottom:1px;left:calc(var(--p) * 100%);width:calc((var(--pp) - var(--p)) * 100%);border-radius:0 var(--r-xs) var(--r-xs) 0;
+  background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--s-feedback-error) 14%,transparent) 0 4px,transparent 4px 8px);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--s-feedback-error) 40%,transparent);opacity:0;
+  transition:opacity var(--dur-fast) var(--ease-out),left calc(var(--dur-slow) * 1.1) var(--ease-out),width calc(var(--dur-slow) * 1.1) var(--ease-out);}
+.chtx-fn-bar i{position:absolute;left:0;top:1px;bottom:1px;width:calc(var(--p) * 100%);background:var(--cs1);border-radius:0 var(--r-xs) var(--r-xs) 0;transition:width calc(var(--dur-slow) * 1.1) var(--ease-out);}
+.chtx-fn-row.on .loss{opacity:1;}
+.chtx-fn-step{display:flex;align-items:center;gap:var(--sp-1);padding:1px 0;font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-fn-step svg{width:10px;height:10px;transform:rotate(90deg);}
+.chtx-fn.hov .chtx-fn-row:not(.on){opacity:.45;}
+/* heatmap：熱力圖 */
+.chtx-hm-cell{transition:fill calc(var(--dur-slow) * .9) var(--ease-out);}
+.chtx-hm-leg{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;justify-content:space-between;font-size:var(--fs-h11);color:var(--muted);}
+.chtx-hm-leg b{color:var(--ink);font-weight:var(--fw-semibold);}
+.chtx-hm-scale{display:inline-flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h12);color:var(--muted);font-variant-numeric:tabular-nums;}
+.chtx-hm-scale .bins{display:inline-grid;grid-auto-flow:column;gap:2px;}
+.chtx-hm-scale .bins span{display:grid;gap:2px;justify-items:center;}
+.chtx-hm-scale i{display:inline-block;width:18px;height:10px;border-radius:var(--r-xs);}
+/* Live：版面放寬（手機收 stage 內距）、圖型選單可換行 */
+.cht-live-sec .ctl-row .seg{flex-wrap:wrap;max-width:100%;}
+.cht-live-sec .cht-tile.chtx-live-tile{display:flex;width:100%;max-width:720px;padding:var(--sp-5);box-sizing:border-box;}
+.cht-live-sec .chtx-live-bare{width:100%;max-width:720px;}
+.cht-live-sec .live-stage{min-width:0;padding:var(--sp-6);}
+.cht-live-sec .cht-live-stage{width:100%;min-width:0;}
+.chtx-fn:not(.is-live) .chtx-fn-row{padding:var(--sp-1) 0;margin:0;}
+.chtx-fn:not(.is-live) .chtx-fn-step{padding:0;}
+@media(max-width:767px){.cht-live-sec .live-stage{padding:var(--sp-4);} .cht-live-sec .cht-tile.chtx-live-tile{padding:var(--sp-4);}}
+.cht-mx-group+.cht-mx-group{margin-top:var(--sp-2);}
+@media (prefers-reduced-motion:reduce){.cht-x *,.cht-x *::before,.cht-x *::after{transition:none !important;animation:none !important;}}
+.cht-sz-s .chtx-rk{--rk-lab:46px;}
+.cht-sz-s .chtx-rk-axis{display:none;}
+.cht-sz-s .chtx-rk-row{grid-template-columns:12px minmax(0,1fr);row-gap:3px;padding:2px 0;}   /* s：名稱在上、長條＋數值在下 */
+.cht-sz-s .chtx-rk-bar{grid-column:2;}
+.cht-bar-rank.cht-sz-s{min-width:220px;}   /* s 精簡卡至少 220px，長條才看得出長短 */
+  /* ===== Table&Chart group: tree-view ===== */
+/* ==================== Tree View 樹狀（trv- namespace）==================== */
+/* 樹容器：ul 巢狀結構，縮排靠 .trv-children 的 padding-left 疊出 depth */
+.trv-tree{list-style:none;margin:0;padding:0;font-family:var(--font-sans);font-size:var(--trv-fs,var(--fs-h11));color:var(--ink);}
+.trv-tree ul{list-style:none;margin:0;}
+.trv-children{padding-left:var(--trv-indent,var(--sp-6));}
+.trv-item{position:relative;}
+.trv-item:not(.is-open)>.trv-children{display:none;}   /* 收合：直接藏子層 */
+
+/* --- 節點列：箭頭＋(cbx)＋icon＋名稱＋count --- */
+.trv-row{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-1) var(--sp-3);border-radius:var(--r-sm);
+  min-width:0;transition:background var(--dur-fast);cursor:default;}
+.trv-row.live{cursor:pointer;}
+/* hover：矩陣用靜態 is-hover、Live/showcase 用真實 :hover（選取列不再變灰） */
+.trv-row.is-hover,
+.trv-row.live:hover:not(.is-selected){background:var(--panel-2);}
+/* selected：淡藍底＋名稱/圖示轉主色 */
+.trv-row.is-selected{background:var(--i-primary-tint);}
+.trv-row.is-selected .trv-name{color:var(--accent);font-weight:var(--fw-semibold);}
+.trv-row.is-selected .trv-ic,
+.trv-row.is-selected .trv-caret{color:var(--accent);}
+
+/* --- 展開箭頭：重用 ICON_CARET（下箭頭），收合時轉 -90 度朝右 --- */
+.trv-caret{width:16px;height:16px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--muted);transform:rotate(-90deg);transition:transform var(--dur-fast);}
+.trv-caret svg{width:12px;height:12px;display:block;}
+.trv-item.is-open>.trv-row .trv-caret{transform:rotate(0deg);}
+.trv-caret.trv-blank{visibility:hidden;}                /* 葉子節點：同寬占位對齊 */
+
+/* --- 分支/葉子 icon（IC_FOLDER / IC_FILE）與名稱、count --- */
+.trv-ic{width:16px;height:16px;flex:0 0 auto;display:inline-flex;color:var(--muted);}
+.trv-ic svg{width:16px;height:16px;display:block;}
+.trv-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:var(--lh-normal);}
+.trv-count{margin-left:auto;padding-left:var(--sp-3);flex:0 0 auto;
+  font-size:var(--fs-h12);color:var(--faint);font-variant-numeric:tabular-nums;}
+
+/* checkbox variant：列內重用 .cbx 原子，live hover 給邊框提示 */
+.trv-row .cbx{flex:0 0 auto;}
+.trv-row.live:hover .cbx:not(.st-checked){border-color:var(--accent);}
+
+/* --- lines variant：L 形連接線（--line token；只畫第二層以下） --- */
+.trv-v-lines .trv-children{padding-left:var(--trv-indent,var(--sp-6));}
+/* 每個子節點一段 L：直線落在父層箭頭中心，橫線接到子列前緣 */
+.trv-v-lines .trv-children>.trv-item::before{content:'';position:absolute;left:-10px;top:0;
+  width:10px;height:15px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);
+  border-bottom-left-radius:6px;}
+/* 非最後一個手足：直線繼續往下延伸 */
+.trv-v-lines .trv-children>.trv-item:not(:last-child)::after{content:'';position:absolute;left:-10px;top:0;bottom:0;
+  border-left:1px solid var(--line);}
+
+/* --- 容器：矩陣格輕量包、showcase/Live 用 panel 卡 --- */
+.trv-cellbox{width:100%;min-width:0;padding:2px 0;box-sizing:border-box;}
+.trv-box{background:var(--panel);border:1px solid var(--line);border-radius:var(--trv-radius,var(--radius));padding:var(--sp-3);box-sizing:border-box;}
+
+/* showcase 三棵並排 */
+.trv-show-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-4);align-items:start;}
+.trv-show-cap{font-size:var(--fs-h12);font-weight:var(--fw-semibold);color:var(--muted);margin-bottom:var(--sp-3);}
+  /* ===== Table&Chart group: schedule-chart ===== */
+/* ==================== Schedule Chart 排程圖（gnt- namespace）==================== */
+/* 三 variant：gantt 甘特圖（任務欄＋日期軸＋起訖橫條）／week 週排程（7 天 × 時段格）／timeline 垂直時間軸
+   × size m 標準／s 精簡。系列色一律經 --gc 綁 token（accent/ok/warn/i-danger），格線 --line、字 --muted/--faint。 */
+
+/* --- 容器共通：panel 底 + line 邊框 + radius token；數字一律 tabular --- */
+.gnt-box{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--gnt-radius,var(--radius));
+  font-family:var(--font-sans);font-variant-numeric:tabular-nums;max-width:100%;box-sizing:border-box;}
+
+/* --- size 兩級：所有尺寸經 CSS 變數收斂，m 標準／s 精簡 --- */
+.gnt-sz-m{--gnt-row:34px;--gnt-bar:12px;--gnt-day:46px;--gnt-fs:12.5px;--gnt-fs-sm:11px;
+  --gnt-slot:34px;--gnt-timew:52px;--gnt-side:150px;--gnt-ww:560px;--gnt-tlw:380px;}
+.gnt-sz-s{--gnt-row:26px;--gnt-bar:8px;--gnt-day:34px;--gnt-fs:11.5px;--gnt-fs-sm:10px;
+  --gnt-slot:24px;--gnt-timew:44px;--gnt-side:112px;--gnt-ww:430px;--gnt-tlw:310px;}
+
+/* --- 系列色：橫條／事件塊／節點一律走 --gc，禁 hard-code 色值 --- */
+.gnt-bar,.gnt-evt{--gc:var(--accent);}
+/* 圖表（Chart＋Schedule Chart）主色黑→品牌藍：scoped 覆寫 --accent，狀態色(ok/warn/danger)不受影響 */
+.cht-box,.cht-tile,.cht-card,.cht-dash,.gnt-box{--accent:var(--c-brand2-500);}
+.tad :is(.cht-bar-rank,.cht-funnel){--accent:var(--s-chart-2);--cs1:var(--s-chart-2);}   /* TPL-CHT-BLUE:v1 後台統計報表：排行、漏斗兩張單系列長條改資訊藍，減少整頁橘色（其他圖表不動） */
+.gnt-bar.c-ok,.gnt-evt.c-ok{--gc:var(--ok);}
+.gnt-bar.c-warn,.gnt-evt.c-warn{--gc:var(--warn);}
+.gnt-bar.c-danger,.gnt-evt.c-danger{--gc:var(--i-danger);}
+
+/* ==================== variant 1：gantt 甘特圖 ==================== */
+.gnt-gantt{display:flex;overflow:hidden;width:fit-content;}
+/* 左側任務名欄：表頭 + 每列任務名（+ .tg 狀態標，重用 Tag 原子靠右） */
+.gnt-g-side{flex:0 0 var(--gnt-side);min-width:0;border-right:1px solid var(--line-strong);}
+.gnt-g-side-head{height:var(--gnt-row);display:flex;align-items:center;padding:0 var(--sp-4);
+  font-family:var(--font-mono);font-size:var(--gnt-fs-sm);color:var(--faint);border-bottom:1px solid var(--line-strong);}
+.gnt-g-task{height:var(--gnt-row);display:flex;align-items:center;gap:var(--sp-2);padding:0 var(--sp-4);
+  border-bottom:1px solid var(--line);font-size:var(--gnt-fs);color:var(--ink);white-space:nowrap;min-width:0;}
+.gnt-g-task:last-child{border-bottom:0;}
+.gnt-g-name{overflow:hidden;text-overflow:ellipsis;font-weight:var(--fw-medium);}
+.gnt-g-task .tg{margin-left:auto;flex:0 0 auto;}
+.gnt-sz-s .gnt-g-task .tg{display:none;}          /* s 精簡：側欄不放狀態標 */
+
+/* 右側時間軸：日期表頭 + 格線背景 + 每列橫條；過寬時容器內橫向捲動 */
+.gnt-g-scroll{flex:1;min-width:0;overflow-x:auto;}
+.gnt-g-main{min-width:max-content;}
+.gnt-g-head{display:flex;}
+.gnt-g-hcell{flex:1 0 var(--gnt-day);height:var(--gnt-row);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:var(--gnt-fs-sm);color:var(--faint);border-left:1px solid var(--line);border-bottom:1px solid var(--line-strong);}
+.gnt-g-hcell:first-child{border-left:0;}
+.gnt-g-hcell.is-wkend{background:var(--panel-2);}                       /* 週末欄：panel-2 淺灰 */
+.gnt-g-hcell.is-today{color:var(--accent);font-weight:var(--fw-semibold);background:var(--i-primary-tint);}
+.gnt-g-rows{position:relative;}
+/* 直欄格線＋週末底：改由每列 in-flow 的 cell 提供（原本畫在絕對定位背景層，1px 線在橫向捲動時會被 GPU 合成器丟格→線消失；in-flow 徹底解決，且與表頭 hcell 同結構自動對齊）*/
+.gnt-g-row{position:relative;display:flex;height:var(--gnt-row);border-bottom:1px solid var(--line);}
+.gnt-g-cell{flex:1 0 var(--gnt-day);border-left:1px solid var(--line);}
+.gnt-g-cell:first-child{border-left:0;}
+.gnt-g-cell.is-wkend{background:var(--panel-2);}
+.gnt-g-row:last-child{border-bottom:0;}
+
+/* 橫條：依起訖日以 % 定位；底＝系列色 24% 淡底，疊加進度實色填充，皆全圓角 */
+.gnt-bar{position:absolute;top:50%;transform:translateY(-50%);height:var(--gnt-bar);border-radius:var(--r-none);   /* 2026-11-10 對齊長條圖：細柱（m 12／s 8px，同 bar 單系列細柱寬）、直角（同 bar rx=0） */
+
+  background:color-mix(in srgb,var(--gc) 24%,transparent);z-index:1;}
+.gnt-bar-fill{position:absolute;left:0;top:0;bottom:0;max-width:100%;background:var(--gc);border-radius:var(--r-none);}
+.gnt-bar-lab{position:absolute;left:100%;top:50%;transform:translate(6px,-50%);line-height:1;
+  font-family:var(--font-mono);font-size:var(--gnt-fs-sm);color:var(--faint);white-space:nowrap;}
+.gnt-gantt.no-prog .gnt-bar{background:var(--gc);}                      /* 關進度：整條實色 */
+.gnt-gantt.no-prog .gnt-bar-fill,.gnt-gantt.no-prog .gnt-bar-lab{display:none;}
+.gnt-box.live .gnt-bar:hover{filter:brightness(1.08);}                  /* Live 真實 hover */
+
+/* 今日線：accent 直線 + 頂端「今日」小籤（#fff 比照 .tg i-brand 的 --ton 慣例） */
+.gnt-today{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--accent);z-index:2;}
+.gnt-today-pin{position:absolute;top:3px;left:50%;transform:translateX(-50%);padding:1px var(--sp-2);border-radius:var(--r-pill);
+  background:var(--accent);color:#fff;font-size:var(--fs-h12);line-height:var(--lh-normal);white-space:nowrap;}
+
+/* 矩陣縮小示意：更窄側欄、隱藏進度百分比與狀態標 */
+.gnt-g-compact{--gnt-side:88px;width:100%;}
+.gnt-g-compact .gnt-bar-lab{display:none;}
+.gnt-g-compact .gnt-g-task .tg{display:none;}
+.gnt-g-compact .gnt-g-task,.gnt-g-compact .gnt-g-side-head{padding:0 var(--sp-3);}
+
+/* ==================== variant 2：week 週排程 ==================== */
+.gnt-week{overflow:hidden;width:var(--gnt-ww);}
+.gnt-w-grid{display:grid;}                                              /* columns/rows 由 JS 依時段數設定 */
+.gnt-w-corner{border-bottom:1px solid var(--line-strong);border-right:1px solid var(--line);}
+.gnt-w-dhead{height:var(--gnt-row);display:flex;align-items:center;justify-content:center;
+  font-size:var(--gnt-fs-sm);font-weight:var(--fw-semibold);color:var(--muted);border-bottom:1px solid var(--line-strong);border-left:1px solid var(--line);}
+.gnt-w-dhead.first{border-left:0;}
+.gnt-w-dhead.is-wkend{background:var(--panel-2);color:var(--faint);}
+.gnt-w-time{display:flex;align-items:flex-start;justify-content:flex-end;padding:3px var(--sp-3) 0 0;
+  font-family:var(--font-mono);font-size:var(--gnt-fs-sm);color:var(--faint);border-right:1px solid var(--line);}
+.gnt-w-cell{border-left:1px solid var(--line);border-top:1px solid var(--line);min-width:0;}
+.gnt-w-cell.firstcol{border-left:0;}
+.gnt-w-cell.firstrow{border-top:0;}
+.gnt-w-cell.is-wkend{background:var(--panel-2);}
+
+/* 事件方塊：疊在格上（grid-row span 跨時段），系列色淡底 + 左粗邊 */
+.gnt-evt{position:relative;z-index:1;margin:2px 3px;padding:var(--sp-1) var(--sp-2);border-radius:var(--r-sm);min-width:0;
+  display:flex;flex-direction:column;gap:2px;overflow:hidden;
+  background:color-mix(in srgb,var(--gc) 15%,var(--panel));border-left:3px solid var(--gc);font-size:var(--gnt-fs-sm);}
+.gnt-evt .t{font-weight:var(--fw-semibold);color:var(--ink);line-height:var(--lh-snug);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.gnt-evt .tm{font-family:var(--font-mono);color:var(--muted);white-space:nowrap;}
+.gnt-sz-s .gnt-evt{margin:1px 2px;padding:2px var(--sp-1);border-left-width:2px;border-radius:var(--r-sm);}
+.gnt-box.live .gnt-evt:hover{background:color-mix(in srgb,var(--gc) 24%,var(--panel));}  /* Live 真實 hover */
+.gnt-w-compact{width:100%;}
+.gnt-w-compact .gnt-evt .tm{display:none;}
+
+/* ==================== variant 3：timeline 垂直時間軸 ==================== */
+.gnt-tl{padding:var(--sp-5) var(--sp-5);display:flex;flex-direction:column;width:var(--gnt-tlw);}
+.gnt-sz-s.gnt-tl{padding:var(--sp-4) var(--sp-4);}
+.gnt-tl-item{display:flex;gap:var(--sp-4);min-width:0;}
+.gnt-tl-rail{display:flex;flex-direction:column;align-items:center;flex:0 0 14px;}
+/* 節點圓點：狀態綁語意色（完成 ok 實心／進行中 accent 空心／延遲 danger 實心／待開始 line-strong 空心） */
+.gnt-tl-dot{--gc:var(--accent);width:12px;height:12px;border-radius:50%;flex:0 0 auto;margin-top:var(--sp-1);
+  background:var(--panel);border:3px solid var(--gc);box-sizing:border-box;}
+.gnt-tl-dot.st-done{--gc:var(--ok);background:var(--gc);}
+.gnt-tl-dot.st-active{--gc:var(--accent);}
+.gnt-tl-dot.st-delay{--gc:var(--i-danger);background:var(--gc);}
+.gnt-tl-dot.st-todo{--gc:var(--line-strong);}
+.gnt-tl-cord{width:2px;flex:1;min-height:14px;background:var(--line);margin-top:var(--sp-1);}   /* 連接線 */
+.gnt-tl.no-line .gnt-tl-cord{visibility:hidden;}
+
+/* 事件卡：時間（IC_CLOCK）＋狀態 tag（重用 .tg）＋標題＋描述 */
+.gnt-tl-card{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4);transition:border-color var(--dur-fast),box-shadow var(--dur-fast);}
+.gnt-tl-item:last-child .gnt-tl-card{margin-bottom:0;}
+.gnt-box.live .gnt-tl-card:hover{border-color:var(--line-strong);
+  box-shadow:var(--e-md);}                    /* Live 真實 hover */
+.gnt-tl-top{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);}
+.gnt-tl-time{display:inline-flex;align-items:center;gap:var(--sp-1);
+  font-family:var(--font-mono);font-size:var(--gnt-fs-sm);color:var(--muted);}
+.gnt-tl-time svg{width:13px;height:13px;color:var(--faint);}
+.gnt-tl-title{font-size:var(--gnt-fs);font-weight:var(--fw-semibold);color:var(--ink);margin-top:var(--sp-1);line-height:var(--lh-snug);}
+.gnt-tl-desc{font-size:var(--gnt-fs-sm);color:var(--muted);margin-top:2px;line-height:var(--lh-normal);}
+.gnt-sz-s .gnt-tl-card{padding:var(--sp-2) var(--sp-3);margin-bottom:var(--sp-3);}
+.gnt-sz-s .gnt-tl-dot{width:10px;height:10px;border-width:2.5px;margin-top:3px;}
+.gnt-sz-s .gnt-tl-desc{display:none;}              /* s 精簡：不放描述 */
+
+/* ==================== 矩陣格容器：撐滿格寬，box 改 100% ==================== */
+.gnt-cellwrap{width:100%;min-width:0;}
+.gnt-cellwrap .gnt-tl{width:100%;}
+  /* ===== Table&Chart group: calendar ===== */
+/* ==================== Calendar 日曆時間（cal- namespace）==================== */
+/* 日期時間選擇：month 月曆／range 日期區間／time 時間清單 × size m 標準／s 精簡。
+   表頭上下月鈕重用 .btn v-text icon-only 原子；日格為 .cal-day（一般／今日 accent 圈／
+   選取 accent 實心／非本月淡／停用劃掉／有事件下方圓點）；range 用起訖實心＋中間淡 accent 連續帶。
+   矩陣用靜態 class（is-hover）模擬；Live／showcase 加 .live 走真實 :hover。
+   全部綁 token：--accent／--i-primary-tint／--line／--panel*／--ink／--muted／--faint，不 hard-code 色值。 */
+
+.cal{display:inline-flex;flex-direction:column;gap:var(--cal-gap,var(--sp-2));background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--cal-radius,var(--radius));
+  font-family:var(--font-sans);text-align:left;flex:0 0 auto;}
+.cal-sz-m{width:290px;padding:var(--sp-4);}
+.cal-sz-s{width:232px;padding:var(--sp-3);gap:var(--sp-1);}
+
+/* ---- 表頭：‹ 2026 年 7 月 ›（上下月鈕＝Button 原子 v-text icon-only）---- */
+.cal-head{display:flex;align-items:center;gap:var(--sp-1);}
+.cal-head-title{flex:1;text-align:center;font-weight:var(--fw-semibold);color:var(--ink);font-variant-numeric:tabular-nums;}
+.cal-sz-m .cal-head-title{font-size:var(--fs-h11);}
+.cal-sz-s .cal-head-title{font-size:var(--fs-h11);}
+/* s 尺寸把 icon-only 鈕微縮（僅覆蓋尺寸，樣式仍走 .btn 原子） */
+.cal-sz-s .cal-head .btn.icon-only{width:26px;height:26px;min-height:0;min-width:0;border-radius:var(--r-sm);font-size:var(--fs-h12);}
+
+/* ---- 星期列（日一二三四五六）---- */
+.cal-dow{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-dow-c{display:flex;align-items:center;justify-content:center;color:var(--faint);font-weight:var(--fw-semibold);}
+.cal-sz-m .cal-dow-c{height:24px;font-size:var(--fs-h12);}
+.cal-sz-s .cal-dow-c{height:20px;font-size:var(--fs-h12);}
+
+/* ---- 6×7 日格（column-gap=0 讓 range 連續帶不斷開）---- */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px;}
+/* 週數欄開啟時左側多一欄 */
+.cal-has-wk .cal-dow,.cal-has-wk .cal-grid{grid-template-columns:24px repeat(7,1fr);}
+.cal-wk,.cal-wk-head{display:flex;align-items:center;justify-content:center;color:var(--faint);
+  font-size:var(--fs-h12);font-variant-numeric:tabular-nums;}
+
+/* ---- 日格 ---- */
+.cal-day{position:relative;display:flex;align-items:center;justify-content:center;
+  border:1px solid transparent;background:transparent;color:var(--ink);cursor:pointer;
+  font-family:inherit;font-variant-numeric:tabular-nums;padding:0;
+  transition:background var(--dur-fast),color var(--dur-fast);}
+.cal-sz-m .cal-day{height:34px;font-size:var(--fs-h11);border-radius:var(--r-sm);}
+.cal-sz-s .cal-day{height:26px;font-size:var(--fs-h12);border-radius:var(--r-sm);}
+/* 非本月：淡 */
+.cal-day.is-out{color:var(--faint);}
+/* 今日：accent 內圈描邊 */
+.cal-day.is-today{box-shadow:inset 0 0 0 1.5px var(--accent);color:var(--accent);font-weight:var(--fw-semibold);}
+/* 滑過：矩陣靜態模擬 */
+.cal-day.is-hover{background:var(--panel-2);}
+/* 選取：accent 實心 */
+.cal-day.is-selected{background:var(--accent);color:var(--primary-on);font-weight:var(--fw-semibold);box-shadow:none;}
+/* 停用：淡化＋劃掉、不可點 */
+.cal-day.is-disabled{color:var(--faint);opacity:.5;cursor:not-allowed;text-decoration:line-through;}
+/* 有事件：下方小圓點（選取日反白） */
+.cal-day.has-event::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--c-brand2-500);}
+.cal-sz-m .cal-day.has-event::after{bottom:var(--sp-1);}
+.cal-sz-s .cal-day.has-event::after{bottom:2px;}
+.cal-day.is-selected.has-event::after{background:var(--primary-on);}
+
+/* ---- range 區間：起訖實心、中間淡 accent 連續帶 ---- */
+.cal-day.is-in-range{background:var(--i-primary-tint);border-radius:0;}
+.cal-day.is-range-start,.cal-day.is-range-end{background:var(--accent);color:var(--primary-on);
+  font-weight:var(--fw-semibold);box-shadow:none;}
+.cal-sz-m .cal-day.is-range-start{border-radius:var(--r-sm) 0 0 var(--r-sm);}
+.cal-sz-m .cal-day.is-range-end{border-radius:0 var(--r-sm) var(--r-sm) 0;}
+.cal-sz-s .cal-day.is-range-start{border-radius:var(--r-sm) 0 0 var(--r-sm);}
+.cal-sz-s .cal-day.is-range-end{border-radius:0 var(--r-sm) var(--r-sm) 0;}
+/* 起訖同一天：恢復完整圓角 */
+.cal-sz-m .cal-day.is-range-start.is-range-end{border-radius:var(--r-sm);}
+.cal-sz-s .cal-day.is-range-start.is-range-end{border-radius:var(--r-sm);}
+
+/* Live／showcase 真實 hover（.live 才啟用；選取／起訖／停用不反應） */
+.cal.live .cal-day:hover:not(:disabled):not(.is-selected):not(.is-range-start):not(.is-range-end){background:var(--panel-2);}
+
+/* ---- 區間文字 foot（range 用）---- */
+.cal-foot{border-top:1px solid var(--line);padding-top:var(--sp-3);margin-top:2px;font-size:var(--fs-h12);color:var(--muted);}
+.cal-foot b{color:var(--accent);font-variant-numeric:tabular-nums;font-weight:var(--fw-semibold);}
+
+/* ---- time 時間清單 ---- */
+.cal-v-time.cal-sz-m{width:206px;}
+.cal-v-time.cal-sz-s{width:170px;}
+.cal-time-head{display:flex;align-items:center;gap:var(--sp-2);color:var(--muted);font-weight:var(--fw-semibold);padding:2px 2px var(--sp-1);}
+.cal-sz-m .cal-time-head{font-size:var(--fs-h11);}
+.cal-sz-s .cal-time-head{font-size:var(--fs-h12);}
+.cal-time-ic{display:inline-flex;color:var(--faint);}
+.cal-time-ic svg{width:14px;height:14px;}
+.cal-time-list{display:flex;flex-direction:column;gap:2px;overflow-y:auto;padding-right:2px;}
+.cal-sz-m .cal-time-list{max-height:238px;}
+.cal-sz-s .cal-time-list{max-height:186px;}
+.cal-time-item{display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+  border:1px solid transparent;background:transparent;color:var(--ink);cursor:pointer;
+  font-family:inherit;font-variant-numeric:tabular-nums;transition:background var(--dur-fast),color var(--dur-fast);}
+.cal-sz-m .cal-time-item{height:32px;font-size:var(--fs-h11);border-radius:var(--r-sm);}
+.cal-sz-s .cal-time-item{height:26px;font-size:var(--fs-h12);border-radius:var(--r-sm);}
+.cal-time-item.is-hover{background:var(--panel-2);}
+.cal-time-item.is-selected{background:var(--accent);color:var(--primary-on);font-weight:var(--fw-semibold);}
+.cal.live .cal-time-item:hover:not(.is-selected){background:var(--panel-2);}
+
+/* ---- 日格狀態一覽（裸格：拿掉容器外框只留單一日格）---- */
+.cal-staterow{display:flex;flex-wrap:wrap;gap:var(--sp-5);}
+.cal-statecell{display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);}
+.cal-statecap{font-size:var(--fs-h12);color:var(--muted);}
+.cal-bare{border:0;background:transparent;padding:0;width:auto;border-radius:0;}
+.cal-bare .cal-grid{grid-template-columns:38px;}
+
+/* ---- showcase／Live 舞台 ---- */
+.cal-show{display:flex;flex-wrap:wrap;gap:var(--sp-6);align-items:flex-start;}
+.cal-live-stage{display:flex;justify-content:flex-start;}

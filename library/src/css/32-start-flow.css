@@ -1,0 +1,171 @@
+  /* ==================== 開新專案流程（#start · flow2：大型 Modal）==================== */
+  /* 外框＝library Modal（.mdl-overlay.mdl-fixed ＋ .mdl-card.mdl-kind-modal）：header 固定（標題＋stepper）、body 內部捲動、footer 固定（上一步／下一步）。
+     間距一律走 4px 格線的 --sp-1/3/4/5/6/7；控制項高度統一 36px（= .field 原子高度）。 */
+  .flw-ovl{z-index:1000;}
+  .flw-ovl .mdl-card.flw-m{max-width:1000px;width:calc(100vw - 20vw);max-height:90vh;max-height:90dvh;height:90vh;height:90dvh;}  /* 固定撐到最大高度，換步驟不跳動 */
+  /* ≥768：步驟改放左側（Steps 原子 vertical）；header 橫跨、右側＝內容＋底部操作 */
+  @media (min-width:768px){
+    .flw-ovl .flw-m.mdl-card{display:grid;grid-template-columns:220px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;}
+    .flw-ovl .flw-m .flw-hd{display:contents;}
+    .flw-ovl .flw-m .flw-hd > .mdl-mhead{grid-column:1 / -1;grid-row:1;padding:var(--sp-5) var(--sp-6);border-bottom:1px solid var(--line);background:var(--panel);}
+    .flw-ovl .flw-m .flw-hd > .flw-prog{grid-column:1;grid-row:2 / 4;padding:var(--sp-6) var(--sp-5);border-right:1px solid var(--line);overflow:auto;background:var(--panel-2);}
+    .flw-ovl .flw-m .mdl-content.flw-body{grid-column:2;grid-row:2;}
+    .flw-ovl .flw-m .mdl-foot.flw-nav{grid-column:2;grid-row:3;}
+    .flw-ovl .flw-prog .stp-vertical .stp-labels{min-width:0;}
+  }
+  .flw-m{--flw-ctl-h:36px;}
+  .flw-m:focus{outline:none;}
+  .flw-m .flw-hd{flex:0 0 auto;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-5) var(--sp-6) var(--sp-5);border-bottom:1px solid var(--line);background:var(--panel);}
+  .flw-m .mdl-mhead{padding:0;align-items:center;}
+  .flw-hd-act{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;}
+  .flw-hd-act .mdl-close{margin:0;}
+  .flw-prog{min-width:0;}
+  .flw-prog .stp-horizontal .stp-labels{max-width:96px;}
+  .flw-jump{cursor:pointer;border-radius:var(--r-sm);transition:opacity var(--dur-fast) var(--ease-standard);}
+  .flw-jump:hover{opacity:.75;}
+  .flw-jump:focus-visible{outline:2px solid var(--accent);outline-offset:var(--sp-1);}
+  .flw-m .mdl-content.flw-body{flex:1 1 auto;min-height:0;gap:var(--sp-6);padding:var(--sp-6);overscroll-behavior:contain;}
+  .flw-body.flw-in > *{animation:flw-in var(--dur-default) var(--ease-out) both;}
+  @keyframes flw-in{from{opacity:0;transform:translateY(var(--sp-1));}to{opacity:1;transform:none;}}
+  .flw-m .mdl-foot.flw-nav{flex:0 0 auto;align-items:center;justify-content:flex-start;gap:var(--sp-3);padding:var(--sp-4) var(--sp-6);border-top:1px solid var(--line);background:var(--panel);}
+  .flw-nav .spacer{flex:1 1 auto;}
+  .flw-count{font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  /* 步驟標題 */
+  .flw-sh{display:flex;flex-direction:column;gap:var(--sp-1);}
+  .flw-sh-t{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-st{margin:0;font-size:var(--fs-h8);font-weight:var(--fw-semibold);line-height:var(--lh-snug);color:var(--ink);}
+  .flw-sd{margin:0;color:var(--muted);font-size:var(--fs-h10);line-height:var(--lh-normal);max-width:68ch;}
+  .flw-sd code{font-family:var(--font-mono);font-size:.92em;}
+  /* 表單格線：兩欄；每個 Field 用 subgrid 佔 3 列（標籤／控制項／提示），兩欄的標籤、控制項、提示各自對齊同一條基線 */
+  .flw-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--sp-6);row-gap:var(--sp-5);align-items:start;}
+  .flw-form > .fld{max-width:none;grid-row:span 3;display:grid;grid-template-rows:subgrid;row-gap:var(--sp-3);align-content:start;}
+  .flw-form > .fld > .fld-ctl{display:contents;}
+  .flw-form > .fld > .fld-label{align-self:end;min-height:20px;}
+  .flw-form > .fld .fld-msg{margin-top:calc(var(--sp-1) * -1);}
+  .flw-form > .fld .fld-msg:empty{display:none;}
+  .flw-span{grid-column:1 / -1;}
+  .flw-q .fld.flw-span{max-width:none;}   /* FLW-QW:v1 問卷橫跨整列的選項：解除 Field 預設 420px 上限，膠囊用滿卡片寬才換行 */
+  /* 控制項：全部撐滿欄寬、高度統一 */
+  .flw-form .field,.flw-form .ddwrap{width:100%;min-width:0;box-sizing:border-box;}
+  .flw-form .field:not(.multi){--field-h:var(--flw-ctl-h);}
+  .flw-form .ddwrap{display:block;}
+  .flw-form .field.dd:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .flw-form .sgm{height:var(--flw-ctl-h);}
+  .flw-form .sgm-sz-m .sgm-it{height:calc(var(--flw-ctl-h) - 8px);}
+  .flw-form textarea.tarea{display:block;width:100%;min-width:0;box-sizing:border-box;resize:vertical;min-height:112px;font:inherit;font-size:var(--fs-h10);outline:none;}
+  .flw-form textarea.tarea::placeholder{color:var(--faint);}
+  .flw-form textarea.tarea:hover{border-color:var(--muted);}
+  .flw-form textarea.tarea:focus{border-color:var(--accent);}
+  .flw-form textarea.tarea.st-error{border-color:var(--i-danger);}
+  .flw-form .drz{max-width:none;}
+  /* 色彩輸入：.field 外框＋Design Token 頁同款色票鈕（.tok-sw-btn）＋等寬色碼 */
+  .flw-color{padding-left:var(--sp-1);gap:var(--sp-3);}
+  .flw-color .tok-sw-btn{width:40px;height:calc(var(--flw-ctl-h) - 10px);}
+  .flw-color .bare{font-family:var(--font-mono);font-size:var(--fs-h11);text-transform:uppercase;}
+  .flw-color .bare::placeholder{text-transform:none;}
+  /* 調性 chips：Tag 原子當 toggle button */
+  .flw-chips{display:flex;flex-wrap:wrap;gap:var(--sp-3);}
+  .flw-chip{cursor:pointer;height:28px;padding:0 var(--sp-4);font-size:var(--fs-h11);font-family:var(--font-sans);border-width:1px;border-style:solid;
+    transition:background var(--dur-fast) var(--ease-standard),color var(--dur-fast) var(--ease-standard),border-color var(--dur-fast) var(--ease-standard);}
+  .flw-chip:hover{filter:brightness(.97);}
+  .flw-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .flw-note{font-size:var(--fs-h11);color:var(--muted);line-height:var(--lh-normal);}
+  .flw-note.is-err{color:var(--i-danger);}
+  .flw-inline{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-m .al{max-width:none;}
+  /* AI 插槽 */
+  .flw-ai{border:1px dashed var(--line-strong);border-radius:var(--r-md);padding:var(--sp-4) var(--sp-5);background:var(--panel-2);display:flex;flex-direction:column;gap:var(--sp-3);}
+  .flw-ai-hd{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-ai-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .flw-ai-d{margin:0;font-size:var(--fs-h11);color:var(--muted);line-height:var(--lh-normal);}
+  .flw-ai-fb{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  .flw-ai-fl{font-size:var(--fs-h11);color:var(--faint);}
+  .flw-ai-badge{flex:0 0 auto;}
+  .flw-ai-badge svg{width:12px;height:12px;}
+  /* 提案 */
+  .flw-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-5);align-items:start;}
+  .flw-panel{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;background:var(--panel);}
+  .flw-ph{margin:0;font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);display:flex;align-items:center;gap:var(--sp-3);}
+  .flw-cnt{font-weight:var(--fw-regular);color:var(--faint);font-size:var(--fs-h11);}
+  .flw-scale{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .flw-scrow{display:grid;grid-template-columns:3em minmax(0,1fr);align-items:center;gap:var(--sp-3);}
+  .flw-scl{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-scbar{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line);}
+  .flw-sw{height:var(--sp-7);display:block;}
+  .flw-sw.is-anchor{box-shadow:inset 0 0 0 2px var(--panel);}
+  .flw-why,.flw-comp,.flw-checks,.flw-files{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .flw-why li{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:var(--sp-1) var(--sp-3);padding:var(--sp-3) 0;border-top:1px solid var(--line);font-size:var(--fs-h11);}
+  .flw-why li:first-child{border-top:0;padding-top:0;}
+  .flw-why li:last-child{padding-bottom:0;}
+  .flw-why code{font-family:var(--font-mono);color:var(--ink);overflow-wrap:anywhere;}
+  .flw-why-v{color:var(--ink);text-align:right;overflow-wrap:anywhere;}
+  .flw-why-r{grid-column:1 / -1;color:var(--muted);}
+  .flw-preview{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-4);border-radius:var(--r-md);background:var(--panel-2);}
+  .flw-comp{max-height:420px;overflow:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:var(--sp-4);}
+  .flw-cg-h{position:sticky;top:0;z-index:1;margin:0;display:flex;align-items:baseline;gap:var(--sp-2);padding:var(--sp-1) 0 var(--sp-2);background:var(--panel);font-size:var(--fs-h11);font-weight:var(--fw-semibold);color:var(--muted);letter-spacing:.02em;border-bottom:1px solid var(--line);}
+  .flw-cg-l{list-style:none;margin:0;padding:0;}
+  .flw-comp li{display:flex;flex-direction:column;gap:var(--sp-1);padding:var(--sp-3) 0;border-top:1px solid var(--line);}
+  .flw-comp li:first-child{border-top:0;}
+  /* ≥768 兩欄：建議元件高度跟左邊 Token 提案拉齊（右欄不撐高，清單在面板內捲動） */
+  @media (min-width:768px){
+    .flw-cols{align-items:stretch;}
+    .flw-panel.flw-panel-comp{contain:size;min-height:0;}
+    .flw-panel-comp .flw-comp{flex:1 1 0;min-height:0;max-height:none;}
+  }
+  .flw-cn{font-size:var(--fs-h10);color:var(--ink);font-weight:var(--fw-medium);}
+  .flw-cr{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-stack{display:flex;flex-direction:column;gap:var(--sp-4);min-width:0;}
+  .flw-apply{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;}
+  /* 調整 */
+  .flw-jumps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-4);}
+  .flw-jumpcard{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3);align-items:flex-start;background:var(--panel-2);}
+  .flw-jt{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .flw-jd{margin:0;font-size:var(--fs-h11);color:var(--muted);flex:1;line-height:var(--lh-normal);}
+  /* 匯出 */
+  .flw-ck{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-1) var(--sp-3);align-items:start;padding:var(--sp-3) 0;border-top:1px solid var(--line);}
+  .flw-ck:first-child{border-top:0;padding-top:0;}
+  .flw-ck-ic{grid-row:span 2;display:inline-flex;width:18px;height:18px;}
+  .flw-ck-ic svg{width:18px;height:18px;}
+  .flw-ck.is-pass .flw-ck-ic{color:var(--s-feedback-success);}
+  .flw-ck.is-warn .flw-ck-ic{color:var(--s-feedback-warning);}
+  .flw-ck.is-fail .flw-ck-ic{color:var(--s-feedback-error);}
+  .flw-ck-t{font-size:var(--fs-h10);color:var(--ink);}
+  .flw-ck-d{font-size:var(--fs-h11);color:var(--muted);}
+  .flw-files li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:var(--sp-3);align-items:center;padding:var(--sp-3) 0;border-top:1px solid var(--line);color:var(--muted);}
+  .flw-files li:first-child{border-top:0;padding-top:0;}
+  .flw-files li > svg{width:18px;height:18px;grid-row:span 2;}
+  .flw-files li > .btn{grid-column:3;grid-row:1 / span 2;}
+  .flw-fn{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);overflow-wrap:anywhere;}
+  .flw-fd{grid-column:2;font-size:var(--fs-h11);color:var(--muted);}
+  .flw-readme{margin:0;padding:var(--sp-4);border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);font-family:var(--font-mono);font-size:var(--fs-h11);line-height:var(--lh-relaxed);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere;}
+  .flw-panel > .btn{align-self:flex-start;}
+  /* 匯出檔案分組（flwexp:v1）：文件／樣式包／元件程式碼 */
+  .flw-fg{display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--sp-1) var(--sp-3);padding-top:var(--sp-4);border-top:1px solid var(--line);}
+  .flw-ph + .flw-fg{padding-top:0;border-top:0;}
+  .flw-fg-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .flw-fg-p{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);overflow-wrap:anywhere;min-width:0;}
+  .flw-fg .flw-cnt{margin-left:auto;}
+  .flw-fchips{display:flex;flex-wrap:wrap;gap:var(--sp-2);max-height:160px;overflow:auto;}
+  /* 「專案進行中」＝library Notification 原子（ntEl outline/info/with-action）；這裡只負責停靠右下角，不另畫外觀 */
+  .flw-pill{position:fixed;right:var(--sp-5);bottom:var(--sp-5);z-index:40;max-width:calc(100vw - var(--sp-5) * 2);}
+  .flw-pill[hidden]{display:none;}
+  @media (prefers-reduced-motion:reduce){.flw-body.flw-in > *{animation:none;} .flw-jump,.flw-chip{transition:none;}}
+  @media (max-width:1023px){
+    .flw-jumps{grid-template-columns:minmax(0,1fr);}
+  }
+  @media (max-width:767px){
+    /* 手機：滿版 sheet（同 Modal 的 bottom sheet 走向），header／footer 仍固定 */
+    /* 手機：bottom sheet（同試玩區，library Modal mdl-sheet 走向）：貼底、全寬、上緣圓角、由下滑入；步驟維持置頂水平 */
+    .flw-ovl.mdl-fixed{padding:var(--sp-5) 0 0;align-items:flex-end;}
+    .flw-ovl .mdl-card.flw-m{max-width:none;width:100%;max-height:92vh;max-height:92dvh;height:92vh;height:92dvh;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom);animation:mdl-slideup .22s ease-out;}
+    .flw-ovl.is-closing .mdl-card.flw-m{animation:mdl-slidedown calc(var(--dur-fast) * 1.33) var(--ease-in) forwards;}
+    .flw-m .flw-hd{padding:var(--sp-4) var(--sp-5);gap:var(--sp-4);}
+    .flw-m .mdl-content.flw-body{padding:var(--sp-5);gap:var(--sp-5);}
+    .flw-m .mdl-foot.flw-nav{padding:var(--sp-3) var(--sp-5);}
+    .flw-form,.flw-cols{grid-template-columns:minmax(0,1fr);}
+    .flw-prog .stp-labels{display:none;}
+    .flw-prog .stp-horizontal .stp-conn{min-width:var(--sp-3);}
+    .flw-pill{right:var(--sp-4);bottom:var(--sp-4);max-width:calc(100vw - var(--sp-4) * 2);}   /* 只改停靠距離，外觀全由 Notification 原子決定 */
+  }
+  /* ==================== /開新專案流程 flow2 ==================== */
+

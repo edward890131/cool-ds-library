@@ -1,0 +1,279 @@
+  /* ===== input ===== */
+  .field{display:inline-flex;align-items:center;gap:var(--field-gap,var(--sp-3));min-height:var(--field-h,var(--ctl-h-m));padding:var(--sp-1) var(--field-pad-x,var(--sp-3));border-radius:var(--field-radius,var(--r-sm));
+    border:0.75px solid var(--i-sec-edge);background:var(--panel);color:var(--ink);font-size:var(--field-fs,var(--fs-h10));min-width:220px;
+    font-family:var(--font-sans);transition:border-color var(--dur-fast),box-shadow var(--dur-fast),background var(--dur-fast);}
+  .field .ph{color:var(--faint);flex:1;} .field .val{color:var(--ink);flex:1;}
+  .field svg{width:17px;height:17px;color:var(--muted);flex:0 0 auto;}
+  .field .fieldclear{display:inline-flex;cursor:pointer;flex:0 0 auto;}
+  .field .fieldclear svg{color:var(--faint);}
+  .field .fieldclear:hover svg{color:var(--muted);}
+  .field.v-filled{background:var(--panel-2);border-color:transparent;}
+  .field.st-hover{border-color:var(--muted);}                       /* outline hover：換邊框色 */
+  .field.v-filled.st-hover{background:var(--panel-3);border-color:transparent;} /* filled hover：加深底色、不加框 */
+  .field.st-focus{border-color:var(--accent);}
+  .field.st-disabled{opacity:.5;cursor:not-allowed;}
+  .field.st-error{border-color:var(--i-danger);}                    /* error：只描紅框、無外陰影 */
+  /* 真實互動 hover（live 欄位）*/
+  input.field{outline:none;}
+  input.field:hover:not(:focus){border-color:var(--muted);}
+  input.field.v-filled:hover:not(:focus){background:var(--panel-3);border-color:transparent;}
+  input.field:focus{border-color:var(--accent);}
+  .fieldwrap{display:flex;flex-direction:column;gap:var(--sp-2);min-width:240px;}
+  .fieldwrap .fl{font-size:var(--fs-h11);color:var(--muted);font-weight:var(--fw-semibold);}
+  .fieldwrap .fl .req{color:var(--i-danger);margin-left:1px;}
+  .fieldwrap .fh{font-size:var(--fs-h12);color:var(--faint);} .fieldwrap .fh.err{color:var(--i-danger);}
+  /* ---------- PIN / OTP 驗證碼（input 家族）：每格沿用 .field 的邊框色／狀態 token ---------- */
+  .pin{display:inline-flex;gap:var(--sp-3);}
+  .pincell{width:44px;height:52px;display:inline-flex;align-items:center;justify-content:center;text-align:center;
+    border:0.75px solid var(--i-sec-edge);border-radius:var(--r-sm);background:var(--panel);color:var(--ink);
+    font-size:var(--fs-h6);font-weight:var(--fw-semibold);font-family:var(--font-sans);font-variant-numeric:tabular-nums;
+    transition:border-color var(--dur-fast),background var(--dur-fast);}
+  .pincell.v-filled{background:var(--panel-2);border-color:transparent;}
+  .pincell.st-hover{border-color:var(--muted);}
+  .pincell.v-filled.st-hover{background:var(--panel-3);border-color:transparent;}
+  .pincell.st-focus{border-color:var(--accent);}                     /* focus：只描邊、無外陰影（同 input） */
+  .pincell.st-error{border-color:var(--i-danger);}                   /* error：紅框 */
+  .pincell.st-disabled{opacity:.5;cursor:not-allowed;}
+  input.pincell{outline:none;padding:0;}
+  .pin.live-pin .pincell{cursor:text;}
+  .pin.live-pin .pincell:focus{border-color:var(--accent);}
+  .pin.live-pin .pincell.v-filled:focus{background:var(--panel-2);border-color:var(--accent);}
+
+  /* ===== textarea 多行輸入 ===== */
+  .tarea{display:flex;align-items:flex-start;min-height:80px;padding:var(--sp-3);border-radius:var(--r-sm);border:0.75px solid var(--i-sec-edge);
+    background:var(--panel);color:var(--ink);font-size:var(--fs-h10);min-width:260px;font-family:var(--font-sans);line-height:var(--lh-normal);transition:border-color var(--dur-fast),background var(--dur-fast);}
+  .tarea .ph{color:var(--faint);} .tarea .val{color:var(--ink);}
+  .tarea.v-filled{background:var(--panel-2);border-color:transparent;}
+  .tarea.st-hover{border-color:var(--muted);} .tarea.v-filled.st-hover{background:var(--panel-3);border-color:transparent;}
+  .tarea.st-focus{border-color:var(--accent);}
+  .tarea.st-disabled{opacity:.5;} .tarea.st-error{border-color:var(--i-danger);}
+  textarea.tarea{outline:none;resize:vertical;width:100%;color:var(--ink);}
+  textarea.tarea::placeholder{color:var(--faint);}
+  textarea.tarea:hover:not(:focus){border-color:var(--muted);}
+  textarea.tarea.v-filled:hover:not(:focus){background:var(--panel-3);border-color:transparent;}
+  textarea.tarea:focus{border-color:var(--accent);}
+
+  /* ===== file 檔案上傳 ===== */
+  .filefield{display:inline-flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3);border-radius:var(--r-sm);
+    border:0.75px solid var(--i-sec-edge);background:var(--panel);min-width:260px;font-size:var(--fs-h11);color:var(--muted);transition:var(--dur-fast);}
+  .filefield.has-file{color:var(--ink);}
+  /* file variant：外框／實色 對齊 input（外框＝白底實線、實色＝panel-2 填色）*/
+  .filefield.v-solid{background:var(--panel-2);border-color:transparent;color:var(--ink);}
+  .filefield.v-solid.st-hover{background:var(--panel-3);border-color:transparent;}
+  .live-stage .filefield.v-solid:not(.st-disabled):hover{background:var(--panel-3);border-color:transparent;}
+  .filefield.st-hover{border-color:var(--accent);color:var(--ink);}
+  .filefield.st-focus{border-color:var(--accent);}
+  .filefield.st-disabled{opacity:.5;}
+  .filefield.st-error{border-color:var(--i-danger);}
+  .filefield .fname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .filefield svg{width:16px;height:16px;flex:0 0 auto;color:var(--muted);}
+  .filebtn{display:inline-flex;align-items:center;gap:var(--sp-2);height:28px;padding:0 var(--sp-4);border-radius:var(--r-sm);
+    background:var(--i-sec-fill);color:var(--i-sec-on);font-size:var(--fs-h11);font-weight:var(--fw-semibold);border:none;cursor:pointer;flex:0 0 auto;}
+  .filebtn svg{color:var(--i-sec-on);}
+  .filefield .fieldclear{display:inline-flex;cursor:pointer;flex:0 0 auto;}
+  .filefield .fieldclear svg{color:var(--faint);}
+  .filefield .fieldclear:hover svg{color:var(--muted);}
+  /* file live 真實 hover（只作用在 Live 預覽，不影響狀態列）*/
+  .live-stage .filefield:not(.st-disabled):hover{border-color:var(--accent);color:var(--ink);}
+  .live-stage .filefield:not(.st-disabled) .filebtn:hover{background:var(--i-sec-fill-h);}
+
+  /* ===== dropdown 下拉 ===== */
+  .field.dd{cursor:pointer;}
+  .field.st-open{border-color:var(--accent);}
+  .field.v-filled.st-open{border-color:var(--accent);background:var(--panel-2);}
+  .ddcaret{display:inline-flex;color:var(--muted);flex:0 0 auto;transition:transform var(--dur-fast);}
+  .ddcaret.up{transform:rotate(180deg);}
+  .ddwrap{position:relative;display:inline-block;min-width:260px;}
+  .ddmenu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;background:var(--panel);border:1px solid var(--line-strong);
+    border-radius:var(--ddmenu-radius,var(--r-sm));box-shadow:var(--e-xl);padding:var(--sp-1);max-height:240px;overflow-y:auto;}
+  .ddopt{display:flex;align-items:center;gap:var(--ddopt-gap,var(--sp-3));padding:var(--sp-3) var(--ddopt-pad-x,var(--sp-4));border-radius:var(--r-sm);font-size:var(--ddopt-fs,var(--fs-h11));color:var(--ink);cursor:pointer;}
+  .ddopt:hover{background:var(--i-primary-tint);color:var(--accent);}
+  .ddopt:focus{outline:none;} .ddopt:focus-visible{background:var(--i-primary-tint);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);}
+  .field.dd:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .ddopt.sel{color:var(--accent);font-weight:var(--fw-semibold);}
+  .ddsearch{width:100%;box-sizing:border-box;height:34px;padding:0 var(--sp-3);margin-bottom:var(--sp-1);border:1px solid var(--i-sec-edge);
+    border-radius:var(--r-sm);background:var(--panel-2);color:var(--ink);font-size:var(--fs-h11);outline:none;}
+  .ddsearch:focus{border-color:var(--accent);}
+  /* 多選 dropdown：trigger 內 chip + 選項勾選框 */
+  .dd-body{flex:1;display:flex;flex-wrap:wrap;gap:var(--sp-1);align-items:center;min-width:0;}
+  .field.dd.multi{height:auto;padding-top:var(--sp-1);padding-bottom:var(--sp-1);}
+  /* CTL-H:v1 Input／Dropdown 尺寸：s 32／m 40（預設）／l 48 */
+  .field.fsz-s{--field-h:var(--ctl-h-s);font-size:var(--fs-h11);} .field.fsz-l{--field-h:var(--ctl-h-l);font-size:var(--fs-h9);}
+  .ddchip{display:inline-flex;align-items:center;gap:var(--sp-1);height:22px;padding:0 var(--sp-1) 0 var(--sp-3);border-radius:var(--r-sm);
+    background:var(--i-primary-tint);color:var(--accent);font-size:var(--fs-h11);font-weight:var(--fw-semibold);}
+  .ddchip .x{display:inline-flex;cursor:pointer;opacity:.7;} .ddchip .x:hover{opacity:1;} .ddchip svg{width:12px;height:12px;}
+  .ddcheck{width:16px;height:16px;border:1.5px solid var(--i-sec-edge);border-radius:var(--r-sm);display:inline-flex;
+    align-items:center;justify-content:center;color:#fff;flex:0 0 auto;}
+  .ddopt.on .ddcheck{background:var(--accent);border-color:var(--accent);}
+  .ddcheck svg{width:12px;height:12px;}
+
+  /* ===== checkbox / radio ===== */
+  .cbx{border:1.5px solid var(--i-sec-edge);background:var(--panel);border-radius:var(--r-sm);display:inline-flex;box-sizing:border-box;padding:0;flex:0 0 auto;
+    align-items:center;justify-content:center;color:var(--primary-on);transition:var(--dur-fast);cursor:pointer;} /* 打勾色＝primary-on：淺色黑底白勾、深色亮底深勾，隨主題翻轉 */
+  .cbx svg{width:14px;height:14px;flex:0 0 auto;}
+  .cbx.sz-s{width:16px;height:16px;border-radius:var(--r-sm);} .cbx.sz-m{width:20px;height:20px;} .cbx.sz-l{width:24px;height:24px;border-radius:var(--r-sm);}
+  .cbx.sz-s svg{width:11px;height:11px;} .cbx.sz-l svg{width:16px;height:16px;}
+  .cbx.st-hover{border-color:var(--accent);}
+  .cbx.st-checked,.cbx.st-indeterminate{background:var(--accent);border-color:var(--accent);}
+  .cbx.st-focus{border-color:var(--accent);}
+  .cbx.st-disabled{opacity:.45;cursor:not-allowed;}
+  .cbx .dash{width:60%;height:2px;background:var(--primary-on);border-radius:2px;}
+  /* 2026-11-04 全站 checkbox 統一（2026-11-08 勾改 PulsoIcon check，粗細見下方 stroke-width）；
+     原生 checkbox（控制面板、篩選清單、表單）改成與 .cbx sz-m 同外觀：20px、1.5px 外框、--r-sm、勾＝--primary-on */
+  .cbx svg path,.ddcheck svg path,.stp-node.stp-done svg path{stroke:currentColor;stroke-width:calc(var(--icon-stroke,2) + .5);stroke-linejoin:round;stroke-linecap:round;}  /* 2026-11-08 改 PulsoIcon（24 格）：原本 8 是 Phosphor 256 格的單位，換算後太粗；改跟 --icon-stroke 走、略粗 0.5＝原 Phosphor bold 粗細 */
+  /* 2026-11-08 原生 checkbox 的勾改用與 .cbx 相同的 PulsoIcon check（線寬 2.5＝.cbx 預設 calc(--icon-stroke + .5)；遮罩無法吃 CSS 變數，故固定 2.5）、半選＝與 .cbx 相同的 PulsoIcon minus（線寬 2.5） */
+  input[type=checkbox]{-webkit-appearance:none;appearance:none;position:relative;display:inline-grid;place-items:center;flex:0 0 auto;
+    width:20px !important;height:20px !important;margin:0;padding:0;box-sizing:border-box;border:1.5px solid var(--i-sec-edge);border-radius:var(--r-sm);
+    background:var(--panel);cursor:pointer;vertical-align:middle;transition:background var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out);}
+  input[type=checkbox]::after{content:"";width:14px;height:14px;background:var(--primary-on);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+    opacity:0;}
+  input[type=checkbox]:hover:not(:disabled){border-color:var(--accent);}
+  input[type=checkbox]:checked,input[type=checkbox]:indeterminate{background:var(--accent);border-color:var(--accent);}
+  input[type=checkbox]:checked::after{opacity:1;animation:cbx-reveal var(--dur-default) var(--ease-out) both;} /* 與 .cbx 元件同款：勾由左往右畫出 */
+  input[type=checkbox]:indeterminate::after{opacity:1;animation:cbx-reveal var(--dur-default) var(--ease-out) both;-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");}
+  input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  input[type=checkbox]:disabled{opacity:.45;cursor:not-allowed;}
+  @media (prefers-reduced-motion:reduce){input[type=checkbox]::after{animation:none !important;}}
+  /* CBX-IN:v1 原生 checkbox 一律換成 Checkbox 原子 .cbx（鐵則 5，2026-11-08）：
+     JS（cbxAdopt）在每個 <input type=checkbox> 後面插一顆 cbxEl()（.cbx 原子），兩者包在 .cbx-in；
+     input 透明、蓋在 .cbx 上，點擊／鍵盤／讀屏／表單值都還是原生 input 負責，程式改 checked（如全選）也會自動同步；
+     .cbx 的外觀、勾選一筆畫出、滑過重畫（PulsoIcon）全部沿用元件本身。 */
+  .cbx-in{position:relative;display:inline-grid;flex:0 0 auto;vertical-align:middle;}
+  .cbx-in > input[type=checkbox]{position:absolute;inset:0;width:100% !important;height:100% !important;margin:0;opacity:0;z-index:1;cursor:pointer;}
+  .cbx-in > input[type=checkbox]:disabled{cursor:not-allowed;}
+  .cbx-in > .cbx svg{display:none;}
+  .cbx-in > input:checked + .cbx,.cbx-in > input:indeterminate + .cbx{background:var(--accent);border-color:var(--accent);}
+  .cbx-in > input:checked + .cbx .cbx-ck,.cbx-in > input:indeterminate:not(:checked) + .cbx .cbx-ind{display:block;}
+  .cbx-in > input:hover:not(:disabled) + .cbx,label:hover > .cbx-in > input:not(:disabled) + .cbx,label:hover .cbx-in > input:not(:disabled) + .cbx{border-color:var(--accent);}
+  .cbx-in > input:focus-visible + .cbx{outline:2px solid var(--accent);outline-offset:2px;}
+  .cbx-in > input:disabled + .cbx{opacity:.45;}
+  .cbx-in > input:active:not(:disabled) + .cbx{transform:scale(.9);}
+  .cbx-in > input:checked + .cbx .cbx-ck path{animation:ck-draw .55s var(--ease-out) both;}
+  @media (prefers-reduced-motion:reduce){.cbx-in > input:checked + .cbx .cbx-ck path,.optrow .cbx.st-checked svg path,.livewrap .cbx.st-checked svg path{animation:none !important;}}
+  .rdo{border:1.5px solid var(--i-sec-edge);background:var(--panel);border-radius:var(--r-pill);display:inline-flex;box-sizing:border-box;padding:0;flex:0 0 auto;
+    align-items:center;justify-content:center;transition:var(--dur-fast);cursor:pointer;}
+  .rdo.sz-s{width:16px;height:16px;} .rdo.sz-m{width:20px;height:20px;} .rdo.sz-l{width:24px;height:24px;}
+  .rdo .dot{width:0;height:0;border-radius:var(--r-pill);background:var(--accent);transition:var(--dur-fast);}
+  .rdo.st-hover{border-color:var(--accent);}
+  .rdo.st-checked{border-color:var(--accent);} .rdo.st-checked .dot{width:50%;height:50%;}
+  .rdo.st-focus{border-color:var(--accent);}
+  .rdo.st-disabled{opacity:.45;cursor:not-allowed;}
+  .optrow{display:inline-flex;align-items:center;gap:var(--sp-3);cursor:pointer;} .optrow .oplab{font-size:var(--fs-h11);color:var(--ink);}
+
+  /* ===== tag ===== */
+  .tg{display:inline-flex;align-items:center;gap:var(--tg-gap,var(--sp-1));box-sizing:border-box;height:var(--tg-h,var(--tag-h-s));padding:0 var(--tg-pad-x,var(--sp-3));border-radius:var(--r-pill);font-size:var(--tg-fs,var(--fs-h12));line-height:var(--lh-normal);   /* TAG-LH:v1 行高固定，不吃外層 */
+    font-weight:var(--fw-semibold);border:0.75px solid transparent;font-family:var(--font-sans);cursor:default;transition:var(--dur-fast);white-space:nowrap;}
+  .tg.c-round{border-radius:var(--r-pill);} .tg.c-rect{border-radius:var(--r-sm);}
+  .tg.i-brand{--tfill:var(--accent);--tc:var(--accent);--tedge:var(--accent);--ton:var(--primary-on);--ttint:var(--i-primary-tint);--ttint2:var(--i-primary-tint2);}
+  .tg.i-neutral{--tfill:var(--i-sec-fill);--tc:var(--i-sec-fg);--tedge:var(--i-sec-edge);--ton:var(--i-sec-on);--ttint:var(--i-sec-tint);--ttint2:var(--i-sec-tint2);}
+  .tg.i-danger{--tfill:var(--i-danger);--tc:var(--i-danger);--tedge:var(--i-danger);--ton:var(--danger-on);--ttint:var(--i-danger-tint);--ttint2:var(--i-danger-tint2);}
+  .tg.i-success{--tfill:var(--s-feedback-success);--tc:var(--s-feedback-success);--tedge:var(--s-feedback-success);--ton:var(--success-on);--ttint:var(--s-feedback-success-tint);--ttint2:var(--s-feedback-success-tint2);}
+  .tg.i-warning{--tfill:var(--s-feedback-warning);--tc:var(--s-feedback-warning);--tedge:var(--s-feedback-warning);--ton:var(--warning-on);--ttint:var(--s-feedback-warning-tint);--ttint2:var(--s-feedback-warning-tint2);}
+  .tg.i-info{--tfill:var(--s-feedback-info);--tc:var(--s-feedback-info);--tedge:var(--s-feedback-info);--ton:var(--info-on);--ttint:var(--s-feedback-info-tint);--ttint2:var(--s-feedback-info-tint2);}
+  .tg.i-brand2{--tfill:var(--accent2);--tc:var(--accent2);--tedge:var(--accent2);--ton:var(--accent2-on);--ttint:var(--accent2-tint);--ttint2:var(--accent2-tint2);}
+  .tg.v-solid{background:var(--tfill);color:var(--ton);border-color:var(--tfill);}
+  .tg.v-outline{background:transparent;color:var(--tc);border-color:var(--tedge);}
+  .tg.v-soft{background:var(--ttint);color:var(--tc);border-color:transparent;}
+  .tg.st-hover.v-solid{filter:brightness(.94);}
+  .tg.st-hover.v-outline,.tg.st-hover.v-soft{background:var(--ttint2);}
+  .tg.st-disabled{opacity:.45;}
+  .tg .x{display:inline-flex;cursor:pointer;opacity:.7;margin-right:-3px;} .tg .x:hover{opacity:1;}
+  .tg svg{width:12px;height:12px;}
+  /* size 軸（2026-11-05；CTL-H:v3 改綁 --tag-h-*）：s＝預設（20px／h12）、m＝24px／h11、l＝28px／h10；icon 隨尺寸放大 */
+  .tg.sz-m{--tg-h:var(--tag-h-m);--tg-fs:var(--fs-h11);--tg-pad-x:var(--sp-3);}
+  .tg.sz-l{--tg-h:var(--tag-h-l);--tg-fs:var(--fs-h10);--tg-pad-x:var(--sp-4);--tg-gap:var(--sp-2);}
+  .tg.sz-m svg{width:14px;height:14px;} .tg.sz-l svg{width:16px;height:16px;}
+  /* 元件級 Token 綁定卡：沿用 .dcard 收合＋library .fieldwrap/.dh-title/.hint/.tg/.field.dd；只補 overflow 放開（否則下拉選單被卡片 overflow:hidden 裁切）＋列距 */
+  .dcard.bind-dcard{overflow:visible;}
+  .dcard.bind-dcard .dcard-head{border-radius:var(--radius) var(--radius) 0 0;}
+  .dcard.bind-dcard.collapsed .dcard-head{border-radius:var(--radius);}
+  .dcard-body .bindrows{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--sp-5);} /* 對齊上方變數篩選器 .axes：欄數＝欄位數自動等分（4→四等分/3→三等分），欄間 sp-5 margin */
+  .dcard-body .bindrows .fieldwrap{min-width:0;}                    /* 放開 fieldwrap 240px 下限，讓欄可縮 */
+  .dcard-body .bindrows .ddwrap{min-width:0;width:100%;}            /* ddField 外層填滿 grid 欄 */
+  .dcard-body .bindrows .field.dd{width:100%;min-width:0;}          /* dropdown trigger 也填滿欄寬、蓋掉 220px 固定下限 */
+  .dcard.bind-dcard.bind-readonly .bindrows{opacity:.55;pointer-events:none;}  /* 母庫唯讀：換綁欄位 dim＋不可互動（標題列仍可收合）*/
+  .dcard-body .bindrows .fl code{margin-left:var(--sp-2);}
+  /* 「變數與 Token」段落：變數篩選器（左）＋ Token 綁定（右）左右並排；只有一張卡（無綁定槽的元件）時佔滿整列；平板以下改回上下 */
+  #sec-vartoken{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--sp-5);align-items:start;}
+  #sec-vartoken > h2{grid-column:1 / -1;}
+  #sec-vartoken > .dcard:only-of-type{grid-column:1 / -1;}
+  @media(max-width:1023px){#sec-vartoken{grid-template-columns:minmax(0,1fr);}}
+
+  /* ===== tab ===== */
+  .tabbar{display:inline-flex;align-items:stretch;gap:2px;}
+  .tabbar.v-line{gap:0;border-bottom:1px solid var(--line);}
+  .tabbar.v-contained,.tabbar.v-soft{gap:var(--sp-2);} .tabbar.v-pill{gap:var(--sp-1);background:var(--panel-2);padding:var(--sp-1);border-radius:var(--r-pill);}
+  .tabi{display:inline-flex;align-items:center;gap:var(--tab-gap,var(--sp-2));box-sizing:border-box;height:var(--tab-h,var(--ctl-h-m));padding:0 var(--tab-pad-x,var(--sp-5));font-size:var(--tab-fs,var(--fs-h11));font-weight:var(--fw-semibold);
+    color:var(--muted);cursor:pointer;border:1px solid transparent;background:transparent;font-family:var(--font-sans);transition:var(--dur-fast);white-space:nowrap;}
+  .v-line .tabi{border-radius:0;margin-bottom:-1px;box-shadow:inset 0 -2px 0 transparent;}
+  .v-line .tabi.st-hover{color:var(--ink);}
+  .v-line .tabi.st-active{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent);}
+  .v-contained .tabi{border:1px solid var(--line);border-radius:var(--tab-radius,var(--r-pill));} /* 容器 variant：全圓角 */
+  .v-contained .tabi.st-hover{background:var(--panel-2);color:var(--ink);}
+  .v-contained .tabi.st-active{background:var(--accent);color:var(--primary-on);border-color:var(--accent);}
+  /* 灰底 variant（soft）：與 contained 同為獨立藥丸＋間距，未選中改為 --panel-2 灰底、無框線（2026-11-08） */
+  .v-soft .tabi{background:var(--panel-2);border-color:transparent;border-radius:var(--tab-radius,var(--r-pill));}
+  .v-soft .tabi.st-hover{background:var(--panel-3);color:var(--ink);}
+  .v-soft .tabi.st-active{background:var(--accent);color:var(--primary-on);border-color:var(--accent);}
+  .v-pill .tabi{border-radius:var(--tab-radius,var(--r-pill));}
+  .v-pill .tabi.st-hover{color:var(--ink);}
+  .v-pill .tabi.st-active{background:var(--accent);color:var(--primary-on);}   /* 與 line／contained 同一套：選中＝--accent 模式對比色，深淺由 token 自動切換、不另寫主題覆寫 */
+  .tabi.st-disabled{opacity:.4;cursor:not-allowed;}
+  /* size：sz-m 為標準（base 值），sz-s 較小 */
+  .tabi.sz-s{--tab-h:var(--ctl-h-s);padding:0 var(--sp-4);font-size:var(--tab-fs,var(--fs-h11));gap:var(--sp-1);}
+  .tabi.sz-l{--tab-h:var(--ctl-h-l);padding:0 var(--sp-6);font-size:var(--tab-fs,var(--fs-h10));}   /* CTL-H:v2 Tab 高度 32／40／48 */
+  /* tab-item 內容零件：leading icon／count badge */
+  .tabi .ticon{display:inline-flex;flex:0 0 auto;}
+  .tabi .ticon svg{width:16px;height:16px;}
+  .tabi.sz-s .ticon svg{width:14px;height:14px;}
+  .tabi .tcount{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 var(--sp-1);border-radius:var(--r-pill);
+    background:var(--panel-2);color:var(--muted);font-size:11px;font-weight:var(--fw-semibold);font-family:var(--font-mono);box-sizing:border-box;}
+  .tabi.sz-s .tcount{min-width:16px;height:16px;padding:0 var(--sp-1);font-size:var(--fs-h12);}
+  .tabi.st-active .tcount{background:var(--i-primary-tint);color:var(--accent);}
+  .v-contained .tabi.st-active .tcount,.v-soft .tabi.st-active .tcount,.v-pill .tabi.st-active .tcount{background:color-mix(in srgb,var(--primary-on) 24%,transparent);color:var(--primary-on);}
+  /* ---- 滑動指示器（互動 pill／line tabbar）：單一 .tab-ind 跟著 .st-active 滑動（transitions.dev「tabs sliding」），x/width 由 JS inline 寫入；
+     只用於 pill（軌道型白底藥丸）與 line（底部 ink bar）；contained 為獨立框＋間距、維持即時填色不套滑動 ---- */
+  .tabbar.tab-slide{position:relative;}
+  .tabbar.tab-slide .tabi{position:relative;z-index:1;}
+  .tab-ind{position:absolute;left:0;top:0;z-index:0;opacity:0;pointer-events:none;transform:translateX(0);
+    will-change:transform,width;backface-visibility:hidden;-webkit-backface-visibility:hidden;   /* 穩定合成層，避免 iOS 重繪閃爍 */
+    transition:transform var(--dur-default) cubic-bezier(.22,1,.36,1),width var(--dur-default) cubic-bezier(.22,1,.36,1);}   /* opacity 不做過渡：由 JS 在字型 ready 後瞬間顯示，避免用 fallback 字寬定位後跳位 */
+  .tabbar.tab-slide.v-pill .tab-ind{top:var(--sp-1);bottom:var(--sp-1);border-radius:var(--r-pill);background:var(--accent);}
+  .tabbar.tab-slide.v-pill .tabi.st-active{background:transparent;}  /* 底色改由滑動 pill 提供；字色沿用 st-active 的 --primary-on */  /* 白底改由滑動 pill 提供 */
+  .tabbar.tab-slide.v-line .tab-ind{top:auto;bottom:-1px;height:2px;background:var(--accent);}
+  .tabbar.tab-slide.v-line .tabi.st-active{box-shadow:none;}  /* 底線改由滑動 ink bar 提供 */
+  @media(prefers-reduced-motion:reduce){.tab-ind{transition:none!important;}}
+  /* ---- 果凍切換（TAB-JELLY:v1，參考 React Bits「Jelly Radio」）：只用於 contained／soft 這類獨立藥丸的互動 demo。
+     點選時選中那顆膨脹、其餘縮小並往兩側推開，彈簧回彈；transform 由 JS 彈簧寫入，按壓用獨立 scale 屬性疊加不互搶 ---- */
+  .tabbar.tab-jelly .tabi{will-change:transform;transition:background-color var(--dur-default) ease,color var(--dur-default) ease,border-color var(--dur-default) ease;}
+  .tabbar.tab-jelly .tabi:active:not(.st-disabled){scale:.97;}
+  @media(prefers-reduced-motion:reduce){.tabbar.tab-jelly .tabi:active{scale:none;}}
+
+  /* ===== toggle 開關（tab 家族 atom）===== */
+  .switchrow{display:inline-flex;align-items:center;gap:11px;}
+  .switch{position:relative;width:44px;height:24px;border-radius:999px;background:var(--line-strong);cursor:pointer;
+    transition:background var(--dur-fast);flex:0 0 auto;box-sizing:border-box;border:none;padding:0;}
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:var(--c-neutral-0);
+    box-shadow:var(--e-sm);transition:transform var(--dur-fast),background var(--dur-fast);}
+  .switch.on{background:var(--accent);}
+  .switch.on::after{background:var(--primary-on);}   /* 開啟＝--accent 軌道＋--primary-on 圓鈕（同 checkbox 勾／tab 選中的模式對比色）：淺＝黑軌白鈕、深＝亮軌深鈕 */
+  .switch.on::after{transform:translateX(20px);}
+  .switch.st-disabled{opacity:.4;cursor:not-allowed;}
+  /* TOGGLE-IC:v1（2026-11-10）boolean icon：圓鈕裡放圖示，關＝ic-off、開＝ic-on，跟著圓鈕一起移動；關＝白鈕深色圖示、開＝--primary-on 鈕＋--accent 圖示 */
+  .switch-ic{position:absolute;z-index:1;top:2px;left:2px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--c-neutral-800);
+    transition:transform var(--dur-default) var(--ease-spring),color var(--dur-fast) var(--ease-out);}
+  .switch.on .switch-ic{transform:translateX(20px);color:var(--accent);}
+  .switch-ic svg{width:12px;height:12px;} .switch-ic .ic-on{display:none;} .switch.on .switch-ic .ic-on{display:flex;} .switch.on .switch-ic .ic-off{display:none;}
+  .switch:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .switch-label{font-size:13.5px;color:var(--ink);font-weight:var(--fw-medium);}
+
+  /* ===== live 真實 hover（只作用在互動 demo，不影響 matrix 靜態格）===== */
+  .optrow:hover .cbx:not(.st-disabled){border-color:var(--accent);}
+  .optrow:hover .rdo:not(.st-disabled){border-color:var(--accent);}
+  .row-demo .tg.v-solid:hover{filter:brightness(.94);}
+  .row-demo .tg.v-outline:hover,.row-demo .tg.v-soft:hover{background:var(--ttint2);}
+  .row-demo .v-line .tabi:hover:not(.st-active){color:var(--ink);}
+  .row-demo .v-contained .tabi:hover:not(.st-active){background:var(--panel-2);color:var(--ink);}
+  .row-demo .v-soft .tabi:hover:not(.st-active){background:var(--panel-3);color:var(--ink);}
+  .row-demo .v-pill .tabi:hover:not(.st-active){color:var(--ink);}
+

@@ -1,0 +1,108 @@
+  /* ---------- scrollbar：純標準屬性一套（scrollbar-width/color 會被繼承，整頁與側邊欄自動一致）。
+       不混用 ::-webkit-scrollbar——同時存在會讓 Chrome 對 root 與元素捲軸挑不同渲染路徑，一粗一細。
+       無底色（track = transparent）、深淺不同色 ---------- */
+  html,body,*{scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent;} /* 綁 token，明暗自動跟隨 */
+
+  /* ---------- topbar ---------- */
+  .topbar{z-index:30;height:58px;flex:0 0 58px;display:flex;align-items:center;gap:var(--sp-4);
+    padding:0 var(--sp-4);background:var(--panel);border-bottom:1px solid var(--line);}
+  .hamb{display:inline-flex;width:38px;height:38px;border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--panel);
+    color:var(--muted);cursor:pointer;align-items:center;justify-content:center;transition:.13s;flex:0 0 auto;}
+  .hamb:hover{color:var(--ink);border-color:var(--accent);}
+  .hamb svg{width:19px;height:19px;}
+  .brand{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;min-width:0;}
+  .brand.is-link{cursor:pointer;} .brand.is-link:hover{opacity:.7;} .brand.is-link{transition:opacity .15s ease;}
+  .brand.is-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-sm);}
+  .brand-logo{width:40px;height:auto;display:block;color:var(--ink);flex:0 0 auto;}
+  .brand-logo-img{width:66px;height:auto;display:block;flex:0 0 auto;}
+  .brand .divider{width:1px;height:18px;background:var(--line-strong);flex:0 0 auto;}
+  .brand-title{font-size:var(--fs-h10);font-weight:600;color:var(--ink);white-space:nowrap;letter-spacing:-.005em;}
+  .spacer{flex:1}
+  /* 2026-11-10 頂欄深淺色切換改取用 Toggle 原子（switch＋icon），原本手刻的 .theme-toggle 已移除 */
+
+  /* ---------- layout ---------- */
+  @property --sb-w{syntax:'<length>';inherits:true;initial-value:0px;} /* 可動畫的側欄「當前寬」：展開＝--sb、收合＝0。註冊成 <length> 才能 transition，讓 grid 軌寬平滑縮放 */
+  .shell{--sb:max(200px,20vw);--sb-w:var(--sb);height:100vh;height:100dvh;display:flex;flex-direction:column;} /* --sb＝目標全寬（可拖曳改寫）；--sb-w＝當前渲染寬（展開時＝--sb）；固定一屏、側欄 20vw 最小 200px */
+  .shell.nav-anim{transition:--sb-w .3s var(--ease-standard);} /* 只在漢堡展開/收合時開啟寬度過場；拖曳時不掛此 class → 即時跟手不延遲 */
+  .layout{flex:1 1 auto;min-height:0;position:relative;display:grid;grid-template-columns:var(--sb-w) 1fr;} /* 軌寬綁 --sb-w：收合/展開時右側內容＋mockup 隨之平滑縮放；min-height:0 讓子欄各自內捲；relative 供拖曳把手定位 */
+  .sidebar{min-width:0;min-height:0;overflow:hidden auto;border-right:1px solid var(--line);background:var(--panel);padding:var(--sp-4) var(--sp-3);display:flex;flex-direction:column;} /* min-width:0＋overflow-x:hidden：寬度縮到 0 時內容乾淨裁切不擠爆；自身垂直捲動；flex-column 讓 .sb-shader 可 margin-top:auto 釘底 */
+  /* ---- 側邊欄拖曳調寬把手：貼在 sidebar 右緣，left 跟隨 --sb-w ---- */
+  .sidebar-resize{position:absolute;top:0;bottom:0;left:var(--sb-w);width:9px;transform:translateX(-5px);z-index:31;cursor:col-resize;touch-action:none;}
+  .sidebar-resize::after{content:'';position:absolute;top:0;bottom:0;left:5px;width:2px;background:transparent;transition:background .15s;} /* 視覺線：hover/拖曳才亮 */
+  .sidebar-resize:hover::after,.sidebar-resize.is-drag::after{background:var(--accent);}
+  body.is-resizing{cursor:col-resize;user-select:none;}
+  body.is-resizing .main{pointer-events:none;} /* 拖曳中避免內容誤觸/選字 */
+  .main{min-width:0;min-height:0;overflow:auto;padding:var(--sp-6) var(--container-pad) 96px;} /* 水平 gutter 接響應式 container-pad（32/24/16）；下捲留白 96 例外 */
+  .container{max-width:none;} /* 右側內容填滿寬度 */
+  /* ---- 桌機側邊欄收合（漢堡切換）＋收合時滑鼠移到左緣 peek 顯示 ---- */
+  .edge-trigger{display:none;}
+  /* ===== 右緣本頁目錄（Notion 式錨點）===== */
+  .toc-dock{position:fixed;top:58px;right:0;bottom:0;z-index:38;pointer-events:none;}
+  .toc-handle{position:absolute;top:50%;right:6px;transform:translateY(-50%);width:4px;height:52px;border-radius:var(--r-pill);background:var(--line-strong);opacity:0;transition:opacity .2s;}
+  .toc-dock.hint .toc-handle{opacity:.5;}
+  .toc-dock.peek .toc-handle{opacity:0;}
+  .toc-panel{position:absolute;top:20px;right:14px;width:250px;max-height:calc(100% - 40px);overflow-y:auto;pointer-events:auto;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 14px 36px rgba(0,0,0,.14);
+    padding:var(--sp-4);opacity:0;visibility:hidden;transform:translateX(10px);transition:opacity .18s,transform .18s,visibility .18s;}
+  .toc-panel.on{opacity:1;visibility:visible;transform:translateX(0);}
+  .toc-panel .toc-head{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 var(--sp-3);padding:0 var(--sp-2);}
+  .toc-item{display:block;width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-family:var(--font-sans);
+    font-size:var(--fs-h11);color:var(--muted);padding:var(--sp-2) var(--sp-3);border-radius:var(--r-sm);line-height:1.4;
+    border-left:2px solid transparent;transition:background .12s,color .12s;}
+  .toc-item:hover{background:var(--canvas);color:var(--ink);}
+  .toc-item.lv2{padding-left:var(--sp-6);font-size:var(--fs-h12);color:var(--faint);}
+  .toc-item.active{color:var(--accent);border-left-color:var(--accent);background:var(--i-primary-tint);}
+  @media(max-width:900px){.toc-dock{display:none!important;}}
+  @media(min-width:901px){
+    .shell.nav-collapsed{--sb-w:0px;} /* 收合＝軌寬歸零：側欄在動畫期間仍留 grid 內平滑縮、主內容平滑放大；動畫結束才由 JS 補 .nav-drawer 切成浮動抽屜 */
+    .shell.nav-collapsed .sidebar-resize{display:none;} /* 收合時無左欄可拖 */
+    /* ── 浮動抽屜（peek）：JS 在收合動畫結束後掛 .nav-drawer（此時側欄寬已為 0，切 fixed 不會跳動）；展開前 JS 先移除，側欄回 grid 內再展開 ── */
+    .shell.nav-drawer .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sb);z-index:40;
+      transform:translateX(-100%);transition:transform .2s var(--ease-standard) .32s;box-shadow:6px 0 24px rgba(0,0,0,.10);} /* 離開延遲 .32s：滑走後不馬上縮回，留時間移到側欄上 */
+    .shell.nav-drawer .edge-trigger{display:block;position:fixed;top:58px;left:0;bottom:0;width:28px;z-index:39;} /* 左緣熱區加寬 14→28，較好觸發 */
+    .shell.nav-drawer .edge-trigger:hover ~ .sidebar,
+    .shell.nav-drawer .sidebar:hover{transform:translateX(0);transition-delay:.14s;} /* 進入延遲 .14s：hover-intent，避免滑過就彈出 */
+    .shell.nav-arming .sidebar{transition:none!important;} /* 剛切成浮動抽屜的那一幀：關掉 transform 過場，直接歸位到 translateX(-100%)，避免側欄先浮現再滑走的閃爍 */
+    .shell.nav-drawer .main{grid-column:2;} /* 側欄變 fixed 出流後，強制 main 待在第 2 軌(1fr)填滿；否則會被自動塞進 0px 軌壓爛 */
+  }
+
+  /* 類別間以淺灰細線分隔；類別標題與頁籤標題同字級/字重/顏色 */
+  .nav-group{--ng-ease:cubic-bezier(.22,1,.36,1);--ng-dur:250ms;border-top:1px solid var(--line);margin-top:var(--sp-2);padding-top:var(--sp-2);margin-bottom:2px;flex:0 0 auto;} /* flex:0 0 auto：側欄內容溢出出現捲軸時不被 flex 壓縮 */
+  .nav-sep{height:1px;background:var(--line);margin:var(--sp-2) 6px;flex:0 0 auto;} /* 需求匯總/Design Token 間分隔線；flex:0 0 auto：空 div 在側欄溢出時會被壓成 0px 消失，鎖住不壓縮 */
+  .nav-group .gh{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;background:transparent;border:none;cursor:pointer;
+    font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;color:var(--muted);
+    padding:var(--sp-2);border-radius:var(--r-sm);transition:.12s;}
+  .nav-group .gh:hover{background:var(--canvas);}
+  .nav-group .gh .gh-n{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;min-width:13px;text-align:center;flex:0 0 auto;} /* 計數在 chevron 左邊、無底色 */
+  .nav-group .gh .gh-caret{display:inline-flex;transition:transform var(--ng-dur) var(--ng-ease);color:var(--faint);flex:0 0 auto;} /* 計數＋chevron 靠標題右側，標題靠左 */
+  .nav-group .gh .gh-caret svg{width:13px;height:13px;display:block;}
+  .nav-group .gh .gh-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-ic{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:16px;height:16px;color:var(--muted);transition:color var(--dur-fast) var(--ease-out);}
+  .nav-ic svg{width:16px;height:16px;display:block;}
+  .nav-group .gh{gap:var(--sp-2);} .nav-group .gh:hover .nav-ic,.nav-item:hover .nav-ic,.nav-item[aria-current="true"] .nav-ic{color:var(--ink);}
+  .sumcat-t{display:inline-flex;align-items:center;gap:var(--sp-2);}
+  .hm-nav .nav-ic{width:12px;height:12px;margin-right:4px;vertical-align:-2px;} .hm-nav .nav-ic svg{width:12px;height:12px;}
+  .nav-group.collapsed .gh .gh-caret{transform:rotate(-90deg);}
+  /* 群組展開/收合：內容手風琴平滑推開（比照 Collapse／FAQ 手法），取代即時 display:none */
+  .ng-items{display:grid;grid-template-rows:1fr;overflow:hidden;transition:grid-template-rows var(--ng-dur) var(--ng-ease);}
+  .nav-group.collapsed .ng-items{grid-template-rows:0fr;}
+  .ng-inner{position:relative;padding-left:var(--sp-5);min-height:0;overflow:hidden;opacity:1;transition:opacity var(--ng-dur) var(--ng-ease);} /* 展開內層往內縮（24）；min-height:0＋overflow 供 0fr 裁切 */
+  .ng-inner::before{content:'';position:absolute;left:14px;top:1px;bottom:1px;width:1px;background:var(--line);}
+  .nav-group.collapsed .ng-inner{opacity:0;}
+  @media(prefers-reduced-motion:reduce){.ng-items,.ng-inner,.nav-group .gh .gh-caret{transition:none!important;}}
+  .nav-item{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;border:none;background:transparent;
+    color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:600;padding:var(--sp-2);border-radius:var(--r-sm);cursor:pointer;transition:.12s;}
+  .nav-item:hover{background:var(--canvas);}
+  .nav-item[aria-current="true"]{background:var(--i-primary-tint);color:var(--accent);} /* 當前頁淺藍底 */
+  .nav-item .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-item.is-planned .nm{color:var(--faint);}   /* 規劃中：字色淡＋右側優先級 pill */
+  .nav-plan{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h12);line-height:1;padding:2px 6px;border-radius:var(--r-pill);border:1px dashed var(--line-strong);color:var(--faint);}
+  .nav-pin>span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;}
+  .nav-item.is-off{opacity:.45;cursor:not-allowed;pointer-events:none;}  /* 待調整：停用 */
+  .nav-dl{justify-content:space-between;} .nav-dl svg{width:16px;height:16px;flex:0 0 auto;color:var(--muted);} .nav-dl:hover svg{color:var(--ink);}   /* NAV-DL:v1 下載元件庫 */
+  .nav-dl.is-busy{cursor:progress;} .nav-dl.is-busy svg{opacity:.4;}
+  .nav-pin>span.nav-ic{flex:0 0 16px;} /* 圖示不參與撐寬 */ /* 釘選項用裸 span，補上與 .nm 同款：收合縮寬時維持一行、超出變刪節號不折行 */
+  .nav-item .dot{margin-left:auto;width:7px;height:7px;border-radius:var(--r-pill);flex:0 0 auto;background:var(--line-strong);} /* 建立狀態＝色圈（已停用） */
+  .nav-item .dot.st-ready{background:var(--ok);}
+  .nav-item .dot.st-partial{background:var(--warn);}
+

@@ -1,0 +1,54 @@
+  /* ===== quantity 商品計數（qty-）＝＋／− Button 原子 ＋ 中間數值，容器依 variant 改外觀 ===== */
+  .qty{display:inline-flex;align-items:stretch;font-family:var(--font-sans);}
+  .qty .qty-val{min-width:2.4em;padding:0 var(--sp-2);display:flex;align-items:center;justify-content:center;font-weight:var(--fw-semibold);color:var(--ink);font-variant-numeric:tabular-nums;}
+  .qty-sz-s .qty-val{font-size:var(--fs-h11);min-width:2em;} .qty-sz-l .qty-val{font-size:var(--fs-h9);}
+  /* 外框：整體一個 bordered 容器，內部按鈕去框、數值兩側分隔線 */
+  .qty-v-outline{border:1px solid var(--line);border-radius:var(--qty-radius,var(--radius));overflow:hidden;}
+  .qty-v-outline .btn{border:0;border-radius:0;background:transparent;}
+  .qty-v-outline .btn:hover:not(:disabled){background:var(--panel-2);}
+  .qty-v-outline .qty-val{border-left:1px solid var(--line);border-right:1px solid var(--line);}
+  /* 膠囊：全圓角容器 */
+  .qty-v-pill{border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden;}
+  .qty-v-pill .btn{border:0;border-radius:0;background:transparent;}
+  .qty-v-pill .btn:hover:not(:disabled){background:var(--panel-2);}
+  /* 極簡：無外容器，＋／− 為圓形獨立鈕 */
+  .qty-v-plain{gap:var(--sp-1);align-items:center;}
+  .qty-v-plain .btn{border-radius:50%;}
+  .qty.is-disabled{opacity:.5;pointer-events:none;}
+  .qty-staterow{display:flex;flex-wrap:wrap;gap:var(--sp-6);}
+  .qty-statecell{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .qty-statecap{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);}
+  .qty-live-box{display:flex;align-items:center;justify-content:center;padding:var(--sp-6) var(--sp-5);min-height:74px;}
+
+  /* ===== progress 進度條（prg-）＝ track 底軌 ＋ fill 填充（依 value 撐開） ===== */
+  .prg{display:block;width:100%;max-width:320px;font-family:var(--font-sans);}
+  .prg-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:var(--sp-2);gap:var(--sp-4);}
+  .prg-cap{font-size:var(--fs-h11);color:var(--muted);}
+  .prg-pct{font-size:var(--fs-h12);color:var(--ink);font-weight:var(--fw-semibold);font-variant-numeric:tabular-nums;}
+  /* 標準（m）／粗（l）尺寸：百分比數字再放大（標題同步微調） */
+  .prg-sz-m .prg-pct{font-size:var(--fs-h10);}
+  .prg-sz-l .prg-cap{font-size:var(--fs-h10);}
+  .prg-sz-l .prg-pct{font-size:var(--fs-h8);}
+  .prg-track{width:100%;background:var(--panel-3);border-radius:var(--prg-radius,var(--r-pill));overflow:hidden;}
+  .prg-sz-s .prg-track{height:4px;} .prg-sz-m .prg-track{height:8px;} .prg-sz-l .prg-track{height:12px;}
+  .prg-fill{height:100%;border-radius:var(--prg-radius,var(--r-pill));transition:width calc(var(--dur-default) * 1.6) var(--ease-out);} /* Motion v1：減速到達，滿格後不加閃光 */
+  .prg-fill.i-primary{background:var(--accent);}
+  .prg-fill.i-success{background:var(--ok);}
+  .prg-fill.i-warning{background:var(--warn);}
+  .prg-fill.i-danger{background:var(--i-danger);}
+  /* 漸層填充：每種語意色各自 base→淺色的專屬漸層 */
+  .prg-fill.is-grad.i-primary{background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 42%,#fff));}
+  .prg-fill.is-grad.i-success{background:linear-gradient(90deg,var(--ok),color-mix(in srgb,var(--ok) 42%,#fff));}
+  .prg-fill.is-grad.i-warning{background:linear-gradient(90deg,var(--warn),color-mix(in srgb,var(--warn) 42%,#fff));}
+  .prg-fill.is-grad.i-danger{background:linear-gradient(90deg,var(--i-danger),color-mix(in srgb,var(--i-danger) 42%,#fff));}
+  .prg-intentrow{display:flex;flex-direction:column;gap:var(--sp-5);max-width:340px;}
+  .prg-intentcell{display:flex;flex-direction:column;gap:var(--sp-2);}
+  .prg-intentcap{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--faint);}
+  /* Live：進度條固定為互動區 50% 寬（stage 置中） */
+  .prg-live-box{width:50%;min-width:260px;}
+  .prg-live-box .prg{max-width:none;width:100%;}
+  /* 勾選項與滑桿同列，滑桿坐在勾選項右邊 */
+  .prg-checks{align-items:center;}
+  .prg-checks .prg-range{flex:1 1 180px;min-width:150px;}
+  .prg-range{accent-color:var(--accent);cursor:pointer;}
+
