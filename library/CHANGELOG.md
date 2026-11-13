@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-13（一百五十四）　照片改成獨立圖檔
+
+- `IMG-ASSET:v1`：原本以 data URI 內嵌在原始碼裡的 7 組照片抽成圖檔，`gallery.html` 3.86MB → 3.33MB：`CARD_PHOTO`、`PSC_ROT`、`CARD_COVER`、`TWS_BLOG`、`HX_TSM_BG`、`HX_PHONE_FRAME` 放 `library/assets/img/`（逐位元組照原樣解出，畫質不變）；`HX_CM_FACE` 跟 `assets/avatar/yuu-face.webp` 完全相同，直接引用原檔。小圖（favicon、Avatar 小頭像、版本紀錄頁 GitHub 頭像）維持內嵌。
+- 新增 `src/js/01-assets.js` 的 `cdlAsset(路徑)`：網址停在根目錄（正式站首頁 `/` 改寫到 gallery）用 `/library/assets/`，其他（`/library/gallery`、本機 server、studio-server、file://）用相對路徑 `assets/`。首頁地標圖原本「判斷 vercel 網域」的寫法也改用它。
+- `imUrl` 原本把不是 data:／http／`/` 開頭的字串當成 Unsplash 圖片編號，相對路徑 `assets/…` 會被誤接成 Unsplash 網址 → 補上 `assets/` 判斷。
+- 匯出：`flwInlineAssets` 在專案匯出與「下載元件庫」打包前，把檔案裡的站內圖檔網址換回 data URI（讀不到的保留原網址），匯出檔仍可單獨開。
+- 驗證：全站 104 頁 0 錯誤、0 個 404、0 張破圖；模擬正式站首頁 `/` 時所有圖檔走 `/library/assets/` 皆 200；匯出轉內嵌以測試內容確認。
+
 ## 2026-11-13（一百五十三）　拆檔：gallery.html 改由 library/src/ 合併產生
 
 - `SPLIT-SRC:v1`：3.9MB 的 `library/gallery.html` 拆成 `library/src/`：`page.html`（頁面骨架，用獨佔一行的 `@@include 路徑` 引入小檔）＋ `css/` 26 檔、`js/` 33 檔、`data/` 3 檔（`changelog.js` 網站版本紀錄、`i18n-en.js`、`i18n-ja.js` 翻譯字典）。照程式碼原本的分段標題切，元件大致依批次分組；之後抽互動 runtime 時再細分到一元件一檔。

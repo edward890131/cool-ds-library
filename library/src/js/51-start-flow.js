@@ -401,6 +401,14 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
     const size=cen.reduce((s,b)=>s+b.byteLength,0);
     const e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,size,true);e.setUint32(16,off,true);
     return new Blob([...loc,...cen,e],{type:'application/zip'});}
+  /* IMG-ASSET:v1 匯出前把站內圖檔網址（assets/… 或 /library/assets/…）換回 data URI：匯出的 HTML 不依賴網站，單獨開也看得到圖 */
+  const FLW_ASSET_RX=/(?:\/library\/)?assets\/(?:img|avatar|map|photos)\/[a-z0-9-]+\.(?:webp|jpg|png)/g;
+  async function flwInlineAssets(files){const urls=new Set();files.forEach(f=>(String(f.text).match(FLW_ASSET_RX)||[]).forEach(u=>urls.add(u)));
+    const map=new Map();
+    await Promise.all([...urls].map(async u=>{try{const res=await fetch(cdlAsset(u.replace(/^(?:\/library\/)?assets\//,'')));if(!res.ok)return;const b=await res.blob();
+      map.set(u,await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(b);}));}catch(e){}}));   // 讀不到就保留原網址
+    files.forEach(f=>{f.text=String(f.text).replace(FLW_ASSET_RX,u=>map.get(u)||u);});
+    return files;}
   /* 整包檔案清單：<name>/（文件＋components.html）＋ styles/（含 components/_<id>.scss＋_index.scss）；元件逐顆產生，中間讓出主執行緒並回報進度 */
   async function flwBuildFiles(onProgress){flwSnapSave();const n=FLW.info.name||'project';const out=[];const add=(p,t)=>out.push({path:n+'/'+p,text:t});
     flwDocFiles().forEach(f=>add(f.name,f.get()));
@@ -415,7 +423,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       else idx.push('  '+id.padEnd(16)+componentName(id)+'（沒有產出：'+(cc&&cc.err?cc.err:'元件頁沒有程式碼')+'）');}
     if(fw.length){add('styles/components/_index.scss','// '+n+' · 元件樣式合併入口（已選 '+fw.length+' 個）\n// 全部引入：@use "styles/components";　只要一顆：@use "styles/components/button";\n// token 一律 var(--token)，請先全域引入 ../_variables.scss\n\n'+fw.join('\n')+'\n');
       add('components.html','<!--\n  '+n+' · 元件 HTML 結構（已選 '+ids.length+' 個，內容同元件頁「程式碼」面板）\n  樣式：styles/components/_<id>.scss，或一次引入 styles/components/_index.scss\n\n'+idx.join('\n')+'\n-->\n\n'+html.join('\n\n')+'\n');}
-    return out;}
+    return flwInlineAssets(out);}
   /* 匯出前檢查（固定規則；之後換 AI） */
   function flwChecks(){const out=[];const W=flwPrim('--c-neutral-0')||'#FFFFFF';
     const OV=window.__tokOverrides||{};const root=OV.root||{};
@@ -458,7 +466,7 @@ JSON 與訪談紀錄放在專案根目錄：sync 腳本與 \`?project=\` 續編�
       window.__tokOverrides=sv.ov;window.__tokDisabled=sv.dis;window.__compBindings=sv.bd;
       SUMSEL.clear();sv.sel.forEach(x=>SUMSEL.add(x));setAll(sv.ch);
     }
-    return out;}
+    return flwInlineAssets(out);}
   async function dsDownloadDefault(btn){if(btn&&btn.classList.contains('is-busy'))return;
     const t=btn&&btn.querySelector('.nav-dl-t,[data-dl-t]'),t0=t&&t.textContent;if(btn){btn.classList.add('is-busy');btn.setAttribute('aria-busy','true');}
     try{const files=await dsBuildDefaultFiles((i,n)=>{if(t)t.textContent='打包中 '+i+' / '+n;});
