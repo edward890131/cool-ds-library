@@ -116,7 +116,7 @@
   /* 圖片池改用網站內嵌照片（預覽環境會擋 Unsplash 遠端圖）：IM_POOL／IM_CIRCLE 的 id 依序對應到內嵌照片，找不到才退回遠端 */
   function imEmbed(id){try{const E=[HX_TSM_BG,CARD_COVER,PSC_ROT[0],PSC_ROT[1],PSC_ROT[2],CARD_PHOTO];
     if(id===IM_CIRCLE)return CARD_PHOTO;const i=IM_POOL.indexOf(id);return i>=0?E[i%E.length]:null;}catch(e){return null;}}
-  function imUrl(id,w){if(/^(data:|https?:|\.{0,2}\/)/.test(id))return id;{const e=imEmbed(id);if(e)return e;}return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
+  function imUrl(id,w){if(/^(data:|https?:|\.{0,2}\/|assets\/)/.test(id))return id;   /* assets/：站內圖檔（IMG-ASSET:v1 cdlAsset） */{const e=imEmbed(id);if(e)return e;}return `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;} // 不鎖比例，裁切交給盒子 aspect-ratio + object-fit:cover
   /* Image atom：variant=rectangular|rounded|circular；state=default|loading|error；size=s|m|l|xl
      opts={src:Unsplash 圖片 ID, alt:替代文字}。circular 為正方，rectangular/rounded 亦統一用正方最簡單 */
   function imEl(variant,state,size,opts){opts=opts||{};
