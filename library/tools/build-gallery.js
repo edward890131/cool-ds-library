@@ -5,7 +5,7 @@
    規則：src/page.html 是頁面骨架；裡面獨佔一行的「@@include 相對路徑」會被換成那個檔案的完整內容。
          每個小檔都以換行結尾，合併時原樣接上，不加不減任何字元。
    用法：node library/tools/build-gallery.js          → 重新產生 gallery.html
-         node library/tools/build-gallery.js --check  → 只比對，不寫檔；gallery.html 跟 src/ 不同步就回傳錯誤碼 1
+         node library/tools/build-gallery.js --check  → 只比對，不寫檔；gallery.html 跟 src/ 不同步、或 CSS 有寫死值（check-hardcode.js）就回傳錯誤碼 1
    不需要安裝任何套件。 */
 'use strict';
 const fs = require('fs');
@@ -50,9 +50,17 @@ function listFiles(dir, base = dir) {
 let html;
 try { html = build(); } catch (e) { console.error('✗ ' + e.message); process.exit(1); }
 
+/* 順便跑寫死值檢查（check-hardcode.js）：合併時只提醒，--check 時算失敗 */
+function hardcodeOk() {
+  const r = require('child_process').spawnSync(process.execPath, [path.join(__dirname, 'check-hardcode.js'), '--quiet'], { encoding: 'utf8' });
+  process.stdout.write(r.stdout || ''); process.stderr.write(r.stderr || '');
+  return r.status === 0;
+}
+
 if (process.argv.includes('--check')) {
   const cur = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : '';
-  if (cur === html) { console.log('✓ gallery.html 與 src/ 同步'); process.exit(0); }
+  const hc = hardcodeOk();
+  if (cur === html) { console.log('✓ gallery.html 與 src/ 同步'); process.exit(hc ? 0 : 1); }
   /* 找出第一個不同的行，方便定位是誰直接改了 gallery.html */
   const a = cur.split('\n'), b = html.split('\n');
   let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++;
@@ -63,3 +71,4 @@ if (process.argv.includes('--check')) {
 
 fs.writeFileSync(OUT, html);
 console.log('✓ 已產生 library/gallery.html（' + (Buffer.byteLength(html) / 1024 / 1024).toFixed(2) + ' MB）');
+hardcodeOk();

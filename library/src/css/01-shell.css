@@ -7,7 +7,7 @@
   .topbar{z-index:30;height:58px;flex:0 0 58px;display:flex;align-items:center;gap:var(--sp-4);
     padding:0 var(--sp-4);background:var(--panel);border-bottom:1px solid var(--line);}
   .hamb{display:inline-flex;width:38px;height:38px;border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--panel);
-    color:var(--muted);cursor:pointer;align-items:center;justify-content:center;transition:.13s;flex:0 0 auto;}
+    color:var(--muted);cursor:pointer;align-items:center;justify-content:center;transition:var(--dur-fast);flex:0 0 auto;}
   .hamb:hover{color:var(--ink);border-color:var(--accent);}
   .hamb svg{width:19px;height:19px;}
   .brand{display:flex;align-items:center;gap:var(--sp-3);flex:0 0 auto;min-width:0;}
@@ -37,17 +37,17 @@
   .edge-trigger{display:none;}
   /* ===== 右緣本頁目錄（Notion 式錨點）===== */
   .toc-dock{position:fixed;top:58px;right:0;bottom:0;z-index:38;pointer-events:none;}
-  .toc-handle{position:absolute;top:50%;right:6px;transform:translateY(-50%);width:4px;height:52px;border-radius:var(--r-pill);background:var(--line-strong);opacity:0;transition:opacity .2s;}
+  .toc-handle{position:absolute;top:50%;right:6px;transform:translateY(-50%);width:4px;height:52px;border-radius:var(--r-pill);background:var(--line-strong);opacity:0;transition:opacity var(--dur-fast);}
   .toc-dock.hint .toc-handle{opacity:.5;}
   .toc-dock.peek .toc-handle{opacity:0;}
   .toc-panel{position:absolute;top:20px;right:14px;width:250px;max-height:calc(100% - 40px);overflow-y:auto;pointer-events:auto;
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 14px 36px rgba(0,0,0,.14);
-    padding:var(--sp-4);opacity:0;visibility:hidden;transform:translateX(10px);transition:opacity .18s,transform .18s,visibility .18s;}
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--e-xl);
+    padding:var(--sp-4);opacity:0;visibility:hidden;transform:translateX(10px);transition:opacity var(--dur-fast),transform var(--dur-fast),visibility var(--dur-fast);}
   .toc-panel.on{opacity:1;visibility:visible;transform:translateX(0);}
   .toc-panel .toc-head{font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 var(--sp-3);padding:0 var(--sp-2);}
   .toc-item{display:block;width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-family:var(--font-sans);
-    font-size:var(--fs-h11);color:var(--muted);padding:var(--sp-2) var(--sp-3);border-radius:var(--r-sm);line-height:1.4;
-    border-left:2px solid transparent;transition:background .12s,color .12s;}
+    font-size:var(--fs-h11);color:var(--muted);padding:var(--sp-2) var(--sp-3);border-radius:var(--r-sm);line-height:var(--lh-snug);
+    border-left:2px solid transparent;transition:background var(--dur-fast),color var(--dur-fast);}
   .toc-item:hover{background:var(--canvas);color:var(--ink);}
   .toc-item.lv2{padding-left:var(--sp-6);font-size:var(--fs-h12);color:var(--faint);}
   .toc-item.active{color:var(--accent);border-left-color:var(--accent);background:var(--i-primary-tint);}
@@ -57,7 +57,7 @@
     .shell.nav-collapsed .sidebar-resize{display:none;} /* 收合時無左欄可拖 */
     /* ── 浮動抽屜（peek）：JS 在收合動畫結束後掛 .nav-drawer（此時側欄寬已為 0，切 fixed 不會跳動）；展開前 JS 先移除，側欄回 grid 內再展開 ── */
     .shell.nav-drawer .sidebar{position:fixed;top:58px;left:0;bottom:0;width:var(--sb);z-index:40;
-      transform:translateX(-100%);transition:transform .2s var(--ease-standard) .32s;box-shadow:6px 0 24px rgba(0,0,0,.10);} /* 離開延遲 .32s：滑走後不馬上縮回，留時間移到側欄上 */
+      transform:translateX(-100%);transition:transform var(--dur-fast) var(--ease-standard) .32s;box-shadow:6px 0 24px rgba(0,0,0,.10);} /* hc-ok：側欄往右投影，elevation token 只有往下的 */ /* 離開延遲 .32s：滑走後不馬上縮回，留時間移到側欄上 */
     .shell.nav-drawer .edge-trigger{display:block;position:fixed;top:58px;left:0;bottom:0;width:28px;z-index:39;} /* 左緣熱區加寬 14→28，較好觸發 */
     .shell.nav-drawer .edge-trigger:hover ~ .sidebar,
     .shell.nav-drawer .sidebar:hover{transform:translateX(0);transition-delay:.14s;} /* 進入延遲 .14s：hover-intent，避免滑過就彈出 */
@@ -70,7 +70,7 @@
   .nav-sep{height:1px;background:var(--line);margin:var(--sp-2) var(--sp-2);flex:0 0 auto;} /* 需求匯總/Design Token 間分隔線；flex:0 0 auto：空 div 在側欄溢出時會被壓成 0px 消失，鎖住不壓縮 */
   .nav-group .gh{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;background:transparent;border:none;cursor:pointer;
     font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--muted);
-    padding:var(--sp-2);border-radius:var(--r-sm);transition:.12s;}
+    padding:var(--sp-2);border-radius:var(--r-sm);transition:var(--dur-fast);}
   .nav-group .gh:hover{background:var(--canvas);}
   .nav-group .gh .gh-n{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;min-width:13px;text-align:center;flex:0 0 auto;} /* 計數在 chevron 左邊、無底色 */
   .nav-group .gh .gh-caret{display:inline-flex;transition:transform var(--ng-dur) var(--ng-ease);color:var(--faint);flex:0 0 auto;} /* 計數＋chevron 靠標題右側，標題靠左 */
@@ -89,7 +89,7 @@
   .nav-group.collapsed .ng-inner{opacity:0;}
   @media(prefers-reduced-motion:reduce){.ng-items,.ng-inner,.nav-group .gh .gh-caret{transition:none!important;}}
   .nav-item{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;border:none;background:transparent;
-    color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:var(--fw-semibold);padding:var(--sp-2);border-radius:var(--r-sm);cursor:pointer;transition:.12s;}
+    color:var(--muted);font-family:var(--font-sans);font-size:var(--fs-h10);font-weight:var(--fw-semibold);padding:var(--sp-2);border-radius:var(--r-sm);cursor:pointer;transition:var(--dur-fast);}
   .nav-item:hover{background:var(--canvas);}
   .nav-item[aria-current="true"]{background:var(--i-primary-tint);color:var(--accent);} /* 當前頁淺藍底 */
   .nav-item .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}

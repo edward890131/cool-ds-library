@@ -70,7 +70,7 @@
   .fld{display:grid;gap:var(--fld-gap,var(--sp-2));width:100%;max-width:420px;font-family:var(--font-sans);}
   .fld-vertical{grid-template-columns:minmax(0,1fr);}
   .fld-horizontal{grid-template-columns:120px minmax(0,1fr);align-items:start;column-gap:var(--sp-4);}
-  .fld-horizontal .fld-label{padding-top:9px;}
+  .fld-horizontal .fld-label{padding-top:9px;} /* hc-ok：標籤與 40px 欄位文字基線對齊 */
   .fld-label{display:flex;align-items:center;gap:var(--sp-1);font-size:var(--fld-label-fs,var(--fs-h11));font-weight:var(--fw-semibold);color:var(--ink);}
   .fld-label .req{color:var(--i-danger);} .fld-opt{font-weight:var(--fw-regular);color:var(--faint);margin-left:var(--sp-1);}
   .fld-ctl{display:flex;flex-direction:column;gap:var(--sp-1);min-width:0;}

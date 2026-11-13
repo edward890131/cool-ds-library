@@ -33,6 +33,8 @@
 
 ## 鐵則 4：token / logo 一律綁定，禁止 hard-code
 
+- **網站 CSS（`library/src/css/`）**：顏色、字級、字重、行高、間距、圓角、陰影、動畫時間一律用 token。`node library/tools/check-hardcode.js` 會抓出寫死值（合併腳本每次都會順便跑，`build-gallery.js --check` 有寫死值就失敗）。刻度外的值靠到最近的 token（字級剛好在中間往上、間距／圓角往下）；照片上的字與遮罩用 `--s-media-*`。確定要固定的（Logo 固定深淺底、選色器色盤、裝置外框…）在同一行加 `/* hc-ok：原因 */`。1～3px 視覺微調、無限循環動畫、`calc()` 公式不算寫死。
+
 - 顏色／間距／字級／圓角／陰影 → 綁 Figma Variables（對應 `tokens.export.json`），禁止直接寫死色值／px。
 - logo 是**專案級品牌資產**：一次替換同步三處（網站 topbar `.brand-logo`、library header `hdrLogo`、library footer `ftrLogo`）；鎖寬度、高度等比；存在 `projects/<name>/assets/`，bake 時以 data URI inline。
 

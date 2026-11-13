@@ -11,6 +11,7 @@
   - 原始碼在 `library/src/`：`page.html` 骨架（獨佔一行的 `@@include 路徑` 引入小檔）、`css/`、`js/`、`data/`（`changelog.js` 網站版本紀錄、`i18n-en.js`／`i18n-ja.js` 翻譯）。
   - 改完跑 `node library/tools/build-gallery.js` 合併，`gallery.html` 跟 `src/` 一起 commit；`--check` 可確認兩者同步。
   - 小檔不是獨立模組，只是同一支 `<script>`／`<style>` 依序切開；新增檔案要在 `page.html` 加一行 `@@include`（沒引用會報錯）。
+  - CSS 不能寫死值：`node library/tools/check-hardcode.js`（合併時自動跑）；規則見 CLAUDE.md 鐵則 4。
 - 元件清單主權在 `library/component-registry.json`（78 個元件；`meta.counts` 要跟著維護）。
 - 先前帳號的 Claude 預覽頁（claude.ai artifact）屬於舊帳號，新帳號無法更新；要預覽請另外發布新的 artifact，或看 Vercel。
 

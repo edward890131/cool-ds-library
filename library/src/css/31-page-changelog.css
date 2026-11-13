@@ -3,7 +3,7 @@
   .cl-entry{display:grid;grid-template-columns:132px 1fr;gap:var(--sp-7);padding:var(--sp-7) 0;border-top:1px solid var(--line);}
   .cl-entry:first-child{border-top:0;} /* 只去掉最上一條分隔線，上 padding 與其他筆一致（sp-7）*/
   .cl-meta{display:flex;flex-direction:column;gap:var(--sp-2);position:sticky;top:var(--sp-4);align-self:start;}
-  .cl-ver{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:var(--fw-bold);color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:2px 10px;letter-spacing:-.01em;}
+  .cl-ver{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:var(--fw-bold);color:var(--ink);background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:2px var(--sp-3);letter-spacing:-.01em;}
   .cl-date{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
   .cl-title{font-size:var(--fs-h7);margin:0 0 var(--sp-4);}
   .cl-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--sp-3);}
@@ -13,9 +13,9 @@ html[lang=en] .cl-tag,html[lang=ja] .cl-tag{width:76px;}  /* I18N:v2 英文標�
   .cl-add{color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent);}
   .cl-improve{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 13%,transparent);}
   .cl-fix{color:var(--warn);background:color-mix(in srgb,var(--warn) 16%,transparent);}
-  .cl-txt{font-size:var(--fs-h10);color:var(--ink);line-height:1.55;}
+  .cl-txt{font-size:var(--fs-h10);color:var(--ink);line-height:var(--lh-normal);}
   .cl-dot{flex:0 0 auto;width:5px;height:5px;border-radius:var(--r-pill);background:var(--line-strong);margin-top:var(--sp-3);}
-  .cl-src{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h12);padding:1px 7px;border-radius:var(--r-pill);}
+  .cl-src{width:max-content;font-family:var(--font-mono);font-size:var(--fs-h12);padding:1px var(--sp-2);border-radius:var(--r-pill);}
   .cl-src-manual{color:var(--muted);background:var(--panel-2);border:1px solid var(--line-strong);}
   .cl-src-figma{color:var(--c-brand2-500);background:color-mix(in srgb,var(--c-brand2-500) 12%,transparent);}
   /* 版本紀錄展開/收合：點標題列 toggle，內容手風琴平滑推開（比照 Collapse／FAQ 手法） */

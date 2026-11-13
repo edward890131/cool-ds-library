@@ -4,7 +4,7 @@
   #view.pg10 > .head-rule{display:none;}
   #view.pg10 :is(.tok-sec-t,.dg-sectitle,.gd-sec-t,.pref-sec-h h2,.block > h2 .bh-t){font-family:var(--font-display);font-size:var(--fs-h8);font-weight:var(--fw-semibold);color:var(--ink);letter-spacing:-.01em;margin:0;}
   #view.pg10 :is(.tok-sec-d,.dg-secdesc,.pref-sec-h p,.block > h2 .bh-d){font-family:var(--font-sans);font-size:var(--fs-h11);color:var(--muted);margin:0;}
-  #view.pg10 section.block{margin:40px 0 0;}
+  #view.pg10 section.block{margin:var(--sp-7) 0 0;}
   #view.pg10 .block > h2{border-bottom:0;padding-bottom:0;margin:0 0 var(--sp-4);}
   /* 共用卡片外觀 */
   #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,
@@ -27,7 +27,7 @@
   #view.pg10 .tref-note{border-left:0;border-radius:var(--radius);padding:var(--sp-4) var(--sp-5);background:var(--panel);border:1px solid var(--line);margin:0;}
   #view.pg10 .tokexp-head{padding:var(--sp-4) var(--sp-5);}
   /* Design Guideline */
-  #view.pg10 .dg-body{gap:40px;margin-top:var(--sp-6);}
+  #view.pg10 .dg-body{gap:var(--sp-7);margin-top:var(--sp-6);}
   #view.pg10 .dg-body > .dg-sec:first-child{margin-top:0;}
   #view.pg10 .dg-sec{gap:var(--sp-5);}
   #view.pg10 .dg-sechead{border-bottom:0;padding-bottom:0;margin-bottom:calc(var(--sp-4) - var(--sp-5));}
@@ -47,11 +47,11 @@
   #view.pg10 .cl-meta{top:0;}
   @media(max-width:767px){#view.pg10 .cl-entry{padding:var(--sp-5);gap:var(--sp-3);}}
   /* 偏好設定 */
-  #view.pg10 .pref-sec{margin:40px 0 0;}
+  #view.pg10 .pref-sec{margin:var(--sp-7) 0 0;}
   #view.pg10 .head-rule + .pref-sec{margin-top:var(--sp-6);}
   #view.pg10 .pref-sec-h{margin:0 0 var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-1);}
   /* 上手指南 */
-  #view.pg10 .gd-sec{margin:40px 0 0;}
+  #view.pg10 .gd-sec{margin:var(--sp-7) 0 0;}
   #view.pg10 .gd-sec-h{border-bottom:0;padding-bottom:0;margin-bottom:var(--sp-4);align-items:center;}
   /* HOME-MAP:v1 點陣世界地圖（#hxMap，用戶回饋下方）：canvas 畫陸地點陣，依序高亮城市、鏡頭平移；邊緣漸隱融入頁面底色 */
   .hx > #hxMap{max-width:1180px;margin-left:auto;margin-right:auto;}
@@ -94,8 +94,8 @@
   .hx-tm{container-type:inline-size;}
   .hx-tm-stage{position:relative;display:grid;height:min(560px,56.25cqi);border-radius:var(--radius);overflow:hidden;background:var(--panel-2);isolation:isolate;}
   .hx-tm-stage:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .hx-tm-sl{grid-area:1/1;position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-6);opacity:0;visibility:hidden;transition:opacity .25s var(--ease-in),visibility 0s linear .25s;}
-  .hx-tm-sl.on{opacity:1;visibility:visible;z-index:2;transition:opacity .45s var(--ease-out) .2s,visibility 0s;}  /* 先退後進，兩張卡不重疊 */
+  .hx-tm-sl{grid-area:1/1;position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-6);opacity:0;visibility:hidden;transition:opacity var(--dur-default) var(--ease-in),visibility 0s linear .25s;}
+  .hx-tm-sl.on{opacity:1;visibility:visible;z-index:2;transition:opacity var(--dur-slow) var(--ease-out) .2s,visibility 0s;}  /* 先退後進，兩張卡不重疊 */
   .hx-tm-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
   .hx-tm-stage > .hx-tm-bg0{z-index:0;}  /* 共用背景：固定一張，不隨切換淡入淡出 */
   /* 視差：背景圖比舞台高 40%，捲動時以較慢速度位移（JS 寫 --hx-px，-1～1）；減少動態時不動 */
@@ -108,13 +108,13 @@
   .hx-tm-card{z-index:1;}
   /* 牌卡內容進退場：同其他段落的 ease-out 上移淡入，依序錯開 */
   .hx-tm-card > *{opacity:0;transform:translateY(10px);transition:opacity calc(var(--dur-fast) * .8) var(--ease-in),transform var(--dur-default) var(--ease-out);}  /* 退場快、進場慢，避免兩則重疊 */
-  .hx-tm-sl.on .hx-tm-card > *{transition:opacity var(--dur-default) var(--ease-out) 160ms,transform var(--dur-default) var(--ease-out) 160ms;}
+  .hx-tm-sl.on .hx-tm-card > *{transition:opacity var(--dur-default) var(--ease-out) var(--dur-fast),transform var(--dur-default) var(--ease-out) var(--dur-fast);}
   .hx-tm-sl.on .hx-tm-card > *{opacity:1;transform:none;}
   .hx-tm-sl.on .hx-tm-card > :nth-child(2){transition-delay:80ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(3){transition-delay:160ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(4){transition-delay:240ms;}
   .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--radius);box-shadow:var(--e-xl);}
   .hx-tm-qm{align-self:flex-end;width:28px;height:23px;color:var(--c-info-500);flex:0 0 auto;}
   .hx-tm-q{margin:0;flex:1 1 auto;display:flex;align-items:center;}
-  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h7);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
+  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h7);font-weight:var(--fw-medium,500);line-height:var(--lh-normal);letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
   .hx-tm-who{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);}
   .hx-tm-id{display:flex;flex-direction:column;gap:2px;min-width:0;}
   .hx-tm-id b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}

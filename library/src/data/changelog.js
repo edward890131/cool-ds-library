@@ -1,6 +1,7 @@
   /* ── 版本更新紀錄（Changelog）：整數版本號＋發布日期，最新在最上；資料維護在此陣列 ── */
   const CHANGELOG_DATA=[   /* CL-MILESTONE:v1 2026-11-12 依里程碑整合：55 版 → 10 版（完整歷史見 library/CHANGELOG.md） */
     {v:'v11', date:'2026-11-12', title:'首頁聯絡我段落', items:[
+      {tag:'improve', t:'網站頁面（首頁、Design Token、Guideline、版本紀錄、外框）剩下的寫死值也改成 token；新增檢查，之後新寫的樣式只要寫死就會被抓出來'},
       {tag:'improve', t:'移除上手指南頁（內容已併入首頁），偏好設定一併拿掉只用在該頁的「背景漸層」；網站檔案再小約 4%'},
       {tag:'improve', t:'Notification 的成功／警告／錯誤／資訊色改用回饋色 token，與 Alert 一致；新增「照片上」專用 token（照片上的字、遮罩、霧面底）；元件裡刻度外的字級、間距、動畫時間靠到最近的 token'},
       {tag:'fix', t:'修正深色模式下 Dropdown 多選勾勾、排程圖「今天」標籤的白字壓在淺色底上看不見'},

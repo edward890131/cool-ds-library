@@ -10,7 +10,7 @@
   .tpl-stage{display:flex;justify-content:center;padding:var(--sp-6);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);overflow:auto;}
   .tac{display:flex;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;position:relative;font-family:var(--font-sans);}
   .tac.dv-desktop{width:1080px;height:700px;}
-  .tac.dv-mobile{width:375px;height:740px;border-radius:28px;box-shadow:var(--e-md);}
+  .tac.dv-mobile{width:375px;height:740px;border-radius:28px;box-shadow:var(--e-md);} /* hc-ok：手機裝置外框圓角 */
   .tac-side{width:248px;flex:0 0 auto;display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-3);background:var(--panel-2);border-right:1px solid var(--line);box-sizing:border-box;overflow:hidden;}
   .tac-side-top{display:flex;align-items:center;gap:var(--sp-2);}
   .tac-side-top .tac-brand{flex:1;display:flex;align-items:center;gap:var(--sp-2);font-weight:var(--fw-semibold);font-size:var(--fs-h10);}
@@ -63,7 +63,7 @@
   .tad{display:flex;position:relative;overflow:hidden;background:var(--panel-2);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-lg);font-family:var(--font-sans);font-size:var(--fs-h10);}
   .tad.dv-desktop{width:1180px;height:800px;}
   .tad.dv-tablet{width:768px;height:920px;flex-direction:column;}
-  .tad.dv-mobile{width:375px;height:780px;flex-direction:column;border-radius:28px;box-shadow:var(--e-md);}
+  .tad.dv-mobile{width:375px;height:780px;flex-direction:column;border-radius:28px;box-shadow:var(--e-md);} /* hc-ok：手機裝置外框圓角 */
   /* 側欄（電腦常駐；平板／手機改成抽屜） */
   .tad-side{flex:0 0 240px;display:flex;flex-direction:column;gap:var(--sp-4);background:var(--panel);border-right:1px solid var(--line);padding:var(--sp-5) var(--sp-4);box-sizing:border-box;min-height:0;}
   .tad-brand{display:flex;align-items:center;gap:var(--sp-3);padding:0 var(--sp-2) var(--sp-4);border-bottom:1px solid var(--line);}
@@ -238,7 +238,7 @@
   /* ==================== TPL:v3 Template 範本 · 網站內容頁（2026-11-10）==================== */
   .tws{display:flex;flex-direction:column;overflow:hidden;background:var(--bg,var(--panel-2));color:var(--ink);border:1px solid var(--line);border-radius:var(--r-lg);font-family:var(--font-sans);font-size:var(--fs-h10);}
   .tws.dv-desktop{width:1280px;height:820px;}
-  .tws.dv-mobile{width:375px;height:780px;border-radius:28px;box-shadow:var(--e-md);}
+  .tws.dv-mobile{width:375px;height:780px;border-radius:28px;box-shadow:var(--e-md);} /* hc-ok：手機裝置外框圓角 */
   .tws-head{flex:0 0 auto;background:var(--panel);border-bottom:1px solid var(--line);}
   .tws-head .hdr-bar{border:0;border-radius:0;max-width:1180px;margin:0 auto;}
   .tws-scroll{flex:1 1 auto;overflow-y:auto;min-height:0;container:tws / inline-size;}

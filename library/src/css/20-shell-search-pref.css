@@ -36,7 +36,7 @@
     background:radial-gradient(40% 40% at 20% 30%,color-mix(in srgb,var(--accent2) 60%,transparent),transparent 70%),radial-gradient(40% 40% at 80% 70%,color-mix(in srgb,var(--c-info-500) 50%,transparent),transparent 70%);}
   .pref-frost-prev .pfp{position:absolute;inset:18px 24px;border-radius:var(--r-sm);border:1px solid var(--s-border-1);
     background:color-mix(in srgb,var(--s-surface-1) calc(100% - var(--pf) * 58%),transparent);backdrop-filter:blur(calc(var(--pf) * 28px));-webkit-backdrop-filter:blur(calc(var(--pf) * 28px));
-    display:flex;flex-direction:column;gap:var(--sp-3);padding:14px;}
+    display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);}
   .pref-frost-prev .pfp i{display:block;height:7px;border-radius:var(--r-sm);background:var(--s-border-2);} .pref-frost-prev .pfp i:first-child{width:40%;height:9px;background:var(--s-text-3);}
   .pref-frost-prev .pfp i:nth-child(2){width:80%;} .pref-frost-prev .pfp i:nth-child(3){width:64%;}
   .pref-frost-ctl{display:flex;flex-direction:column;gap:var(--sp-3);min-width:0;}
@@ -96,11 +96,11 @@
   :root[lang=ja] body{word-break:auto-phrase;line-break:strict;}   /* I18N-JA:v1 日文依詞組換行，不在詞中間斷開 */
 
   /* 搜尋面板：取用 Command 元件（.cmd）＋遮罩 */
-  .ss-ovl{position:fixed;inset:0;z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px;box-sizing:border-box;
+  .ss-ovl{position:fixed;inset:0;z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:12vh var(--sp-5) var(--sp-5);box-sizing:border-box;
     background:var(--s-scrim);animation:ss-fade var(--dur-fast) var(--ease-out);}
   .ss-ovl.is-out{animation:ss-fade-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
   .ss-ovl.is-out .cmd{animation:ss-out calc(var(--dur-fast) * .8) var(--ease-in) forwards;}
-  .ss-ovl{align-items:center;padding:16px;}
+  .ss-ovl{align-items:center;padding:var(--sp-5);}
   .ss-ovl .cmd{--cmd-radius:var(--radius);width:600px;--cmd-h:min(420px,56vh);animation:cmd-in var(--dur-default) var(--ease-out);}
   .ss-ovl .cmd-it .cmd-tag{font-size:var(--fs-h10);color:var(--muted);border:1px solid var(--line);border-radius:var(--r-pill);padding:0 var(--sp-2);}
   .ss-ovl .cmd-it code{font-family:var(--font-mono);font-size:var(--fs-h11);}
