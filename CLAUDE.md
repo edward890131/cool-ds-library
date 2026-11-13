@@ -11,7 +11,7 @@
 | 區 | 內容 | 可寫性 |
 |---|---|---|
 | 🔒 `framework/` | ds-framework 快照（L0–L4 schema、production 規則、themes base、skills） | **唯讀**。要升級 = 刻意動作：手動 diff 上游 → 更新 → 記 `framework/VENDORED.md` |
-| 🧩 `library/gallery.html` | 元件庫引擎（元件本體＋選取＋token 編輯 UI） | 設計團隊維護；**唯一的元件庫，禁止 per-project fork** |
+| 🧩 `library/src/` → `library/gallery.html` | 元件庫引擎（元件本體＋選取＋token 編輯 UI） | 設計團隊維護；**唯一的元件庫，禁止 per-project fork**。改 `src/`，再跑 `node library/tools/build-gallery.js` 合併成 `gallery.html`（兩者一起 commit；**禁止直接改 `gallery.html`**，下次合併會被覆蓋） |
 | 📇 `library/component-registry.json` | canonical 元件 id ＋軸定義 | 隨 gallery 元件增減同步更新（見鐵則 2） |
 | 🔧 `sync/*.mjs` | drift 偵測腳本 | FE 維護、設計確認命名對應 |
 | 🧪 `projects/<name>/` | 專案狀態、匯出、bake 預覽、logo asset | 各專案成員；**所有專案產出只能寫這裡**，不得污染上面四層 |

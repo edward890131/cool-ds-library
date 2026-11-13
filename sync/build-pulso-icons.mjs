@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // build-pulso-icons.mjs（Goons DS Studio 專屬）
 // 把網站用到的 PulsoIcon 圖示資料＋播放器內嵌進 library/gallery.html。
+// 2026-11-13 拆檔後（SPLIT-SRC:v1）改寫的是 library/src/ 的原始檔，最後自動跑 build-gallery.js 合併回 gallery.html。
 //
 // 為什麼：本 DS 的 icon set 從 Phosphor 換成 PulsoIcon（線框／實心、可調線寬、每顆有專屬動態）。
 // 網站是單一 HTML，要離線也能顯示、能播動態，所以把「實際用到的圖示資料」和播放器打包內嵌，
@@ -16,19 +17,23 @@
 //       node sync/build-pulso-icons.mjs
 // 換版本：改 sync/pulso/package.json 的 pulsoicon-core／motion 版本 → npm install → 重跑本腳本。
 
-import { readFileSync, writeFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { join, dirname, relative } from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { loadIcon, markup, bundleRuntime, hasIcon, PULSO_VERSION, MOTION_VERSION } from "./pulso/lib.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const GALLERY = join(__dirname, "..", "library/gallery.html");
-let src = readFileSync(GALLERY, "utf8");
+const SRC_DIR = join(__dirname, "..", "library/src");
+// 讀 src/ 底下所有原始檔（page.html、css/、js/、data/）；結尾統一寫回有變動的檔
+const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => e.name.startsWith(".") ? [] : e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]);
+const files = new Map(walk(SRC_DIR).map((f) => [f, readFileSync(f, "utf8")]));
+const all = [...files.values()].join("\n");
 
 // ── 1. 收集用到的 key ──
 const keys = new Set();
-for (const m of src.matchAll(/\bPI\('([a-z0-9-]+)'/g)) keys.add(m[1]);
-for (const m of src.matchAll(/<!--PI:([a-z0-9-]+)-->/g)) keys.add(m[1]);
+for (const m of all.matchAll(/\bPI\('([a-z0-9-]+)'/g)) keys.add(m[1]);
+for (const m of all.matchAll(/<!--PI:([a-z0-9-]+)-->/g)) keys.add(m[1]);
 const bad = [...keys].filter((k) => !hasIcon(k));
 if (bad.length) { console.error("✗ PulsoIcon 找不到這些 icon：" + bad.join("、")); process.exit(1); }
 
@@ -51,21 +56,19 @@ const PULSO_ICONS=${json};
 /* PULSO:END */`;
 
 const B = "/* PULSO:BEGIN", E = "/* PULSO:END */";
-if (src.includes(B)) {
-  const i = src.indexOf(B), j = src.indexOf(E, i) + E.length;
-  src = src.slice(0, i) + block + src.slice(j);
-} else {
-  // 第一次：插在主程式 <script> 最前面（所有 PI() 呼叫之前）
-  const anchor = "\n<script>\n";
-  const at = src.indexOf(anchor);
-  if (at < 0) { console.error("✗ 找不到主程式 <script>"); process.exit(1); }
-  src = src.slice(0, at + anchor.length) + block + "\n" + src.slice(at + anchor.length);
+const host = [...files.keys()].find((f) => files.get(f).includes(B));
+if (!host) { console.error("✗ src/ 裡找不到 /* PULSO:BEGIN */ 區塊（應在 js/00-vendor-pulso.js）"); process.exit(1); }
+{
+  const t = files.get(host), i = t.indexOf(B), j = t.indexOf(E, i) + E.length;
+  files.set(host, t.slice(0, i) + block + t.slice(j));
 }
 
 // ── 4. HTML 靜態標記烤成 SVG（<!--PI:key-->[舊輸出<!--/PI-->]）──
-src = src.replace(/<!--PI:([a-z0-9-]+)-->(?:[\s\S]*?<!--\/PI-->)?/g, (_, k) => `<!--PI:${k}-->${markup(icons[k])}<!--/PI-->`);
+for (const [f, t] of files) files.set(f, t.replace(/<!--PI:([a-z0-9-]+)-->(?:[\s\S]*?<!--\/PI-->)?/g, (_, k) => `<!--PI:${k}-->${markup(icons[k])}<!--/PI-->`));
 
-writeFileSync(GALLERY, src);
+// 有變動才寫回，再合併成 gallery.html
+for (const [f, t] of files) if (t !== readFileSync(f, "utf8")) { writeFileSync(f, t); console.log("  改寫 " + relative(SRC_DIR, f)); }
+execFileSync(process.execPath, [join(__dirname, "..", "library/tools/build-gallery.js")], { stdio: "inherit" });
 
 // ── 5. 第三方授權聲明（PulsoIcon 授權要求：網站內含 PulsoIcon 時須附上它的 LICENSE 全文；motion 為 MIT）──
 const lic = (pkg, file) => readFileSync(join(__dirname, "pulso/node_modules", pkg, file), "utf8").trim();

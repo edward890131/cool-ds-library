@@ -7,7 +7,10 @@
 ## 1. 目前狀態
 
 - `main` 已包含到 **PR #26**（網站版本紀錄 **v13**），正式網址 https://cool-ds-library.vercel.app （`vercel.json` 把 `/` rewrite 到 `/library/gallery`）。
-- 網站本體是**單一檔案** `library/gallery.html`（約 19k 行，vanilla JS＋CSS，無 build）。主要 `<script>` 從約 6477 行開始、到檔尾。
+- 網站本體是 `library/gallery.html`（vanilla JS＋CSS），但**它是合併產生的檔，不要直接改**（2026-11-13 SPLIT-SRC:v1 起）：
+  - 原始碼在 `library/src/`：`page.html` 骨架（獨佔一行的 `@@include 路徑` 引入小檔）、`css/`、`js/`、`data/`（`changelog.js` 網站版本紀錄、`i18n-en.js`／`i18n-ja.js` 翻譯）。
+  - 改完跑 `node library/tools/build-gallery.js` 合併，`gallery.html` 跟 `src/` 一起 commit；`--check` 可確認兩者同步。
+  - 小檔不是獨立模組，只是同一支 `<script>`／`<style>` 依序切開；新增檔案要在 `page.html` 加一行 `@@include`（沒引用會報錯）。
 - 元件清單主權在 `library/component-registry.json`（78 個元件；`meta.counts` 要跟著維護）。
 - 先前帳號的 Claude 預覽頁（claude.ai artifact）屬於舊帳號，新帳號無法更新；要預覽請另外發布新的 artifact，或看 Vercel。
 
@@ -17,7 +20,7 @@
 - 小改直接做；大改（新元件、多頁改版）可以開背景 agent，在 scratchpad 複本上做、交回 `apply-*.py`（精確錨點 + `assert` 只出現一次 + 重跑保護標記），再由主 session 套用。
 - 每次改動都要：
   1. 更新 `library/CHANGELOG.md`：新條目插在最上面一筆 `## ` 之前，標題格式 `## 2026-11-05（七十）　標題`（括號內流水號遞增）。
-  2. 更新網站內版本紀錄 `const CHANGELOG_DATA=[`（最新在最上；同一批改動加到最新版本的 `items`，大批新功能開新版號）。
+  2. 更新網站內版本紀錄 `const CHANGELOG_DATA=[`（在 `library/src/data/changelog.js`；最新在最上；同一批改動加到最新版本的 `items`，大批新功能開新版號）。
      ⚠ `items[].t` 會被 innerHTML 渲染：**內文不可出現未跳脫的 `<` `>`**（寫成 `&lt;` `&gt;`），否則會吞掉後面所有版本（v13 才修過這個 bug）。
   3. 新增／移除元件 → 同步 `NAV`（側欄）、`DIAL_SPECS`（軸定義，CHOICE/選擇元件頁（原需求匯總）/選取都從這裡長出來）、`BUILD`／`LIVE`、搜尋關鍵字、`TOKEN_SLOTS`、registry。
   4. 驗證（見第 4 節）→ commit → push → 使用者說「合併推」才開 PR 並 merge 到 main。
@@ -67,7 +70,7 @@ console.log('errors',e);await b.close();})();
 4. 首頁元件牆／動態展示尚未放入新 5 張牌卡（未被要求）。
 5. 使用者先前提過但未執行的選項：選取框加粗或改 `--c-info-600`、照片素材可再換（目前內嵌照片多為人像）。
 
-## 7. 關鍵程式位置（`library/gallery.html`，行號會漂移，用函式名搜尋）
+## 7. 關鍵程式位置（在 `library/src/` 裡 grep；行號會漂移，用函式名搜尋）
 
 | 用途 | 搜尋 |
 |---|---|
