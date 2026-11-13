@@ -6,6 +6,17 @@
 
 ---
 
+## 2026-11-13（一百五十一）　網站架構改版 PR 2：總覽頁與頁首
+
+- `IA-PAGES:v1` 總覽頁（`renderOverview`，路由 `#components`／`#templates`，Header 入口與側欄「全部元件／全部範本」都進這裡）：
+  - 元件：分類跳轉鈕（Button 原子 soft）＋各分類卡片網格；範本：大卡、縮圖照寬度填滿。手機元件兩欄、範本一欄。分類標題不帶底線。
+  - 縮圖 `covThumb`：離屏建元件頁取 `.live-stage`（或首頁元件牆的精選預覽），只量「真的畫出東西」的範圍、遇到裁切容器不往裡量，置中縮進卡片；元件不放大（寬 ≤80%、高 ≤70%），範本照寬度填滿。前 2.5 秒內容變動會重量。捲到才畫（IntersectionObserver，掛 VIEW-LIFE）。
+  - 需要操作才看得懂的改用靜態畫面：Floating Line、Context Menu、Menubar、Modal、Drawer、Table Toolbar（變體矩陣），Time Picker／Cascader／Tree Select（欄位＋展開面板），Color Picker（完整選色面板），Tooltip（泡泡＋按鈕），Logo（網站品牌標誌）。
+  - 手機範本縮圖：去掉範本本身的圓角外框與 App 頂欄，並把範本內部捲動區捲到代表區塊；縮圖內不顯示捲軸。
+  - 卡片說明＝元件頁開頭那段（原文放進卡片、由翻譯機制換語言，兩行截斷）；Button／Tag／Dropdown 開頭不像說明，另寫一句（含 EN／JA）。
+- `pgcDecorate`（頁首裝飾，`pgc-`）：內頁標題上方加麵包屑（Breadcrumb 原子，前幾層可點、鍵盤可操作；分類那層回總覽頁該分類），拿掉標題上方小標；手機 Token 區分頁（Tab 原子 soft＋`tabJelly` 果凍，同組頁面沿用同一條，換頁時動畫不中斷）；元件／範本頁底上一個／全部／下一個。內容區被頁面自己局部重畫（例如 Token 頁切 L1／L2）時由 MutationObserver 自動補回。
+- Token 頁瀏覽模式提示框：上方原本靠被隱藏的分隔線撐開（變成 0），改給 `--sp-6`。
+
 ## 2026-11-13（一百五十）　網站架構改版 PR 1：外框與導覽
 
 依本機試玩頁（`.lab/ia-lab.html`）定稿，改寫進 gallery.html（不是外掛補丁）。
