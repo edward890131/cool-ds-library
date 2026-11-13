@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-13（一百四十八）　全站檢查基準＋修使用說明頁 3D 錯誤
+
+- 全站檢查（102 頁 × 中淺／中深／英／日）：
+  - JS 錯誤只有使用說明頁 ShaderGradient 一種；沒有 404 資源、沒有 console.error。
+  - 英文、日文沒翻到的文字：只剩刻意保留的（字體樣張「果思設計」、語言選單「繁體中文」、版本紀錄裡引用的「日本語」）。檢查範圍是 `#view` 內看得到的文字，不含 Header／側欄／浮層／aria-label。
+  - 匯出包：87 個元件都有樣式檔，73 個帶 CSS 動態；**選擇器類（date／time／color picker、number-input、cascader、tree-select）只匯出收合狀態，展開面板的結構與樣式沒有進匯出包**，留給「抽互動 runtime／匯出加 JS」一起補。logo、selector 與 10 個範本不在匯出清單。
+- `GUIDE-SHADER:v2`：使用說明頁 hero 從 esm.sh 載入 `@shadergradient/react@2` 沒鎖 three.js，CDN 自動給最新 three 0.187；0.187 移除了 `cube_uv_reflection_fragment` 這段 shader，每次載入噴約 200 筆 `THREE.WebGLProgram` 錯誤、city 反光失效。改成全部鎖版本：`react@19.2.0`、`react-dom@19.2.0`、`@shadergradient/react@2.4.20`、`three@0.180.0`（0.160–0.180 都還有這段 shader）。實測錯誤 0 筆、漸層與反光正常。
+
 ## 2026-11-13（一百四十七）　換頁時收乾淨常駐監聽
 
 - `VIEW-LIFE:v1`：新增頁面生命週期工具（`renderView` 前）：每次換頁開一個新的 `AbortController`，`viewEnd()` 換頁前一次關掉。
