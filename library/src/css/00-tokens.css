@@ -74,6 +74,8 @@
     --s-text-1:var(--c-neutral-900); --s-text-2:var(--c-neutral-600); --s-text-3:var(--c-neutral-500);
     --s-border-1:var(--c-neutral-300); --s-border-2:var(--c-neutral-400);
     --s-on-primary:#FFFFFF;
+    /* TOK-SWEEP:v2 照片上專用：照片／深色遮罩上的文字、遮罩底色、霧面深底，深淺模式都固定；透明度在使用處用 color-mix 給 */
+    --s-media-on:var(--c-neutral-0); --s-media-scrim:#000000; --s-media-surface:#16181E;
     --s-action-primary:var(--c-brand-500); --s-action-primary-hover:var(--c-brand-600); --s-action-primary-press:var(--c-brand-700);
     --s-action-primary-tint:color-mix(in srgb,var(--c-brand-500) 10%,transparent);
     --s-action-primary-tint2:color-mix(in srgb,var(--c-brand-500) 20%,transparent);

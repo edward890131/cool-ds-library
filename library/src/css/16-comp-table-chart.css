@@ -11,7 +11,7 @@
 .tbl-wrap.tbl-v-plain{border-color:transparent;}                     /* 簡潔款：拿掉外框 */
 
 /* ---- 表格本體 ---- */
-.tbl{width:100%;border-collapse:collapse;font-size:13px;color:var(--ink);}
+.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-h10);color:var(--ink);}
 .tbl-wrap.tbl-dn-compact .tbl{font-size:var(--fs-h11);}
 
 /* ---- 表頭 ---- */
@@ -120,8 +120,8 @@
 .cht-semi.cht-sz-m svg{width:220px;height:auto;} .cht-semi.cht-sz-s svg{width:128px;height:auto;}
 .cht-box.cht-donut,.cht-box.cht-pie,.cht-box.cht-semi{flex-direction:column;align-items:center;gap:var(--sp-4);}
 .cht-pie-sl{stroke:var(--panel);stroke-width:1.2;stroke-linejoin:round;transition:opacity var(--dur-fast) var(--ease-out);}
-.cht-pie-lb{font-family:var(--font-sans);font-size:9px;font-weight:var(--fw-semibold);fill:var(--s-on-primary,#fff);pointer-events:none;font-variant-numeric:tabular-nums;}
-.cht-semi-num{font-size:30px;}
+.cht-pie-lb{font-family:var(--font-sans);font-size:var(--fs-h12);font-weight:var(--fw-semibold);fill:var(--s-on-primary);pointer-events:none;font-variant-numeric:tabular-nums;}
+.cht-semi-num{font-size:var(--fs-h5);}
 .cht-donut-u{font-size:.55em;font-weight:var(--fw-medium);fill:var(--muted);}
 
 /* --- 互動繪圖區＋hover tooltip（folded 端點只在 hover 出現） --- */
@@ -131,7 +131,7 @@
 .cht-hdot{fill:var(--accent);stroke:var(--panel);stroke-width:1.6;pointer-events:none;}
 .cht-seg{cursor:default;}
 .cht-bhl{fill:var(--accent);pointer-events:none;}
-.cht-axis{font-size:8px;fill:var(--muted);font-variant-numeric:tabular-nums;}
+.cht-axis{font-size:var(--fs-h12);fill:var(--muted);font-variant-numeric:tabular-nums;}
 .cht-tip{position:absolute;transform:translate(-50%,calc(-100% - 9px));background:var(--ink);color:var(--canvas);
   font-size:var(--fs-h12);line-height:var(--lh-snug);padding:var(--sp-1) var(--sp-3);border-radius:var(--r-sm);white-space:nowrap;pointer-events:none;
   opacity:0;transition:opacity var(--dur-fast);z-index:6;display:flex;flex-direction:column;align-items:center;gap:1px;
@@ -143,9 +143,9 @@
 .cht-tile-wide .cht-box,.cht-tile-wide .cht-plot,.cht-tile-wide .cht-plot svg{width:100%;}
 
 /* --- SVG 內文字（class 掛在 <text> 上，inline SVG 吃得到頁面 CSS；數字一律 tabular-nums） --- */
-.cht-donut-num{font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
-.cht-donut-sub{font-size:9px;font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.02em;}
-.cht-val{font-size:8.5px;font-weight:var(--fw-semibold);fill:var(--muted);font-variant-numeric:tabular-nums;}
+.cht-donut-num{font-family:var(--font-display);font-size:var(--fs-h6);letter-spacing:-.02em;font-weight:var(--fw-semibold);fill:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.cht-donut-sub{font-size:var(--fs-h12);font-weight:var(--fw-medium);fill:var(--muted);letter-spacing:.02em;}
+.cht-val{font-size:var(--fs-h12);font-weight:var(--fw-semibold);fill:var(--muted);font-variant-numeric:tabular-nums;}
 
 /* --- 矩陣格／Live 舞台的 dashboard tile 容器（panel 底＋細邊） --- */
 .cht-tile{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--sp-3);background:var(--panel);border:1px solid var(--line);border-radius:var(--cht-radius,var(--radius));padding:var(--sp-4) var(--sp-5);max-width:100%;}
@@ -364,7 +364,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 /* 每個子節點一段 L：直線落在父層箭頭中心，橫線接到子列前緣 */
 .trv-v-lines .trv-children>.trv-item::before{content:'';position:absolute;left:-10px;top:0;
   width:10px;height:15px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);
-  border-bottom-left-radius:6px;}
+  border-bottom-left-radius:var(--r-sm);}
 /* 非最後一個手足：直線繼續往下延伸 */
 .trv-v-lines .trv-children>.trv-item:not(:last-child)::after{content:'';position:absolute;left:-10px;top:0;bottom:0;
   border-left:1px solid var(--line);}
@@ -444,7 +444,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 /* 今日線：accent 直線 + 頂端「今日」小籤（#fff 比照 .tg i-brand 的 --ton 慣例） */
 .gnt-today{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--accent);z-index:2;}
 .gnt-today-pin{position:absolute;top:3px;left:50%;transform:translateX(-50%);padding:1px var(--sp-2);border-radius:var(--r-pill);
-  background:var(--accent);color:#fff;font-size:var(--fs-h12);line-height:var(--lh-normal);white-space:nowrap;}
+  background:var(--accent);color:var(--primary-on);font-size:var(--fs-h12);line-height:var(--lh-normal);white-space:nowrap;}
 
 /* 矩陣縮小示意：更窄側欄、隱藏進度百分比與狀態標 */
 .gnt-g-compact{--gnt-side:88px;width:100%;}

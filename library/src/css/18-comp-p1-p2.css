@@ -101,7 +101,7 @@
   .stk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));}
   .stk-box{display:grid;place-items:center;min-width:28px;min-height:28px;box-sizing:border-box;border-radius:var(--r-sm);background:var(--panel);border:1px solid var(--line-strong);
     font-family:var(--font-mono);font-size:var(--fs-h12);font-weight:var(--fw-semibold);color:var(--muted);}
-  .stk-map{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-2) var(--sp-5);font-size:13px;line-height:var(--lh-normal);}
+  .stk-map{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--sp-2) var(--sp-5);font-size:var(--fs-h10);line-height:var(--lh-normal);}
   .stk-map b{color:var(--ink);font-family:var(--font-mono);font-size:var(--fs-h11);} .stk-map span{color:var(--muted);}
 
   /* ── App Shell 應用程式框架（shl-）：取用 menu／avatar／button 原子；側欄收合＝寬度動畫；行動版＝抽屜 ── */
@@ -189,7 +189,7 @@
   .lnk-ctx{font-size:var(--fs-h10);color:var(--ink);line-height:var(--lh-normal);}
 
   /* ── Kbd（kbd-）：鍵帽；下緣加厚模擬按鍵，按下時壓平 ── */
-  .kbd{display:inline-grid;place-items:center;min-width:var(--kbd-s);height:var(--kbd-s);padding:0 5px;box-sizing:border-box;
+  .kbd{display:inline-grid;place-items:center;min-width:var(--kbd-s);height:var(--kbd-s);padding:0 var(--sp-1);box-sizing:border-box;
     border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:var(--r-sm);background:var(--panel);color:var(--ink);
     font-family:var(--font-mono);font-weight:var(--fw-medium);line-height:1;white-space:nowrap;
     transition:transform calc(var(--dur-fast) * .5) var(--ease-out),border-bottom-width calc(var(--dur-fast) * .5) var(--ease-out),background var(--dur-fast) var(--ease-out);}
@@ -317,7 +317,7 @@
   .crs-track{display:flex;transition:transform calc(var(--dur-default) * 1.4) var(--ease-out);}
   .crs-track.is-drag{transition:none;}
   .crs-slide{background-size:cover;background-position:center 35%;flex:0 0 100%;aspect-ratio:16 / 7;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--sp-1);padding:var(--sp-5);
-    color:#FFFFFF;user-select:none;}
+    color:var(--s-media-on);user-select:none;}
   .crs-slide b{font-size:var(--fs-h8);font-weight:var(--fw-semibold);} .crs-slide span{font-size:var(--fs-h11);opacity:.85;}
   .crs-s0{background:linear-gradient(135deg,var(--c-brand2-500),var(--c-brand2-800));}
   .crs-s1{background:linear-gradient(135deg,var(--c-info-500),var(--c-info-800));}
@@ -333,7 +333,7 @@
     transition:width var(--dur-default) var(--ease-out),background var(--dur-fast) var(--ease-out);}
   .crs-dot.on{width:18px;background:var(--accent);}
   .crs-dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .crs-num{position:absolute;right:var(--sp-3);bottom:var(--sp-3);z-index:2;padding:2px var(--sp-3);border-radius:var(--r-pill);background:rgba(0,0,0,.45);color:#FFFFFF;
+  .crs-num{position:absolute;right:var(--sp-3);bottom:var(--sp-3);z-index:2;padding:2px var(--sp-3);border-radius:var(--r-pill);background:color-mix(in srgb,var(--s-media-scrim) 45%,transparent);color:var(--s-media-on);
     font-size:var(--fs-h12);font-variant-numeric:tabular-nums;}
 
   /* ── Hover Card 資訊卡（hvc-）：沿用 popover 的卡片與浮層定位；hover 延遲出現、離開有緩衝 ── */

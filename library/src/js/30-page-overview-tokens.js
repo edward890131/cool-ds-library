@@ -119,6 +119,8 @@
     {g:'Feedback 狀態',rows:[
       ['--s-feedback-success','success','var(--c-success-500)','var(--c-success-400)'],['--s-feedback-warning','warning','var(--c-warning-500)','var(--c-warning-400)'],
       ['--s-feedback-error','error','var(--c-error-500)','var(--c-error-400)'],['--s-feedback-info','info','var(--c-info-500)','var(--c-info-400)']]},
+    {g:'Media 照片上',rows:[   /* TOK-SWEEP:v2 照片／深色遮罩上：深淺模式都固定 */
+      ['--s-media-on','on media','var(--c-neutral-0)','var(--c-neutral-0)'],['--s-media-scrim','scrim','#000000','#000000'],['--s-media-surface','surface','#16181E','#16181E']]},
     {g:'Chart 圖表系列',rows:[
       ['--s-chart-2','series 2','var(--c-info-600)','var(--c-info-500)'],['--s-chart-3','series 3','var(--c-success-600)','var(--c-success-500)'],['--s-chart-4','series 4','var(--c-violet-600)','var(--c-violet-400)'],
       ['--s-chart-seq-0','heat 0','var(--s-surface-3)','var(--s-surface-3)'],['--s-chart-seq-1','heat 1','var(--c-brand2-100)','var(--c-brand2-900)'],['--s-chart-seq-2','heat 2','var(--c-brand2-300)','var(--c-brand2-800)'],

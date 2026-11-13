@@ -137,7 +137,7 @@
   .aic-use-btn:hover{background:var(--panel-2);} .aic-use-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
   .aic-use-btn svg{width:18px;height:18px;rotate:-90deg;} .aic-use-btn circle{fill:none;stroke-width:2.6;} .aic-use-btn .trk{stroke:var(--line-strong);}
   .aic-use-btn .val{stroke:var(--use-c);stroke-linecap:round;transition:stroke-dasharray var(--dur-slow) var(--ease-out),stroke var(--dur-default) var(--ease-out);}
-  .aic-use.is-bump .aic-use-btn svg{animation:aic-use-bump 520ms var(--ease-spring);} @keyframes aic-use-bump{40%{scale:1.18}}
+  .aic-use.is-bump .aic-use-btn svg{animation:aic-use-bump var(--dur-slow) var(--ease-spring);} @keyframes aic-use-bump{40%{scale:1.18}}
   .aic-use-pop{position:absolute;right:-8px;bottom:calc(100% + 10px);z-index:20;width:320px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:var(--sp-4);border-radius:var(--r-lg);
     background:var(--panel);border:1px solid var(--line);box-shadow:var(--e-lg);display:flex;flex-direction:column;gap:var(--sp-4);
     opacity:0;translate:0 4px;scale:.98;transform-origin:bottom right;pointer-events:none;transition:opacity var(--dur-fast) var(--ease-out),translate var(--dur-default) var(--ease-out),scale var(--dur-default) var(--ease-out);}
@@ -151,7 +151,7 @@
   @media (prefers-reduced-motion:reduce){.aic-use-pop,.aic-use-btn .val{transition:none;} .aic-use.is-bump .aic-use-btn svg{animation:none;}}
   .aic-file,.aic-tool{position:relative;display:inline-flex;align-items:center;}
   /* 2026-11-10 移除 × 收進 chip 內（右側），不再夾在兩顆 chip 中間 */
-  .aic-file:has(.aic-file-x) > .aic-chip,.aic-tool:has(.aic-file-x) > .aic-chip{padding-right:26px;}
+  .aic-file:has(.aic-file-x) > .aic-chip,.aic-tool:has(.aic-file-x) > .aic-chip{padding-right:var(--sp-6);}
   .aic-file-x{all:unset;box-sizing:border-box;position:absolute;right:4px;top:50%;translate:0 -50%;width:18px;height:18px;display:inline-grid;place-items:center;border-radius:var(--r-pill);color:inherit;opacity:.7;cursor:pointer;}
   .aic-file-x:hover{background:color-mix(in srgb,currentColor 14%,transparent);opacity:1;} .aic-file-x:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
   .aic-file-x svg{width:12px;height:12px;}

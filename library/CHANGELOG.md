@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-11-13（一百五十六）　CSS 寫死值換 token 第二批：元件
+
+- 規則（Yuu 2026-11-13 決定）：刻度外的值靠到最近的 token（字級剛好在中間往上、間距／圓角往下）；16px 以上間距、24px 以上字級改用會隨平板／手機縮放的 token；照片上的字與遮罩用新的專用 token。另定：1～3px 的視覺微調、無限循環動畫的轉速、`calc()` 公式、選色器色盤、遮罩用的 `#000` 不換（色盤標 `hc-ok`）。
+- `TOK-SWEEP:v2` 新 token（`00-tokens.css`，深淺模式都固定）：`--s-media-on`（照片／深色遮罩上的字＝`--c-neutral-0`）、`--s-media-scrim`（遮罩底色 `#000`）、`--s-media-surface`（霧面深底 `#16181E`）。透明度在使用處用 `color-mix(… N%,transparent)` 保留原值。Token 頁 L2 新增「Media 照片上」群組；`tokens.base.json` 重抽（順帶補上先前沒同步的 `--ctl-h-*`、`--tag-h-*`、`--close-h-*`、字體順序）。
+- **修正**：Dropdown 多選勾勾（`.ddcheck`）、排程圖「今天」標籤（`.gnt-today-pin`）寫死白字壓在 `--accent` 上，深色模式主色是淺灰 → 看不見；改 `--primary-on`。
+- Notification：拿掉「待接 semantic feedback token」TODO，四種 intent 改用 `--s-feedback-*`（同 Alert）、實心底 `--c-*-600`、柔色底／邊用主色混透明；實心樣式文字改 `--success-on`／`--warning-on`／`--danger-on`／`--info-on`（警告實心改深色字，跟 Tag 一致）；深色霧面樣式改 `--s-media-*`。
+- 照片上的字與遮罩（人物卡、文章卡、商品格玻璃標籤、輪播、浮動列、範本遮罩）、骨架／圖片閃光、Progress 漸層亮端改 token。
+- 刻度外的值：表格 13→14px、開關文字 13.5→14、分頁徽章 11→12、圖表小字 8～9→10、半圓／甜甜圈數字 30→32、22→24；篩選器卡片內距 15／20→16、下方 26→24；Tooltip 展示框 44→48；Kbd 5→4；範本清單 7→6；KPI 行高 1.1→1.2；Modal 動畫 .14／.16／.22s→150ms、勾選 .55s 與使用次數彈跳 520ms→500ms。
+- 驗證：計算樣式逐頁比對，差異只出現在上列項目；新增 `.lab/compare.html`（左 main、右 branch 並排，可切頁面／深淺色／手機）給 Yuu 檢視。
+
 ## 2026-11-13（一百五十五）　CSS 寫死值換 token 第一批（畫面零變化）
 
 - 盤點：`library/src/css` 剩約 1300 處沒走 token 的值，78% 在網站本身的頁面（Guideline、上手指南、版本紀錄、首頁、頁面區塊）——先前的清理（Basic 17 顆、字重、{5–14}px 圓角）只做元件，「Batch 2–5 元件間距」也沒做完；另外 `.15s` 這類秒數寫法字面上對不到 `150ms`，搜尋時漏掉。

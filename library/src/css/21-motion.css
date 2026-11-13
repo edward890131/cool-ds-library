@@ -19,7 +19,7 @@
   .switch:not(.st-disabled):active::after{width:25px;}
   .switch.on:not(.st-disabled):active::after{transform:translateX(15px);}
   /* Checkbox：勾勾由左往右揭開（實心 icon 用 clip-path）；Radio：圓點 scale 彈出；按下微縮 */
-  .livewrap .cbx.st-checked svg path,.optrow .cbx.st-checked svg path{animation:ck-draw .55s var(--ease-out) both;}   /* 2026-11-08 勾選＝勾勾一筆畫出（同 PulsoIcon check 的 draw 動態；path 帶 pathLength=1） */
+  .livewrap .cbx.st-checked svg path,.optrow .cbx.st-checked svg path{animation:ck-draw var(--dur-slow) var(--ease-out) both;}   /* 2026-11-08 勾選＝勾勾一筆畫出（同 PulsoIcon check 的 draw 動態；path 帶 pathLength=1） */
   @keyframes ck-draw{from{stroke-dashoffset:1;opacity:0;}8%{opacity:1;}to{stroke-dashoffset:0;opacity:1;}}
   @keyframes cbx-reveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}
   .rdo .dot{width:50%;height:50%;transform:scale(0);transition:transform calc(var(--dur-fast) * .9) var(--ease-in);}
