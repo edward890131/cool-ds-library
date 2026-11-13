@@ -6,6 +6,12 @@
 
 ---
 
+## 2026-11-13（一百五十二）　試玩區預覽主題跟著網站深淺色
+
+- `HERO-THEME:v2`：首頁試玩區監聽 `<html data-theme>` 的 MutationObserver 原本包在 `if(!window.__hxThemeWatch)` 只掛一次；VIEW-LIFE:v1 把它改成 `viewObs`（換頁時 disconnect）後，離開首頁再回來就不會重掛 → 切深淺色時預覽主題停在舊的。改成每次進首頁都重掛（仍由 VIEW-LIFE 收）；系統深淺色的 matchMedia 監聽維持全站一個。
+- 實測（main vs 修正）：離開首頁再回來後切深色，main 網站 dark／預覽 light，修正後兩者一致。
+- 全站掃過「只掛一次的守衛裡又登記成換頁會關掉」的寫法，已無其他。
+
 ## 2026-11-13（一百五十一）　網站架構改版 PR 2：總覽頁與頁首
 
 - `IA-PAGES:v1` 總覽頁（`renderOverview`，路由 `#components`／`#templates`，Header 入口與側欄「全部元件／全部範本」都進這裡）：
