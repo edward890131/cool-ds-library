@@ -117,7 +117,7 @@
   .cbx.st-checked,.cbx.st-indeterminate{background:var(--accent);border-color:var(--accent);}
   .cbx.st-focus{border-color:var(--accent);}
   .cbx.st-disabled{opacity:.45;cursor:not-allowed;}
-  .cbx .dash{width:60%;height:2px;background:var(--primary-on);border-radius:2px;}
+  .cbx .dash{width:60%;height:2px;background:var(--primary-on);border-radius:var(--r-xs);}
   /* 2026-11-04 全站 checkbox 統一（2026-11-08 勾改 PulsoIcon check，粗細見下方 stroke-width）；
      原生 checkbox（控制面板、篩選清單、表單）改成與 .cbx sz-m 同外觀：20px、1.5px 外框、--r-sm、勾＝--primary-on */
   .cbx svg path,.ddcheck svg path,.stp-node.stp-done svg path{stroke:currentColor;stroke-width:calc(var(--icon-stroke,2) + .5);stroke-linejoin:round;stroke-linecap:round;}  /* 2026-11-08 改 PulsoIcon（24 格）：原本 8 是 Phosphor 256 格的單位，換算後太粗；改跟 --icon-stroke 走、略粗 0.5＝原 Phosphor bold 粗細 */
@@ -251,9 +251,9 @@
 
   /* ===== toggle 開關（tab 家族 atom）===== */
   .switchrow{display:inline-flex;align-items:center;gap:11px;}
-  .switch{position:relative;width:44px;height:24px;border-radius:999px;background:var(--line-strong);cursor:pointer;
+  .switch{position:relative;width:44px;height:24px;border-radius:var(--r-pill);background:var(--line-strong);cursor:pointer;
     transition:background var(--dur-fast);flex:0 0 auto;box-sizing:border-box;border:none;padding:0;}
-  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:var(--c-neutral-0);
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:var(--r-pill);background:var(--c-neutral-0);
     box-shadow:var(--e-sm);transition:transform var(--dur-fast),background var(--dur-fast);}
   .switch.on{background:var(--accent);}
   .switch.on::after{background:var(--primary-on);}   /* 開啟＝--accent 軌道＋--primary-on 圓鈕（同 checkbox 勾／tab 選中的模式對比色）：淺＝黑軌白鈕、深＝亮軌深鈕 */

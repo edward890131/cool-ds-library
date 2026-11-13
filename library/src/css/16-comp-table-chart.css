@@ -222,7 +222,7 @@ button.chtx-lgi[aria-pressed="false"] .chtx-sw{background:transparent !important
 .chtx-tip .chtx-tr i{width:10px;height:2px;border-radius:var(--r-xs);}
 .chtx-tip .chtx-tr b{font-size:var(--fs-h11);}
 .chtx-tip .chtx-tr span{font-size:var(--fs-h12);}
-.chtx-tip .chtx-tr.tot{border-top:1px solid color-mix(in srgb,var(--canvas) 20%,transparent);padding-top:4px;margin-top:2px;}
+.chtx-tip .chtx-tr.tot{border-top:1px solid color-mix(in srgb,var(--canvas) 20%,transparent);padding-top:var(--sp-1);margin-top:2px;}
 .chtx-tip .chtx-tr.neg b{color:color-mix(in srgb,var(--s-feedback-error) 65%,var(--canvas));}
 /* 數字逐位滾動 */
 .chtx-roll{display:inline-flex;font-variant-numeric:tabular-nums;line-height:1;overflow:hidden;vertical-align:bottom;}

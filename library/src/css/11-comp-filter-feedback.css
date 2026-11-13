@@ -1,11 +1,11 @@
   /* ===== 變數篩選器 collapsible card ===== */
   .dcard{margin:0 0 26px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
-  .dcard-head{width:100%;display:flex;align-items:center;gap:12px;padding:15px 20px;background:var(--panel-2);
+  .dcard-head{width:100%;display:flex;align-items:center;gap:var(--sp-4);padding:15px 20px;background:var(--panel-2);
     border:none;border-bottom:1px solid var(--line);cursor:pointer;font-family:var(--font-sans);text-align:left;color:var(--ink);transition:var(--dur-fast);}
   .dcard.collapsed .dcard-head{border-bottom-color:transparent;}
   .dcard-head:hover{background:var(--panel-3);}
-  .dcard-head .dh-title{font-size:14px;font-weight:var(--fw-semibold);}
-  .dcard-head .dh-count{font-family:var(--font-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .dcard-head .dh-title{font-size:var(--fs-h10);font-weight:var(--fw-semibold);}
+  .dcard-head .dh-count{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);font-variant-numeric:tabular-nums;}
   .dcard-head .dh-count b{color:var(--accent);}
   .dcard-head .dh-chevron{margin-left:auto;color:var(--faint);transition:transform var(--dur-fast);display:inline-flex;}
   .dcard-head .dh-chevron svg{width:16px;height:16px;display:block;}
@@ -16,7 +16,7 @@
   .dcard-body .hint{color:var(--muted);font-size:13px;margin:0 0 16px;}
 
   footer{margin-top:var(--sp-8);padding-top:var(--sp-5);border-top:1px solid var(--line);color:var(--faint);font-size:var(--fs-h11);display:flex;justify-content:space-between;gap:var(--sp-4);flex-wrap:wrap;font-family:var(--font-mono);}
-  .site-footer{justify-content:center;text-align:center;margin-top:var(--sp-7);padding:var(--sp-5) 0 6px;letter-spacing:.02em;}
+  .site-footer{justify-content:center;text-align:center;margin-top:var(--sp-7);padding:var(--sp-5) 0 var(--sp-2);letter-spacing:.02em;}
   .ftr-ver{font-family:var(--font-mono);opacity:.85;}  /* footer 尾端版本號（母檔＝最新版本紀錄版號、專案＝當前版號）*/
 
   .scrim{display:none;}

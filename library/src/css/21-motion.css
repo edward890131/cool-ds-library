@@ -112,7 +112,7 @@
   .mn-hl.snap{transition:opacity var(--dur-fast) var(--ease-out);}
   .mn-bar.has-hl .mn-item{z-index:1;}
   /* MENU-SLIDE:v1 水平選單的滑動選中底線（取代各項自己的 .mn-ind） */
-  .mn-sind{position:absolute;left:0;top:0;height:2px;width:0;z-index:2;border-radius:2px;background:var(--i-primary);opacity:0;pointer-events:none;
+  .mn-sind{position:absolute;left:0;top:0;height:2px;width:0;z-index:2;border-radius:var(--r-xs);background:var(--i-primary);opacity:0;pointer-events:none;
     will-change:transform,width;transition:transform var(--dur-default) cubic-bezier(.22,1,.36,1),width var(--dur-default) cubic-bezier(.22,1,.36,1);}
   .mn-bar.has-sind .mn-item--active .mn-ind{opacity:0;}
   @media (prefers-reduced-motion:reduce){.mn-sind{transition:none !important;}}

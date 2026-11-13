@@ -239,7 +239,7 @@
   input,button,select,textarea,optgroup{font-family:inherit;}
   code,kbd,samp,pre{font-family:var(--font-mono);}  /* 預設等寬字走 token，避免瀏覽器內建 monospace（Courier／Menlo）混入 */
   html,body{margin:0;height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;} /* 關掉 iOS Safari 文字自動放大：否則長內容（如 CSS 欄）字級會被吹大、跟短內容不一致 */
-  body{background:var(--canvas);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.5;overflow:hidden;} /* app-shell：document 不捲，捲動交給 sidebar / main */
+  body{background:var(--canvas);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:var(--lh-normal);overflow:hidden;} /* app-shell：document 不捲，捲動交給 sidebar / main */
   /* 全站紙質磨砂材質：fixed 覆蓋整個 viewport 的 SVG fractalNoise 顆粒，soft-light 混色疊在所有背景上，pointer-events:none 不擋互動 */
   body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px;

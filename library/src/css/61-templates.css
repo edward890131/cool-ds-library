@@ -128,7 +128,7 @@
   .tad-donut-fig{width:100%;} .tad-donut-fig svg{width:100%;height:auto;display:block;}
   .tad-donut-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--sp-3);}
   .tad-donut-list li{display:grid;grid-template-columns:8px minmax(0,1fr) auto;column-gap:var(--sp-2);align-items:baseline;font-size:var(--fs-h10);}
-  .tad-donut-list i{width:8px;height:8px;border-radius:2px;align-self:center;}
+  .tad-donut-list i{width:8px;height:8px;border-radius:var(--r-xs);align-self:center;}
   .tad-donut-list b{font-weight:var(--fw-semibold);font-variant-numeric:tabular-nums;}
   .tad-donut-list em{grid-column:2 / -1;font-style:normal;font-size:var(--fs-h11);color:var(--muted);}
   .tad-kpi-n{font-size:var(--fs-h6);font-weight:var(--fw-semibold);line-height:1.1;font-variant-numeric:tabular-nums;}
@@ -186,7 +186,7 @@
   .tad-total > .is-sum > span:first-child{color:var(--ink);}
   /* 圖表卡：圖例、等高 */
   .tad-legend{display:flex;align-items:center;gap:var(--sp-4);font-size:var(--fs-h11);color:var(--muted);}
-  .tad-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:var(--sp-1);vertical-align:0;}
+  .tad-legend i{display:inline-block;width:8px;height:8px;border-radius:var(--r-xs);margin-right:var(--sp-1);vertical-align:0;}
   .chtx-dd{min-width:0;width:112px;} .chtx-dd > .field{width:100%;min-width:0;box-sizing:border-box;--field-h:var(--ctl-h-s);font-size:var(--fs-h11);}   /* 與 s 按鈕同高 */   /* 卡內下拉：元件與範本同寬 */
   .chtx-sortbtn svg{width:14px;height:14px;}
   .tad-tabs{border-bottom:0;align-items:center;}
