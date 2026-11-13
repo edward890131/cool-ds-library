@@ -6,6 +6,19 @@
 
 ---
 
+## 2026-11-13（一百五十）　網站架構改版 PR 1：外框與導覽
+
+依本機試玩頁（`.lab/ia-lab.html`）定稿，改寫進 gallery.html（不是外掛補丁）。
+
+- `IA-SHELL:v1` 分區：`NAV_SECS`（順序 Token → Components → Templates → History）＋ `secOf(id)`；`renderView` 換分區才重畫側欄（同分區只更新目前項目、展開所在群組並捲到看得到），`paintSec` 同步 Header 底線、手機清單與 `shell[data-sec]`。
+- Header 入口：Menu 原子水平 `mnBar`（滑動底線、`_setActive` 設目前分區），放在 logo／專案名後；≤1023px 收進漢堡選單。Components 暫時進第一個元件、Templates 進第一個範本（PR 2 改成總覽頁）。
+- 側欄 `renderNav` 改寫：桌機只列目前分區（Token：Design Token 設計變數／Design Guideline 設計規範／編輯模式的選擇元件；Components：各分類群組；Templates：平鋪不收合；History：版本紀錄）；≤1023px 改列「首頁＋四個分區」。英文名稱後的中文只在中文介面顯示，換語言重畫。側欄項目最小高度＝`--ctl-h-s`，修正只有英文字時比較扁（26→32px）。原本側欄的「下載元件庫」入口拿掉。
+- 首頁、版本紀錄桌機不顯示側欄（`.layout` 改單欄，漢堡也藏）；版本紀錄內容最大寬 1180px（同首頁）。
+- 瀏覽／編輯模式切換（Segmented 原子）從頂欄移到側欄最上方，桌機手機一致；每段加 eye／pencil 圖示，`dsModeFit` 用 ResizeObserver 量側欄寬度，文字放不下改純圖示（名稱留在 aria-label／title）。英文改成 Browse／Edit。
+- 「重新開始」從頂欄移到建立流程彈窗最下方（Button 原子 m 尺寸）；專案名 Tag 移到 logo 右邊，跟 Header 入口間距＝頂欄 gap 12px。
+- 首頁 hero 第二顆「瀏覽元件」改成「下載元件庫」（下載 icon，沿用 `dsDownloadDefault`，打包進度顯示在按鈕上）。語言下拉 116→96px。點 logo 改成直接 `renderView('home')`（原本改 hash，已在 #home 時不會觸發）。
+- 驗證：桌機 1440／中段 1100／手機 390；四語系模式名稱；側欄拖窄到 170px 切圖示、拉回恢復；編輯模式專案名位置、彈窗內重新開始；全站檢查 102 頁中文淺／深 0 錯誤。
+
 ## 2026-11-13（一百四十九）　手機版建立流程彈窗展開方向
 
 - `PJG-MOBILE:v2`：手機（≤767px）展開的建立流程卡原本用 `left＋right` 各 12px 撐滿寬度；展開動畫（Web Animations 改 width／height）時左緣固定，畫面先跳到左下角再往右長，跟右下角的縮小膠囊對不起來。改成 `left:auto＋right＋width:calc(100vw − 24px − 安全區)`，右緣當錨點，從膠囊位置往左展開；收合同理。實測展開第一格左緣從 12px 變成貼著膠囊右緣往左長。
