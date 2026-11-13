@@ -6,6 +6,17 @@
 
 ---
 
+## 2026-11-13（一百四十七）　換頁時收乾淨常駐監聽
+
+- `VIEW-LIFE:v1`：新增頁面生命週期工具（`renderView` 前）：每次換頁開一個新的 `AbortController`，`viewEnd()` 換頁前一次關掉。
+  - `viewOn(target,type,fn,opt)`：掛在 document／window／`<html>`／`.main`／matchMedia 等常駐對象上的監聽改用它。
+  - `viewObs(observer)`、`viewTimer(id)`、`viewDone(fn)`：觀察器、setInterval、塞進 body 的浮層在換頁時一起收掉。
+  - 頁內元素上的監聽不用登記（元素移除就會回收）。
+- 改用的地方（都在首頁與使用說明頁，每次進頁都會重掛）：`hxHeroFx`（含協作游標浮層）、`hxHero` 試玩區、`hxTypeword`、`hxDirSel`、`hxWall`、`hxShow`、`hxFlow`、`hxFigma`、`hxStats`（含宣言 `cdl:lang`）、`hxVoice`、`hxMap`、`hxPhones`、使用說明頁輪播計時器。
+- 實測：首頁 ↔ 按鈕頁來回 5 次，常駐監聽 main 61 → 191、`<html>` 觀察器 9 → 24、協作游標浮層 1 → 6；改後 61 → 66（剩下的是下拉選單「點外面關閉」，下一次點擊就自己移除）、觀察器 8、游標 1。
+- 回歸：來回切頁後協作游標、換語言打字輪播、換主題 hero 重畫都正常。
+- 另發現（未處理、main 本來就有）：使用說明頁每次載入約 200 筆 `THREE.WebGLProgram: Can not resolve #include <cube_uv_reflection_fragment>` 錯誤。
+
 ## 2026-11-12（一百四十六）　首頁 hero 背景流動點陣
 
 - `HERO-FLOW:v1`：`hxHeroFx` 從「靜止點陣＋游標推開」改成持續流動（參考兩支點陣／條碼動態影片，先在本機試玩頁比較「脈衝波／洋流」，Yuu 選洋流並定好參數）：
