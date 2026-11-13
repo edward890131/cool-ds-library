@@ -386,12 +386,12 @@
   /* backdrop 只蓋住 root（inset:0 absolute），不是 fixed 全頁 */
   .mdl-overlay{position:absolute;inset:0;z-index:2;background:var(--s-scrim);
     display:flex;align-items:center;justify-content:center;padding:var(--sp-5);border-radius:var(--r-sm);
-    animation:mdl-fade .14s ease-out;}
-  .mdl-overlay .mdl-card{animation:mdl-pop .16s ease-out;max-height:100%;}
+    animation:mdl-fade var(--dur-fast) ease-out;}
+  .mdl-overlay .mdl-card{animation:mdl-pop var(--dur-fast) ease-out;max-height:100%;}
   @keyframes mdl-fade{from{opacity:0;}to{opacity:1;}}
   @keyframes mdl-pop{from{opacity:0;transform:translateY(6px) scale(.98);}to{opacity:1;transform:none;}}
   /* 展開檢視程式碼：全頁 fixed overlay（非舞台內 absolute）＋大版 modal 填滿高度、程式碼內部捲動 */
-  .mdl-overlay.mdl-fixed{position:fixed;inset:0;z-index:1000;border-radius:0;padding:clamp(16px,4vw,48px);}
+  .mdl-overlay.mdl-fixed{position:fixed;inset:0;z-index:1000;border-radius:0;padding:clamp(var(--sp-5),4vw,var(--sp-8));}
   .mdl-code-modal{width:100%;height:min(88vh,900px);}
   .mdl-code-content{flex:1 1 auto;min-height:0;padding:var(--sp-4) var(--sp-5) var(--sp-5);overflow:hidden;}
   .mdl-code-content>div{height:100%;}                                   /* codeHost 撐滿 */
@@ -400,7 +400,7 @@
   /* ---- 行動版 bottom sheet：貼齊舞台底部、全寬、上緣圓角（下緣不圓）、最高 95%（示意 95vh）、由下往上滑入 ---- */
   .mdl-overlay.mdl-sheet-ov{align-items:flex-end;padding:var(--sp-5) 0 0;overflow:hidden;}
   .mdl-overlay .mdl-card.mdl-sheet{max-width:none;width:100%;max-height:95%;
-    border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:none;animation:mdl-slideup .22s ease-out;}
+    border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:none;animation:mdl-slideup var(--dur-fast) ease-out;}
   @keyframes mdl-slideup{from{opacity:0;transform:translateY(100%);}to{opacity:1;transform:none;}}
   /* 行動版舞台：縮成手機視口寬度置中，讓 Device 軸有可見差異 */
   .mdl-live-root.vp-mobile{max-width:400px;margin:0 auto;min-height:460px;}
@@ -508,7 +508,7 @@
   .flo-select .flo-actions{display:flex;align-items:center;gap:var(--sp-2);}
   /* 深底上的取消文字鈕：文字改用反相色（走 token） */
   .flo-select .btn.v-text.i-secondary{color:var(--canvas);}
-  .flo-select .btn.v-text.i-secondary:hover{background:rgba(255,255,255,.14);}
+  .flo-select .btn.v-text.i-secondary:hover{background:color-mix(in srgb,var(--s-media-on) 14%,transparent);}
 
   /* 2) 工具列：白底圓角陰影，icon-only 工具鈕 + 分隔線分組 */
   .flo-toolbar{display:inline-flex;align-items:center;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:var(--flo-radius,var(--r-sm));padding:var(--sp-1);

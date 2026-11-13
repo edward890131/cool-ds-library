@@ -94,8 +94,8 @@
   #view .tok-ro{margin-top:var(--sp-6);}   /* Token 頁瀏覽模式提示框：上方原本靠被隱藏的分隔線撐開（變成 0），直接給間距、跟下方一致 */
   /* ===== IA-PAGES:v1 總覽頁（cov-）：分類跳轉＋卡片網格，縮圖＝元件頁的預覽本身縮小（跟著 token／深淺色變） ===== */
   .cov-head{display:flex;flex-direction:column;gap:var(--sp-3);margin-bottom:var(--sp-7);}
-  .cov-head h1{margin:0;font-family:var(--font-display);font-size:var(--fs-h3);line-height:1.15;color:var(--ink);}
-  .cov-head p{margin:0;color:var(--muted);max-width:640px;line-height:1.6;}
+  .cov-head h1{margin:0;font-family:var(--font-display);font-size:var(--fs-h3);line-height:var(--lh-tight);color:var(--ink);}
+  .cov-head p{margin:0;color:var(--muted);max-width:640px;line-height:var(--lh-relaxed);}
   .cov-jump{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-2);}
   .cov-jump .btn{gap:var(--sp-1);} .cov-jump .cov-jn{opacity:.6;font-variant-numeric:tabular-nums;}
   .cov-sec{margin-bottom:var(--sp-8);scroll-margin-top:var(--sp-5);}
@@ -115,7 +115,7 @@
   .cov-body{padding:var(--sp-3) var(--sp-4) var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-1);}
   .cov-name{font-weight:var(--fw-semibold);color:var(--ink);font-size:var(--fs-h9);}
   .cov-name small{margin-left:var(--sp-2);font-weight:var(--fw-regular);color:var(--muted);font-size:var(--fs-h11);}
-  .cov-desc{color:var(--muted);font-size:var(--fs-h11);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .cov-desc{color:var(--muted);font-size:var(--fs-h11);line-height:var(--lh-normal);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
   .cov-desc :is(a,b,strong,code){all:unset;}
   /* 範本：卡片大一點，縮圖直接填滿；手機版範本去掉自己的圓角外框與 App 頂欄 */
   .cov-grid.is-tpl{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));} .cov-grid.is-tpl .cov-thumb{height:220px;}
@@ -171,8 +171,8 @@
   .pjg .stp-node.stp-done{background:var(--s-feedback-success);border-color:transparent;color:var(--success-on);}
   .pjg-it.is-skip .stp-node.stp-done{background:var(--pjg-tint);color:var(--pjg-mute);}
   .pjg-tx{display:flex;flex-direction:column;gap:2px;min-width:0;}
-  .pjg-lb{font-size:var(--fs-h10);font-weight:var(--fw-medium);line-height:1.4;}
-  .pjg-d{font-size:var(--fs-h11);color:var(--pjg-mute);line-height:1.45;}
+  .pjg-lb{font-size:var(--fs-h10);font-weight:var(--fw-medium);line-height:var(--lh-snug);}
+  .pjg-d{font-size:var(--fs-h11);color:var(--pjg-mute);line-height:var(--lh-normal);}
   .pjg-it.is-next .pjg-lb{font-weight:var(--fw-semibold);}
   /* GUIDE-ATOM:v1 縮小膠囊＝Button 原子（text）；反色卡片上覆寫字色／滑過底色，圓角跟外框一樣是膠囊 */
   .pjg .pjg-pill.btn{--fg:var(--panel);--tint:var(--pjg-tint);color:var(--panel);gap:var(--sp-3);border-radius:var(--r-pill);padding:var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);height:auto;font-size:var(--fs-h10);}
@@ -214,7 +214,7 @@
     .pjb{left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto;max-width:none;transform:none;
       padding:var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);}
     .pjb .pjb-tag{display:none;}
-    .pjb-cnt{flex:1 1 auto;min-width:0;white-space:normal;line-height:1.45;}
+    .pjb-cnt{flex:1 1 auto;min-width:0;white-space:normal;line-height:var(--lh-normal);}
     .pjb-cnt .pjb-sep{display:none;} .pjb-cnt .pjb-c{display:block;}
     body.has-pjb .main{padding-bottom:calc(80px + 64px + env(safe-area-inset-bottom,0px));}
   }
@@ -222,4 +222,4 @@
   /* Display 字（Epilogue）統一：各頁標題類文字，壓過個別元件裡寫死的 --font-mono（小型標籤、eyebrow、程式碼、字體標本維持原字） */
   /* eyebrow（L3 COMPONENT · …）與控制區／篩選器的軸標籤（VARIANT、SIZE、CONTENT…）改用 display 字；保留大寫＋字距 */
   html body :is(.eyebrow,.ctl .lab,.axis .name){font-family:var(--font-display);font-weight:var(--fw-semibold);letter-spacing:.08em;}
-  html body :is(.gd-sec-n,.gd-sec-t,.hx-h3,.tok-sec-t,.dg-sectitle,.cl-ver,.gd-card-ic,.hm-nav,.gm-brand,.hm-brand,.dh-title,.bh-t,.gd-hero-t,.gd-h1,.dg-h1,.cl-title,.st-title,.sum-title){font-family:var(--font-display);}
+  html body :is(.gd-sec-t,.hx-h3,.tok-sec-t,.dg-sectitle,.cl-ver,.dh-title,.bh-t,.dg-h1,.cl-title,.st-title,.sum-title){font-family:var(--font-display);}

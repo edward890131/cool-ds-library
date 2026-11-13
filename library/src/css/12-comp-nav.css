@@ -13,7 +13,7 @@
   .mn-ico svg{width:100%;height:100%;display:block;}
   .mn-item--s .mn-ico{width:16px;height:16px;}
   .mn-item--l .mn-ico{width:20px;height:20px;}
-  .mn-ind{position:absolute;background:var(--i-primary);border-radius:2px;opacity:0;pointer-events:none;}
+  .mn-ind{position:absolute;background:var(--i-primary);border-radius:var(--r-xs);opacity:0;pointer-events:none;}
   .mn-item--active .mn-ind{opacity:1;left:10px;right:10px;bottom:0;height:2px;}
   .mn-bar{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);}
   .mn-bar--horizontal{flex-direction:row;align-items:center;gap:var(--sp-1);padding:var(--sp-2) var(--sp-3);}
@@ -188,10 +188,10 @@
 /* default：真圖填滿盒子 */
 .im-img{width:100%;height:100%;object-fit:cover;display:block;}
 /* loading：骨架佔位 + shimmer 掃過（沿用 skeleton 的光澤手法；淺色高透白、深色低透白）*/
-.im-loading{--im-sheen:rgba(255,255,255,.55);}
-@media (prefers-color-scheme:dark){.im-loading{--im-sheen:rgba(255,255,255,.09);}}
-:root[data-theme="dark"] .im-loading{--im-sheen:rgba(255,255,255,.09);}
-:root[data-theme="light"] .im-loading{--im-sheen:rgba(255,255,255,.55);}
+.im-loading{--im-sheen:color-mix(in srgb,var(--s-media-on) 55%,transparent);}
+@media (prefers-color-scheme:dark){.im-loading{--im-sheen:color-mix(in srgb,var(--s-media-on) 9%,transparent);}}
+:root[data-theme="dark"] .im-loading{--im-sheen:color-mix(in srgb,var(--s-media-on) 9%,transparent);}
+:root[data-theme="light"] .im-loading{--im-sheen:color-mix(in srgb,var(--s-media-on) 55%,transparent);}
 .im-loading::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent 0%,var(--im-sheen) 50%,transparent 100%);animation:im-shimmer 1.5s ease-in-out infinite;}
 @keyframes im-shimmer{100%{transform:translateX(100%);}}
 /* error：破圖 fallback，置中破圖 icon + 「載入失敗」小字 */

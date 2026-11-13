@@ -103,7 +103,7 @@
     background:var(--i-primary-tint);color:var(--accent);font-size:var(--fs-h11);font-weight:var(--fw-semibold);}
   .ddchip .x{display:inline-flex;cursor:pointer;opacity:.7;} .ddchip .x:hover{opacity:1;} .ddchip svg{width:12px;height:12px;}
   .ddcheck{width:16px;height:16px;border:1.5px solid var(--i-sec-edge);border-radius:var(--r-sm);display:inline-flex;
-    align-items:center;justify-content:center;color:#fff;flex:0 0 auto;}
+    align-items:center;justify-content:center;color:var(--primary-on);flex:0 0 auto;}
   .ddopt.on .ddcheck{background:var(--accent);border-color:var(--accent);}
   .ddcheck svg{width:12px;height:12px;}
 
@@ -117,7 +117,7 @@
   .cbx.st-checked,.cbx.st-indeterminate{background:var(--accent);border-color:var(--accent);}
   .cbx.st-focus{border-color:var(--accent);}
   .cbx.st-disabled{opacity:.45;cursor:not-allowed;}
-  .cbx .dash{width:60%;height:2px;background:var(--primary-on);border-radius:2px;}
+  .cbx .dash{width:60%;height:2px;background:var(--primary-on);border-radius:var(--r-xs);}
   /* 2026-11-04 全站 checkbox 統一（2026-11-08 勾改 PulsoIcon check，粗細見下方 stroke-width）；
      原生 checkbox（控制面板、篩選清單、表單）改成與 .cbx sz-m 同外觀：20px、1.5px 外框、--r-sm、勾＝--primary-on */
   .cbx svg path,.ddcheck svg path,.stp-node.stp-done svg path{stroke:currentColor;stroke-width:calc(var(--icon-stroke,2) + .5);stroke-linejoin:round;stroke-linecap:round;}  /* 2026-11-08 改 PulsoIcon（24 格）：原本 8 是 Phosphor 256 格的單位，換算後太粗；改跟 --icon-stroke 走、略粗 0.5＝原 Phosphor bold 粗細 */
@@ -148,7 +148,7 @@
   .cbx-in > input:focus-visible + .cbx{outline:2px solid var(--accent);outline-offset:2px;}
   .cbx-in > input:disabled + .cbx{opacity:.45;}
   .cbx-in > input:active:not(:disabled) + .cbx{transform:scale(.9);}
-  .cbx-in > input:checked + .cbx .cbx-ck path{animation:ck-draw .55s var(--ease-out) both;}
+  .cbx-in > input:checked + .cbx .cbx-ck path{animation:ck-draw var(--dur-slow) var(--ease-out) both;}
   @media (prefers-reduced-motion:reduce){.cbx-in > input:checked + .cbx .cbx-ck path,.optrow .cbx.st-checked svg path,.livewrap .cbx.st-checked svg path{animation:none !important;}}
   .rdo{border:1.5px solid var(--i-sec-edge);background:var(--panel);border-radius:var(--r-pill);display:inline-flex;box-sizing:border-box;padding:0;flex:0 0 auto;
     align-items:center;justify-content:center;transition:var(--dur-fast);cursor:pointer;}
@@ -227,7 +227,7 @@
   .tabi .ticon svg{width:16px;height:16px;}
   .tabi.sz-s .ticon svg{width:14px;height:14px;}
   .tabi .tcount{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 var(--sp-1);border-radius:var(--r-pill);
-    background:var(--panel-2);color:var(--muted);font-size:11px;font-weight:var(--fw-semibold);font-family:var(--font-mono);box-sizing:border-box;}
+    background:var(--panel-2);color:var(--muted);font-size:var(--fs-h11);font-weight:var(--fw-semibold);font-family:var(--font-mono);box-sizing:border-box;}
   .tabi.sz-s .tcount{min-width:16px;height:16px;padding:0 var(--sp-1);font-size:var(--fs-h12);}
   .tabi.st-active .tcount{background:var(--i-primary-tint);color:var(--accent);}
   .v-contained .tabi.st-active .tcount,.v-soft .tabi.st-active .tcount,.v-pill .tabi.st-active .tcount{background:color-mix(in srgb,var(--primary-on) 24%,transparent);color:var(--primary-on);}
@@ -250,10 +250,10 @@
   @media(prefers-reduced-motion:reduce){.tabbar.tab-jelly .tabi:active{scale:none;}}
 
   /* ===== toggle 開關（tab 家族 atom）===== */
-  .switchrow{display:inline-flex;align-items:center;gap:11px;}
-  .switch{position:relative;width:44px;height:24px;border-radius:999px;background:var(--line-strong);cursor:pointer;
+  .switchrow{display:inline-flex;align-items:center;gap:var(--sp-4);}
+  .switch{position:relative;width:44px;height:24px;border-radius:var(--r-pill);background:var(--line-strong);cursor:pointer;
     transition:background var(--dur-fast);flex:0 0 auto;box-sizing:border-box;border:none;padding:0;}
-  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:999px;background:var(--c-neutral-0);
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:var(--r-pill);background:var(--c-neutral-0);
     box-shadow:var(--e-sm);transition:transform var(--dur-fast),background var(--dur-fast);}
   .switch.on{background:var(--accent);}
   .switch.on::after{background:var(--primary-on);}   /* 開啟＝--accent 軌道＋--primary-on 圓鈕（同 checkbox 勾／tab 選中的模式對比色）：淺＝黑軌白鈕、深＝亮軌深鈕 */
@@ -265,7 +265,7 @@
   .switch.on .switch-ic{transform:translateX(20px);color:var(--accent);}
   .switch-ic svg{width:12px;height:12px;} .switch-ic .ic-on{display:none;} .switch.on .switch-ic .ic-on{display:flex;} .switch.on .switch-ic .ic-off{display:none;}
   .switch:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-  .switch-label{font-size:13.5px;color:var(--ink);font-weight:var(--fw-medium);}
+  .switch-label{font-size:var(--fs-h10);color:var(--ink);font-weight:var(--fw-medium);}
 
   /* ===== live 真實 hover（只作用在互動 demo，不影響 matrix 靜態格）===== */
   .optrow:hover .cbx:not(.st-disabled){border-color:var(--accent);}

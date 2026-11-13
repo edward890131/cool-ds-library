@@ -279,7 +279,7 @@
   })();
 
 
-  /* ==================== rwdprev:v1 響應式預覽（topbar「上手指南」右側）====================
+  /* ==================== rwdprev:v1 響應式預覽（topbar 深淺色切換左側）====================
      裝置切換＝Segmented 原子（sgmEl，icon-only）＋Tooltip 原子（ttEl）；旋轉／關閉＝Button 原子（mkBtn）。
      選裝置 → topbar 下方開預覽區，<iframe> 以真實 CSS 尺寸載入同一頁（?rwdframe=1，保留 query＋hash），框內不再建切換（防遞迴）。
      主題／磨砂：載入時帶 query，之後以 postMessage 同步；兩邊 hash 互相同步。選擇只記在本次分頁（sessionStorage）。 */
@@ -308,7 +308,7 @@
       document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!dlgOpen&&!e.defaultPrevented)up({t:'esc'}); });
       return;
     }
-    const tb=document.querySelector('.topbar'),gb=document.getElementById('guideBtn');
+    const tb=document.querySelector('.topbar'),gb=document.getElementById('themeBtn');
     if(!tb||!gb||typeof sgmEl!=='function'||typeof mkBtn!=='function')return;
     const IC={  /* 裝置預覽工具列與狀態列 icon：PulsoIcon（2026-11-08 取代 PulsoIcon） */
       desktop:PI('monitor'),tablet:PI('tablet'),mini:PI('tablet-smartphone'),phone:PI('smartphone'),rotate:PI('rotate-cw-square'),x:PI('x'),sig:PI('signal'),wifi:PI('wifi'),bat:PI('battery-full')};

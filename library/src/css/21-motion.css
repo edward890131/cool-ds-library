@@ -19,7 +19,7 @@
   .switch:not(.st-disabled):active::after{width:25px;}
   .switch.on:not(.st-disabled):active::after{transform:translateX(15px);}
   /* Checkbox：勾勾由左往右揭開（實心 icon 用 clip-path）；Radio：圓點 scale 彈出；按下微縮 */
-  .livewrap .cbx.st-checked svg path,.optrow .cbx.st-checked svg path{animation:ck-draw .55s var(--ease-out) both;}   /* 2026-11-08 勾選＝勾勾一筆畫出（同 PulsoIcon check 的 draw 動態；path 帶 pathLength=1） */
+  .livewrap .cbx.st-checked svg path,.optrow .cbx.st-checked svg path{animation:ck-draw var(--dur-slow) var(--ease-out) both;}   /* 2026-11-08 勾選＝勾勾一筆畫出（同 PulsoIcon check 的 draw 動態；path 帶 pathLength=1） */
   @keyframes ck-draw{from{stroke-dashoffset:1;opacity:0;}8%{opacity:1;}to{stroke-dashoffset:0;opacity:1;}}
   @keyframes cbx-reveal{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}
   .rdo .dot{width:50%;height:50%;transform:scale(0);transition:transform calc(var(--dur-fast) * .9) var(--ease-in);}
@@ -112,7 +112,7 @@
   .mn-hl.snap{transition:opacity var(--dur-fast) var(--ease-out);}
   .mn-bar.has-hl .mn-item{z-index:1;}
   /* MENU-SLIDE:v1 水平選單的滑動選中底線（取代各項自己的 .mn-ind） */
-  .mn-sind{position:absolute;left:0;top:0;height:2px;width:0;z-index:2;border-radius:2px;background:var(--i-primary);opacity:0;pointer-events:none;
+  .mn-sind{position:absolute;left:0;top:0;height:2px;width:0;z-index:2;border-radius:var(--r-xs);background:var(--i-primary);opacity:0;pointer-events:none;
     will-change:transform,width;transition:transform var(--dur-default) cubic-bezier(.22,1,.36,1),width var(--dur-default) cubic-bezier(.22,1,.36,1);}
   .mn-bar.has-sind .mn-item--active .mn-ind{opacity:0;}
   @media (prefers-reduced-motion:reduce){.mn-sind{transition:none !important;}}

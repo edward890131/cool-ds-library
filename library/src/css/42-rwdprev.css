@@ -25,7 +25,7 @@
   .rwd-bar{flex:0 0 var(--rwd-sb);display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;padding:0 var(--rwd-bar-px,var(--sp-5));
     background:var(--s-surface-1);color:var(--ink);font-family:var(--font-sans);font-weight:var(--fw-semibold);font-size:var(--rwd-bar-fs,var(--fs-h11));letter-spacing:.01em;}
   .rwd-bar .rwd-time{min-width:3em;}
-  .rwd-bar .rwd-ics{display:inline-flex;align-items:center;gap:4px;}
+  .rwd-bar .rwd-ics{display:inline-flex;align-items:center;gap:var(--sp-1);}
   .rwd-bar .rwd-ics svg{width:var(--rwd-ic,14px);height:var(--rwd-ic,14px);}
   .rwd-dev.no-bar .rwd-bar{display:none;}
   .rwd-scr iframe{flex:1 1 auto;display:block;width:100%;min-height:0;border:0;background:var(--canvas);}

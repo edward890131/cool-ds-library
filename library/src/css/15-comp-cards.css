@@ -45,8 +45,8 @@
 /* badge：重用 Tag 原子（.tg），釘在媒體圖右上角；無媒體圖時釘在卡片右上角 */
 .crd-badge{position:absolute;top:var(--sp-3);right:var(--sp-3);z-index:1;}
 /* 圖片上的標籤：半透明黑玻璃＋背景模糊（card / product 共用，壓在照片上）*/
-.tg.tg-glass{background:rgba(18,20,26,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:transparent!important;color:#fff;box-shadow:none;}
-.tg.tg-glass span{color:#fff;}
+.tg.tg-glass{background:color-mix(in srgb,var(--s-media-surface) 50%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:transparent!important;color:var(--s-media-on);box-shadow:none;}
+.tg.tg-glass span{color:var(--s-media-on);}
 /* CARD-ATOM:v2 照片角落徽章 Tag 不再加陰影，同元件庫 Tag */
 /* body：標題＋描述 */
 .crd-body{display:flex;flex-direction:column;gap:var(--crd-body-gap,var(--sp-2));padding:var(--sp-4) var(--sp-1) 0;}
@@ -110,7 +110,7 @@
 
 /* 右上角收藏：重用 .btn v-text icon-only 原子，補圓底浮在圖上 */
 .pcd-wish{position:absolute;top:var(--sp-2);right:var(--sp-2);z-index:2;background:transparent;box-shadow:none;border-radius:var(--r-pill);} /* 無白底圓框 */
-.pcd-wish svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.28));}     /* 直接壓在照片上，靠 icon 陰影保可讀 */
+.pcd-wish svg{filter:drop-shadow(0 1px 2px color-mix(in srgb,var(--s-media-scrim) 28%,transparent));}     /* 直接壓在照片上，靠 icon 陰影保可讀 */
 .pcd-wish.is-on{color:var(--i-danger);}                          /* 點擊後轉紅色實心愛心（fill 版 svg） */
 .pcd-v-minimal .pcd-wish{position:static;}
 .pcd-v-minimal .pcd-wish svg{filter:none;}                       /* 精簡版無圖，不需陰影 */
@@ -187,21 +187,21 @@
 .cat-image.is-hover .cat-media .im-img,.cat-image.live:hover .cat-media .im-img{transform:scale(1.05);} /* hover 圖片微放大 */
 /* 底部暗色漸層遮罩：確保白字可讀（overlay 固定暗色、非主題色，明暗模式皆適用） */
 .cat-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(0,0,0,0) 32%,rgba(0,0,0,.62) 100%);transition:background var(--dur-fast);}
+  background:linear-gradient(180deg,transparent 32%,color-mix(in srgb,var(--s-media-scrim) 62%,transparent) 100%);transition:background var(--dur-fast);}
 .cat-image .cat-body,.cat-image .cat-arrow{position:relative;z-index:2;}
 
 /* ---- variant: gradient 漸層磚 ---- */
 .cat-gradient{border-color:transparent;
   background:linear-gradient(135deg,var(--c-neutral-600),var(--c-neutral-900));} /* 灰階漸層（中性色 深灰→近黑）；固定暗色，白字皆可讀、不隨主題翻轉 */
-.cat-gradient .cat-circle{background:color-mix(in srgb,#fff 18%,transparent);color:#fff;}
+.cat-gradient .cat-circle{background:color-mix(in srgb,var(--s-media-on) 18%,transparent);color:var(--s-media-on);}
 
 /* ---- 媒體底（image 暗遮罩 / gradient 灰階）文字與原子：固定用白字（媒體底恆為暗色，不能用 --primary-on＝深色模式會翻黑看不到）---- */
-.cat-image .cat-name,.cat-gradient .cat-name{color:#fff;}
-.cat-image .cat-desc,.cat-gradient .cat-desc{color:color-mix(in srgb,#fff 78%,transparent);}
-.cat-image .cat-arrow,.cat-gradient .cat-arrow{color:color-mix(in srgb,#fff 85%,transparent);}
+.cat-image .cat-name,.cat-gradient .cat-name{color:var(--s-media-on);}
+.cat-image .cat-desc,.cat-gradient .cat-desc{color:color-mix(in srgb,var(--s-media-on) 78%,transparent);}
+.cat-image .cat-arrow,.cat-gradient .cat-arrow{color:color-mix(in srgb,var(--s-media-on) 85%,transparent);}
 /* count 用的 Tag 原子在暗媒體上改半透明白底，保住對比 */
 .cat-image .tg.v-soft,.cat-gradient .tg.v-soft{
-  background:color-mix(in srgb,#fff 22%,transparent);color:#fff;}
+  background:color-mix(in srgb,var(--s-media-on) 22%,transparent);color:var(--s-media-on);}
 
 /* ---- state: hover（矩陣靜態 .is-hover ＋ Live 真實 :hover，兩者同步） ---- */
 .cat-tile.is-hover,.cat-tile.live:hover{transform:translateY(-2px);
@@ -210,7 +210,7 @@
 .cat-icon.is-hover .cat-circle,.cat-icon.live:hover .cat-circle{background:var(--i-primary-tint2);}
 .cat-icon.is-hover .cat-arrow,.cat-icon.live:hover .cat-arrow{color:var(--accent);}
 .cat-image.is-hover .cat-scrim,.cat-image.live:hover .cat-scrim{                          /* image 磚：遮罩整體加深 */
-  background:linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,.72) 100%);}
+  background:linear-gradient(180deg,color-mix(in srgb,var(--s-media-scrim) 10%,transparent) 0%,color-mix(in srgb,var(--s-media-scrim) 72%,transparent) 100%);}
 .cat-gradient.is-hover,.cat-gradient.live:hover{filter:saturate(1.12) brightness(1.06);}  /* gradient 磚：提亮增飽和 */
 .cat-tile.is-hover .cat-arrow,.cat-tile.live:hover .cat-arrow{transform:translateX(2px);}
 
@@ -262,7 +262,7 @@
 .art-card.v-overlay .art-cover .im-box{height:100%;aspect-ratio:auto;}
 /* 疊字暗漸層遮罩：置底文字的可讀性保障 */
 .art-card.v-overlay .art-cover::after{content:'';position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.7),rgba(0,0,0,.4) 55%);} /* 全圖 ≥40% 黑遮罩、底部再深保文字 */
+  background:linear-gradient(to top,color-mix(in srgb,var(--s-media-scrim) 70%,transparent),color-mix(in srgb,var(--s-media-scrim) 40%,transparent) 55%);} /* 全圖 ≥40% 黑遮罩、底部再深保文字 */
 
 /* ---- 內容區 ---- */
 .art-body{display:flex;flex-direction:column;gap:var(--art-body-gap,var(--sp-3));padding:var(--sp-4) var(--sp-5) var(--sp-5);min-width:0;flex:1 1 auto;}
@@ -285,11 +285,11 @@
 .art-more{display:flex;margin-top:2px;margin-left:-8px;}
 
 /* ---- 疊字版文字反白（壓在暗漸層上，白色為影像疊字慣例）---- */
-.art-card.v-overlay .art-title{color:#fff;}
-.art-card.v-overlay .art-excerpt{color:rgba(255,255,255,.82);}
-.art-card.v-overlay .art-author-name{color:#fff;}
-.art-card.v-overlay .art-meta,.art-card.v-overlay .art-dot{color:rgba(255,255,255,.72);}
-.art-card.v-overlay .art-author .avt{box-shadow:0 0 0 1.5px rgba(255,255,255,.4);}
+.art-card.v-overlay .art-title{color:var(--s-media-on);}
+.art-card.v-overlay .art-excerpt{color:color-mix(in srgb,var(--s-media-on) 82%,transparent);}
+.art-card.v-overlay .art-author-name{color:var(--s-media-on);}
+.art-card.v-overlay .art-meta,.art-card.v-overlay .art-dot{color:color-mix(in srgb,var(--s-media-on) 72%,transparent);}
+.art-card.v-overlay .art-author .avt{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--s-media-on) 40%,transparent);}
 
 /* ---- hover：矩陣用靜態 .is-hover 模擬、Live/showcase 用真實 :hover（.live）---- */
 .art-card.is-hover,.art-card.live:hover{transform:translateY(-3px);

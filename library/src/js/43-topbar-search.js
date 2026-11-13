@@ -42,7 +42,6 @@
         if(prev==null){ if(want)shell.classList.add('nav-collapsed','nav-drawer'); } else setNavCollapsed(want); }   // 首次載入直接到位、不跑過場
       else if(b==='l'&&prev==='m'&&col&&navMidPref()==null) setNavCollapsed(false); };                                // 放大回桌機寬：預設收合自動還原
     sync(); window.addEventListener('resize',sync); })();
-  { const gb=document.getElementById('guideBtn'); if(gb){ const nb=mkBtn({variant:'outline',intent:'secondary',size:'s',isLive:true}); nb.id='guideBtn'; nb.type='button'; nb.innerHTML=NAV_IC['book-open-text']+'<span>上手指南</span>';nb.classList.add('has-lead'); nb.style.marginLeft='var(--sp-4)'; nb.onclick=()=>{location.hash='guide';}; gb.replaceWith(nb); } }
   { const bd=document.querySelector('.topbar .brand'); if(bd){ bd.classList.add('is-link'); bd.setAttribute('role','link'); bd.setAttribute('tabindex','0'); bd.title='回首頁'; const go=()=>renderView('home');   /* IA-SHELL:v1 直接換頁（hash 本來就是 home 時改 hash 不會觸發） */ bd.addEventListener('click',go); bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); } }  // 點 header logo 回首頁（guide）
   document.getElementById('scrim').onclick=()=>shell.classList.remove('nav-open');
   /* IA-SHELL:v1 Header 分區入口：Menu 原子水平選單（滑動底線），放在 logo／專案名後面 */
@@ -114,7 +113,7 @@
     price:'價格 金額',image:'圖片 img 照片',rating:'評分 星星 star',carousel:'輪播 banner',list:'清單 列表','list-item':'清單項目 列',collapse:'折疊 accordion 手風琴',
     descriptions:'資料清單 屬性 key value',card:'卡片',  'product-card':'商品卡 商品','category-tile':'分類',  'article-card':'文章卡 部落格','person-card':'人物卡 成員 照片 person','profile-card':'檔案卡 品牌 追蹤 profile follow','metric-card':'指標 週 KPI 數據 metric','invite-card':'邀請 協作 分享 成員 invite share','widget-card':'小工具 儀表板 widget dashboard 待辦','trend-card':'趨勢 主題 色塊 trend','media-card':'照片 標籤 選取 media photo','weather-card':'天氣 溫度 weather forecast','player-card':'音樂 播放器 player music','ticket-card':'登機證 票券 機票 ticket boarding pass',table:'表格 資料表 datagrid',
     'table-toolbar':'篩選 批次 filter','tree-view':'樹狀 tree 資料夾',calendar:'日曆 行事曆',chart:'圖表 統計 graph','schedule-chart':'排程 甘特 gantt'};
-  const SS_PAGES=[['home','首頁','首頁 home landing 元件牆 playground'],['start','開始新專案','專案 新專案 匯入 流程 精靈 start wizard onboarding'],['guide','上手指南','指南 教學 guide'],['tokens','Design Token','變數 顏色 色票 間距 token variables'],['guideline','Design Guideline','規範 設計指南 guideline'],
+  const SS_PAGES=[['home','首頁','首頁 home landing 元件牆 playground'],['start','開始新專案','專案 新專案 匯入 流程 精靈 start wizard onboarding'],['tokens','Design Token','變數 顏色 色票 間距 token variables'],['guideline','Design Guideline','規範 設計指南 guideline'],
     ['summary','選擇元件','需求匯總 匯出 選取 select comps export summary'],['changelog','更新紀錄','版本 changelog release'],['settings','偏好設定','設定 磨砂 深色 主題 settings preferences']];
   let SS_TOK=null;
   function ssTokens(){if(SS_TOK)return SS_TOK;const set=new Set();
@@ -155,7 +154,7 @@
     const draw=()=>{const q=inp.value.trim();list.innerHTML='';flat=[];
       if(!q){const rk=ssRecentKeys();const byKey=new Map(ITEMS.map(x=>[x.key,x]));
         grp('最近搜尋',rk.map(k=>byKey.get(k)).filter(Boolean).map(x=>[x,[]]),()=>{try{localStorage.removeItem('ds-search-recent');}catch(e){}draw();});
-        grp('常用',['p:guide','p:tokens','p:summary','c:button','c:table'].filter(k=>!rk.includes(k)).map(k=>byKey.get(k)).filter(Boolean).map(x=>[x,[]]));}
+        grp('常用',['p:tokens','p:summary','c:button','c:table'].filter(k=>!rk.includes(k)).map(k=>byKey.get(k)).filter(Boolean).map(x=>[x,[]]));}
       else{const sc=ITEMS.map(x=>{const b=fzBest(q,x.label,x.keys);return b?[x,b]:null;}).filter(Boolean).sort((a,b)=>b[1].s-a[1].s);
         const toks=(q.length>=2)?ssTokens().map(t=>{const m=fzMatch(q.replace(/^-*/,''),t);return m&&m.s>=1000?[{kind:'token',key:'t:'+t,id:t,label:t,meta:getComputedStyle(document.documentElement).getPropertyValue(t).trim().slice(0,22)},{s:m.s,hit:fzMatch(q,t)?fzMatch(q,t).hit:[]}]:null;}).filter(Boolean).sort((a,b)=>b[1].s-a[1].s).slice(0,5):[];
         const comps=sc.filter(r=>r[0].kind==='comp').slice(0,8),pages=sc.filter(r=>r[0].kind==='page').slice(0,4);

@@ -157,7 +157,7 @@
     /* 手機：滿版 sheet（同 Modal 的 bottom sheet 走向），header／footer 仍固定 */
     /* 手機：bottom sheet（同試玩區，library Modal mdl-sheet 走向）：貼底、全寬、上緣圓角、由下滑入；步驟維持置頂水平 */
     .flw-ovl.mdl-fixed{padding:var(--sp-5) 0 0;align-items:flex-end;}
-    .flw-ovl .mdl-card.flw-m{max-width:none;width:100%;max-height:92vh;max-height:92dvh;height:92vh;height:92dvh;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom);animation:mdl-slideup .22s ease-out;}
+    .flw-ovl .mdl-card.flw-m{max-width:none;width:100%;max-height:92vh;max-height:92dvh;height:92vh;height:92dvh;border-radius:var(--r-sm) var(--r-sm) 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom);animation:mdl-slideup var(--dur-fast) ease-out;}
     .flw-ovl.is-closing .mdl-card.flw-m{animation:mdl-slidedown calc(var(--dur-fast) * 1.33) var(--ease-in) forwards;}
     .flw-m .flw-hd{padding:var(--sp-4) var(--sp-5);gap:var(--sp-4);}
     .flw-m .mdl-content.flw-body{padding:var(--sp-5);gap:var(--sp-5);}

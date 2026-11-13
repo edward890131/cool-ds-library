@@ -6,6 +6,38 @@
 
 ---
 
+## 2026-11-13（一百五十八）　CSS 寫死值換 token 第三批：網站頁面＋檢查腳本
+
+- `TOK-SWEEP:v3` 網站頁面（外框、頁面區塊、Token 頁、搜尋／偏好、Logo／Guideline、版本紀錄、建立流程、首頁、IA 頁、PAGES10）128 處數值照同一套規則靠到最近的 token；展示大標行高 <1.15、`clamp()` 流體字級、>600ms 裝飾動畫不換。陰影：頁籤選中 → `--e-sm`、勾選圓點 → `--e-md`、右側目錄面板 → `--e-xl`；首頁照片／裝置投影 → `--s-media-scrim` 混透明（畫面不變）；Logo 預覽與主題縮圖等於中性色階的換 `--c-neutral-*`（固定不翻轉）。
+- 刻意固定的值改成在同一行標 `/* hc-ok：原因 */`：Logo 固定深／淺底、主題縮圖、透明棋盤格、選色器色盤、側欄往右的投影、Field 水平標籤 9px 基線對齊、手機裝置外框 28px 圓角。
+- 新增 `library/tools/check-hardcode.js`（不需套件）：抓 `src/css` 的寫死顏色、字級、字重、行高、間距、圓角、陰影、動畫時間，規則同上、`hc-ok` 行略過；現況 0 處。`build-gallery.js` 每次合併都會順便跑，`--check` 有寫死值就失敗。CLAUDE.md 鐵則 4、HANDOFF.md 寫入規則。
+- 畫面變化（計算樣式逐頁比對，基準＝上一個 commit）：側欄／目錄／勾選列 hover 動畫 .12～.2s → 150ms、頁面大標題行高 1.15 → 1.2、目錄項目行高 1.4 → 1.35、Token／Guideline 區塊間距 40 → 32px（手機 24）、首頁說明文字行高 1.8 → 1.6、版本號標籤內距 10 → 8px 等；`.lab/compare.html` 可左右對照。
+- 全站寫死值：約 1300 處 → 0（不含規則內保留的 1～3px 微調、循環動畫、公式）。
+
+## 2026-11-13（一百五十七）　移除上手指南頁
+
+- Yuu 決定：上手指南（`#guide`）的資訊已經放到首頁，整頁刪除，之後掃寫死值也不用再顧它。`gallery.html` 3.34MB → 3.20MB。
+- JS：刪 `renderGuide`（574 行，含 GitHub／MacBook／iPhone 示意畫面、ShaderGradient 背景——連帶不再從 esm.sh 載入 react／three）；路由（`hashId`、`renderView`、`secOf`、`pg10` 清單）、站內搜尋「上手指南」與常用項、頂欄隱藏的 `#guideBtn`、偏好設定的「背景漸層」區塊與 `ds-shader` 偏好、進場動畫裡 `.gd-guide`／`.gd-hero` 分支一併拿掉。響應式預覽切換原本以 `#guideBtn` 定位，改以深淺色切換 `#themeBtn` 定位（位置不變）。
+- CSS：刪 `gd-*`、`hm-*`、`gm-*`、`.hm`、`sb-shader*`、`nav-guide-m`、背景漸層縮圖 `pt-hero`／`pt-grad-*`／`pt-hb*`／`pt-hcta`、`@keyframes gd-*`（共約 550 條規則）；保留首頁與總覽頁還在用的 `gd-sec`／`gd-sec-h`／`gd-sec-t`。順便刪掉早已沒有引用的 `brand-title`、`ds-dlg-*`、`ds-badge-lbl`、`dg-muted`、`theme-toggle-left`。
+- 驗證：計算樣式逐頁比對（基準＝上一個 commit），除上手指南外各頁無差異。
+
+## 2026-11-13（一百五十六）　CSS 寫死值換 token 第二批：元件
+
+- 規則（Yuu 2026-11-13 決定）：刻度外的值靠到最近的 token（字級剛好在中間往上、間距／圓角往下）；16px 以上間距、24px 以上字級改用會隨平板／手機縮放的 token；照片上的字與遮罩用新的專用 token。另定：1～3px 的視覺微調、無限循環動畫的轉速、`calc()` 公式、選色器色盤、遮罩用的 `#000` 不換（色盤標 `hc-ok`）。
+- `TOK-SWEEP:v2` 新 token（`00-tokens.css`，深淺模式都固定）：`--s-media-on`（照片／深色遮罩上的字＝`--c-neutral-0`）、`--s-media-scrim`（遮罩底色 `#000`）、`--s-media-surface`（霧面深底 `#16181E`）。透明度在使用處用 `color-mix(… N%,transparent)` 保留原值。Token 頁 L2 新增「Media 照片上」群組；`tokens.base.json` 重抽（順帶補上先前沒同步的 `--ctl-h-*`、`--tag-h-*`、`--close-h-*`、字體順序）。
+- **修正**：Dropdown 多選勾勾（`.ddcheck`）、排程圖「今天」標籤（`.gnt-today-pin`）寫死白字壓在 `--accent` 上，深色模式主色是淺灰 → 看不見；改 `--primary-on`。
+- Notification：拿掉「待接 semantic feedback token」TODO，四種 intent 改用 `--s-feedback-*`（同 Alert）、實心底 `--c-*-600`、柔色底／邊用主色混透明；實心樣式文字改 `--success-on`／`--warning-on`／`--danger-on`／`--info-on`（警告實心改深色字，跟 Tag 一致）；深色霧面樣式改 `--s-media-*`。
+- 照片上的字與遮罩（人物卡、文章卡、商品格玻璃標籤、輪播、浮動列、範本遮罩）、骨架／圖片閃光、Progress 漸層亮端改 token。
+- 刻度外的值：表格 13→14px、開關文字 13.5→14、分頁徽章 11→12、圖表小字 8～9→10、半圓／甜甜圈數字 30→32、22→24；篩選器卡片內距 15／20→16、下方 26→24；Tooltip 展示框 44→48；Kbd 5→4；範本清單 7→6；KPI 行高 1.1→1.2；Modal 動畫 .14／.16／.22s→150ms、勾選 .55s 與使用次數彈跳 520ms→500ms。
+- 驗證：計算樣式逐頁比對，差異只出現在上列項目；新增 `.lab/compare.html`（左 main、右 branch 並排，可切頁面／深淺色／手機）給 Yuu 檢視。
+
+## 2026-11-13（一百五十五）　CSS 寫死值換 token 第一批（畫面零變化）
+
+- 盤點：`library/src/css` 剩約 1300 處沒走 token 的值，78% 在網站本身的頁面（Guideline、上手指南、版本紀錄、首頁、頁面區塊）——先前的清理（Basic 17 顆、字重、{5–14}px 圓角）只做元件，「Batch 2–5 元件間距」也沒做完；另外 `.15s` 這類秒數寫法字面上對不到 `150ms`，搜尋時漏掉。
+- `TOK-SWEEP:v1` 第一批 296 處：只換「數值剛好等於 token、且 token 不隨平板／手機縮放」的值——字級 10–20px → `--fs-h12`～`--fs-h7`、字重 400／500／600／700 → `--fw-*`、行高 1.2／1.35／1.5／1.6 → `--lh-*`、內外距與間隙 4／6／8／12px → `--sp-1`～`--sp-4`、圓角 2／4／8px → `--r-xs／sm／md`、999px → `--r-pill`、動畫 150／300／500ms（含 `.15s` 寫法）→ `--dur-*`。`var()` 裡的備用值、`calc()`、動畫延遲、元件自己的區域變數、仿 GitHub 示意畫面不動。
+- 驗證：新增 `.lab/style-diff.js`（不進版控），同時開 main 版與修改版，逐頁比對每個元素的計算樣式（字級、字重、行高、內外距、間隙、圓角、動畫時間、顏色、陰影；動畫定格、滑鼠移開）；桌機淺色／深色、手機淺色 × 104 頁，除 999px→9999px（同為完全圓角）外無差異。元件頁程式碼面板直接讀樣式表，現在會顯示 token。
+- 尚未處理：不在 token 刻度上的值（13px、2px、10px、`.12s`…）、會隨斷點縮放的 token（16px 以上間距、24px 以上字級）、照片上的白字與示意畫面的固定色，待決定規則後分批做。
+
 ## 2026-11-13（一百五十四）　照片改成獨立圖檔
 
 - `IMG-ASSET:v1`：原本以 data URI 內嵌在原始碼裡的 7 組照片抽成圖檔，`gallery.html` 3.86MB → 3.33MB：`CARD_PHOTO`、`PSC_ROT`、`CARD_COVER`、`TWS_BLOG`、`HX_TSM_BG`、`HX_PHONE_FRAME` 放 `library/assets/img/`（逐位元組照原樣解出，畫質不變）；`HX_CM_FACE` 跟 `assets/avatar/yuu-face.webp` 完全相同，直接引用原檔。小圖（favicon、Avatar 小頭像、版本紀錄頁 GitHub 頭像）維持內嵌。
