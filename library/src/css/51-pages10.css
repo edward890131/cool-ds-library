@@ -1,0 +1,146 @@
+  /* ===== PAGES10:v1 非元件頁套 bento 版型（Design Token／Design Guideline／需求匯總／版本紀錄／偏好設定／上手指南）=====
+     比照 Button 頁 .bento-card：內容收進卡片（--panel 底＋1px --line 框＋--radius）、卡內 padding／卡間距 --sp-5、段落間距 40px；
+     不用分隔線（head-rule／段標 2px 底線／條目間 border-top 全拿掉），段標題在卡外、用 --font-display。#view.pg10 由 renderView 掛上。 */
+  #view.pg10 > .head-rule{display:none;}
+  #view.pg10 :is(.tok-sec-t,.dg-sectitle,.gd-sec-t,.pref-sec-h h2,.block > h2 .bh-t){font-family:var(--font-display);font-size:var(--fs-h8);font-weight:600;color:var(--ink);letter-spacing:-.01em;margin:0;}
+  #view.pg10 :is(.tok-sec-d,.dg-secdesc,.pref-sec-h p,.block > h2 .bh-d){font-family:var(--font-sans);font-size:var(--fs-h11);color:var(--muted);margin:0;}
+  #view.pg10 section.block{margin:40px 0 0;}
+  #view.pg10 .block > h2{border-bottom:0;padding-bottom:0;margin:0 0 var(--sp-4);}
+  /* 共用卡片外觀 */
+  #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,.gd-faq-item,
+    .dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,
+    .pref-sec > .pref-frost,.pref-sec > .pref-cards,.gd-sec > .gd-grid,.sum-actions){background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-sizing:border-box;min-width:0;}
+  #view.pg10 :is(.dgc-cat,.dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,
+    .pref-sec > .pref-frost,.pref-sec > .pref-cards,.gd-sec > .gd-grid,.cl-entry){padding:var(--sp-5);margin:0;}
+  html[data-frost] #view.pg10 :is(.tok-group,.tokexp,.sumcat,.cl-entry,.dgc-cat,.dg-sec > .dg-brand,.dg-sec > .dgt-fams,.dg-sec > .dgt-scale,.dg-sec > .dgt-fc,.dg-sec > .dg-spacing,.dg-sec > .dg-radii,.dg-sec > .dg-elevs,.pref-sec > .pref-frost,.pref-sec > .pref-cards,.gd-sec > .gd-grid,.sum-actions){backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));-webkit-backdrop-filter:blur(var(--frost-blur)) saturate(calc(1 + var(--frost) * .6));}
+  /* Design Token */
+  #view.pg10 .tok-lead{margin:var(--sp-6) 0 0;gap:var(--sp-3);}
+  #view.pg10 #tokBody{margin-top:var(--sp-6);}
+  #view.pg10 .tok-cardgrid{gap:var(--sp-5);}
+  #view.pg10 .tok-sec-head{border-bottom:0;padding-bottom:0;gap:var(--sp-1);margin:calc(40px - var(--sp-5)) 0 calc(var(--sp-4) - var(--sp-5));}
+  #view.pg10 #tokBody > .tok-sec-head:first-child{margin-top:0;}
+  #view.pg10 .tok-group{margin-bottom:var(--sp-5);overflow:hidden;}
+  #view.pg10 .tok-cardgrid .tok-group{margin-bottom:0;}
+  #view.pg10 .tok-gh{padding:var(--sp-4) var(--sp-5);}
+  #view.pg10 .tok-typobar{margin:var(--sp-4) var(--sp-5);gap:var(--sp-3);}
+  #view.pg10 .tok-typofield{flex:1 1 180px;min-width:160px;--field-h:var(--ctl-h-s);}
+  #view.pg10 .tref-note{border-left:0;border-radius:var(--radius);padding:var(--sp-4) var(--sp-5);background:var(--panel);border:1px solid var(--line);margin:0;}
+  #view.pg10 .tokexp-head{padding:var(--sp-4) var(--sp-5);}
+  /* Design Guideline */
+  #view.pg10 .dg-body{gap:40px;margin-top:var(--sp-6);}
+  #view.pg10 .dg-body > .dg-sec:first-child{margin-top:0;}
+  #view.pg10 .dg-sec{gap:var(--sp-5);}
+  #view.pg10 .dg-sechead{border-bottom:0;padding-bottom:0;margin-bottom:calc(var(--sp-4) - var(--sp-5));}
+  #view.pg10 .dgc-wrap{gap:var(--sp-5);}
+  #view.pg10 .dgt-ctl{margin:0;gap:var(--sp-3);}
+  #view.pg10 .dgt-fc{margin-top:0;}
+  #view.pg10 .dg-sec > .dgt-scale{padding-block:0;}
+  #view.pg10 .dgt-scale > .dgt-row:last-child,#view.pg10 .dgt-fc > .dgt-fcrow:last-child{border-bottom:0;}
+  /* 需求匯總 */
+  #view.pg10 .sum-actions{margin:var(--sp-6) 0 var(--sp-5);padding:var(--sp-3) var(--sp-5);gap:var(--sp-5);}
+  #view.pg10 .aitoggle .switch{flex:0 0 auto;pointer-events:none;}
+  #view.pg10 .sumcat{margin-bottom:var(--sp-5);}
+  #view.pg10 .sumcat-body{padding:var(--sp-5);}
+  /* 版本紀錄 */
+  #view.pg10 .cl-tl{gap:var(--sp-5);margin-top:var(--sp-6);}
+  #view.pg10 .cl-entry,#view.pg10 .cl-entry:first-child{border:1px solid var(--line);}
+  #view.pg10 .cl-meta{top:0;}
+  @media(max-width:767px){#view.pg10 .cl-entry{padding:var(--sp-5);gap:var(--sp-3);}}
+  /* 偏好設定 */
+  #view.pg10 .pref-sec{margin:40px 0 0;}
+  #view.pg10 .head-rule + .pref-sec{margin-top:var(--sp-6);}
+  #view.pg10 .pref-sec-h{margin:0 0 var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-1);}
+  /* 上手指南 */
+  #view.pg10 .gd-sec{margin:40px 0 0;}
+  #view.pg10 .gd-sec-h{border-bottom:0;padding-bottom:0;margin-bottom:var(--sp-4);align-items:center;}
+  #view.pg10 .gd-card{border-radius:var(--radius);}
+  #view.pg10 .gd-card:not(.now){background:var(--panel);}
+  #view.pg10 .gd-faq{gap:var(--sp-3);}
+  #view.pg10 .gd-hero-mock .gd-mocktoggle-sgm{margin-top:var(--sp-5);box-shadow:var(--e-md);}
+  /* HOME-MAP:v1 點陣世界地圖（#hxMap，用戶回饋下方）：canvas 畫陸地點陣，依序高亮城市、鏡頭平移；邊緣漸隱融入頁面底色 */
+  .hx > #hxMap{max-width:1180px;margin-left:auto;margin-right:auto;}
+  .hx-gm-stage{position:relative;height:560px;overflow:hidden;--hx-gm-hi:var(--c-info-600);
+    -webkit-mask-image:radial-gradient(ellipse 72% 78% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 72% 78% at 50% 50%,#000 55%,transparent 100%);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hx-gm-stage{--hx-gm-hi:var(--c-info-400);}}
+  :root[data-theme="dark"] .hx-gm-stage{--hx-gm-hi:var(--c-info-400);}
+  .hx-gm-cv{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .hx-gm-ink{color:var(--ink);} .hx-gm-hi{color:var(--hx-gm-hi);}   /* 隱藏取色用：讓 canvas 拿到解析後的 token 色 */
+  .hx-gm-lb{position:absolute;left:0;top:0;display:flex;align-items:center;gap:var(--sp-2);pointer-events:none;white-space:nowrap;
+    font:var(--fw-medium) var(--fs-h10)/1 var(--font-mono);letter-spacing:0;color:var(--hx-gm-hi);   /* 2026-11-10：改首字大寫（不轉全大寫）、字距歸零 */
+    transition:opacity var(--dur-default) var(--ease-out);will-change:transform;}
+  .hx-gm-lb.is-out{opacity:0;}
+  .hx-gm-xy{position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap;font:var(--fw-regular) var(--fs-h12)/1 var(--font-mono);font-variant-numeric:tabular-nums;letter-spacing:.02em;color:var(--muted);will-change:transform;}
+  @media (max-width:599px){.hx-gm-xy{font-size:10px;}}
+  /* 地標配圖：4:3 照片＋藍色四角框（同地標色 --hx-gm-hi）；切換時淡出、換圖、淡入並微放大 */
+  .hx-gm-ph{position:absolute;left:0;top:0;margin:0;width:240px;aspect-ratio:4 / 3;padding:6px;box-sizing:border-box;pointer-events:none;will-change:transform;}
+  .hx-gm-ph img{display:block;width:100%;height:100%;object-fit:cover;border-radius:2px;transition:opacity var(--dur-slow) var(--ease-out),scale var(--dur-slow) var(--ease-out);}
+  .hx-gm-ph i{position:absolute;width:14px;height:14px;border:2px solid var(--hx-gm-hi);transition:opacity var(--dur-slow) var(--ease-out);}
+  .hx-gm-ph i:nth-of-type(1){left:0;top:0;border-right:0;border-bottom:0;} .hx-gm-ph i:nth-of-type(2){right:0;top:0;border-left:0;border-bottom:0;}
+  .hx-gm-ph i:nth-of-type(3){left:0;bottom:0;border-right:0;border-top:0;} .hx-gm-ph i:nth-of-type(4){right:0;bottom:0;border-left:0;border-top:0;}
+  .hx-gm-ph.is-out img{opacity:0;scale:.96;} .hx-gm-ph.is-out i{opacity:0;}
+  .hx-gm-ph.is-none{display:none;}
+  /* 生成過場（參考 transitions.dev「Image generation placeholder」）：點狀雜訊亮起 → 逐點解析成圖 → 去模糊淡入 */
+  .hx-gm-ph canvas{position:absolute;left:6px;top:6px;width:calc(100% - 12px);height:calc(100% - 12px);border-radius:2px;pointer-events:none;}
+  .hx-gm-ph.is-gen img{opacity:0;filter:blur(10px);scale:1.03;} .hx-gm-ph img{transition:opacity var(--dur-slow) var(--ease-out),scale var(--dur-slow) var(--ease-out),filter 700ms var(--ease-out);}
+  @media (max-width:599px){.hx-gm-ph{width:150px;padding:4px;} .hx-gm-ph i{width:10px;height:10px;} .hx-gm-ph canvas{left:4px;top:4px;width:calc(100% - 8px);height:calc(100% - 8px);}}
+  @media (prefers-reduced-motion:reduce){.hx-gm-ph img,.hx-gm-ph i{transition:none;}}
+  /* 地標按鈕：透明熱區疊在 canvas 方塊上，hover／鍵盤聚焦顯示城市名，點擊跳到該城市 */
+  .hx-gm-pin{position:absolute;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;padding:0;border:0;border-radius:var(--r-xs);background:transparent;cursor:pointer;will-change:transform;}
+  .hx-gm-pin:focus-visible{outline:2px solid var(--hx-gm-hi);outline-offset:1px;}
+  .hx-gm-pin span{position:absolute;left:calc(50% + 14px);top:50%;transform:translate(-4px,-50%);opacity:0;pointer-events:none;white-space:nowrap;
+    font:var(--fw-medium) var(--fs-h10)/1 var(--font-mono);letter-spacing:0;color:var(--ink);transition:opacity var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);}
+  .hx-gm-pin:hover span,.hx-gm-pin:focus-visible span{opacity:1;transform:translate(0,-50%);}
+  .hx-gm-pin.is-cur span{display:none;}   /* 目前城市已有常駐標籤 */
+  @media (max-width:599px){.hx-gm-stage{height:400px;-webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 50%,transparent 100%);}}
+  @media (prefers-reduced-motion:reduce){.hx-gm-lb,.hx-gm-pin span{transition:none;}}
+  /* HOME12:v1 使用回饋 testimonials（#hxVoice） */
+  .hx > #hxVoice{max-width:1180px;margin-left:auto;margin-right:auto;}
+  .hx-tm{container-type:inline-size;}
+  .hx-tm-stage{position:relative;display:grid;height:min(560px,56.25cqi);border-radius:var(--radius);overflow:hidden;background:var(--panel-2);isolation:isolate;}
+  .hx-tm-stage:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .hx-tm-sl{grid-area:1/1;position:relative;display:flex;align-items:center;justify-content:center;padding:var(--sp-6);opacity:0;visibility:hidden;transition:opacity .25s var(--ease-in),visibility 0s linear .25s;}
+  .hx-tm-sl.on{opacity:1;visibility:visible;z-index:2;transition:opacity .45s var(--ease-out) .2s,visibility 0s;}  /* 先退後進，兩張卡不重疊 */
+  .hx-tm-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .hx-tm-stage > .hx-tm-bg0{z-index:0;}  /* 共用背景：固定一張，不隨切換淡入淡出 */
+  /* 視差：背景圖比舞台高 40%，捲動時以較慢速度位移（JS 寫 --hx-px，-1～1）；減少動態時不動 */
+  .hx-tm-stage > .hx-tm-bg0{inset:auto 0;top:-20%;height:140%;transform:translate3d(0,calc(var(--hx-px,0) * 14%),0);will-change:transform;}
+  @media (prefers-reduced-motion:reduce){.hx-tm-stage > .hx-tm-bg0{transform:none;}}
+  .hx-tm-sl .hx-tm-bg{display:none;} .hx-tm-sl::after{display:none;}
+  .hx-tm-stage::after{content:"";position:absolute;inset:0;z-index:0;background:color-mix(in srgb,var(--c-neutral-900) 42%,transparent);pointer-events:none;}
+  .hx-tm-sl{z-index:1;}
+  .hx-tm-sl::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--c-neutral-900) 42%,transparent);pointer-events:none;}  /* 背景壓一層淺黑，不要太亮 */
+  .hx-tm-card{z-index:1;}
+  /* 牌卡內容進退場：同其他段落的 ease-out 上移淡入，依序錯開 */
+  .hx-tm-card > *{opacity:0;transform:translateY(10px);transition:opacity calc(var(--dur-fast) * .8) var(--ease-in),transform var(--dur-default) var(--ease-out);}  /* 退場快、進場慢，避免兩則重疊 */
+  .hx-tm-sl.on .hx-tm-card > *{transition:opacity var(--dur-default) var(--ease-out) 160ms,transform var(--dur-default) var(--ease-out) 160ms;}
+  .hx-tm-sl.on .hx-tm-card > *{opacity:1;transform:none;}
+  .hx-tm-sl.on .hx-tm-card > :nth-child(2){transition-delay:80ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(3){transition-delay:160ms;} .hx-tm-sl.on .hx-tm-card > :nth-child(4){transition-delay:240ms;}
+  .hx-tm-card{position:relative;margin:0;width:min(420px,100%);min-height:min(420px,100%);box-sizing:border-box;display:flex;flex-direction:column;gap:var(--sp-5);padding:var(--sp-6);background:var(--panel);color:var(--ink);border-radius:var(--radius);box-shadow:var(--e-xl);}
+  .hx-tm-qm{align-self:flex-end;width:28px;height:23px;color:var(--c-info-500);flex:0 0 auto;}
+  .hx-tm-q{margin:0;flex:1 1 auto;display:flex;align-items:center;}
+  .hx-tm-q p{margin:0;font-family:var(--font-display);font-size:var(--fs-h7);font-weight:var(--fw-medium,500);line-height:1.45;letter-spacing:-.005em;color:var(--ink);text-wrap:pretty;}
+  .hx-tm-who{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);}
+  .hx-tm-id{display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .hx-tm-id b{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .hx-tm-id span{font-size:var(--fs-h11);color:var(--muted);}
+  .hx-tm-who .avt{flex:0 0 auto;}
+  .hx-tm-ctl{display:flex;align-items:center;gap:var(--sp-4);margin-top:0;padding-top:var(--sp-4);border-top:1px solid var(--line);}  /* 切換＋進度放在牌卡底部 */
+  .hx-tm-nav{display:flex;gap:var(--sp-2);flex:0 0 auto;}
+  .hx-tm-nx svg{transform:scaleX(-1);}
+  .hx-tm-bar{position:relative;flex:1 1 auto;height:1px;background:var(--line);}
+  .hx-tm-bar i{position:absolute;left:0;top:-.5px;height:2px;width:20%;background:var(--ink);transition:width var(--dur-slow,.4s) var(--ease-out);}
+  .hx-tm-n{flex:0 0 auto;font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--faint);font-variant-numeric:tabular-nums;}
+  @media(max-width:767px){
+    .hx-tm-stage{height:75vh;height:75svh;min-height:420px;border-radius:var(--radius);}  /* 手機固定 50vh */
+    .hx-tm-sl{padding:var(--sp-7) var(--sp-5);}
+    .hx-tm-card{max-height:100%;overflow:hidden;}
+    .hx-tm-card{min-height:0;padding:var(--sp-5);gap:var(--sp-4);}
+    .hx-tm-qm{width:24px;height:20px;}
+    .hx-tm-q p{font-size:var(--fs-h8);}
+    .hx-tm-ctl{gap:var(--sp-4);}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .hx-tm-sl,.hx-tm-sl.on,.hx-tm-bar i,.hx-tm-card > *{transition:none;}
+    .hx-tm-card > *{opacity:1;transform:none;}
+    .hx-sy-ic polygon,.hx-sy-ic line{transition:none;stroke-dashoffset:0;}
+  }

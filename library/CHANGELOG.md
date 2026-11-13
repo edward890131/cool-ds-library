@@ -6,6 +6,14 @@
 
 ---
 
+## 2026-11-13（一百五十三）　拆檔：gallery.html 改由 library/src/ 合併產生
+
+- `SPLIT-SRC:v1`：3.9MB 的 `library/gallery.html` 拆成 `library/src/`：`page.html`（頁面骨架，用獨佔一行的 `@@include 路徑` 引入小檔）＋ `css/` 26 檔、`js/` 33 檔、`data/` 3 檔（`changelog.js` 網站版本紀錄、`i18n-en.js`、`i18n-ja.js` 翻譯字典）。照程式碼原本的分段標題切，元件大致依批次分組；之後抽互動 runtime 時再細分到一元件一檔。
+- 新增 `library/tools/build-gallery.js`（不需安裝套件）：`node library/tools/build-gallery.js` 合併回 `gallery.html`；`--check` 只比對、不同步就回錯誤碼並指出第一個不同的行；`src/` 裡有沒被引用的檔也會報錯。
+- 驗證：第一次合併輸出與原檔逐字相同（SHA 一致），獨立一個 commit；之後才在 `gallery.html` 第 2 行加「此檔由合併產生，請改 src/」註解。
+- `sync/build-pulso-icons.mjs` 改成改寫 `src/` 原始檔（PULSO 區塊在 `js/00-vendor-pulso.js`、靜態 `<!--PI:key-->` 標記在 `page.html`），最後自動跑合併腳本。其他只讀 `gallery.html` 的腳本（build-registry、extract-base-tokens、build-icon-catalog）不用改。
+- 之後的流程：改 `library/src/` → 跑合併腳本 → `gallery.html` 一起 commit。CLAUDE.md、HANDOFF.md 已寫入。
+
 ## 2026-11-13（一百五十二）　試玩區預覽主題跟著網站深淺色
 
 - `HERO-THEME:v2`：首頁試玩區監聽 `<html data-theme>` 的 MutationObserver 原本包在 `if(!window.__hxThemeWatch)` 只掛一次；VIEW-LIFE:v1 把它改成 `viewObs`（換頁時 disconnect）後，離開首頁再回來就不會重掛 → 切深淺色時預覽主題停在舊的。改成每次進首頁都重掛（仍由 VIEW-LIFE 收）；系統深淺色的 matchMedia 監聽維持全站一個。

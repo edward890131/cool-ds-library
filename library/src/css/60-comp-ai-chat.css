@@ -1,0 +1,165 @@
+  /* ==================== AIC:v1 AI Chat 對話元件（2026-11-10）====================
+     盤點 ChatGPT／Claude／Gemini 的共通介面：AI 頭像、訊息、思考狀態、輸入列、建議問題、錯誤。
+     全部吃既有 token；按鈕、標籤、提示、Loader、Popover 一律取用既有原子（鐵則 5），這裡只寫排版與對話專屬的動態。 */
+  /* AI 頭像：由 cdl logo 延伸——「c」弧線＋右下品牌橘點（--accent2）；深淺色自動翻轉（--ink 底、--panel 線） */
+  /* AI 頭像：圓形框＋專案 logo（與 Header／Footer 同源 activeLogo()，換專案 logo 自動換）；內容與動態都裁在圓內 */
+  .aiav{--aiav:32px;position:relative;width:var(--aiav);height:var(--aiav);border-radius:50%;overflow:hidden;background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);display:inline-grid;place-items:center;flex:0 0 auto;}
+  .aiav.as-s{--aiav:24px;} .aiav.as-m{--aiav:32px;} .aiav.as-l{--aiav:48px;}   /* 不用 sz-*：全站有給按鈕用的全域 .sz-* padding，會把內容推偏 */
+  .aiav-logo{width:calc(var(--aiav) * .64);display:grid;place-items:center;}
+  .aiav-logo svg,.aiav-logo img{width:100%;height:auto;display:block;}
+  /* 思考中：一道光從左掃到右（masked gradient sweep） */
+  .aiav.st-thinking::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,color-mix(in srgb,var(--panel) 75%,transparent) 50%,transparent 70%);transform:translateX(-100%);animation:aiav-sheen 1.5s var(--ease-out) infinite;}
+  /* 回覆中：logo 輕輕呼吸（縮放留在圓內） */
+  .aiav.st-streaming .aiav-logo{animation:aiav-breathe 1.4s ease-in-out infinite;}
+  @keyframes aiav-sheen{to{transform:translateX(100%);}}
+  @keyframes aiav-breathe{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(.88);opacity:.7;}}
+
+  /* 訊息：使用者＝靠右泡泡；AI＝頭像＋無底純文字（大型 AI 產品共通做法，長回覆好讀） */
+  .aic-msg{display:flex;gap:var(--sp-3);align-items:flex-start;width:100%;animation:aic-in var(--dur-default) var(--ease-out) both;}
+  .aic-msg.r-user{flex-direction:column;align-items:flex-end;gap:var(--sp-2);}
+  .aic-bubble{background:var(--panel-2);color:var(--ink);border-radius:var(--r-lg);padding:var(--sp-3) var(--sp-4);max-width:min(80%,560px);font-size:var(--fs-h10);line-height:var(--lh-normal);white-space:pre-wrap;word-break:break-word;}
+  .aic-msg.r-user.st-pending .aic-bubble{opacity:.55;}
+  .aic-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:var(--sp-2);}
+  .aic-text{font-size:var(--fs-h10);line-height:var(--lh-relaxed);color:var(--ink);word-break:break-word;}
+  .aic-text p{margin:0 0 .7em;} .aic-text p:last-child{margin-bottom:0;}
+  .aic-text ul,.aic-text ol{margin:0 0 .7em;padding-left:1.3em;} .aic-text li{margin:.2em 0;}
+  .aic-text b{font-weight:var(--fw-semibold);}
+  /* 串流尾端：越新的字越模糊、越淡（6 級），每次重畫往前推一級 */
+  .aic-t0{opacity:.08;filter:blur(4px);} .aic-t1{opacity:.22;filter:blur(3px);} .aic-t2{opacity:.4;filter:blur(2px);}
+  .aic-t3{opacity:.6;filter:blur(1.2px);} .aic-t4{opacity:.8;filter:blur(.6px);} .aic-t5{opacity:.92;filter:blur(.2px);}
+  /* 圖示切換（縮放＋模糊）、成功勾（模糊＋旋轉＋彈性）、讚（彈一下） */
+  .aic-ic-in{animation:aic-ic-in calc(var(--dur-fast) * 1.6) var(--ease-out) both;}
+  .aic-ok-in{animation:aic-ok-in calc(var(--dur-default) * 1.3) var(--ease-spring) both;}
+  .aic-pop{animation:aic-pop calc(var(--dur-default) * 1.4) var(--ease-spring);}
+  @keyframes aic-ic-in{from{opacity:0;transform:scale(.5);filter:blur(4px);}}
+  @keyframes aic-ok-in{from{opacity:0;transform:scale(.4) rotate(-70deg);filter:blur(4px);}}
+  @keyframes aic-pop{0%{transform:scale(1);}35%{transform:scale(1.35) rotate(-12deg);}70%{transform:scale(.92);}100%{transform:scale(1);}}
+  /* 16 點矩陣 loader */
+  .aic-mx{display:inline-grid;grid-template-columns:repeat(4,3px);grid-auto-rows:3px;gap:2px;flex:0 0 auto;padding:1px;}
+  .aic-mx i{width:3px;height:3px;border-radius:50%;background:var(--ink);opacity:.18;animation:aic-mx 1.2s ease-in-out infinite;}
+  .aic-mx i.is-core{opacity:.4;animation:none;} .aic-mx i.is-gap{visibility:hidden;animation:none;}
+  @keyframes aic-mx{0%,45%,100%{opacity:.18;}15%{opacity:1;}}
+  /* 狀態列換句：舊句模糊上移離場、新句從下方模糊浮現 */
+  .aic-status{display:inline-grid;}
+  .aic-status > span{grid-area:1/1;white-space:nowrap;}
+  .aic-status > .is-in{animation:aic-shimmer 1.8s linear infinite,aic-st-in calc(var(--dur-default) * 1.2) var(--ease-out) both;}
+  .aic-status > .is-out{animation:aic-st-out calc(var(--dur-default) * 1.1) var(--ease-out) forwards;}
+  @keyframes aic-st-in{from{opacity:0;transform:translateY(8px);filter:blur(4px);}}
+  @keyframes aic-st-out{to{opacity:0;transform:translateY(-8px);filter:blur(4px);}}
+  /* 推理串流：兩行視窗，上緣淡出 */
+  .aic-rs{--rs-lh:20px;height:calc(var(--rs-lh) * 2);overflow:hidden;padding-left:var(--sp-3);border-left:2px solid var(--line);
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 45%);mask-image:linear-gradient(to bottom,transparent,#000 45%);}
+  .aic-rs-track{transition:transform calc(var(--dur-default) * 1.6) var(--ease-out);}
+  .aic-rs-track.no-tr{transition:none;}
+  .aic-rs-track > div{height:var(--rs-lh);line-height:var(--rs-lh);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .aic-meta{display:flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-h12);color:var(--muted);}
+  .aic-meta.is-error{color:var(--c-error-500);}
+  .aic-meta > svg{width:14px;height:14px;flex:0 0 auto;}
+  .aic-meta .lnk{font-size:inherit;}
+  .aic-actions{display:flex;align-items:center;gap:2px;margin-left:calc(var(--sp-2) * -1);}
+  .aic-actions .btn.is-on{color:var(--accent);}
+  .aic-sources{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .aic-files{display:flex;flex-wrap:wrap;gap:var(--sp-2);justify-content:flex-end;}
+  .aic-msg.r-assistant .aiav{margin-top:2px;}
+  @keyframes aic-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* 思考狀態：思考中（文字微光）／使用工具搜尋／可展開的推理摘要 */
+  .aic-think{display:flex;flex-direction:column;gap:var(--sp-2);font-size:var(--fs-h11);color:var(--muted);}
+  .aic-think-row{display:flex;align-items:center;gap:var(--sp-2);}
+  .aic-think-row > svg{width:16px;height:16px;flex:0 0 auto;}
+  .aic-shimmer{background:linear-gradient(90deg,var(--muted) 0%,var(--muted) 35%,var(--ink) 50%,var(--muted) 65%,var(--muted) 100%);background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:aic-shimmer 1.8s linear infinite;}
+  @keyframes aic-shimmer{from{background-position:100% 0;}to{background-position:-150% 0;}}
+  .aic-think-toggle{all:unset;display:inline-flex;align-items:center;gap:var(--sp-1);cursor:pointer;color:var(--muted);border-radius:var(--r-sm);}
+  .aic-think-toggle:hover{color:var(--ink);} .aic-think-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .aic-think-toggle svg{width:14px;height:14px;transition:transform var(--dur-fast) var(--ease-out);}
+  .aic-think-toggle[aria-expanded="true"] svg{transform:rotate(90deg);}
+  .aic-think-body{border-left:2px solid var(--line);padding:var(--sp-1) 0 var(--sp-1) var(--sp-3);color:var(--muted);line-height:var(--lh-normal);}
+  .aic-think-body ol{margin:0;padding-left:1.2em;} .aic-think-body li{margin:.15em 0;}
+
+  /* 輸入列：standard（電腦：上輸入、下工具列）／compact（手機：一列） */
+  .aic-cmp{border:1px solid var(--line-strong);background:var(--panel);border-radius:var(--r-lg);padding:var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-2);
+    box-shadow:var(--e-sm);transition:border-color var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);width:100%;box-sizing:border-box;}
+  .aic-cmp:focus-within{border-color:var(--accent);}
+  .aic-cmp.st-disabled{opacity:.6;}
+  .aic-cmp textarea{all:unset;display:block;width:100%;box-sizing:border-box;min-height:24px;max-height:180px;overflow-y:auto;font-family:var(--font-sans);font-size:var(--fs-h10);line-height:var(--lh-normal);color:var(--ink);white-space:pre-wrap;word-break:break-word;}
+  .aic-cmp textarea::placeholder{color:var(--faint);}
+  .aic-cmp-row{display:flex;align-items:center;gap:var(--sp-1);}
+  .aic-cmp-sp{flex:1 1 auto;}
+  .aic-cmp .btn{flex:0 0 auto;}
+  .aic-cmp.ly-compact{padding:var(--sp-3);}
+  .aic-cmp-line{display:flex;align-items:center;gap:var(--sp-1);}
+  .aic-cmp.ly-compact textarea{flex:1 1 auto;width:auto;padding:6px var(--sp-1);}
+  .aic-cmp-top{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .aic-cmp-top[hidden]{display:none;}
+  .aic-tool{display:inline-flex;align-items:center;gap:2px;}
+  .aic-plus{position:relative;display:inline-flex;}
+  .aic-plus-menu{position:absolute;left:0;bottom:calc(100% + 8px);z-index:20;min-width:200px;transform-origin:bottom left;opacity:0;visibility:hidden;transform:scale(.96) translateY(4px);
+    transition:opacity var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out),visibility 0s linear var(--dur-fast);}
+  .aic-plus-menu.is-down{bottom:auto;top:calc(100% + 8px);transform-origin:top left;transform:scale(.96) translateY(-4px);}
+  .aic-plus-menu.is-open{opacity:1;visibility:visible;transform:none;transition:opacity var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out),visibility 0s;}
+  .aic-plus-menu .am-item{cursor:pointer;outline:none;}
+  .aic-plus-menu .am-item:hover,.aic-plus-menu .am-item:focus-visible{background:var(--panel-2);}
+  .aic-plus-menu .aic-ck{margin-left:auto;display:inline-flex;opacity:0;} .aic-plus-menu .aic-ck svg{color:var(--accent);}
+  .aic-plus-menu [aria-checked="true"] .aic-ck{opacity:1;}
+  .aic-cmp .aic-send{border-radius:var(--r-pill);transition:transform var(--dur-fast) var(--ease-out);}
+  .aic-cmp .aic-send svg{transition:transform var(--dur-default) var(--ease-out);}
+  .aic-cmp .aic-send.is-stop svg{transform:scale(.8);}
+  .aic-cmp .aic-send:active:not(:disabled){transform:scale(.92);}
+
+  /* 建議問題：chip／card */
+  .aic-sg{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .aic-sg.v-card{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--sp-3);width:100%;}
+  .aic-sg-card{all:unset;box-sizing:border-box;text-align:left;display:flex;flex-direction:column;gap:var(--sp-1);padding:var(--sp-4);border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel);cursor:pointer;
+    transition:border-color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out);}
+  .aic-sg-card:hover{border-color:var(--line-strong);background:var(--panel-2);transform:translateY(-1px);}
+  .aic-sg-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .aic-sg-card svg{width:18px;height:18px;color:var(--muted);margin-bottom:var(--sp-1);}
+  .aic-sg-t{font-size:var(--fs-h10);font-weight:var(--fw-semibold);color:var(--ink);}
+  .aic-sg-d{font-size:var(--fs-h12);color:var(--muted);line-height:var(--lh-snug);}
+
+  /* 錯誤：沿用 Alert 原子，對話內窄版 */
+  .aic-err{max-width:560px;}
+
+  /* 倒讚回饋：沿用 Popover 原子 */
+  .aic-fb-wrap{position:relative;display:inline-flex;}
+  .aic-fb{width:280px;}
+  .aic-fb .pop-body{display:flex;flex-direction:row;flex-wrap:wrap;gap:var(--sp-2);}
+  /* 可點的 chip（來源連結、附件、回饋原因）：沿用 Tag 原子 m 尺寸，補上 hover／focus／按下 */
+  .tg.aic-chip{cursor:pointer;text-decoration:none;font:inherit;font-family:var(--font-sans);font-size:var(--tg-fs);line-height:1;font-weight:var(--fw-semibold);margin:0;}
+  .tg.aic-chip:hover{background:var(--ttint2);}
+  .tg.aic-chip.v-outline:hover{border-color:var(--line-strong);}
+  .tg.aic-chip:active{transform:scale(.97);}
+  .tg.aic-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  /* AIC-USAGE:v1 方案使用量：圓環＋浮出面板（往上開，靠右對齊） */
+  .aic-use{position:relative;display:inline-flex;--use-c:var(--accent);} .aic-use[data-lv="warn"]{--use-c:var(--warn);} .aic-use[data-lv="danger"]{--use-c:var(--i-danger);}
+  .aic-use-btn{all:unset;box-sizing:border-box;width:32px;height:32px;display:inline-grid;place-items:center;border-radius:var(--r-sm);cursor:pointer;}
+  .aic-use-btn:hover{background:var(--panel-2);} .aic-use-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .aic-use-btn svg{width:18px;height:18px;rotate:-90deg;} .aic-use-btn circle{fill:none;stroke-width:2.6;} .aic-use-btn .trk{stroke:var(--line-strong);}
+  .aic-use-btn .val{stroke:var(--use-c);stroke-linecap:round;transition:stroke-dasharray var(--dur-slow) var(--ease-out),stroke var(--dur-default) var(--ease-out);}
+  .aic-use.is-bump .aic-use-btn svg{animation:aic-use-bump 520ms var(--ease-spring);} @keyframes aic-use-bump{40%{scale:1.18}}
+  .aic-use-pop{position:absolute;right:-8px;bottom:calc(100% + 10px);z-index:20;width:320px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:var(--sp-4);border-radius:var(--r-lg);
+    background:var(--panel);border:1px solid var(--line);box-shadow:var(--e-lg);display:flex;flex-direction:column;gap:var(--sp-4);
+    opacity:0;translate:0 4px;scale:.98;transform-origin:bottom right;pointer-events:none;transition:opacity var(--dur-fast) var(--ease-out),translate var(--dur-default) var(--ease-out),scale var(--dur-default) var(--ease-out);}
+  .aic-use.is-open .aic-use-pop{opacity:1;translate:0 0;scale:1;pointer-events:auto;}
+  .aic-use-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);font-size:var(--fs-h11);color:var(--muted);}
+  .aic-use-all{display:inline-flex;align-items:center;gap:4px;color:var(--ink);font-weight:var(--fw-semibold);text-decoration:none;} .aic-use-all svg{width:14px;height:14px;} .aic-use-all:hover{text-decoration:underline;}
+  .aic-use-row{display:flex;flex-direction:column;gap:var(--sp-2);}
+  .aic-use-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-3);font-size:var(--fs-h11);}
+  .aic-use-t{color:var(--ink);font-weight:var(--fw-medium);} .aic-use-m{display:inline-flex;gap:var(--sp-2);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;} .aic-use-m b{font-weight:var(--fw-medium);color:var(--ink);}
+  .aic-use-row .prg{width:100%;}
+  @media (prefers-reduced-motion:reduce){.aic-use-pop,.aic-use-btn .val{transition:none;} .aic-use.is-bump .aic-use-btn svg{animation:none;}}
+  .aic-file,.aic-tool{position:relative;display:inline-flex;align-items:center;}
+  /* 2026-11-10 移除 × 收進 chip 內（右側），不再夾在兩顆 chip 中間 */
+  .aic-file:has(.aic-file-x) > .aic-chip,.aic-tool:has(.aic-file-x) > .aic-chip{padding-right:26px;}
+  .aic-file-x{all:unset;box-sizing:border-box;position:absolute;right:4px;top:50%;translate:0 -50%;width:18px;height:18px;display:inline-grid;place-items:center;border-radius:var(--r-pill);color:inherit;opacity:.7;cursor:pointer;}
+  .aic-file-x:hover{background:color-mix(in srgb,currentColor 14%,transparent);opacity:1;} .aic-file-x:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+  .aic-file-x svg{width:12px;height:12px;}
+  .aic-fb .tg.is-on{border-color:var(--accent);color:var(--accent);}
+
+  @media (prefers-reduced-motion:reduce){
+    .aiav::after,.aiav .aiav-logo,.aic-shimmer,.aic-msg,.aic-mx i,.aic-status > span,.aic-ic-in,.aic-ok-in,.aic-pop,.tac-welcome > *,.tac-feed .aic-err{animation:none !important;}
+    .aic-rs-track{transition:none;} [class^="aic-t"]{filter:none;}
+    .aic-shimmer{color:var(--muted);background:none;}
+  }
+

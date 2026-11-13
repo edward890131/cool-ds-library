@@ -1,0 +1,98 @@
+  /* ===== Design Token 頁（檢視 + 手動調整；L1/L2 切換、精簡版）===== */
+  .tok-lead{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin:var(--sp-4) 0 var(--sp-5);}
+  .tok-lead .spacer{flex:1;}
+  .tok-tabs{display:inline-flex;gap:2px;padding:3px;border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line-strong);}
+  .tok-tab{border:none;background:transparent;color:var(--muted);font-family:var(--font-mono);font-size:var(--fs-h11);padding:var(--sp-2) var(--sp-4);border-radius:var(--r-sm);cursor:pointer;transition:.12s;}
+  .tok-tab:hover{color:var(--ink);}
+  .tok-tab.on{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.07);}
+  .tokbtn{height:34px;padding:0 var(--sp-3);border-radius:var(--r-sm);border:1px solid var(--line-strong);background:var(--panel);
+    color:var(--ink);font-family:var(--font-sans);font-size:var(--fs-h11);font-weight:600;cursor:pointer;transition:.13s;display:inline-flex;align-items:center;gap:6px;}
+  .tokbtn:hover{border-color:var(--accent);color:var(--accent);}
+  .tokbtn.primary{background:var(--accent);border-color:var(--accent);color:var(--primary-on);}
+  .tokbtn.primary:hover{filter:brightness(1.06);color:var(--primary-on);}
+  /* 停用清單（Studio 專案層）：編輯模式選取 · 一般模式灰底+停用 pill；只裝飾有 data-tokkey 的 row */
+  .tok-editmode .tok-row[data-tokkey]{cursor:pointer;border-radius:var(--r-sm);transition:background .12s;}
+  .tok-editmode .tok-row[data-tokkey]:hover{background:var(--panel-2);}
+  .tok-editmode .tok-ctl,.tok-editmode .tok-mode,.tok-editmode .tok-shprev{pointer-events:none;}
+  .tok-chk{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-right:6px;border:1.5px solid var(--line-strong);border-radius:4px;font-size:10px;line-height:1;color:var(--primary-on);vertical-align:-2px;flex:0 0 auto;}
+  .tok-chk.on{background:var(--accent);border-color:var(--accent);}
+  .tok-row.tok-picked .tok-name{color:var(--accent);}
+  .tok-row.tok-disabled{opacity:.5;}
+  .tok-row.tok-disabled .tok-hex,.tok-row.tok-disabled .m-val{text-decoration:line-through;}
+  .tok-pill{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:var(--r-pill);background:var(--panel-2);border:1px solid var(--line);color:var(--muted);font-size:var(--fs-h12);font-family:var(--font-sans);vertical-align:1px;}
+  .tok-group{border:1px solid var(--line);border-radius:var(--r-sm);margin-bottom:var(--sp-3);overflow:hidden;background:var(--panel);}
+  .tok-gh{display:flex;align-items:baseline;gap:var(--sp-2);padding:var(--sp-3) var(--sp-4);background:var(--panel-2);border-bottom:1px solid var(--line);}
+  .tok-gh .t{font-size:var(--fs-h10);font-weight:600;color:var(--ink);}
+  .tok-gh .d{font-size:var(--fs-h12);color:var(--muted);}
+  .tok-gh .layer{margin-left:auto;font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.06em;text-transform:uppercase;
+    color:var(--faint);border:1px solid var(--line);border-radius:var(--r-pill);padding:2px var(--sp-2);}
+  /* L1 列：名稱 | 控制（色票鈕填滿＋hex／或值輸入／或陰影示意） */
+  .tok-row{display:grid;grid-template-columns:minmax(190px,1fr) minmax(190px,1.3fr);align-items:center;gap:var(--sp-4);
+    padding:6px var(--sp-4);border-top:1px solid var(--line);}
+  .tok-row:first-child{border-top:none;}
+  .tok-row.l2{grid-template-columns:minmax(170px,1fr) 1fr 1fr;}         /* 名稱 | Light | Dark */
+  .tok-row.resp{grid-template-columns:minmax(150px,1fr) 1fr 1fr 1fr;}   /* 名稱 | Desktop | Tablet | Mobile */
+  .tok-modehead.resp{grid-template-columns:minmax(150px,1fr) 1fr 1fr 1fr;}
+  .tok-name{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);min-width:0;}
+  .tok-name .lab{color:var(--muted);margin-left:6px;font-size:var(--fs-h12);}
+  .tok-name .map{display:block;color:var(--faint);font-size:var(--fs-h12);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tok-ctl{display:flex;align-items:center;gap:var(--sp-2);min-width:0;}
+  /* 填滿式色票鈕：色鋪滿整顆、無白邊 padding */
+  .tok-sw-btn{width:44px;height:30px;border-radius:var(--r-sm);border:1px solid var(--line-strong);padding:0;background:none;overflow:hidden;cursor:pointer;flex:0 0 auto;}
+  .tok-sw-btn::-webkit-color-swatch-wrapper{padding:0;}
+  .tok-sw-btn::-webkit-color-swatch{border:none;border-radius:3px;}
+  .tok-sw-btn::-moz-color-swatch{border:none;}
+  .tok-hex{flex:1;min-width:0;height:30px;padding:0 var(--sp-2);border:1px solid var(--line-strong);border-radius:var(--r-sm);
+    background:var(--panel);color:var(--ink);font-family:var(--font-mono);font-size:var(--fs-h11);}
+  .tok-hex:focus{outline:none;border-color:var(--accent);}
+  /* 陰影示意 box */
+  .tok-shprev{width:52px;height:30px;border-radius:var(--r-sm);background:var(--panel);border:1px solid var(--line);flex:0 0 auto;}
+  /* L2 mode 欄：小色票 + 值（可點色票改） */
+  .tok-modehead{display:grid;grid-template-columns:minmax(170px,1fr) 1fr 1fr;gap:var(--sp-4);padding:6px var(--sp-4) 4px;
+    font-family:var(--font-mono);font-size:var(--fs-h12);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);background:var(--panel-2);border-bottom:1px solid var(--line);}
+  .tok-mode{display:flex;align-items:center;gap:var(--sp-2);min-width:0;}
+  .m-val{font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .tok-fontrow{padding:var(--sp-3) var(--sp-4);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:var(--sp-2);}
+  .tok-fontrow .fp{font-size:var(--fs-h7);color:var(--ink);}
+  /* 牌卡多欄容器：L1 / 框架索引的 group 兩兩並列（固定 2 欄、不擠成 3 欄；窄螢幕收 1 欄） */
+  .tok-cardgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-3);align-items:start;}
+  .tok-cardgrid .tok-group{margin-bottom:0;}                 /* gap 已處理間距 */
+  .tok-cardgrid .tok-group.span{grid-column:1/-1;}           /* 寬表（typography）跨滿整列 */
+  .tok-cardgrid .tref-note{grid-column:1/-1;}
+  .tok-sec-head{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--sp-1);margin:20px 0 var(--sp-1);padding-bottom:var(--sp-2);border-bottom:2px solid var(--ink);}  /* 副標統一放標題下方 */
+  .tok-sec-t{font-family:var(--font-mono);font-size:var(--fs-h8);font-weight:600;color:var(--ink);}
+  .tok-sec-d{font-size:var(--fs-h11);color:var(--muted);}
+  /* device 切換小 tab（typography 用；補下方間距） */
+  .tok-devtabs{display:inline-flex;gap:2px;margin:var(--sp-3) var(--sp-4) var(--sp-3);padding:3px;border-radius:var(--r-sm);background:var(--panel-2);border:1px solid var(--line);}
+  .tok-devtab{height:26px;padding:0 var(--sp-3);border:none;background:transparent;border-radius:var(--r-sm);cursor:pointer;font-family:var(--font-sans);font-size:var(--fs-h12);font-weight:600;color:var(--muted);}
+  .tok-devtab:hover{color:var(--ink);}
+  .tok-devtab.on{background:var(--panel);color:var(--accent);box-shadow:var(--e-sm);}
+  /* 複合 typography 列：Token | 字級 | 字重 | 行高中 | 行高英 | 預覽 */
+  .tok-row.typo{grid-template-columns:minmax(48px,.45fr) 68px 56px 56px 56px minmax(140px,1.8fr);gap:var(--sp-2);}
+  .tok-modehead.typo{grid-template-columns:minmax(48px,.45fr) 68px 56px 56px 56px minmax(140px,1.8fr);gap:var(--sp-2);}
+  .tok-row.typo .tok-hex{text-align:center;padding:0 4px;}
+  .ty-prev{min-width:0;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;align-self:center;font-family:var(--font-sans);}
+  /* typo 控制列：device tab ｜ 中英 tab ｜ 自訂文案 input */
+  .tok-typobar{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin:var(--sp-3) var(--sp-4);}
+  .tok-typotext{flex:1;min-width:160px;height:30px;padding:0 var(--sp-3);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--panel);color:var(--ink);font-family:var(--font-sans);font-size:var(--fs-h11);}
+  .tok-typotext:focus{outline:none;border-color:var(--accent);}
+  .tok-typobar .tok-devtabs{margin:0;}
+  /* 字距中/英兩欄 */
+  .tok-row.ls2{grid-template-columns:minmax(48px,.5fr) 1fr 1fr;gap:var(--sp-3);}
+  .tok-modehead.ls2{grid-template-columns:minmax(48px,.5fr) 1fr 1fr;gap:var(--sp-3);}
+  .tok-row.ls2 .tok-hex{text-align:center;}
+  /* 框架索引值表：Token | 值（可帶色塊）· 角色 */
+  .tref-note{font-size:var(--fs-h11);color:var(--muted);margin:0 0 var(--sp-2);padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--accent);background:var(--panel-2);border-radius:0 var(--r-sm) var(--r-sm) 0;}
+  .tref-row{display:grid;grid-template-columns:minmax(88px,1fr) minmax(120px,1.5fr);align-items:center;gap:var(--sp-3);padding:5px var(--sp-4);border-top:1px solid var(--line);}
+  .tref-row:first-child{border-top:none;}
+  .tref-k{font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--ink);}
+  .tref-v{display:flex;align-items:center;gap:var(--sp-2);font-family:var(--font-mono);font-size:var(--fs-h11);color:var(--muted);min-width:0;}
+  .tref-v .tref-sw{width:18px;height:18px;border-radius:var(--r-sm);border:1px solid var(--line-strong);flex:0 0 auto;}
+  @media(max-width:720px){.tok-row,.tok-row.l2,.tok-row.resp,.tok-row.typo,.tok-row.ls2,.tok-modehead,.tok-modehead.resp,.tok-modehead.typo,.tok-modehead.ls2,.tref-row{grid-template-columns:1fr;}.tok-modehead{display:none;}.tok-cardgrid{grid-template-columns:1fr;}}
+  /* 窄版（≤720px）modehead 隱藏後，每個欄位改用內嵌小標題（寬版靠 modehead，故預設隱藏） */
+  .tok-flab{display:none;}
+  @media(max-width:720px){.tok-flab{display:block;flex:0 0 100px;font-family:var(--font-mono);font-size:var(--fs-h12);color:var(--muted);letter-spacing:.02em;}}  /* 固定寬→輸入框左緣對齊 */
+
+  /* ===== extra semantic tokens（→ 接 Batch1 feedback token，light/dark 自動跟隨）===== */
+  :root{--ok:var(--s-feedback-success);--ok-tint:var(--s-feedback-success-tint);--warn:var(--s-feedback-warning);}
+

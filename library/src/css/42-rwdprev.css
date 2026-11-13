@@ -1,0 +1,47 @@
+  /* rwdprev:v1 — 響應式預覽切換（topbar「上手指南」右側，取用 Segmented 原子 .sgm＋Tooltip 原子 .tt-tip）＋裝置框預覽 overlay
+     裝置框：外框／動態島＝中性色深階 token（--c-neutral-900／700，不隨主題翻轉）；畫面內＝真實 CSS 尺寸 iframe，整框等比縮放塞進可視高度 */
+  .topbar.has-rwd{position:relative;z-index:41;}                  /* topbar 疊在 overlay（39）之上，tooltip 才不會被蓋住 */
+  .rwd-sw{flex:0 0 auto;}
+  .rwd-sw .sgm-it{padding:0 var(--sp-3);}
+  .rwd-sw .sgm-ic svg{width:15px;height:15px;}
+  .rwd-sw .tt-tip{font-weight:var(--fw-regular);z-index:5;}
+  .rwd-sw .tt-trigwrap:focus-within:not(:hover):not(:has(:focus-visible)):not(:focus-visible) .tt-tip.tt-float{opacity:0;transition:none;}  /* 點選後不殘留提示：只在 hover／鍵盤 focus 顯示 */
+  @media(min-width:1024px){                                       /* 多一組切換：搜尋入口改為可縮（最小 120），其餘 topbar 項目不縮，避免 1024～1439 溢出 */
+    .topbar.has-rwd .ss-trig{flex-shrink:1;min-width:120px;}
+    .topbar.has-rwd > :not(.ss-trig):not(.spacer){flex-shrink:0;}
+  }
+  @media(max-width:1023px){.rwd-sw{display:none!important;} .rwd-ovl{display:none!important;}}  /* 平板以下本身就是小螢幕，預覽無意義 */
+
+  .rwd-ovl{position:fixed;left:0;right:0;bottom:0;top:var(--rwd-top,58px);z-index:39;box-sizing:border-box;overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--sp-5);padding:var(--sp-6) var(--sp-5) var(--sp-5);
+    background:var(--s-surface-2);animation:rwd-fade var(--dur-fast) var(--ease-out);}
+  .rwd-ovl[hidden]{display:none;}
+  @keyframes rwd-fade{from{opacity:0;}to{opacity:1;}}
+  .rwd-sizer{position:relative;flex:0 0 auto;}
+  .rwd-dev{position:absolute;top:0;left:0;transform-origin:0 0;box-sizing:content-box;padding:var(--rwd-bz);border-radius:var(--rwd-r);
+    background:var(--c-neutral-900);box-shadow:0 0 0 2px var(--c-neutral-700),inset 0 0 0 1px var(--c-neutral-800),var(--e-2xl);}
+  .rwd-scr{position:relative;width:var(--rwd-w);height:var(--rwd-h);border-radius:var(--rwd-sr);overflow:hidden;display:flex;flex-direction:column;
+    background:var(--s-surface-1);isolation:isolate;}
+  .rwd-bar{flex:0 0 var(--rwd-sb);display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;padding:0 var(--rwd-bar-px,var(--sp-5));
+    background:var(--s-surface-1);color:var(--ink);font-family:var(--font-sans);font-weight:var(--fw-semibold);font-size:var(--rwd-bar-fs,var(--fs-h11));letter-spacing:.01em;}
+  .rwd-bar .rwd-time{min-width:3em;}
+  .rwd-bar .rwd-ics{display:inline-flex;align-items:center;gap:4px;}
+  .rwd-bar .rwd-ics svg{width:var(--rwd-ic,14px);height:var(--rwd-ic,14px);}
+  .rwd-dev.no-bar .rwd-bar{display:none;}
+  .rwd-scr iframe{flex:1 1 auto;display:block;width:100%;min-height:0;border:0;background:var(--canvas);}
+  .rwd-island{position:absolute;z-index:2;top:11px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:var(--r-pill);background:var(--c-neutral-900);pointer-events:none;}
+  .rwd-dev:not(.has-island) .rwd-island,.rwd-dev.no-bar .rwd-island{display:none;}
+  .rwd-cam{position:absolute;top:calc(var(--rwd-bz) / 2 - 3px);left:50%;width:6px;height:6px;margin-left:-3px;border-radius:var(--r-pill);background:var(--c-neutral-700);}
+  .rwd-dev.has-island .rwd-cam{display:none;}
+  .rwd-dev.is-land .rwd-cam{top:50%;left:calc(var(--rwd-bz) / 2 - 3px);margin:-3px 0 0;}
+  .rwd-home{position:absolute;z-index:2;bottom:8px;left:50%;transform:translateX(-50%);width:var(--rwd-home,134px);height:5px;border-radius:var(--r-pill);
+    background:var(--ink);opacity:.8;pointer-events:none;}
+  .rwd-cap{flex:0 0 auto;display:flex;align-items:center;gap:var(--sp-5);font-family:var(--font-sans);font-size:var(--fs-h10);color:var(--muted);}
+  .rwd-cap-t{display:inline-flex;align-items:center;gap:var(--sp-3);white-space:nowrap;}
+  .rwd-cap-t b{color:var(--ink);font-weight:var(--fw-semibold);}
+  .rwd-cap-t .rwd-dim{font-variant-numeric:tabular-nums;}
+  .rwd-cap-acts{display:inline-flex;gap:var(--sp-3);}
+  @media(prefers-reduced-motion:reduce){.rwd-ovl{animation:none;}}
+  /* 框內（?rwdframe=1）：隱藏捲軸，貼近行動裝置觀感 */
+  html.rwd-in,html.rwd-in *{scrollbar-width:none;}
+
